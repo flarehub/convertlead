@@ -59,5 +59,11 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group([ 'namespace' => 'Api\Management' ], function () {
     Route::prefix('v1')->group(function () {
         Route::post('agencies', 'AgencyController@store');
+    
+        Route::group([ 'namespace' => 'Api\Management\Company'], function () {
+            Route::prefix('company')->group(function () {
+                Route::post('campaigns/callback/{integrationUUID}', 'LeadController@store');
+            });
+        });
     });
 });
