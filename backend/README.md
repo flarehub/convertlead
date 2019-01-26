@@ -8,7 +8,16 @@ $ cp .env.dev .env
 ````
 $ php artisan key:generate
 ````
+### Setup database 
+```
+$ php artisan migrate
+```
+### Install authorization 
+````
+$ php artisan passport:install
+$ php artisan passport:keys --force
 
+````
 #### Run app
 ````
 $ php artisan serve
