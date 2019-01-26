@@ -35,6 +35,7 @@ Route::middleware(['auth:api'])->prefix('v1')
         Route::group([ 'namespace' => 'Api\Management\Agent'], function () {
             Route::prefix('agent')->group(function () {
                 Route::apiResource('deals', 'DealController');
+                Route::apiResource('devices', 'DeviceController');
                 Route::apiResource('leads', 'LeadController');
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController');
             });
