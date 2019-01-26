@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\Management;
+namespace App\Http\Controllers\Api\Management\Agent;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class DeviceController extends Controller
+class LeadNoteController extends Controller
 {
     /**
      * Display a listing of the resource.

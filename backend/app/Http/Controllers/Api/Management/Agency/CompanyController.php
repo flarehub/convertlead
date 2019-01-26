@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Api\Management;
+namespace App\Http\Controllers\Api\Management\Agency;
 
-use App\Models\Agency;
-use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,9 +12,9 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Agency $agency)
+    public function index()
     {
-        return Agency::all();
+        //
     }
 
     /**

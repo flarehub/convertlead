@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\Management;
+namespace App\Http\Controllers\Api\Management\Company;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AgencyController extends Controller
+class CampaignIntegrationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class AgencyController extends Controller
      */
     public function store(Request $request)
     {
-        return 'agency-created';
+        //
     }
 
     /**

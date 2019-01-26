@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Api\Management;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AgencyController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $request->user();
     }
 
     /**
@@ -25,7 +25,7 @@ class AgencyController extends Controller
      */
     public function store(Request $request)
     {
-        return 'agency-created';
+        //
     }
 
     /**
