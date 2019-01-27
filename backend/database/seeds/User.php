@@ -43,7 +43,7 @@ class User extends Seeder
             });
         }
     
-        factory(\App\Models\Agency::class, 20)->create([
+        factory(\App\Models\Agency::class, 10)->create([
             'role' => \App\Models\User::$ROLE_AGENCY
         ])->each(function ($agency) {
             $this->addPermissions($agency);
