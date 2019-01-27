@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware(['auth:api'])->prefix('v1')
+Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
     ->group(function () {
         Route::group([ 'namespace' => 'Api\Management'], function () {
             Route::apiResource('profile', 'ProfileController');

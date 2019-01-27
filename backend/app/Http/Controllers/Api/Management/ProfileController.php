@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management;
 
-use App\Models\Agency;
-use App\Models\Deal;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,7 +15,7 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        return Agency::find($request->user()->id)->companies;
+        return $request->user();
     }
 
     /**
