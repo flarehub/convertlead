@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Permission;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
 
@@ -28,10 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
         Passport::tokensExpireIn(now()->addDays(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));
-    
-        Passport::tokensCan([
-            'manage-leads' => 'Manage leads',
-            'manage-company' => 'Manage companies',
-        ]);
+
+        Passport::tokensCan(array_combine(Permission::getAll(), Permission::getAll()));
     }
 }

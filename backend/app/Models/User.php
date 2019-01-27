@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -29,10 +30,15 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, SoftDeletes;
 
     protected $table = 'users';
-
+    
+    public static $ROLE_ADMIN = 'ADMIN';
+    public static $ROLE_AGENCY = 'AGENCY';
+    public static $ROLE_COMPANY = 'COMPANY';
+    public static $ROLE_AGENT = 'AGENT';
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -50,4 +56,47 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function getDefaultPermissions() {
+        return self::getDefaultPermissionsByRole($this->role);
+    }
+    
+    public static function getDefaultPermissionsByRole($role) {
+        if ($role === self::$ROLE_ADMIN) {
+            return [
+                Permission::$PERMISSION_ALL,
+            ];
+        }
+        elseif ($role === self::$ROLE_AGENCY) {
+            return [
+                Permission::$PERMISSION_COMPANY_READ,
+                Permission::$PERMISSION_COMPANY_WRITE,
+                Permission::$PERMISSION_DEAL_READ,
+                Permission::$PERMISSION_DEAL_WRITE,
+                Permission::$PERMISSION_AGENT_READ,
+                Permission::$PERMISSION_AGENT_WRITE,
+                Permission::$PERMISSION_LEAD_READ,
+            ];
+        } elseif ($role === self::$ROLE_COMPANY) {
+            return [
+                Permission::$PERMISSION_DEAL_READ,
+                Permission::$PERMISSION_AGENT_READ,
+                Permission::$PERMISSION_LEAD_READ,
+                Permission::$PERMISSION_LEAD_WRITE,
+            ];
+        } elseif ($role === self::$ROLE_AGENT) {
+            return [
+                Permission::$PERMISSION_DEAL_READ,
+                Permission::$PERMISSION_LEAD_READ,
+                Permission::$PERMISSION_LEAD_WRITE,
+            ];
+        }
+        return [
+            Permission::$PERMISSION_NONE,
+        ];
+    }
+    
+    public function permissions() {
+        return $this->belongsToMany('App\Models\Permission', 'user_permissions', 'user_id');
+    }
 }
