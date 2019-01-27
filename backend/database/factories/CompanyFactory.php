@@ -13,10 +13,11 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker $faker) {
+$factory->define(App\Models\Company::class, function (Faker $faker) {
+    $rand = str_random(10);
     return [
         'name' => $faker->name,
-        'email' => "dmitri.russu+{$faker->randomNumber()}@gmail.com",
+        'email' => "dmitri.russu+{$rand}@gmail.com",
         'password' => bcrypt('testtest'),
         'remember_token' => str_random(10),
     ];

@@ -12,7 +12,7 @@ class User extends Seeder
     public function run()
     {
         $this->truncateTabales();
-    
+        
         $agency = \App\Models\Agency::create([
             'email' => 'dmitri.russu@gmail.com',
             'name' => 'Dmitri Russu',
@@ -37,11 +37,40 @@ class User extends Seeder
         $company->agents()->attach($agent);
     
         foreach ($agency->companies as $company) {
-            factory(\App\Models\Deal::class, 200)->create()->each(function($deal) use ($company) {
+            factory(\App\Models\Deal::class, 50)->create()->each(function($deal) use ($company) {
                 $deal->agency_company_id = $company->pivot->id;
                 $deal->save();
             });
         }
+    
+        factory(\App\Models\Agency::class, 20)->create([
+            'role' => \App\Models\User::$ROLE_AGENCY
+        ])->each(function ($agency) {
+            $this->addPermissions($agency);
+
+            $companies = factory(\App\Models\Company::class, 10)
+                ->create(['role' => \App\Models\User::$ROLE_COMPANY])
+                ->each(function ($company) {
+                    $this->addPermissions($company);
+    
+                    $agents = factory(\App\Models\Agent::class, 10)
+                        ->create(['role' => \App\Models\User::$ROLE_AGENT ])
+                        ->each(function ($agent) {
+                            $this->addPermissions($agent);
+                        });
+
+                    $company->agents()->attach($agents);
+                });
+
+            $agency->companies()->attach($companies);
+
+            foreach ($agency->companies as $company) {
+                factory(\App\Models\Deal::class, 10)->create()->each(function($deal) use ($company) {
+                    $deal->agency_company_id = $company->pivot->id;
+                    $deal->save();
+                });
+            }
+        });
         
         $this->createUsersPermissions($agency, $agent, $company);
     }
@@ -62,8 +91,7 @@ class User extends Seeder
             ])
         ];
         foreach ($users as $user) {
-            $permissions = \App\Models\Permission::whereIn('name', $user->getDefaultPermissions())->get();
-            $user->permissions()->attach($permissions);
+            $this->addPermissions($user);
         }
     }
     
@@ -78,5 +106,14 @@ class User extends Seeder
             DB::getPdo()->query('TRUNCATE TABLE deals');
             DB::getPdo()->query('SET FOREIGN_KEY_CHECKS=1;');
         }
+    }
+    
+    /**
+     * @param $user
+     */
+    public function addPermissions($user)
+    {
+        $permissions = \App\Models\Permission::whereIn('name', $user->getDefaultPermissions())->get();
+        $user->permissions()->attach($permissions);
     }
 }
