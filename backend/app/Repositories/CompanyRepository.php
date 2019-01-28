@@ -10,6 +10,10 @@ trait CompanyRepository {
     }
 
     public function getCompanyAgentBy($agentId) {
-        return $this->agents()->where('agent_id', $agentId)->first();
+        return $this->agents()->where('agent_id', $agentId)->firstOrFail();
+    }
+    
+    public function getCompanyDealBy($dealId) {
+        return $this->deals()->where('deals.id', $dealId)->firstOrFail();
     }
 }
