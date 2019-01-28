@@ -16,6 +16,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
     ->group(function () {
         Route::group([ 'namespace' => 'Api\Management'], function () {
             Route::apiResource('profile', 'ProfileController');
+            Route::apiResource('media', 'MediaController');
         });
     
         Route::group([ 'namespace' => 'Api\Management\Admin'], function () {
@@ -27,7 +28,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
         Route::group([ 'namespace' => 'Api\Management\Agency'], function () {
             Route::prefix('agency')->group(function () {
                 Route::apiResource('companies', 'CompanyController');
-                Route::apiResource('deals', 'DealController');
+                Route::apiResource('companies/{company}/deals', 'DealController');
                 Route::apiResource('companies/{company}/agents', 'AgentController');
             });
         });

@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Repositories\CompanyRepository;
+
 class Company extends User
 {
+    use CompanyRepository;
+
     public function agencies() {
         return $this->belongsToMany('App\Models\Agency', 'users', 'agency_companies', 'company_id');
     }

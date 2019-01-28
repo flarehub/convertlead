@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Api\Management\Agency;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class DealController extends Controller
+class MediaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $company)
+    public function index()
     {
-        return $request->user()->getCompanyBy($company)->deals()->paginate(100);
+        //
     }
 
     /**
@@ -23,7 +23,7 @@ class DealController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $company)
+    public function store(Request $request)
     {
         //
     }
@@ -34,7 +34,7 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $company, $id)
+    public function show($id)
     {
         //
     }
@@ -46,7 +46,7 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $company, $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -57,7 +57,7 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $company, $id)
+    public function destroy($id)
     {
         //
     }

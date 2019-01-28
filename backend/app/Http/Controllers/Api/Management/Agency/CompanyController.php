@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management\Agency;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +13,9 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $request->user()->companies()->paginate(15);
     }
 
     /**
@@ -23,9 +24,11 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Company $company)
     {
-        //
+        $company->createCompany($request->all(['name', 'phone', 'email', 'password', 'password_confirmation']));
+        $request->user()->companies()->attach($company);
+        return $company;
     }
 
     /**
@@ -34,9 +37,9 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        return $request->user()->companies()->where('company_id', $id)->first();
     }
 
     /**
@@ -48,7 +51,9 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $company = $request->user()->getCompanyBy($id);
+        $company->updateUser($request->all());
+        return $company;
     }
 
     /**
@@ -57,8 +62,10 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $company = $request->user()->getCompanyBy($id);
+        $company->delete();
+        return $company;
     }
 }

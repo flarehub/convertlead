@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management\Agency;
 
+use App\Models\Agent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +13,9 @@ class AgentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $company)
     {
-        //
+        return $request->user()->getCompanyBy($company)->agents()->paginate(15);
     }
 
     /**
@@ -23,9 +24,11 @@ class AgentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $company, Agent $agent)
     {
-        //
+        $agent->createAgent($request->all(['name', 'phone', 'email', 'password', 'password_confirmation']));
+        $request->user()->getCompanyBy($company)->agents()->attach($agent);
+        return $agent;
     }
 
     /**
@@ -34,9 +37,9 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $company, $id)
     {
-        //
+        return $request->user()->getCompanyBy($company)->getCompanyAgentBy($id);
     }
 
     /**
@@ -46,9 +49,11 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $company, $id)
     {
-        //
+        $agent = $request->user()->getCompanyBy($company)->getCompanyAgentBy($id);
+        $agent->updateUser($request->all());
+        return $agent;
     }
 
     /**
@@ -57,8 +62,10 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $company, $id)
     {
-        //
+        $agent = $request->user()->getCompanyBy($company)->getCompanyAgentBy($id);
+        $agent->delete();
+        return $agent;
     }
 }

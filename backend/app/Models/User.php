@@ -45,7 +45,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'phone', 'email', 'password', 'role',
     ];
 
     /**
@@ -98,5 +98,39 @@ class User extends Authenticatable
     
     public function permissions() {
         return $this->belongsToMany('App\Models\Permission', 'user_permissions', 'user_id');
+    }
+    
+    public function createUser($data) {
+        $data = \Validator::validate($data, self::requiredFieldsForCreate());
+        $data['password'] = bcrypt($data['password']);
+        $this->fill($data);
+        return $this->save();
+    }
+
+    public function updateUser($data) {
+        if (isset($data['password'])) {
+            \Validator::validate($data, [
+                'password' => 'required|confirmed|min:6'
+            ]);
+            $data['password'] = bcrypt($data['password']);
+        }
+    
+        if (isset($data['email'])) {
+            \Validator::validate($data, [
+                'email' => "required|email|userEmail:{$this->id}"
+            ]);
+        }
+        $this->fill($data);
+        $this->save();
+        return $this;
+    }
+    
+    static function requiredFieldsForCreate() {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|userEmail',
+            'phone' => 'required|max:100',
+            'password' => 'required|confirmed|min:6',
+        ];
     }
 }

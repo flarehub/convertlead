@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Repositories\AgencyRepository;
+
 class Agency extends User
 {
+    use AgencyRepository;
+
     public function agencyCompaniesBy($companyId) {
         return $this->belongsTo('App\Models\AgencyCompanyPivot', 'id')->where('company_id', $companyId)->get();
     }
@@ -15,4 +19,5 @@ class Agency extends User
     public function deals() {
         return $this->belongsToMany('App\Models\Deal', 'agency_companies', 'agency_id', 'id', 'id', 'agency_company_id');
     }
+    
 }
