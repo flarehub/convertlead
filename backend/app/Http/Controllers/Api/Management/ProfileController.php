@@ -19,28 +19,6 @@ class ProfileController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -49,7 +27,9 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->only(['name', 'email', 'phone', 'password', 'password_confirmation']);
+        return $request->user()
+            ->updateUser($data);
     }
 
     /**
@@ -58,8 +38,8 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        return $request->user()->delete();
     }
 }
