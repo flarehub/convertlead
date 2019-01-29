@@ -7,6 +7,7 @@ use App\Models\Agent;
 use App\Models\Company;
 use App\Models\User;
 use Closure;
+use Laravel\Passport\Passport;
 
 class AuthUserSetup
 {
@@ -20,6 +21,7 @@ class AuthUserSetup
     public function handle($request, Closure $next)
     {
         $user = $request->user();
+        
         if ($user) {
             if ($user->role === User::$ROLE_AGENCY) {
                 $user = Agency::find($user->id);
@@ -32,8 +34,10 @@ class AuthUserSetup
             $request->setUserResolver(function () use ($user) {
                 return $user;
             });
+            $user->setupUserRolePermissions();
         }
-       
+    
+    
         return $next($request);
     }
 }

@@ -17,13 +17,18 @@ class Permission extends Model {
     public static $PERMISSION_DEAL_WRITE = 'DEAL_WRITE';
     public static $PERMISSION_LEAD_READ = 'LEAD_READ';
     public static $PERMISSION_LEAD_WRITE = 'LEAD_WRITE';
+    public static $PERMISSION_LEAD_NOTE_READ = 'LEAD_NOTE_READ';
+    public static $PERMISSION_LEAD_NOTE_WRITE = 'LEAD_NOTE_WRITE';
     public static $PERMISSION_CAMPAIGN_READ = 'CAMPAIGN_READ';
     public static $PERMISSION_CAMPAIGN_WRITE = 'CAMPAIGN_WRITE';
+    public static $PERMISSION_DEVICE_READ = 'DEVICE_READ';
+    public static $PERMISSION_DEVICE_WRITE = 'DEVICE_WRITE';
     
     protected $fillable = ['name', 'description'];
     
     public static function getAll() {
         return [
+           self::$PERMISSION_NONE,
            self::$PERMISSION_ALL,
            self::$PERMISSION_COMPANY_READ,
            self::$PERMISSION_COMPANY_WRITE,
@@ -37,6 +42,10 @@ class Permission extends Model {
            self::$PERMISSION_LEAD_WRITE,
            self::$PERMISSION_CAMPAIGN_READ,
            self::$PERMISSION_CAMPAIGN_WRITE,
+           self::$PERMISSION_LEAD_NOTE_READ,
+           self::$PERMISSION_LEAD_NOTE_WRITE,
+           self::$PERMISSION_DEVICE_READ,
+           self::$PERMISSION_DEVICE_WRITE,
         ];
     }
     

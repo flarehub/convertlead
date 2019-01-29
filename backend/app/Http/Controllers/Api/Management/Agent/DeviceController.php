@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Api\Management\Company;
+namespace App\Http\Controllers\Api\Management\Agent;
 
-use App\Models\Agent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AgentController extends Controller
+class DeviceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return $request->user()->agents()->paginate(100);
+        //
     }
 
     /**
@@ -24,11 +23,9 @@ class AgentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Agent $agent)
+    public function store(Request $request)
     {
-        $agent->createAgent($request->all(['name', 'phone', 'email', 'password', 'password_confirmation']));
-        $request->user()->agents()->attach($agent);
-        return $agent;
+        //
     }
 
     /**
@@ -37,9 +34,9 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        return $request->user()->getCompanyAgentBy($id);
+        //
     }
 
     /**
@@ -51,9 +48,7 @@ class AgentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $agent = $request->user()->getCompanyAgentBy($id);
-        $agent->updateUser($request->all());
-        return $agent;
+        //
     }
 
     /**
@@ -62,10 +57,8 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        $agent = $request->user()->getCompanyAgentBy($id);
-        $agent->delete();
-        return $agent;
+        //
     }
 }

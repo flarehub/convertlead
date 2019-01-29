@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \Validator::extend('userEmail', function ($attribute, $value, $parameters, $validator) {
-            if ($parameters[0]) {
+            if (isset($parameters[0])) {
                 return !User::where('email', $value)->whereNotIn('id', [$parameters[0]])->count();
             }
             return !User::where('email', $value)->count();

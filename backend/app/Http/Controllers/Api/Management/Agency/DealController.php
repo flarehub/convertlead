@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 
 class DealController extends Controller
 {
+    public function all(Request $request) {
+        return $request->user()->deals()->paginate(100);
+    }
     /**
      * Display a listing of the resource.
      *

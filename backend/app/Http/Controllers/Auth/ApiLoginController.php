@@ -13,6 +13,11 @@ class ApiLoginController extends Controller {
     
     protected function login(\Illuminate\Http\Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+        
         $email = $request->get('email');
         $request->request->add([
             'grant_type' => 'password',
@@ -22,12 +27,7 @@ class ApiLoginController extends Controller {
         ]);
 
         $user = User::where(['email' => $email])->first();
-        $userScopes = collect($user->permissions)->map(function ($permission) {
-            return $permission->name;
-        });
-        $userScopes = $userScopes->merge(User::getDefaultPermissionsByRole($user->role ))->unique()->implode(' ');
-        $request->request->add(['scope' => $userScopes]);
-    
+        $request->request->add(['scope' => $user->getPermissions()->implode(' ')]);
         $tokenRequest = Request::create(
             '/oauth/token',
             'post',

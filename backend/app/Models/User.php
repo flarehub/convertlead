@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Passport\Passport;
 
 /**
  * App\Models\User
@@ -76,6 +77,7 @@ class User extends Authenticatable
                 Permission::$PERMISSION_AGENT_READ,
                 Permission::$PERMISSION_AGENT_WRITE,
                 Permission::$PERMISSION_LEAD_READ,
+                Permission::$PERMISSION_CAMPAIGN_READ,
             ];
         } elseif ($role === self::$ROLE_COMPANY) {
             return [
@@ -83,12 +85,19 @@ class User extends Authenticatable
                 Permission::$PERMISSION_AGENT_READ,
                 Permission::$PERMISSION_LEAD_READ,
                 Permission::$PERMISSION_LEAD_WRITE,
+                Permission::$PERMISSION_CAMPAIGN_READ,
+                Permission::$PERMISSION_CAMPAIGN_WRITE,
+                Permission::$PERMISSION_LEAD_NOTE_READ,
+                Permission::$PERMISSION_LEAD_NOTE_WRITE,
             ];
         } elseif ($role === self::$ROLE_AGENT) {
             return [
                 Permission::$PERMISSION_DEAL_READ,
                 Permission::$PERMISSION_LEAD_READ,
                 Permission::$PERMISSION_LEAD_WRITE,
+                Permission::$PERMISSION_LEAD_NOTE_READ,
+                Permission::$PERMISSION_LEAD_NOTE_WRITE,
+                Permission::$PERMISSION_CAMPAIGN_READ,
             ];
         }
         return [
@@ -132,5 +141,17 @@ class User extends Authenticatable
             'phone' => 'required|max:100',
             'password' => 'required|confirmed|min:6',
         ];
+    }
+    
+    public function getPermissions() {
+        $userScopes = collect($this->permissions)->map(function ($permission) {
+            return $permission->name;
+        });
+    
+        return $userScopes->merge(User::getDefaultPermissionsByRole($this->role))->unique();
+    }
+    
+    public function setupUserRolePermissions() {
+        Passport::actingAs($this, $this->getPermissions());
     }
 }

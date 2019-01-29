@@ -19,5 +19,4 @@ class Agency extends User
     public function deals() {
         return $this->belongsToMany('App\Models\Deal', 'agency_companies', 'agency_id', 'id', 'id', 'agency_company_id');
     }
-    
 }
