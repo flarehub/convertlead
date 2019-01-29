@@ -35,7 +35,7 @@ class DealController extends Controller
 
         $agencyCompanyId = $request->user()->getCompanyBy($company)->pivot->id;
         $request->merge(['agency_company_id' => $agencyCompanyId ]);
-        $deal->fill($request->all(['name', 'description', 'agency_company_id']));
+        $deal->fill($request->only(['name', 'description', 'agency_company_id']));
         $deal->save();
 
         return $deal;

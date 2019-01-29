@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management\Company;
 
+use App\Models\Deal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +13,9 @@ class DealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $request->user()->deals()->paginate(100);
     }
 
     /**
@@ -23,9 +24,18 @@ class DealController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Deal $deal)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255'
+        ]);
+    
+        $agencyCompanyId = $request->user()->pivot->id;
+        $request->merge(['agency_company_id' => $agencyCompanyId ]);
+        $deal->fill($request->only(['name', 'description', 'agency_company_id']));
+        $deal->save();
+    
+        return $deal;
     }
 
     /**
@@ -34,9 +44,9 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        return $request->user()->getCompanyDealBy($id);
     }
 
     /**
@@ -48,7 +58,15 @@ class DealController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255'
+        ]);
+        $deal = $request->user()->getCompanyDealBy($id);
+    
+        $deal->fill($request->only(['name', 'description']));
+        $deal->save();
+    
+        return $deal;
     }
 
     /**
@@ -57,8 +75,10 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $deal = $request->user()->getCompanyDealBy($id);
+        $deal->delete();
+        return $deal;
     }
 }
