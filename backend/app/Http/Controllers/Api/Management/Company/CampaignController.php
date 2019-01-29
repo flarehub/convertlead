@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\Management\Company;
 
+use App\Models\Campaign;
+use App\Models\Deal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +14,9 @@ class CampaignController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $deal)
     {
-        //
+        return $request->user()->getCompanyDealBy($deal)->campaigns()->paginate(100);
     }
 
     /**
@@ -23,9 +25,12 @@ class CampaignController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $deal, Campaign $campaign)
     {
-        //
+        $campaign->fill($request->only(['name', 'description']));
+        $campaign->deal()->associate($request->user()->getCompanyDealBy($deal));
+        $campaign->save();
+        return $campaign;
     }
 
     /**
@@ -34,9 +39,9 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $deal, $id)
     {
-        //
+        return $request->user()->getCompanyDealBy($deal)->getCampaignBy($id);
     }
 
     /**
@@ -46,9 +51,12 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $deal, $id)
     {
-        //
+        $campaign = $request->user()->getCompanyDealBy($deal)->getCampaignBy($id);
+        $campaign->fill($request->only(['name', 'description']));
+        $campaign->save();
+        return $campaign;
     }
 
     /**
@@ -57,8 +65,10 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $deal, $id)
     {
-        //
+        $campaign = $request->user()->getCompanyDealBy($deal)->getCampaignBy($id);
+        $campaign->delete();
+        return $campaign;
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Repositories\DealRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Deal extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, DealRepository;
 
     protected $fillable = [
         'name',
@@ -21,5 +22,9 @@ class Deal extends Model
 
     public function companies() {
         return $this->belongsToMany('App\Models\Company', 'agency_companies', 'id', 'company_id', 'agency_company_id', 'id');
+    }
+    
+    public function campaigns() {
+        return $this->hasMany('App\Models\Campaign');
     }
 }
