@@ -66,7 +66,7 @@ class DealController extends Controller
         ]);
         $deal = $request->user()->getCompanyBy($company)->getCompanyDealBy($id);
 
-        $deal->fill($request->all(['name', 'description']));
+        $deal->fill($request->only(['name', 'description']));
         $deal->save();
     
         return $deal;

@@ -52,7 +52,7 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
         $company = $request->user()->getCompanyBy($id);
-        $company->updateUser($request->all());
+        $company->updateUser($request->except('role'));
         return $company;
     }
 

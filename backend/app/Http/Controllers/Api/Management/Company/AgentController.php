@@ -52,7 +52,7 @@ class AgentController extends Controller
     public function update(Request $request, $id)
     {
         $agent = $request->user()->getCompanyAgentBy($id);
-        $agent->updateUser($request->all());
+        $agent->updateUser($request->except('role'));
         return $agent;
     }
 
