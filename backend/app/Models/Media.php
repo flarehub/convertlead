@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class Media extends Model
 {
-    
     const UPLOADS_PATH = 'uploads/'; // default uploads path
     const AVATAR_PATH = 'uploads/avatars/'; // default avatars image path
     
     protected $table = 'media';
     protected $fillable = [
-        'path', 'type'
+        'path', 'type', 'name'
     ];
     
     /**
@@ -57,20 +58,21 @@ class Media extends Model
         $mimeType = $this->getBase64Type($file);
         $fileName = uniqid() . $this->getExtension($mimeType);
         $name = $path . $fileName;
-        
+    
         if (in_array($mimeType, ['image/jpeg', 'image/jpg', 'image/png'])) {
             $fileArray = explode('base64,', $file);
             if (!isset($fileArray[1])) {
                 throw new \Exception("Missing file {$fileName}");
             }
-            
+    
             file_put_contents($name, base64_decode($fileArray[1]));
-        } else if (in_array($mimeType, ['application/pdf', 'application/vnd.ms-excel'])) {
+        }
+        elseif (in_array($mimeType, ['application/pdf', 'application/vnd.ms-excel'])) {
             file_put_contents($name, base64_decode($file));
         } else {
             return false;
         }
-        
+    
         return [
             'path' => $path,
             'filename' => $fileName
@@ -84,7 +86,7 @@ class Media extends Model
      * @param type $path
      * @return type
      */
-    public function uploadFile($file, $path)
+    public function uploadFile(File $file, $path)
     {
         // new file filename
         $newFilename = self::getUniqueName($file->getClientOriginalExtension(), $file->getFilename());
@@ -112,18 +114,18 @@ class Media extends Model
         if (!\File::isDirectory($path)) {
             \File::makeDirectory($path, $mode = 0777, true, true);
         }
-        
         if ($request->hasFile($property) && $request->file($property)->isValid()) {
             $fileInfo = $this->uploadFile($request->file($property), $path);
         } else {
             $fileInfo = $this->uploadBase64($request->input($property), $path);
         }
-        
         if ($fileInfo) {
             // new file name and path
             $this->path = $fileInfo['path'].$fileInfo['filename'];
-            $this->type = Image::make($this->path)->mime();
-            
+            $this->name = $fileInfo['filename'];
+            $this->type = 'image/png';
+//            $this->type = Image::make($this->path)->mime();
+    
             $this->save();
             
             return $this;

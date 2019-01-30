@@ -26,7 +26,12 @@ class CompanyController extends Controller
      */
     public function store(Request $request, Company $company)
     {
-        $company->createCompany($request->all(['name', 'phone', 'email', 'password', 'password_confirmation']));
+        try {
+            $company->handleAvatar($request);
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+        $company->createCompany($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
         $request->user()->companies()->attach($company);
         return $company;
     }
@@ -52,6 +57,7 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
         $company = $request->user()->getCompanyBy($id);
+        $company->handleAvatar($request);
         $company->updateUser($request->except('role'));
         return $company;
     }

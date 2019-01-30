@@ -26,7 +26,8 @@ class AgentController extends Controller
      */
     public function store(Request $request, Agent $agent)
     {
-        $agent->createAgent($request->all(['name', 'phone', 'email', 'password', 'password_confirmation']));
+        $agent->handleAvatar($request);
+        $agent->createAgent($request->only(['name', 'phone', 'avatar_id', 'email', 'password', 'password_confirmation']));
         $request->user()->agents()->attach($agent);
         return $agent;
     }
@@ -52,6 +53,7 @@ class AgentController extends Controller
     public function update(Request $request, $id)
     {
         $agent = $request->user()->getCompanyAgentBy($id);
+        $agent->handleAvatar($request);
         $agent->updateUser($request->except('role'));
         return $agent;
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -46,16 +47,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'email', 'password', 'role',
+        'name', 'phone', 'avatar_id', 'email', 'password', 'role',
     ];
 
+    protected $appends = ['avatar_path'];
+    
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'avatar',
     ];
     
     public function getDefaultPermissions() {
@@ -109,11 +112,31 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Permission', 'user_permissions', 'user_id');
     }
     
+    public function avatar() {
+        return $this->hasOne('App\Models\Media', 'id', 'avatar_id');
+    }
+    
     public function createUser($data) {
-        $data = \Validator::validate($data, self::requiredFieldsForCreate());
+        \Validator::validate($data, self::requiredFieldsForCreate());
         $data['password'] = bcrypt($data['password']);
         $this->fill($data);
+        
         return $this->save();
+    }
+    
+    /**
+     * Uploads the users avatar.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * return void
+     */
+    public function handleAvatar(Request $request)
+    {
+        $media = new Media;
+        if ($media->upload($request, 'avatar', Media::AVATAR_PATH)) {
+            $request->merge(['avatar_id' => $media->id]);
+        }
     }
 
     public function updateUser($data) {
@@ -141,6 +164,16 @@ class User extends Authenticatable
             'phone' => 'required|max:100',
             'password' => 'required|confirmed|min:6',
         ];
+    }
+    
+    /**
+     * Returns user avatar or placeholder path.
+     *
+     * @return string
+     */
+    public function getAvatarPathAttribute()
+    {
+        return $this->avatar ? $this->avatar->path : asset('images/user.png');
     }
     
     public function getPermissions() {

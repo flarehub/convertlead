@@ -27,7 +27,8 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only(['name', 'email', 'phone', 'password', 'password_confirmation']);
+        $request->user()->handleAvatar($request);
+        $data = $request->only(['name', 'email', 'avatar_id', 'phone', 'password', 'password_confirmation']);
         return $request->user()
             ->updateUser($data);
     }
