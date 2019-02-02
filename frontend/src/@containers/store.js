@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { compose } from 'recompose';
 import thunk from 'redux-thunk';
 import reducers from './reducers'
-import { localStorageMiddleware, axiosMiddelware } from 'utils/middlewares';
+import { localStorageMiddleware, axiosMiddelware } from '../middlewares';
 
 const store = createStore(
 	reducers,
