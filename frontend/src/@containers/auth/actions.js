@@ -1,9 +1,9 @@
 export const ADD_SESSION_TOKEN = 'ADD_SESSION_TOKEN';
 export const REMOVE_SESSION_TOKEN = 'REMOVE_SESSION_TOKEN';
 
-export const addSessionToken = token => ({
+export const addSessionToken = tokenData => ({
   type: ADD_SESSION_TOKEN,
-  token
+  tokenData,
 });
 
 export const removeSessionToken = () => ({

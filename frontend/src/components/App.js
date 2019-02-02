@@ -1,16 +1,15 @@
+import React  from 'react';
+import {Layout} from "./layout";
+import { compose } from 'recompose';
+import { AuthContainer } from "@containers";
+import { LoginLayout } from '../components';
+
 import './App.scss';
 
-import React, { Component } from 'react';
-import {Layout} from "./layout";
+const App = ({ session }) => (
+  <div className="App">
+    {session.isAuthorised ? <Layout/> : <LoginLayout />}
+  </div>
+);
 
-class App extends Component {
-  render() {
-    return (
-		<div className="App">
-      <Layout/>
-		</div>
-    );
-  }
-}
-
-export default App;
+export default compose(AuthContainer)(App);

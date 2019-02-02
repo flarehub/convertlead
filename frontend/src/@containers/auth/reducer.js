@@ -3,6 +3,8 @@ import { ADD_SESSION_TOKEN, REMOVE_SESSION_TOKEN } from "./actions";
 const initState = {
   session: {
     token: null,
+    refreshToken: null,
+    isAuthorised: false,
   }
 };
 
@@ -11,13 +13,15 @@ const auth = (state = initState, action) => {
     case ADD_SESSION_TOKEN: {
       return {
         ...state,
-        token: action.token
+        ...action.tokenData,
+        isAuthorised: true,
       }
     }
     case REMOVE_SESSION_TOKEN: {
       return {
         ...state,
-        token: null
+        token: null,
+        isAuthorised: false,
       }
     }
     default: {
