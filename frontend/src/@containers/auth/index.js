@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import {addSessionToken, removeSessionToken} from "./actions";
 import * as thunks from "./thunks";
 
 const mapStateToProps = (state) => {

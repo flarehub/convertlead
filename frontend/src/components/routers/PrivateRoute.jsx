@@ -3,12 +3,13 @@ import { AuthContainer } from '@containers'
 import {
 	Route,
 	Redirect,
+  withRouter,
 } from 'react-router-dom'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={(props) => (
-    !!rest.session.token ? <Component {...props} /> : <Redirect to='/login' />
+    rest.session.isAuthorised ? <Component {...props} /> : <Redirect to='/login' />
 	)} />
 );
 
-export default AuthContainer(PrivateRoute);
+export default withRouter(AuthContainer(PrivateRoute));

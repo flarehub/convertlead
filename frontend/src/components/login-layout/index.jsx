@@ -29,9 +29,6 @@ class Login extends Component {
   render () {
     return (
       <div className='login-form'>
-        {
-          this.props.session.isAuthorised ? <Redirect to='/dashboard' /> : null
-        }
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='teal' textAlign='center'>
