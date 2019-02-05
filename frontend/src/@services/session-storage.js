@@ -1,3 +1,5 @@
+import * as R from 'ramda';
+
 class SessionStorage {
   constructor(sessionStorage) {
     this.sessionStorage = sessionStorage;
@@ -8,12 +10,7 @@ class SessionStorage {
   }
 
   getItem(key) {
-    try {
-      return JSON.parse(this.getSessionStorage().getItem(key)).value;
-    } catch (e) {
-      console.error(e);
-    }
-    return null;
+    return R.pathOr(null, ['value'], JSON.parse(this.getSessionStorage().getItem(key)));
   }
 
   setItem(key, value) {
