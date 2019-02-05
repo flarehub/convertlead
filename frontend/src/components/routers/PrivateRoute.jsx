@@ -1,5 +1,4 @@
 import React from 'react'
-import { compose, lifecycle } from 'recompose'
 import { AuthContainer } from '@containers'
 import {
 	Route,
@@ -12,8 +11,4 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 	)} />
 );
 
-export default compose(AuthContainer, lifecycle({
-  componentWillMount() {
-    console.log(this.props);
-  }
-}))(PrivateRoute);
+export default AuthContainer(PrivateRoute);

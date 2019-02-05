@@ -5,7 +5,6 @@ import PrivateRoute from './PrivateRoute';
 import styles from './index.scss';
 
 export default () => (<div className={styles.Container}>
-  <PrivateRoute exact path='/' component={Dashboard} />
   <PrivateRoute exact path='/dashboard' component={Dashboard} />
   <PrivateRoute exact path='/companies' component={Companies} />
   <PrivateRoute exact path='/leads' component={Leads} />

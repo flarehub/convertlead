@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as R from 'ramda';
 
 const axiosMiddleWare = ({ getState }) => next => action => {
-  const token = R.pathOr(false, ['session', 'token'], getState());
+  const token = R.pathOr(false, ['auth','session', 'token'], getState());
   if (token) {
     axios.defaults.headers.common['Authorization'] = token;
   } else {

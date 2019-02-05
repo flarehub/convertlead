@@ -9,7 +9,7 @@ class SessionStorage {
 
   getItem(key) {
     try {
-      return  JSON.parse(this.getSessionStorage().getItem(key));
+      return JSON.parse(this.getSessionStorage().getItem(key)).value;
     } catch (e) {
       console.error(e);
     }

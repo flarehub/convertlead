@@ -13,15 +13,19 @@ const auth = (state = initState, action) => {
     case ADD_SESSION_TOKEN: {
       return {
         ...state,
-        ...action.tokenData,
-        isAuthorised: true,
+        session: {
+          ...action.tokenData,
+          isAuthorised: true
+        },
       }
     }
     case REMOVE_SESSION_TOKEN: {
       return {
         ...state,
-        token: null,
-        isAuthorised: false,
+        session: {
+          token: null,
+          isAuthorised: false,
+        }
       }
     }
     default: {

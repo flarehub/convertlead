@@ -16,7 +16,6 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
     ->group(function () {
         Route::group([ 'namespace' => 'Api\Management'], function () {
             Route::apiResource('profile', 'ProfileController');
-            Route::apiResource('media', 'MediaController');
         });
     
         Route::group([ 'namespace' => 'Api\Management\Admin'], function () {
@@ -61,7 +60,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
         });
     });
 
-Route::group(['namespace' => 'Auth'], function () {
+Route::group(['namespace' => 'Auth' ], function () {
     Route::post('login', 'ApiLoginController@login');
 });
 

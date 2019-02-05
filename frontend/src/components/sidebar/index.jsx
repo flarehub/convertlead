@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
+import { compose } from 'recompose';
 import { Link } from 'react-router-dom'
 
-import { Icon, Menu, Sidebar } from 'semantic-ui-react'
+import { Icon, Menu, Sidebar, Dropdown } from 'semantic-ui-react'
 import PropTypes  from 'prop-types';
-import AppMenu from "@containers/menu";
+import { MenuContainer, AuthContainer } from "@containers";
 class AppSidebar extends Component {
+
+  logout = () => {
+    this.props.logout();
+  }
+
   componentWillMount() {
     this.props.getUserSideBarMenu('agency');
   }
@@ -32,6 +38,13 @@ class AppSidebar extends Component {
             </Link>
           ))
         }
+        <Menu.Item>
+          <Dropdown text='My Acount'>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Menu.Item>
       </Sidebar>
 		)
 	}
@@ -41,4 +54,4 @@ AppSidebar.propTypes = {
   visibleMenus: PropTypes.array.isRequired
 };
 
-export default AppMenu(AppSidebar);
+export default compose(MenuContainer, AuthContainer)(AppSidebar);

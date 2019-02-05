@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom';
 import { compose } from 'recompose';
 import { AuthContainer } from "@containers";
 import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
@@ -22,12 +23,15 @@ class Login extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props);
+    this.props.autoLogin();
   }
 
   render () {
     return (
       <div className='login-form'>
+        {
+          this.props.session.isAuthorised ? <Redirect to='/dashboard' /> : null
+        }
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='teal' textAlign='center'>

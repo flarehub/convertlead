@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import { addSessionToken, removeSessionToken } from "./actions";
+import {addSessionToken, removeSessionToken} from "./actions";
 import * as thunks from "./thunks";
 
 const mapStateToProps = (state) => {
@@ -10,12 +9,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapActionsToProps = dispatch => ({
+  autoLogin: () => dispatch(thunks.autoLogin()),
   login: (email, password) => dispatch(thunks.login(email, password)),
-  addSessionToken: ({ token, refreshToken }) => dispatch(addSessionToken({
-    token,
-    refreshToken
-  })),
-  removeSessionToken: () => dispatch(removeSessionToken()),
+  logout: () => dispatch(thunks.logout()),
 });
 
 export default connect(mapStateToProps, mapActionsToProps);

@@ -1,5 +1,5 @@
 import React  from 'react';
-import {Layout} from "./layout";
+import { Layout } from './layout';
 import { compose } from 'recompose';
 import { AuthContainer } from "@containers";
 import { LoginLayout } from '../components';

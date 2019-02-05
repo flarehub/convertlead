@@ -1,17 +1,18 @@
 import { api, SessionStorage } from '../../@services';
-import { addSessionToken } from "./actions";
+import {addSessionToken, removeSessionToken} from "./actions";
+import * as R from "ramda";
 
 export const login = (email, password) => {
   return async (dispatch) => {
     try {
-      const response = await api.post('/login', {
+      const { data } = await api.post('/login', {
         email,
         password,
       });
 
       const tokenData = {
-        token: response.access_token,
-        refreshToken: response.refresh_token,
+        token: data.access_token,
+        refreshToken: data.refresh_token,
       };
 
       await dispatch(addSessionToken(tokenData));
@@ -23,4 +24,24 @@ export const login = (email, password) => {
       // todo need to send a user message
     }
   }
+};
+
+export const autoLogin = () => {
+  const session = SessionStorage.getItem('session');
+  const checkSessionTokenExits = R.pathOr(false, ['token'], session);
+
+  return dispatch => {
+    if (checkSessionTokenExits) {
+      dispatch(addSessionToken(session));
+    } else {
+      // todo need to add message to login
+    }
+  };
+};
+
+export const logout = () => {
+  SessionStorage.removeItem('session');
+  return dispatch => {
+    dispatch(removeSessionToken());
+  };
 };
