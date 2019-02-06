@@ -13,6 +13,7 @@ function profile(state = initialState, action) {
 			return state
 		}
 		case UPDATE_USER_PROFILE: {
+			console.log('hui', action.profile);
 			return { ...state, ...action.profile  }
 		}
 		default: {

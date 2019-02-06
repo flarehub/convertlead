@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
-import { getUserProfile, updateUserProfile } from "./actions";
+import * as thunks from "./thunks";
 
 const mapStateToProps = state => {
-	return state;
+	return {
+		profile: state.profile
+	};
 };
 
 const mapDispatchToProps = dispatch => ({
-	updateProfile: profile => dispatch(updateUserProfile(profile)),
-	getUserProfile: () => dispatch(getUserProfile())
+	getUserProfile: () =>  dispatch(thunks.getUserProfile()),
 });
 
 export default connect(
