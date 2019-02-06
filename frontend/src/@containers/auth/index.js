@@ -3,7 +3,7 @@ import * as thunks from "./thunks";
 
 const mapStateToProps = (state) => {
   return ({
-    session: state.auth.session,
+    isAuthorised: state.auth.session.isAuthorised,
   });
 };
 

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { compose } from 'recompose';
 import { Link } from 'react-router-dom'
 
-import { Icon, Menu, Sidebar, Dropdown } from 'semantic-ui-react'
+import { Icon, Menu, Sidebar, Dropdown, Image } from 'semantic-ui-react'
 import PropTypes  from 'prop-types';
-import { MenuContainer, AuthContainer } from "@containers";
+import { MenuContainer, AuthContainer, ProfileContainer } from "@containers";
 class AppSidebar extends Component {
 
   logout = () => {
@@ -38,8 +38,8 @@ class AppSidebar extends Component {
             </Link>
           ))
         }
-        <Menu.Item>
-          <Dropdown text='My Acount'>
+       <Menu.Item>
+          <Dropdown trigger={<Image avatar src={this.props.profile.avatar_path} size='mini' />} pointing='top left' icon={null} >
             <Dropdown.Menu>
               <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
@@ -54,4 +54,5 @@ AppSidebar.propTypes = {
   visibleMenus: PropTypes.array.isRequired
 };
 
-export default compose(MenuContainer, AuthContainer)(AppSidebar);
+export default compose(MenuContainer, ProfileContainer, AuthContainer)(AppSidebar);
+

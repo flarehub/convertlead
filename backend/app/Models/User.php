@@ -50,7 +50,7 @@ class User extends Authenticatable
         'name', 'phone', 'avatar_id', 'email', 'password', 'role',
     ];
 
-    protected $appends = ['avatar_path'];
+    protected $appends = ['avatar_path', 'permissions'];
     
     /**
      * The attributes that should be hidden for arrays.
@@ -164,6 +164,10 @@ class User extends Authenticatable
             'phone' => 'required|max:100',
             'password' => 'required|confirmed|min:6',
         ];
+    }
+    
+    public function getPermissionsAttribute() {
+        return $this->permissions()->get();
     }
     
     /**

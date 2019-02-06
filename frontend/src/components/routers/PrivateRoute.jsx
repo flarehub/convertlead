@@ -8,7 +8,7 @@ import {
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={(props) => (
-    rest.session.isAuthorised ? <Component {...props} /> : <Redirect to='/login' />
+    rest.isAuthorised ? <Component {...props} /> : <Redirect to='/login' />
 	)} />
 );
 

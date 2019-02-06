@@ -3,7 +3,7 @@ import { Segment, Grid } from 'semantic-ui-react';
 import { compose, lifecycle } from 'recompose';
 import styles from './index.scss';
 import { Breadcrumb } from 'components';
-import { ProfileContainer } from '@containers';
+import { AuthContainer, ProfileContainer } from '@containers';
 
 const Header = ({ profile }) => (
   <div className={styles.Header}>
@@ -13,6 +13,7 @@ const Header = ({ profile }) => (
             <Breadcrumb />
         </Grid.Column>
         <Grid.Column>
+          { profile.role }
           { profile.name }
         </Grid.Column>
       </Grid.Row>
@@ -20,8 +21,10 @@ const Header = ({ profile }) => (
   </div>
 );
 
-export default compose(ProfileContainer, lifecycle({
+export default compose(ProfileContainer, AuthContainer, lifecycle({
   componentWillMount() {
-    this.props.getUserProfile();
+    if (this.props.isAuthorised) {
+      this.props.getUserProfile();
+    }
   }
 }))(Header);
