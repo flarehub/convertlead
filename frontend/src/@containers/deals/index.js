@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
-import { addBreadCrumb } from "../breadcrumb/actions";
+import * as thunks from "./thunks";
+import {getDeals} from "./selectors";
 
 const mapStateToProps = state => ({
-  deals: []
+  deals: getDeals(state)
 });
 
 const mapDispatchToProps = dispatch  => ({
+  getCompanyDeals: () => dispatch(thunks.getCompanyDeals())
 });
 
 

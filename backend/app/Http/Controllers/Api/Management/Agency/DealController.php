@@ -9,7 +9,9 @@ use App\Http\Controllers\Controller;
 class DealController extends Controller
 {
     public function all(Request $request) {
-        return $request->user()->deals()->paginate(100);
+        $itemsPerPage = (int)$request->get('per_page', 100);
+        $page = (int)$request->get('current_page', 1);
+        return $request->user()->getCompanyDeals()->paginate($itemsPerPage, ['*'], 'deals', $page);
     }
     /**
      * Display a listing of the resource.

@@ -11,10 +11,13 @@ class Deal extends Model
     use SoftDeletes, DealRepository;
 
     protected $fillable = [
+        'id',
         'name',
         'description',
         'agency_company_id',
     ];
+    
+    protected $appends = ['company'];
     
     public function agencies() {
         return $this->belongsToMany('App\Models\Agency', 'agency_companies', 'id', 'agency_id', 'agency_company_id', 'id');
@@ -26,5 +29,9 @@ class Deal extends Model
     
     public function campaigns() {
         return $this->hasMany('App\Models\Campaign');
+    }
+    
+    public function getCompanyAttribute() {
+        return $this->companies()->first()->only('name', 'avatar_path', 'id');
     }
 }
