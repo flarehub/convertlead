@@ -22,13 +22,16 @@ class Login extends Component {
     this.props.login(this.email, this.password);
   }
 
-  componentWillMount() {
-    this.props.autoLogin();
+  async componentWillMount() {
+    await this.props.autoLogin();
   }
 
   render () {
     return (
       <div className='login-form'>
+        {
+          this.props.session.isAuthorised ? <Redirect from='/login' to='/dashboard' /> : null
+        }
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='teal' textAlign='center'>
