@@ -13,6 +13,8 @@ import {
   Form,
   Input,
   Icon,
+  Grid,
+  Menu,
 } from 'semantic-ui-react';
 import styles from './index.scss';
 
@@ -34,25 +36,24 @@ class Companies extends Component {
     const { pagination  } = this.props;
     return (
       <Segment className={styles.Companies}>
-        <Segment.Group horizontal>
-          <Segment floated='left'>
+        <Grid columns={2}>
+          <Grid.Column>
             <Header floated='left' as='h1'>Companies</Header>
             <Form.Field>
               <Checkbox label='Show Archived' />
             </Form.Field>
-          </Segment>
-          <Segment floated='right'>
-            <Form.Field
-              width={1}
-              id='search'
-              control={Input}
-              placeholder='Search'
-            />
-            <Button primary>
-              <Icon name='plus circle' /> New Company
-            </Button>
-          </Segment>
-        </Segment.Group>
+          </Grid.Column>
+          <Grid.Column>
+            <Menu secondary>
+              <Menu.Menu position='right'>
+                <Menu.Item>
+                  <Input icon='search' placeholder='Search...' />
+                </Menu.Item>
+                <Button color='teal' content='New Company' icon='add' labelPosition='left' />
+              </Menu.Menu>
+            </Menu>
+          </Grid.Column>
+        </Grid>
         <Table singleLine>
           <Table.Header>
             <Table.Row>

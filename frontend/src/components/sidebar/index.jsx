@@ -22,7 +22,7 @@ class AppSidebar extends Component {
 	  const { visibleMenus } = this.props;
 		return (
       <Menu className={styles.AppSidebar} fixed='left' vertical={true} icon={true} floated='left'>
-        <Menu.Item className='logo'>
+        <Menu.Item className='app-logo'>
           <Image src={logo} />
         </Menu.Item>
         {
@@ -35,8 +35,8 @@ class AppSidebar extends Component {
             </Link>
           ))
         }
-       <Menu.Item>
-          <Dropdown trigger={<Image avatar src={this.props.profile.avatar_path} size='mini' />} pointing='top left' icon={null} >
+       <Menu.Item className='user-avatar'>
+          <Dropdown trigger={<Image avatar src={this.props.profile.avatar_path} size='tiny' />} pointing='top left' icon={null} >
             <Dropdown.Menu>
               <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
             </Dropdown.Menu>

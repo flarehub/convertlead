@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'recompose';
 import { BreadCrumbContainer, DealsContainer } from '@containers';
 import {
-  Segment, Card, Header, Dimmer, Loader, Image, Form, Select, Input, Grid, Button, Icon
+  Segment, Card, Header, Dimmer, Menu, Loader, Image, Form, Select, Input, Grid, Button, Icon
 } from 'semantic-ui-react';
 import * as moment from 'moment';
 
@@ -37,8 +37,8 @@ class Dashboard extends Component {
     const { deals } = this.props;
 		return (
 			<div className={styles.Dashboard}>
-        <Segment.Group horizontal>
-          <Segment floated='left'>
+        <Grid columns={2}>
+          <Grid.Column>
             <Header floated='left' as='h1'>Deals</Header>
             <Form.Field
               control={Select}
@@ -47,19 +47,18 @@ class Dashboard extends Component {
               placeholder='All companies'
               searchInput={{ id: 'form-select-control-gender' }}
             />
-          </Segment>
-          <Segment floated='right'>
-            <Form.Field
-              width={1}
-              id='search'
-              control={Input}
-              placeholder='Search'
-            />
-            <Button primary>
-              <Icon name='plus circle' /> New Deal
-            </Button>
-          </Segment>
-        </Segment.Group>
+          </Grid.Column>
+          <Grid.Column>
+            <Menu secondary>
+              <Menu.Menu position='right'>
+                <Menu.Item>
+                  <Input icon='search' placeholder='Search...' />
+                </Menu.Item>
+                <Button color='teal' content='New Deal' icon='add' labelPosition='left' />
+              </Menu.Menu>
+            </Menu>
+          </Grid.Column>
+        </Grid>
         <Segment>
             <Dimmer active={!this.state.ready} inverted>
               <Loader size='medium'>Loading</Loader>

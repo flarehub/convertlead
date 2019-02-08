@@ -1,3 +1,18 @@
 :local(.AppSidebar) {
   height: 100%;
+
+  .app-logo {
+    text-align: center;
+    display: inline-flex !important;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .user-avatar {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: red;
+  }
 }
