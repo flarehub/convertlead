@@ -15,7 +15,9 @@ class AgentController extends Controller
      */
     public function index(Request $request, $company)
     {
-        return $request->user()->getCompanyBy($company)->agents()->paginate(15);
+        $itemsPerPage = (int)$request->get('per_page', 100);
+        $page = (int)$request->get('current_page', 1);
+        return $request->user()->getCompanyBy($company)->agents()->paginate($itemsPerPage, ['*'], 'companies', $page);
     }
 
     /**

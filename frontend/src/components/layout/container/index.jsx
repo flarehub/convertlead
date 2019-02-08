@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import styles from './index.scss';
 import Routes from 'components/routers';
+import styles from './index.scss';
 
 export default () => (<div className={styles.Container}>
   <Routes />

@@ -15,7 +15,9 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        return $request->user()->companies()->paginate(15);
+        $itemsPerPage = (int)$request->get('per_page', 100);
+        $page = (int)$request->get('current_page', 1);
+        return $request->user()->getCompanies()->paginate($itemsPerPage, ['*'], 'page', $page);
     }
 
     /**
@@ -26,12 +28,8 @@ class CompanyController extends Controller
      */
     public function store(Request $request, Company $company)
     {
-        try {
-            $company->handleAvatar($request);
-        } catch (\Exception $exception) {
-            return $exception->getMessage();
-        }
-        $company->createCompany($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
+        $company->handleAvatar($request);
+        $company->createCompany($request->only(['name', 'is_locked', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
         $request->user()->companies()->attach($company);
         return $company;
     }

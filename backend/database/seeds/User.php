@@ -20,14 +20,14 @@ class User extends Seeder
             'role' => \App\Models\User::$ROLE_AGENCY,
         ]);
         $agent = \App\Models\Agent::create([
-            'email' => 'russu.dmitri@gmail.com',
+            'email' => 'dmitri.russu+ag@gmail.com',
             'name' => 'Dmitri Russu',
             'password' => bcrypt('testtest'),
             'role' => \App\Models\User::$ROLE_AGENT,
         ]);
         
         $company =   \App\Models\Company::create([
-            'email' => 'russu.dmitri@test.com',
+            'email' => 'dmitri.russu+cp@gmail.com',
             'name' => 'Dmitri Russu',
             'password' => bcrypt('testtest'),
             'role' => \App\Models\User::$ROLE_COMPANY,
@@ -37,7 +37,7 @@ class User extends Seeder
         $company->agents()->attach($agent);
     
         foreach ($agency->companies as $company) {
-            factory(\App\Models\Deal::class, 50)->create()->each(function($deal) use ($company) {
+            factory(\App\Models\Deal::class, 10)->create()->each(function($deal) use ($company) {
                 $deal->agency_company_id = $company->pivot->id;
                 $deal->save();
             });

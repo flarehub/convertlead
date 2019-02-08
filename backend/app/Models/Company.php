@@ -7,6 +7,8 @@ use App\Repositories\CompanyRepository;
 class Company extends User
 {
     use CompanyRepository;
+    
+    protected $appends = ['avatar_path'];
 
     public function agencies() {
         return $this->belongsToMany('App\Models\Agency', 'users', 'agency_companies', 'company_id');

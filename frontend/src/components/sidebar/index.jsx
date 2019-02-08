@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { compose } from 'recompose';
 import { Link } from 'react-router-dom'
-
-import { Icon, Menu, Sidebar, Dropdown, Image } from 'semantic-ui-react'
-import PropTypes  from 'prop-types';
 import { MenuContainer, AuthContainer, ProfileContainer } from "@containers";
+import PropTypes  from 'prop-types';
+
+import { Icon, Menu, Dropdown, Image } from 'semantic-ui-react'
+import logo from './logo.png';
+import styles from './index.scss';
+
 class AppSidebar extends Component {
 
   logout = () => {
@@ -18,16 +21,10 @@ class AppSidebar extends Component {
 	render() {
 	  const { visibleMenus } = this.props;
 		return (
-      <Sidebar
-        as={Menu}
-        animation='push'
-        direction='left'
-        icon='labeled'
-        inverted
-        vertical
-        visible={true}
-        width='thin'
-      >
+      <Menu className={styles.AppSidebar} fixed='left' vertical={true} icon={true} floated='left'>
+        <Menu.Item className='logo'>
+          <Image src={logo} />
+        </Menu.Item>
         {
           visibleMenus.map((menu, i) => (
             <Link to={menu.path} key={i}>
@@ -45,7 +42,7 @@ class AppSidebar extends Component {
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>
-      </Sidebar>
+      </Menu>
 		)
 	}
 }
