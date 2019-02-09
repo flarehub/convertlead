@@ -5,8 +5,10 @@ import menu from './menu/reducer';
 import breadcrumb from './breadcrumb/reducer';
 import auth from './auth/reducer';
 import companies from './companies/reducer';
+import agents from './agents/reducer';
 
 const reducers = combineReducers({
+  agents,
   companies,
   deals,
   auth,

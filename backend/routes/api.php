@@ -28,6 +28,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
             Route::prefix('agency')->group(function () {
                 Route::apiResource('companies', 'CompanyController');
                 Route::get('deals', 'DealController@all');
+                Route::get('agents', 'AgentController@all');
                 Route::apiResource('companies/{company}/deals', 'DealController');
                 Route::apiResource('companies/{company}/agents', 'AgentController');
             });

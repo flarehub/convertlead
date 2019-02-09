@@ -92,4 +92,69 @@ class Agency extends User
         
         return $query;
     }
+    
+    public function getAgents($filters = []) {
+        $query = Agent::selectRaw
+        (
+            'users.id, users.role, users.name,
+            (SELECT COUNT(id)
+                    FROM deal_campaigns AS dc
+                    WHERE dc.id = dca.deal_campaign_id AND dc.company_id = ca.company_id
+                    ) AS campaigns_count,
+            (SELECT COUNT(id)
+                    FROM leads
+                    WHERE leads.deal_campaign_id = dca.deal_campaign_id AND leads.company_id = ca.company_id GROUP BY leads.id
+                    ) AS leads_count,
+           SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(
+                ld.created_at,
+                (
+                    SELECT created_at
+                        FROM lead_notes
+                        WHERE lead_notes.lead_id = ld.id ORDER BY created_at ASC LIMIT 1))))) AS avg_lead_response,
+            users.created_at,
+            ac.company_id'
+        )
+            ->join('company_agents as ca','ca.agent_id', 'users.id')
+            ->join('agency_companies as ac', 'ac.company_id', 'ca.company_id')
+            ->join('users as agency', 'agency.id', 'ac.agency_id')
+            ->join('users as company', 'company.id', 'ca.company_id')
+            ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
+            ->leftJoin('leads AS ld', 'ld.deal_campaign_id', 'dca.deal_campaign_id')
+            ->where('agency.id', $this->id)
+            ->groupBy('users.id', 'ac.company_id', 'dca.deal_campaign_id');
+    
+        if ( isset($filters['showDeleted']) ) {
+            $query->whereRaw('(users.deleted_at IS NOT NULL OR users.deleted_at IS NULL)');
+        } else {
+            $query->whereRaw('users.deleted_at IS NULL');
+        }
+        
+        if (isset($filters['search'])) {
+            $query->where(function ($query) use ($filters) {
+                $query
+                    ->where('users.name', 'like', "%{$filters['search']}%")
+                    ->orWhere('users.email', 'like', "%{$filters['search']}%");
+            });
+        }
+
+        if ( isset($filters['name']) ) {
+            $query->orderBy('users.name', ($filters['name'] === 'true' ? 'desc' : 'asc'));
+        }
+
+        if ( isset($filters['campaigns']) ) {
+            $query->orderBy('campaigns_count', $filters['campaigns'] === 'true' ? 'desc' : 'asc');
+        }
+    
+        if ( isset($filters['leads']) ) {
+            $query->orderBy('leads_count', $filters['leads'] === 'true' ? 'desc' : 'asc');
+        }
+
+        if ( isset($filters['avg_response']) ) {
+            $query->orderBy('avg_lead_response', $filters['avg_response'] === 'true' ? 'desc' : 'asc');
+        }
+
+  
+    
+        return $query;
+    }
 }

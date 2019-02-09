@@ -1,12 +1,24 @@
 import { connect } from 'react-redux';
-import { addBreadCrumb } from "../breadcrumb/actions";
+import * as thunks from './thunks';
+import * as actions from './actions';
 
 const mapStateToProps = state => ({
-  companies: []
+  agents: state.agents.agents,
+  pagination: state.agents.pagination,
+  query: state.agents.query,
 });
 
 const mapDispatchToProps = dispatch  => ({
-  addBreadCrumb: (pageInfo, reset = true) => dispatch(addBreadCrumb(pageInfo, reset))
+  loadAgents: () => dispatch(thunks.loadAgents()),
+  filter: filters => dispatch(thunks.filterAgents(filters)),
+  search: search => dispatch(thunks.searchAgents(search)),
+  sort: sort => dispatch(thunks.sortAgents(sort)),
+  gotoPage: activePage => dispatch(thunks.gotoPage(activePage)),
+  delete: (companyId, agentId) => dispatch(thunks.deleteAgent(companyId, agentId)),
+  edit: (id, agent) => dispatch(thunks.editAgent(id, agent)),
+  create: agent => dispatch(thunks.createAgent(agent)),
+  openModal: open => dispatch(actions.openAgentModal(open)),
+  toggleShowDeleted: open => dispatch(thunks.toggleShowDeleted(open)),
 });
 
 

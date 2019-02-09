@@ -6,7 +6,10 @@ use App\Models\Company;
 
 trait AgencyRepository {
 
-    public function getCompanyBy($id) {
+    public function getCompanyBy($id, $withTrashed = false) {
+        if ($withTrashed) {
+            return $this->companies()->where('company_id', $id)->withTrashed()->firstOrFail();
+        }
         return $this->companies()->where('company_id', $id)->firstOrFail();
     }
 

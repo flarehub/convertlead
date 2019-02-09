@@ -3,11 +3,27 @@
 namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\Agent;
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AgentController extends Controller
 {
+    public function all(Request $request) {
+        $itemsPerPage = (int)$request->get('per_page', 10);
+        $page = (int)$request->get('current_page', 1);
+    
+        return $request->user()->getAgents($request->only([
+            'search',
+            'name',
+            'campaigns',
+            'leads',
+            'avg_response',
+            'showDeleted',
+        ]))->paginate($itemsPerPage, ['*'], 'agents', $page);
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -68,8 +84,9 @@ class AgentController extends Controller
      */
     public function destroy(Request $request, $company, $id)
     {
-        $agent = $request->user()->getCompanyBy($company)->getCompanyAgentBy($id);
-        $agent->delete();
+        $company = $request->user()->getCompanyBy($company, true);
+        $agent = $company->getCompanyAgentBy($id);
+        $company->agents()->detach($agent);
         return $agent;
     }
 }
