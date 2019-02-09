@@ -1,6 +1,9 @@
 export const ADD_COMPANIES = 'ADD_COMPANIES';
 export const ADD_COMPANY = 'ADD_COMPANY';
 export const UPDATE_COMPANY = 'UPDATE_COMPANY';
+export const SORT_COMPANIES = 'SORT_COMPANIES';
+export const SEARCH_COMPANIES = 'SEARCH_COMPANIES';
+export const OPEN_COMPANY_MODAL = 'OPEN_COMPANY_MODAL';
 
 export const addCompanies = (companies, pagination) => ({
   type: ADD_COMPANIES,
@@ -17,4 +20,13 @@ export const addCompany = company => ({
 export const updateCompany = company => ({
   type: UPDATE_COMPANY,
   company
+});
+
+export const sortCompanies = field => ({
+  type: SORT_COMPANIES,
+  field
+});
+export const openCompanyModal = open => ({
+  type: OPEN_COMPANY_MODAL,
+  open
 });

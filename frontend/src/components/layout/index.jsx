@@ -9,16 +9,14 @@ import styles from './index.scss'
 export class Layout extends Component {
   render() {
     return (<div className={styles.Layout}>
-      <Grid columns={2}>
+      <Grid padded='horizontally' columns={2}>
         <Grid.Column width={1}>
           <AppSidebar />
         </Grid.Column>
         <Grid.Column width={15}>
-          <Segment>
             <Header />
             <Container />
             <Footer />
-          </Segment>
         </Grid.Column>
       </Grid>
     </div>);

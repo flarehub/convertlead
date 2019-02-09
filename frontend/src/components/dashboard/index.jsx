@@ -37,7 +37,8 @@ class Dashboard extends Component {
     const { deals } = this.props;
 		return (
 			<div className={styles.Dashboard}>
-        <Grid columns={2}>
+        <Segment attached='top'>
+          <Grid columns={2}>
           <Grid.Column>
             <Header floated='left' as='h1'>Deals</Header>
             <Form.Field
@@ -59,26 +60,25 @@ class Dashboard extends Component {
             </Menu>
           </Grid.Column>
         </Grid>
-        <Segment>
-            <Dimmer active={!this.state.ready} inverted>
-              <Loader size='medium'>Loading</Loader>
-            </Dimmer>
-            <Card.Group>
-              {
-                deals.map((deal, key) => (
-                  <Card key={key}>
-                    <Card.Content>
-                      <Card.Header>{deal.name}</Card.Header>
-                      <Card.Meta>Started {moment(deal.created_at).format('DD/MM/YYYY')}</Card.Meta>
-                      <Card.Description>
-                        <Image avatar src={deal.company.avatar_path} size='medium' circular />
-                        {deal.company.name}</Card.Description>
-                    </Card.Content>
-                  </Card>
-                ))
-              }
-            </Card.Group>
-				</Segment>
+          <Dimmer active={!this.state.ready} inverted>
+            <Loader size='medium'>Loading</Loader>
+          </Dimmer>
+          <Card.Group>
+            {
+              deals.map((deal, key) => (
+                <Card key={key}>
+                  <Card.Content>
+                    <Card.Header>{deal.name}</Card.Header>
+                    <Card.Meta>Started {moment(deal.created_at).format('DD/MM/YYYY')}</Card.Meta>
+                    <Card.Description>
+                      <Image avatar src={deal.company.avatar_path} size='medium' circular />
+                      {deal.company.name}</Card.Description>
+                  </Card.Content>
+                </Card>
+              ))
+            }
+          </Card.Group>
+        </Segment>
 			</div>
 		);
 	}
