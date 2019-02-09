@@ -15,7 +15,7 @@ export const deleteCompany = id => {
         ))
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       // todo dispatch a message error
     }
   }
@@ -43,6 +43,7 @@ export const loadCompanies = (page = 1, perPage = 10, search = '', sort = {
       const { data, ...pagination } = response.data;
       await dispatch(actions.addCompanies(data, pagination));
     } catch (e) {
+      console.error(e);
       // todo dispatch error
     }
   }
