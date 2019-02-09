@@ -2,7 +2,10 @@ import { ADD_COMPANIES } from './actions';
 
 const initState = {
   companies: [],
-  pagination: {}
+  pagination: {
+    current_page: 1,
+    last_page: 1,
+  }
 };
 
 const companies = (state = initState, action) => {

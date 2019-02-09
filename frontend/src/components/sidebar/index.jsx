@@ -21,7 +21,7 @@ class AppSidebar extends Component {
 	render() {
 	  const { visibleMenus } = this.props;
 		return (
-      <Menu className={styles.AppSidebar} fixed='left' vertical={true} icon={true} floated='left'>
+      <Menu className={styles.AppSidebar} fixed='left' vertical={true} icon={true}>
         <Menu.Item className='app-logo'>
           <Image src={logo} />
         </Menu.Item>

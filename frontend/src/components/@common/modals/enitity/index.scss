@@ -1,0 +1,9 @@
+:local(.EntityModal) {
+}
+
+.modal {
+  height: auto !important;
+}
+.modal:after, .modal:before {
+  box-sizing: inherit;
+}

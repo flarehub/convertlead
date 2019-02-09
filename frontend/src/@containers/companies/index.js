@@ -7,7 +7,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch  => ({
-  loadCompanies: (page, perPage) => dispatch(thunks.loadCompanies(page, perPage))
+  loadCompanies: (page = 1, perPage = 10, search = '', sort = {
+    name: true,
+    deals: null,
+    leads: null,
+    agents: null,
+    avg_response: null,
+  }) => dispatch(thunks.loadCompanies(page, perPage, search, sort))
 });
 
 

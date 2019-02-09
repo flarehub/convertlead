@@ -30,8 +30,8 @@ class Agency extends User
         return $this->deals()->join('users as us', 'us.id', '=', 'company_id');
     }
     
-    public function getCompanies() {
-        return self::selectRaw('
+    public function getCompanies($filters) {
+        $query = self::selectRaw('
             cp.id,
             cp.name,
             COUNT(DISTINCT cp.id, deals.id) as deals_count,
@@ -50,5 +50,35 @@ class Agency extends User
             ->leftJoin('company_agents', 'company_agents.company_id', 'cp.id')
             ->leftJoin('leads', 'leads.company_id', 'cp.id')
             ->where('users.id', $this->id)->groupBy('cp.id');
+        
+        if ( $filters['search'] ) {
+            $query->where(function ($query) use ($filters) {
+                $query
+                    ->where('cp.name', 'like', "%{$filters['search']}%")
+                    ->orWhere('cp.email', 'like', "%{$filters['search']}%");
+            });
+        }
+        
+        if ( isset($filters['name']) ) {
+            $query->orderBy('cp.name', ($filters['name'] === 'true' ? 'desc' : 'asc'));
+        }
+    
+    
+        if ( isset($filters['deals']) ) {
+            $query->orderBy('deals_count', $filters['deals'] === 'true' ? 'desc' : 'asc');
+        }
+    
+        if ( isset($filters['leads']) ) {
+            $query->orderBy('leads_count', $filters['deals'] === 'true' ? 'desc' : 'asc');
+        }
+
+        if ( isset($filters['agents']) ) {
+            $query->orderBy('agents_count', $filters['agents'] === 'true' ? 'desc' : 'asc');
+        }
+        if ( isset($filters['avg_response']) ) {
+            $query->orderBy('avg_lead_response', $filters['avg_response'] === 'true' ? 'desc' : 'asc');
+        }
+        
+        return $query;
     }
 }
