@@ -32,6 +32,10 @@ class Deal extends Model
     }
     
     public function getCompanyAttribute() {
-        return $this->companies()->first()->only('name', 'avatar_path', 'id');
+        $company = $this->companies()->first();
+        if ($company) {
+            return $company->only('name', 'avatar_path', 'id');
+        }
+        return $company;
     }
 }

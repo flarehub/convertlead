@@ -15,11 +15,17 @@ import {
   Icon,
   Grid,
   Menu,
+  Confirm,
 } from 'semantic-ui-react';
 import styles from './index.scss';
 import EntityModal from "../@common/modals/enitity";
 
 class Companies extends Component {
+  state = {
+    open: false,
+    companyId: null,
+  };
+
   getSort = field => {
     const fieldStatus = R.path(['query', 'sort', field], this.props);
     if (fieldStatus=== true) {
@@ -42,6 +48,19 @@ class Companies extends Component {
     this.props.openCompaniesPage(data.activePage);
   }
 
+  openConfirmModal = (open = true, companyId = null) => {
+    this.setState({ open, companyId })
+  }
+
+  onConfirm = () => {
+    this.setState({ open: false });
+    this.props.deleteCompany(this.state.companyId);
+  }
+
+  onShowArch = () => {
+    this.props.toggleShowDeleted();
+  }
+
   componentWillMount() {
     this.props.addBreadCrumb({
       name: 'Companies',
@@ -57,11 +76,12 @@ class Companies extends Component {
       <div className={styles.Companies}>
       <Segment attached='top'>
         <EntityModal open={openModal} title='Company Create' onSave={this.onSave} onClose={this.props.openCompanyModal.bind(this, false)}/>
+        <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Grid columns={2}>
           <Grid.Column>
             <Header floated='left' as='h1'>Companies</Header>
             <Form.Field>
-              <Checkbox label='Show Archived' />
+              <Checkbox label='Show Archived' toggle onChange={this.onShowArch} />
             </Form.Field>
           </Grid.Column>
           <Grid.Column>
@@ -114,12 +134,16 @@ class Companies extends Component {
                   <Table.Cell>{company.agents_count}</Table.Cell>
                   <Table.Cell>{company.avg_lead_response || 0}</Table.Cell>
                   <Table.Cell>
-                    <Button.Group>
-                      <Button><Icon name='pencil alternate' /></Button>
-                      <Button><Icon name='lock' /></Button>
-                      {/*<Button><Icon name='lock open' /></Button>*/}
-                      <Button><Icon name='trash alternate outline'/></Button>
-                    </Button.Group>
+                    {
+                      !company.is_deleted
+                      ?<Button.Group>
+                        <Button><Icon name='pencil alternate' /></Button>
+                        <Button><Icon name='lock' /></Button>
+                        {/*<Button><Icon name='lock open' /></Button>*/}
+                        <Button onClick={this.openConfirmModal.bind(this, true, company.id)}><Icon name='trash alternate outline'/></Button>
+                      </Button.Group>
+                      : null
+                    }
                   </Table.Cell>
                 </Table.Row>
               ))

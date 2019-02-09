@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Repositories\AgencyRepository;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Agency extends User
 {
-    use AgencyRepository;
+    use AgencyRepository, SoftDeletes;
 
     public function agencyCompaniesBy($companyId) {
         return $this->belongsTo('App\Models\AgencyCompanyPivot', 'id')->where('company_id', $companyId)->get();
@@ -27,13 +28,17 @@ class Agency extends User
     }
     
     public function getCompanyDeals() {
-        return $this->deals()->join('users as us', 'us.id', '=', 'company_id');
+        return $this
+            ->deals()
+            ->join('users as company', 'company.id', '=', 'company_id')
+            ->whereRaw('company.deleted_at IS NULL');
     }
     
     public function getCompanies($filters) {
         $query = self::selectRaw('
             cp.id,
             cp.name,
+            IF(cp.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
             COUNT(DISTINCT cp.id, deals.id) as deals_count,
             COUNT(DISTINCT cp.id, company_agents.id) as agents_count,
             COUNT(DISTINCT cp.id, leads.id) as leads_count,
@@ -51,6 +56,12 @@ class Agency extends User
             ->leftJoin('leads', 'leads.company_id', 'cp.id')
             ->where('users.id', $this->id)->groupBy('cp.id');
         
+        if ( isset($filters['showDeleted']) ) {
+            $query->whereRaw('(cp.deleted_at IS NOT NULL OR cp.deleted_at IS NULL)');
+        } else {
+            $query->whereRaw('cp.deleted_at IS NULL');
+        }
+    
         if ( $filters['search'] ) {
             $query->where(function ($query) use ($filters) {
                 $query

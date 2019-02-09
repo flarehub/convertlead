@@ -1,14 +1,16 @@
-import {ADD_COMPANIES, OPEN_COMPANY_MODAL, SORT_COMPANIES} from './actions';
+import {ADD_COMPANIES, OPEN_COMPANY_MODAL, SORT_COMPANIES, TOGGLE_SHOW_DELETED} from './actions';
 
 const initState = {
   companies: [],
   pagination: {
     current_page: 1,
+    per_page: 10,
     last_page: 1,
   },
   openModal: false,
   query: {
     search: '',
+    showDeleted: false,
     sort: {
       name: true,
       deals: null,
@@ -47,6 +49,15 @@ const companies = (state = initState, action) => {
       return {
         ...state,
         openModal: action.open
+      }
+    }
+    case TOGGLE_SHOW_DELETED: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          showDeleted: !state.query.showDeleted
+        }
       }
     }
     default: {

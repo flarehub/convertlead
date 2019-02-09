@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Repositories\CompanyRepository;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends User
 {
-    use CompanyRepository;
+    use CompanyRepository, SoftDeletes;
     
     protected $appends = ['avatar_path'];
 

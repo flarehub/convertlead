@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Management\Agency;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Mockery\Exception;
 
 class CompanyController extends Controller
 {
@@ -24,6 +25,7 @@ class CompanyController extends Controller
             'deals',
             'leads',
             'agents',
+            'showDeleted',
             'avg_response',
         ]))->paginate($itemsPerPage, ['*'], 'page', $page);
     }

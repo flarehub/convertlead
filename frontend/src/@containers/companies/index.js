@@ -20,7 +20,9 @@ const mapDispatchToProps = dispatch  => ({
   searchCompanies: search => dispatch(thunks.searchCompanies(search)),
   openCompaniesPage: activePage => dispatch(thunks.openCompaniesPage(activePage)),
   sort: field => dispatch(thunks.onSortCompanies(field)),
-  openCompanyModal: open => dispatch(actions.openCompanyModal(open))
+  openCompanyModal: open => dispatch(actions.openCompanyModal(open)),
+  deleteCompany: id => dispatch(thunks.deleteCompany(id)),
+  toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted())
 });
 
 

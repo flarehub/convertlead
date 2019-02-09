@@ -3,6 +3,7 @@ export const ADD_COMPANY = 'ADD_COMPANY';
 export const UPDATE_COMPANY = 'UPDATE_COMPANY';
 export const SORT_COMPANIES = 'SORT_COMPANIES';
 export const SEARCH_COMPANIES = 'SEARCH_COMPANIES';
+export const TOGGLE_SHOW_DELETED = 'TOGGLE_WITH_DELETED';
 export const OPEN_COMPANY_MODAL = 'OPEN_COMPANY_MODAL';
 
 export const addCompanies = (companies, pagination) => ({
@@ -29,4 +30,8 @@ export const sortCompanies = field => ({
 export const openCompanyModal = open => ({
   type: OPEN_COMPANY_MODAL,
   open
+});
+
+export const toggleShowDeleted = () => ({
+  type: TOGGLE_SHOW_DELETED
 });
