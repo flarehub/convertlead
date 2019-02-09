@@ -6,6 +6,7 @@ const mapStateToProps = state => ({
   agents: state.agents.agents,
   pagination: state.agents.pagination,
   query: state.agents.query,
+  openModalStatus: state.agents.openModalStatus,
 });
 
 const mapDispatchToProps = dispatch  => ({

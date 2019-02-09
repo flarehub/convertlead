@@ -1,4 +1,4 @@
-import {ADD_AGENTS, GOTO_PAGE, SEARCH_AGENTS, SHOW_DELETED_AGENTS, SORT_AGENTS} from "./actions";
+import {ADD_AGENTS, GOTO_PAGE, OPEN_AGENT_MODAL, SEARCH_AGENTS, SHOW_DELETED_AGENTS, SORT_AGENTS} from "./actions";
 
 const initState = {
   agents: [],
@@ -25,6 +25,12 @@ const initState = {
 
 const agents = (state = initState, action) => {
   switch (action.type) {
+    case OPEN_AGENT_MODAL: {
+      return {
+        ...state,
+        openModalStatus: action.open
+      }
+    }
     case ADD_AGENTS: {
       return {
         ...state,
