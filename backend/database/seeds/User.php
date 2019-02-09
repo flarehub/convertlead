@@ -52,13 +52,13 @@ class User extends Seeder
                 ->create(['role' => \App\Models\User::$ROLE_COMPANY])
                 ->each(function ($company) {
                     $this->addPermissions($company);
-    
+                    
                     $agents = factory(\App\Models\Agent::class, 10)
-                        ->create(['role' => \App\Models\User::$ROLE_AGENT ])
+                        ->create(['role' => \App\Models\User::$ROLE_AGENT])
                         ->each(function ($agent) {
                             $this->addPermissions($agent);
                         });
-
+    
                     $company->agents()->attach($agents);
                 });
 
@@ -68,6 +68,20 @@ class User extends Seeder
                 factory(\App\Models\Deal::class, 10)->create()->each(function($deal) use ($company) {
                     $deal->agency_company_id = $company->pivot->id;
                     $deal->save();
+    
+    
+                    factory(\App\Models\DealCampaign::class, 10)->create([
+                        'company_id' => $company->id,
+                        'deal_id' => $deal->id,
+                    ])->each(function (\App\Models\DealCampaign $dealCampaign) use ($company) {
+                        foreach ($company->agents as $agent) {
+                            $dealCampaign->agents()->attach($agent);
+                        }
+                        factory(\App\Models\Lead::class, 10)->create([
+                            'deal_campaign_id' => $dealCampaign->id,
+                            'company_id' => $company->id,
+                        ]);
+                    });
                 });
             }
         });

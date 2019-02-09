@@ -1,9 +1,12 @@
 import * as actions from './actions';
 import {api} from "../../@services";
+import {hideLoader, showLoader} from "../loader/actions";
+import {sendMessage} from "../messages/actions";
 
 export const loadAgents = () => {
   return async (dispath, getState) => {
     try {
+      dispath(showLoader());
       const { pagination, query } = getState().agents;
       const response = await api.get('/v1/agency/agents', {
         params: {
@@ -17,8 +20,9 @@ export const loadAgents = () => {
       const { data, ...rest } = response.data;
       dispath(actions.addAgents(data, rest))
     } catch (e) {
-      // todo add error messages
+      dispath(sendMessage(e.message, true));
     }
+    dispath(hideLoader());
   }
 };
 

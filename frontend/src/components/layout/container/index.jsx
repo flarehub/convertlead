@@ -1,8 +1,19 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Routes from 'components/routers';
+import { LoaderContainer } from '@containers';
+
+import {
+  Dimmer,
+  Loader
+} from 'semantic-ui-react';
 import styles from './index.scss';
 
-export default () => (<div className={styles.Container}>
+const Container = (props) => (<div className={styles.Container}>
+  <Dimmer active={!props.loadReady} inverted>
+    <Loader size='medium'>Loading</Loader>
+  </Dimmer>
   <Routes />
-</div>)
+</div>);
+
+export default withRouter(LoaderContainer(Container))

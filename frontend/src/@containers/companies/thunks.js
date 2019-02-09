@@ -1,9 +1,12 @@
 import api from "../../@services/api";
 import * as actions from "./actions";
+import {hideLoader, showLoader} from "../loader/actions";
+import {sendMessage} from "../messages/actions";
 
 export const deleteCompany = id => {
   return async (dispatch, getState) => {
     try {
+      dispatch(showLoader())
       const response = await api.delete(`/v1/agency/companies/${id}`);
       const { pagination, query } = getState().companies;
       if (response.data) {
@@ -15,9 +18,9 @@ export const deleteCompany = id => {
         ))
       }
     } catch (e) {
-      console.error(e);
-      // todo dispatch a message error
+      dispatch(sendMessage(e.message, true))
     }
+    dispatch(hideLoader())
   }
 };
 
@@ -30,6 +33,7 @@ export const loadCompanies = (page = 1, perPage = 10, search = '', sort = {
 }) => {
   return async (dispatch, getState) => {
     try {
+      dispatch(showLoader())
       const response =
         await api.get('/v1/agency/companies', {
           params: {
@@ -43,9 +47,9 @@ export const loadCompanies = (page = 1, perPage = 10, search = '', sort = {
       const { data, ...pagination } = response.data;
       await dispatch(actions.addCompanies(data, pagination));
     } catch (e) {
-      console.error(e);
-      // todo dispatch error
+      dispatch(sendMessage(e.message, true))
     }
+    dispatch(hideLoader())
   }
 };
 

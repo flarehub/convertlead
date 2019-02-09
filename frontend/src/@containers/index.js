@@ -8,5 +8,7 @@ export { default as MenuContainer } from './menu';
 export { default as ProfileContainer } from './profile';
 export { default as BreadCrumbContainer } from './breadcrumb';
 export { default as AuthContainer } from './auth';
+export { default as MessagesContainer } from './messages';
+export { default as LoaderContainer } from './loader';
 export { default as store } from './store'
 

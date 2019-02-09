@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import {
   Table,
   Segment,
+  Dimmer,
+  Loader,
   Pagination,
   Image,
   Button,
@@ -133,9 +135,13 @@ class Agents extends Component {
                     <Table.Cell>
                       {
                         agent.company
-                        ? <Image avatar src={agent.company.avatar_path} rounded size='mini' />
+                        ? <div>
+                            <Image avatar src={agent.company.avatar_path} rounded size='mini' />
+                            {agent.company.name}
+                          </div>
                         : null
                       }
+
                     </Table.Cell>
                     <Table.Cell>{agent.campaigns_count || 0}</Table.Cell>
                     <Table.Cell>{agent.leads_count || 0}</Table.Cell>

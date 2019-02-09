@@ -13,4 +13,15 @@ class DealCampaign extends Model
         'name',
         'description',
     ];
+    
+    public function agents() {
+        return $this->belongsToMany(
+            'App\Models\Agent', 'deal_campaign_agents',
+            'deal_campaign_id',
+            'agent_id');
+    }
+
+    public function leads() {
+        return $this->belongsTo('App\Models\Lead', 'leads');
+    }
 }
