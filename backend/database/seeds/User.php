@@ -22,6 +22,7 @@ class User extends Seeder
         $agent = \App\Models\Agent::create([
             'email' => 'dmitri.russu+ag@gmail.com',
             'name' => 'Dmitri Russu',
+            'agent_agency_id' => $agency->id,
             'password' => bcrypt('testtest'),
             'role' => \App\Models\User::$ROLE_AGENT,
         ]);
@@ -50,11 +51,11 @@ class User extends Seeder
 
             $companies = factory(\App\Models\Company::class, 10)
                 ->create(['role' => \App\Models\User::$ROLE_COMPANY])
-                ->each(function ($company) {
+                ->each(function ($company) use ($agency) {
                     $this->addPermissions($company);
                     
                     $agents = factory(\App\Models\Agent::class, 10)
-                        ->create(['role' => \App\Models\User::$ROLE_AGENT])
+                        ->create(['role' => \App\Models\User::$ROLE_AGENT, 'agent_agency_id' => $agency->id])
                         ->each(function ($agent) {
                             $this->addPermissions($agent);
                         });
@@ -62,7 +63,7 @@ class User extends Seeder
                     $company->agents()->attach($agents);
                 });
 
-            $agency->companies()->attach($companies);
+            $agency->companies()->attach($companies, ['is_locked' => true]);
 
             foreach ($agency->companies as $company) {
                 factory(\App\Models\Deal::class, 10)->create()->each(function($deal) use ($company) {
@@ -71,15 +72,18 @@ class User extends Seeder
     
     
                     factory(\App\Models\DealCampaign::class, 10)->create([
-                        'company_id' => $company->id,
+                        'agency_company_id' => $deal->agency_company_id,
                         'deal_id' => $deal->id,
-                    ])->each(function (\App\Models\DealCampaign $dealCampaign) use ($company) {
+                    ])->each(function (\App\Models\DealCampaign $dealCampaign) use ($deal, $company) {
                         foreach ($company->agents as $agent) {
                             $dealCampaign->agents()->attach($agent);
+                            break;
                         }
+                        $statusNew = \App\Models\LeadStatus::where('type', \App\Models\LeadStatus::$STATUS_NEW)->first();
                         factory(\App\Models\Lead::class, 10)->create([
+                            'lead_status_id' => $statusNew->id,
+                            'agency_company_id' => $deal->agency_company_id,
                             'deal_campaign_id' => $dealCampaign->id,
-                            'company_id' => $company->id,
                         ]);
                     });
                 });
@@ -118,6 +122,8 @@ class User extends Seeder
             DB::getPdo()->query('TRUNCATE TABLE company_agents');
             DB::getPdo()->query('TRUNCATE TABLE agency_companies');
             DB::getPdo()->query('TRUNCATE TABLE deals');
+            DB::getPdo()->query('TRUNCATE TABLE deal_campaigns');
+            DB::getPdo()->query('TRUNCATE TABLE leads');
             DB::getPdo()->query('SET FOREIGN_KEY_CHECKS=1;');
         }
     }

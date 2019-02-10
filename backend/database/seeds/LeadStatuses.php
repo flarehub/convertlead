@@ -6,6 +6,7 @@ class LeadStatuses extends Seeder
 {
    private $statuses = [
         'NONE',
+        'NEW',
         'VIEWED',
         'CONTACTED_SMS',
         'CONTACTED_CALL',

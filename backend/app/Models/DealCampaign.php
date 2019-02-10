@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Faker\Generator as Faker;
 
 class DealCampaign extends Model
 {
@@ -11,6 +12,7 @@ class DealCampaign extends Model
 
     protected $fillable = [
         'name',
+        'uuid',
         'description',
     ];
     
@@ -23,5 +25,15 @@ class DealCampaign extends Model
 
     public function leads() {
         return $this->belongsTo('App\Models\Lead', 'leads');
+    }
+    
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($query, Faker $faker) {
+            $query->uuid = ($query->uuid
+                ? $query->uuid
+                : $faker->uuid);
+        });
     }
 }

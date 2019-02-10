@@ -47,7 +47,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'is_locked', 'avatar_id', 'email', 'password', 'role',
+        'name', 'phone', 'avatar_id', 'agent_agency_id', 'email', 'password', 'role',
     ];
 
     protected $appends = ['avatar_path', 'permissions'];

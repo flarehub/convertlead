@@ -9,14 +9,15 @@ class LeadStatus extends Model
 {
     use SoftDeletes;
 
-    private static $STATUS_NONE = 'NONE';
-    private static $STATUS_VIEWED = 'VIEWED';
-    private static $STATUS_CONTACTED_SMS = 'CONTACTED_SMS';
-    private static $STATUS_CONTACTED_CALL = 'CONTACTED_CALL';
-    private static $STATUS_CONTACTED_EMAIL = 'CONTACTED_EMAIL';
-    private static $STATUS_MISSED = 'MISSED';
-    private static $STATUS_BAD = 'BAD';
-    private static $STATUS_SOLD = 'SOLD';
+    public static $STATUS_NONE = 'NONE';
+    public static $STATUS_NEW= 'NEW';
+    public static $STATUS_VIEWED = 'VIEWED';
+    public static $STATUS_CONTACTED_SMS = 'CONTACTED_SMS';
+    public static $STATUS_CONTACTED_CALL = 'CONTACTED_CALL';
+    public static $STATUS_CONTACTED_EMAIL = 'CONTACTED_EMAIL';
+    public static $STATUS_MISSED = 'MISSED';
+    public static $STATUS_BAD = 'BAD';
+    public static $STATUS_SOLD = 'SOLD';
 
     protected $fillable = [
         'name',

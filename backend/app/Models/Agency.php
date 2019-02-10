@@ -34,7 +34,7 @@ class Agency extends User
             ->whereRaw('company.deleted_at IS NULL');
     }
     
-    public function getCompanies($filters) {
+    public function getCompanies($queryParams) {
         $query = self::selectRaw('
             cp.id,
             cp.name,
@@ -53,58 +53,58 @@ class Agency extends User
             ->join('users AS cp', 'cp.id', 'agency_companies.company_id')
             ->leftJoin('deals', 'deals.agency_company_id', 'agency_companies.id')
             ->leftJoin('company_agents', 'company_agents.company_id', 'cp.id')
-            ->leftJoin('leads', 'leads.company_id', 'cp.id')
+            ->leftJoin('leads', 'leads.agency_company_id', 'agency_companies.id')
             ->where('users.id', $this->id)->groupBy('cp.id');
         
-        if ( isset($filters['showDeleted']) ) {
+        if ( isset($queryParams['showDeleted']) ) {
             $query->whereRaw('(cp.deleted_at IS NOT NULL OR cp.deleted_at IS NULL)');
         } else {
             $query->whereRaw('cp.deleted_at IS NULL');
         }
     
-        if ( $filters['search'] ) {
-            $query->where(function ($query) use ($filters) {
+        if ( $queryParams['search'] ) {
+            $query->where(function ($query) use ($queryParams) {
                 $query
-                    ->where('cp.name', 'like', "%{$filters['search']}%")
-                    ->orWhere('cp.email', 'like', "%{$filters['search']}%");
+                    ->where('cp.name', 'like', "%{$queryParams['search']}%")
+                    ->orWhere('cp.email', 'like', "%{$queryParams['search']}%");
             });
         }
         
-        if ( isset($filters['name']) ) {
-            $query->orderBy('cp.name', ($filters['name'] === 'true' ? 'desc' : 'asc'));
+        if ( isset($queryParams['name']) ) {
+            $query->orderBy('cp.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
     
     
-        if ( isset($filters['deals']) ) {
-            $query->orderBy('deals_count', $filters['deals'] === 'true' ? 'desc' : 'asc');
-        }
-    
-        if ( isset($filters['leads']) ) {
-            $query->orderBy('leads_count', $filters['deals'] === 'true' ? 'desc' : 'asc');
+        if ( isset($queryParams['deals']) ) {
+            $query->orderBy('deals_count', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
         }
 
-        if ( isset($filters['agents']) ) {
-            $query->orderBy('agents_count', $filters['agents'] === 'true' ? 'desc' : 'asc');
+        if ( isset($queryParams['leads']) ) {
+            $query->orderBy('leads_count', $queryParams['leads'] === 'true' ? 'DESC' : 'ASC');
         }
-        if ( isset($filters['avg_response']) ) {
-            $query->orderBy('avg_lead_response', $filters['avg_response'] === 'true' ? 'desc' : 'asc');
+
+        if ( isset($queryParams['agents']) ) {
+            $query->orderBy('agents_count', $queryParams['agents'] === 'true' ? 'DESC' : 'ASC');
         }
-        
+        if ( isset($queryParams['avg_response']) ) {
+            $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
+        }
+
         return $query;
     }
     
-    public function getAgents($filters = []) {
+    public function getAgents($queryParams = []) {
         $query = Agent::selectRaw
         (
             'users.id, users.role, users.name,
             SUM((SELECT COUNT(id)
                     FROM deal_campaigns AS dc
-                    WHERE dc.id = dca.deal_campaign_id AND dc.company_id = ca.company_id
+                    WHERE dc.id = dca.deal_campaign_id AND dc.agency_company_id = ac.id
                     GROUP BY dc.id
                     )) AS campaigns_count,
              SUM((SELECT COUNT(id)
                 FROM leads
-                WHERE leads.deal_campaign_id = dca.deal_campaign_id AND leads.company_id = ca.company_id
+                WHERE leads.deal_campaign_id = dca.deal_campaign_id AND leads.agency_company_id = ac.id
                 GROUP BY leads.deal_campaign_id
                 )) AS leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(
@@ -125,38 +125,42 @@ class Agency extends User
             ->where('agency.id', $this->id)
             ->groupBy('users.id', 'ac.company_id');
     
-        if ( isset($filters['showDeleted']) ) {
+        if ( isset($queryParams['showDeleted']) ) {
             $query->whereRaw('(users.deleted_at IS NOT NULL OR users.deleted_at IS NULL)');
         } else {
             $query->whereRaw('users.deleted_at IS NULL');
         }
         
-        if (isset($filters['search'])) {
-            $query->where(function ($query) use ($filters) {
+        if (isset($queryParams['search'])) {
+            $query->where(function ($query) use ($queryParams) {
                 $query
-                    ->where('users.name', 'like', "%{$filters['search']}%")
-                    ->orWhere('users.email', 'like', "%{$filters['search']}%");
+                    ->where('users.name', 'like', "%{$queryParams['search']}%")
+                    ->orWhere('users.email', 'like', "%{$queryParams['search']}%");
             });
         }
 
-        if ( isset($filters['name']) ) {
-            $query->orderBy('users.name', ($filters['name'] === 'true' ? 'desc' : 'asc'));
+        if ( isset($queryParams['name']) ) {
+            $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
 
-        if ( isset($filters['campaigns']) ) {
-            $query->orderBy('campaigns_count', $filters['campaigns'] === 'true' ? 'desc' : 'asc');
+        if ( isset($queryParams['campaigns']) ) {
+            $query->orderBy('campaigns_count', $queryParams['campaigns'] === 'true' ? 'DESC' : 'ASC');
         }
 
-        if ( isset($filters['leads']) ) {
-            $query->orderBy('leads_count', $filters['leads'] === 'true' ? 'desc' : 'asc');
+        if ( isset($queryParams['leads']) ) {
+            $query->orderBy('leads_count', $queryParams['leads'] === 'true' ? 'DESC' : 'ASC');
         }
 
-        if ( isset($filters['avg_response']) ) {
-            $query->orderBy('avg_lead_response', $filters['avg_response'] === 'true' ? 'desc' : 'asc');
+        if ( isset($queryParams['avg_response']) ) {
+            $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
         }
-
-  
     
+        return $query;
+    }
+    
+    public function getLeads($queryParams = []) {
+        $query = Lead::join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
+            ->where('ac.agency_id', $this->id);
         return $query;
     }
 }

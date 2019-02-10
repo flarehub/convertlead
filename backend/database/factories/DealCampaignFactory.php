@@ -16,6 +16,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Models\DealCampaign::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
+        'uuid' => $faker->uuid,
         'description' => $faker->name,
     ];
 });

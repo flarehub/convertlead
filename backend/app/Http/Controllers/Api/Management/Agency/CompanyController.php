@@ -19,7 +19,7 @@ class CompanyController extends Controller
         $itemsPerPage = (int)$request->get('per_page', 100);
         $page = (int)$request->get('current_page', 1);
         
-        return $request->user()->getCompanies($request->all([
+        return $request->user()->getCompanies($request->only([
             'search',
             'name',
             'deals',

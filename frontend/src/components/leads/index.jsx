@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styles from './index.scss';
-import { compose, lifecycle } from 'recompose';
-import { BreadCrumbContainer } from '@containers';
+import { compose } from 'recompose';
+import { BreadCrumbContainer, LeadsContainer } from '@containers';
 
-const Leads = () => (
-  <div className={styles.Leads}>
-    Leads
-  </div>
-);
+class Leads extends Component {
 
-export default compose(BreadCrumbContainer, lifecycle({
   componentWillMount() {
     this.props.addBreadCrumb({
       name: 'Leads',
       path: '/leads'
     })
+    this.props.loadLeads();
   }
-}))(Leads);
+
+  render() {
+    return (
+      <div className={styles.Leads}>
+      </div>
+    );
+  }
+}
+export default compose(BreadCrumbContainer, LeadsContainer)(Leads);

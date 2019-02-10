@@ -40,6 +40,7 @@ const companies = (state = initState, action) => {
        query: {
          ...state.query,
          sort: {
+           ...state.query.sort,
            [action.field]: (state.query.sort[action.field] === false ? null : !state.query.sort[action.field])
          }
        }
