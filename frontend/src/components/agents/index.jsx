@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import { BreadCrumbContainer, AgentsContainer } from '@containers';
 import * as moment from 'moment';
@@ -127,7 +128,9 @@ class Agents extends Component {
                 agents.map((agent, index) => (
                   <Table.Row key={index}>
                     <Table.Cell>
-                      {agent.name}
+                      <Link to={`/agents/${agent.id}`}>
+                        {agent.name}
+                      </Link>
                       <div>
                         Added {moment(agent.created_at).format('DD/MM/YYYY')}
                       </div>
@@ -136,15 +139,17 @@ class Agents extends Component {
                       {
                         agent.company
                         ? <div>
-                            <Image avatar src={agent.company.avatar_path} rounded size='mini' />
-                            {agent.company.name}
+                            <Link to={`/companies/${agent.company.id}`}>
+                              <Image avatar src={agent.company.avatar_path} rounded size='mini' />
+                              {agent.company.name}
+                            </Link>
                           </div>
                         : null
                       }
 
                     </Table.Cell>
-                    <Table.Cell>{agent.campaigns_count || 0}</Table.Cell>
-                    <Table.Cell>{agent.leads_count || 0}</Table.Cell>
+                    <Table.Cell>{<Link to={`/agents/${agent.id}/campaigns`}>{agent.campaigns_count}</Link> || 0}</Table.Cell>
+                    <Table.Cell>{<Link to={`/agents/${agent.id}/leads`}>{agent.leads_count}</Link>|| 0}</Table.Cell>
                     <Table.Cell>{agent.avg_lead_response || 0}</Table.Cell>
                     <Table.Cell>
                       {

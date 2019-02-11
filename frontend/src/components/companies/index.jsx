@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import { CompaniesContainer, BreadCrumbContainer } from '@containers';
 import * as R from 'ramda';
@@ -128,10 +129,10 @@ class Companies extends Component {
                   <Table.Cell>
                     <Image avatar src={company.avatar_path} rounded size='mini' />
                   </Table.Cell>
-                  <Table.Cell>{company.name}</Table.Cell>
-                  <Table.Cell>{company.deals_count}</Table.Cell>
-                  <Table.Cell>{company.leads_count}</Table.Cell>
-                  <Table.Cell>{company.agents_count}</Table.Cell>
+                  <Table.Cell><Link to={`/companies/${company.id}`}>{company.name}</Link></Table.Cell>
+                  <Table.Cell><Link to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>
+                  <Table.Cell><Link to={`/companies/${company.id}/leads`} >{company.leads_count}</Link></Table.Cell>
+                  <Table.Cell><Link to={`/companies/${company.id}/agents`}>{company.agents_count}</Link></Table.Cell>
                   <Table.Cell>{company.avg_lead_response || 0}</Table.Cell>
                   <Table.Cell>
                     {

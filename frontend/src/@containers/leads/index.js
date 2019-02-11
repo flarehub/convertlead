@@ -3,10 +3,12 @@ import * as thunks from './thunks';
 import * as actions from "./actions";
 
 const mapStateToProps = state => ({
-  leads: state.leads,
-  pagination: state.companies.pagination,
-  query: state.companies.query,
-  openModal: state.companies.openModal,
+  leads: state.leads.leads,
+  pagination: state.leads.pagination,
+  statuses: state.leads.statuses,
+  query: state.leads.query,
+  openModal: state.leads.openModal,
+  openModalStatus: state.leads.openModalStatus,
 });
 
 const mapDispatchToProps = dispatch  => ({
@@ -17,8 +19,8 @@ const mapDispatchToProps = dispatch  => ({
   searchLeads: search => dispatch(thunks.searchLeads(search)),
   gotoPage: activePage => dispatch(thunks.gotoPage(activePage)),
   toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted()),
-  sortLeads: () => dispatch(thunks.sortLeads()),
-  openLeadModal: open => dispatch(actions.openLeadModal(open)),
+  sort: field => dispatch(thunks.sortLeads(field)),
+  openModal: open => dispatch(actions.openLeadModal(open)),
 });
 
 

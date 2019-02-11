@@ -7,7 +7,7 @@ export const loadLeads = () => {
   return async (dispatch, getState) => {
     dispatch(showLoader());
     try {
-      const response = api.get('/v1/agency/leads');
+      const response = await api.get('/v1/agency/leads');
       const { data, ...pagination } = response.data;
 
       dispatch(actions.loadLeads(data, pagination))

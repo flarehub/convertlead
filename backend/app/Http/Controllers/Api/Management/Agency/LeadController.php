@@ -15,7 +15,6 @@ class LeadController extends Controller
             ->getLeads($request->only([
                 'search',
                 'showDeleted',
-                'status',
                 'name',
                 'email',
                 'company',
