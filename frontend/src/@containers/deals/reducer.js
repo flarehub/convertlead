@@ -16,7 +16,6 @@ function deals(state = initState, action) {
     case ADD_COMPANY_DEALS: {
      return {
        ...state,
-       notFiltred: [ ...action.deals ],
        deals: [ ...action.deals ]
      }
     }
