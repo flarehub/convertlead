@@ -62,7 +62,7 @@ class Agency extends User
             $query->whereRaw('cp.deleted_at IS NULL');
         }
     
-        if ( $queryParams['search'] ) {
+        if ( isset($queryParams['search']) && $queryParams['search'] ) {
             $query->where(function ($query) use ($queryParams) {
                 $query
                     ->where('cp.name', 'like', "%{$queryParams['search']}%")

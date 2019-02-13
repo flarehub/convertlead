@@ -1,7 +1,7 @@
 import * as actions from './actions';
 import {api} from "../../@services";
 import {hideLoader, showLoader} from "../loader/actions";
-import {sendMessage} from "../messages/actions";
+import {sendMessage} from "../messages/thunks";
 
 export const loadAgents = () => {
   return async (dispath, getState) => {

@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
-import {sendMessage, dropMessages} from "./actions";
+import * as thunks from './thunks';
 
 
 const mapStateToProps = state => ({
-  messages: state.messages
 });
 
 const mapDispatcherToProps = dispatch => ({
-  addMessage: (message, error = false) => dispatch(sendMessage(message, error)),
-  dropMessages: () => dispatch(dropMessages())
+  sendMessage: (message, error = false) => dispatch(thunks.sendMessage(message, error)),
+  sendMessageInfo: message => dispatch(thunks.sendMessageInfo(message)),
+  sendMessageWarn: message => dispatch(thunks.sendMessageWarn(message))
 });
 
 export default connect(

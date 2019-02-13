@@ -38,6 +38,7 @@ class AppSidebar extends Component {
        <Menu.Item className='user-avatar'>
           <Dropdown trigger={<Image avatar src={this.props.profile.avatar_path} size='tiny' />} pointing='top left' icon={null} >
             <Dropdown.Menu>
+              <Dropdown.Item>My Profile</Dropdown.Item>
               <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

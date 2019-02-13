@@ -7,11 +7,9 @@ import auth from './auth/reducer';
 import companies from './companies/reducer';
 import agents from './agents/reducer';
 import loader from './loader/reducer';
-import messages from './messages/reducer';
 import leads from './leads/reducer';
 
 const reducers = combineReducers({
-  messages,
   loader,
   leads,
   agents,

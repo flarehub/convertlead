@@ -1,6 +1,6 @@
 import * as actions from './actions';
 import {hideLoader, showLoader} from "../loader/actions";
-import {sendMessage} from "../messages/actions";
+import {sendMessage} from "../messages/thunks";
 import {api} from "../../@services";
 
 export const loadLeads = () => {

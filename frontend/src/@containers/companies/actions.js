@@ -5,11 +5,17 @@ export const SORT_COMPANIES = 'SORT_COMPANIES';
 export const SEARCH_COMPANIES = 'SEARCH_COMPANIES';
 export const TOGGLE_SHOW_DELETED = 'TOGGLE_WITH_DELETED';
 export const OPEN_COMPANY_MODAL = 'OPEN_COMPANY_MODAL';
+export const ADD_SELECT_BOX_COMPANIES = 'ADD_SELECT_BOX_COMPANIES';
 
 export const addCompanies = (companies, pagination) => ({
   type: ADD_COMPANIES,
   companies,
   pagination,
+});
+
+export const addSelectBoxCompanies = companies => ({
+  type: ADD_SELECT_BOX_COMPANIES,
+  companies
 });
 
 export const addCompany = company => ({

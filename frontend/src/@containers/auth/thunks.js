@@ -1,6 +1,7 @@
 import { api, SessionStorage } from '../../@services';
 import {addSessionToken, removeSessionToken} from "./actions";
 import * as R from "ramda";
+import { sendMessage } from "../messages/thunks";
 
 export const login = (email, password) => {
   return async (dispatch) => {
@@ -16,12 +17,13 @@ export const login = (email, password) => {
       };
 
       await dispatch(addSessionToken(tokenData));
+      dispatch(sendMessage('You have been logged successfully!'));
 
       // add token to local session storage
       SessionStorage.setItem('session', tokenData);
 
     } catch (error) {
-      // todo need to send a user message
+      dispatch(sendMessage(error.message, true))
     }
   }
 };
@@ -33,8 +35,6 @@ export const autoLogin = () => {
   return dispatch => {
     if (checkSessionTokenExits) {
       dispatch(addSessionToken(session));
-    } else {
-      // todo need to add message to login
     }
   };
 };

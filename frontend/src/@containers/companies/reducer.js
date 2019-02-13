@@ -1,7 +1,11 @@
-import {ADD_COMPANIES, OPEN_COMPANY_MODAL, SORT_COMPANIES, TOGGLE_SHOW_DELETED} from './actions';
+import {
+  ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, OPEN_COMPANY_MODAL, SORT_COMPANIES,
+  TOGGLE_SHOW_DELETED
+} from './actions';
 
 const initState = {
   companies: [],
+  selectBoxCompanies: [],
   pagination: {
     current_page: 1,
     per_page: 10,
@@ -59,6 +63,12 @@ const companies = (state = initState, action) => {
           ...state.query,
           showDeleted: !state.query.showDeleted
         }
+      }
+    }
+    case ADD_SELECT_BOX_COMPANIES: {
+      return {
+        ...state,
+        selectBoxCompanies: [...action.companies],
       }
     }
     default: {

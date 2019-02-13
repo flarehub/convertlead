@@ -1,12 +1,12 @@
 import api from "../../@services/api";
 import * as actions from "./actions";
 import {hideLoader, showLoader} from "../loader/actions";
-import {sendMessage} from "../messages/actions";
+import {sendMessage} from "../messages/thunks";
 
 export const deleteCompany = id => {
   return async (dispatch, getState) => {
     try {
-      dispatch(showLoader())
+      dispatch(showLoader());
       const response = await api.delete(`/v1/agency/companies/${id}`);
       const { pagination, query } = getState().companies;
       if (response.data) {
@@ -73,6 +73,23 @@ export const searchCompanies = search => {
       companies.pagination.per_page, search,
       companies.query.sort)
     )
+  }
+};
+
+export const loadSelectBoxCompanies = search => {
+  return async (dispatch, getState) => {
+    try {
+      const response  = await api.get('/v1/agency/companies', {
+        params: {
+          search: search || null,
+          per_page: 2000,
+        }
+      });
+      const { data } = response.data;
+      dispatch(actions.addSelectBoxCompanies(data))
+    } catch (e) {
+      dispatch(sendMessage(e.message, true))
+    }
   }
 };
 

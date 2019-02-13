@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions  from "./actions";
+import { selectBoxCompanies } from "./reselect";
 
 const mapStateToProps = state => ({
   companies: state.companies.companies,
+  selectBoxCompanies: selectBoxCompanies(state),
   pagination: state.companies.pagination,
   query: state.companies.query,
   openModal: state.companies.openModal,
@@ -18,6 +20,7 @@ const mapDispatchToProps = dispatch  => ({
     avg_response: null,
   }) => dispatch(thunks.loadCompanies(page, perPage, search, sort)),
   searchCompanies: search => dispatch(thunks.searchCompanies(search)),
+  loadSelectBoxCompanies: search => dispatch(thunks.loadSelectBoxCompanies(search)),
   openCompaniesPage: activePage => dispatch(thunks.openCompaniesPage(activePage)),
   sort: field => dispatch(thunks.onSortCompanies(field)),
   openCompanyModal: open => dispatch(actions.openCompanyModal(open)),

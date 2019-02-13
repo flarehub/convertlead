@@ -1,7 +1,14 @@
-import {ADD_COMPANY_DEALS, CREATE_COMPANY_DEAL, DELETE_COMPANY_DEAL, UPDATE_COMPANY_DEAL} from "./actions";
+import {
+  ADD_COMPANY_DEALS, CREATE_COMPANY_DEAL, DELETE_COMPANY_DEAL, FILTER_DEALS_BY_COMPANY, SEARCH_DEALS_BY_COMPANY,
+  UPDATE_COMPANY_DEAL
+} from "./actions";
 
 const initState = {
-  deals: []
+  deals: [],
+  filters: {
+    search: null,
+    companyId: null
+  }
 };
 
 function deals(state = initState, action) {
@@ -9,6 +16,7 @@ function deals(state = initState, action) {
     case ADD_COMPANY_DEALS: {
      return {
        ...state,
+       notFiltred: [ ...action.deals ],
        deals: [ ...action.deals ]
      }
     }
@@ -24,6 +32,24 @@ function deals(state = initState, action) {
       });
       return {
         ...state,
+      }
+    }
+    case FILTER_DEALS_BY_COMPANY: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          companyId: action.id
+        }
+      }
+    }
+    case SEARCH_DEALS_BY_COMPANY: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          search: action.search
+        }
       }
     }
     default: {

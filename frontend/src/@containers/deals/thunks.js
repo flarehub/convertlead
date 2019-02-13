@@ -1,7 +1,7 @@
 import { api } from "../../@services";
 import {addCompanyDeals} from "./actions";
 import {hideLoader, showLoader} from "../loader/actions";
-import {sendMessage} from "../messages/actions";
+import {sendMessage} from "../messages/thunks";
 
 export const getCompanyDeals = (currentPage = 1, perPage = 2000) => {
   return async (dispatch, getState) => {

@@ -148,8 +148,8 @@ class Agents extends Component {
                       }
 
                     </Table.Cell>
-                    <Table.Cell>{<Link to={`/agents/${agent.id}/campaigns`}>{agent.campaigns_count}</Link> || 0}</Table.Cell>
-                    <Table.Cell>{<Link to={`/agents/${agent.id}/leads`}>{agent.leads_count}</Link>|| 0}</Table.Cell>
+                    <Table.Cell>{<Link to={`/agents/${agent.id}/campaigns`}>{agent.campaigns_count || 0}</Link>}</Table.Cell>
+                    <Table.Cell>{<Link to={`/agents/${agent.id}/leads`}>{agent.leads_count || 0}</Link>}</Table.Cell>
                     <Table.Cell>{agent.avg_lead_response || 0}</Table.Cell>
                     <Table.Cell>
                       {
