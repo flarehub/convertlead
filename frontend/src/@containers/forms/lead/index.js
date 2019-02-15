@@ -8,7 +8,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatcherToState = dispatch => ({
-  loadForm: lead => dispatch(actions.loadLead()),
+  loadForm: lead => dispatch(actions.loadLead(lead)),
+  changeForm: lead => dispatch(actions.changeLead(lead)),
   saveForm: lead => dispatch(thunks.saveLead(lead)),
 });
 

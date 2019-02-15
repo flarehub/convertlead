@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatcherToState = dispatch => ({
   loadForm: campaign => dispatch(actions.loadCampaign(campaign)),
+  changeForm: campaign => dispatch(actions.changeCampaign(campaign)),
   saveForm: campaign => dispatch(thunks.saveCampaign(campaign)),
 });
 

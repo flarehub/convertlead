@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatcherToState = dispatch => ({
   loadForm: company => dispatch(actions.loadCompany(company)),
+  changeForm: company => dispatch(actions.changeCompany(company)),
   saveForm: company => dispatch(thunks.saveCompany(company)),
 });
 

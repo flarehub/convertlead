@@ -12,13 +12,12 @@ class EntityModal extends Component {
     super();
   }
 
-  componentDidMount() {
-    console.log();
+  componentWillMount() {
   }
 
   onSave = () => {
     this.props.saveForm(this.props.form);
-  }
+  };
 
   render() {
     const { Container, ...rest } = this.props;

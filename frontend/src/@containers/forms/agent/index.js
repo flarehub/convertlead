@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatcherToState = dispatch => ({
   loadForm: agent => dispatch(actions.loadAgent(agent)),
+  changeForm: agent => dispatch(actions.changeAgent(agent)),
   saveForm: agent => dispatch(thunks.saveAgent(agent)),
 });
 

@@ -15,15 +15,12 @@ import './index.scss';
 class DealForm extends Component {
 
   onChangeName = (event, data) => {
-    this.props.loadForm({ name: data.value });
-  }
+    this.props.changeForm({ name: data.value });
+  };
 
   onChangeCompany = (event, data) => {
-    this.props.loadForm({ companyId: data.value });
-  }
-
-  componentWillMount() {
-  }
+    this.props.changeForm({ companyId: data.value });
+  };
 
   render() {
     const { name } = this.props.form;
