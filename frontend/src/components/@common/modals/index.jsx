@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as R from 'ramda';
 import {
   Modal,
   Button,
@@ -8,15 +9,35 @@ import { FormContainer } from '@containers';
 import styles from './index.scss';
 
 class EntityModal extends Component {
-  constructor() {
-    super();
-  }
-
-  componentWillMount() {
-  }
-
   onSave = () => {
-    this.props.saveForm(this.props.form);
+    if (this.validate()) {
+      this.props.saveForm(this.props.form);
+    }
+  };
+
+  validate = () => {
+    if (R.has('required', this.props)) {
+      const requiredFields = R.mapObjIndexed((value, fieldName) => {
+        if (!this.props.form[fieldName] && value) {
+          return {
+            field: fieldName,
+            required: true,
+          }
+        }
+        return {
+          required: false
+        }
+      }, this.props.required) || [];
+
+      const fields = R.reduce((acc, value) => {
+        return `${(acc ? acc+',\n'+value.field : value.field)}`
+      }, '', R.filter(field => field.required, R.values(requiredFields)));
+      if (fields) {
+        this.props.sendMessage(`Missing required "${fields}"!`, true);
+        return false;
+      }
+    }
+    return true;
   };
 
   render() {

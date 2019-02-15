@@ -38,6 +38,7 @@ class Agency extends User
         $query = self::selectRaw('
             cp.id,
             cp.name,
+            cp.avatar_id,
             IF(cp.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
             COUNT(DISTINCT cp.id, deals.id) as deals_count,
             COUNT(DISTINCT cp.id, company_agents.id) as agents_count,

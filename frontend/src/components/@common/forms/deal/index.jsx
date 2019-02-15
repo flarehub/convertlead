@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {CompaniesContainer} from "../../../../@containers";
 
 import {
   Form,
@@ -13,7 +12,7 @@ import {
 import './index.scss';
 
 class DealForm extends Component {
-
+  state = {};
   onChangeName = (event, data) => {
     this.props.changeForm({ name: data.value });
   };
@@ -22,8 +21,12 @@ class DealForm extends Component {
     this.props.changeForm({ companyId: data.value });
   };
 
+  componentWillMount() {
+    this.setState(this.props.form)
+  }
+
   render() {
-    const { name } = this.props.form;
+    const { name } = this.state;
     return (<Form size='big'>
       <Form.Field required>
         <label>Name</label>
@@ -44,4 +47,4 @@ class DealForm extends Component {
   }
 }
 
-export default CompaniesContainer(DealForm);
+export default DealForm;

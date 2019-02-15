@@ -5,7 +5,7 @@ export const selectBoxCompanies = createSelector(
   selectBoxCompanies => {
     return selectBoxCompanies.map(company => {
       return {
-        key: company.name,
+        key: company.id,
         value: company.id,
         text: company.name,
       }

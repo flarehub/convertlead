@@ -39,7 +39,14 @@ class CompanyController extends Controller
     public function store(Request $request, Company $company)
     {
         $company->handleAvatar($request);
-        $company->createCompany($request->only(['name', 'is_locked', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
+        $company->createCompany($request->only([
+            'name',
+            'is_locked',
+            'avatar_id',
+            'phone',
+            'email',
+            'password',
+            'password_confirmation']));
         $request->user()->companies()->attach($company);
         return $company;
     }

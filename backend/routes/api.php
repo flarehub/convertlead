@@ -29,10 +29,10 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
         
         Route::group(['namespace' => 'Api\Management\Agency'], function () {
             Route::prefix('agency')->group(function () {
-                Route::apiResource('companies', 'CompanyController');
                 Route::get('deals', 'DealController@all');
                 Route::get('agents', 'AgentController@all');
                 Route::get('leads', 'LeadController@all');
+                Route::apiResource('companies', 'CompanyController');
                 Route::apiResource('companies/{company}/deals', 'DealController');
                 Route::apiResource('companies/{company}/agents', 'AgentController');
                 Route::apiResource('companies/{company}/leads', 'LeadController');

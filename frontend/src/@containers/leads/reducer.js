@@ -64,7 +64,6 @@ const initState = {
 const leads = (state = initState, action) => {
   switch (action.type) {
     case LOAD_LEADS: {
-      console.log(action.leads);
       return {
         ...state,
         leads: [...action.leads],

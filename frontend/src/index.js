@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
+import { ToastContainer } from 'react-toastify';
 
 import { store } from '@containers';
 import App from 'components/App';
@@ -17,6 +18,12 @@ ReactDOM.render(
 		</Provider>
 	</BrowserRouter>,
 	document.getElementById('root'));
+
+ReactDOM.render(
+		<Provider store={store}>
+      <ToastContainer/>
+		</Provider>,
+	document.getElementById('toast'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

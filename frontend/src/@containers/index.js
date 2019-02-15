@@ -4,6 +4,7 @@ export { default as DashboardContainer } from './dashboard';
 export { default as DealsContainer } from './deals';
 export { default as CampaignIntegrationsContainer } from './integrations';
 export { default as LeadsContainer } from './leads';
+export { default as MessageContainer } from './messages';
 export { default as MenuContainer } from './menu';
 export { default as ProfileContainer } from './profile';
 export { default as BreadCrumbContainer } from './breadcrumb';

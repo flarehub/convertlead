@@ -1,5 +1,4 @@
 import React  from 'react';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Layout } from './layout';
@@ -10,14 +9,13 @@ import { withRouter, Route, Switch } from 'react-router-dom';
 import './App.scss';
 const App = ({ session }) => (
   <div className="App">
-    <ToastContainer/>
   {
-        <Switch>
-            <Route exact path='/login' component={LoginLayout} />
-            <Route path='/' component={Layout} />
-        </Switch>
+    <Switch>
+        <Route exact path='/login' component={LoginLayout} />
+        <Route path='/' component={Layout} />
+    </Switch>
     }
-    </div>
+  </div>
 );
 
 export default withRouter(AuthContainer(App));

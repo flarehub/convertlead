@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import { CompaniesContainer, BreadCrumbContainer } from '@containers';
+import { CompaniesContainer, BreadCrumbContainer, CompanyFormContainer } from '@containers';
+import CompanyModal from '../@common/modals/company';
 import * as R from 'ramda';
 import {
   Table,
@@ -71,9 +72,10 @@ class Companies extends Component {
   }
   render() {
     const companies  = this.props.companies || [];
-    const { pagination, openModal  } = this.props;
+    const { pagination  } = this.props;
     return (
       <div className={styles.Companies}>
+      <CompanyModal />
       <Segment attached='top'>
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Grid columns={2}>
@@ -89,7 +91,7 @@ class Companies extends Component {
                 <Menu.Item>
                   <Input icon='search' onChange={this.onSearch} placeholder='Search...' />
                 </Menu.Item>
-                <Button color='teal' onClick={this.props.openCompanyModal.bind(this, true)} content='New Company' icon='add' labelPosition='left' />
+                <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Company' icon='add' labelPosition='left' />
               </Menu.Menu>
             </Menu>
           </Grid.Column>
@@ -163,4 +165,4 @@ class Companies extends Component {
   }
 }
 
-export default compose(CompaniesContainer, BreadCrumbContainer)(Companies);
+export default compose(CompaniesContainer, CompanyFormContainer, BreadCrumbContainer)(Companies);
