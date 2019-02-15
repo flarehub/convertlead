@@ -21,7 +21,6 @@ import {
   Confirm,
 } from 'semantic-ui-react';
 import { BreadCrumbContainer, LeadsContainer } from '@containers';
-import EntityModal from "../@common/modals/enitity";
 import * as R from "ramda";
 
 class Leads extends Component {
@@ -85,8 +84,6 @@ class Leads extends Component {
 
     return (
       <div className={styles.Agents}>
-        <EntityModal open={openModalStatus} title='Lead Create' onSave={this.onSave}
-                     onClose={this.props.openModal.bind(this, false)}/>
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
         <Segment attached='top'>
           <Grid columns={2}>

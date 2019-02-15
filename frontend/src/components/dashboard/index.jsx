@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import { BreadCrumbContainer, CompaniesContainer, DealsContainer } from '@containers';
+import DealModal from '../@common/modals/deal';
 import {
   Segment, Card, Header, Dimmer, Menu, Loader, Image, Form, Select, Input, Grid, Button
 } from 'semantic-ui-react';
-import * as moment from 'moment';
 
+import * as moment from 'moment';
 import styles from './index.scss';
+import {DealFormContainer} from "../../@containers";
 
 const companies = [
   { key: null, text: 'All companies', value: null },
@@ -36,12 +38,13 @@ class Dashboard extends Component {
     const { deals } = this.props;
 		return (
 			<div className={styles.Dashboard}>
+        <DealModal />
         <Segment attached='top'>
           <Grid columns={2}>
           <Grid.Column>
             <Header floated='left' as='h1'>Deals</Header>
             <Form.Field
-              loading={!this.props.selectBoxCompanies}
+              loading={!this.props.selectBoxCompanies.length}
               control={Select}
               options={[...companies, ...this.props.selectBoxCompanies]}
               label={{ children: 'Filter', htmlFor: 'form-companies-list' }}
@@ -57,7 +60,10 @@ class Dashboard extends Component {
                 <Menu.Item>
                   <Input icon='search' onChange={this.searchDealsByCompany} placeholder='Search...' />
                 </Menu.Item>
-                <Button color='teal' content='New Deal' icon='add' labelPosition='left' />
+                <Button color='teal'
+                        content='New Deal'
+                        onClick={this.props.loadForm.bind(this, { show: true })}
+                        icon='add' labelPosition='left' />
               </Menu.Menu>
             </Menu>
           </Grid.Column>
@@ -75,7 +81,7 @@ class Dashboard extends Component {
                         {deal.company.name}
                         </Card.Description>
                       </Link>
-                      <Button basic compact>Edit</Button>
+                      <Button basic compact onClick={this.props.loadForm.bind(this, { ...deal, companyId: deal.company.id, show: true })}>Edit</Button>
                     </Card.Content>
                 </Card>
               ))
@@ -86,4 +92,4 @@ class Dashboard extends Component {
 		);
 	}
 }
-export default compose(BreadCrumbContainer, CompaniesContainer, DealsContainer)(Dashboard);
+export default compose(BreadCrumbContainer, CompaniesContainer, DealsContainer, DealFormContainer)(Dashboard);

@@ -1,4 +1,4 @@
-import {sendMessage} from "../messages/thunks";
+import {sendMessage} from "../../messages/thunks";
 
 export const saveUserProfile = form => {
   return dispatch => {

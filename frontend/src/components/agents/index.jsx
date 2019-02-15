@@ -22,7 +22,6 @@ import {
 } from 'semantic-ui-react';
 import styles from './index.scss';
 import * as R from "ramda";
-import EntityModal from "../@common/modals/enitity";
 
 class Agents extends Component {
   state = {
@@ -80,7 +79,6 @@ class Agents extends Component {
 
     return (
       <div className={styles.Agents}>
-        <EntityModal open={openModalStatus} title='Agent Create' onSave={this.onSave} onClose={this.props.openModal.bind(this, false)}/>
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Segment attached='top'>
           <Grid columns={2}>

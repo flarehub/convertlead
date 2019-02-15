@@ -10,5 +10,9 @@ export { default as BreadCrumbContainer } from './breadcrumb';
 export { default as AuthContainer } from './auth';
 export { default as MessagesContainer } from './messages';
 export { default as LoaderContainer } from './loader';
+export { default as AgentFormContainer } from './forms/agent';
+export { default as CampaignFormContainer } from './forms/campaign';
+export { default as CompanyFormContainer } from './forms/company';
+export { default as DealFormContainer } from './forms/deal';
+export { default as LeadFormContainer } from './forms/lead';
 export { default as store } from './store'
-

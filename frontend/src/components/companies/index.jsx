@@ -19,7 +19,6 @@ import {
   Confirm,
 } from 'semantic-ui-react';
 import styles from './index.scss';
-import EntityModal from "../@common/modals/enitity";
 
 class Companies extends Component {
   state = {
@@ -76,7 +75,6 @@ class Companies extends Component {
     return (
       <div className={styles.Companies}>
       <Segment attached='top'>
-        <EntityModal open={openModal} title='Company Create' onSave={this.onSave} onClose={this.props.openCompanyModal.bind(this, false)}/>
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Grid columns={2}>
           <Grid.Column>

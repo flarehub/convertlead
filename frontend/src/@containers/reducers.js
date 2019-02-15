@@ -8,8 +8,10 @@ import companies from './companies/reducer';
 import agents from './agents/reducer';
 import loader from './loader/reducer';
 import leads from './leads/reducer';
+import forms from './forms/reducer';
 
 const reducers = combineReducers({
+  forms,
   loader,
   leads,
   agents,
