@@ -6,8 +6,6 @@ import * as moment from 'moment';
 import {
   Table,
   Segment,
-  Dimmer,
-  Loader,
   Pagination,
   Image,
   Button,
@@ -21,6 +19,7 @@ import {
   Confirm,
 } from 'semantic-ui-react';
 import styles from './index.scss';
+import Loader from '../loader';
 import * as R from "ramda";
 
 class Agents extends Component {
@@ -99,7 +98,9 @@ class Agents extends Component {
               </Menu>
             </Grid.Column>
           </Grid>
-          <Table singleLine>
+          <Segment basic>
+            <Loader />
+            <Table singleLine>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Name
@@ -165,6 +166,7 @@ class Agents extends Component {
 
             </Table.Body>
           </Table>
+          </Segment>
         </Segment>
         <Segment textAlign='right' attached='bottom'>
           <Pagination onPageChange={this.gotoPage}

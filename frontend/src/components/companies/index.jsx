@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import { CompaniesContainer, BreadCrumbContainer, CompanyFormContainer } from '@containers';
 import CompanyModal from '../@common/modals/company';
+import Loader from '../loader';
 import * as R from 'ramda';
 import {
   Table,
@@ -40,9 +41,7 @@ class Companies extends Component {
   }
 
   onSearch = (event) => {
-    if (event.key === 'Enter') {
-      this.props.searchCompanies(event.target.value);
-    }
+    this.props.searchCompanies(event.target.value);
   }
 
   loadCompanies = (event, data) => {
@@ -97,7 +96,9 @@ class Companies extends Component {
             </Menu>
           </Grid.Column>
         </Grid>
-        <Table singleLine>
+        <Segment basic>
+          <Loader />
+          <Table singleLine>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>#</Table.HeaderCell>
@@ -153,7 +154,8 @@ class Companies extends Component {
 
           </Table.Body>
         </Table>
-      </Segment>
+        </Segment>
+        </Segment>
         <Segment textAlign='right' attached='bottom'>
           <Pagination onPageChange={this.loadCompanies}
                       defaultActivePage={pagination.current_page}
@@ -161,6 +163,7 @@ class Companies extends Component {
                       nextItem={null}
                       totalPages={pagination.last_page} />
         </Segment>
+
       </div>
     );
   }

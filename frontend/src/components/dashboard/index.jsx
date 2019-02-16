@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import { BreadCrumbContainer, CompaniesContainer, DealsContainer } from '@containers';
 import DealModal from '../@common/modals/deal';
+import Loader from '../loader';
 import {
-  Segment, Card, Header, Dimmer, Menu, Loader, Image, Form, Select, Input, Grid, Button
+  Segment, Confirm, Card, Header, Menu, Image, Form, Select, Input, Grid, Button
 } from 'semantic-ui-react';
 
 import * as moment from 'moment';
@@ -16,6 +17,12 @@ const companies = [
 ];
 
 class Dashboard extends Component {
+  state = {
+    open: false,
+    companyId: '',
+    dealId: '',
+  };
+
   constructor(props) {
     super(props);
   }
@@ -25,6 +32,16 @@ class Dashboard extends Component {
     this.props.getCompanyDeals();
     this.props.loadSelectBoxCompanies();
   }
+
+  openConfirmModal = (open = true, companyId = '', dealId = '') => {
+    this.setState({ open, companyId, dealId })
+  }
+
+  onConfirm = () => {
+    this.setState({ open: false });
+    this.props.deleteDeal(this.state.companyId, this.state.dealId);
+  }
+
 
   searchDealsByCompany = (event, data) => {
     this.props.searchDealCompaniesBy(data.value);
@@ -39,6 +56,7 @@ class Dashboard extends Component {
 		return (
 			<div className={styles.Dashboard}>
         <DealModal />
+        <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Segment attached='top'>
           <Grid columns={2}>
           <Grid.Column>
@@ -68,25 +86,31 @@ class Dashboard extends Component {
             </Menu>
           </Grid.Column>
         </Grid>
-          <Card.Group>
-            {
-              deals.map((deal, key) => (
-                <Card key={key}>
-                    <Card.Content>
-                      <Link to={`/campaigns/${deal.id}`}>
-                      <Card.Header>{deal.name}</Card.Header>
-                      <Card.Meta>Started {moment(deal.created_at).format('DD/MM/YYYY')}</Card.Meta>
-                      <Card.Description>
-                        <Image avatar src={deal.company.avatar_path} size='medium' circular />
-                        {deal.company.name}
-                        </Card.Description>
-                      </Link>
-                      <Button basic compact onClick={this.props.loadForm.bind(this, { ...deal, companyId: deal.company.id, show: true })}>Edit</Button>
-                    </Card.Content>
-                </Card>
-              ))
-            }
-          </Card.Group>
+          <Segment basic>
+            <Loader />
+            <Card.Group>
+              {
+                deals.map((deal, key) => (
+                  <Card key={key}>
+                      <Card.Content>
+                        <Link to={`/campaigns/${deal.id}`}>
+                        <Card.Header>{deal.name}</Card.Header>
+                        <Card.Meta>Started {moment(deal.created_at).format('DD/MM/YYYY')}</Card.Meta>
+                        <Card.Description>
+                          <Image avatar src={deal.company.avatar_path} size='medium' circular />
+                          {deal.company.name}
+                          </Card.Description>
+                        </Link>
+                        <Button.Group basic size='small'>
+                          <Button icon='pencil alternate' onClick={this.props.loadForm.bind(this, { ...deal, companyId: deal.company.id, show: true })} />
+                          <Button icon='trash alternate outline' onClick={this.openConfirmModal.bind(this, true, deal.company.id, deal.id)}  />
+                        </Button.Group>
+                      </Card.Content>
+                  </Card>
+                ))
+              }
+            </Card.Group>
+          </Segment>
         </Segment>
 			</div>
 		);

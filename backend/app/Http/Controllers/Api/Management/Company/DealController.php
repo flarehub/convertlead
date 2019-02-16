@@ -46,7 +46,7 @@ class DealController extends Controller
      */
     public function show(Request $request, $id)
     {
-        return $request->user()->getCompanyDealBy($id);
+        return $request->user()->getDealBy($id);
     }
 
     /**
@@ -61,7 +61,7 @@ class DealController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255'
         ]);
-        $deal = $request->user()->getCompanyDealBy($id);
+        $deal = $request->user()->getDealBy($id);
     
         $deal->fill($request->only(['name', 'description']));
         $deal->save();
@@ -77,7 +77,7 @@ class DealController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $deal = $request->user()->getCompanyDealBy($id);
+        $deal = $request->user()->getDealBy($id);
         $deal->delete();
         return $deal;
     }

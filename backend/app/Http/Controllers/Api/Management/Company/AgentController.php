@@ -40,7 +40,7 @@ class AgentController extends Controller
      */
     public function show(Request $request, $id)
     {
-        return $request->user()->getCompanyAgentBy($id);
+        return $request->user()->getAgentBy($id);
     }
 
     /**
@@ -52,7 +52,7 @@ class AgentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $agent = $request->user()->getCompanyAgentBy($id);
+        $agent = $request->user()->getAgentBy($id);
         $agent->handleAvatar($request);
         $agent->updateUser($request->except('role'));
         return $agent;
@@ -66,7 +66,7 @@ class AgentController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $agent = $request->user()->getCompanyAgentBy($id);
+        $agent = $request->user()->getAgentBy($id);
         $agent->delete();
         return $agent;
     }

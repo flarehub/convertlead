@@ -58,7 +58,7 @@ class AgentController extends Controller
      */
     public function show(Request $request, $company, $id)
     {
-        return $request->user()->getCompanyBy($company)->getCompanyAgentBy($id);
+        return $request->user()->getCompanyBy($company)->getAgentBy($id);
     }
 
     /**
@@ -70,7 +70,7 @@ class AgentController extends Controller
      */
     public function update(Request $request, $company, $id)
     {
-        $agent = $request->user()->getCompanyBy($company)->getCompanyAgentBy($id);
+        $agent = $request->user()->getCompanyBy($company)->getAgentBy($id);
         $agent->handleAvatar($request);
         $agent->updateUser($request->except('role'));
         return $agent;
@@ -85,7 +85,7 @@ class AgentController extends Controller
     public function destroy(Request $request, $company, $id)
     {
         $company = $request->user()->getCompanyBy($company, true);
-        $agent = $company->getCompanyAgentBy($id);
+        $agent = $company->getAgentBy($id);
         $company->agents()->detach($agent);
         return $agent;
     }

@@ -4,4 +4,5 @@ export { default as Agents } from './agents';
 export { default as Dashboard } from './dashboard';
 export { default as Breadcrumb } from './breadcrumb';
 export { default as LoginLayout } from './login-layout';
+export { default as Loader } from './loader';
 export { default as Routers } from './routers';

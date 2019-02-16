@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch  => ({
   getCompanyDeals: () => dispatch(thunks.getCompanyDeals()),
+  deleteDeal: (companyId, id) => dispatch(thunks.deleteDeal(companyId, id)),
   filterDealsByCompany: id => dispatch(actions.filterDealsByCompany(id)),
   searchDealCompaniesBy: search => dispatch(actions.searchDealCompaniesBy(search))
 });

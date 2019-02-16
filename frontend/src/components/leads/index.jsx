@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './index.scss';
 import { compose } from 'recompose';
 import * as moment from 'moment';
 import {
   Table,
   Segment,
-  Dimmer,
-  Loader,
   Pagination,
   Image,
   Button,
@@ -20,7 +17,9 @@ import {
   Menu,
   Confirm,
 } from 'semantic-ui-react';
+import styles from './index.scss';
 import { BreadCrumbContainer, LeadsContainer } from '@containers';
+import Loader from '../loader';
 import * as R from "ramda";
 
 class Leads extends Component {
@@ -102,6 +101,8 @@ class Leads extends Component {
               </Menu>
             </Grid.Column>
           </Grid>
+          <Segment basic>
+          <Loader />
           <Table singleLine>
             <Table.Header>
               <Table.Row>
@@ -171,6 +172,7 @@ class Leads extends Component {
 
             </Table.Body>
           </Table>
+          </Segment>
         </Segment>
         <Segment textAlign='right' attached='bottom'>
           <Pagination onPageChange={this.gotoPage}

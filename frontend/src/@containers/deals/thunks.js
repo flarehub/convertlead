@@ -15,3 +15,14 @@ export const getCompanyDeals = (currentPage = 1, perPage = 2000) => {
     dispatch(hideLoader());
   }
 };
+
+export const deleteDeal = (companyId, id) => {
+  return async dispatch => {
+    try {
+      await api.delete(`/v1/agency/companies/${companyId}/deals/${id}`);
+      await dispatch(getCompanyDeals());
+    } catch (e) {
+      dispatch(sendMessage(e.message, true));
+    }
+  }
+};

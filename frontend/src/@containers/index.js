@@ -1,6 +1,5 @@
 export { default as AgentsContainer } from './agents';
 export { default as CompaniesContainer } from './companies';
-export { default as DashboardContainer } from './dashboard';
 export { default as DealsContainer } from './deals';
 export { default as CampaignIntegrationsContainer } from './integrations';
 export { default as LeadsContainer } from './leads';

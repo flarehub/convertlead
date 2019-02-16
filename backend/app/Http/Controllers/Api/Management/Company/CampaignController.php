@@ -16,7 +16,7 @@ class CampaignController extends Controller
      */
     public function index(Request $request, $deal)
     {
-        return $request->user()->getCompanyDealBy($deal)->campaigns()->paginate(100);
+        return $request->user()->getDealBy($deal)->campaigns()->paginate(100);
     }
 
     /**
@@ -28,7 +28,7 @@ class CampaignController extends Controller
     public function store(Request $request, $deal, Campaign $campaign)
     {
         $campaign->fill($request->only(['name', 'description']));
-        $campaign->deal()->associate($request->user()->getCompanyDealBy($deal));
+        $campaign->deal()->associate($request->user()->getDealBy($deal));
         $campaign->save();
         return $campaign;
     }
@@ -41,7 +41,7 @@ class CampaignController extends Controller
      */
     public function show(Request $request, $deal, $id)
     {
-        return $request->user()->getCompanyDealBy($deal)->getCampaignBy($id);
+        return $request->user()->getDealBy($deal)->getCampaignBy($id);
     }
 
     /**
@@ -53,7 +53,7 @@ class CampaignController extends Controller
      */
     public function update(Request $request, $deal, $id)
     {
-        $campaign = $request->user()->getCompanyDealBy($deal)->getCampaignBy($id);
+        $campaign = $request->user()->getDealBy($deal)->getCampaignBy($id);
         $campaign->fill($request->only(['name', 'description']));
         $campaign->save();
         return $campaign;
@@ -67,7 +67,7 @@ class CampaignController extends Controller
      */
     public function destroy(Request $request, $deal, $id)
     {
-        $campaign = $request->user()->getCompanyDealBy($deal)->getCampaignBy($id);
+        $campaign = $request->user()->getDealBy($deal)->getCampaignBy($id);
         $campaign->delete();
         return $campaign;
     }
