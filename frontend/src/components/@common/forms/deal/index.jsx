@@ -21,28 +21,27 @@ class DealForm extends Component {
     this.props.changeForm({ companyId: data.value });
   };
 
-  componentWillMount() {
-    this.setState(this.props.form)
-  }
-
   render() {
-    const { name } = this.state;
+    const { name, id } = this.props.form;
     return (<Form size='big'>
       <Form.Field required>
         <label>Name</label>
         <Input placeholder='Deal name' value={name} onChange={this.onChangeName} />
       </Form.Field>
-      <Form.Field
-        loading={!this.props.selectBoxCompanies.length}
-        control={Select}
-        options={this.props.selectBoxCompanies || []}
-        label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
-        placeholder='Select company'
-        search
-        defaultValue={this.props.form.companyId}
-        onChange={this.onChangeCompany}
-        searchInput={{ id: 'deal-form-companies-list' }}
-      />
+      {
+        !id ? <Form.Field
+            loading={!this.props.selectBoxCompanies.length}
+            control={Select}
+            options={this.props.selectBoxCompanies || []}
+            label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
+            placeholder='Select company'
+            search
+            defaultValue={this.props.form.companyId}
+            onChange={this.onChangeCompany}
+            searchInput={{ id: 'deal-form-companies-list' }}
+          />
+          : null
+      }
     </Form>)
   }
 }
