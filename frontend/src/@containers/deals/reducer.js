@@ -1,13 +1,18 @@
 import {
-  ADD_COMPANY_DEALS, CREATE_COMPANY_DEAL, DELETE_COMPANY_DEAL, FILTER_DEALS_BY_COMPANY, SEARCH_DEALS_BY_COMPANY,
+  ADD_COMPANY_DEALS, CREATE_COMPANY_DEAL, DELETE_COMPANY_DEAL, FILTER_DEAL_CAMPAIGNS_BY_ID, FILTER_DEALS_BY_COMPANY,
+  FILTER_DEALS_BY_ID,
+  SEARCH_DEALS_BY_COMPANY,
   UPDATE_COMPANY_DEAL
 } from "./actions";
 
 const initState = {
   deals: [],
+  selectBoxDeals: [],
   filters: {
     search: null,
-    companyId: null
+    companyId: null,
+    dealId: null,
+    campaignId: null
   }
 };
 
@@ -39,6 +44,24 @@ function deals(state = initState, action) {
         filters: {
           ...state.filters,
           companyId: action.id
+        }
+      }
+    }
+    case FILTER_DEAL_CAMPAIGNS_BY_ID: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          campaignId: action.id
+        }
+      }
+    }
+    case FILTER_DEALS_BY_ID: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          dealId: action.id
         }
       }
     }

@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import EntityModal from "../index";
-import {FormContainer} from "@containers";
+import { compose } from 'recompose';
+import {CompaniesContainer, DealsContainer, MessageContainer, LeadFormContainer} from "../../../../@containers";
+import LeadForm from "../../forms/lead";
 
-class AgentModal extends Component {
-  render() {
-    return (<EntityModal {...{...this.props,Container: AgentForm}} />)
-  }
-}
+const LeadModal = (props) => (<EntityModal {...{...props, Container: LeadForm }} />);
 
-export default FormContainer(AgentModal);
+export default compose(LeadFormContainer, MessageContainer, DealsContainer, CompaniesContainer)(LeadModal);

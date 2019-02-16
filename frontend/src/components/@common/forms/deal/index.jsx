@@ -10,6 +10,7 @@ import {
   Select,
 } from 'semantic-ui-react';
 import './index.scss';
+import * as R from 'ramda';
 
 class DealForm extends Component {
   state = {};
@@ -40,7 +41,9 @@ class DealForm extends Component {
             onChange={this.onChangeCompany}
             searchInput={{ id: 'deal-form-companies-list' }}
           />
-          : null
+          : <Form.Field><label>Company</label>
+            {R.pathOr('', ['company', 'name'], this.props.form)}
+          </Form.Field>
       }
     </Form>)
   }

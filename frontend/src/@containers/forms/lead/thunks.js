@@ -15,11 +15,12 @@ export const saveLead = form => {
 };
 
 export const updateLead = form => {
-  return dispatch => {
+  return async dispatch => {
   }
 };
 
 export const createLead = form => {
-  return dispatch => {
+  return async dispatch => {
+
   }
 };

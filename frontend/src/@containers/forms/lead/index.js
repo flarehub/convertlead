@@ -3,8 +3,9 @@ import * as thunks from './thunks';
 import * as actions from './actions';
 
 const mapStateToProps = (state) => ({
-  form: state.forms.lead,
-  show: state.forms.lead.show,
+  form: state.forms.lead.form,
+  show: state.forms.lead.form.show,
+  required: state.forms.lead.required,
 });
 
 const mapDispatcherToState = dispatch => ({

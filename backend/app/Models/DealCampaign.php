@@ -9,7 +9,11 @@ use Faker\Generator as Faker;
 class DealCampaign extends Model
 {
     use SoftDeletes;
-
+    public static $INTEGRATION_MANUAL_ADDED = 'MANUAL_ADDED';
+    public static $INTEGRATION_OPTIN_FORM = 'OPTIN_FORM';
+    public static $INTEGRATION_FACEBOOK = 'FACEBOOK';
+    public static $INTEGRATION_ZAPIER = 'ZAPIER';
+    
     protected $fillable = [
         'name',
         'uuid',

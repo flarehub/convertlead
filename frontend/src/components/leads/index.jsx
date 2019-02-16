@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import LeadModal from '../@common/modals/lead';
 import { compose } from 'recompose';
 import * as moment from 'moment';
 import {
@@ -18,7 +19,7 @@ import {
   Confirm,
 } from 'semantic-ui-react';
 import styles from './index.scss';
-import { BreadCrumbContainer, LeadsContainer } from '@containers';
+import { BreadCrumbContainer, LeadsContainer, LeadFormContainer } from '@containers';
 import Loader from '../loader';
 import * as R from "ramda";
 
@@ -80,6 +81,7 @@ class Leads extends Component {
 
     return (
       <div className={styles.Agents}>
+        <LeadModal size='small' />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
         <Segment attached='top'>
           <Grid columns={2}>
@@ -95,7 +97,7 @@ class Leads extends Component {
                   <Menu.Item>
                     <Input icon='search' onChange={this.onSearch} placeholder='Search...'/>
                   </Menu.Item>
-                  <Button color='teal' onClick={this.props.openModal.bind(this, true)} content='New Lead' icon='add'
+                  <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Lead' icon='add'
                           labelPosition='left'/>
                 </Menu.Menu>
               </Menu>
@@ -159,7 +161,7 @@ class Leads extends Component {
                       {
                         !lead.deleted_at
                           ? <Button.Group>
-                            <Button><Icon name='pencil alternate'/></Button>
+                            <Button onClick={this.props.loadForm.bind(this, { ...lead, companyId: lead.company_id, show: true })} ><Icon name='pencil alternate'/></Button>
                             <Button onClick={this.openConfirmModal.bind(this, true, lead.company_id, lead.id)}><Icon
                               name='trash alternate outline'/></Button>
                           </Button.Group>
@@ -185,4 +187,4 @@ class Leads extends Component {
   }
 }
 
-export default compose(BreadCrumbContainer, LeadsContainer)(Leads);
+export default compose(BreadCrumbContainer, LeadsContainer, LeadFormContainer)(Leads);

@@ -1,18 +1,28 @@
 import {
+  CHANGE_LEAD,
   LOAD_LEAD,
   SAVED_LEAD,
 } from "./actions";
 
 const initState = {
-  title: null,
-  show: false,
-  id: null,
-  campaignId: null,
-  companyId: null,
-  agentId: null,
-  fullname: null,
-  email: null,
-  phone: null,
+ form: {
+   title: '',
+   show: false,
+   id: null,
+   companyId: '',
+   campaignId: '',
+   agentId: '',
+   dealId: '',
+   fullname: '',
+   email: '',
+   phone: '',
+   metadata: '',
+ },
+  required: {
+    fullname: true,
+    email: true,
+    phone: true,
+  }
 };
 
 const leadForm = (state = initState, action) => {
@@ -20,16 +30,29 @@ const leadForm = (state = initState, action) => {
     case LOAD_LEAD: {
       return {
         ...state,
-        ...action.form,
-        title: !action.form.id ? 'Create Lead' : 'Edit lead',
-        show: true,
+        form: {
+          ...action.form,
+          title: !action.form.id ? 'Create Lead' : 'Edit lead',
+        },
+      }
+    }
+    case CHANGE_LEAD: {
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          ...action.form
+        },
       }
     }
     case SAVED_LEAD: {
       return {
         ...state,
-        ...action.form,
-        show: false,
+        form: {
+          ...state.form,
+          ...action.form,
+          show: false,
+        }
       }
     }
     default: {
