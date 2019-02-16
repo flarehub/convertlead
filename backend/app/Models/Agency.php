@@ -162,8 +162,41 @@ class Agency extends User
     }
     
     public function getLeads($queryParams = []) {
-        $query = Lead::join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
+        $query = Lead::selectRaw('leads.*, ac.company_id, ac.agency_id')
+            ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
+            ->join('users as cp', 'cp.id', 'ac.company_id')
+            ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')
             ->where('ac.agency_id', $this->id);
+
+        if (isset($queryParams['search'])) {
+            $query->where(function ($query) use ($queryParams) {
+                $query
+                    ->where('leads.fullname', 'like', "%{$queryParams['search']}%")
+                    ->orWhere('leads.email', 'like', "%{$queryParams['search']}%")
+                    ->orWhere('leads.phone', 'like', "%{$queryParams['search']}%")
+                ;
+            });
+        }
+    
+        if ( isset($queryParams['showDeleted']) ) {
+            $query->withTrashed();
+        }
+    
+        if ( isset($queryParams['name']) ) {
+            $query->orderBy('leads.fullname', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
+        }
+    
+        if ( isset($queryParams['email']) ) {
+            $query->orderBy('leads.email', ($queryParams['email'] === 'true' ? 'DESC' : 'ASC'));
+        }
+
+        if ( isset($queryParams['company']) ) {
+            $query->orderBy('cp.name', ($queryParams['company'] === 'true' ? 'DESC' : 'ASC'));
+        }
+        if ( isset($queryParams['campaign']) ) {
+            $query->orderBy('dc.name', ($queryParams['campaign'] === 'true' ? 'DESC' : 'ASC'));
+        }
+    
         return $query;
     }
 }

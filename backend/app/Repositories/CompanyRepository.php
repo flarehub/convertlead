@@ -9,11 +9,15 @@ trait CompanyRepository {
         return $this->createUser($data);
     }
 
-    public function getCompanyAgentBy($agentId) {
+    public function getAgentBy($agentId) {
         return $this->agents()->where('agent_id', $agentId)->firstOrFail();
     }
     
-    public function getCompanyDealBy($dealId) {
+    public function getDealBy($dealId) {
         return $this->deals()->where('deals.id', $dealId)->firstOrFail();
+    }
+
+    public function getLeadBy($leadId) {
+        return $this->leads()->where('leads.id', $leadId)->firstOrFail();
     }
 }

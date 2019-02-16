@@ -1,4 +1,4 @@
-import {LOAD_LEADS, OPEN_LEAD_MODAL} from "./actions";
+import {GOTO_PAGE_LEADS, LOAD_LEADS, OPEN_LEAD_MODAL, SEARCH_LEADS, SHOW_DELETE_LEADS, SORT_LEADS} from "./actions";
 
 const initState = {
   leads: [],
@@ -69,6 +69,45 @@ const leads = (state = initState, action) => {
         leads: [...action.leads],
         pagination: action.pagination,
       }
+    }
+    case GOTO_PAGE_LEADS: {
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          current_page: action.activePage
+        },
+      }
+    }
+    case SEARCH_LEADS: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          search: action.search
+        }
+      }
+    }
+    case SHOW_DELETE_LEADS: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          showDeleted: !state.query.showDeleted
+        }
+      }
+    }
+    case SORT_LEADS: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          sort: {
+            ...state.query.sort,
+            [action.field]: (state.query.sort[action.field] === false ? null : !state.query.sort[action.field])
+          }
+        }
+      };
     }
     case OPEN_LEAD_MODAL: {
       return {

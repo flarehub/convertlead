@@ -25,6 +25,7 @@ class Companies extends Component {
   state = {
     open: false,
     companyId: null,
+    ready: false,
   };
 
   getSort = field => {
@@ -39,7 +40,9 @@ class Companies extends Component {
   }
 
   onSearch = (event) => {
-    this.props.searchCompanies(event.target.value);
+    if (event.key === 'Enter') {
+      this.props.searchCompanies(event.target.value);
+    }
   }
 
   loadCompanies = (event, data) => {
@@ -67,6 +70,7 @@ class Companies extends Component {
     }, true);
     this.props.loadCompanies();
   }
+
   render() {
     const companies  = this.props.companies || [];
     const { pagination  } = this.props;
@@ -86,7 +90,7 @@ class Companies extends Component {
             <Menu secondary>
               <Menu.Menu position='right'>
                 <Menu.Item>
-                  <Input icon='search' onKeyUp={this.onSearch} placeholder='Search...' />
+                  <Input icon='search' onKeyPress={this.onSearch} placeholder='Search...' />
                 </Menu.Item>
                 <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Company' icon='add' labelPosition='left' />
               </Menu.Menu>

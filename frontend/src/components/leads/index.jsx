@@ -32,7 +32,7 @@ class Leads extends Component {
 
   state = {
     open: false,
-    agentId: null,
+    leadId: null,
     companyId: null,
   };
 
@@ -48,23 +48,20 @@ class Leads extends Component {
   }
 
   onSearch = (event, data) => {
-    this.props.search(data.value);
-  }
-
-  onSave = (data) => {
+    this.props.searchLeads(data.value);
   }
 
   gotoPage = (event, data) => {
     this.props.gotoPage(data.activePage);
   }
 
-  openConfirmModal = (open = true, companyId, agentId = null) => {
-    this.setState({open, companyId, agentId})
+  openConfirmModal = (open = true, companyId, leadId = null) => {
+    this.setState({open, companyId, leadId})
   }
 
   onConfirm = () => {
     this.setState({open: false});
-    this.props.delete(this.state.companyId, this.state.agentId);
+    this.props.delete(this.state.companyId, this.state.leadId);
   }
 
   onShowArch = () => {
@@ -133,14 +130,14 @@ class Leads extends Component {
                 leads.map((lead, index) => (
                   <Table.Row key={index}>
                     <Table.Cell>
-                      <Button circular color={statuses[lead.status].color} icon='facebook'>{statuses[lead.status].icon}</Button>
+                      <Button circular color={statuses[lead.status].color}>{statuses[lead.status].icon}</Button>
                       {lead.fullname}
                       <div>
                         Added {moment(lead.created_at).format('DD/MM/YYYY')}
                       </div>
                     </Table.Cell>
                     <Table.Cell>{
-                      lead.agents && lead.agents.map(agent => <Link to={`/agents/${agent.id}`}>{agent.name}</Link>)
+                      lead.agents && lead.agents.map((agent, key) => <Link key={key} to={`/agents/${agent.id}`}>{agent.name}</Link>)
                     }</Table.Cell>
                     <Table.Cell>{lead.email}</Table.Cell>
                     <Table.Cell>{lead.phone}</Table.Cell>
@@ -159,7 +156,7 @@ class Leads extends Component {
                     <Table.Cell><Link to={`/campaigns/${lead.campaign.id}`}>{lead.campaign.name}</Link></Table.Cell>
                     <Table.Cell>
                       {
-                        !lead.is_deleted
+                        !lead.deleted_at
                           ? <Button.Group>
                             <Button><Icon name='pencil alternate'/></Button>
                             <Button onClick={this.openConfirmModal.bind(this, true, lead.company_id, lead.id)}><Icon

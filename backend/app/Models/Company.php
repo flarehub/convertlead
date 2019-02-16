@@ -22,4 +22,8 @@ class Company extends User
     public function deals() {
         return $this->belongsToMany('App\Models\Deal', 'agency_companies', 'company_id', 'id', 'id', 'agency_company_id');
     }
+
+    public function leads() {
+        return $this->belongsToMany('App\Models\Lead', 'agency_companies', 'company_id', 'id', 'id', 'agency_company_id');
+    }
 }

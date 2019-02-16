@@ -23,7 +23,7 @@ export const createCompany = form => {
       await api.post('/v1/agency/companies', form);
       dispatch(sendMessage('Successfully saved'));
       dispatch(actions.savedCompany());
-      dispatch(loadCompanies())
+      await dispatch(loadCompanies())
     } catch (e) {
       dispatch(sendMessage(e.message, true));
     }
@@ -35,8 +35,8 @@ export const updateCompany = form => {
     try {
       await api.patch(`/v1/agency/companies/${form.id}`, form);
       dispatch(sendMessage('Successfully saved'));
-      dispatch(actions.savedCompany())
-      dispatch(loadCompanies())
+      dispatch(actions.savedCompany());
+      await dispatch(loadCompanies())
     } catch (e) {
       dispatch(sendMessage(e.message, true));
     }

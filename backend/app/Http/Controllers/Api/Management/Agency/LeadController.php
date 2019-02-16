@@ -62,8 +62,11 @@ class LeadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $companyId, $id)
     {
-        //
+        $company = $request->user()->getCompanyBy($companyId);
+        $lead = $company->getLeadBy($id);
+        $lead->delete();
+        return $lead;
     }
 }
