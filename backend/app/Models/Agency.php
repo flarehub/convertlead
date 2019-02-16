@@ -162,7 +162,7 @@ class Agency extends User
     }
     
     public function getLeads($queryParams = []) {
-        $query = Lead::selectRaw('leads.*, ac.company_id, ac.agency_id')
+        $query = Lead::selectRaw('leads.*, ac.company_id, ac.agency_id, dc.deal_id')
             ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
             ->join('users as cp', 'cp.id', 'ac.company_id')
             ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')

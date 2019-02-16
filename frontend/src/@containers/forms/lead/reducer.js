@@ -9,10 +9,10 @@ const initState = {
    title: '',
    show: false,
    id: null,
-   companyId: '',
-   campaignId: '',
-   agentId: '',
-   dealId: '',
+   company_id: '',
+   campaign_id: '',
+   agent_id: '',
+   deal_id: '',
    fullname: '',
    email: '',
    phone: '',
@@ -22,6 +22,9 @@ const initState = {
     fullname: true,
     email: true,
     phone: true,
+    company_id: true,
+    deal_campaign_id: true,
+    agent_id: true,
   }
 };
 

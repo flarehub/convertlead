@@ -16,7 +16,7 @@ class LeadForm extends Component {
   };
 
   onChangeCompany = (event, data) => {
-    this.props.changeForm({ companyId: data.value });
+    this.props.changeForm({ company_id: data.value });
     this.props.filterDealsByCompany(data.value);
     this.props.filterDealsByDealId('');
   };
@@ -32,34 +32,37 @@ class LeadForm extends Component {
   };
 
   onChangeAgent = (event, data) => {
-    this.props.changeForm({ agentId: data.value });
+    this.props.changeForm({ agent_id: data.value });
   };
 
   componentWillMount() {
-    const companyId = this.props.form.companyId || (this.props.selectBoxCompanies[0] && this.props.selectBoxCompanies[0].value);
-    this.props.filterDealsByCompany(companyId);
+    if (this.props.form.id) {
+      this.props.filterDealsByDealId(this.props.form.deal_id);
+      this.props.filterDealsByCompany(this.props.form.company_id);
+      this.props.filterDealCampaignsById(this.props.form.deal_campaign_id);
+    }
   }
 
   render() {
-    const { fullname, email, phone, metadata, id } = this.props;
+    const { fullname, email, phone, metadata } = this.props.form;
     return (<Form size='big'>
       <Grid columns={2} relaxed='very' stackable>
         <Grid.Column>
           <Form.Field required>
             <label>Full name</label>
-            <Input placeholder='Full Name' value={fullname} name='fullname' onChange={this.onChange}  />
+            <Input placeholder='Full Name' value={fullname || ''} name='fullname' onChange={this.onChange}  />
           </Form.Field>
           <Form.Field required>
             <label>Email Address</label>
-            <Input placeholder='Email Address' value={email} name='email' onChange={this.onChange}  />
+            <Input placeholder='Email Address' value={email || ''} name='email' onChange={this.onChange}  />
           </Form.Field>
           <Form.Field required>
             <label>Phone Number</label>
-            <Input placeholder='Phone Number' value={phone} name='phone' onChange={this.onChange}  />
+            <Input placeholder='Phone Number' value={phone || ''} name='phone' onChange={this.onChange}  />
           </Form.Field>
           <Form.Field>
             <label>Description</label>
-            <TextArea placeholder='Description' value={metadata} name='metadata' onChange={this.onChange}  />
+            <TextArea placeholder='Description' value={metadata || ''} name='metadata' onChange={this.onChange}  />
           </Form.Field>
         </Grid.Column>
         <Grid.Column>
@@ -71,7 +74,7 @@ class LeadForm extends Component {
               label={{ children: 'Company', htmlFor: 'companies-list' }}
               placeholder='Select company'
               search
-              defaultValue={this.props.form.companyId || (this.props.selectBoxCompanies[0] && this.props.selectBoxCompanies[0].value) }
+              defaultValue={this.props.form.company_id}
               onChange={this.onChangeCompany}
               searchInput={{ id: 'companies-list' }}
             />
@@ -83,7 +86,7 @@ class LeadForm extends Component {
               label={{ children: 'Deals', htmlFor: 'deals-list' }}
               placeholder='Select deal'
               search
-              defaultValue={this.props.form.dealId}
+              defaultValue={this.props.form.deal_id}
               onChange={this.onChangeDeal}
               searchInput={{ id: 'deals-list' }}
             />
@@ -95,7 +98,7 @@ class LeadForm extends Component {
               label={{ children: 'Campaigns', htmlFor: 'campaigns-list' }}
               placeholder='Select campaign'
               search
-              defaultValue={this.props.form.campaignId}
+              defaultValue={this.props.form.deal_campaign_id}
               onChange={this.onChangeCampaign}
               searchInput={{ id: 'campaigns-list' }}
             />
@@ -107,7 +110,7 @@ class LeadForm extends Component {
               label={{ children: 'Agents', htmlFor: 'agents-list' }}
               placeholder='Select agent'
               search
-              defaultValue={this.props.form.agentId}
+              defaultValue={this.props.form.agent_id}
               onChange={this.onChangeAgent}
               searchInput={{ id: 'agents-list' }}
             />

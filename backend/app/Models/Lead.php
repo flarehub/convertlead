@@ -10,6 +10,10 @@ class Lead extends Model
     use SoftDeletes;
     
     protected $fillable = [
+        'agency_company_id',
+        'deal_campaign_id',
+        'agent_id',
+        'lead_status_id',
         'fullname',
         'email',
         'phone',

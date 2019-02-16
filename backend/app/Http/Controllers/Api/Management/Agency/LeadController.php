@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management\Agency;
 
+use App\Models\Lead;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -33,17 +34,6 @@ class LeadController extends Controller
         //
     }
     
-    
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
     /**
      * Update the specified resource in storage.
      *
@@ -51,9 +41,55 @@ class LeadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $company, $id)
     {
-        //
+        $company = $request->user()->getCompanyBy($company);
+        $request->merge([
+            'id' => $id,
+            'agency_company_id' => $company->pivot->id
+        ]);
+        $lead = Lead::find($id);
+    
+        $lead->fill($request->only([
+            'fullname',
+            'email',
+            'phone',
+            'agent_id',
+            'metadata',
+            'deal_campaign_id',
+            'agency_company_id',
+        ]));
+    
+        $lead->save();
+        return $lead;
+    }
+    
+    public function store(Request $request, $company) {
+        $company = $request->user()->getCompanyBy($company);
+        $request->merge([
+            'agency_company_id' => $company->pivot->id
+        ]);
+    
+        $this->validate($request, [
+            'fullname' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'agent_id' => 'required|int',
+            'deal_campaign_id' => 'required|int',
+            'agency_company_id' => 'required|int',
+        ]);
+    
+        $lead = Lead::create($request->only([
+            'fullname',
+            'email',
+            'phone',
+            'agent_id',
+            'metadata',
+            'deal_campaign_id',
+            'agency_company_id',
+        ]));
+    
+        return $lead;
     }
 
     /**
@@ -62,9 +98,9 @@ class LeadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $companyId, $id)
+    public function destroy(Request $request, $company, $id)
     {
-        $company = $request->user()->getCompanyBy($companyId);
+        $company = $request->user()->getCompanyBy($company);
         $lead = $company->getLeadBy($id);
         $lead->delete();
         return $lead;
