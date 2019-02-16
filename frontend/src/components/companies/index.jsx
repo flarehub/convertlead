@@ -38,11 +38,8 @@ class Companies extends Component {
     return 'sort';
   }
 
-  onSearch = (event, data) => {
-    this.props.searchCompanies(data.value);
-  }
-
-  onSave = (data) => {
+  onSearch = (event) => {
+    this.props.searchCompanies(event.target.value);
   }
 
   loadCompanies = (event, data) => {
@@ -89,7 +86,7 @@ class Companies extends Component {
             <Menu secondary>
               <Menu.Menu position='right'>
                 <Menu.Item>
-                  <Input icon='search' onChange={this.onSearch} placeholder='Search...' />
+                  <Input icon='search' onKeyUp={this.onSearch} placeholder='Search...' />
                 </Menu.Item>
                 <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Company' icon='add' labelPosition='left' />
               </Menu.Menu>
@@ -138,7 +135,7 @@ class Companies extends Component {
                     {
                       !company.is_deleted
                       ?<Button.Group>
-                        <Button><Icon name='pencil alternate' /></Button>
+                        <Button onClick={this.props.loadForm.bind(this, { ...company, show: true })}><Icon name='pencil alternate' /></Button>
                         <Button><Icon name='lock' /></Button>
                         {/*<Button><Icon name='lock open' /></Button>*/}
                         <Button onClick={this.openConfirmModal.bind(this, true, company.id)}><Icon name='trash alternate outline'/></Button>

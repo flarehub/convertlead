@@ -315,6 +315,8 @@ class Media extends Model
         }
         elseif (\Storage::disk('local')->exists($filePath)) {
             return \Storage::disk('local')->path($filePath);
+        } else {
+            return asset('images/user.png');
         }
         
         return false;

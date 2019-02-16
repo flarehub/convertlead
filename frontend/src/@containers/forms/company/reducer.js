@@ -19,7 +19,6 @@ const initState = {
     name: true,
     email: true,
     phone: true,
-    avatar: true,
     password: true,
     password_confirmation: true
   }
@@ -34,6 +33,11 @@ const companyForm = (state = initState, action) => {
           ...action.form,
           title: !action.form.id ? 'Create Company' : 'Edit Company',
         },
+        required: {
+          ...state.required,
+          password: !action.form.id,
+          password_confirmation: !action.form.id
+        }
       }
     }
     case CHANGE_COMPANY: {
