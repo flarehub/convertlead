@@ -75,7 +75,7 @@ class Agents extends Component {
 
   render() {
     const agents = this.props.agents || [];
-    const { pagination  } = this.props;
+    const { pagination, query  } = this.props;
     return (
       <div className={styles.Agents}>
         <AgentModal />
@@ -92,7 +92,7 @@ class Agents extends Component {
               <Menu secondary>
                 <Menu.Menu position='right'>
                   <Menu.Item>
-                    <Input icon='search' onChange={this.onSearch} placeholder='Search...' />
+                    <Input icon='search' onChange={this.onSearch} value={query.search || ''} placeholder='Search...' />
                   </Menu.Item>
                   <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Agent' icon='add' labelPosition='left' />
                 </Menu.Menu>

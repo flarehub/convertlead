@@ -10,6 +10,7 @@ import {
 
 const mapStateToProps = state => ({
   deals: getDeals(state),
+  filters: state.deals.filters,
   selectBoxDeals: getSelectBoxDeals(state),
   selectBoxDealCampaigns: getSelectBoxDealCampaigns(state),
   selectBoxDealCampaignAgents: getSelectBoxDealCampaignAgents(state),

@@ -22,6 +22,17 @@ export const deleteCompany = id => async (dispatch, getState) => {
   dispatch(hideLoader());
 };
 
+export const updateLockStatusCompany = form => async (dispatch) => {
+  try {
+    await api.patch(`/v1/agency/companies/${form.id}/lock-status`, form);
+    dispatch(sendMessage('Successfully saved'));
+    await dispatch(loadCompanies());
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+};
+
+
 export const loadCompanies = (page = 1, perPage = 10, search = '', sort = {
   name: true,
   deals: null,

@@ -77,7 +77,7 @@ class Leads extends Component {
 
   render() {
     const leads = this.props.leads || [];
-    const {pagination, statuses} = this.props;
+    const {pagination, statuses, query} = this.props;
 
     return (
       <div className={styles.Agents}>
@@ -95,7 +95,7 @@ class Leads extends Component {
               <Menu secondary>
                 <Menu.Menu position='right'>
                   <Menu.Item>
-                    <Input icon='search' onChange={this.onSearch} placeholder='Search...'/>
+                    <Input icon='search' onChange={this.onSearch} value={query.search} placeholder='Search...'/>
                   </Menu.Item>
                   <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Lead' icon='add'
                           labelPosition='left'/>

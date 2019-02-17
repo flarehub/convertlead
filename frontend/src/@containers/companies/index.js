@@ -20,6 +20,7 @@ const mapDispatchToProps = dispatch => ({
     avg_response: null,
   }) => dispatch(thunks.loadCompanies(page, perPage, search, sort)),
   searchCompanies: search => dispatch(thunks.searchCompanies(search)),
+  updateLockStatusCompany: company => dispatch(thunks.updateLockStatusCompany(company)),
   loadSelectBoxCompanies: search => dispatch(thunks.loadSelectBoxCompanies(search)),
   openCompaniesPage: activePage => dispatch(thunks.openCompaniesPage(activePage)),
   sort: field => dispatch(thunks.onSortCompanies(field)),

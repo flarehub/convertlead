@@ -52,7 +52,7 @@ const initState = {
     search: '',
     showDeleted: false,
     filters: {
-      statusId: null,
+      statusId: '',
     },
     sort: {
       status: true,

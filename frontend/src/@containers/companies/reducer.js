@@ -34,7 +34,7 @@ const companies = (state = initState, action) => {
         pagination: action.pagination,
         query: {
           ...state.query,
-          search: action.search,
+          search: (action.search ? action.search : ''),
         },
       };
     }

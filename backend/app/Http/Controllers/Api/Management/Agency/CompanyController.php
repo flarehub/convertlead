@@ -76,6 +76,14 @@ class CompanyController extends Controller
         $company->updateUser($request->except('role'));
         return $company;
     }
+    
+    public function lockStatus(Request $request, $id)
+    {
+        $company = $request->user()->getCompanyBy($id);
+        $company->pivot->is_locked = $request->get('is_locked');
+        $company->pivot->save();
+        return $company;
+    }
 
     /**
      * Remove the specified resource from storage.

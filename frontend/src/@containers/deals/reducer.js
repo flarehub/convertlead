@@ -9,10 +9,10 @@ const initState = {
   deals: [],
   selectBoxDeals: [],
   filters: {
-    search: null,
-    companyId: null,
-    dealId: null,
-    campaignId: null,
+    search: '',
+    companyId: '',
+    dealId: '',
+    campaignId: '',
   },
 };
 

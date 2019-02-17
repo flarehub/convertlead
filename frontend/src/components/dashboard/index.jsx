@@ -51,7 +51,7 @@ class Dashboard extends Component {
   };
 
 	render() {
-    const { deals } = this.props;
+    const { deals, filters } = this.props;
 		return (
 			<div className={styles.Dashboard}>
         <DealModal />
@@ -75,7 +75,7 @@ class Dashboard extends Component {
             <Menu secondary>
               <Menu.Menu position='right'>
                 <Menu.Item>
-                  <Input icon='search' onChange={this.searchDealsByCompany} placeholder='Search...' />
+                  <Input icon='search' onChange={this.searchDealsByCompany} value={filters.search} placeholder='Search...' />
                 </Menu.Item>
                 <Button color='teal'
                         content='New Deal'
