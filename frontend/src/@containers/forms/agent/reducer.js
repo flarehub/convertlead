@@ -9,7 +9,7 @@ const initState = {
     title: '',
     id: '',
     company_id: '',
-    newCompanyId: '',
+    new_company_id: '',
     avatar: '',
     name: '',
     email: '',
@@ -17,7 +17,6 @@ const initState = {
     password_confirmation: '',
   },
   required: {
-    avatar: true,
     name: true,
     email: true,
   }

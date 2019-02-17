@@ -13,7 +13,7 @@ export const loadLeads = () => async (dispatch, getState) => {
         search: query.search,
         showDeleted: (query.showDeleted ? query.showDeleted : null),
         per_page: pagination.per_page,
-        current_page: (query.search ? 1 : pagination.current_page),
+        current_page: pagination.current_page,
       },
     });
     const { data, ...rest } = response.data;

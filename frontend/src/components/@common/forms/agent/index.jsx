@@ -37,7 +37,7 @@ class AgentForm extends Component {
   };
 
   onChangeCompany = (event, data) => {
-    this.props.changeForm({ newCompanyId: data.value });
+    this.props.changeForm({ new_company_id: data.value });
   };
 
   render() {

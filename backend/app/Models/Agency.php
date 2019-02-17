@@ -99,7 +99,7 @@ class Agency extends User
     public function getAgents($queryParams = []) {
         $query = Agent::selectRaw
         (
-            'users.id, ca.company_id, users.role, users.name, users.email, users.phone,
+            'users.id, ca.company_id, users.role, users.name, users.email, users.phone, users.avatar_id,
             SUM((SELECT COUNT(id)
                     FROM deal_campaigns AS dc
                     WHERE dc.id = dca.deal_campaign_id AND dc.agency_company_id = ac.id
@@ -157,7 +157,6 @@ class Agency extends User
         if ( isset($queryParams['avg_response']) ) {
             $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
         }
-    
         return $query;
     }
     

@@ -120,8 +120,8 @@ class User extends Authenticatable
         \Validator::validate($data, self::requiredFieldsForCreate());
         $data['password'] = bcrypt($data['password']);
         $this->fill($data);
-        
-        return $this->save();
+        $this->saveOrFail();
+        return $this;
     }
     
     /**

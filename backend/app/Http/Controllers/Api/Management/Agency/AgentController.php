@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\Agent;
-use App\Models\Company;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -44,10 +42,22 @@ class AgentController extends Controller
      */
     public function store(Request $request, $company, Agent $agent)
     {
-        $agent->handleAvatar($request);
-        $agent->createAgent($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
-        $request->user()->getCompanyBy($company)->agents()->attach($agent);
-        return $agent;
+        try {
+            \DB::beginTransaction();
+            $agent->handleAvatar($request);
+            $request->merge(['agent_agency_id' => $request->user()->id]);
+            $agent = $agent->createAgent($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
+            $request->user()
+                ->getCompanyBy($company)
+                ->agents()
+                ->attach($agent);
+            \DB::commit();
+            return $agent;
+        } catch (\PDOException $e) {
+            // Woopsy
+            \DB::rollBack();
+            throw $e;
+        }
     }
 
     /**
@@ -70,19 +80,28 @@ class AgentController extends Controller
      */
     public function update(Request $request, $company, $id)
     {
-        $company = $request->user()->getCompanyBy($company);
-        $agent = $company->getAgentBy($id);
-        $company->agents()->detach($agent);
+        try {
+            \DB::beginTransaction();
+            $request->merge(['agent_agency_id' => $request->user()->id]);
+            $company = $request->user()->getCompanyBy($company);
+            $agent = $company->getAgentBy($id);
+    
+            $newCompany = $request->get('new_company_id');
+            if ($newCompany) {
+                $company->agents()->detach($agent);
+                $newCompany = $request->user()->getCompanyBy($newCompany);
+                $newCompany->agents()->attach($agent);
+            }
+    
+            $agent->handleAvatar($request);
+            $agent->updateUser($request->except('role'));
 
-        $newCompany = $request->input('new_company_id');
-        if ($newCompany) {
-            $newCompany = $request->user()->getCompanyBy($newCompany);
-            $newCompany->agents()->attach($agent);
+            \DB::commit();
+            return $agent;
+        } catch (\PDOException $e) {
+            \DB::rollBack();
+            throw $e;
         }
-        
-        $agent->handleAvatar($request);
-        $agent->updateUser($request->except('role'));
-        return $agent;
     }
 
     /**
