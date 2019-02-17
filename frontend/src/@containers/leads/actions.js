@@ -25,12 +25,12 @@ export const addLead = (companyId, campaignId, lead) => ({
 export const updateLead = (id, lead) => ({
   type: UPDATE_LEAD,
   id,
-  lead
+  lead,
 });
 
 export const removeLead = id => ({
   type: REMOVE_LEAD,
-  id
+  id,
 });
 
 export const flterLeads = filters => ({
@@ -45,7 +45,7 @@ export const searchLeads = search => ({
 
 export const gotoPage = activePage => ({
   type: GOTO_PAGE_LEADS,
-  activePage
+  activePage,
 });
 
 export const toggleShowDeleted = () => ({
@@ -59,5 +59,5 @@ export const sortLeads = field => ({
 
 export const openLeadModal = status => ({
   type: OPEN_LEAD_MODAL,
-  status
+  status,
 });

@@ -1,11 +1,9 @@
 import { connect } from 'react-redux';
-import * as thunks from "./thunks";
+import * as thunks from './thunks';
 
-const mapStateToProps = (state) => {
-  return ({
-    isAuthorised: state.auth.session.isAuthorised,
-  });
-};
+const mapStateToProps = state => ({
+  isAuthorised: state.auth.session.isAuthorised,
+});
 
 const mapActionsToProps = dispatch => ({
   autoLogin: () => dispatch(thunks.autoLogin()),

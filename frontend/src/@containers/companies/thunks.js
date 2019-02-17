@@ -1,27 +1,25 @@
-import api from "../../@services/api";
-import * as actions from "./actions";
-import {hideLoader, showLoader} from "../loader/actions";
-import {sendMessage} from "../messages/thunks";
+import api from '../../@services/api';
+import * as actions from './actions';
+import { hideLoader, showLoader } from '../loader/actions';
+import { sendMessage } from '../messages/thunks';
 
-export const deleteCompany = id => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(showLoader());
-      const response = await api.delete(`/v1/agency/companies/${id}`);
-      const { pagination, query } = getState().companies;
-      if (response.data) {
-        await dispatch(loadCompanies(
-          pagination.current_page,
-          pagination.per_page,
-          query.search,
-          query.sort,
-        ))
-      }
-    } catch (e) {
-      dispatch(sendMessage(e.message, true))
+export const deleteCompany = id => async (dispatch, getState) => {
+  try {
+    dispatch(showLoader());
+    const response = await api.delete(`/v1/agency/companies/${id}`);
+    const { pagination, query } = getState().companies;
+    if (response.data) {
+      await dispatch(loadCompanies(
+        pagination.current_page,
+        pagination.per_page,
+        query.search,
+        query.sort,
+      ));
     }
-    dispatch(hideLoader())
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
   }
+  dispatch(hideLoader());
 };
 
 export const loadCompanies = (page = 1, perPage = 10, search = '', sort = {
@@ -30,89 +28,76 @@ export const loadCompanies = (page = 1, perPage = 10, search = '', sort = {
   leads: null,
   agents: null,
   avg_response: null,
-}) => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(showLoader())
-      const response =
-        await api.get('/v1/agency/companies', {
-          params: {
-            per_page: perPage,
-            current_page: page,
-            showDeleted: (getState().companies.query.showDeleted ? 1 : null),
-            search,
-            ...sort,
-          }
-        });
-      const { data, ...pagination } = response.data;
-      await dispatch(actions.addCompanies(data, pagination));
-    } catch (e) {
-      dispatch(sendMessage(e.message, true))
-    }
-    dispatch(hideLoader())
+}) => async (dispatch, getState) => {
+  try {
+    dispatch(showLoader());
+    const response = await api.get('/v1/agency/companies', {
+      params: {
+        per_page: perPage,
+        current_page: page,
+        showDeleted: (getState().companies.query.showDeleted ? 1 : null),
+        search,
+        ...sort,
+      },
+    });
+    const { data, ...pagination } = response.data;
+    await dispatch(actions.addCompanies(data, pagination));
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+  dispatch(hideLoader());
+};
+
+export const openCompaniesPage = activePage => (dispatch, getState) => {
+  const { companies } = getState();
+  dispatch(loadCompanies(
+    activePage,
+    companies.pagination.per_page,
+    companies.query.search,
+    companies.query.sort,
+  ));
+};
+
+export const searchCompanies = search => (dispatch, getState) => {
+  const { companies } = getState();
+  dispatch(loadCompanies(
+    companies.pagination.current_page,
+    companies.pagination.per_page, search,
+    companies.query.sort,
+  ));
+};
+
+export const loadSelectBoxCompanies = search => async (dispatch, getState) => {
+  try {
+    const response = await api.get('/v1/agency/companies', {
+      params: {
+        search: search || null,
+        per_page: 2000,
+      },
+    });
+    const { data } = response.data;
+    dispatch(actions.addSelectBoxCompanies(data));
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
   }
 };
 
-export const openCompaniesPage = activePage => {
-  return (dispatch, getState) => {
-    const { companies } = getState();
-    dispatch(loadCompanies(
-      activePage,
-      companies.pagination.per_page,
-      companies.query.search,
-      companies.query.sort)
-    )
-  };
+export const onSortCompanies = field => async (dispatch, getState) => {
+  await dispatch(actions.sortCompanies(field));
+  const { companies } = getState();
+  dispatch(loadCompanies(
+    companies.pagination.current_page,
+    companies.pagination.per_page, companies.query.search,
+    companies.query.sort,
+  ));
 };
-
-export const searchCompanies = search => {
-  return (dispatch, getState) => {
-    const { companies } = getState();
-    dispatch(loadCompanies(
-      companies.pagination.current_page,
-      companies.pagination.per_page, search,
-      companies.query.sort)
-    )
-  }
-};
-
-export const loadSelectBoxCompanies = search => {
-  return async (dispatch, getState) => {
-    try {
-      const response  = await api.get('/v1/agency/companies', {
-        params: {
-          search: search || null,
-          per_page: 2000,
-        }
-      });
-      const { data } = response.data;
-      dispatch(actions.addSelectBoxCompanies(data))
-    } catch (e) {
-      dispatch(sendMessage(e.message, true))
-    }
-  }
-};
-
-export const onSortCompanies = field => {
-  return async (dispatch, getState) => {
-    await dispatch(actions.sortCompanies(field));
-    const { companies } = getState();
-    dispatch(loadCompanies(
-      companies.pagination.current_page,
-      companies.pagination.per_page, companies.query.search,
-      companies.query.sort)
-    )
-  }
-};
-export const toggleShowDeleted = () => {
-  return async (dispatch, getState) => {
-    await dispatch(actions.toggleShowDeleted());
-    const { companies } = getState();
-    dispatch(loadCompanies(
-      companies.pagination.current_page,
-      companies.pagination.per_page,
-      companies.query.search,
-      companies.query.sort)
-    )
-  }
+export const toggleShowDeleted = () => async (dispatch, getState) => {
+  await dispatch(actions.toggleShowDeleted());
+  const { companies } = getState();
+  dispatch(loadCompanies(
+    companies.pagination.current_page,
+    companies.pagination.per_page,
+    companies.query.search,
+    companies.query.sort,
+  ));
 };

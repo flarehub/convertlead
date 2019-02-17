@@ -1,4 +1,4 @@
-import { LOAD_CAMPAIGN, SAVED_CAMPAIGN } from "./actions";
+import { LOAD_CAMPAIGN, SAVED_CAMPAIGN } from './actions';
 
 const initState = {
   show: false,
@@ -18,7 +18,7 @@ const campaignForm = (state = initState, action) => {
         ...action.form,
         title: !action.form.id ? 'Create Campaign' : 'Edit Campaign',
         show: true,
-      }
+      };
     }
     case SAVED_CAMPAIGN: {
       return {

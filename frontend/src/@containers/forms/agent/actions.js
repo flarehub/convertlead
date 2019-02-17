@@ -5,7 +5,7 @@ export const SAVED_AGENT = 'SAVED_AGENT';
 
 export const loadAgent = form => ({
   type: LOAD_AGENT,
-  form
+  form,
 });
 
 export const savedAgent = () => ({
@@ -14,5 +14,5 @@ export const savedAgent = () => ({
 
 export const changeAgent = form => ({
   type: CHANGE_AGENT,
-  form
+  form,
 });

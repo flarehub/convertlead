@@ -17,7 +17,7 @@ export const addAgents = (agents, pagination) => ({
 
 export const createAgent = agent => ({
   type: CREATE_AGENT,
-  agent
+  agent,
 });
 
 export const editAgent = (id, agent) => ({
@@ -37,24 +37,24 @@ export const filterAgents = filters => ({
 
 export const sortAgents = field => ({
   type: SORT_AGENTS,
-  field
+  field,
 });
 
 export const searchAgents = search => ({
   type: SEARCH_AGENTS,
-  search
+  search,
 });
 
 export const gotoPage = activePage => ({
   type: GOTO_PAGE,
-  activePage
+  activePage,
 });
 
 export const openAgentModal = open => ({
   type: OPEN_AGENT_MODAL,
-  open
+  open,
 });
 
 export const toggleShowDeleted = () => ({
-  type: SHOW_DELETED_AGENTS
+  type: SHOW_DELETED_AGENTS,
 });

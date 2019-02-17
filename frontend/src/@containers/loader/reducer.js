@@ -1,4 +1,4 @@
-import {HIDE_LOADER, SHOW_LOADER} from "./actions";
+import { HIDE_LOADER, SHOW_LOADER } from './actions';
 
 const initState = {
   ready: true,
@@ -9,14 +9,14 @@ const loader = (state = initState, action) => {
     case SHOW_LOADER: {
       return {
         ...state,
-        ready: false
-      }
+        ready: false,
+      };
     }
     case HIDE_LOADER: {
       return {
         ...state,
-        ready: true
-      }
+        ready: true,
+      };
     }
     default: {
       return state;

@@ -1,6 +1,6 @@
 import {
   ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, OPEN_COMPANY_MODAL, SORT_COMPANIES,
-  TOGGLE_SHOW_DELETED
+  TOGGLE_SHOW_DELETED,
 } from './actions';
 
 const initState = {
@@ -21,8 +21,8 @@ const initState = {
       leads: null,
       agents: null,
       avg_response: null,
-    }
-  }
+    },
+  },
 };
 
 const companies = (state = initState, action) => {
@@ -35,44 +35,44 @@ const companies = (state = initState, action) => {
         query: {
           ...state.query,
           search: action.search,
-        }
-      }
+        },
+      };
     }
     case SORT_COMPANIES: {
-     return {
-       ...state,
-       query: {
-         ...state.query,
-         sort: {
-           ...state.query.sort,
-           [action.field]: (state.query.sort[action.field] === false ? null : !state.query.sort[action.field])
-         }
-       }
-     }
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          sort: {
+            ...state.query.sort,
+            [action.field]: (state.query.sort[action.field] === false ? null : !state.query.sort[action.field]),
+          },
+        },
+      };
     }
     case OPEN_COMPANY_MODAL: {
       return {
         ...state,
-        openModal: action.open
-      }
+        openModal: action.open,
+      };
     }
     case TOGGLE_SHOW_DELETED: {
       return {
         ...state,
         query: {
           ...state.query,
-          showDeleted: !state.query.showDeleted
-        }
-      }
+          showDeleted: !state.query.showDeleted,
+        },
+      };
     }
     case ADD_SELECT_BOX_COMPANIES: {
       return {
         ...state,
         selectBoxCompanies: [...action.companies],
-      }
+      };
     }
     default: {
-      return state
+      return state;
     }
   }
 };

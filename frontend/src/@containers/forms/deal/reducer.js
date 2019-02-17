@@ -1,4 +1,4 @@
-import {CHANGE_DEAL, LOAD_DEAL, SAVED_DEAL} from "./actions";
+import { CHANGE_DEAL, LOAD_DEAL, SAVED_DEAL } from './actions';
 
 const initState = {
   show: false,
@@ -14,20 +14,20 @@ const dealForm = (state = initState, action) => {
       return {
         ...action.form,
         title: !action.form.id ? 'Create Deal' : 'Edit Deal',
-      }
+      };
     }
     case SAVED_DEAL: {
       return {
         ...state,
         ...action.form,
         show: false,
-      }
+      };
     }
     case CHANGE_DEAL: {
       return {
         ...state,
         ...action.form,
-      }
+      };
     }
     default: {
       return state;

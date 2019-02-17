@@ -4,12 +4,12 @@ export const SAVED_LEAD = 'SAVED_LEAD';
 
 export const loadLead = form => ({
   type: LOAD_LEAD,
-  form
+  form,
 });
 
 export const changeLead = form => ({
   type: CHANGE_LEAD,
-  form
+  form,
 });
 
 export const savedLead = () => ({

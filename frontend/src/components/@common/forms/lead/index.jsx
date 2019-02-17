@@ -7,9 +7,15 @@ import {
   Grid,
 } from 'semantic-ui-react';
 import './index.scss';
-import * as R from "ramda";
 
 class LeadForm extends Component {
+  componentWillMount() {
+    if (this.props.form.id) {
+      this.props.filterDealsByDealId(this.props.form.deal_id);
+      this.props.filterDealsByCompany(this.props.form.company_id);
+      this.props.filterDealCampaignsById(this.props.form.deal_campaign_id);
+    }
+  }
 
   onChange = (event, data) => {
     this.props.changeForm({ [data.name]: data.value });
@@ -35,44 +41,39 @@ class LeadForm extends Component {
     this.props.changeForm({ agent_id: data.value });
   };
 
-  componentWillMount() {
-    if (this.props.form.id) {
-      this.props.filterDealsByDealId(this.props.form.deal_id);
-      this.props.filterDealsByCompany(this.props.form.company_id);
-      this.props.filterDealCampaignsById(this.props.form.deal_campaign_id);
-    }
-  }
-
   render() {
-    const { fullname, email, phone, metadata } = this.props.form;
-    return (<Form size='big'>
-      <Grid columns={2} relaxed='very' stackable>
-        <Grid.Column>
-          <Form.Field required>
-            <label>Full name</label>
-            <Input placeholder='Full Name' value={fullname || ''} name='fullname' onChange={this.onChange}  />
-          </Form.Field>
-          <Form.Field required>
-            <label>Email Address</label>
-            <Input placeholder='Email Address' value={email || ''} name='email' onChange={this.onChange}  />
-          </Form.Field>
-          <Form.Field required>
-            <label>Phone Number</label>
-            <Input placeholder='Phone Number' value={phone || ''} name='phone' onChange={this.onChange}  />
-          </Form.Field>
-          <Form.Field>
-            <label>Description</label>
-            <TextArea placeholder='Description' value={metadata || ''} name='metadata' onChange={this.onChange}  />
-          </Form.Field>
-        </Grid.Column>
-        <Grid.Column>
+    const {
+      fullname, email, phone, metadata,
+    } = this.props.form;
+    return (
+      <Form size="big">
+        <Grid columns={2} relaxed="very" stackable>
+          <Grid.Column>
+            <Form.Field required>
+              <label>Full name</label>
+              <Input placeholder="Full Name" value={fullname || ''} name="fullname" onChange={this.onChange} />
+            </Form.Field>
+            <Form.Field required>
+              <label>Email Address</label>
+              <Input placeholder="Email Address" value={email || ''} name="email" onChange={this.onChange} />
+            </Form.Field>
+            <Form.Field required>
+              <label>Phone Number</label>
+              <Input placeholder="Phone Number" value={phone || ''} name="phone" onChange={this.onChange} />
+            </Form.Field>
+            <Form.Field>
+              <label>Description</label>
+              <TextArea placeholder="Description" value={metadata || ''} name="metadata" onChange={this.onChange} />
+            </Form.Field>
+          </Grid.Column>
+          <Grid.Column>
             <Form.Field
               required
               loading={!this.props.selectBoxCompanies.length}
               control={Select}
               options={this.props.selectBoxCompanies || []}
               label={{ children: 'Company', htmlFor: 'companies-list' }}
-              placeholder='Select company'
+              placeholder="Select company"
               search
               defaultValue={this.props.form.company_id}
               onChange={this.onChangeCompany}
@@ -84,7 +85,7 @@ class LeadForm extends Component {
               control={Select}
               options={this.props.selectBoxDeals || []}
               label={{ children: 'Deals', htmlFor: 'deals-list' }}
-              placeholder='Select deal'
+              placeholder="Select deal"
               search
               defaultValue={this.props.form.deal_id}
               onChange={this.onChangeDeal}
@@ -96,7 +97,7 @@ class LeadForm extends Component {
               control={Select}
               options={this.props.selectBoxDealCampaigns || []}
               label={{ children: 'Campaigns', htmlFor: 'campaigns-list' }}
-              placeholder='Select campaign'
+              placeholder="Select campaign"
               search
               defaultValue={this.props.form.deal_campaign_id}
               onChange={this.onChangeCampaign}
@@ -108,15 +109,16 @@ class LeadForm extends Component {
               control={Select}
               options={this.props.selectBoxDealCampaignAgents || []}
               label={{ children: 'Agents', htmlFor: 'agents-list' }}
-              placeholder='Select agent'
+              placeholder="Select agent"
               search
               defaultValue={this.props.form.agent_id}
               onChange={this.onChangeAgent}
               searchInput={{ id: 'agents-list' }}
             />
           </Grid.Column>
-      </Grid>
-    </Form>)
+        </Grid>
+      </Form>
+    );
   }
 }
 

@@ -4,7 +4,7 @@ class Config {
   }
 
   getConfig() {
-    return this.config
+    return this.config;
   }
 
   get(key) {
@@ -12,7 +12,7 @@ class Config {
       throw new Error('Missing required config key value');
     }
 
-    return this.getConfig()[key]
+    return this.getConfig()[key];
   }
 }
 

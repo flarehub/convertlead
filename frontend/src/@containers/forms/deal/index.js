@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions from './actions';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   form: state.forms.deal,
   show: state.forms.deal.show,
 });

@@ -15,29 +15,29 @@ export const addCompanies = (companies, pagination) => ({
 
 export const addSelectBoxCompanies = companies => ({
   type: ADD_SELECT_BOX_COMPANIES,
-  companies
+  companies,
 });
 
 export const addCompany = company => ({
   type: ADD_COMPANY,
-  company
+  company,
 });
 
 
 export const updateCompany = company => ({
   type: UPDATE_COMPANY,
-  company
+  company,
 });
 
 export const sortCompanies = field => ({
   type: SORT_COMPANIES,
-  field
+  field,
 });
 export const openCompanyModal = open => ({
   type: OPEN_COMPANY_MODAL,
-  open
+  open,
 });
 
 export const toggleShowDeleted = () => ({
-  type: TOGGLE_SHOW_DELETED
+  type: TOGGLE_SHOW_DELETED,
 });

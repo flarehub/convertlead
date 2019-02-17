@@ -16,6 +16,7 @@ class SessionStorage {
   setItem(key, value) {
     return this.getSessionStorage().setItem(key, JSON.stringify({ value }));
   }
+
   removeItem(key) {
     return this.getSessionStorage().removeItem(key);
   }

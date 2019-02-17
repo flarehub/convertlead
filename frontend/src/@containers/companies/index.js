@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
-import * as actions  from "./actions";
-import { selectBoxCompanies } from "./reselect";
+import * as actions from './actions';
+import { selectBoxCompanies } from './reselect';
 
 const mapStateToProps = state => ({
   companies: state.companies.companies,
@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
   openModal: state.companies.openModal,
 });
 
-const mapDispatchToProps = dispatch  => ({
+const mapDispatchToProps = dispatch => ({
   loadCompanies: (page = 1, perPage = 10, search = '', sort = {
     name: true,
     deals: null,
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch  => ({
   sort: field => dispatch(thunks.onSortCompanies(field)),
   openCompanyModal: open => dispatch(actions.openCompanyModal(open)),
   deleteCompany: id => dispatch(thunks.deleteCompany(id)),
-  toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted())
+  toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted()),
 });
 
 

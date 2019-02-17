@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { addBreadCrumb } from "../breadcrumb/actions";
+import { addBreadCrumb } from '../breadcrumb/actions';
 
 const mapStateToProps = state => ({
-  companies: []
+  companies: [],
 });
 
-const mapDispatchToProps = dispatch  => ({
-  addBreadCrumb: (pageInfo, reset = true) => dispatch(addBreadCrumb(pageInfo, reset))
+const mapDispatchToProps = dispatch => ({
+  addBreadCrumb: (pageInfo, reset = true) => dispatch(addBreadCrumb(pageInfo, reset)),
 });
 
 

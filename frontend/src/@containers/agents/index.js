@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
   openModalStatus: state.agents.openModalStatus,
 });
 
-const mapDispatchToProps = dispatch  => ({
+const mapDispatchToProps = dispatch => ({
   loadAgents: () => dispatch(thunks.loadAgents()),
   filter: filters => dispatch(thunks.filterAgents(filters)),
   search: search => dispatch(thunks.searchAgents(search)),

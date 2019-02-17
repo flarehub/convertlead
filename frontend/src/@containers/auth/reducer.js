@@ -1,11 +1,11 @@
-import { ADD_SESSION_TOKEN, REMOVE_SESSION_TOKEN } from "./actions";
+import { ADD_SESSION_TOKEN, REMOVE_SESSION_TOKEN } from './actions';
 
 const initState = {
   session: {
     token: null,
     refreshToken: null,
     isAuthorised: false,
-  }
+  },
 };
 
 const auth = (state = initState, action) => {
@@ -15,9 +15,9 @@ const auth = (state = initState, action) => {
         ...state,
         session: {
           ...action.tokenData,
-          isAuthorised: true
+          isAuthorised: true,
         },
-      }
+      };
     }
     case REMOVE_SESSION_TOKEN: {
       return {
@@ -25,8 +25,8 @@ const auth = (state = initState, action) => {
         session: {
           token: null,
           isAuthorised: false,
-        }
-      }
+        },
+      };
     }
     default: {
       return state;

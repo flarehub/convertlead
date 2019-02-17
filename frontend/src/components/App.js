@@ -1,19 +1,20 @@
-import React  from 'react';
+import React from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Layout } from './layout';
-import { AuthContainer } from "@containers";
-import { LoginLayout } from '../components';
 import { withRouter, Route, Switch } from 'react-router-dom';
+import { Layout } from './layout';
+import { AuthContainer } from '@containers';
+import { LoginLayout } from '.';
 
 import './App.scss';
+
 const App = ({ session }) => (
   <div className="App">
-  {
-    <Switch>
-        <Route exact path='/login' component={LoginLayout} />
-        <Route path='/' component={Layout} />
-    </Switch>
+    {
+      <Switch>
+        <Route exact path="/login" component={LoginLayout} />
+        <Route path="/" component={Layout} />
+      </Switch>
     }
   </div>
 );

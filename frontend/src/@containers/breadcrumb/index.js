@@ -1,11 +1,9 @@
 import { connect } from 'react-redux';
-import {addBreadCrumb, resetBreadCrumbToDefault} from "./actions";
+import { addBreadCrumb, resetBreadCrumbToDefault } from './actions';
 
-const mapStateToProps = state => {
-  return state.breadcrumb;
-};
+const mapStateToProps = state => state.breadcrumb;
 
-const mapDispatchToProps = dispatch  => ({
+const mapDispatchToProps = dispatch => ({
   addBreadCrumb: (pageInfo, reset = true) => dispatch(addBreadCrumb(pageInfo, reset)),
   resetBreadCrumbToDefault: () => dispatch(resetBreadCrumbToDefault()),
 });

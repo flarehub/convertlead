@@ -14,5 +14,5 @@ export const savedDeal = () => ({
 
 export const changeDeal = form => ({
   type: CHANGE_DEAL,
-  form
+  form,
 });

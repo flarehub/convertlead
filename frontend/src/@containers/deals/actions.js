@@ -14,38 +14,37 @@ export const addCompanyDeals = deals => ({
 
 export const createCompanyDeal = deal => ({
   type: CREATE_COMPANY_DEAL,
-  deal
+  deal,
 });
 
 export const updateCompanyDeal = deal => ({
   type: UPDATE_COMPANY_DEAL,
-  deal
+  deal,
 });
 
 export const deleteCompanyDeal = id => ({
   type: DELETE_COMPANY_DEAL,
-  id
+  id,
 });
 
 
 export const filterDealsByCompany = id => ({
   type: FILTER_DEALS_BY_COMPANY,
-  id
+  id,
 });
 
 export const filterDealsById = id => ({
   type: FILTER_DEALS_BY_ID,
-  id
+  id,
 });
 
 export const filterDealCampaignsById = id => ({
   type: FILTER_DEAL_CAMPAIGNS_BY_ID,
-  id
+  id,
 });
 
 
 export const searchDealCompaniesBy = search => ({
   type: SEARCH_DEALS_BY_COMPANY,
-  search
+  search,
 });
-

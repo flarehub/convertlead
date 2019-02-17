@@ -2,9 +2,9 @@ export const SHOW_LOADER = 'SHOW_LOADER';
 export const HIDE_LOADER = 'HIDE_LOADER';
 
 export const showLoader = () => ({
-  type: SHOW_LOADER
+  type: SHOW_LOADER,
 });
 
 export const hideLoader = () => ({
-  type: HIDE_LOADER
+  type: HIDE_LOADER,
 });

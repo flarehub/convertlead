@@ -1,6 +1,6 @@
 import {
-  LOAD_AGENT, SAVED_AGENT
-} from "./actions";
+  LOAD_AGENT, SAVED_AGENT,
+} from './actions';
 
 const initState = {
   show: false,
@@ -23,14 +23,14 @@ const agentForm = (state = initState, action) => {
         ...action.form,
         title: !action.form.id ? 'Create Agent' : 'Edit Agent',
         show: true,
-      }
+      };
     }
     case SAVED_AGENT: {
       return {
         ...state,
         ...action.form,
         show: false,
-      }
+      };
     }
     default: {
       return state;

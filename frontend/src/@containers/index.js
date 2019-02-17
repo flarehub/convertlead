@@ -15,4 +15,4 @@ export { default as CampaignFormContainer } from './forms/campaign';
 export { default as CompanyFormContainer } from './forms/company';
 export { default as DealFormContainer } from './forms/deal';
 export { default as LeadFormContainer } from './forms/lead';
-export { default as store } from './store'
+export { default as store } from './store';

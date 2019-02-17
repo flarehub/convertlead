@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
-import * as actions from "./actions";
+import * as actions from './actions';
 
 const mapStateToProps = state => ({
   leads: state.leads.leads,
@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
   openModalStatus: state.leads.openModalStatus,
 });
 
-const mapDispatchToProps = dispatch  => ({
+const mapDispatchToProps = dispatch => ({
   loadLeads: () => dispatch(thunks.loadLeads()),
   updateLead: (id, lead) => dispatch(thunks.updateLead(id, lead)),
   delete: (companyId, id) => dispatch(thunks.deleteLead(companyId, id)),

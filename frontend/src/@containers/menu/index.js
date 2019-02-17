@@ -1,17 +1,15 @@
 import { connect } from 'react-redux';
-import { getUserSideBarMenu } from "./actions";
+import { getUserSideBarMenu } from './actions';
 
-const mapStateToProps = (state) => {
-  return state.menu;
-};
+const mapStateToProps = state => state.menu;
 
 const mapDispatchToProps = dispatch => ({
-  getUserSideBarMenu: role => {
+  getUserSideBarMenu: (role) => {
     dispatch(getUserSideBarMenu(role));
   },
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );

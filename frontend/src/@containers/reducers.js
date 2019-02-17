@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 import deals from './deals/reducer';
 import profile from './profile/reducer';
 import menu from './menu/reducer';
@@ -18,8 +18,8 @@ const reducers = combineReducers({
   companies,
   deals,
   auth,
-	menu,
-	profile,
+  menu,
+  profile,
   breadcrumb,
 });
 

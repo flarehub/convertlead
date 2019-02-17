@@ -1,27 +1,27 @@
 import {
   CHANGE_COMPANY,
-  LOAD_COMPANY, SAVED_COMPANY
-} from "./actions";
+  LOAD_COMPANY, SAVED_COMPANY,
+} from './actions';
 
 const initState = {
-   form: {
-     title: '',
-     show: false,
-     id: '',
-     name: '',
-     email: '',
-     phone: '',
-     avatar: '',
-     password: '',
-     password_confirmation: ''
-   },
+  form: {
+    title: '',
+    show: false,
+    id: '',
+    name: '',
+    email: '',
+    phone: '',
+    avatar: '',
+    password: '',
+    password_confirmation: '',
+  },
   required: {
     name: true,
     email: true,
     phone: true,
     password: true,
-    password_confirmation: true
-  }
+    password_confirmation: true,
+  },
 };
 
 const companyForm = (state = initState, action) => {
@@ -36,18 +36,18 @@ const companyForm = (state = initState, action) => {
         required: {
           ...state.required,
           password: !action.form.id,
-          password_confirmation: !action.form.id
-        }
-      }
+          password_confirmation: !action.form.id,
+        },
+      };
     }
     case CHANGE_COMPANY: {
       return {
         ...state,
         form: {
           ...state.form,
-          ...action.form
+          ...action.form,
         },
-      }
+      };
     }
     case SAVED_COMPANY: {
       return {
@@ -57,7 +57,7 @@ const companyForm = (state = initState, action) => {
           ...action.form,
           show: false,
         },
-      }
+      };
     }
     default: {
       return state;
