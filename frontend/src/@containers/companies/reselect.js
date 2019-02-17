@@ -6,5 +6,6 @@ export const selectBoxCompanies = createSelector(
     key: company.id,
     value: company.id,
     text: company.name,
+    image: { avatar: true, src: company.avatar_path },
   })),
 );

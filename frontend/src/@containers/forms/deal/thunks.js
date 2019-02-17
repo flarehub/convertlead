@@ -21,9 +21,9 @@ export const createDeal = form => async (dispatch) => {
       throw new Error('Missing required Company!');
     }
     await api.post(`/v1/agency/companies/${form.companyId}/deals`, form);
-    dispatch(sendMessage('Successfully saved!'));
-    dispatch(actions.savedDeal());
-    dispatch(getCompanyDeals());
+    await dispatch(sendMessage('Successfully saved!'));
+    await dispatch(actions.savedDeal());
+    await dispatch(getCompanyDeals());
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }
@@ -36,9 +36,9 @@ export const updateDeal = form => async (dispatch) => {
     }
 
     await api.patch(`/v1/agency/companies/${form.companyId}/deals/${form.id}`, form);
-    dispatch(sendMessage('Successfully saved!'));
-    dispatch(actions.savedDeal());
-    dispatch(getCompanyDeals());
+    await dispatch(sendMessage('Successfully saved!'));
+    await dispatch(actions.savedDeal());
+    await dispatch(getCompanyDeals());
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }

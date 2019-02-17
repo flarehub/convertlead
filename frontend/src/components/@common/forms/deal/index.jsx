@@ -26,22 +26,17 @@ class DealForm extends Component {
         <label>Name</label>
         <Input placeholder='Deal name' value={name} onChange={this.onChangeName} />
       </Form.Field>
-      {
-        !id ? <Form.Field
-            loading={!this.props.selectBoxCompanies.length}
-            control={Select}
-            options={this.props.selectBoxCompanies || []}
-            label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
-            placeholder='Select company'
-            search
-            defaultValue={this.props.form.companyId}
-            onChange={this.onChangeCompany}
-            searchInput={{ id: 'deal-form-companies-list' }}
-          />
-          : <Form.Field><label>Company</label>
-            {R.pathOr('', ['company', 'name'], this.props.form)}
-          </Form.Field>
-      }
+      <Form.Field
+        loading={!this.props.selectBoxCompanies.length}
+        control={Select}
+        options={this.props.selectBoxCompanies || []}
+        label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
+        placeholder='Select company'
+        search
+        defaultValue={this.props.form.companyId}
+        onChange={this.onChangeCompany}
+        searchInput={{ id: 'deal-form-companies-list' }}
+      />
     </Form>)
   }
 }

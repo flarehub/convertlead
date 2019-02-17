@@ -66,9 +66,10 @@ class DealController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255'
         ]);
-        $deal = $request->user()->getCompanyBy($company)->getDealBy($id);
-
-        $deal->fill($request->only(['name', 'description']));
+        $company = $request->user()->getCompanyBy($company);
+        $request->merge(['agency_company_id' => $company->pivot->id]);
+        $deal = Deal::find($id);
+        $deal->fill($request->only(['name', 'agency_company_id', 'description']));
         $deal->save();
     
         return $deal;

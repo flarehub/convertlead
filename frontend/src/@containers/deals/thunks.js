@@ -3,7 +3,7 @@ import { addCompanyDeals } from './actions';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
 
-export const getCompanyDeals = (currentPage = 1, perPage = 2000) => async (dispatch, getState) => {
+export const getCompanyDeals = (currentPage = 1, perPage = 10000) => async dispatch => {
   try {
     dispatch(showLoader());
     const { data } = await api.get('/v1/agency/deals', { params: { per_page: perPage, current_page: currentPage } });
