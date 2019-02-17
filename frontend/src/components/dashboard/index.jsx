@@ -31,6 +31,9 @@ class Dashboard extends Component {
     this.props.resetBreadCrumbToDefault();
     this.props.getCompanyDeals();
     this.props.loadSelectBoxCompanies();
+    this.props.filterDealsByDealId(null);
+    this.props.filterDealsByCompany(null);
+    this.props.filterDealCampaignsById(null);
   }
 
   openConfirmModal = (open = true, companyId = '', dealId = '') => {

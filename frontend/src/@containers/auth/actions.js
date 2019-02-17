@@ -7,5 +7,5 @@ export const addSessionToken = tokenData => ({
 });
 
 export const removeSessionToken = () => ({
-  type: REMOVE_SESSION_TOKEN
+  type: REMOVE_SESSION_TOKEN,
 });
