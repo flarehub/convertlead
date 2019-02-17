@@ -70,7 +70,16 @@ class AgentController extends Controller
      */
     public function update(Request $request, $company, $id)
     {
-        $agent = $request->user()->getCompanyBy($company)->getAgentBy($id);
+        $company = $request->user()->getCompanyBy($company);
+        $agent = $company->getAgentBy($id);
+        $company->agents()->detach($agent);
+
+        $newCompany = $request->input('new_company_id');
+        if ($newCompany) {
+            $newCompany = $request->user()->getCompanyBy($newCompany);
+            $newCompany->agents()->attach($agent);
+        }
+        
         $agent->handleAvatar($request);
         $agent->updateUser($request->except('role'));
         return $agent;

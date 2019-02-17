@@ -99,7 +99,7 @@ class Agency extends User
     public function getAgents($queryParams = []) {
         $query = Agent::selectRaw
         (
-            'users.id, users.role, users.name,
+            'users.id, ca.company_id, users.role, users.name, users.email, users.phone,
             SUM((SELECT COUNT(id)
                     FROM deal_campaigns AS dc
                     WHERE dc.id = dca.deal_campaign_id AND dc.agency_company_id = ac.id
@@ -137,8 +137,8 @@ class Agency extends User
         if (isset($queryParams['search'])) {
             $query->where(function ($query) use ($queryParams) {
                 $query
-                    ->where('users.name', 'like', "%{$queryParams['search']}%")
-                    ->orWhere('users.email', 'like', "%{$queryParams['search']}%");
+                    ->where('users.name', 'LIKE', "%{$queryParams['search']}%")
+                    ->orWhere('users.email', 'LIKE', "%{$queryParams['search']}%");
             });
         }
 

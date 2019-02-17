@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import { BreadCrumbContainer, AgentsContainer } from '@containers';
+import { BreadCrumbContainer, AgentsContainer, AgentFormContainer } from '@containers';
+import AgentModal from '../@common/modals/agent';
 import * as moment from 'moment';
 import {
-  Table,
-  Segment,
-  Pagination,
-  Image,
   Button,
   Checkbox,
-  Header,
-  Form,
-  Input,
-  Icon,
-  Grid,
-  Menu,
   Confirm,
+  Form,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  Input,
+  Menu,
+  Pagination,
+  Segment,
+  Table,
 } from 'semantic-ui-react';
 import styles from './index.scss';
 import Loader from '../loader';
@@ -28,6 +29,14 @@ class Agents extends Component {
     agentId: null,
     companyId: null,
   };
+
+  componentWillMount() {
+    this.props.addBreadCrumb({
+      name: 'Agents',
+      path: '/agents'
+    });
+    this.props.loadAgents();
+  }
 
   getSort = field => {
     const fieldStatus = R.path(['query', 'sort', field], this.props);
@@ -64,20 +73,12 @@ class Agents extends Component {
     this.props.toggleShowDeleted();
   }
 
-  componentWillMount() {
-    this.props.addBreadCrumb({
-      name: 'Agents',
-      path: '/agents'
-    });
-    this.props.loadAgents();
-  }
-
   render() {
     const agents = this.props.agents || [];
     const { pagination  } = this.props;
-
     return (
       <div className={styles.Agents}>
+        <AgentModal />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Segment attached='top'>
           <Grid columns={2}>
@@ -93,7 +94,7 @@ class Agents extends Component {
                   <Menu.Item>
                     <Input icon='search' onChange={this.onSearch} placeholder='Search...' />
                   </Menu.Item>
-                  <Button color='teal' onClick={this.props.openModal.bind(this, true)} content='New Agent' icon='add' labelPosition='left' />
+                  <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Agent' icon='add' labelPosition='left' />
                 </Menu.Menu>
               </Menu>
             </Grid.Column>
@@ -154,7 +155,7 @@ class Agents extends Component {
                       {
                         !agent.is_deleted
                           ?<Button.Group>
-                            <Button><Icon name='pencil alternate' /></Button>
+                            <Button onClick={this.props.loadForm.bind(this, {...agent, show: true})} ><Icon name='pencil alternate' /></Button>
                             <Button onClick={this.openConfirmModal.bind(this, true, agent.company_id, agent.id)}><Icon name='trash alternate outline'/></Button>
                           </Button.Group>
                           : null
@@ -163,7 +164,6 @@ class Agents extends Component {
                   </Table.Row>
                 ))
               }
-
             </Table.Body>
           </Table>
           </Segment>
@@ -179,4 +179,4 @@ class Agents extends Component {
   }
 }
 
-export default compose(BreadCrumbContainer, AgentsContainer)(Agents);
+export default compose(BreadCrumbContainer, AgentsContainer, AgentFormContainer)(Agents);

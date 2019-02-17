@@ -1,18 +1,26 @@
 import {
+  CHANGE_AGENT,
   LOAD_AGENT, SAVED_AGENT,
 } from './actions';
 
 const initState = {
-  show: false,
-  title: null,
-  id: null,
-  companyId: null,
-  agencyId: null,
-  avatar: null,
-  name: null,
-  email: null,
-  password: null,
-  confirmation_password: null,
+  form: {
+    show: false,
+    title: '',
+    id: '',
+    company_id: '',
+    newCompanyId: '',
+    avatar: '',
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  },
+  required: {
+    avatar: true,
+    name: true,
+    email: true,
+  }
 };
 
 const agentForm = (state = initState, action) => {
@@ -20,16 +28,29 @@ const agentForm = (state = initState, action) => {
     case LOAD_AGENT: {
       return {
         ...state,
-        ...action.form,
-        title: !action.form.id ? 'Create Agent' : 'Edit Agent',
-        show: true,
+        form: {
+          ...action.form,
+          title: !action.form.id ? 'Create Agent' : 'Edit Agent',
+        }
       };
+    }
+    case CHANGE_AGENT: {
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          ...action.form
+        }
+      }
     }
     case SAVED_AGENT: {
       return {
         ...state,
-        ...action.form,
-        show: false,
+        form: {
+          ...state.form,
+          ...action.form,
+          show: false,
+        }
       };
     }
     default: {
