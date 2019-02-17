@@ -3,9 +3,7 @@ import * as R from 'ramda';
 import {
   Modal,
   Button,
-  label,
 } from 'semantic-ui-react';
-import { FormContainer } from '@containers';
 import styles from './index.scss';
 
 class EntityModal extends Component {

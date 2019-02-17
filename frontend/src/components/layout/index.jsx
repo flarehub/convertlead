@@ -1,4 +1,4 @@
-import { Segment, Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import React, { Component } from 'react'
 import AppSidebar from '../sidebar'
 import Container from './container'

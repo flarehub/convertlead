@@ -23,10 +23,6 @@ class Dashboard extends Component {
     dealId: '',
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     this.props.resetBreadCrumbToDefault();
     this.props.getCompanyDeals();

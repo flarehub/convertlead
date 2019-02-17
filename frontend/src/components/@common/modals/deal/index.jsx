@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import EntityModal from "../index";
 import { compose } from 'recompose';
 import {CompaniesContainer, MessageContainer, DealFormContainer} from "../../../../@containers";

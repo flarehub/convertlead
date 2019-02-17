@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import {
   Form,
   Input,
-  Segment,
-  Image,
-  Button,
   label,
   Select,
 } from 'semantic-ui-react';

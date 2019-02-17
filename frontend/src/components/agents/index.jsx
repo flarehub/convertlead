@@ -74,7 +74,7 @@ class Agents extends Component {
 
   render() {
     const agents = this.props.agents || [];
-    const { pagination, openModalStatus  } = this.props;
+    const { pagination  } = this.props;
 
     return (
       <div className={styles.Agents}>

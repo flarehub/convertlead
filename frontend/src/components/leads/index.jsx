@@ -77,7 +77,7 @@ class Leads extends Component {
 
   render() {
     const leads = this.props.leads || [];
-    const {pagination, statuses, openModalStatus} = this.props;
+    const {pagination, statuses} = this.props;
 
     return (
       <div className={styles.Agents}>

@@ -6,7 +6,6 @@ import {
   Segment,
   Image,
   Button,
-  Select,
   Grid,
 } from 'semantic-ui-react';
 import './index.scss';

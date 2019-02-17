@@ -1,5 +1,5 @@
 import React from 'react';
-import { Agents, Companies, Dashboard, Leads, Login } from "../index";
+import { Agents, Companies, Dashboard, Leads } from "../index";
 import PrivateRoute from './PrivateRoute';
 import styles from './index.scss';
 
