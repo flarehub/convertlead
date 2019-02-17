@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\Lead;
+use App\Models\LeadStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -50,6 +51,12 @@ class LeadController extends Controller
         ]);
         $lead = Lead::find($id);
     
+        $status = $request->get('status');
+        if ($status) {
+            $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
+            $request->merge(['lead_status_id' => $leadStatus->id]);
+        }
+    
         $lead->fill($request->only([
             'fullname',
             'email',
@@ -57,6 +64,7 @@ class LeadController extends Controller
             'agent_id',
             'metadata',
             'deal_campaign_id',
+            'lead_status_id',
             'agency_company_id',
         ]));
     

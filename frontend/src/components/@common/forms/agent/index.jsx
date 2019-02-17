@@ -14,6 +14,10 @@ import './index.scss';
 import avatarDemo from '../avatar-demo.png';
 import * as R from "ramda";
 
+const panes = [
+  { menuItem: 'Create Agent', pane: 'Create agent' },
+  { menuItem: 'Tab 2', pane: 'Tab 2 Content' },
+]
 class AgentForm extends Component {
   onFileLoad = (event) => {
     if (!R.pathOr(false, ['target', 'files'], event)) {
@@ -40,6 +44,10 @@ class AgentForm extends Component {
     this.props.changeForm({ new_company_id: data.value });
   };
 
+  onSearchChange = event => {
+    this.props.searchCompanies(event.target.value);
+  };
+
   render() {
     const { id, name, phone, email, avatar, avatar_path } = this.props.form;
     return (<Form size='big'>
@@ -62,6 +70,7 @@ class AgentForm extends Component {
             search
             defaultValue={this.props.form.company_id}
             onChange={this.onChangeCompany}
+            onSearchChange={this.onSearchChange}
             searchInput={{ id: 'companies-list' }}
           />
         </Grid.Column>

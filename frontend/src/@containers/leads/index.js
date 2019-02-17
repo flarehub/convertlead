@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions from './actions';
+import {getSelectBoxStatuses} from "./selectors";
 
 const mapStateToProps = state => ({
   leads: state.leads.leads,
   pagination: state.leads.pagination,
   statuses: state.leads.statuses,
+  selectBoxStatuses: getSelectBoxStatuses(state),
   query: state.leads.query,
   openModal: state.leads.openModal,
   openModalStatus: state.leads.openModalStatus,

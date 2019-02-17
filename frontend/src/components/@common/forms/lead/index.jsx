@@ -27,6 +27,14 @@ class LeadForm extends Component {
     this.props.filterDealsByDealId('');
   };
 
+  onChangeStatus = (event, data) => {
+    this.props.changeForm({ status: data.value });
+  };
+
+  onSearchChange = event => {
+    this.props.searchCompanies(event.target.value);
+  };
+
   onChangeDeal = (event, data) => {
     this.props.filterDealsByDealId(data.value);
     this.props.filterDealCampaignsById('');
@@ -69,6 +77,18 @@ class LeadForm extends Component {
           <Grid.Column>
             <Form.Field
               required
+              loading={!this.props.selectBoxStatuses.length}
+              control={Select}
+              options={this.props.selectBoxStatuses || []}
+              label={{ children: 'Statuses', htmlFor: 'status-list' }}
+              placeholder="Select status"
+              search
+              defaultValue={this.props.form.status}
+              onChange={this.onChangeStatus}
+              searchInput={{ id: 'status-list' }}
+            />
+            <Form.Field
+              required
               loading={!this.props.selectBoxCompanies.length}
               control={Select}
               options={this.props.selectBoxCompanies || []}
@@ -77,6 +97,7 @@ class LeadForm extends Component {
               search
               defaultValue={this.props.form.company_id}
               onChange={this.onChangeCompany}
+              onSearchChange={this.onSearchChange}
               searchInput={{ id: 'companies-list' }}
             />
             <Form.Field

@@ -19,8 +19,12 @@ class DealForm extends Component {
     this.props.changeForm({ companyId: data.value });
   };
 
+  onSearchChange = event => {
+    this.props.searchCompanies(event.target.value);
+  };
+
   render() {
-    const { name, id } = this.props.form;
+    const { name } = this.props.form;
     return (<Form size='big'>
       <Form.Field required>
         <label>Name</label>
@@ -35,6 +39,7 @@ class DealForm extends Component {
         search
         defaultValue={this.props.form.companyId}
         onChange={this.onChangeCompany}
+        onSearchChange={this.onSearchChange}
         searchInput={{ id: 'deal-form-companies-list' }}
       />
     </Form>)

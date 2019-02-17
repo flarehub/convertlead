@@ -47,10 +47,11 @@ export const getSelectBoxDealCampaignAgents = createSelector(
     if (deal) {
       const campaign = deal.campaigns && deal.campaigns.find(campaign => campaign.id === filters.campaignId);
       if (campaign) {
-        return campaign.agents && campaign.agents.map(agents => ({
-          key: agents.id,
-          value: agents.id,
-          text: agents.name,
+        return campaign.agents && campaign.agents.map(agent => ({
+          key: agent.id,
+          value: agent.id,
+          text: agent.name,
+          image: { avatar: true, src: agent.avatar_path },
         }));
       }
     }

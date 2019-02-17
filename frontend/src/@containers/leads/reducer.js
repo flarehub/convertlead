@@ -36,7 +36,7 @@ const initState = {
       icon: 'C',
     },
     MISSED: {
-      color: 'c03628',
+      color: 'red',
       icon: 'M',
     },
     BAD: {
