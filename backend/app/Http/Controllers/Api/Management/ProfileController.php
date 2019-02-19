@@ -25,7 +25,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->user()->handleAvatar($request);
         $data = $request->only(['name', 'email', 'avatar_id', 'phone', 'password', 'password_confirmation']);

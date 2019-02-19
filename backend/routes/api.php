@@ -18,7 +18,8 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
      */
         function () {
         Route::group(['namespace' => 'Api\Management'], function () {
-            Route::apiResource('profile', 'ProfileController');
+            Route::get('profile', 'ProfileController@index');
+            Route::patch('profile', 'ProfileController@update');
         });
         
         Route::group(['namespace' => 'Api\Management\Admin'], function () {

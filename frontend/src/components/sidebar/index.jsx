@@ -5,7 +5,7 @@ import { MenuContainer, AuthContainer, ProfileContainer } from "@containers";
 import PropTypes  from 'prop-types';
 
 import { Icon, Menu, Dropdown, Image } from 'semantic-ui-react'
-import logo from './logo.png';
+import logo from '../assets/logo.png';
 import styles from './index.scss';
 
 class AppSidebar extends Component {
@@ -38,7 +38,7 @@ class AppSidebar extends Component {
        <Menu.Item className='user-avatar'>
           <Dropdown trigger={<Image avatar src={this.props.profile.avatar_path} size='tiny' />} pointing='top left' icon={null} >
             <Dropdown.Menu>
-              <Dropdown.Item>My Profile</Dropdown.Item>
+              <Dropdown.Item><Link to='/profile'>My Profile</Link></Dropdown.Item>
               <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

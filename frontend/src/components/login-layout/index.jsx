@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 import { AuthContainer } from "@containers";
 import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
 import './index.scss';
+import logo from '../assets/logo.png';
 
 class Login extends Component {
   email = '';
@@ -35,7 +36,7 @@ class Login extends Component {
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='teal' textAlign='center'>
-              <Image src='/logo.png' /> Log-in to your account
+              <Image src={logo} /> Log-in to your account
             </Header>
             <Form size='large' onSubmit={this.login}>
               <Segment stacked>
