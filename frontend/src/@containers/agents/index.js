@@ -15,7 +15,7 @@ const mapDispatchToProps = dispatch => ({
   search: search => dispatch(thunks.searchAgents(search)),
   sort: sort => dispatch(thunks.sortAgents(sort)),
   gotoPage: activePage => dispatch(thunks.gotoPage(activePage)),
-  delete: (companyId, agentId) => dispatch(thunks.deleteAgent(companyId, agentId)),
+  delete: (agentId) => dispatch(thunks.deleteAgent(agentId)),
   edit: (id, agent) => dispatch(thunks.editAgent(id, agent)),
   create: agent => dispatch(thunks.createAgent(agent)),
   openModal: open => dispatch(actions.openAgentModal(open)),

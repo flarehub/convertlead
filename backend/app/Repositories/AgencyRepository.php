@@ -14,7 +14,7 @@ trait AgencyRepository {
     }
 
     public function getAgent($id) {
-        return $this->agents()->where('agent_id', $id)->firstOrFail();
+        return $this->agents()->where('id', $id)->firstOrFail();
     }
 
     public function createCompany($data) {

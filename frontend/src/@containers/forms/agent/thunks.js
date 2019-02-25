@@ -19,10 +19,7 @@ export const saveAgent = form => (dispatch) => {
 export const updateAgent = form => {
   return async dispatch => {
     try {
-      if (!form.company_id) {
-        throw new Error('Missing required company');
-      }
-      await api.patch(`/v1/agency/companies/${form.company_id}/agents/${form.id}`, form);
+      await api.patch(`/v1/agency/agents/${form.id}`, form);
       await dispatch(actions.savedAgent());
       await dispatch(loadAgents());
       dispatch(sendMessage('Successfully saved!'));
@@ -35,10 +32,7 @@ export const updateAgent = form => {
 export const createAgent = form => {
   return async dispatch => {
     try {
-      if (!form.new_company_id) {
-        throw new Error('Missing required company');
-      }
-      await api.post(`/v1/agency/companies/${form.new_company_id}/agents`, form);
+      await api.post(`/v1/agency/agents`, form);
       dispatch(sendMessage('Successfully saved!'));
       await dispatch(actions.savedAgent());
       await dispatch(loadAgents());

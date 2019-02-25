@@ -16,6 +16,10 @@ class Agency extends User
     public function companies() {
         return $this->belongsToMany('App\Models\Company', 'agency_companies', 'agency_id')->withPivot('id');
     }
+
+    public function agents() {
+        return $this->hasMany('App\Models\Agent', 'agent_agency_id', 'id');
+    }
     
     public function deals() {
         return $this->belongsToMany(
@@ -100,16 +104,14 @@ class Agency extends User
     public function getAgents($queryParams = []) {
         $query = Agent::selectRaw
         (
-            'users.id, ca.company_id, users.role, users.name, users.email, users.phone, users.avatar_id,
+            'users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.avatar_id,
             SUM((SELECT COUNT(id)
                     FROM deal_campaigns AS dc
-                    WHERE dc.id = dca.deal_campaign_id AND dc.agency_company_id = ac.id
-                    GROUP BY dc.id
+                    WHERE dc.id = dca.deal_campaign_id GROUP BY dc.id
                     )) AS campaigns_count,
              SUM((SELECT COUNT(id)
                 FROM leads
-                WHERE leads.deal_campaign_id = dca.deal_campaign_id AND leads.agency_company_id = ac.id
-                GROUP BY leads.deal_campaign_id
+                WHERE leads.deal_campaign_id = dca.deal_campaign_id GROUP BY leads.deal_campaign_id
                 )) AS leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(
             ld.created_at,
@@ -117,22 +119,16 @@ class Agency extends User
                 SELECT created_at
                     FROM lead_notes
                     WHERE lead_notes.lead_id = ld.id ORDER BY created_at ASC LIMIT 1))))) AS avg_lead_response,
-            users.created_at,
-            ac.company_id'
+            users.created_at'
         )
-            ->join('company_agents as ca','ca.agent_id', 'users.id')
-            ->join('agency_companies as ac', 'ac.company_id', 'ca.company_id')
-            ->join('users as agency', 'agency.id', 'ac.agency_id')
-            ->join('users as company', 'company.id', 'ca.company_id')
+            ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
             ->leftJoin('leads AS ld', 'ld.deal_campaign_id', 'dca.deal_campaign_id')
             ->where('agency.id', $this->id)
-            ->groupBy('users.id', 'ac.company_id');
+            ->groupBy('users.id');
     
         if ( isset($queryParams['showDeleted']) ) {
-            $query->whereRaw('(users.deleted_at IS NOT NULL OR users.deleted_at IS NULL)');
-        } else {
-            $query->whereRaw('users.deleted_at IS NULL');
+            $query->withTrashed();
         }
         
         if (isset($queryParams['search'])) {

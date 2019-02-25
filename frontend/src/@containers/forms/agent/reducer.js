@@ -8,8 +8,8 @@ const initState = {
     show: false,
     title: '',
     id: '',
-    company_id: '',
-    new_company_id: '',
+    companies: [],
+    new_companies: [],
     avatar: '',
     name: '',
     email: '',
@@ -25,6 +25,10 @@ const initState = {
 const agentForm = (state = initState, action) => {
   switch (action.type) {
     case LOAD_AGENT: {
+      if (action.form.companies) {
+        action.form.companies = action.form.companies.map(company => company.id);
+      }
+
       return {
         ...state,
         form: {

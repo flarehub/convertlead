@@ -32,9 +32,9 @@ export const editAgent = (id, agent) => (dispath, getState) => {
   dispath(actions.editAgent(id, agent));
 };
 
-export const deleteAgent = (companyId, id) => async (dispath, getState) => {
+export const deleteAgent = (id) => async (dispath, getState) => {
   try {
-    await api.delete(`/v1/agency/companies/${companyId}/agents/${id}`);
+    await api.delete(`/v1/agency/agents/${id}`);
     dispath(loadAgents());
   } catch (e) {
     // todo add message error

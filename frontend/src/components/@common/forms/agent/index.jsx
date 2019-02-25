@@ -41,7 +41,7 @@ class AgentForm extends Component {
   };
 
   onChangeCompany = (event, data) => {
-    this.props.changeForm({ new_company_id: data.value });
+    this.props.changeForm({ new_companies: data.value });
   };
 
   onSearchChange = event => {
@@ -68,7 +68,8 @@ class AgentForm extends Component {
             label={{ children: 'Company', htmlFor: 'companies-list' }}
             placeholder='Select company'
             search
-            defaultValue={this.props.form.company_id}
+            multiple
+            defaultValue={this.props.form.companies}
             onChange={this.onChangeCompany}
             onSearchChange={this.onSearchChange}
             searchInput={{ id: 'companies-list' }}

@@ -8,7 +8,13 @@ use App\Http\Controllers\Controller;
 
 class AgentController extends Controller
 {
-    public function all(Request $request) {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
         $itemsPerPage = (int)$request->get('per_page', 10);
         $page = (int)$request->get('current_page', 1);
     
@@ -21,18 +27,6 @@ class AgentController extends Controller
             'showDeleted',
         ]))->paginate($itemsPerPage, ['*'], 'agents', $page);
     }
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request, $company)
-    {
-        $itemsPerPage = (int)$request->get('per_page', 100);
-        $page = (int)$request->get('current_page', 1);
-        return $request->user()->getCompanyBy($company)->agents()->paginate($itemsPerPage, ['*'], 'companies', $page);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,17 +34,30 @@ class AgentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $company, Agent $agent)
+    public function store(Request $request, Agent $agent)
     {
         try {
             \DB::beginTransaction();
             $agent->handleAvatar($request);
             $request->merge(['agent_agency_id' => $request->user()->id]);
-            $agent = $agent->createAgent($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
-            $request->user()
-                ->getCompanyBy($company)
-                ->agents()
-                ->attach($agent);
+            $agent = $agent->createAgent($request->only([
+                'name',
+                'avatar_id',
+                'agent_agency_id',
+                'phone',
+                'email',
+                'password',
+                'password_confirmation'
+            ]));
+
+            $newCompanies = $request->get('new_companies');
+            if ($newCompanies) {
+                foreach ($newCompanies AS $newCompany) {
+                    $newCompany = $request->user()->getCompanyBy($newCompany);
+                    $newCompany->agents()->attach($agent);
+                }
+            }
+
             \DB::commit();
             return $agent;
         } catch (\PDOException $e) {
@@ -78,24 +85,32 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $company, $id)
+    public function update(Request $request, $id)
     {
         try {
             \DB::beginTransaction();
             $request->merge(['agent_agency_id' => $request->user()->id]);
-            $company = $request->user()->getCompanyBy($company);
-            $agent = $company->getAgentBy($id);
+            $agent = $request->user()->getAgent($id);
+            
+            $oldCompanies = $request->get('companies');
+            $newCompanies = $request->get('new_companies');
     
-            $newCompany = $request->get('new_company_id');
-            if ($newCompany) {
-                $company->agents()->detach($agent);
-                $newCompany = $request->user()->getCompanyBy($newCompany);
-                $newCompany->agents()->attach($agent);
+            if ($oldCompanies && $newCompanies) {
+                foreach ($oldCompanies AS $company) {
+                    $company = $request->user()->getCompanyBy($company);
+                    $company->agents()->detach($agent);
+                }
             }
-    
+            
+            if ($newCompanies) {
+                foreach ($newCompanies AS $newCompany) {
+                    $newCompany = $request->user()->getCompanyBy($newCompany);
+                    $newCompany->agents()->attach($agent);
+                }
+            }
+
             $agent->handleAvatar($request);
             $agent->updateUser($request->except('role'));
-
             \DB::commit();
             return $agent;
         } catch (\PDOException $e) {
@@ -110,11 +125,20 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $company, $id)
+    public function destroy(Request $request, $id)
     {
-        $company = $request->user()->getCompanyBy($company, true);
-        $agent = $company->getAgentBy($id);
-        $company->agents()->detach($agent);
-        return $agent;
+        try {
+            \DB::beginTransaction();
+            $agent = $request->user()->getAgent($id);
+            foreach ($agent->companies AS $company) {
+                $company->agents()->detach($agent);
+            }
+            $agent->delete();
+            \DB::commit();
+            return $agent;
+        } catch (\PDOException $e) {
+            \DB::rollBack();
+            throw $e;
+        }
     }
 }

@@ -27,7 +27,6 @@ class Agents extends Component {
   state = {
     open: false,
     agentId: null,
-    companyId: null,
   };
 
   componentWillMount() {
@@ -60,13 +59,13 @@ class Agents extends Component {
     this.props.gotoPage(data.activePage);
   }
 
-  openConfirmModal = (open = true, companyId, agentId = null) => {
-    this.setState({ open, companyId, agentId })
+  openConfirmModal = (open = true, agentId = null) => {
+    this.setState({ open, agentId });
   }
 
   onConfirm = () => {
     this.setState({ open: false });
-    this.props.delete(this.state.companyId, this.state.agentId);
+    this.props.delete(this.state.agentId);
   }
 
   onShowArch = () => {
@@ -108,7 +107,7 @@ class Agents extends Component {
                   <Icon name={this.getSort('name')}
                         onClick={this.props.sort.bind(this, 'name')}/>
                 </Table.HeaderCell>
-                <Table.HeaderCell>Company</Table.HeaderCell>
+                <Table.HeaderCell>Companies</Table.HeaderCell>
                 <Table.HeaderCell>Campaigns  <Icon name={this.getSort('campaigns')}
                                                onClick={this.props.sort.bind(this, 'campaigns')}/>
                 </Table.HeaderCell>
@@ -137,14 +136,12 @@ class Agents extends Component {
                     </Table.Cell>
                     <Table.Cell>
                       {
-                        agent.company
-                        ? <div>
-                            <Link to={`/companies/${agent.company.id}`}>
-                              <Image avatar src={agent.company.avatar_path} rounded size='mini' />
-                              {agent.company.name}
-                            </Link>
-                          </div>
-                        : null
+                        agent.companies.map((company, key) =>  <div key={key}>
+                          <Link to={`/companies/${company.id}`}>
+                            <Image avatar src={company.avatar_path} rounded size='mini' />
+                            {company.name}
+                          </Link>
+                        </div>)
                       }
 
                     </Table.Cell>
@@ -156,7 +153,7 @@ class Agents extends Component {
                         !agent.is_deleted
                           ?<Button.Group>
                             <Button onClick={this.props.loadForm.bind(this, {...agent, show: true})} ><Icon name='pencil alternate' /></Button>
-                            <Button onClick={this.openConfirmModal.bind(this, true, agent.company_id, agent.id)}><Icon name='trash alternate outline'/></Button>
+                            <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}><Icon name='trash alternate outline'/></Button>
                           </Button.Group>
                           : null
                       }
