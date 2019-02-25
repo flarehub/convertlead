@@ -17,7 +17,7 @@ class Campaign extends Model
         'integration',
     ];
     
-    protected $appends = ['agents'];
+    protected $appends = ['agents', 'leads_count'];
     
     public function deal() {
         return $this->belongsTo('App\Models\Deal');
@@ -25,6 +25,10 @@ class Campaign extends Model
 
     public function agents() {
         return $this->belongsToMany('App\Models\Agent', 'deal_campaign_agents', 'id', 'agent_id');
+    }
+
+    public function leads() {
+        return $this->belongsTo('App\Models\Lead', 'id', 'deal_campaign_id');
     }
     
     public function getAgentsAttribute() {
@@ -35,5 +39,9 @@ class Campaign extends Model
             });
         }
         return $agents;
+    }
+    
+    public function getLeadsCountAttribute() {
+        return $this->leads()->count();
     }
 }

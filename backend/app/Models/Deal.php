@@ -48,4 +48,10 @@ class Deal extends Model
         }
         return $campaigns;
     }
+    
+    public function getCampaignsBy($queryParams = []) {
+        $query = $this->campaigns();
+    
+        return $query;
+    }
 }
