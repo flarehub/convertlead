@@ -2,23 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import * as styles from './index.scss';
-import { BreadCrumbContainer, CampaignsContainer } from "@containers";
+import {
+  BreadCrumbContainer,
+  CampaignsContainer
+} from "@containers";
 import Loader from '../loader';
 import {
-  Segment,
-  Confirm,
-  Checkbox,
-  Header,
-  Menu,
-  Image,
-  Form,
-  Select,
-  Input,
-  Grid,
-  Button,
-  Table,
-  Icon,
-  Pagination,
+  Segment, Confirm, Checkbox, Header, Menu, Image, Form, Select, Input,
+  Grid, Button, Table, Icon, Pagination,
 } from 'semantic-ui-react';
 import * as R from "ramda";
 
@@ -26,11 +17,35 @@ class Campaigns extends Component {
   state = {
     open: false,
     campaignId: '',
+    companyName: 'Company',
+    dealName: 'Deal'
   };
 
-  componentWillMount() {
-    const { companyId, dealId } = this.props.match.params;
-    this.props.loadCampaigns(companyId, dealId);
+  constructor(props) {
+    super(props);
+    const { companyId, dealId } = props.match.params;
+    props.loadCampaigns(companyId, dealId);
+  }
+
+  componentDidMount() {
+    const { companyId } = this.props.match.params;
+    const deal = R.pathOr({
+      name: 'Deal',
+      company: {
+        name: 'Company',
+      }
+    }, ['history', 'location', 'state', 'deal'], this.props);
+
+    this.props.addBreadCrumb({
+      name: deal.company.name,
+      path: `/companies/${companyId}/profile`,
+    });
+
+    this.props.addBreadCrumb({
+      name: deal.name,
+      path: '/',
+      active: true,
+    }, false);
   }
 
   getSort = field => {
@@ -56,6 +71,10 @@ class Campaigns extends Component {
   onShowArch = () => {
     this.props.toggleShowDeleted();
   };
+
+  gotoPage = (event, data) => {
+    this.props.gotoPage(data.activePage);
+  }
 
   render() {
     const { campaigns, pagination } = this.props;
@@ -94,13 +113,11 @@ class Campaigns extends Component {
                 <Table.HeaderCell>Leads  <Icon name={this.getSort('leads')}
                                                onClick={this.props.sort.bind(this, 'leads')}/>
                 </Table.HeaderCell>
-                <Table.HeaderCell>Assigned to
-                  <Icon name={this.getSort('agents')}
-                        onClick={this.props.sort.bind(this, 'agents')}/>
-                </Table.HeaderCell>
-                <Table.HeaderCell>Avg Response time
-                  <Icon name={this.getSort('avg_response')}
-                        onClick={this.props.sort.bind(this, 'avg_response')}/>
+                <Table.HeaderCell>Assigned to</Table.HeaderCell>
+                <Table.HeaderCell>
+                  Avg Response time
+                  <Icon name={this.getSort('avg_time_response')}
+                        onClick={this.props.sort.bind(this, 'avg_time_response')}/>
                 </Table.HeaderCell>
                 <Table.HeaderCell>Edit/Access/Archieve</Table.HeaderCell>
               </Table.Row>
@@ -116,9 +133,9 @@ class Campaigns extends Component {
                     <Table.Cell>{campaign.integration}</Table.Cell>
                     <Table.Cell>{campaign.leads_count}</Table.Cell>
                     <Table.Cell>{
-                      campaign.agents && campaign.agents.map(agent => <Link to={`/agents/${agent.id}`}>{agent.name}</Link>)
+                      campaign.agents && campaign.agents.map((agent, key) => <Link key={key} to={`/agents/${agent.id}`}>{agent.name}</Link>)
                     }</Table.Cell>
-                    <Table.Cell>{campaign.avg_lead_response || 0}</Table.Cell>
+                    <Table.Cell>{campaign.avg_time_response || 0}</Table.Cell>
                     <Table.Cell>
                       {/*{*/}
                         {/*!campaign.is_deleted*/}
@@ -139,7 +156,7 @@ class Campaigns extends Component {
         </Segment>
       </Segment>
       <Segment textAlign='right' attached='bottom'>
-        <Pagination onPageChange={this.loadCompanies}
+        <Pagination onPageChange={this.gotoPage}
                     defaultActivePage={pagination.current_page}
                     prevItem={null}
                     nextItem={null}

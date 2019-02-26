@@ -1,13 +1,20 @@
-import {api} from "../../@services";
-import {sendMessage} from "../messages/thunks";
 import * as actions from './actions';
+import {api} from "../../@services";
 import {hideLoader, showLoader} from "../loader/actions";
+import {sendMessage} from "../messages/thunks";
 
 export const fetchCampaigns = () => async (dispatch, getState) => {
   try {
     await dispatch(showLoader());
-    const { pagination, companyId, dealId } = getState().campaigns;
-    const response = await api.get(`/v1/agency/companies/${companyId}/deals/${dealId}/campaigns`);
+    const { pagination, companyId, dealId, query } = getState().campaigns;
+    const response = await api.get(`/v1/agency/companies/${companyId}/deals/${dealId}/campaigns`, {
+      params: {
+        current_page: pagination.current_page,
+        per_page: pagination.per_page,
+        showDeleted: (query.showDeleted ? query.showDeleted : null),
+        ...query.sort,
+      }
+    });
     const { data, ...rest } = response.data;
     await dispatch(actions.loadCampaigns(data, rest));
   } catch (e) {
@@ -17,7 +24,7 @@ export const fetchCampaigns = () => async (dispatch, getState) => {
   await dispatch(hideLoader());
 };
 
-export const loadCampaigns = (companyId, dealId) => async dispatch => {
+export const loadCampaigns = (companyId, dealId) => async (dispatch, getState) => {
   try {
     await dispatch(actions.fetchCampaigns(companyId, dealId));
     await dispatch(fetchCampaigns());
@@ -28,12 +35,15 @@ export const loadCampaigns = (companyId, dealId) => async dispatch => {
 
 export const toggleShowDeletedCampaigns = () => async dispatch => {
   await dispatch(actions.toggleShowDeletedCampaigns());
+  await dispatch(fetchCampaigns());
 };
 
 export const gotoPage = page => async dispatch =>  {
   await dispatch(actions.gotoPageCampaigns(page));
+  await dispatch(fetchCampaigns());
 };
 
 export const sortCampaigns = field => async dispatch =>  {
   await dispatch(actions.sortCampaigns(field));
+  await dispatch(fetchCampaigns());
 };

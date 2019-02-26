@@ -1,4 +1,10 @@
-import {FETCH_CAMPAIGNS, GOTO_PAGE_CAMPAIGN, LOAD_CAMPAIGNS, SHOW_DELETED_CAMPAIGNS} from "./actions";
+import {
+  FETCH_CAMPAIGNS,
+  GOTO_PAGE_CAMPAIGN,
+  LOAD_CAMPAIGNS,
+  SHOW_DELETED_CAMPAIGNS,
+  SORT_CAMPAIGNS,
+} from "./actions";
 
 const initState = {
   campaigns: [],
@@ -6,6 +12,8 @@ const initState = {
   dealId: null,
   query: {
     showDeleted: false,
+    sort: {
+    }
   },
   pagination: {
     current_page: 1,
@@ -30,6 +38,18 @@ const campaigns = (state = initState, action) => {
           ...state.pagination,
           current_page: action.page,
         }
+      };
+    }
+    case SORT_CAMPAIGNS: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          sort: {
+            ...state.query.sort,
+            [action.field]: (state.query.sort[action.field] === false ? null : !state.query.sort[action.field]),
+          },
+        },
       };
     }
     case FETCH_CAMPAIGNS: {

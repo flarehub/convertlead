@@ -92,7 +92,10 @@ class Dashboard extends Component {
                 deals.map((deal, key) => (
                   <Card key={key}>
                       <Card.Content>
-                        <Link to={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}>
+                        <Link to={{
+                          pathname: `/companies/${deal.company.id}/deals/${deal.id}/campaigns`,
+                          state: { deal }
+                        }}>
                         <Card.Header>{deal.name}</Card.Header>
                         <Card.Meta>Started {moment(deal.created_at).format('DD/MM/YYYY')}</Card.Meta>
                         <Card.Description>

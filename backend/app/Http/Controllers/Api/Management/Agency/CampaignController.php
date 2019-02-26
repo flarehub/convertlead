@@ -23,9 +23,11 @@ class CampaignController extends Controller
             ->getCompanyBy($company)
             ->getDealBy($deal)
             ->getCampaignsBy($request->only([
+                'showDeleted',
                 'name',
                 'type',
                 'leads',
+                'avg_time_response',
             ]))
             ->paginate($itemsPerPage, ['*'], 'campaigns', $page);
     }

@@ -29,6 +29,15 @@ class Companies extends Component {
     ready: false,
   };
 
+  componentWillMount() {
+    this.props.addBreadCrumb({
+      name: 'Companies',
+      path: '/companies',
+      active: true,
+    }, true);
+    this.props.loadCompanies();
+  }
+
   getSort = field => {
     const fieldStatus = R.path(['query', 'sort', field], this.props);
     if (fieldStatus=== true) {
@@ -64,15 +73,6 @@ class Companies extends Component {
   onLockCompany = (company) => {
     company.is_locked = +!company.is_locked;
     this.props.updateLockStatusCompany(company);
-  }
-
-  componentWillMount() {
-    this.props.addBreadCrumb({
-      name: 'Companies',
-      path: '/companies',
-      active: true,
-    }, true);
-    this.props.loadCompanies();
   }
 
   render() {

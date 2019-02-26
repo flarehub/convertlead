@@ -17,7 +17,7 @@ class Campaign extends Model
         'integration',
     ];
     
-    protected $appends = ['agents', 'leads_count'];
+    protected $appends = ['agents'];
     
     public function deal() {
         return $this->belongsTo('App\Models\Deal');

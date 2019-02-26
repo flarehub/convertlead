@@ -39,47 +39,42 @@ class Agency extends User
     }
     
     public function getCompanies($queryParams) {
-        $query = self::selectRaw('
-            cp.id,
-            cp.name,
-            cp.phone,
-            cp.email,
-            cp.avatar_id,
+        $query = Company::selectRaw('
+            users.id,
+            users.name,
+            users.phone,
+            users.email,
+            users.avatar_id,
             ac.is_locked,
-            IF(cp.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
-            COUNT(DISTINCT cp.id, deals.id) as deals_count,
-            COUNT(DISTINCT cp.id, company_agents.id) as agents_count,
-            COUNT(DISTINCT cp.id, leads.id) as leads_count,
-               SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(
-                leads.created_at,
-                (
-                    SELECT created_at
-                        FROM lead_notes
-                        WHERE lead_notes.lead_id = leads.id ORDER BY created_at ASC LIMIT 1))))) AS avg_lead_response
+            IF(users.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
+            COUNT(DISTINCT users.id, deals.id) as deals_count,
+            COUNT(DISTINCT users.id, company_agents.id) as agents_count,
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(lead_notes.created_at, leads.created_at)))) AS avg_lead_response
             ')
-            ->join('agency_companies as ac', 'users.id', 'ac.agency_id')
-            ->join('users AS cp', 'cp.id', 'ac.company_id')
+            ->join('agency_companies as ac', 'ac.company_id', 'users.id')
+            ->join('users AS ag', 'ag.id', 'ac.agency_id')
             ->leftJoin('deals', 'deals.agency_company_id', 'ac.id')
-            ->leftJoin('company_agents', 'company_agents.company_id', 'cp.id')
+            ->leftJoin('company_agents', 'company_agents.company_id', 'users.id')
             ->leftJoin('leads', 'leads.agency_company_id', 'ac.id')
-            ->where('users.id', $this->id)->groupBy('cp.id', 'ac.is_locked');
+            ->leftJoin('lead_notes', 'lead_notes.lead_id', 'leads.id')
+            ->where('ag.id', $this->id)->groupBy('users.id', 'ac.is_locked');
         
         if ( isset($queryParams['showDeleted']) ) {
-            $query->whereRaw('(cp.deleted_at IS NOT NULL OR cp.deleted_at IS NULL)');
+            $query->withTrashed();
         } else {
-            $query->whereRaw('cp.deleted_at IS NULL');
+            $query->whereRaw('users.deleted_at IS NULL');
         }
     
         if ( isset($queryParams['search']) && $queryParams['search'] ) {
             $query->where(function ($query) use ($queryParams) {
                 $query
-                    ->where('cp.name', 'like', "%{$queryParams['search']}%")
-                    ->orWhere('cp.email', 'like', "%{$queryParams['search']}%");
+                    ->where('users.name', 'like', "%{$queryParams['search']}%")
+                    ->orWhere('users.email', 'like', "%{$queryParams['search']}%");
             });
         }
         
         if ( isset($queryParams['name']) ) {
-            $query->orderBy('cp.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
+            $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
     
     

@@ -51,6 +51,34 @@ class Deal extends Model
     
     public function getCampaignsBy($queryParams = []) {
         $query = $this->campaigns();
+        $query->leftJoin('leads', 'leads.deal_campaign_id', 'deal_campaigns.id');
+        $query->leftJoin('lead_notes', 'lead_notes.lead_id', 'leads.id');
+        $query->selectRaw('
+            deal_campaigns.*,
+            COUNT(leads.id) as leads_count,
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(lead_notes.created_at, leads.created_at)))) AS avg_time_response
+        ');
+        $query->groupBy('deal_campaigns.id');
+        
+        if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] === 'true') {
+            $query->withTrashed();
+        }
+        
+        if ( isset($queryParams['name']) ) {
+            $query->orderBy('name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
+        }
+
+        if ( isset($queryParams['type']) ) {
+            $query->orderBy('integration', ($queryParams['type'] === 'true' ? 'DESC' : 'ASC'));
+        }
+
+        if ( isset($queryParams['leads']) ) {
+            $query->orderBy('leads_count', ($queryParams['leads'] === 'true' ? 'DESC' : 'ASC'));
+        }
+
+        if ( isset($queryParams['avg_time_response']) ) {
+            $query->orderBy('avg_time_response', ($queryParams['avg_time_response'] === 'true' ? 'DESC' : 'ASC'));
+        }
     
         return $query;
     }
