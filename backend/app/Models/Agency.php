@@ -49,7 +49,7 @@ class Agency extends User
             IF(users.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
             COUNT(DISTINCT users.id, deals.id) as deals_count,
             COUNT(DISTINCT users.id, company_agents.id) as agents_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(lead_notes.created_at, leads.created_at)))) AS avg_lead_response
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF((SELECT MIN(created_at) FROM lead_notes as ld WHERE ld.lead_id = leads.id), leads.created_at)))) AS avg_lead_response
             ')
             ->join('agency_companies as ac', 'ac.company_id', 'users.id')
             ->join('users AS ag', 'ag.id', 'ac.agency_id')

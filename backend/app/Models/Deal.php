@@ -56,7 +56,7 @@ class Deal extends Model
         $query->selectRaw('
             deal_campaigns.*,
             COUNT(leads.id) as leads_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(lead_notes.created_at, leads.created_at)))) AS avg_time_response
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF((SELECT MIN(created_at) FROM lead_notes WHERE lead_notes.lead_id = leads.id), leads.created_at)))) AS avg_time_response
         ');
         $query->groupBy('deal_campaigns.id');
         

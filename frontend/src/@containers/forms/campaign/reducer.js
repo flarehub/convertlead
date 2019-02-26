@@ -2,13 +2,16 @@ import { LOAD_CAMPAIGN, SAVED_CAMPAIGN } from './actions';
 import {CHANGE_COMPANY} from "../company/actions";
 
 const initState = {
-  show: false,
-  title: null,
-  dealId: null,
-  companyId: null,
-  name: null,
-  description: null,
-  integrationType: null,
+  form: {
+    show: false,
+    dealId: '',
+    companyId: '',
+    name: '',
+    integrationType: '',
+  },
+  required: {
+    name: true,
+  }
 };
 
 const campaignForm = (state = initState, action) => {
@@ -33,7 +36,10 @@ const campaignForm = (state = initState, action) => {
     case SAVED_CAMPAIGN: {
       return {
         ...state,
-        show: false,
+        form: {
+          ...state.form,
+          show: false
+        }
       };
     }
     default: {
