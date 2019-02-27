@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management\Agency;
 
-use App\Models\Campaign;
+use App\Models\DealCampaign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -38,7 +38,7 @@ class CampaignController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $company, $deal, Campaign $campaign)
+    public function store(Request $request, $company, $deal, DealCampaign $campaign)
     {
 
         $deal = $request->user()->getCompanyBy($company)->getDealBy($deal);

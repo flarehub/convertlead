@@ -24,7 +24,7 @@ class Lead extends Model
         'campaign',
         'status',
         'company',
-        'agents'
+        'agent'
     ];
     
     public function campaign() {
@@ -35,8 +35,8 @@ class Lead extends Model
         return $this->hasOne('App\Models\Company', 'id', 'company_id');
     }
     
-    public function agents() {
-        return $this->belongsToMany('App\Models\Agent', 'deal_campaign_agents', 'deal_campaign_id');
+    public function agent() {
+        return $this->hasOne('App\Models\Agent', 'id', 'agent_id');
     }
 
     public function status() {
@@ -59,12 +59,10 @@ class Lead extends Model
         return null;
     }
 
-    public function getAgentsAttribute() {
-        $agents = $this->agents()->get();
-        if ($agents) {
-            return collect($agents)->map(function ($agent) {
-                return $agent->only(['id', 'name', 'avatar_path']);
-            });
+    public function getAgentAttribute() {
+        $agent = $this->agent()->first();
+        if ($agent) {
+            return $agent->only(['id', 'name', 'avatar_path']);
         }
         return null;
     }

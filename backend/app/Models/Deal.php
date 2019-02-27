@@ -28,7 +28,7 @@ class Deal extends Model
     }
     
     public function campaigns() {
-        return $this->hasMany('App\Models\Campaign', 'deal_id', 'id');
+        return $this->hasMany('App\Models\DealCampaign', 'deal_id', 'id');
     }
     
     public function getCompanyAttribute() {

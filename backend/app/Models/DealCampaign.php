@@ -13,31 +13,54 @@ class DealCampaign extends Model
     public static $INTEGRATION_OPTIN_FORM = 'OPTIN_FORM';
     public static $INTEGRATION_FACEBOOK = 'FACEBOOK';
     public static $INTEGRATION_ZAPIER = 'ZAPIER';
+ 
+    protected $table = 'deal_campaigns';
     
     protected $fillable = [
         'name',
         'uuid',
         'description',
+        'integration',
+        'integration_config',
     ];
     
-    public function agents() {
-        return $this->belongsToMany(
-            'App\Models\Agent', 'deal_campaign_agents',
-            'deal_campaign_id',
-            'agent_id');
+    protected $appends = ['agents'];
+    
+    public function deal() {
+        return $this->belongsTo('App\Models\Deal');
     }
-
+    
+    public function agents() {
+        return $this->belongsToMany('App\Models\Agent', 'deal_campaign_agents');
+    }
+    
     public function leads() {
-        return $this->belongsTo('App\Models\Lead', 'leads');
+        return $this->belongsTo('App\Models\Lead', 'id', 'deal_campaign_id');
+    }
+    
+    public function getAgentsAttribute() {
+        $agents = $this->agents()
+            ->orderBy('agent_leads_count', 'ASC')
+            ->withPivot('agent_leads_count')->get();
+        if ($agents) {
+            return collect($agents)->map(function ($agent) {
+                return $agent->only('name', 'avatar_path', 'id', 'pivot');
+            });
+        }
+        return $agents;
+    }
+    
+    public function getLeadsCountAttribute() {
+        return $this->leads()->count();
     }
     
     protected static function boot()
     {
-        parent::boot();
-        static::creating(function ($query, Faker $faker) {
-            $query->uuid = ($query->uuid
-                ? $query->uuid
-                : $faker->uuid);
-        });
+//        parent::boot();
+//        static::creating(function ($query, Faker $faker) {
+//            $query->uuid = ($query->uuid
+//                ? $query->uuid
+//                : $faker->uuid);
+//        });
     }
 }

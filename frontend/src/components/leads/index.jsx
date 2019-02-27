@@ -139,9 +139,11 @@ class Leads extends Component {
                         Added {moment(lead.created_at).format('DD/MM/YYYY')}
                       </div>
                     </Table.Cell>
-                    <Table.Cell>{
-                      lead.agents && lead.agents.map((agent, key) => <Link key={key} to={`/agents/${agent.id}`}>{agent.name}</Link>)
-                    }</Table.Cell>
+                    <Table.Cell>
+                      {
+                        lead.agent && <Link to={`/agents/${lead.agent.id}`}>{lead.agent.name}</Link>
+                      }
+                    </Table.Cell>
                     <Table.Cell>{lead.email}</Table.Cell>
                     <Table.Cell>{lead.phone}</Table.Cell>
                     <Table.Cell>
