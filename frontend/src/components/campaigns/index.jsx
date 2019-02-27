@@ -4,7 +4,8 @@ import { compose } from 'recompose';
 import * as styles from './index.scss';
 import {
   BreadCrumbContainer,
-  CampaignsContainer
+  CampaignsContainer,
+  CampaignFormContainer,
 } from "@containers";
 import Loader from '../loader';
 import {
@@ -17,8 +18,6 @@ class Campaigns extends Component {
   state = {
     open: false,
     campaignId: '',
-    companyName: 'Company',
-    dealName: 'Deal'
   };
 
   constructor(props) {
@@ -59,13 +58,14 @@ class Campaigns extends Component {
     return 'sort';
   }
 
-  openConfirmModal = (open = true, companyId = '', dealId = '') => {
-    this.setState({ open, companyId, dealId })
+  openConfirmModal = (open = true, campaignId = '') => {
+    this.setState({ open, campaignId})
   }
 
   onConfirm = () => {
     this.setState({ open: false });
-    this.props.deleteDeal(this.state.companyId, this.state.dealId);
+    const { companyId, dealId } = this.props.match.params;
+    this.props.deleteCampaign(companyId, dealId, this.state.campaignId);
   };
 
   onShowArch = () => {
@@ -137,15 +137,11 @@ class Campaigns extends Component {
                     }</Table.Cell>
                     <Table.Cell>{campaign.avg_time_response || 0}</Table.Cell>
                     <Table.Cell>
-                      {/*{*/}
-                        {/*!campaign.is_deleted*/}
-                          {/*?<Button.Group>*/}
-                            {/*<Button onClick={this.props.loadForm.bind(this, { ...campaign, show: true })}><Icon name='pencil alternate' /></Button>*/}
-                            {/*<Button onClick={this.onLockCompany.bind(this, campaign)}><Icon name={campaign.is_locked ? 'lock' : 'lock open'} /></Button>*/}
-                            {/*<Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}><Icon name='trash alternate outline'/></Button>*/}
-                          {/*</Button.Group>*/}
-                          {/*: null*/}
-                      {/*}*/}
+                      <Button.Group>
+                        <Button>Integration</Button>
+                        <Button onClick={this.props.loadForm.bind(this, { ...campaign, show: true })}><Icon name='pencil alternate' /></Button>
+                        <Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}><Icon name='trash alternate outline'/></Button>
+                      </Button.Group>
                     </Table.Cell>
                   </Table.Row>
                 ))
@@ -167,4 +163,4 @@ class Campaigns extends Component {
   }
 }
 
-export default compose(CampaignsContainer, BreadCrumbContainer)(Campaigns);
+export default compose(CampaignsContainer, CampaignFormContainer, BreadCrumbContainer)(Campaigns);

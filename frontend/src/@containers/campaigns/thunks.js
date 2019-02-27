@@ -47,3 +47,12 @@ export const sortCampaigns = field => async dispatch =>  {
   await dispatch(actions.sortCampaigns(field));
   await dispatch(fetchCampaigns());
 };
+
+export const deleteCampaign = (companyId, dealId, campaignId) => async dispatch =>  {
+  try {
+    await api.delete(`/v1/agency/companies/${companyId}/deals/${dealId}/campaigns/${campaignId}`);
+    await dispatch(fetchCampaigns());
+  } catch (e) {
+    dispatch(sendMessage(e.message, true))
+  }
+};
