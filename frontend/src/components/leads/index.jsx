@@ -133,11 +133,13 @@ class Leads extends Component {
                 leads.map((lead, index) => (
                   <Table.Row key={index}>
                     <Table.Cell>
-                      <Button circular color={statuses[lead.status].color}>{statuses[lead.status].icon}</Button>
-                      {lead.fullname}
-                      <div>
-                        Added {moment(lead.created_at).format('DD/MM/YYYY')}
-                      </div>
+                      <Link to={`/leads/${lead.id}/timeline`}>
+                        <Button circular color={statuses[lead.status].color}>{statuses[lead.status].icon}</Button>
+                        {lead.fullname}
+                        <div>
+                          Added {moment(lead.created_at).format('DD/MM/YYYY')}
+                        </div>
+                      </Link>
                     </Table.Cell>
                     <Table.Cell>
                       {

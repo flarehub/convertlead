@@ -13,6 +13,7 @@ import {
   Grid, Button, Table, Icon, Pagination,
 } from 'semantic-ui-react';
 import * as R from "ramda";
+import CampaignModal from 'components/@common/modals/campaign';
 
 class Campaigns extends Component {
   state = {
@@ -80,6 +81,7 @@ class Campaigns extends Component {
     const { campaigns, pagination } = this.props;
     return (<div className={styles.Campaigns}>
       <Segment attached='top'>
+        <CampaignModal />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Grid columns={2}>
           <Grid.Column>
@@ -91,7 +93,7 @@ class Campaigns extends Component {
           <Grid.Column>
             <Menu secondary>
               <Menu.Menu position='right'>
-                <Button color='teal' content='New Campaign' icon='add' labelPosition='left' />
+                <Button color='teal' content='New Campaign' onClick={this.props.loadForm.bind(this, { show: true })} icon='add' labelPosition='left' />
               </Menu.Menu>
             </Menu>
           </Grid.Column>

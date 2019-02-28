@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { compose } from 'recompose';
 import EntityModal from "../index";
-import { CampaignContainer } from "@containers";
-import { CampaignForm } from "../../forms/campaign";
+import { CampaignFormContainer } from "@containers";
+import CampaignForm from "../../forms/campaign";
 
 class CampaignModal extends Component {
   render() {
@@ -9,4 +10,4 @@ class CampaignModal extends Component {
   }
 }
 
-export default CampaignContainer(CampaignModal);
+export default compose(CampaignFormContainer)(CampaignModal);

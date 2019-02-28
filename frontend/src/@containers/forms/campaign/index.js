@@ -4,6 +4,8 @@ import * as actions from './actions';
 
 const mapStateToProps = state => ({
   form: state.forms.campaign,
+  integrationTypes: state.forms.campaign.integrationTypes,
+  companyAgents: state.forms.campaign.integrationTypes,
   show: state.forms.campaign.show,
 });
 

@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
-import { FormContainer } from '@containers';
-import 'index.scss';
+import { Form, Input, Select } from 'semantic-ui-react';
+import styles from './index.scss';
 
 class CampaignForm extends Component {
   render() {
-    return (<Form size='big'>
+    const { integrationTypes, form } = this.props;
+    return (<Form size='big' className={styles.CampaignForm}>
       <Form.Field required>
-        <label>Company Name</label>
-        <Input placeholder='Company Name' />
+        <label>Campaign Name</label>
+        <Input placeholder='Campaign Name' />
       </Form.Field>
       <Form.Field required>
-        <label>Phone Number</label>
-        <Input placeholder='Phone Number' />
+        <label>Integration type</label>
+        <Select placeholder='Select Integration' options={integrationTypes} />
       </Form.Field>
-      <Form.Field required>
-        <label>Email Address</label>
-        <Input placeholder='Email Address' />
-      </Form.Field>
-      <Form.Field required>
-        <label>Password</label>
-        <Input placeholder='Password' />
-      </Form.Field>
-      <Form.Field required>
-        <label>Re-enter Password</label>
-        <Input placeholder='Password' />
+      <Form.Field>
+        <Form.Field
+          required
+          loading={!integrationTypes}
+          control={Select}
+          options={integrationTypes || []}
+          label={{ children: 'Assign to', htmlFor: 'agents-list' }}
+          placeholder="Select agent"
+          search
+          defaultValue={this.props.form.agent_id}
+          searchInput={{ id: 'agents-list' }}
+        />
       </Form.Field>
     </Form>)
   }
 }
 
-export default FormContainer(CampaignForm);
+export default CampaignForm;

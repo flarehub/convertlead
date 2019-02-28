@@ -7,8 +7,14 @@ const initState = {
     dealId: '',
     companyId: '',
     name: '',
-    integrationType: '',
+    integration: '',
+    agents: [],
   },
+  integrationTypes: [
+    { key: 'FACEBOOK', value: 'FACEBOOK', text: 'Facebook' },
+    { key: 'ZAPIER', value: 'ZAPIER', text: 'Zapier' },
+    { key: 'OPTIN_FORM', value: 'OPTIN_FORM', text: 'Optin Form' },
+  ],
   required: {
     name: true,
   }
