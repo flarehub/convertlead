@@ -3,6 +3,7 @@ import {CHANGE_CAMPAIGN, LOAD_CAMPAIGN, SAVED_CAMPAIGN} from './actions';
 const initState = {
   form: {
     show: false,
+    id: '',
     dealId: '',
     companyId: '',
     name: '',
@@ -29,7 +30,6 @@ const campaignForm = (state = initState, action) => {
         form: {
           ...action.form,
           title: !action.form.id ? 'Create Campaign' : 'Edit Campaign',
-          show: true,
         },
       };
     }

@@ -138,13 +138,14 @@ class Campaigns extends Component {
                     <Table.Cell>{campaign.integration}</Table.Cell>
                     <Table.Cell>{campaign.leads_count}</Table.Cell>
                     <Table.Cell>{
-                      campaign.agents && campaign.agents.map((agent, key) => <Link key={key} to={`/agents/${agent.id}`}>{agent.name}</Link>)
+                      campaign.agents && campaign.agents.map((agent, key) =>
+                        <div><Link key={key} to={`/agents/${agent.id}`}>{agent.name}</Link></div>)
                     }</Table.Cell>
                     <Table.Cell>{campaign.avg_time_response || 0}</Table.Cell>
                     <Table.Cell>
                       <Button.Group>
                         <Button>Integration</Button>
-                        <Button onClick={this.props.loadForm.bind(this, { ...campaign, show: true })}><Icon name='pencil alternate' /></Button>
+                        <Button onClick={this.props.loadForm.bind(this, { ...campaign, agents: campaign.agents && campaign.agents.map(agent => agent.id), show: true })}><Icon name='pencil alternate' /></Button>
                         <Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}><Icon name='trash alternate outline'/></Button>
                       </Button.Group>
                     </Table.Cell>

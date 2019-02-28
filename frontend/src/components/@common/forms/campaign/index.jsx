@@ -39,7 +39,11 @@ class CampaignForm extends Component {
       </Form.Field>
       <Form.Field required>
         <label>Integration type</label>
-        <Select placeholder='Select Integration' name='integration' options={integrationTypes} onChange={this.onChange} />
+        <Select placeholder='Select Integration'
+                name='integration'
+                options={integrationTypes}
+                defaultValue={form.integration}
+                onChange={this.onChange} />
       </Form.Field>
       <Form.Field>
         <Form.Field

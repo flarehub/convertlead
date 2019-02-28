@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Management\Agency;
 use App\Models\DealCampaign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Faker\Generator as Faker;
 
 class CampaignController extends Controller
 {
@@ -38,7 +39,7 @@ class CampaignController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $company, $deal, DealCampaign $campaign)
+    public function store(Request $request, Faker $faker, $company, $deal, DealCampaign $campaign)
     {
         $this->validate($request, [
             'name' => 'required|string',
@@ -47,6 +48,7 @@ class CampaignController extends Controller
         ]);
 
         $request->merge([
+            'uuid' => $faker->uuid,
             'deal_id' => $deal,
             'agency_company_id' => $request->user()->getCompanyBy($company)->pivot->id,
         ]);
@@ -88,9 +90,24 @@ class CampaignController extends Controller
      */
     public function update(Request $request, $company, $deal, $id)
     {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'integration' => 'required|string',
+            'agents' => 'required'
+        ]);
+
         $campaign = $request->user()->getCompanyBy($company)->getDealBy($deal)->getCampaignBy($id);
-        $campaign->fill($request->only(['name', 'description']));
+    
+        $campaign->fill($request->only([
+            'name',
+            'uuid',
+            'integration_config',
+            'integration',
+            'description'
+        ]));
         $campaign->save();
+        $campaign->agents()->attach($request->get('agents'));
+
         return $campaign;
     }
     

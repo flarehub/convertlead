@@ -15,11 +15,28 @@ export const saveCampaign = form => (dispatch) => {
   }
 };
 
-export const updateCampaign = form => (dispatch) => {
+export const updateCampaign = form => async (dispatch) => {
+  try {
+    if (!form.companyId) {
+      throw new Error('Missing required company!');
+    }
+
+    if (!form.dealId) {
+      throw new Error('Missing required deal!');
+    }
+    await api.patch(
+      `/v1/agency/companies/${form.companyId}/deals/${form.dealId}/campaigns/${form.id}`,
+      form
+    );
+    await dispatch(actions.savedCampaign());
+    await dispatch(fetchCampaigns());
+    await dispatch(sendMessage('Successfully saved!'));
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
 };
 
 export const createCampaign = form => async dispatch => {
-  console.log(form);
   try {
     if (!form.companyId) {
       throw new Error('Missing required company!');
@@ -34,6 +51,7 @@ export const createCampaign = form => async dispatch => {
     );
     await dispatch(actions.savedCampaign());
     await dispatch(fetchCampaigns());
+    await dispatch(sendMessage('Successfully saved!'));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }
