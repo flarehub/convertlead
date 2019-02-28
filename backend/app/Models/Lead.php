@@ -44,7 +44,7 @@ class Lead extends Model
     }
     
     public function getCampaignAttribute() {
-        $company = $this->campaign()->first();
+        $company = $this->campaign()->withTrashed()->first();
         if ($company) {
             return $company->only(['id', 'name', 'uuid', 'description']);
         }
@@ -52,7 +52,7 @@ class Lead extends Model
     }
 
     public function getCompanyAttribute() {
-        $company = $this->company()->first();
+        $company = $this->company()->withTrashed()->first();
         if ($company) {
             return $company->only(['id', 'name', 'email', 'avatar_path']);
         }
@@ -60,7 +60,7 @@ class Lead extends Model
     }
 
     public function getAgentAttribute() {
-        $agent = $this->agent()->first();
+        $agent = $this->agent()->withTrashed()->first();
         if ($agent) {
             return $agent->only(['id', 'name', 'avatar_path']);
         }
@@ -68,7 +68,7 @@ class Lead extends Model
     }
 
     public function getStatusAttribute() {
-        $status = $this->status()->first();
+        $status = $this->status()->withTrashed()->first();
         if ($status) {
             return $status->type;
         }

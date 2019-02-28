@@ -157,7 +157,8 @@ class Agency extends User
             ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
             ->join('users as cp', 'cp.id', 'ac.company_id')
             ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')
-            ->where('ac.agency_id', $this->id);
+            ->where('ac.agency_id', $this->id)
+        ;
 
         if (isset($queryParams['search'])) {
             $query->where(function ($query) use ($queryParams) {
