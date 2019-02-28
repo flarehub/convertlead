@@ -15,8 +15,8 @@ class CreateDealCampaignsTable extends Migration
     {
         DB::getPdo()->exec("CREATE TABLE IF NOT EXISTS `deal_campaigns` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL DEFAULT NULL,
-  `description` VARCHAR(45) NULL DEFAULT NULL,
+  `name` VARCHAR(245) NULL DEFAULT NULL,
+  `description` VARCHAR(245) NULL DEFAULT NULL,
   `deal_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NULL DEFAULT NULL,

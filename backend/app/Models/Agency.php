@@ -117,6 +117,7 @@ class Agency extends User
             users.created_at'
         )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
+            ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
             ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
             ->leftJoin('leads AS ld', 'ld.deal_campaign_id', 'dca.deal_campaign_id')
             ->where('agency.id', $this->id)
@@ -126,6 +127,10 @@ class Agency extends User
             $query->withTrashed();
         }
         
+        if (isset($queryParams['companyId'])) {
+            $query->where('ca.company_id', $queryParams['companyId']);
+        }
+
         if (isset($queryParams['search'])) {
             $query->where(function ($query) use ($queryParams) {
                 $query

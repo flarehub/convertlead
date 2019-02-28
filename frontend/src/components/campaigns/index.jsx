@@ -81,7 +81,10 @@ class Campaigns extends Component {
     const { campaigns, pagination } = this.props;
     return (<div className={styles.Campaigns}>
       <Segment attached='top'>
-        <CampaignModal />
+        <CampaignModal
+          companyId={this.props.match.params.companyId}
+          dealId={this.props.match.params.dealId}
+        />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Grid columns={2}>
           <Grid.Column>

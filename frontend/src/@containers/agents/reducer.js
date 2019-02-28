@@ -1,9 +1,10 @@
 import {
-  ADD_AGENTS, GOTO_PAGE, OPEN_AGENT_MODAL, SEARCH_AGENTS, SHOW_DELETED_AGENTS, SORT_AGENTS,
+  ADD_AGENTS, GOTO_PAGE, LOAD_SELECTBOX_AGENTS, OPEN_AGENT_MODAL, SEARCH_AGENTS, SHOW_DELETED_AGENTS, SORT_AGENTS,
 } from './actions';
 
 const initState = {
   agents: [],
+  selectBoxAgents: [],
   pagination: {
     current_page: 1,
     per_page: 10,
@@ -78,6 +79,12 @@ const agents = (state = initState, action) => {
           showDeleted: !state.query.showDeleted,
         },
       };
+    }
+    case LOAD_SELECTBOX_AGENTS: {
+      return {
+        ...state,
+        selectBoxAgents: [ ...action.agents ]
+      }
     }
     default: {
       return state;

@@ -24,6 +24,24 @@ export const loadAgents = () => async (dispath, getState) => {
   dispath(hideLoader());
 };
 
+export const loadSelectBoxAgents =
+  (filters = { search: '', companyId: '' }) => async (dispath, getState) => {
+  try {
+    const response = await api.get('/v1/agency/agents', {
+      params: {
+        companyId: (filters.companyId ? filters.companyId : null),
+        search: filters.search,
+        current_page: 1,
+        per_page: 100,
+      },
+    });
+    const { data } = response.data;
+    dispath(actions.loadSelectBoxAgents(data));
+  } catch (e) {
+    dispath(sendMessage(e.message, true));
+  }
+};
+
 export const createAgent = agent => (dispath, getState) => {
   dispath(loadAgents());
 };

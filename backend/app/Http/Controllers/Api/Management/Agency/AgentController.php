@@ -20,6 +20,7 @@ class AgentController extends Controller
     
         return $request->user()->getAgents($request->only([
             'search',
+            'companyId',
             'name',
             'campaigns',
             'leads',

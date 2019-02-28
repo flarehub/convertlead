@@ -8,6 +8,7 @@ export const SORT_AGENTS = 'SORT_AGENTS';
 export const GOTO_PAGE = 'GOTO_PAGE';
 export const OPEN_AGENT_MODAL = 'OPEN_AGENT_MODAL';
 export const SHOW_DELETED_AGENTS = 'SHOW_DELETED_AGENTS';
+export const LOAD_SELECTBOX_AGENTS = 'LOAD_SELECTBOX_AGENTS';
 
 export const addAgents = (agents, pagination) => ({
   type: ADD_AGENTS,
@@ -57,4 +58,9 @@ export const openAgentModal = open => ({
 
 export const toggleShowDeleted = () => ({
   type: SHOW_DELETED_AGENTS,
+});
+
+export const loadSelectBoxAgents = agents => ({
+  type: LOAD_SELECTBOX_AGENTS,
+  agents,
 });
