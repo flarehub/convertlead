@@ -17,6 +17,7 @@ const initState = {
     ]
   },
   facebook: {
+    api_callback: ''
   },
   optinForm: {
     fullname: {

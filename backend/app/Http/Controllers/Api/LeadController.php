@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 class LeadController extends Controller
 {
     public function callback(Request $request, $campaignUUID) {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'fullname' => 'required|string',
+            'phone' => 'required|string',
+        ]);
+
         $leadStatus = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
         $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
         $agent = $campaign->agents->first();

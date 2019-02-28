@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { Layout } from './layout';
 import { AuthContainer } from '@containers';
-import { LoginLayout } from '.';
+import { LoginLayout, OptinForm } from '.';
 
 import './App.scss';
 
@@ -13,6 +13,7 @@ const App = ({ session }) => (
     {
       <Switch>
         <Route exact path="/login" component={LoginLayout} />
+        <Route exact path="/campaign/:uuid" component={OptinForm} />
         <Route path="/" component={Layout} />
       </Switch>
     }

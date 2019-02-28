@@ -76,5 +76,6 @@ Route::group(['namespace' => 'Api'], function () {
     Route::prefix('v1')->group(function () {
         Route::post('agencies', 'AgencyController@store');
         Route::post('campaigns/callback/{campaignUUID}', 'LeadController@callback');
+        Route::get('campaigns/{campaignUUID}', 'CampaignController@getIntegration');
     });
 });

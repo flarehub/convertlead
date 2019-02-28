@@ -8,3 +8,4 @@ export { default as Loader } from './loader';
 export { default as Routers } from './routers';
 export { default as Profile } from './profile';
 export { default as Campaigns } from './campaigns';
+export { default as OptinForm } from './optinform';
