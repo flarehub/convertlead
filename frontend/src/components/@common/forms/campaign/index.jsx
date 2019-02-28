@@ -4,9 +4,13 @@ import styles from './index.scss';
 
 class CampaignForm extends Component {
   componentWillMount() {
-    const { companyId } = this.props;
+    const { companyId, dealId } = this.props;
     this.props.loadSelectBoxAgents({
       companyId
+    });
+    this.props.changeForm({
+      companyId,
+      dealId,
     });
   }
 
@@ -22,16 +26,20 @@ class CampaignForm extends Component {
     this.props.changeForm({ [data.name]: data.value });
   };
 
+  onChangeAgents = (event, data) => {
+    this.props.changeForm({ agents: data.value });
+  };
+
   render() {
     const { integrationTypes, form } = this.props;
     return (<Form size='big' className={styles.CampaignForm}>
       <Form.Field required>
         <label>Campaign Name</label>
-        <Input placeholder='Campaign Name' name='name' value={this.props.form.name} onChange={thi} />
+        <Input placeholder='Campaign Name' name='name' value={form.name} onChange={this.onChange} />
       </Form.Field>
       <Form.Field required>
         <label>Integration type</label>
-        <Select placeholder='Select Integration' name='integration' options={integrationTypes} />
+        <Select placeholder='Select Integration' name='integration' options={integrationTypes} onChange={this.onChange} />
       </Form.Field>
       <Form.Field>
         <Form.Field
@@ -43,8 +51,10 @@ class CampaignForm extends Component {
           placeholder="Select agents"
           search
           multiple
+          name='agents'
+          onChange={this.onChangeAgents}
           onSearchChange={this.onSearchAgent}
-          defaultValue={this.props.form.agents}
+          defaultValue={form.agents}
           searchInput={{ id: 'agents-list' }}
         />
       </Form.Field>

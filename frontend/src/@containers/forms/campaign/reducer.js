@@ -1,5 +1,4 @@
-import { LOAD_CAMPAIGN, SAVED_CAMPAIGN } from './actions';
-import {CHANGE_COMPANY} from "../company/actions";
+import {CHANGE_CAMPAIGN, LOAD_CAMPAIGN, SAVED_CAMPAIGN} from './actions';
 
 const initState = {
   form: {
@@ -17,6 +16,8 @@ const initState = {
   ],
   required: {
     name: true,
+    integration: true,
+    agents: true,
   }
 };
 
@@ -25,12 +26,14 @@ const campaignForm = (state = initState, action) => {
     case LOAD_CAMPAIGN: {
       return {
         ...state,
-        ...action.form,
-        title: !action.form.id ? 'Create Campaign' : 'Edit Campaign',
-        show: true,
+        form: {
+          ...action.form,
+          title: !action.form.id ? 'Create Campaign' : 'Edit Campaign',
+          show: true,
+        },
       };
     }
-    case CHANGE_COMPANY: {
+    case CHANGE_CAMPAIGN: {
       return {
         ...state,
         form: {

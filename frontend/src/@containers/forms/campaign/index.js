@@ -3,9 +3,10 @@ import * as thunks from './thunks';
 import * as actions from './actions';
 
 const mapStateToProps = state => ({
-  form: state.forms.campaign,
+  form: state.forms.campaign.form,
   integrationTypes: state.forms.campaign.integrationTypes,
   companyAgents: state.forms.campaign.integrationTypes,
+  required: state.forms.campaign.required,
   show: state.forms.campaign.show,
 });
 

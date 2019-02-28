@@ -18,6 +18,8 @@ class DealCampaign extends Model
         'name',
         'uuid',
         'description',
+        'deal_id',
+        'agency_company_id',
         'integration',
         'integration_config',
     ];

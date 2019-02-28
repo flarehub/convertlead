@@ -40,12 +40,30 @@ class CampaignController extends Controller
      */
     public function store(Request $request, $company, $deal, DealCampaign $campaign)
     {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'integration' => 'required|string',
+            'agents' => 'required'
+        ]);
 
-        $deal = $request->user()->getCompanyBy($company)->getDealBy($deal);
-        $campaign->fill($request->only(['name', 'description']));
+        $request->merge([
+            'deal_id' => $deal,
+            'agency_company_id' => $request->user()->getCompanyBy($company)->pivot->id,
+        ]);
+        
+        $campaign->fill($request->only([
+            'name',
+            'uuid',
+            'deal_id',
+            'agency_company_id',
+            'integration_config',
+            'integration',
+            'description'
+        ]));
         $campaign->save();
-        $campaign->deal()->associate($deal);
-
+    
+        $campaign->agents()->attach($request->get('agents'));
+        
         return $campaign;
     }
     
