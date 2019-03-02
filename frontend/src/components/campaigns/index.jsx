@@ -173,11 +173,15 @@ class Campaigns extends Component {
                     }</Table.Cell>
                     <Table.Cell>{campaign.avg_time_response || 0}</Table.Cell>
                     <Table.Cell>
-                      <Button.Group>
-                        <Button onClick={this.loadIntegrationForm.bind(this, campaign)}>Integration</Button>
-                        <Button onClick={this.props.loadForm.bind(this, { ...campaign, agents: campaign.agents && campaign.agents.map(agent => agent.id), show: true })}><Icon name='pencil alternate' /></Button>
-                        <Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}><Icon name='trash alternate outline'/></Button>
-                      </Button.Group>
+                      {
+                        !campaign.deleted_at
+                        ? <Button.Group>
+                            <Button onClick={this.loadIntegrationForm.bind(this, campaign)}>Integration</Button>
+                            <Button onClick={this.props.loadForm.bind(this, { ...campaign, agents: campaign.agents && campaign.agents.map(agent => agent.id), show: true })}><Icon name='pencil alternate' /></Button>
+                            <Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}><Icon name='trash alternate outline'/></Button>
+                          </Button.Group>
+                        : null
+                      }
                     </Table.Cell>
                   </Table.Row>
                 ))
