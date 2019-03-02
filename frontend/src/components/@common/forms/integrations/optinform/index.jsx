@@ -5,11 +5,11 @@ import {
   Button,
   Input, Checkbox
 } from 'semantic-ui-react';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import CopyText from 'react-copy-text';
 
 class OptInForm extends Component {
   state = {
-    value: 'huila',
+    value: '',
     copied: false,
   }
   onChange = (field, event, data) => {
@@ -23,8 +23,9 @@ class OptInForm extends Component {
     setTimeout(() => {
       this.setState({
         copied: false,
+        value: '',
       })
-    }, 1000)
+    }, 400)
   }
 
   render() {
@@ -38,19 +39,6 @@ class OptInForm extends Component {
                    name='title'
                    value={integrationForm.header.title}
                    onChange={this.onChange.bind(this, 'header')} />
-          </Form.Field>
-          <Form.Field>
-            <label>Campaign Form Link</label>
-            <CopyToClipboard text={this.state.value}>
-              <Input
-                action={{
-                  color: 'teal',
-                  labelPosition: 'right',
-                  icon: 'copy',
-                  content: `${(this.state.copied ? 'Copied' : 'Copy')}`, onClick: this.onCopy }}
-                defaultValue={this.props.optinFormLink}
-              />
-            </CopyToClipboard>
           </Form.Field>
           <Form.Group widths='equal'>
             <Form.Field>
@@ -152,6 +140,18 @@ class OptInForm extends Component {
                    name='label'
                    value={integrationForm.button.name}
                    onChange={this.onChange.bind(this, 'button')}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Form Link</label>
+            <CopyText text={this.state.value} onCopied={this.onCopied}  />
+            <Input
+              action={{
+                color: 'teal',
+                labelPosition: 'right',
+                icon: 'copy',
+                content: `${(this.state.copied ? 'Copied' : 'Copy')}`, onClick: this.onCopy }}
+              defaultValue={this.props.optinFormLink}
             />
           </Form.Field>
         </Form>
