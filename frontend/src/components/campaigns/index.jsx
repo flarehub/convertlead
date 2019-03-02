@@ -6,6 +6,7 @@ import {
   BreadCrumbContainer,
   CampaignsContainer,
   CampaignFormContainer,
+  OptinFormIntegrationContainer,
 } from "@containers";
 import Loader from '../loader';
 import {
@@ -14,6 +15,7 @@ import {
 } from 'semantic-ui-react';
 import * as R from "ramda";
 import CampaignModal from 'components/@common/modals/campaign';
+import ModalOptinFormIntegration from 'components/@common/modals/integrations/optinform';
 
 class Campaigns extends Component {
   state = {
@@ -77,10 +79,18 @@ class Campaigns extends Component {
     this.props.gotoPage(data.activePage);
   }
 
+  loadIntegrationForm = campaign => {
+    const { companyId, dealId } = this.props.match.params;
+    if (campaign.integration === 'OPTIN_FORM') {
+      this.props.loadOptinForm({ ...campaign, companyId, dealId, show: true })
+    }
+  };
+
   render() {
     const { campaigns, pagination } = this.props;
     return (<div className={styles.Campaigns}>
       <Segment attached='top'>
+        <ModalOptinFormIntegration />
         <CampaignModal
           companyId={this.props.match.params.companyId}
           dealId={this.props.match.params.dealId}
@@ -139,12 +149,12 @@ class Campaigns extends Component {
                     <Table.Cell>{campaign.leads_count}</Table.Cell>
                     <Table.Cell>{
                       campaign.agents && campaign.agents.map((agent, key) =>
-                        <div><Link key={key} to={`/agents/${agent.id}`}>{agent.name}</Link></div>)
+                        <div key={key}><Link to={`/agents/${agent.id}`}>{agent.name}</Link></div>)
                     }</Table.Cell>
                     <Table.Cell>{campaign.avg_time_response || 0}</Table.Cell>
                     <Table.Cell>
                       <Button.Group>
-                        <Button>Integration</Button>
+                        <Button onClick={this.loadIntegrationForm.bind(this, campaign)}>Integration</Button>
                         <Button onClick={this.props.loadForm.bind(this, { ...campaign, agents: campaign.agents && campaign.agents.map(agent => agent.id), show: true })}><Icon name='pencil alternate' /></Button>
                         <Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}><Icon name='trash alternate outline'/></Button>
                       </Button.Group>
@@ -169,4 +179,4 @@ class Campaigns extends Component {
   }
 }
 
-export default compose(CampaignsContainer, CampaignFormContainer, BreadCrumbContainer)(Campaigns);
+export default compose(OptinFormIntegrationContainer, CampaignsContainer, CampaignFormContainer, BreadCrumbContainer)(Campaigns);

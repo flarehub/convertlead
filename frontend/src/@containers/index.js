@@ -4,7 +4,7 @@ export { default as AuthContainer } from './auth';
 export { default as BreadCrumbContainer } from './breadcrumb';
 export { default as CampaignsContainer } from './campaigns';
 export { default as CampaignFormContainer } from './forms/campaign';
-export { default as CampaignIntegrationsContainer } from './integrations';
+export { default as OptinFormIntegrationContainer } from './forms/integrations/optinform';
 export { default as CompaniesContainer } from './companies';
 export { default as CompanyFormContainer } from './forms/company';
 export { default as DealFormContainer } from './forms/deal';

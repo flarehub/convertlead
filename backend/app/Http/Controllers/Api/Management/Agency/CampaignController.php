@@ -6,6 +6,7 @@ use App\Models\DealCampaign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Faker\Generator as Faker;
+use Mockery\Exception;
 
 class CampaignController extends Controller
 {
@@ -90,23 +91,33 @@ class CampaignController extends Controller
      */
     public function update(Request $request, $company, $deal, $id)
     {
-        $this->validate($request, [
-            'name' => 'required|string',
-            'integration' => 'required|string',
-            'agents' => 'required'
-        ]);
-
-        $campaign = $request->user()->getCompanyBy($company)->getDealBy($deal)->getCampaignBy($id);
+        try {
+            \DB::beginTransaction();
+            $campaign = $request->user()->getCompanyBy($company)->getDealBy($deal)->getCampaignBy($id);
     
-        $campaign->fill($request->only([
-            'name',
-            'uuid',
-            'integration_config',
-            'integration',
-            'description'
-        ]));
-        $campaign->save();
-        $campaign->agents()->attach($request->get('agents'));
+            if ($request->json('integration_config')) {
+                $request->merge([
+                    'integration_config' => json_encode($request->json('integration_config'))
+                ]);
+            }
+            $campaign->fill($request->only([
+                'name',
+                'uuid',
+                'integration_config',
+                'integration',
+                'description'
+            ]));
+            
+            $campaign->save();
+            if ($request->get('agents')) {
+                $campaign->agents()->detach($campaign->agents()->get());
+                $campaign->agents()->attach($request->get('agents'));
+            }
+            \DB::commit();
+        } catch (Exception $exception) {
+            \DB::rollBack();
+            throw $exception;
+        }
 
         return $campaign;
     }
