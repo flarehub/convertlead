@@ -53,6 +53,7 @@ class LeadController extends Controller
             'agency_company_id' => $company->pivot->id
         ]);
         $lead = Lead::find($id);
+        $oldStatus = $lead->status;
         $status = $request->get('status');
         $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
         $request->merge(['lead_status_id' => $leadStatus->id]);
@@ -74,7 +75,7 @@ class LeadController extends Controller
                 'lead_status_id' => $leadStatus->id,
                 'lead_id' => $lead->id,
                 'agent_id' => $request->user()->id,
-                'message' => 'Status changed!',
+                'message' => "Status changed from {$oldStatus} to {$status}! ",
             ]);
         }
      

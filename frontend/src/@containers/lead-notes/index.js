@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
-import * as R from 'ramda';
+import {getSelectBoxStatuses} from "@models/lead-statuses";
 
 const mapStateToProps = state => ({
   lead: state.leadNotes.lead,
   leadNotes: state.leadNotes.leadNotes,
+  leadStatuses: getSelectBoxStatuses,
 });
 
 const mapDispatcherToProps = disptach => ({

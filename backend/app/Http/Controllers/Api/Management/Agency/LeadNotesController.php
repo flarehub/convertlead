@@ -33,26 +33,34 @@ class LeadNotesController extends Controller
             'status' => 'required|string',
         ]);
     
-        $leadStatus = LeadStatus::where('type', $request->get('status'))->firstOrFail();
-        $lead = $request->user()->getCompanyBy($company)->getLeadBy($lead);
+        try {
+            \DB::beginTransaction();
+            $leadStatus = LeadStatus::where('type', $request->get('status'))->firstOrFail();
+            $lead = $request->user()->getCompanyBy($company)->getLeadBy($lead);
     
-        $request->merge([
-            'agent_id' => $request->user()->id,
-            'lead_status_id' => $leadStatus->id,
-            'lead_id' => $lead->id,
-        ]);
+            $request->merge([
+                'agent_id' => $request->user()->id,
+                'lead_status_id' => $leadStatus->id,
+                'lead_id' => $lead->id,
+            ]);
     
-        $leadNote = new LeadNote();
-        $leadNote->fill($request->only([
-            'agent_id',
-            'lead_status_id',
-            'lead_id',
-            'message',
-        ]));
+            $lead->lead_status_id = $leadStatus->id;
+            $lead->save();
     
-        $leadNote->save();
-        
-        return $leadNote;
+            $leadNote = new LeadNote();
+            $leadNote->fill($request->only([
+                'agent_id',
+                'lead_status_id',
+                'lead_id',
+                'message',
+            ]));
+            $leadNote->save();
+            \DB::commit();
+            return $leadNote;
+        } catch (Exception $exception) {
+            \DB::rollBack();
+            throw $exception;
+        }
     }
 
     /**

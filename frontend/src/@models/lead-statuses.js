@@ -1,3 +1,5 @@
+import * as R from "ramda";
+
 export const LeadStatuses = {
   NEW: {
     color: 'violet',
@@ -32,3 +34,7 @@ export const LeadStatuses = {
       icon: 'S',
   },
 };
+
+export const getSelectBoxStatuses = R.pipe(R.mapObjIndexed((object, status) => {
+  return { key: status, text: status, value: status };
+}), R.values)(LeadStatuses);

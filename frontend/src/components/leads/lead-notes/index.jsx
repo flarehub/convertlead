@@ -4,7 +4,7 @@ import { Segment, Button, Icon, List, Grid, Image } from 'semantic-ui-react';
 import styles from './index.scss';
 import { BreadCrumbContainer, LeadNotesContainer } from "@containers";
 import TimeLine from "./timeline";
-
+import Loader from 'components/loader';
 class LeadNotes extends Component {
 
   async componentWillMount() {
@@ -16,10 +16,19 @@ class LeadNotes extends Component {
     });
   }
 
+  onAddNote = form => {
+    this.props.createLeadNote({
+      ...form,
+      status: form.status ? form.status : this.props.lead.status
+    });
+  };
+
+
   render() {
-    const { lead, leadNotes } = this.props;
+    const { lead, leadNotes, leadStatuses } = this.props;
     return (<div className={styles.LeadNotes}>
       <Segment>
+        <Loader />
         <Grid columns='equal'>
           <Grid.Row>
             <Grid.Column width={6}>
@@ -76,7 +85,7 @@ class LeadNotes extends Component {
               </Segment>
             </Grid.Column>
             <Grid.Column textAlign='left'>
-              <TimeLine notes={leadNotes} lead={lead} />
+              <TimeLine notes={leadNotes} lead={lead} onAddNote={this.onAddNote} leadStatuses={leadStatuses} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
