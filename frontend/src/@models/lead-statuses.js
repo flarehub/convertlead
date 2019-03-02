@@ -1,8 +1,4 @@
 export const LeadStatuses = {
-  NONE: {
-    color: 'violet',
-      icon: 'N',
-  },
   NEW: {
     color: 'violet',
       icon: 'N',

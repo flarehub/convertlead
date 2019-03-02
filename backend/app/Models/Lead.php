@@ -56,7 +56,7 @@ class Lead extends Model
     }
 
     public function getCompanyAttribute() {
-        $company = $this->company()->where('ac.id', $this->agency_company_id)->withTrashed()->first();
+        $company = $this->company()->selectRaw('users.*')->where('ac.id', $this->agency_company_id)->withTrashed()->first();
         if ($company) {
             return $company->only(['id', 'name', 'email', 'avatar_path']);
         }
@@ -64,7 +64,7 @@ class Lead extends Model
     }
 
     public function getAgentAttribute() {
-        $agent = $this->agent()->withTrashed()->first();
+        $agent = $this->agent()->selectRaw('users.*')->withTrashed()->first();
         if ($agent) {
             return $agent->only(['id', 'name', 'avatar_path']);
         }
