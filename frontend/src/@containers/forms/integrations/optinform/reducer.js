@@ -13,22 +13,25 @@ const initState = {
         title: 'Only Subscribe'
       },
       fullname: {
+        name: 'fullname',
         label: 'Full name',
         placeholder: 'Full name',
         value: '',
         isRequired: true,
         isVisible: true,
       },
-      phone: {
-        label: 'Phone',
-        placeholder: 'Phone',
+      email: {
+        name: 'email',
+        label: 'E-mail',
+        placeholder: 'E-mail',
         value: '',
         isRequired: true,
         isVisible: true,
       },
-      email: {
-        label: 'E-mail',
-        placeholder: 'E-mail',
+      phone: {
+        name: 'email',
+        label: 'Phone',
+        placeholder: 'Phone',
         value: '',
         isRequired: true,
         isVisible: true,
@@ -47,6 +50,7 @@ const optionForm = (state = initState, action) => {
       if (action.form.integration_config) {
         integration = JSON.parse(action.form.integration_config);
       }
+      console.log('optin-form', integration);
       return {
         ...state,
         form: {

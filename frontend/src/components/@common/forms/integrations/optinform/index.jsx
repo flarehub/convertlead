@@ -149,7 +149,7 @@ class OptInForm extends Component {
           <Form.Field>
             <label>Button Subscribe</label>
             <Input placeholder='Button Subscribe'
-                   name='label'
+                   name='name'
                    value={integrationForm.button.name}
                    onChange={this.onChange.bind(this, 'button')}
             />

@@ -8,6 +8,7 @@ const initState = {
         title: ''
       },
       fullname: {
+        name: 'fullname',
         label: '',
         placeholder: '',
         value: '',
@@ -15,6 +16,7 @@ const initState = {
         isVisible: false,
       },
       phone: {
+        name: 'phone',
         label: '',
         placeholder: '',
         value: '',
@@ -22,6 +24,7 @@ const initState = {
         isVisible: false,
       },
       email: {
+        name: 'email',
         label: '',
         placeholder: '',
         value: '',
