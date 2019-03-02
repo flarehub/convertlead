@@ -5,10 +5,11 @@ import {
 	Redirect,
   withRouter,
 } from 'react-router-dom'
+import {Auth} from "@services";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={(props) => (
-    rest.isAuthorised ? <Component {...props} /> : <Redirect to='/login' />
+    Auth.isAuthorised() ? <Component {...props} /> : <Redirect to='/login' />
 	)} />
 );
 

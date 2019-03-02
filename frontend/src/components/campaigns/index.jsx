@@ -63,11 +63,11 @@ class Campaigns extends Component {
       return 'sort amount up';
     }
     return 'sort';
-  }
+  };
 
   openConfirmModal = (open = true, campaignId = '') => {
     this.setState({ open, campaignId})
-  }
+  };
 
   onConfirm = () => {
     this.setState({ open: false });

@@ -5,6 +5,7 @@ import { AuthContainer } from "@containers";
 import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
 import './index.scss';
 import logo from '../assets/logo.png';
+import {Auth} from "../../@services";
 
 class Login extends Component {
   email = '';
@@ -31,7 +32,7 @@ class Login extends Component {
     return (
       <div className='login-form'>
         {
-          this.props.isAuthorised ? <Redirect from='/login' to='/dashboard' /> : null
+          Auth.isAuthorised() ? <Redirect from='/login' to='/dashboard' /> : null
         }
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>

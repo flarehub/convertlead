@@ -14,7 +14,6 @@ class OptInForm extends Component {
   }
   onChange = (field, order, event, data) => {
     const fieldData =  {
-      order,
       [data.name]: (data.hasOwnProperty('checked') ? data.checked : data.value),
     };
 
@@ -57,7 +56,7 @@ class OptInForm extends Component {
             <Input placeholder='Form Title'
                    name='title'
                    value={integrationForm.header.title}
-                   onChange={this.onChange.bind(this, 'header')} />
+                   onChange={this.onChange.bind(this, 'header', 0)} />
           </Form.Field>
           <Form.Group widths='equal'>
             <Form.Field>
@@ -158,7 +157,7 @@ class OptInForm extends Component {
             <Input placeholder='Button Subscribe'
                    name='name'
                    value={integrationForm.button.name}
-                   onChange={this.onChange.bind(this, 'button')}
+                   onChange={this.onChange.bind(this, 'button', 0)}
             />
           </Form.Field>
         </Form>

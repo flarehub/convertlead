@@ -30,9 +30,11 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function show(Request $request, $company, $id)
     {
-        //
+        return $request->user()->getCompanyBy($company)->getLeadBy($id)->load(
+            'leadNotes'
+        );
     }
     
     /**

@@ -50,7 +50,6 @@ const optionForm = (state = initState, action) => {
       if (action.form.integration_config) {
         integration = JSON.parse(action.form.integration_config);
       }
-      console.log('optin-form', integration);
       return {
         ...state,
         form: {

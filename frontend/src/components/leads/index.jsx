@@ -133,7 +133,7 @@ class Leads extends Component {
                 leads.map((lead, index) => (
                   <Table.Row key={index}>
                     <Table.Cell>
-                      <Link to={`/leads/${lead.id}/timeline`}>
+                      <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
                         <Button circular color={statuses[lead.status].color}>{statuses[lead.status].icon}</Button>
                         {lead.fullname}
                         <div>

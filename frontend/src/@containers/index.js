@@ -17,5 +17,6 @@ export { default as MessageContainer } from './messages';
 export { default as MessagesContainer } from './messages';
 export { default as OptinFormIntegrationContainer } from './forms/integrations/optinform';
 export { default as ProfileContainer } from './profile';
+export { default as LeadNotesContainer } from './lead-notes';
 
 export { default as store } from './store';

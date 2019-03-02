@@ -32,7 +32,7 @@ class Lead extends Model
     }
     
     public function company() {
-        return $this->hasOne('App\Models\Company', 'id', 'company_id');
+        return Company::join('agency_companies AS ac', 'ac.company_id', 'users.id');
     }
     
     public function agent() {
@@ -42,7 +42,11 @@ class Lead extends Model
     public function status() {
         return $this->hasOne('App\Models\LeadStatus', 'id', 'lead_status_id');
     }
-    
+
+    public function leadNotes() {
+        return $this->hasMany('App\Models\LeadNote', 'lead_id', 'id');
+    }
+
     public function getCampaignAttribute() {
         $company = $this->campaign()->withTrashed()->first();
         if ($company) {
@@ -52,7 +56,7 @@ class Lead extends Model
     }
 
     public function getCompanyAttribute() {
-        $company = $this->company()->withTrashed()->first();
+        $company = $this->company()->where('ac.id', $this->agency_company_id)->withTrashed()->first();
         if ($company) {
             return $company->only(['id', 'name', 'email', 'avatar_path']);
         }
@@ -73,5 +77,9 @@ class Lead extends Model
             return $status->type;
         }
         return LeadStatus::$STATUS_NEW;
+    }
+    
+    public function getLeadNoteBy($id) {
+        return $this->leadNotes()->where('id', $id)->firstOrFail();
     }
 }
