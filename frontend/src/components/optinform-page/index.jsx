@@ -25,7 +25,7 @@ class OptinFormPage extends Component {
   };
 
   render() {
-    const { integrationForm, form } = this.props;
+    const { integrationForm, integrationFormFields, form } = this.props;
     return (<div className={styles.OptionForm}>
       <Loader />
       {
@@ -42,9 +42,10 @@ class OptinFormPage extends Component {
               <Button basic onClick={this.onResend}>Resend</Button>
             </div>
           : <OptinForm integrationForm={integrationForm}
-                                                  form={form}
-                                                  onSubmit={this.onSubmit}
-                                                  onChange={this.onChange}
+                       integrationFormFields={integrationFormFields}
+                       form={form}
+                       onSubmit={this.onSubmit}
+                       onChange={this.onChange}
         />
       }
 

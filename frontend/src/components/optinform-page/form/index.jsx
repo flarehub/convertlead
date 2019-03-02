@@ -7,16 +7,11 @@ import {
   Segment,
 } from 'semantic-ui-react';
 
-const OptinForm = ({ integrationForm, form, ...props }) => (
+const OptinForm = ({ integrationForm, integrationFormFields, form, ...props }) => (
   <Form>
     <h1>{ integrationForm.header.title }</h1>
     {
-      R.pipe(
-        values => R.mapObjIndexed((field, key) => ({...field, name: key}), values),
-        R.values, R.filter(R.has('isVisible')), R.sortWith([
-        R.descend(R.prop('isRequired')),
-      ]))(integrationForm)
-      .map((field, fieldIndex) => (
+      integrationFormFields.map((field, fieldIndex) => (
         field.isVisible
           ?  <Form.Field key={fieldIndex} required={field.isRequired}>
             <label>{ field.label }</label>

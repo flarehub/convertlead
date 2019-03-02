@@ -12,10 +12,17 @@ class OptInForm extends Component {
     value: '',
     copied: false,
   }
-  onChange = (field, event, data) => {
-    this.props.changeOptinForm(field, {
+  onChange = (field, order, event, data) => {
+    const fieldData =  {
+      order,
       [data.name]: (data.hasOwnProperty('checked') ? data.checked : data.value),
-    });
+    };
+
+    if (order !== undefined) {
+      fieldData[order] = order;
+    }
+
+    this.props.changeOptinForm(field, fieldData);
   };
 
   onCopy = () => {
@@ -58,60 +65,28 @@ class OptInForm extends Component {
               <Input placeholder='Fullname label'
                      value={integrationForm.fullname.label}
                      name='label'
-                     onChange={this.onChange.bind(this, 'fullname')} />
+                     onChange={this.onChange.bind(this, 'fullname', 1)} />
             </Form.Field>
             <Form.Field>
               <label>Palceholder</label>
               <Input placeholder='Fullname Placeholder'
                      name='placeholder'
                      value={integrationForm.fullname.placeholder}
-                     onChange={this.onChange.bind(this, 'fullname')} />
+                     onChange={this.onChange.bind(this, 'fullname', 1)} />
             </Form.Field>
           </Form.Group>
           <Form.Group widths='equal'>
             <Form.Field control={Checkbox}
                         name='isRequired'
                         checked={integrationForm.fullname.isRequired}
-                        onChange={this.onChange.bind(this, 'fullname')}
+                        onChange={this.onChange.bind(this, 'fullname', 1)}
                         label={<label>Name Is required</label>}
             />
             <Form.Field control={Checkbox}
                         name='isVisible'
                         checked={integrationForm.fullname.isVisible}
-                        onChange={this.onChange.bind(this, 'fullname')}
+                        onChange={this.onChange.bind(this, 'fullname', 1)}
                         label={<label>Name Is visible</label>}
-            />
-          </Form.Group>
-          <Form.Group widths='equal'>
-            <Form.Field>
-              <label>Phone Label</label>
-              <Input placeholder='Phone Label'
-               name='label'
-               value={integrationForm.phone.label}
-               onChange={this.onChange.bind(this, 'phone')}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>Placeholder</label>
-              <Input placeholder='Phone Placeholder'
-                 name='placeholder'
-                 value={integrationForm.phone.placeholder}
-                 onChange={this.onChange.bind(this, 'phone')}
-              />
-            </Form.Field>
-          </Form.Group>
-          <Form.Group widths='equal'>
-            <Form.Field control={Checkbox}
-                        name='isRequired'
-                        checked={integrationForm.phone.isRequired}
-                        onChange={this.onChange.bind(this, 'phone')}
-                        label={<label>Phone Is required</label>}
-            />
-            <Form.Field control={Checkbox}
-                        name='isVisible'
-                        checked={integrationForm.phone.isVisible}
-                        onChange={this.onChange.bind(this, 'phone')}
-                        label={<label>Phone Is visible</label>}
             />
           </Form.Group>
           <Form.Group widths='equal'>
@@ -120,7 +95,7 @@ class OptInForm extends Component {
               <Input placeholder='Email Label'
                      name='label'
                      value={integrationForm.email.label}
-                     onChange={this.onChange.bind(this, 'email')}
+                     onChange={this.onChange.bind(this, 'email', 2)}
               />
             </Form.Field>
             <Form.Field>
@@ -128,7 +103,7 @@ class OptInForm extends Component {
               <Input placeholder='Email Placeholder'
                      name='placeholder'
                      value={integrationForm.email.placeholder}
-                     onChange={this.onChange.bind(this, 'email')}
+                     onChange={this.onChange.bind(this, 'email', 2)}
               />
             </Form.Field>
           </Form.Group>
@@ -136,14 +111,46 @@ class OptInForm extends Component {
             <Form.Field control={Checkbox}
                         name='isRequired'
                         checked={integrationForm.email.isRequired}
-                        onChange={this.onChange.bind(this, 'email')}
+                        onChange={this.onChange.bind(this, 'email', 2)}
                         label={<label>Email Is required</label>}
             />
             <Form.Field control={Checkbox}
                         name='isVisible'
                         checked={integrationForm.email.isVisible}
-                        onChange={this.onChange.bind(this, 'email')}
+                        onChange={this.onChange.bind(this, 'email', 2)}
                         label={<label>Email Is visible</label>}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.Field>
+              <label>Phone Label</label>
+              <Input placeholder='Phone Label'
+               name='label'
+               value={integrationForm.phone.label}
+               onChange={this.onChange.bind(this, 'phone', 3)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Placeholder</label>
+              <Input placeholder='Phone Placeholder'
+                 name='placeholder'
+                 value={integrationForm.phone.placeholder}
+                 onChange={this.onChange.bind(this, 'phone', 3)}
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.Field control={Checkbox}
+                        name='isRequired'
+                        checked={integrationForm.phone.isRequired}
+                        onChange={this.onChange.bind(this, 'phone', 3)}
+                        label={<label>Phone Is required</label>}
+            />
+            <Form.Field control={Checkbox}
+                        name='isVisible'
+                        checked={integrationForm.phone.isVisible}
+                        onChange={this.onChange.bind(this, 'phone', 3)}
+                        label={<label>Phone Is visible</label>}
             />
           </Form.Group>
           <Form.Field>

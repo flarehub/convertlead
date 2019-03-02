@@ -13,7 +13,7 @@ const initState = {
         title: 'Only Subscribe'
       },
       fullname: {
-        name: 'fullname',
+        order: 1,
         label: 'Full name',
         placeholder: 'Full name',
         value: '',
@@ -21,7 +21,7 @@ const initState = {
         isVisible: true,
       },
       email: {
-        name: 'email',
+        order: 2,
         label: 'E-mail',
         placeholder: 'E-mail',
         value: '',
@@ -29,7 +29,7 @@ const initState = {
         isVisible: true,
       },
       phone: {
-        name: 'email',
+        order: 3,
         label: 'Phone',
         placeholder: 'Phone',
         value: '',
