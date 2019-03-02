@@ -4,7 +4,7 @@ import * as R from 'ramda';
 
 const mapStateToProps = state => ({
   lead: state.leadNotes.lead,
-  leadNotes: state.leadNotes,
+  leadNotes: state.leadNotes.leadNotes,
 });
 
 const mapDispatcherToProps = disptach => ({

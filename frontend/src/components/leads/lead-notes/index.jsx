@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import { Segment, Button, Icon, List, Grid, Image } from 'semantic-ui-react';
 import styles from './index.scss';
 import { BreadCrumbContainer, LeadNotesContainer } from "@containers";
+import TimeLine from "./timeline";
 
 class LeadNotes extends Component {
 
@@ -16,7 +17,7 @@ class LeadNotes extends Component {
   }
 
   render() {
-    const { lead } = this.props;
+    const { lead, leadNotes } = this.props;
     return (<div className={styles.LeadNotes}>
       <Segment>
         <Grid columns='equal'>
@@ -74,8 +75,8 @@ class LeadNotes extends Component {
                 </div>
               </Segment>
             </Grid.Column>
-            <Grid.Column>
-              <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+            <Grid.Column textAlign='left'>
+              <TimeLine notes={leadNotes} lead={lead} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

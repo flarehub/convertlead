@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\Lead;
+use App\Models\LeadNote;
 use App\Models\LeadStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -52,13 +53,11 @@ class LeadController extends Controller
             'agency_company_id' => $company->pivot->id
         ]);
         $lead = Lead::find($id);
-    
         $status = $request->get('status');
-        if ($status) {
-            $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
-            $request->merge(['lead_status_id' => $leadStatus->id]);
-        }
-    
+        $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
+        $request->merge(['lead_status_id' => $leadStatus->id]);
+        $hasNewStatus = $lead->lead_status_id !== $leadStatus->id;
+
         $lead->fill($request->only([
             'fullname',
             'email',
@@ -69,7 +68,16 @@ class LeadController extends Controller
             'lead_status_id',
             'agency_company_id',
         ]));
-    
+        
+        if ($hasNewStatus) {
+            LeadNote::create([
+                'lead_status_id' => $leadStatus->id,
+                'lead_id' => $lead->id,
+                'agent_id' => $request->user()->id,
+                'message' => 'Status changed!',
+            ]);
+        }
+     
         $lead->save();
         return $lead;
     }
@@ -87,9 +95,15 @@ class LeadController extends Controller
             'agent_id' => 'required|int',
             'deal_campaign_id' => 'required|int',
             'agency_company_id' => 'required|int',
+            'status' => 'required|string',
         ]);
     
+        $status = $request->get('status');
+        $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
+        $request->merge(['lead_status_id' => $leadStatus->id]);
+        
         $lead = Lead::create($request->only([
+            'lead_status_id',
             'fullname',
             'email',
             'phone',
@@ -98,7 +112,14 @@ class LeadController extends Controller
             'deal_campaign_id',
             'agency_company_id',
         ]));
-    
+
+        LeadNote::create([
+            'lead_status_id' => $leadStatus->id,
+            'lead_id' => $lead->id,
+            'agent_id' => $request->user()->id,
+            'message' => 'Lead Created manually',
+        ]);
+        
         return $lead;
     }
 

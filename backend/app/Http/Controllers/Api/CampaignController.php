@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\DealCampaign;
 use App\Models\Lead;
+use App\Models\LeadNote;
 use App\Models\LeadStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Mockery\Exception;
 
 class CampaignController extends Controller
 {
@@ -22,52 +24,68 @@ class CampaignController extends Controller
     }
     
     public function createLead(Request $request, $campaignUUID) {
-        $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
+       try {
+           \DB::beginTransaction();
+           $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
     
-        $this->validateLead($request, $campaign);
-        
-        $leadStatus = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
-        $agent = $campaign->agents->first();
-        if (!$agent) {
-            throw new \Exception('Missing required agent');
-        }
-        
-        $campaign
-            ->agents()
-            ->updateExistingPivot($agent['id'], [
-                'agent_leads_count' => $agent['pivot']['agent_leads_count'] + 1,
-            ]);
-        
-        $request->merge([
-            'agency_company_id' => $campaign->agency_company_id,
-            'agent_id' => $agent['id'],
-            'lead_status_id' => $leadStatus->id,
-            'deal_campaign_id' => $campaign->id,
-        ]);
-        
-        $lead = new Lead();
-        $lead->fill($request->only([
-            'agency_company_id',
-            'agent_id',
-            'lead_status_id',
-            'deal_campaign_id',
-            'fullname',
-            'phone',
-            'email',
-            'metadata',
-        ]));
-        $lead->save();
-        return $lead->only([
-            'id',
-            'status',
-            'fullname',
-            'phone',
-            'email',
-            'metadata',
-            'created_at',
-            'campaign',
-            'agent',
-        ]);
+           $this->validateLead($request, $campaign);
+    
+           $leadStatus = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
+           $agent = $campaign->agents->first();
+           if (!$agent) {
+               throw new \Exception('Missing required agent');
+           }
+    
+           $campaign
+               ->agents()
+               ->updateExistingPivot($agent['id'], [
+                   'agent_leads_count' => $agent['pivot']['agent_leads_count'] + 1,
+               ]);
+    
+           $request->merge([
+               'agency_company_id' => $campaign->agency_company_id,
+               'agent_id' => $agent['id'],
+               'lead_status_id' => $leadStatus->id,
+               'deal_campaign_id' => $campaign->id,
+           ]);
+    
+           $lead = new Lead();
+           $lead->fill($request->only([
+               'agency_company_id',
+               'agent_id',
+               'lead_status_id',
+               'deal_campaign_id',
+               'fullname',
+               'phone',
+               'email',
+               'metadata',
+           ]));
+           $lead->save();
+    
+           LeadNote::create([
+               'lead_status_id' => $leadStatus->id,
+               'lead_id' => $lead->id,
+               'agent_id' => $request->user()->id,
+               'message' => 'Lead Created manually',
+           ]);
+           
+           \DB::commit();
+    
+           return $lead->only([
+               'id',
+               'status',
+               'fullname',
+               'phone',
+               'email',
+               'metadata',
+               'created_at',
+               'campaign',
+               'agent',
+           ]);
+       } catch (Exception $exception) {
+           \DB::rollBack();
+           throw $exception;
+       }
     }
     
     /**
