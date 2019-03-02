@@ -16,7 +16,7 @@ export const saveOptinForm = form => async dispatch => {
     await api.patch(
       `/v1/agency/companies/${form.companyId}/deals/${form.dealId}/campaigns/${form.id}`,
       {
-        integration_config: form.integrationForm
+        integration_config: JSON.stringify(form.integrationForm)
       }
     );
     await dispatch(actions.saveOptionForm());

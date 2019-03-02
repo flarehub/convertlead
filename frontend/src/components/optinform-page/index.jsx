@@ -1,37 +1,55 @@
 import React, { Component }  from 'react';
-import {
-  Form,
-  Input,
-  Segment,
-} from 'semantic-ui-react';
+import {IntegrationOptionFormContainer} from "@containers";
+import { Loader } from 'components';
+import { Button, Icon } from 'semantic-ui-react';
 import styles from './index.scss';
+import OptinForm from "./form";
 
-class OptinForm extends Component {
-  componentWillMount() {
-    // todo load optin form
+class OptinFormPage extends Component {
+  async componentWillMount() {
+    const { uuid } = this.props.match.params;
+    await this.props.loadCampaignBy(uuid);
   }
+
+  onChange = (event, data) => {
+    this.props.changeForm({
+      [data.name]: data.value,
+    })
+  };
+
+  onSubmit = () => {
+    this.props.createLead(this.props.form);
+  };
+  onResend = () => {
+    this.props.resetForm({ showResend: false });
+  };
+
   render() {
+    const { integrationForm, form } = this.props;
     return (<div className={styles.OptionForm}>
-      <Form>
-        <h1>Optin Form</h1>
-        <Form.Field required>
-          <label>Full name</label>
-          <Input placeholder='Full name' />
-        </Form.Field>
-        <Form.Field required>
-          <label>Phone</label>
-          <Input placeholder='Phone' />
-        </Form.Field>
-        <Form.Field required>
-          <label>E-mail</label>
-          <Input placeholder='E-mail' />
-        </Form.Field>
-        <Segment basic textAlign='right'>
-          <Form.Button>Submit</Form.Button>
-        </Segment>
-      </Form>
+      <Loader />
+      {
+        form.showResend
+          ? <div className='resend'>
+              <div>
+                <div className='resend-icon'>
+                  <Icon name='check circle outline' size='massive' />
+                </div>
+                <h3>
+                  Form Sent
+                </h3>
+              </div>
+              <Button basic onClick={this.onResend}>Resend</Button>
+            </div>
+          : <OptinForm integrationForm={integrationForm}
+                                                  form={form}
+                                                  onSubmit={this.onSubmit}
+                                                  onChange={this.onChange}
+        />
+      }
+
     </div>)
   }
 }
 
-export default OptinForm;
+export default IntegrationOptionFormContainer(OptinFormPage);

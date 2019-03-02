@@ -34,6 +34,18 @@ class OptInForm extends Component {
       <div>
         <Form size='big'>
           <Form.Field>
+            <label>Form Link</label>
+            <CopyText text={this.state.value} onCopied={this.onCopied}  />
+            <Input
+              action={{
+                color: 'teal',
+                labelPosition: 'right',
+                icon: 'copy',
+                content: `${(this.state.copied ? 'Copied' : 'Copy')}`, onClick: this.onCopy }}
+              defaultValue={this.props.optinFormLink}
+            />
+          </Form.Field>
+          <Form.Field>
             <label>Form Title</label>
             <Input placeholder='Form Title'
                    name='title'
@@ -124,13 +136,13 @@ class OptInForm extends Component {
             <Form.Field control={Checkbox}
                         name='isRequired'
                         checked={integrationForm.email.isRequired}
-                        onChange={this.onChange.bind(this, 'phone')}
+                        onChange={this.onChange.bind(this, 'email')}
                         label={<label>Email Is required</label>}
             />
             <Form.Field control={Checkbox}
                         name='isVisible'
                         checked={integrationForm.email.isVisible}
-                        onChange={this.onChange.bind(this, 'phone')}
+                        onChange={this.onChange.bind(this, 'email')}
                         label={<label>Email Is visible</label>}
             />
           </Form.Group>
@@ -140,18 +152,6 @@ class OptInForm extends Component {
                    name='label'
                    value={integrationForm.button.name}
                    onChange={this.onChange.bind(this, 'button')}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Form Link</label>
-            <CopyText text={this.state.value} onCopied={this.onCopied}  />
-            <Input
-              action={{
-                color: 'teal',
-                labelPosition: 'right',
-                icon: 'copy',
-                content: `${(this.state.copied ? 'Copied' : 'Copy')}`, onClick: this.onCopy }}
-              defaultValue={this.props.optinFormLink}
             />
           </Form.Field>
         </Form>

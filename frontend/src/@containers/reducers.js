@@ -10,6 +10,7 @@ import leads from './leads/reducer';
 import loader from './loader/reducer';
 import menu from './menu/reducer';
 import profile from './profile/reducer';
+import integrations from './integrations/reducer';
 
 const reducers = combineReducers({
   agents,
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   companies,
   deals,
   forms,
+  integrations,
   leads,
   loader,
   menu,

@@ -2,6 +2,7 @@ import { sendMessage } from '../../messages/thunks';
 import {api} from "../../../@services";
 import * as actions from './actions';
 import { fetchCampaigns } from "../../campaigns/thunks";
+import optinFormIntegration from "../integrations/optinform/reducer";
 
 export const saveCampaign = form => (dispatch) => {
   try {
@@ -36,7 +37,7 @@ export const updateCampaign = form => async (dispatch) => {
   }
 };
 
-export const createCampaign = form => async dispatch => {
+export const createCampaign = form => async (dispatch, getState) => {
   try {
     if (!form.companyId) {
       throw new Error('Missing required company!');
@@ -45,9 +46,14 @@ export const createCampaign = form => async dispatch => {
     if (!form.dealId) {
       throw new Error('Missing required deal!');
     }
+
+    const { integrationForm } = getState().forms.optinFormIntegration.form;
     await api.post(
       `/v1/agency/companies/${form.companyId}/deals/${form.dealId}/campaigns`,
-      form
+      {
+        ...form,
+        integration_config: integrationForm,
+      },
     );
     await dispatch(actions.savedCampaign());
     await dispatch(fetchCampaigns());

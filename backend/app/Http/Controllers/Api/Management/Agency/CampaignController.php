@@ -94,12 +94,6 @@ class CampaignController extends Controller
         try {
             \DB::beginTransaction();
             $campaign = $request->user()->getCompanyBy($company)->getDealBy($deal)->getCampaignBy($id);
-    
-            if ($request->json('integration_config')) {
-                $request->merge([
-                    'integration_config' => json_encode($request->json('integration_config'))
-                ]);
-            }
             $campaign->fill($request->only([
                 'name',
                 'uuid',
