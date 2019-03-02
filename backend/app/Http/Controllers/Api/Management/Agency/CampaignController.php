@@ -89,11 +89,16 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $company, $deal, $id)
+    public function update(Request $request, Faker $faker, $company, $deal, $id)
     {
         try {
             \DB::beginTransaction();
             $campaign = $request->user()->getCompanyBy($company)->getDealBy($deal)->getCampaignBy($id);
+            
+            $request->merge([
+                'uuid' => ($campaign->uuid ? $campaign->uuid : $faker->uuid)
+            ]);
+            
             $campaign->fill($request->only([
                 'name',
                 'uuid',

@@ -16,11 +16,15 @@ import {
 import * as R from "ramda";
 import CampaignModal from 'components/@common/modals/campaign';
 import ModalOptinFormIntegration from 'components/@common/modals/integrations/optinform';
+import ZapierInterationModal from "../@common/modals/integrations/zapier";
+import {config} from "../../@services";
 
 class Campaigns extends Component {
   state = {
     open: false,
+    openApiIntegration: false,
     campaignId: '',
+    campaignLink: '',
   };
 
   constructor(props) {
@@ -84,12 +88,28 @@ class Campaigns extends Component {
     if (campaign.integration === 'OPTIN_FORM') {
       this.props.loadOptinForm({ ...campaign, companyId, dealId, show: true })
     }
+
+    if (campaign.integration === 'ZAPIER') {
+      this.setState({
+        ...this.state,
+        openApiIntegration: true,
+        campaignLink: `${config.get('REACT_APP_API_SERVER')}/v1/campaigns/${campaign.uuid}/leads`
+      });
+    }
+  };
+
+  onCloseApiIntegration = () => {
+    this.setState({
+      ...this.state,
+      openApiIntegration: false,
+    });
   };
 
   render() {
     const { campaigns, pagination } = this.props;
     return (<div className={styles.Campaigns}>
       <Segment attached='top'>
+        <ZapierInterationModal open={this.state.openApiIntegration} onClose={this.onCloseApiIntegration} campaignLink={this.state.campaignLink} />
         <ModalOptinFormIntegration />
         <CampaignModal
           companyId={this.props.match.params.companyId}

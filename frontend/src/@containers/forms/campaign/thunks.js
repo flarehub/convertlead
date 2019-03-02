@@ -52,7 +52,7 @@ export const createCampaign = form => async (dispatch, getState) => {
       `/v1/agency/companies/${form.companyId}/deals/${form.dealId}/campaigns`,
       {
         ...form,
-        integration_config: integrationForm,
+        integration_config: JSON.stringify(integrationForm),
       },
     );
     await dispatch(actions.savedCampaign());

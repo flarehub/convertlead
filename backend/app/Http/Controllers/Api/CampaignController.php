@@ -22,9 +22,6 @@ class CampaignController extends Controller
     }
     
     public function createLead(Request $request, $campaignUUID) {
-        if (!$campaignUUID) {
-        
-        }
         $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
     
         $this->validateLead($request, $campaign);
@@ -60,7 +57,17 @@ class CampaignController extends Controller
             'metadata',
         ]));
         $lead->save();
-        return $lead;
+        return $lead->only([
+            'id',
+            'status',
+            'fullname',
+            'phone',
+            'email',
+            'metadata',
+            'created_at',
+            'campaign',
+            'agent',
+        ]);
     }
     
     /**
