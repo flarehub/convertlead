@@ -31,24 +31,26 @@ class CampaignController extends Controller
            $this->validateLead($request, $campaign);
     
            $leadStatus = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
+
            $agent = $campaign->agents->first();
            if (!$agent) {
                throw new \Exception('Missing required agent');
            }
     
+           
            $campaign
                ->agents()
                ->updateExistingPivot($agent['id'], [
                    'agent_leads_count' => $agent['pivot']['agent_leads_count'] + 1,
                ]);
-    
+        
            $request->merge([
                'agency_company_id' => $campaign->agency_company_id,
                'agent_id' => $agent['id'],
                'lead_status_id' => $leadStatus->id,
                'deal_campaign_id' => $campaign->id,
            ]);
-    
+           
            $lead = new Lead();
            $lead->fill($request->only([
                'agency_company_id',
@@ -61,16 +63,16 @@ class CampaignController extends Controller
                'metadata',
            ]));
            $lead->save();
-    
+       
            LeadNote::create([
                'lead_status_id' => $leadStatus->id,
                'lead_id' => $lead->id,
-               'agent_id' => $request->user()->id,
-               'message' => 'Lead Created manually',
+               'agent_id' => $agent['id'],
+               'message' => "Lead Created from {$campaign->integration}",
            ]);
-           
-           \DB::commit();
     
+           \DB::commit();
+
            return $lead->only([
                'id',
                'status',
@@ -80,6 +82,7 @@ class CampaignController extends Controller
                'metadata',
                'created_at',
                'campaign',
+               'lead_notes',
                'agent',
            ]);
        } catch (Exception $exception) {
