@@ -80,7 +80,7 @@ class Leads extends Component {
     const {pagination, statuses, query} = this.props;
 
     return (
-      <div className={styles.Agents}>
+      <div className={styles.Leads}>
         <LeadModal size='small' />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
         <Segment attached='top'>
@@ -134,7 +134,7 @@ class Leads extends Component {
                   <Table.Row key={index}>
                     <Table.Cell>
                       <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                        <Button circular color={statuses[lead.status].color}>{statuses[lead.status].icon}</Button>
+                        <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>{statuses[lead.status].icon}</div>
                         {lead.fullname}
                         <div>
                           Added {moment(lead.created_at).format('DD/MM/YYYY')}

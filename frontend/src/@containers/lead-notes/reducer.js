@@ -2,6 +2,7 @@ import {LOAD_TIMELINE_LEAD} from "./actions";
 
 const initState = {
   lead: {
+    status: 'NEW',
     campaign: {},
     company: {},
     agent: {},

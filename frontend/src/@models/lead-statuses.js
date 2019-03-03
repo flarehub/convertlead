@@ -2,35 +2,35 @@ import * as R from "ramda";
 
 export const LeadStatuses = {
   NEW: {
-    color: 'violet',
+    color: '#6435c9',
       icon: 'N',
   },
   VIEWED: {
-    color: 'green',
+    color: '#2cb3c8',
       icon: 'V',
   },
   CONTACTED_SMS: {
-    color: 'orange',
+    color: '#f2711c',
       icon: 'C',
   },
   CONTACTED_CALL: {
-    color: 'orange',
+    color: '#f2711c',
       icon: 'C',
   },
   CONTACTED_EMAIL: {
-    color: 'orange',
+    color: '#f2711c',
       icon: 'C',
   },
   MISSED: {
-    color: 'red',
+    color: '#db2828',
       icon: 'M',
   },
   BAD: {
-    color: 'youtube',
+    color: '#db2828',
       icon: 'B',
   },
   SOLD: {
-    color: 'purple',
+    color: '#21ba45',
       icon: 'S',
   },
 };

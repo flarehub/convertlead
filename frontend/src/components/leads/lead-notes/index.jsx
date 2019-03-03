@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
-import { Segment, Button, Icon, List, Grid, Image } from 'semantic-ui-react';
+import { Segment, Button, Icon, Grid } from 'semantic-ui-react';
 import styles from './index.scss';
 import { BreadCrumbContainer, LeadNotesContainer } from "@containers";
 import TimeLine from "./timeline";
