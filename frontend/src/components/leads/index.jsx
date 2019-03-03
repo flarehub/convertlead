@@ -206,7 +206,7 @@ class Leads extends Component {
                           : null
                       }
                     </Table.Cell>
-                    <Table.Cell><Link to={`/campaigns/${lead.campaign.id}`}>{lead.campaign.name}</Link></Table.Cell>
+                    <Table.Cell><Link to={`/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`}>{lead.campaign.name}</Link></Table.Cell>
                     <Table.Cell>
                       {
                         !lead.deleted_at

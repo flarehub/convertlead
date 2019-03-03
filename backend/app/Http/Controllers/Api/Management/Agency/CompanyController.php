@@ -61,34 +61,48 @@ class CompanyController extends Controller
     public function show(Request $request, $id)
     {
         $company = $request->user()->getCompanyBy($id);
-
+        $min15 = 15 * 60;
         return Lead::selectRaw(
-                "
-                DATE(leads.created_at) as creation_date,
-SEC_TO_TIME( AVG( TIME_TO_SEC( TIMEDIFF( IF(ln.created_at IS NULL, leads.created_at,
-        IF( ls.type = 'NEW', leads.created_at, ln.created_at)), leads.created_at)))) AS avgResponseTimeNew,
-
-SEC_TO_TIME( AVG( TIME_TO_SEC( TIMEDIFF( IF(ln.created_at IS NULL, leads.created_at,
-        IF( ls.type = 'VIEWED', leads.created_at, ln.created_at)), leads.created_at)))) AS avgResponseTimeViewed,
-
-SEC_TO_TIME( AVG( TIME_TO_SEC( TIMEDIFF( IF(ln.created_at IS NULL, leads.created_at,
-    IF(ls.type = 'CONTACTED_SMS' OR
-        ls.type = 'CONTACTED_CALL' OR
-        ls.type = 'CONTACTED_EMAIL', leads.created_at, ln.created_at)), leads.created_at)))) AS avgResponseTimeContacted,
-
-SEC_TO_TIME( AVG( TIME_TO_SEC( TIMEDIFF( IF(ln.created_at IS NULL, leads.created_at,
-    IF(ls.type = 'MISSED' OR
-        ls.type = 'BAD', leads.created_at, ln.created_at)), leads.created_at)))) AS avgResponseTimeLost,
-
-SEC_TO_TIME( AVG( TIME_TO_SEC( TIMEDIFF( IF(ln.created_at IS NULL, leads.created_at,
-    IF(ls.type = 'SOLD', leads.created_at, ln.created_at)), leads.created_at)))) AS avgResponseTimeLost
-                "
-            )
-            ->leftJoin('lead_notes as ln', 'ln.lead_id', 'leads.id')
-            ->leftJoin('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-            ->groupBy('ln.id', 'creation_date')
-            ->where('agency_company_id', $company->pivot->id)
-            ->get()->groupBy('status');
+            "
+          DATE(leads.created_at) as creation_date,
+	   SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
+             SUM(
+       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)
+       ) as up30Mintes,
+       SUM(
+       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)
+       ) as up2Hours,
+       SUM(
+       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)
+       ) as up12Hours,
+            SUM(
+       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (24*60*60)
+       ) as up24hours,
+	SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (24*60*60)) as 24PlusHours
+     
+            ")
+            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
+            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
+            ->where('leads.agency_company_id', $company->pivot->id)
+            ->where(function ($query) {
+                $query
+                    ->where('ls.type', 'CONTACTED_SMS')
+                    ->orWhere('ls.type', 'CONTACTED_CALL')
+                    ->orWhere('ls.type', 'CONTACTED_EMAIL')
+                ;
+            })
+            ->groupBy('creation_date')
+            ->get()->map(function ($lead) {
+                return $lead->only([
+                   'creation_date',
+                   'up15Minutes',
+                   'up30Mintes',
+                   'up2Hours',
+                   'up12Hours',
+                   'up24hours',
+                   '24PlusHours',
+                ]);
+            })->groupBy('creation_date');
     }
 
     /**

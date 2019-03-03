@@ -1,4 +1,5 @@
 import {CHANGE_OPTION_FORM_FIELD, LOAD_OPTIN_FORM, SAVE_OPTIN_FORM} from "./actions";
+import {IntegrationForm} from "@models/optin-form";
 
 const initState = {
   form: {
@@ -8,38 +9,7 @@ const initState = {
     dealId: '',
     campaignId: '',
     uuid: '',
-    integrationForm: {
-      header: {
-        title: 'Only Subscribe'
-      },
-      fullname: {
-        order: 1,
-        label: 'Full name',
-        placeholder: 'Full name',
-        value: '',
-        isRequired: true,
-        isVisible: true,
-      },
-      email: {
-        order: 2,
-        label: 'E-mail',
-        placeholder: 'E-mail',
-        value: '',
-        isRequired: true,
-        isVisible: true,
-      },
-      phone: {
-        order: 3,
-        label: 'Phone',
-        placeholder: 'Phone',
-        value: '',
-        isRequired: true,
-        isVisible: true,
-      },
-      button: {
-        name: 'Subscribe',
-      }
-    }
+    integrationForm: IntegrationForm,
   }
 };
 
@@ -50,13 +20,14 @@ const optionForm = (state = initState, action) => {
       if (action.form.integration_config) {
         integration = JSON.parse(action.form.integration_config);
       }
+      console.log(integration);
+
       return {
         ...state,
         form: {
           ...state.form,
           ...action.form,
           integrationForm: {
-            ...state.form.integrationForm,
             ...integration,
           }
         }
