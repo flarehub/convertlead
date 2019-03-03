@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\Company;
+use App\Models\Lead;
 
 trait CompanyRepository {
     public function createCompany($data) {
@@ -19,5 +20,8 @@ trait CompanyRepository {
 
     public function getLeadBy($leadId) {
         return $this->leads()->where('leads.id', $leadId)->firstOrFail();
+    }
+
+    public function companyStatistics() {
     }
 }

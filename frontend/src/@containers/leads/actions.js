@@ -33,7 +33,7 @@ export const removeLead = id => ({
   id,
 });
 
-export const flterLeads = filters => ({
+export const filterLeads = filters => ({
   type: FILTER_LEADS,
   filters,
 });

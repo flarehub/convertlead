@@ -6,6 +6,7 @@ export const SEARCH_COMPANIES = 'SEARCH_COMPANIES';
 export const TOGGLE_SHOW_DELETED = 'TOGGLE_WITH_DELETED';
 export const OPEN_COMPANY_MODAL = 'OPEN_COMPANY_MODAL';
 export const ADD_SELECT_BOX_COMPANIES = 'ADD_SELECT_BOX_COMPANIES';
+export const LOAD_COMPANY = 'LOAD_COMPANY';
 
 export const addCompanies = (companies, pagination) => ({
   type: ADD_COMPANIES,
@@ -40,4 +41,9 @@ export const openCompanyModal = open => ({
 
 export const toggleShowDeleted = () => ({
   type: TOGGLE_SHOW_DELETED,
+});
+
+export const loadCompany = company => ({
+  type: LOAD_COMPANY,
+  company
 });

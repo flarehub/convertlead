@@ -112,3 +112,12 @@ export const toggleShowDeleted = () => async (dispatch, getState) => {
     companies.query.sort,
   ));
 };
+
+export const getCompanyBy = id => async dispatch => {
+  try {
+    const response = await api.get(`/v1/agency/companies/${id}`);
+    actions.loadCompany(response.data);
+  } catch (e) {
+    dispatch(sendMessage(e.message, true))
+  }
+};

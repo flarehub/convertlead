@@ -17,11 +17,20 @@ import {
   Grid,
   Menu,
   Confirm,
+  Select,
 } from 'semantic-ui-react';
 import styles from './index.scss';
-import { BreadCrumbContainer, LeadsContainer, LeadFormContainer } from '@containers';
+import { BreadCrumbContainer, CompaniesContainer, LeadsContainer, LeadFormContainer } from '@containers';
 import Loader from '../loader';
 import * as R from "ramda";
+import {getSelectBoxStatuses} from "@models/lead-statuses";
+
+const companies = [
+  { key: '', text: 'All companies', value: '' },
+];
+
+const defaultStatus =  { key: '', text: 'All statuses', value: '' };
+
 
 class Leads extends Component {
 
@@ -68,6 +77,18 @@ class Leads extends Component {
     this.props.toggleShowDeleted();
   }
 
+  filterByCompany = (event, data) => {
+    this.props.filterLeads({
+      companyId: data.value,
+    })
+  }
+
+  filterByStatus = (event, data) => {
+    this.props.filterLeads({
+      statusType: data.value,
+    })
+  }
+
   componentWillMount() {
     this.props.addBreadCrumb({
       name: 'Leads',
@@ -84,12 +105,37 @@ class Leads extends Component {
         <LeadModal size='small' />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
         <Segment attached='top'>
-          <Grid columns={2}>
+          <Grid columns={3}>
             <Grid.Column>
               <Header floated='left' as='h1'>Leads</Header>
               <Form.Field>
                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
               </Form.Field>
+            </Grid.Column>
+            <Grid.Column textAlign='left'>
+              <label>Filter by: </label>
+             <Form>
+               <Form.Group widths='equal'>
+                 <Form.Field
+                   loading={!this.props.selectBoxCompanies.length}
+                   control={Select}
+                   options={[...companies, ...this.props.selectBoxCompanies]}
+                   placeholder='All companies'
+                   search
+                   onChange={this.filterByCompany}
+                   searchInput={{ id: 'form-companies-list' }}
+                 />
+                 <Form.Field
+                   loading={!getSelectBoxStatuses}
+                   control={Select}
+                   options={[defaultStatus, ...getSelectBoxStatuses]}
+                   placeholder='All statuses'
+                   search
+                   onChange={this.filterByStatus}
+                   searchInput={{ id: 'form-statuses-list' }}
+                 />
+               </Form.Group>
+             </Form>
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
@@ -191,4 +237,4 @@ class Leads extends Component {
   }
 }
 
-export default compose(BreadCrumbContainer, LeadsContainer, LeadFormContainer)(Leads);
+export default compose(BreadCrumbContainer, CompaniesContainer, LeadsContainer, LeadFormContainer)(Leads);

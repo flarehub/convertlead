@@ -9,6 +9,7 @@ export const loadLeads = () => async (dispatch, getState) => {
     const { query, pagination } = getState().leads;
     const response = await api.get('/v1/agency/leads', {
       params: {
+        ...query.filters,
         ...query.sort,
         search: query.search,
         showDeleted: (query.showDeleted ? query.showDeleted : null),
@@ -44,8 +45,9 @@ export const deleteLead = (companyId, id) => async (dispatch) => {
   }
 };
 
-export const filterLeads = filters => (dispatch) => {
-
+export const filterLeads = filters => async (dispatch) => {
+  await dispatch(actions.filterLeads(filters));
+  await dispatch(loadLeads());
 };
 
 export const searchLeads = search => async (dispatch) => {

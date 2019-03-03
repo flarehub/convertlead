@@ -162,7 +162,21 @@ class Campaigns extends Component {
                 campaigns.map((campaign, index) => (
                   <Table.Row key={index}>
                     <Table.Cell>
-                      <Button circular color='facebook' icon='facebook' />
+                      {
+                        campaign.integration === 'FACEBOOK'
+                        ? <Button circular color='facebook' icon='facebook' />
+                        : null
+                      }
+                      {
+                        campaign.integration === 'ZAPIER'
+                        ?  <Button circular color='google plus' icon='assistive listening systems' />
+                        : null
+                      }
+                      {
+                        campaign.integration === 'OPTIN_FORM'
+                          ?  <Button circular color='purple' icon='wpforms' />
+                          : null
+                      }
                     </Table.Cell>
                     <Table.Cell>{campaign.name}</Table.Cell>
                     <Table.Cell>{campaign.integration}</Table.Cell>

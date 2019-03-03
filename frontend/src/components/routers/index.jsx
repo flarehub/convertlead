@@ -8,6 +8,7 @@ import {
   Profile,
   Campaigns,
   LeadNotes,
+  CompanyProfile,
 } from "../index";
 import PrivateRoute from './PrivateRoute';
 import styles from './index.scss';
@@ -15,6 +16,7 @@ import styles from './index.scss';
 export default () => (<div className={styles.Routes}>
   <PrivateRoute exact path='/dashboard' component={Dashboard} />
   <PrivateRoute exact path='/companies' component={Companies} />
+  <PrivateRoute exact path='/companies/:companyId/profile' component={CompanyProfile} />
   <PrivateRoute exact path='/companies/:companyId/deals/:dealId/campaigns' component={Campaigns} />
   <PrivateRoute exact path='/leads' component={Leads} />
   <PrivateRoute exact path='/companies/:companyId/leads/:leadId/notes' component={LeadNotes} />

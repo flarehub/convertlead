@@ -1,9 +1,10 @@
 import {
-  ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, OPEN_COMPANY_MODAL, SORT_COMPANIES,
+  ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, LOAD_COMPANY, OPEN_COMPANY_MODAL, SORT_COMPANIES,
   TOGGLE_SHOW_DELETED,
 } from './actions';
 
 const initState = {
+  company: {},
   companies: [],
   selectBoxCompanies: [],
   pagination: {
@@ -70,6 +71,12 @@ const companies = (state = initState, action) => {
         ...state,
         selectBoxCompanies: [...action.companies],
       };
+    }
+    case LOAD_COMPANY: {
+      return {
+        ...state,
+        company: action.company
+      }
     }
     default: {
       return state;

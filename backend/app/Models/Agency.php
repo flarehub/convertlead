@@ -161,6 +161,7 @@ class Agency extends User
         $query = Lead::selectRaw('leads.*, ac.company_id, ac.agency_id, dc.deal_id')
             ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
             ->join('users as cp', 'cp.id', 'ac.company_id')
+            ->join('lead_statuses as ls', 'ls.id', 'leads.lead_status_id')
             ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')
             ->where('ac.agency_id', $this->id)
         ;
@@ -173,6 +174,14 @@ class Agency extends User
                     ->orWhere('leads.phone', 'like', "%{$queryParams['search']}%")
                 ;
             });
+        }
+        
+        if (isset($queryParams['companyId']) && $queryParams['companyId']) {
+            $query->where('ac.company_id', $queryParams['companyId']);
+        }
+
+        if (isset($queryParams['statusType']) && $queryParams['statusType']) {
+            $query->where('ls.type', $queryParams['statusType']);
         }
     
         if ( isset($queryParams['showDeleted']) ) {

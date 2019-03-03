@@ -136,7 +136,7 @@ class Companies extends Component {
                   <Table.Cell>
                     <Image avatar src={company.avatar_path} rounded size='mini' />
                   </Table.Cell>
-                  <Table.Cell><Link to={`/companies/${company.id}`}>{company.name}</Link></Table.Cell>
+                  <Table.Cell><Link to={`/companies/${company.id}/profile`}>{company.name}</Link></Table.Cell>
                   <Table.Cell><Link to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>
                   <Table.Cell><Link to={`/companies/${company.id}/leads`} >{company.leads_count}</Link></Table.Cell>
                   <Table.Cell><Link to={`/companies/${company.id}/agents`}>{company.agents_count}</Link></Table.Cell>

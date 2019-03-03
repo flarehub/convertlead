@@ -50,6 +50,7 @@
     "ramda": "^0.26.1",
     "react": "^16.7.0",
     "react-app-polyfill": "^0.2.0",
+    "react-chartjs-2": "^2.7.4",
     "react-copy-text": "^1.0.1",
     "react-dev-utils": "^7.0.1",
     "react-dom": "^16.7.0",

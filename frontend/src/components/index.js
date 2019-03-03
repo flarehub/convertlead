@@ -10,3 +10,4 @@ export { default as Routers } from './routers';
 export { default as Profile } from './profile';
 export { default as Campaigns } from './campaigns';
 export { default as OptinFormPage } from './optinform-page';
+export { default as CompanyProfile } from './company-profile';

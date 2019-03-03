@@ -80,7 +80,7 @@ class LeadNotes extends Component {
                   <div className='lead-profile-value'></div>
                 </div>
                 <div className='lead-profile-row'>
-                  <div className='lead-profile-value'>{lead.metadata}</div>
+                  <p>{lead.metadata}</p>
                 </div>
               </Segment>
             </Grid.Column>

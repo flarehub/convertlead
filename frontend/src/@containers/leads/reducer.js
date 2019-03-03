@@ -1,4 +1,5 @@
 import {
+  FILTER_LEADS,
   GOTO_PAGE_LEADS, LOAD_LEADS, OPEN_LEAD_MODAL, SEARCH_LEADS, SHOW_DELETE_LEADS, SORT_LEADS,
 } from './actions';
 import { LeadStatuses } from "@models/lead-statuses";
@@ -16,7 +17,8 @@ const initState = {
     search: '',
     showDeleted: false,
     filters: {
-      statusId: '',
+      statusType: '',
+      companyId: '',
     },
     sort: {
       status: true,
@@ -74,6 +76,18 @@ const leads = (state = initState, action) => {
           },
         },
       };
+    }
+    case FILTER_LEADS: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          filters: {
+            ...state.query.filters,
+            ...action.filters,
+          }
+        }
+      }
     }
     case OPEN_LEAD_MODAL: {
       return {

@@ -4,6 +4,7 @@ import * as actions from './actions';
 import { selectBoxCompanies } from './reselect';
 
 const mapStateToProps = state => ({
+  company: state.companies.company,
   companies: state.companies.companies,
   selectBoxCompanies: selectBoxCompanies(state),
   pagination: state.companies.pagination,
@@ -27,6 +28,7 @@ const mapDispatchToProps = dispatch => ({
   openCompanyModal: open => dispatch(actions.openCompanyModal(open)),
   deleteCompany: id => dispatch(thunks.deleteCompany(id)),
   toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted()),
+  getCompanyBy: id => dispatch(thunks.getCompanyBy(id)),
 });
 
 
