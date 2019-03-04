@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
+import {Auth} from "@services";
 
 const mapStateToProps = state => ({
-  isAuthorised: state.auth.session.isAuthorised,
+  isAuthorised: state.auth.session.isAuthorised || Auth.isAuthorised(),
 });
 
 const mapActionsToProps = dispatch => ({

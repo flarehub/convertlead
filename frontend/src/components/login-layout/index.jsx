@@ -32,7 +32,7 @@ class Login extends Component {
     return (
       <div className='login-form'>
         {
-          Auth.isAuthorised() ? <Redirect from='/login' to='/dashboard' /> : null
+          this.props.isAuthorised ? <Redirect from='/login' to='/dashboard' /> : null
         }
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>

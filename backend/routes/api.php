@@ -36,6 +36,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
                 Route::apiResource('companies', 'CompanyController');
                 Route::patch('companies/{company}/lock-status', 'CompanyController@lockStatus');
                 Route::apiResource('companies/{company}/leads', 'LeadController');
+                Route::get('companies/{companyId}/graph/{graphType}', 'CompanyController@graph');
                 Route::apiResource('companies/{company}/leads/{lead}/notes', 'LeadNotesController');
                 Route::apiResource('companies/{company}/agents', 'DealController');
                 Route::apiResource('companies/{company}/deals/{deal}/campaigns', 'CampaignController');

@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
   pagination: state.companies.pagination,
   query: state.companies.query,
   openModal: state.companies.openModal,
+  graphContactedLeadsAverage: state.companies.graphContactedLeadsAverage,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -29,6 +30,7 @@ const mapDispatchToProps = dispatch => ({
   deleteCompany: id => dispatch(thunks.deleteCompany(id)),
   toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted()),
   getCompanyBy: id => dispatch(thunks.getCompanyBy(id)),
+  getCompanyGraph: (graphContext, companyId, filters) => dispatch(thunks.getCompanyGraph(graphContext, companyId, filters)),
 });
 
 

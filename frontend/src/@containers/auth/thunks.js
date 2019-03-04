@@ -15,11 +15,12 @@ export const login = (email, password) => async (dispatch) => {
       refreshToken: data.refresh_token,
     };
 
+    // add token to local session storage
+    SessionStorage.setItem('session', tokenData);
     await dispatch(addSessionToken(tokenData));
     dispatch(sendMessage('You have been logged successfully!'));
 
-    // add token to local session storage
-    SessionStorage.setItem('session', tokenData);
+
   } catch (error) {
     dispatch(sendMessage(error.message, true));
   }

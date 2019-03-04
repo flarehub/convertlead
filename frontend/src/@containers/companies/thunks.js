@@ -121,3 +121,20 @@ export const getCompanyBy = id => async dispatch => {
     dispatch(sendMessage(e.message, true))
   }
 };
+export const getCompanyGraph = (graphContext, companyId, filters) => async dispatch => {
+  try {
+    const response =
+      await api.get(`/v1/agency/companies/${companyId}/graph/${filters.graphType}`, {
+      params: {
+        ...filters,
+      }
+    });
+    await dispatch(actions.loadCompanyLeadContactedLeadsAverage(response.data));
+    if (graphContext) {
+      graphContext.data = response.data;
+      await graphContext.update();
+    }
+  } catch (e) {
+    dispatch(sendMessage(e.message, true))
+  }
+};

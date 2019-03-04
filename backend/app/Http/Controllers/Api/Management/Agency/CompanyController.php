@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\Company;
 use App\Models\Lead;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Mockery\Exception;
 
 class CompanyController extends Controller
 {
@@ -60,49 +60,20 @@ class CompanyController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $company = $request->user()->getCompanyBy($id);
-        $min15 = 15 * 60;
-        return Lead::selectRaw(
-            "
-          DATE(leads.created_at) as creation_date,
-	   SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
-             SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)
-       ) as up30Mintes,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)
-       ) as up2Hours,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)
-       ) as up12Hours,
-            SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (24*60*60)
-       ) as up24hours,
-	SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (24*60*60)) as 24PlusHours
-     
-            ")
-            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-            ->where('leads.agency_company_id', $company->pivot->id)
-            ->where(function ($query) {
-                $query
-                    ->where('ls.type', 'CONTACTED_SMS')
-                    ->orWhere('ls.type', 'CONTACTED_CALL')
-                    ->orWhere('ls.type', 'CONTACTED_EMAIL')
-                ;
-            })
-            ->groupBy('creation_date')
-            ->get()->map(function ($lead) {
-                return $lead->only([
-                   'creation_date',
-                   'up15Minutes',
-                   'up30Mintes',
-                   'up2Hours',
-                   'up12Hours',
-                   'up24hours',
-                   '24PlusHours',
-                ]);
-            })->groupBy('creation_date');
+        return $request->user()->getCompanyBy($id);
+    }
+
+    public function graph(Request $request, $companyId, $graphType)
+    {
+        switch ($graphType) {
+            case 'contacted': {
+                $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
+                $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
+                $company = $request->user()->getCompanyBy($companyId);
+                return Company::contactedLeadsGraph($startDate, $endDate, $company->pivot->id, $request->get('agentId'));
+            }
+        }
+        throw new \Exception('Wrong graph type!');
     }
 
     /**
