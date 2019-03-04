@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
 import {
-  Segment, Grid, Button, Select, Form, Header, Menu
+  Segment, Grid, Button, Select, Form, Header, Menu, Popup
 } from 'semantic-ui-react';
 import styles from './index.scss';
 import {AgentsContainer, CompaniesContainer} from "@containers";
 import ChartJs from 'chart.js';
+import DatePickerSelect from "./datepicker";
+import {getSelectBoxStatuses} from "../../@models/lead-statuses";
 
 const agents = [
   { key: null, text: 'All agents', value: null },
 ];
 
 class CompanyProfile extends Component {
-
   constructor(props) {
     super(props);
     this.companyId = this.props.match.params.companyId;
@@ -24,6 +25,9 @@ class CompanyProfile extends Component {
     this.props.getCompanyBy(companyId);
     this.props.loadSelectBoxAgents({
       companyId
+    });
+    this.setState({
+      startDate: new Date().toISOString()
     });
   }
 
@@ -49,22 +53,33 @@ class CompanyProfile extends Component {
     });
   };
 
+  onChangeDate = (date) => {
+    console.log(date);
+  }
+
   render() {
     return (<div className={styles.CompanyProfile}>
       <Segment attached='top'>
         <Grid columns={2}>
           <Grid.Column>
             <Header floated='left' as='h1'>Company</Header>
-            <Form.Field
-              loading={!this.props.selectBoxAgents.length}
-              control={Select}
-              options={[...agents, ...this.props.selectBoxAgents]}
-              label={{ children: 'Filter', htmlFor: 'agents-list' }}
-              placeholder='Company agents'
-              search
-              onChange={this.onChangeAgent}
-              searchInput={{ id: 'agents-list' }}
-            />
+            <Form>
+              <Form.Group widths='equal'>
+                <Form.Field
+                  loading={!this.props.selectBoxAgents.length}
+                  control={Select}
+                  options={[...agents, ...this.props.selectBoxAgents]}
+                  label={{ children: '', htmlFor: 'agents-list' }}
+                  placeholder='Company agents'
+                  search
+                  onChange={this.onChangeAgent}
+                  searchInput={{ id: 'agents-list' }}
+                />
+                <Popup position='bottom left' trigger={<Form.Field><Button>Filter by Dates</Button></Form.Field>} flowing hoverable>
+                  <DatePickerSelect />
+                </Popup>
+              </Form.Group>
+            </Form>
           </Grid.Column>
           <Grid.Column>
             <Menu secondary>
@@ -76,7 +91,9 @@ class CompanyProfile extends Component {
         </Grid>
         <Segment basic>
           <canvas ref={this.canvas}></canvas>
+          <label className='average-response-time'>Average response time: {this.props.averageResponseTime}</label>
         </Segment>
+
       </Segment>
     </div>)
   }

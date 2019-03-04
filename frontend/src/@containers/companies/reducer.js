@@ -8,6 +8,7 @@ const initState = {
   company: {},
   companies: [],
   selectBoxCompanies: [],
+  averageResponseTime: '',
   graphContactedLeadsAverage: {
     type: 'line',
     data: {
@@ -132,9 +133,9 @@ const companies = (state = initState, action) => {
       }
     }
     case LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE: {
-      console.log('well', action.graphData);
       return {
         ...state,
+        averageResponseTime: action.graphData.avg_response_time,
         graphContactedLeadsAverage: {
           ...state.graphContactedLeadsAverage,
           data: {

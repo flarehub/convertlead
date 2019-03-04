@@ -66,11 +66,40 @@ trait CompanyRepository {
         if ($agentId) {
             $query->where('leads.agent_id', $agentId);
         }
-        
-       return static::mapLeadsData($query->get(), $startDate, $endDate, $format);
+        $averageResponseTime = static::getAverageTime($startDate, $endDate, $companyAgencyId, $agentId, $format);
+       return static::mapLeadsData($query->get(), $averageResponseTime, $startDate, $endDate, $format);
     }
     
-    static public function mapLeadsData($leads, $startDate, $endDate, $format = 'Y-m-d') {
+    static function getAverageTime( $startDate,
+                                    $endDate,
+                                    $companyAgencyId = null,
+                                    $agentId = null, $format = 'Y-m-d') {
+        $query = Lead::selectRaw(
+          "sec_to_time(AVG(time_to_sec(timediff(ln.created_at, leads.created_at)))) as avg_time")
+            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
+            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
+            ->where(function ($query) {
+                $query
+                    ->where('ls.type', 'CONTACTED_SMS')
+                    ->orWhere('ls.type', 'CONTACTED_CALL')
+                    ->orWhere('ls.type', 'CONTACTED_EMAIL')
+                ;
+            })
+            ->whereBetween('leads.created_at', [
+                Carbon::createFromFormat('Y-m-d', $startDate),
+                Carbon::createFromFormat('Y-m-d', $endDate)]);
+    
+        if ($companyAgencyId) {
+            $query->where('leads.agency_company_id', $companyAgencyId);
+        }
+    
+        if ($agentId) {
+            $query->where('leads.agent_id', $agentId);
+        }
+        return $query->first();
+    }
+    
+    static public function mapLeadsData($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d') {
         $interval = new \DateInterval('P1D');
         $dateRange = new \DatePeriod(new \DateTime($startDate), $interval , new \DateTime($endDate));
     
@@ -127,6 +156,7 @@ trait CompanyRepository {
     
     
         return [
+            'avg_response_time' => $averageResponseTime->avg_time,
             'labels' => $dateCollection,
             'datasets' => $datasets
         ];

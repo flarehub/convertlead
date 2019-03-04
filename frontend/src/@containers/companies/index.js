@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
   query: state.companies.query,
   openModal: state.companies.openModal,
   graphContactedLeadsAverage: state.companies.graphContactedLeadsAverage,
+  averageResponseTime: state.companies.averageResponseTime,
 });
 
 const mapDispatchToProps = dispatch => ({
