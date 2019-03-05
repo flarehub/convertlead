@@ -156,7 +156,7 @@ trait CompanyRepository {
     
     
         return [
-            'avg_response_time' => $averageResponseTime->avg_time,
+            'avg_response_time' => ($averageResponseTime->avg_time ? $averageResponseTime->avg_time : '00:00:00'),
             'labels' => $dateCollection,
             'datasets' => $datasets
         ];

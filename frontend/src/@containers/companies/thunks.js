@@ -2,6 +2,7 @@ import api from '../../@services/api';
 import * as actions from './actions';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
+import {addBreadCrumb} from "../breadcrumb/actions";
 
 export const deleteCompany = id => async (dispatch, getState) => {
   try {
@@ -113,10 +114,18 @@ export const toggleShowDeleted = () => async (dispatch, getState) => {
   ));
 };
 
-export const getCompanyBy = id => async dispatch => {
+export const getCompanyBy = (id, beadCrumbData) => async dispatch => {
   try {
     const response = await api.get(`/v1/agency/companies/${id}`);
-    actions.loadCompany(response.data);
+    await dispatch(actions.loadCompany(response.data));
+
+    if (beadCrumbData) {
+      await dispatch(addBreadCrumb({
+        name: response.data.name,
+        path: '',
+        active: true,
+      }, false))
+    }
   } catch (e) {
     dispatch(sendMessage(e.message, true))
   }

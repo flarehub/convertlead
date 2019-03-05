@@ -1,6 +1,6 @@
 import {
   CHANGE_COMPANY,
-  LOAD_COMPANY, SAVED_COMPANY,
+  LOAD_COMPANY_FORM, SAVED_COMPANY,
 } from './actions';
 
 const initState = {
@@ -26,7 +26,7 @@ const initState = {
 
 const companyForm = (state = initState, action) => {
   switch (action.type) {
-    case LOAD_COMPANY: {
+    case LOAD_COMPANY_FORM: {
       return {
         ...state,
         form: {

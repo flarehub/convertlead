@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
   openCompanyModal: open => dispatch(actions.openCompanyModal(open)),
   deleteCompany: id => dispatch(thunks.deleteCompany(id)),
   toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted()),
-  getCompanyBy: id => dispatch(thunks.getCompanyBy(id)),
+  getCompanyBy: (id, breadCrumb) => dispatch(thunks.getCompanyBy(id, breadCrumb)),
   getCompanyGraph: (graphContext, companyId, filters) => dispatch(thunks.getCompanyGraph(graphContext, companyId, filters)),
 });
 

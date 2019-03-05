@@ -31,12 +31,21 @@ export default class DatePickerSelect extends React.Component {
       return;
     }
     if (this.isSelectingFirstDay(from, to, day)) {
+
+      if (typeof this.props.onChangeDateFrom === 'function') {
+        this.props.onChangeDateFrom(day);
+      }
+
       this.setState({
         from: day,
         to: null,
         enteredTo: null,
       });
     } else {
+      if (typeof this.props.onChangeDateTo === 'function') {
+        this.props.onChangeDateTo(day);
+      }
+
       this.setState({
         to: day,
         enteredTo: day,
@@ -53,7 +62,19 @@ export default class DatePickerSelect extends React.Component {
   }
   handleResetClick() {
     this.setState(this.getInitialState());
+    if (typeof this.props.onRestDate === 'function') {
+      this.props.onRestDate();
+    }
   }
+
+  componentWillMount() {
+    this.setState({
+      from: this.props.from,
+      to: this.props.to,
+      enteredTo: this.props.to,
+    });
+  }
+
   render() {
     const { from, to, enteredTo } = this.state;
     const modifiers = { start: from, end: enteredTo };
@@ -64,7 +85,7 @@ export default class DatePickerSelect extends React.Component {
         <DayPicker
           className="Range"
           numberOfMonths={2}
-          fromMonth={from}
+          month={from}
           selectedDays={selectedDays}
           disabledDays={disabledDays}
           modifiers={modifiers}

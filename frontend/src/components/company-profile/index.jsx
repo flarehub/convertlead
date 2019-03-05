@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
 import {
-  Segment, Grid, Button, Select, Form, Header, Menu, Popup
+  Segment, Grid, Button, Select, Form, Header, Menu, Popup, Icon
 } from 'semantic-ui-react';
 import styles from './index.scss';
-import {AgentsContainer, CompaniesContainer} from "@containers";
+import { AgentsContainer, BreadCrumbContainer, CompaniesContainer, CompanyFormContainer } from "@containers";
 import ChartJs from 'chart.js';
-import DatePickerSelect from "./datepicker";
-import {getSelectBoxStatuses} from "../../@models/lead-statuses";
+import DatePickerSelect from "components/@common/datepicker";
+import * as moment from 'moment';
+import CompanyModal from '../@common/modals/company';
 
 const agents = [
   { key: null, text: 'All agents', value: null },
 ];
 
 class CompanyProfile extends Component {
+  state = {
+    agentId: '',
+    startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
+    endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
+    startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+    endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
+  };
+
   constructor(props) {
     super(props);
     this.companyId = this.props.match.params.companyId;
@@ -22,12 +31,9 @@ class CompanyProfile extends Component {
 
   componentWillMount() {
     const { companyId } = this.props.match.params;
-    this.props.getCompanyBy(companyId);
+    this.props.getCompanyBy(companyId, true);
     this.props.loadSelectBoxAgents({
       companyId
-    });
-    this.setState({
-      startDate: new Date().toISOString()
     });
   }
 
@@ -36,33 +42,90 @@ class CompanyProfile extends Component {
       this.props.graphContactedLeadsAverage);
     this.props.getCompanyGraph(this.Chart, this.companyId, {
       graphType: 'contacted',
-      startDate: '2019-01-01',
-      endDate: '2019-03-31',
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
     });
 
     this.Chart.data = this.props.graphContactedLeadsAverage.data;
     this.Chart.update();
+
+    this.props.addBreadCrumb({
+      name: 'Companies',
+      path: '/companies',
+    });
   }
 
   onChangeAgent = (event, data) => {
-    this.props.getCompanyGraph(this.Chart, this.companyId, {
+    this.setState({
+      ...this.state,
       agentId: data.value,
+    });
+
+    this.props.getCompanyGraph(this.Chart, this.companyId, {
+      agentId: this.state.agentId,
       graphType: 'contacted',
-      startDate: '2019-01-01',
-      endDate: '2019-03-31',
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
     });
   };
 
-  onChangeDate = (date) => {
-    console.log(date);
-  }
+  onChangeDateFrom = (date) => {
+    this.setState({
+      ...this.state,
+      startDate:  moment(date).format('Y-MM-DD'),
+      startDateDisplay:  moment(date).format('MM/DD/Y'),
+    });
+  };
+
+  onChangeDateTo = (date) => {
+    this.setState({
+      ...this.state,
+      endDate:  moment(date).format('Y-MM-DD'),
+      endDateDisplay:  moment(date).format('MM/DD/Y'),
+    });
+
+    this.props.getCompanyGraph(this.Chart, this.companyId, {
+      agentId: this.state.agentId,
+      graphType: 'contacted',
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+    });
+  };
+
+  onRestDate = () => {
+    this.setState({
+      ...this.state,
+      startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
+      endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
+      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
+    });
+
+    this.props.getCompanyGraph(this.Chart, this.companyId, {
+      agentId: this.state.agentId,
+      graphType: 'contacted',
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+    });
+  };
+
+  onEditCompany = () => {
+    console.log(this.props);
+    this.props.loadForm({ ...this.props.company, show: true })
+  };
 
   render() {
+    const { startDateDisplay, endDateDisplay } = this.state;
     return (<div className={styles.CompanyProfile}>
+      <CompanyModal />
       <Segment attached='top'>
-        <Grid columns={2}>
+        <Grid>
           <Grid.Column>
             <Header floated='left' as='h1'>Company</Header>
+          </Grid.Column>
+        </Grid>
+        <Grid columns={2}>
+          <Grid.Column>
             <Form>
               <Form.Group widths='equal'>
                 <Form.Field
@@ -75,8 +138,20 @@ class CompanyProfile extends Component {
                   onChange={this.onChangeAgent}
                   searchInput={{ id: 'agents-list' }}
                 />
-                <Popup position='bottom left' trigger={<Form.Field><Button>Filter by Dates</Button></Form.Field>} flowing hoverable>
-                  <DatePickerSelect />
+                <Popup position='bottom left'
+                       trigger={
+                         <Form.Field>
+                           <Button>
+                             <Icon name='calendar alternate outline' />
+                                {startDateDisplay} - {endDateDisplay}
+                            </Button>
+                         </Form.Field>} flowing hoverable>
+
+                  <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
+                                    onChangeDateTo={this.onChangeDateTo}
+                                    onRestDate={this.onRestDate}
+                                    from={new Date(this.state.startDate)} to={new Date(this.state.endDate)}
+                  />
                 </Popup>
               </Form.Group>
             </Form>
@@ -84,14 +159,14 @@ class CompanyProfile extends Component {
           <Grid.Column>
             <Menu secondary>
               <Menu.Menu position='right'>
-                <Button color='teal' content='edit Company' icon='add' labelPosition='left' />
+                <Button color='teal' content='Edit Company' onClick={this.onEditCompany} icon='pencil alternate' labelPosition='left' />
               </Menu.Menu>
             </Menu>
           </Grid.Column>
         </Grid>
-        <Segment basic>
+        <Segment className='average-response-time' basic>
           <canvas ref={this.canvas}></canvas>
-          <label className='average-response-time'>Average response time: {this.props.averageResponseTime}</label>
+          <label className='average-response-time-label'>Average response time: {this.props.averageResponseTime}</label>
         </Segment>
 
       </Segment>
@@ -99,4 +174,4 @@ class CompanyProfile extends Component {
   }
 }
 
-export default compose(CompaniesContainer, AgentsContainer)(CompanyProfile);
+export default compose(CompaniesContainer, CompanyFormContainer, BreadCrumbContainer, AgentsContainer)(CompanyProfile);
