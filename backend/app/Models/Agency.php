@@ -59,6 +59,7 @@ class Agency extends User
             ac.is_locked,
             IF(users.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
             COUNT(DISTINCT users.id, deals.id) as deals_count,
+            COUNT(DISTINCT users.id, leads.id) as leads_count,
             COUNT(DISTINCT users.id, company_agents.id) as agents_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF((SELECT MIN(created_at) FROM lead_notes as ld WHERE ld.lead_id = leads.id), leads.created_at)))) AS avg_lead_response
             ')
@@ -120,11 +121,10 @@ class Agency extends User
                 WHERE leads.deal_campaign_id = dca.deal_campaign_id GROUP BY leads.deal_campaign_id
                 )) AS leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(
-            ld.created_at,
             (
                 SELECT created_at
                     FROM lead_notes
-                    WHERE lead_notes.lead_id = ld.id ORDER BY created_at ASC LIMIT 1))))) AS avg_lead_response,
+                    WHERE lead_notes.lead_id = ld.id ORDER BY created_at ASC LIMIT 1), ld.created_at)))) AS avg_lead_response,
             users.created_at'
         )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
@@ -138,7 +138,7 @@ class Agency extends User
             $query->withTrashed();
         }
         
-        if (isset($queryParams['companyId'])) {
+        if (isset($queryParams['companyId']) && $queryParams['companyId']) {
             $query->where('ca.company_id', $queryParams['companyId']);
         }
 
@@ -189,6 +189,10 @@ class Agency extends User
         
         if (isset($queryParams['companyId']) && $queryParams['companyId']) {
             $query->where('ac.company_id', $queryParams['companyId']);
+        }
+
+        if (isset($queryParams['campaignId']) && $queryParams['campaignId']) {
+            $query->where('dc.id', $queryParams['campaignId']);
         }
 
         if (isset($queryParams['statusType']) && $queryParams['statusType']) {

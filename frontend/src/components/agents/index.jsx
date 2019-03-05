@@ -18,23 +18,38 @@ import {
   Pagination,
   Segment,
   Table,
+  Select,
 } from 'semantic-ui-react';
 import styles from './index.scss';
 import Loader from '../loader';
 import * as R from "ramda";
+import { CompaniesContainer } from "@containers";
+
+const companies = [
+  { key: null, text: 'All companies', value: null },
+];
 
 class Agents extends Component {
   state = {
     open: false,
     agentId: null,
+    companyId: null,
   };
 
   componentWillMount() {
+    const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
     this.props.addBreadCrumb({
       name: 'Agents',
       path: '/agents'
     });
-    this.props.loadAgents();
+    this.props.filterAgents({
+      companyId
+    });
+    this.props.loadSelectBoxCompanies();
+    this.setState({
+      ...this.state,
+      companyId: companyId
+    })
   }
 
   getSort = field => {
@@ -50,9 +65,6 @@ class Agents extends Component {
 
   onSearch = (event, data) => {
     this.props.search(data.value);
-  }
-
-  onSave = (data) => {
   }
 
   gotoPage = (event, data) => {
@@ -72,9 +84,16 @@ class Agents extends Component {
     this.props.toggleShowDeleted();
   }
 
+  onChangeCompany = (event, data) => {
+    this.props.filterAgents({
+      companyId: data.value
+    });
+  }
+
   render() {
     const agents = this.props.agents || [];
     const { pagination, query  } = this.props;
+    const { companyId } = this.state;
     return (
       <div className={styles.Agents}>
         <AgentModal />
@@ -83,9 +102,24 @@ class Agents extends Component {
           <Grid columns={2}>
             <Grid.Column>
               <Header floated='left' as='h1'>Agents</Header>
-              <Form.Field>
-                <Checkbox label='Show Archived' toggle onChange={this.onShowArch} />
-              </Form.Field>
+              <Form>
+                <Form.Group widths='equal'>
+                  <Form.Field>
+                    <Checkbox label='Show Archived' toggle onChange={this.onShowArch} />
+                  </Form.Field>
+                  <Form.Field
+                    loading={!this.props.selectBoxCompanies.length}
+                    control={Select}
+                    options={[...companies, ...this.props.selectBoxCompanies]}
+                    label={{ children: 'Filter', htmlFor: 'form-companies-list' }}
+                    placeholder='All companies'
+                    search
+                    onChange={this.onChangeCompany}
+                    defaultValue={companyId}
+                    searchInput={{ id: 'form-companies-list' }}
+                  />
+                </Form.Group>
+              </Form>
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
@@ -145,7 +179,8 @@ class Agents extends Component {
                       }
 
                     </Table.Cell>
-                    <Table.Cell>{<Link to={`/agents/${agent.id}/campaigns`}>{agent.campaigns_count || 0}</Link>}</Table.Cell>
+                    {/*<Table.Cell>{<Link to={`/agents/${agent.id}/campaigns`}>{agent.campaigns_count || 0}</Link>}</Table.Cell>*/}
+                    <Table.Cell>{agent.campaigns_count || 0}</Table.Cell>
                     <Table.Cell>{<Link to={`/agents/${agent.id}/leads`}>{agent.leads_count || 0}</Link>}</Table.Cell>
                     <Table.Cell>{agent.avg_lead_response || 0}</Table.Cell>
                     <Table.Cell>
@@ -176,4 +211,4 @@ class Agents extends Component {
   }
 }
 
-export default compose(BreadCrumbContainer, AgentsContainer, AgentFormContainer)(Agents);
+export default compose(BreadCrumbContainer, CompaniesContainer, AgentsContainer, AgentFormContainer)(Agents);

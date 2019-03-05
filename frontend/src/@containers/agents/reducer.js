@@ -1,5 +1,6 @@
 import {
-  ADD_AGENTS, GOTO_PAGE, LOAD_SELECTBOX_AGENTS, OPEN_AGENT_MODAL, SEARCH_AGENTS, SHOW_DELETED_AGENTS, SORT_AGENTS,
+  ADD_AGENTS, FILTER_AGENTS, GOTO_PAGE, LOAD_SELECTBOX_AGENTS, OPEN_AGENT_MODAL, SEARCH_AGENTS, SHOW_DELETED_AGENTS,
+  SORT_AGENTS,
 } from './actions';
 
 const initState = {
@@ -84,6 +85,18 @@ const agents = (state = initState, action) => {
       return {
         ...state,
         selectBoxAgents: [ ...action.agents ]
+      }
+    }
+    case FILTER_AGENTS: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          filters: {
+            ...state.query.filters,
+            ...action.filters,
+          }
+        }
       }
     }
     default: {

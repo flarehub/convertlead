@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadAgents: () => dispatch(thunks.loadAgents()),
-  filter: filters => dispatch(thunks.filterAgents(filters)),
+  filterAgents: filters => dispatch(thunks.filterAgents(filters)),
   search: search => dispatch(thunks.searchAgents(search)),
   sort: sort => dispatch(thunks.sortAgents(sort)),
   gotoPage: activePage => dispatch(thunks.gotoPage(activePage)),

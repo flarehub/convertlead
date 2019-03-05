@@ -11,6 +11,7 @@ import {
 import * as moment from 'moment';
 import styles from './index.scss';
 import {DealFormContainer} from "../../@containers";
+import * as R from "ramda";
 
 const companies = [
   { key: null, text: 'All companies', value: null },
@@ -24,12 +25,18 @@ class Dashboard extends Component {
   };
 
   componentWillMount() {
+    const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
     this.props.resetBreadCrumbToDefault();
     this.props.getCompanyDeals();
     this.props.loadSelectBoxCompanies();
     this.props.filterDealsByDealId(null);
-    this.props.filterDealsByCompany(null);
     this.props.filterDealCampaignsById(null);
+
+    this.props.filterDealsByCompany(companyId);
+    this.setState({
+      ...this.state,
+      companyId
+    })
   }
 
   openConfirmModal = (open = true, companyId = '', dealId = '') => {
@@ -52,6 +59,7 @@ class Dashboard extends Component {
 
 	render() {
     const { deals, filters } = this.props;
+    const { companyId } = this.state;
 		return (
 			<div className={styles.Dashboard}>
         <DealModal />
@@ -68,6 +76,7 @@ class Dashboard extends Component {
               placeholder='All companies'
               search
               onChange={this.filterDealsByCompany}
+              defaultValue={companyId}
               searchInput={{ id: 'form-companies-list' }}
             />
           </Grid.Column>

@@ -24,7 +24,7 @@ class Lead extends Model
         'campaign',
         'status',
         'company',
-        'agent'
+        'agent',
     ];
     
     public function campaign() {
@@ -50,7 +50,7 @@ class Lead extends Model
     public function getCampaignAttribute() {
         $company = $this->campaign()->withTrashed()->first();
         if ($company) {
-            return $company->only(['id', 'name', 'uuid', 'description']);
+            return $company->only(['id', 'name', 'uuid', 'description', 'deal']);
         }
         return null;
     }

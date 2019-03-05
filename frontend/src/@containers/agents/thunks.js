@@ -9,6 +9,7 @@ export const loadAgents = () => async (dispath, getState) => {
     const { pagination, query } = getState().agents;
     const response = await api.get('/v1/agency/agents', {
       params: {
+        ...query.filters,
         ...query.sort,
         showDeleted: (query.showDeleted ? true : null),
         search: query.search,
@@ -54,8 +55,9 @@ export const deleteAgent = (id) => async (dispath, getState) => {
   try {
     await api.delete(`/v1/agency/agents/${id}`);
     dispath(loadAgents());
+    dispath(sendMessage('Successfully deleted!'))
   } catch (e) {
-    // todo add message error
+    dispath(sendMessage(e.message, true))
   }
 };
 

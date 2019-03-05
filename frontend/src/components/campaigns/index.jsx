@@ -25,6 +25,7 @@ class Campaigns extends Component {
     openApiIntegration: false,
     campaignId: '',
     campaignLink: '',
+    companyId: '',
   };
 
   constructor(props) {
@@ -33,8 +34,15 @@ class Campaigns extends Component {
     props.loadCampaigns(companyId, dealId);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { companyId } = this.props.match.params;
+    this.setState({
+      ...this.state,
+      companyId: +companyId,
+    })
+  }
+
+  componentDidMount() {
     const deal = R.pathOr({
       name: 'Deal',
       company: {
@@ -44,7 +52,7 @@ class Campaigns extends Component {
 
     this.props.addBreadCrumb({
       name: deal.company.name,
-      path: `/companies/${companyId}/profile`,
+      path: `/companies/${this.state.companyId}/profile`,
     });
 
     this.props.addBreadCrumb({
@@ -107,6 +115,7 @@ class Campaigns extends Component {
 
   render() {
     const { campaigns, pagination } = this.props;
+    const { companyId } = this.state;
     return (<div className={styles.Campaigns}>
       <Segment attached='top'>
         <ZapierInterationModal open={this.state.openApiIntegration} onClose={this.onCloseApiIntegration} campaignLink={this.state.campaignLink} />
@@ -180,7 +189,7 @@ class Campaigns extends Component {
                     </Table.Cell>
                     <Table.Cell>{campaign.name}</Table.Cell>
                     <Table.Cell>{campaign.integration}</Table.Cell>
-                    <Table.Cell>{campaign.leads_count}</Table.Cell>
+                    <Table.Cell><Link to={`/companies/${companyId}/campaigns/${campaign.id}/leads`}>{campaign.leads_count}</Link></Table.Cell>
                     <Table.Cell>{
                       campaign.agents && campaign.agents.map((agent, key) =>
                         <div key={key}><Link to={`/agents/${agent.id}`}>{agent.name}</Link></div>)

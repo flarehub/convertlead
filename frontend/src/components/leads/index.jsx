@@ -33,16 +33,11 @@ const defaultStatus =  { key: '', text: 'All statuses', value: '' };
 
 
 class Leads extends Component {
-
-  constructor(props) {
-    super(props);
-    this.props.loadLeads();
-  }
-
   state = {
     open: false,
     leadId: null,
     companyId: null,
+    campaignId: null,
   };
 
   getSort = field => {
@@ -90,6 +85,19 @@ class Leads extends Component {
   }
 
   componentWillMount() {
+    const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
+    const campaignId = +R.pathOr('', ['match', 'params', 'campaignId'], this.props);
+    this.setState({
+      ...this.state,
+      companyId,
+      campaignId,
+    });
+
+    this.props.filterLeads({
+      companyId,
+      campaignId,
+    });
+
     this.props.addBreadCrumb({
       name: 'Leads',
       path: '/leads'
@@ -99,7 +107,7 @@ class Leads extends Component {
   render() {
     const leads = this.props.leads || [];
     const {pagination, statuses, query} = this.props;
-
+    const { companyId, campaignId } = this.state;
     return (
       <div className={styles.Leads}>
         <LeadModal size='small' />
@@ -116,15 +124,21 @@ class Leads extends Component {
               <label>Filter by: </label>
              <Form>
                <Form.Group widths='equal'>
-                 <Form.Field
-                   loading={!this.props.selectBoxCompanies.length}
-                   control={Select}
-                   options={[...companies, ...this.props.selectBoxCompanies]}
-                   placeholder='All companies'
-                   search
-                   onChange={this.filterByCompany}
-                   searchInput={{ id: 'form-companies-list' }}
-                 />
+                 {
+                   !campaignId
+                     ?  <Form.Field
+                       loading={!this.props.selectBoxCompanies.length}
+                       control={Select}
+                       options={[...companies, ...this.props.selectBoxCompanies]}
+                       placeholder='All companies'
+                       search
+                       onChange={this.filterByCompany}
+                       defaultValue={companyId}
+                       searchInput={{ id: 'form-companies-list' }}
+                     />
+                     : null
+                 }
+
                  <Form.Field
                    loading={!getSelectBoxStatuses}
                    control={Select}
@@ -198,7 +212,7 @@ class Leads extends Component {
                       {
                         lead.company
                           ? <div>
-                            <Link to={`/companies/${lead.company.id}`}>
+                            <Link to={`/companies/${lead.company.id}/profile`}>
                               <Image avatar src={lead.company.avatar_path} rounded size='mini'/>
                               {lead.company.name}
                             </Link>
@@ -206,7 +220,10 @@ class Leads extends Component {
                           : null
                       }
                     </Table.Cell>
-                    <Table.Cell><Link to={`/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`}>{lead.campaign.name}</Link></Table.Cell>
+                    <Table.Cell><Link to={{
+                      pathname: `/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`,
+                      state: { deal: lead.campaign.deal }
+                    }}>{lead.campaign.name}</Link></Table.Cell>
                     <Table.Cell>
                       {
                         !lead.deleted_at

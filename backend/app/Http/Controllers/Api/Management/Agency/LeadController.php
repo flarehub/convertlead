@@ -19,6 +19,7 @@ class LeadController extends Controller
                 'search',
                 'showDeleted',
                 'companyId',
+                'campaignId',
                 'statusType',
                 'status',
                 'name',
