@@ -39,6 +39,17 @@ class Agency extends User
     }
     
     public function getCompanies($queryParams) {
+        switch (isset($queryParams['reduced']) && $queryParams['reduced']) {
+            case true: {
+                return $this->getReducedCompaniesDetails($queryParams);
+            }
+            default: {
+                return $this->getCompaniesWithStats($queryParams);
+            }
+        }
+    }
+    
+    public function getCompaniesWithStats($queryParams) {
         $query = Company::selectRaw('
             users.id,
             users.name,
@@ -58,7 +69,7 @@ class Agency extends User
             ->leftJoin('leads', 'leads.agency_company_id', 'ac.id')
             ->leftJoin('lead_notes', 'lead_notes.lead_id', 'leads.id')
             ->where('ag.id', $this->id)->groupBy('users.id', 'ac.is_locked');
-        
+    
         if ( isset($queryParams['showDeleted']) ) {
             $query->withTrashed();
         } else {
@@ -72,7 +83,7 @@ class Agency extends User
                     ->orWhere('users.email', 'like', "%{$queryParams['search']}%");
             });
         }
-        
+    
         if ( isset($queryParams['name']) ) {
             $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
@@ -81,18 +92,18 @@ class Agency extends User
         if ( isset($queryParams['deals']) ) {
             $query->orderBy('deals_count', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
         }
-
+    
         if ( isset($queryParams['leads']) ) {
             $query->orderBy('leads_count', $queryParams['leads'] === 'true' ? 'DESC' : 'ASC');
         }
-
+    
         if ( isset($queryParams['agents']) ) {
             $query->orderBy('agents_count', $queryParams['agents'] === 'true' ? 'DESC' : 'ASC');
         }
         if ( isset($queryParams['avg_response']) ) {
             $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
         }
-
+    
         return $query;
     }
     
@@ -203,6 +214,28 @@ class Agency extends User
             $query->orderBy('dc.name', ($queryParams['campaign'] === 'true' ? 'DESC' : 'ASC'));
         }
     
+        return $query;
+    }
+    
+    /**
+     * @param $queryParams
+     * @return mixed
+     */
+    public function getReducedCompaniesDetails($queryParams)
+    {
+        $query = $this->companies();
+        
+        if (isset($queryParams['search']) && $queryParams['search']) {
+            $query->where(function ($query) use ($queryParams) {
+                $query
+                    ->where('users.name', 'like', "%{$queryParams['search']}%")
+                    ->orWhere('users.email', 'like', "%{$queryParams['search']}%");
+            });
+        }
+        
+        if (isset($queryParams['name'])) {
+            $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
+        }
         return $query;
     }
 }

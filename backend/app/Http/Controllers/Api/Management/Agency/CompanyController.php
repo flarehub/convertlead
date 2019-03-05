@@ -21,6 +21,7 @@ class CompanyController extends Controller
         $page = (int)$request->get('current_page', 1);
         
         return $request->user()->getCompanies($request->only([
+            'reduced',
             'search',
             'name',
             'deals',

@@ -83,6 +83,7 @@ export const loadSelectBoxCompanies = search => async (dispatch, getState) => {
   try {
     const response = await api.get('/v1/agency/companies', {
       params: {
+        reduced: 1,
         search: search || null,
         per_page: 10000,
       },
