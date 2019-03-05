@@ -7,7 +7,7 @@ export const TimeLineRecord = ({ note }) => (
     <div className='timeline-record-text'>
       <label className='creation-date'>{moment(note.created_at).format('DD/MM/YYYY')}</label>
       <label className='creation-time'>{moment(note.created_at).format('LT')}</label>
-      <div className='timeline-text'>{note.message}</div>
+      <div className='timeline-text'>{note.agent.name}, {note.message}</div>
     </div>
   </li>
 );

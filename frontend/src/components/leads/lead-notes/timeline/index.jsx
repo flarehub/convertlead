@@ -44,11 +44,11 @@ class TimeLine extends Component {
       <ul>
         <li className='timeline-record'>
           <div className={`timeline-status timeline-bg-color-${lead.status.charAt(0).toLowerCase()}`}>
-            <span>{lead.status.charAt(0)}</span>
+            <span>{lead.fullname && lead.fullname.charAt(0) || lead.status.charAt(0)}</span>
           </div>
           <div className='timeline-vertical-line'></div>
           <div className='timeline-record-text'>
-            <label>{lead.agent.name}</label>
+            <label>{lead.fullname}</label>
             <div className='timeline-current-status'>Current Status: <span className={`status timeline-color-${lead.status.charAt(0).toLowerCase()}`}>{lead.status}</span></div>
           </div>
         </li>
