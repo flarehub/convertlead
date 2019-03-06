@@ -2,19 +2,29 @@ import * as actions from './actions';
 import {api, Auth} from "../../@services";
 import {hideLoader, showLoader} from "../loader/actions";
 import {sendMessage} from "../messages/thunks";
+import {fetchAgencyCampaigns, fetchCompanyCampaigns} from "./api";
 
 export const fetchCampaigns = () => async (dispatch, getState) => {
   try {
     await dispatch(showLoader());
     const { pagination, companyId, dealId, query } = getState().campaigns;
-    const response = await api.get(`/v1/${Auth.role}/companies/${companyId}/deals/${dealId}/campaigns`, {
-      params: {
+    let response;
+    if (Auth.isAgency) {
+      response = await fetchAgencyCampaigns(companyId, dealId, {
         current_page: pagination.current_page,
         per_page: pagination.per_page,
         showDeleted: (query.showDeleted ? query.showDeleted : null),
         ...query.sort,
-      }
-    });
+      });
+    } else {
+      response = await fetchCompanyCampaigns(dealId, {
+        current_page: pagination.current_page,
+        per_page: pagination.per_page,
+        showDeleted: (query.showDeleted ? query.showDeleted : null),
+        ...query.sort,
+      });
+    }
+
     const { data, ...rest } = response.data;
     await dispatch(actions.loadCampaigns(data, rest));
   } catch (e) {

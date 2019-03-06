@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import { BreadCrumbContainer, CompaniesContainer, DealsContainer } from '@containers';
 import DealModal from '../@common/modals/deal';
@@ -8,10 +7,11 @@ import {
   Segment, Confirm, Card, Header, Menu, Image, Form, Select, Input, Grid, Button
 } from 'semantic-ui-react';
 
-import * as moment from 'moment';
 import styles from './index.scss';
 import {DealFormContainer} from "../../@containers";
 import * as R from "ramda";
+import {Auth} from "../../@services";
+import {CardContent} from "./card-content";
 
 const companies = [
   { key: null, text: 'All companies', value: null },
@@ -101,17 +101,11 @@ class Dashboard extends Component {
                 deals.map((deal, key) => (
                   <Card key={key}>
                       <Card.Content>
-                        <Link to={{
-                          pathname: `/companies/${deal.company.id}/deals/${deal.id}/campaigns`,
-                          state: { deal }
-                        }}>
-                        <Card.Header>{deal.name}</Card.Header>
-                        <Card.Meta>Started {moment(deal.created_at).format('DD/MM/YYYY')}</Card.Meta>
-                        <Card.Description>
-                          <Image avatar src={deal.company.avatar_path} size='medium' circular />
-                          {deal.company.name}
-                          </Card.Description>
-                        </Link>
+                        {
+                          Auth.isAgency
+                            ? <CardContent deal={deal} link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`} />
+                            : <CardContent deal={deal} link={`/deals/${deal.id}/campaigns`} />
+                        }
                         <Button.Group basic size='small'>
                           <Button icon='pencil alternate' onClick={this.props.loadForm.bind(this, { ...deal, companyId: deal.company.id, show: true })} />
                           <Button icon='trash alternate outline' onClick={this.openConfirmModal.bind(this, true, deal.company.id, deal.id)}  />

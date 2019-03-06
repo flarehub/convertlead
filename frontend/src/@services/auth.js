@@ -6,6 +6,18 @@ export class Auth {
     return R.pathOr(false, ['token'], SessionStorage.getItem('session'));
   }
 
+  static get isAgency() {
+    return this.role === 'agency';
+  }
+
+  static get isCompany() {
+    return this.role === 'company';
+  }
+
+  static get isAgent() {
+    return this.role === 'agent';
+  }
+
   static get role() {
     return R.pathOr('', ['user', 'role'], SessionStorage.getItem('session')).toLowerCase();
   }

@@ -62,8 +62,6 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
                 
                 Route::apiResource('deals/{deal}/campaigns', 'CampaignController')
                     ->middleware('scope:CAMPAIGN_READ,CAMPAIGN_WRITE');
-                Route::apiResource('campaigns/{campaign}/integration', 'CampaignIntegrationController')
-                    ->middleware('scope:CAMPAIGN_READ,CAMPAIGN_WRITE');
                 Route::apiResource('campaigns/{campaign}/leads', 'LeadController')->middleware('scope:LEAD_READ,LEAD_WRITE');
                 Route::apiResource('leads/{lead}/notes', 'LeadController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');
             });
