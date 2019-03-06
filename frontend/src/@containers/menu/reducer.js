@@ -34,6 +34,13 @@ const initialState = {
       component: Agents,
       role: ['agency', 'company'],
     },
+    {
+      icon: 'chart line',
+      name: 'Stats',
+      path: '/stats',
+      component: Agents,
+      role: ['company'],
+    },
   ],
   visibleMenus: [],
 };

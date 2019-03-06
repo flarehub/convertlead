@@ -1,7 +1,10 @@
 import {CHANGE_PASSWORD_RESET_FORM, CHANGE_PROFILE_FORM, LOAD_PROFILE_FORM, UPDATE_USER_PROFILE} from './actions';
+import * as R from "ramda";
+import {SessionStorage} from "@services";
 
 const initialState = {
-  profile: {
+  role: R.pathOr('', ['user', 'role'], SessionStorage.getItem('session')),
+  profile: R.pathOr({
     id: null,
     name: null,
     email: null,
@@ -9,7 +12,7 @@ const initialState = {
     avatar_path: null,
     role: null,
     permissions: [],
-  },
+  }, ['user'], SessionStorage.getItem('session')),
   profileForm: {
     id: null,
     name: '',
@@ -28,7 +31,10 @@ function profile(state = initialState, action) {
     case UPDATE_USER_PROFILE: {
       return {
         ...state,
-        profile: action.profile
+        role: action.profile.role.toLowerCase(),
+        profile: {
+          ...action.profile,
+        }
       };
     }
     case LOAD_PROFILE_FORM: {
@@ -56,7 +62,10 @@ function profile(state = initialState, action) {
       }
     }
     default: {
-      return state;
+      return {
+        ...state,
+        role: state.role.toLowerCase(),
+      };
     }
   }
 }

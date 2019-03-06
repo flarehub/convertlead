@@ -1,5 +1,5 @@
 import { sendMessage } from '../../messages/thunks';
-import { api } from '../../../@services';
+import {api, Auth} from '@services';
 import * as actions from './actions';
 import { loadLeads } from '../../leads/thunks';
 
@@ -17,7 +17,7 @@ export const saveLead = form => (disptach) => {
 
 export const updateLead = form => async (dispatch) => {
   try {
-    await api.patch(`/v1/agency/companies/${form.company_id}/leads/${form.id}`, form);
+    await api.patch(`/v1/${Auth.role}/companies/${form.company_id}/leads/${form.id}`, form);
     await dispatch(loadLeads());
     await dispatch(actions.savedLead());
     dispatch(sendMessage('Successfully saved!'));
@@ -28,7 +28,7 @@ export const updateLead = form => async (dispatch) => {
 
 export const createLead = form => async (dispatch) => {
   try {
-    await api.post(`/v1/agency/companies/${form.company_id}/leads`, form);
+    await api.post(`/v1/${Auth.role}/companies/${form.company_id}/leads`, form);
     await dispatch(actions.savedLead());
     await dispatch(loadLeads());
   } catch (e) {

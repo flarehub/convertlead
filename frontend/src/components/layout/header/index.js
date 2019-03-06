@@ -1,9 +1,8 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
-import { compose, lifecycle } from 'recompose';
 import styles from './index.scss';
 import { Breadcrumb } from 'components';
-import { AuthContainer, ProfileContainer } from '@containers';
+import { ProfileContainer } from '@containers';
 
 const Header = ({ profile }) => (
   <div className={styles.Header}>
@@ -21,10 +20,4 @@ const Header = ({ profile }) => (
   </div>
 );
 
-export default compose(ProfileContainer, AuthContainer, lifecycle({
-  componentWillMount() {
-    if (this.props.isAuthorised) {
-      this.props.getUserProfile();
-    }
-  },
-}))(Header);
+export default ProfileContainer(Header);

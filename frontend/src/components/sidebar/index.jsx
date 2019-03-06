@@ -7,6 +7,7 @@ import PropTypes  from 'prop-types';
 import { Icon, Menu, Dropdown, Image } from 'semantic-ui-react'
 import logo from '../assets/logo.png';
 import styles from './index.scss';
+import {Auth} from "@services";
 
 class AppSidebar extends Component {
 
@@ -15,7 +16,7 @@ class AppSidebar extends Component {
   }
 
   componentWillMount() {
-    this.props.getUserSideBarMenu('agency');
+    this.props.getUserSideBarMenu(Auth.role);
   }
 
 	render() {

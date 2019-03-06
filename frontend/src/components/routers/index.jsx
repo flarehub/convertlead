@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import {
   Agents,
   Companies,
@@ -14,6 +13,7 @@ import PrivateRoute from './PrivateRoute';
 import styles from './index.scss';
 
 export default () => (<div className={styles.Routes}>
+  <PrivateRoute exact path='/' component={Dashboard} />
   <PrivateRoute exact path='/dashboard' component={Dashboard} />
   <PrivateRoute exact path='/companies' component={Companies} />
   <PrivateRoute exact path='/companies/:companyId/profile' component={CompanyProfile} />

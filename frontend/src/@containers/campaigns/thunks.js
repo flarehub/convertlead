@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import {api} from "../../@services";
+import {api, Auth} from "../../@services";
 import {hideLoader, showLoader} from "../loader/actions";
 import {sendMessage} from "../messages/thunks";
 
@@ -7,7 +7,7 @@ export const fetchCampaigns = () => async (dispatch, getState) => {
   try {
     await dispatch(showLoader());
     const { pagination, companyId, dealId, query } = getState().campaigns;
-    const response = await api.get(`/v1/agency/companies/${companyId}/deals/${dealId}/campaigns`, {
+    const response = await api.get(`/v1/${Auth.role}/companies/${companyId}/deals/${dealId}/campaigns`, {
       params: {
         current_page: pagination.current_page,
         per_page: pagination.per_page,
@@ -50,7 +50,7 @@ export const sortCampaigns = field => async dispatch =>  {
 
 export const deleteCampaign = (companyId, dealId, campaignId) => async dispatch =>  {
   try {
-    await api.delete(`/v1/agency/companies/${companyId}/deals/${dealId}/campaigns/${campaignId}`);
+    await api.delete(`/v1/${Auth.role}/companies/${companyId}/deals/${dealId}/campaigns/${campaignId}`);
     await dispatch(fetchCampaigns());
   } catch (e) {
     dispatch(sendMessage(e.message, true))

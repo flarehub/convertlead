@@ -1,13 +1,13 @@
-import api from '../../@services/api';
 import * as actions from './actions';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
 import {addBreadCrumb} from "../breadcrumb/actions";
+import {api, Auth} from "@services";
 
 export const deleteCompany = id => async (dispatch, getState) => {
   try {
     dispatch(showLoader());
-    const response = await api.delete(`/v1/agency/companies/${id}`);
+    const response = await api.delete(`/v1/${Auth.role}/companies/${id}`);
     const { pagination, query } = getState().companies;
     if (response.data) {
       await dispatch(loadCompanies(
@@ -25,7 +25,7 @@ export const deleteCompany = id => async (dispatch, getState) => {
 
 export const updateLockStatusCompany = form => async (dispatch) => {
   try {
-    await api.patch(`/v1/agency/companies/${form.id}/lock-status`, form);
+    await api.patch(`/v1/${Auth.role}/companies/${form.id}/lock-status`, form);
     dispatch(sendMessage('Successfully saved'));
     await dispatch(loadCompanies());
   } catch (e) {
@@ -43,7 +43,7 @@ export const loadCompanies = (page = 1, perPage = 10, search = '', sort = {
 }) => async (dispatch, getState) => {
   try {
     dispatch(showLoader());
-    const response = await api.get('/v1/agency/companies', {
+    const response = await api.get(`/v1/${Auth.role}/companies`, {
       params: {
         per_page: perPage,
         current_page: page,
@@ -81,7 +81,7 @@ export const searchCompanies = search => (dispatch, getState) => {
 
 export const loadSelectBoxCompanies = search => async (dispatch, getState) => {
   try {
-    const response = await api.get('/v1/agency/companies', {
+    const response = await api.get(`/v1/${Auth.role}/companies`, {
       params: {
         reduced: 1,
         search: search || null,
@@ -117,7 +117,7 @@ export const toggleShowDeleted = () => async (dispatch, getState) => {
 
 export const getCompanyBy = (id, beadCrumbData) => async dispatch => {
   try {
-    const response = await api.get(`/v1/agency/companies/${id}`);
+    const response = await api.get(`/v1/${Auth.role}/companies/${id}`);
     await dispatch(actions.loadCompany(response.data));
 
     if (beadCrumbData) {
@@ -134,7 +134,7 @@ export const getCompanyBy = (id, beadCrumbData) => async dispatch => {
 export const getCompanyGraph = (graphContext, companyId, filters) => async dispatch => {
   try {
     const response =
-      await api.get(`/v1/agency/companies/${companyId}/graph/${filters.graphType}`, {
+      await api.get(`/v1/${Auth.role}/companies/${companyId}/graph/${filters.graphType}`, {
       params: {
         ...filters,
       }

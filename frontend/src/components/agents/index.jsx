@@ -171,7 +171,7 @@ class Agents extends Component {
                     <Table.Cell>
                       {
                         agent.companies.map((company, key) =>  <div key={key}>
-                          <Link to={`/companies/${company.id}`}>
+                          <Link to={`/companies/${company.id}/profile`}>
                             <Image avatar src={company.avatar_path} rounded size='mini' />
                             {company.name}
                           </Link>

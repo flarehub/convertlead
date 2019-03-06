@@ -1,6 +1,6 @@
 import { sendMessage } from '../../messages/thunks';
 import * as actions  from './actions';
-import {api} from "../../../@services";
+import {api, Auth} from "@services";
 import {loadAgents} from "@containers/agents/thunks";
 
 
@@ -19,7 +19,7 @@ export const saveAgent = form => (dispatch) => {
 export const updateAgent = form => {
   return async dispatch => {
     try {
-      await api.patch(`/v1/agency/agents/${form.id}`, form);
+      await api.patch(`/v1/${Auth.role}/agents/${form.id}`, form);
       await dispatch(actions.savedAgent());
       await dispatch(loadAgents());
       dispatch(sendMessage('Successfully saved!'));
@@ -32,7 +32,7 @@ export const updateAgent = form => {
 export const createAgent = form => {
   return async dispatch => {
     try {
-      await api.post(`/v1/agency/agents`, form);
+      await api.post(`/v1/${Auth.role}/agents`, form);
       dispatch(sendMessage('Successfully saved!'));
       await dispatch(actions.savedAgent());
       await dispatch(loadAgents());

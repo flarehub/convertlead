@@ -1,7 +1,7 @@
 import * as actions from './actions';
 import { fetchCampaigns } from "@containers/campaigns/thunks";
 import { sendMessage } from '@containers/messages/thunks';
-import {api} from "@services";
+import {api, Auth} from "@services";
 import {IntegrationForm} from "@models/optin-form";
 
 export const saveCampaign = form => (dispatch) => {
@@ -26,7 +26,7 @@ export const updateCampaign = form => async (dispatch) => {
       throw new Error('Missing required deal!');
     }
     await api.patch(
-      `/v1/agency/companies/${form.companyId}/deals/${form.dealId}/campaigns/${form.id}`,
+      `/v1/${Auth.role}/companies/${form.companyId}/deals/${form.dealId}/campaigns/${form.id}`,
       form
     );
     await dispatch(actions.savedCampaign());
@@ -48,7 +48,7 @@ export const createCampaign = form => async (dispatch, getState) => {
     }
 
     await api.post(
-      `/v1/agency/companies/${form.companyId}/deals/${form.dealId}/campaigns`,
+      `/v1/${Auth.role}/companies/${form.companyId}/deals/${form.dealId}/campaigns`,
       {
         ...form,
         integration_config: JSON.stringify(IntegrationForm),

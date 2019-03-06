@@ -1,13 +1,13 @@
 import * as actions from './actions';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
-import { api } from '../../@services';
+import {api, Auth} from '../../@services';
 
 export const loadLeads = () => async (dispatch, getState) => {
   dispatch(showLoader());
   try {
     const { query, pagination } = getState().leads;
-    const response = await api.get('/v1/agency/leads', {
+    const response = await api.get(`/v1/${Auth.role}/leads`, {
       params: {
         ...query.filters,
         ...query.sort,
@@ -37,7 +37,7 @@ export const updateLead = (id, lead) => (dispatch) => {
 
 export const deleteLead = (companyId, id) => async (dispatch) => {
   try {
-    await api.delete(`/v1/agency/companies/${companyId}/leads/${id}`);
+    await api.delete(`/v1/${Auth.role}/companies/${companyId}/leads/${id}`);
     await dispatch(loadLeads());
     dispatch(sendMessage('Successfully deleted'));
   } catch (e) {

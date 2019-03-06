@@ -1,9 +1,10 @@
 import React from 'react';
+import { compose, lifecycle } from 'recompose';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { Layout } from './layout';
-import { AuthContainer } from '@containers';
+import { AuthContainer, ProfileContainer } from '@containers';
 import { LoginLayout, OptinFormPage } from '.';
 
 import './App.scss';
@@ -20,4 +21,8 @@ const App = ({ session }) => (
   </div>
 );
 
-export default withRouter(AuthContainer(App));
+export default withRouter(compose(AuthContainer, ProfileContainer, lifecycle({
+  componentWillMount() {
+    this.props.autoLogin();
+  }
+}))(App));

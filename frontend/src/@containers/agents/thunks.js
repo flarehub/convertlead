@@ -1,5 +1,5 @@
 import * as actions from './actions';
-import { api } from '../../@services';
+import {api, Auth} from '@services';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
 
@@ -7,7 +7,7 @@ export const loadAgents = () => async (dispath, getState) => {
   try {
     dispath(showLoader());
     const { pagination, query } = getState().agents;
-    const response = await api.get('/v1/agency/agents', {
+    const response = await api.get(`/v1/${Auth.role}/agents`, {
       params: {
         ...query.filters,
         ...query.sort,
@@ -28,7 +28,7 @@ export const loadAgents = () => async (dispath, getState) => {
 export const loadSelectBoxAgents =
   (filters = { search: '', companyId: '' }) => async (dispath, getState) => {
   try {
-    const response = await api.get('/v1/agency/agents', {
+    const response = await api.get(`/v1/${Auth.role}/agents`, {
       params: {
         companyId: (filters.companyId ? filters.companyId : null),
         search: filters.search,
@@ -53,7 +53,7 @@ export const editAgent = (id, agent) => (dispath, getState) => {
 
 export const deleteAgent = (id) => async (dispath, getState) => {
   try {
-    await api.delete(`/v1/agency/agents/${id}`);
+    await api.delete(`/v1/${Auth.role}/agents/${id}`);
     dispath(loadAgents());
     dispath(sendMessage('Successfully deleted!'))
   } catch (e) {
