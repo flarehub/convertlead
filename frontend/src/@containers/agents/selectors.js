@@ -9,3 +9,24 @@ export const selectBoxAgents = createSelector(
     image: { avatar: true, src: agent.avatar_path },
   })),
 );
+
+export const selectBoxCompanies = createSelector(
+  state => state.agents.agent,
+  agent => {
+    return agent.companies && agent.companies.map(company => ({
+      key: company.id,
+      value: company.id,
+      text: company.name,
+      image: { avatar: true, src: company.avatar_path },
+    })) || []
+  },
+);
+
+
+export const agentCompaniesIds = createSelector(
+  state => state.agents.agent,
+  agent => {
+    return agent.companies && agent.companies.map(company => Number(company.id)) || []
+  },
+);
+

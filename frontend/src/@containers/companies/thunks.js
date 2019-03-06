@@ -79,10 +79,11 @@ export const searchCompanies = search => (dispatch, getState) => {
   ));
 };
 
-export const loadSelectBoxCompanies = search => async (dispatch, getState) => {
+export const loadSelectBoxCompanies = (search, agentId = null) => async (dispatch, getState) => {
   try {
     const response = await api.get(`/v1/${Auth.role}/companies`, {
       params: {
+        agentId,
         reduced: 1,
         search: search || null,
         per_page: 10000,

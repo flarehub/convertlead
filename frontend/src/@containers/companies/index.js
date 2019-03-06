@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => ({
   }) => dispatch(thunks.loadCompanies(page, perPage, search, sort)),
   searchCompanies: search => dispatch(thunks.searchCompanies(search)),
   updateLockStatusCompany: company => dispatch(thunks.updateLockStatusCompany(company)),
-  loadSelectBoxCompanies: search => dispatch(thunks.loadSelectBoxCompanies(search)),
+  loadSelectBoxCompanies: (search, agentId = null) => dispatch(thunks.loadSelectBoxCompanies(search, agentId)),
   openCompaniesPage: activePage => dispatch(thunks.openCompaniesPage(activePage)),
   sort: field => dispatch(thunks.onSortCompanies(field)),
   openCompanyModal: open => dispatch(actions.openCompanyModal(open)),

@@ -9,6 +9,8 @@ export const GOTO_PAGE = 'GOTO_PAGE';
 export const OPEN_AGENT_MODAL = 'OPEN_AGENT_MODAL';
 export const SHOW_DELETED_AGENTS = 'SHOW_DELETED_AGENTS';
 export const LOAD_SELECTBOX_AGENTS = 'LOAD_SELECTBOX_AGENTS';
+export const LOAD_AGENT_LEADS_GRAPH = 'LOAD_AGENT_LEADS_GRAPH';
+export const LOAD_AGENT_DATA = 'LOAD_AGENT_DATA';
 
 export const addAgents = (agents, pagination) => ({
   type: ADD_AGENTS,
@@ -63,4 +65,14 @@ export const toggleShowDeleted = () => ({
 export const loadSelectBoxAgents = agents => ({
   type: LOAD_SELECTBOX_AGENTS,
   agents,
+});
+
+export const loadAgent = agent => ({
+  type: LOAD_AGENT_DATA,
+  agent,
+});
+
+export const loadAgentLeadsGraph = graphData => ({
+  type: LOAD_AGENT_LEADS_GRAPH,
+  graphData,
 });

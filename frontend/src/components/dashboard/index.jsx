@@ -28,15 +28,18 @@ class Dashboard extends Component {
     const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
     this.props.resetBreadCrumbToDefault();
     this.props.getCompanyDeals();
-    this.props.loadSelectBoxCompanies();
-    this.props.filterDealsByDealId(null);
-    this.props.filterDealCampaignsById(null);
 
-    this.props.filterDealsByCompany(companyId);
-    this.setState({
-      ...this.state,
-      companyId
-    })
+    if (Auth.isAgency) {
+      this.props.loadSelectBoxCompanies();
+      this.props.filterDealsByDealId(null);
+      this.props.filterDealCampaignsById(null);
+
+      this.props.filterDealsByCompany(companyId);
+      this.setState({
+        ...this.state,
+        companyId
+      })
+    }
   }
 
   openConfirmModal = (open = true, companyId = '', dealId = '') => {
@@ -68,17 +71,20 @@ class Dashboard extends Component {
           <Grid columns={2}>
           <Grid.Column>
             <Header floated='left' as='h1'>Deals</Header>
-            <Form.Field
-              loading={!this.props.selectBoxCompanies.length}
-              control={Select}
-              options={[...companies, ...this.props.selectBoxCompanies]}
-              label={{ children: 'Filter', htmlFor: 'form-companies-list' }}
-              placeholder='All companies'
-              search
-              onChange={this.filterDealsByCompany}
-              defaultValue={companyId}
-              searchInput={{ id: 'form-companies-list' }}
-            />
+            {
+              Auth.isAgency ?  <Form.Field
+                loading={!this.props.selectBoxCompanies.length}
+                control={Select}
+                options={[...companies, ...this.props.selectBoxCompanies]}
+                label={{ children: 'Filter', htmlFor: 'form-companies-list' }}
+                placeholder='All companies'
+                search
+                onChange={this.filterDealsByCompany}
+                defaultValue={companyId}
+                searchInput={{ id: 'form-companies-list' }}
+              />
+                : null
+            }
           </Grid.Column>
           <Grid.Column>
             <Menu secondary>

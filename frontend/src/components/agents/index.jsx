@@ -161,7 +161,7 @@ class Agents extends Component {
                 agents.map((agent, index) => (
                   <Table.Row key={index}>
                     <Table.Cell>
-                      <Link to={`/agents/${agent.id}`}>
+                      <Link to={`/agents/${agent.id}/profile`}>
                         {agent.name}
                       </Link>
                       <div>

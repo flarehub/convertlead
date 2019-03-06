@@ -33,6 +33,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
                 Route::get('deals', 'DealController@all');
                 Route::get('leads', 'LeadController@all');
                 Route::apiResource('agents', 'AgentController');
+                Route::get('agents/{agentId}/graph/{graphType}', 'AgentController@graph');
                 Route::apiResource('companies', 'CompanyController');
                 Route::patch('companies/{company}/lock-status', 'CompanyController@lockStatus');
                 Route::apiResource('companies/{company}/leads', 'LeadController');

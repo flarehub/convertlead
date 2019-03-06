@@ -22,6 +22,7 @@ class CompanyController extends Controller
         
         return $request->user()->getCompanies($request->only([
             'reduced',
+            'agentId',
             'search',
             'name',
             'deals',

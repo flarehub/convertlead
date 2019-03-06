@@ -227,7 +227,10 @@ class Agency extends User
      */
     public function getReducedCompaniesDetails($queryParams)
     {
-        $query = $this->companies();
+        $query =
+            $this->companies()
+            ->leftJoin('company_agents', 'company_agents.company_id', 'users.id')
+        ;
         
         if (isset($queryParams['search']) && $queryParams['search']) {
             $query->where(function ($query) use ($queryParams) {
@@ -240,6 +243,11 @@ class Agency extends User
         if (isset($queryParams['name'])) {
             $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
+
+        if (isset($queryParams['agentId']) && $queryParams['agentId']) {
+            $query->where('company_agents.agent_id', $queryParams['agentId']);
+        }
+        $query->groupBy('users.id', 'agency_id', 'agency_companies.id');
         return $query;
     }
 }

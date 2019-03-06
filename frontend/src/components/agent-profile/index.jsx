@@ -4,19 +4,15 @@ import {
   Segment, Grid, Button, Select, Form, Header, Menu, Popup, Icon
 } from 'semantic-ui-react';
 import styles from './index.scss';
-import { AgentsContainer, BreadCrumbContainer, CompaniesContainer, CompanyFormContainer } from "@containers";
+import { AgentsContainer, BreadCrumbContainer, AgentFormContainer } from "@containers";
 import ChartJs from 'chart.js';
 import DatePickerSelect from "components/@common/datepicker";
 import * as moment from 'moment';
-import CompanyModal from '../@common/modals/company';
+import AgentModal from '../@common/modals/agent';
 
-const agents = [
-  { key: null, text: 'All agents', value: null },
-];
-
-class CompanyProfile extends Component {
+class AgentProfile extends Component {
   state = {
-    agentId: '',
+    companyIds: [],
     startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
     endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
     startDate: moment().startOf('isoWeek').format('Y-M-DD'),
@@ -25,22 +21,20 @@ class CompanyProfile extends Component {
 
   constructor(props) {
     super(props);
-    this.companyId = this.props.match.params.companyId;
+    this.agentId = this.props.match.params.agentId;
     this.canvas = React.createRef();
   }
 
   componentWillMount() {
-    const { companyId } = this.props.match.params;
-    this.props.getCompanyBy(companyId, true);
-    this.props.loadSelectBoxAgents({
-      companyId
-    });
+    const { agentId } = this.props.match.params;
+    this.props.getAgent(agentId, true);
   }
 
   componentDidMount() {
     this.Chart =  new ChartJs(this.canvas.current.getContext('2d'),
       this.props.graphContactedLeadsAverage);
-    this.props.getCompanyGraph(this.Chart, this.companyId, {
+    this.props.getAgentGraph(this.Chart, this.agentId, {
+      companyIds: this.state.companyIds,
       graphType: 'contacted',
       startDate: this.state.startDate,
       endDate: this.state.endDate,
@@ -50,19 +44,19 @@ class CompanyProfile extends Component {
     this.Chart.update();
 
     this.props.addBreadCrumb({
-      name: 'Companies',
-      path: '/companies',
+      name: 'Agents',
+      path: '/agents',
     });
   }
 
-  onChangeAgent = (event, data) => {
+  onChangeCompany = (event, data) => {
     this.setState({
       ...this.state,
-      agentId: data.value,
+      companyIds: data.value,
     });
 
-    this.props.getCompanyGraph(this.Chart, this.companyId, {
-      agentId: this.state.agentId,
+    this.props.getAgentGraph(this.Chart, this.agentId, {
+      companyIds: this.state.companyIds,
       graphType: 'contacted',
       startDate: this.state.startDate,
       endDate: this.state.endDate,
@@ -84,8 +78,8 @@ class CompanyProfile extends Component {
       endDateDisplay:  moment(date).format('MM/DD/Y'),
     });
 
-    this.props.getCompanyGraph(this.Chart, this.companyId, {
-      agentId: this.state.agentId,
+    this.props.getAgentGraph(this.Chart, this.agentId, {
+      companyIds: this.state.companyIds,
       graphType: 'contacted',
       startDate: this.state.startDate,
       endDate: moment(date).format('Y-MM-DD'),
@@ -101,27 +95,27 @@ class CompanyProfile extends Component {
       endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     });
 
-    this.props.getCompanyGraph(this.Chart, this.companyId, {
-      agentId: this.state.agentId,
+    this.props.getAgentGraph(this.Chart, this.agentId, {
+      companyIds: this.state.companyIds,
       graphType: 'contacted',
       startDate: moment().startOf('isoWeek').format('Y-M-DD'),
       endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     });
   };
 
-  onEditCompany = () => {
-    console.log(this.props);
-    this.props.loadForm({ ...this.props.company, show: true })
+  onEditAgent = () => {
+    this.props.loadForm({ ...this.props.agent, show: true })
   };
 
   render() {
-    const { startDateDisplay, endDateDisplay } = this.state;
-    return (<div className={styles.CompanyProfile}>
-      <CompanyModal />
+    const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
+    const { agent } = this.props;
+    return (<div className={styles.AgentProfile}>
+      <AgentModal />
       <Segment attached='top'>
         <Grid>
           <Grid.Column>
-            <Header floated='left' as='h1'>Company</Header>
+            <Header floated='left' as='h1'>Agent profile</Header>
           </Grid.Column>
         </Grid>
         <Grid columns={2}>
@@ -129,13 +123,15 @@ class CompanyProfile extends Component {
             <Form>
               <Form.Group widths='equal'>
                 <Form.Field
-                  loading={!this.props.selectBoxAgents.length}
+                  loading={!this.props.selectBoxAgentCompanies.length}
                   control={Select}
-                  options={[...agents, ...this.props.selectBoxAgents]}
+                  options={this.props.selectBoxAgentCompanies}
                   label={{ children: '', htmlFor: 'agents-list' }}
-                  placeholder='Company agents'
+                  placeholder='Agent companies'
                   search
-                  onChange={this.onChangeAgent}
+                  multiple
+                  defaultValue={this.props.agentCompaniesIds}
+                  onChange={this.onChangeCompany}
                   searchInput={{ id: 'agents-list' }}
                 />
                 <Popup position='bottom left'
@@ -150,7 +146,7 @@ class CompanyProfile extends Component {
                   <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
                                     onChangeDateTo={this.onChangeDateTo}
                                     onRestDate={this.onRestDate}
-                                    from={new Date(this.state.startDate)} to={new Date(this.state.endDate)}
+                                    from={new Date(startDate)} to={new Date(endDate)}
                   />
                 </Popup>
               </Form.Group>
@@ -159,7 +155,7 @@ class CompanyProfile extends Component {
           <Grid.Column>
             <Menu secondary>
               <Menu.Menu position='right'>
-                <Button color='teal' content='Edit Company' onClick={this.onEditCompany} icon='pencil alternate' labelPosition='left' />
+                <Button color='teal' content='Edit Agent' onClick={this.onEditAgent} icon='pencil alternate' labelPosition='left' />
               </Menu.Menu>
             </Menu>
           </Grid.Column>
@@ -174,4 +170,4 @@ class CompanyProfile extends Component {
   }
 }
 
-export default compose(CompaniesContainer, CompanyFormContainer, BreadCrumbContainer, AgentsContainer)(CompanyProfile);
+export default compose(AgentFormContainer, BreadCrumbContainer, AgentsContainer)(AgentProfile);

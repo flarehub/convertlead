@@ -127,7 +127,6 @@ const companies = (state = initState, action) => {
       };
     }
     case LOAD_COMPANY: {
-      console.log('load company', action);
       return {
         ...state,
         company: action.company

@@ -2,6 +2,7 @@ import * as actions from './actions';
 import {api, Auth} from '@services';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
+import {addBreadCrumb} from "../breadcrumb/actions";
 
 export const loadAgents = () => async (dispath, getState) => {
   try {
@@ -84,4 +85,38 @@ export const gotoPage = activePage => async (dispath, getState) => {
 export const toggleShowDeleted = () => async (dispath, getState) => {
   await dispath(actions.toggleShowDeleted());
   await dispath(loadAgents());
+};
+
+export const getAgent = (id, addBreadCrumbOn = false) => async dispatch => {
+  try {
+    const response = await api.get(`/v1/${Auth.role}/agents/${id}`);
+    await dispatch(actions.loadAgent(response.data));
+    if (addBreadCrumbOn) {
+      await dispatch(addBreadCrumb({
+        name: response.data.name,
+        path: '',
+        active: true,
+      }, false))
+    }
+  } catch (e) {
+    dispatch(sendMessage(e.message, true))
+  }
+};
+
+export const getAgentGraph = (graphContext, agentId, filters) => async dispatch => {
+  try {
+    const response =
+      await api.get(`/v1/${Auth.role}/agents/${agentId}/graph/${filters.graphType}`, {
+        params: {
+          ...filters,
+        }
+      });
+    await dispatch(actions.loadAgentLeadsGraph(response.data));
+    if (graphContext) {
+      graphContext.data = response.data;
+      await graphContext.update();
+    }
+  } catch (e) {
+    dispatch(sendMessage(e.message, true))
+  }
 };
