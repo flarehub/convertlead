@@ -121,7 +121,7 @@ class User extends Authenticatable
     }
 
     public function getAgencies() {
-        return $this->companyAgencies()->get()->map(function ($agency) {
+        return $this->companyAgencies()->where('is_locked',  0)->get()->map(function ($agency) {
             $agency->agency_company_id = $agency->pivot->id;
             $agency->is_locked = $agency->pivot->is_locked;
             

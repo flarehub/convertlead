@@ -6,6 +6,7 @@ const initState = {
   id: '',
   name: '',
   companyId: '',
+  agency_company_id: '',
 };
 
 const dealForm = (state = initState, action) => {

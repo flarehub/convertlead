@@ -27,15 +27,12 @@ class DealController extends Controller
     public function store(Request $request, Deal $deal)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'agency_company_id' => 'required|int'
         ]);
-    
-        $agencies = $request->user()->agencies()->withPivot('id')->where('is_locked', 0)->get();
-        $agencies->map(function ($agency) use ($request, $deal) {
-            $request->merge(['agency_company_id' => $agency->pivot->id ]);
-            $deal->fill($request->only(['name', 'description', 'agency_company_id']));
-            $deal->save();
-        });
+
+        $deal->fill($request->only(['name', 'description', 'agency_company_id']));
+        $deal->save();
     
         return $deal;
     }
@@ -61,7 +58,8 @@ class DealController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'agency_company_id' => 'required|int',
         ]);
         $deal = $request->user()->getDealBy($id);
     

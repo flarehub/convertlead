@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions from './actions';
+import {getSelectBoxAgencies} from "./selectors";
 
 const mapStateToProps = state => ({
   profile: state.profile.profile,
+  selectBoxAgencies: getSelectBoxAgencies(state),
   profileForm: state.profile.profileForm,
   passwordResetForm: state.profile.passwordResetForm,
 });

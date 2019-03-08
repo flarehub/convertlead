@@ -19,6 +19,10 @@ class DealForm extends Component {
     this.props.changeForm({ companyId: data.value });
   };
 
+  onChangeAgency = (event, data) => {
+    this.props.changeForm({ agency_company_id: data.value });
+  };
+
   onSearchChange = event => {
     this.props.searchCompanies(event.target.value);
   };
@@ -43,6 +47,21 @@ class DealForm extends Component {
             onChange={this.onChangeCompany}
             onSearchChange={this.onSearchChange}
             searchInput={{ id: 'deal-form-companies-list' }}
+          />
+          : null
+      }
+      {
+        Auth.isCompany ?
+          <Form.Field
+            loading={!this.props.selectBoxAgencies}
+            control={Select}
+            options={this.props.selectBoxAgencies || []}
+            label={{ children: 'Agency', htmlFor: 'deal-form-agencies-list' }}
+            placeholder='Select Agency'
+            search
+            defaultValue={this.props.form.agency_company_id}
+            onChange={this.onChangeAgency}
+            searchInput={{ id: 'deal-form-agencies-list' }}
           />
           : null
       }
