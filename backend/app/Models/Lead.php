@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Lead extends Model
 {
@@ -78,8 +79,111 @@ class Lead extends Model
         }
         return LeadStatus::$STATUS_NEW;
     }
-    
+
     public function getLeadNoteBy($id) {
         return $this->leadNotes()->where('id', $id)->firstOrFail();
+    }
+
+    public function updateLead(Request $request) {
+        try {
+            \DB::beginTransaction();
+    
+            $oldStatus = $this->status;
+            $status = $request->get('status');
+            $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
+            $request->merge(['lead_status_id' => $leadStatus->id]);
+            $hasNewStatus = $this->lead_status_id !== $leadStatus->id;
+            $agencyCompanyId = DealCampaign::findOrFail($request->get('deal_campaign_id'))->agency_company_id;
+
+            $request->merge([
+                'agency_company_id' => $agencyCompanyId
+            ]);
+
+            \Validator::validate($request->all(), [
+                'fullname' => 'required|string|max:255',
+                'email' => 'required|string|max:255',
+                'phone' => 'required|string|max:255',
+                'agent_id' => 'required|int',
+                'deal_campaign_id' => 'required|int',
+                'agency_company_id' => 'required|int',
+                'status' => 'required|string',
+            ]);
+            
+            $this->fill($request->only([
+                'fullname',
+                'email',
+                'phone',
+                'agent_id',
+                'metadata',
+                'deal_campaign_id',
+                'lead_status_id',
+                'agency_company_id',
+            ]));
+    
+            if ($hasNewStatus) {
+                LeadNote::create([
+                    'lead_status_id' => $leadStatus->id,
+                    'lead_id' => $this->id,
+                    'agent_id' => $request->user()->id,
+                    'message' => "Status changed from {$oldStatus} to {$status}! ",
+                ]);
+            }
+            $this->save();
+
+            \DB::commit();
+            return $this;
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            throw $exception;
+        }
+    }
+
+    public static function createLead(Request $request) {
+        try {
+            \DB::beginTransaction();
+            $agencyCompanyId = DealCampaign::findOrFail($request->get('deal_campaign_id'))->agency_company_id;
+
+            $request->merge([
+                'agency_company_id' => $agencyCompanyId
+            ]);
+
+            \Validator::validate($request->all(), [
+                'fullname' => 'required|string|max:255',
+                'email' => 'required|string|max:255',
+                'phone' => 'required|string|max:255',
+                'agent_id' => 'required|int',
+                'deal_campaign_id' => 'required|int',
+                'agency_company_id' => 'required|int',
+                'status' => 'required|string',
+            ]);
+
+            $status = $request->get('status');
+            $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
+            $request->merge(['lead_status_id' => $leadStatus->id]);
+    
+            $lead = self::create($request->only([
+                'lead_status_id',
+                'fullname',
+                'email',
+                'phone',
+                'agent_id',
+                'metadata',
+                'deal_campaign_id',
+                'agency_company_id',
+            ]));
+    
+            LeadNote::create([
+                'lead_status_id' => $leadStatus->id,
+                'lead_id' => $lead->id,
+                'agent_id' => $request->user()->id,
+                'message' => 'Lead Created manually',
+            ]);
+
+            \DB::commit();
+            return $lead;
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            throw $exception;
+        }
     }
 }

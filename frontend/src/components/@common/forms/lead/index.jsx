@@ -92,19 +92,23 @@ class LeadForm extends Component {
               onChange={this.onChangeStatus}
               searchInput={{ id: 'status-list' }}
             />
-            <Form.Field
-              required
-              loading={!this.props.selectBoxCompanies.length}
-              control={Select}
-              options={this.props.selectBoxCompanies || []}
-              label={{ children: 'Company', htmlFor: 'companies-list' }}
-              placeholder="Select company"
-              search
-              defaultValue={this.props.form.company_id}
-              onChange={this.onChangeCompany}
-              onSearchChange={this.onSearchChange}
-              searchInput={{ id: 'companies-list' }}
-            />
+            {
+              Auth.isAgency
+                ? <Form.Field
+                  required
+                  loading={!this.props.selectBoxCompanies.length}
+                  control={Select}
+                  options={this.props.selectBoxCompanies || []}
+                  label={{ children: 'Company', htmlFor: 'companies-list' }}
+                  placeholder="Select company"
+                  search
+                  defaultValue={this.props.form.company_id}
+                  onChange={this.onChangeCompany}
+                  onSearchChange={this.onSearchChange}
+                  searchInput={{ id: 'companies-list' }}
+                />
+                : null
+            }
             <Form.Field
               required
               loading={!this.props.selectBoxDeals.length}

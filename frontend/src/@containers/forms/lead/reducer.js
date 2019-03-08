@@ -3,6 +3,7 @@ import {
   LOAD_LEAD,
   SAVED_LEAD,
 } from './actions';
+import { Auth } from "@services";
 
 const initState = {
   form: {
@@ -24,7 +25,7 @@ const initState = {
     status: true,
     email: true,
     phone: true,
-    company_id: true,
+    company_id: Auth.isAgency,
     deal_campaign_id: true,
     agent_id: true,
   },

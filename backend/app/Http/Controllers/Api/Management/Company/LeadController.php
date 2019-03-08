@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management\Company;
 
+use App\Models\Lead;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -41,7 +42,7 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Lead::createLead($request);
     }
 
     /**
@@ -50,9 +51,11 @@ class LeadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        return $request->user()->getLeadBy($id)->load(
+            'leadNotes'
+        );
     }
 
     /**
@@ -64,7 +67,15 @@ class LeadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $company = $request->user();
+        $lead = $company->getLeadBy($id);
+        $request->merge([
+            'id' => $id,
+        ]);
+
+        $lead->updateLead($request);
+    
+        return $lead;
     }
 
     /**
@@ -73,8 +84,10 @@ class LeadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $lead = $request->user()->getLeadBy($id);
+        $lead->delete();
+        return $lead;
     }
 }

@@ -52,80 +52,19 @@ class LeadController extends Controller
     public function update(Request $request, $company, $id)
     {
         $company = $request->user()->getCompanyBy($company);
+        $lead = $company->getLeadBy($id);
         $request->merge([
-            'id' => $id,
-            'agency_company_id' => $company->pivot->id
+            'id' => $id
         ]);
-        $lead = Lead::find($id);
-        $oldStatus = $lead->status;
-        $status = $request->get('status');
-        $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
-        $request->merge(['lead_status_id' => $leadStatus->id]);
-        $hasNewStatus = $lead->lead_status_id !== $leadStatus->id;
 
-        $lead->fill($request->only([
-            'fullname',
-            'email',
-            'phone',
-            'agent_id',
-            'metadata',
-            'deal_campaign_id',
-            'lead_status_id',
-            'agency_company_id',
-        ]));
-        
-        if ($hasNewStatus) {
-            LeadNote::create([
-                'lead_status_id' => $leadStatus->id,
-                'lead_id' => $lead->id,
-                'agent_id' => $request->user()->id,
-                'message' => "Status changed from {$oldStatus} to {$status}! ",
-            ]);
-        }
-     
-        $lead->save();
+        $lead->updateLead($request);
+
         return $lead;
     }
     
     public function store(Request $request, $company) {
-        $company = $request->user()->getCompanyBy($company);
-        $request->merge([
-            'agency_company_id' => $company->pivot->id
-        ]);
-    
-        $this->validate($request, [
-            'fullname' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
-            'agent_id' => 'required|int',
-            'deal_campaign_id' => 'required|int',
-            'agency_company_id' => 'required|int',
-            'status' => 'required|string',
-        ]);
-    
-        $status = $request->get('status');
-        $leadStatus = LeadStatus::where('type', $status)->firstOrFail();
-        $request->merge(['lead_status_id' => $leadStatus->id]);
-        
-        $lead = Lead::create($request->only([
-            'lead_status_id',
-            'fullname',
-            'email',
-            'phone',
-            'agent_id',
-            'metadata',
-            'deal_campaign_id',
-            'agency_company_id',
-        ]));
-
-        LeadNote::create([
-            'lead_status_id' => $leadStatus->id,
-            'lead_id' => $lead->id,
-            'agent_id' => $request->user()->id,
-            'message' => 'Lead Created manually',
-        ]);
-        
-        return $lead;
+        $request->user()->getCompanyBy($company);
+        return Lead::createLead($request);
     }
 
     /**
