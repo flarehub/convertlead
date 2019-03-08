@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Management\Company;
 
 use App\Models\Agent;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -26,7 +27,31 @@ class AgentController extends Controller
             'leads',
             'avg_response',
             'showDeleted',
-        ]))->paginate($itemsPerPage, ['*'], 'agents', $page);    }
+        ]))->paginate($itemsPerPage, ['*'], 'agents', $page);
+    }
+    
+    
+    public function graph(Request $request, $agentId, $graphType)
+    {
+        switch ($graphType) {
+            case 'contacted': {
+                $companyAgencyIds = null;
+                $companyIds = $request->get('companyIds');
+                $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
+                $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
+                $agent = $request->user()->getAgent($agentId);
+                
+                if ($companyIds) {
+                    $companyAgencyIds = collect($companyIds)->map(function ($companyId) use ($request) {
+                        return $request->user()->getCompanyBy($companyId)->pivot->id;
+                    });
+                }
+                
+                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
+            }
+        }
+        throw new \Exception('Wrong graph type!');
+    }
 
     /**
      * Store a newly created resource in storage.

@@ -4,11 +4,12 @@ import {
   Segment, Grid, Button, Select, Form, Header, Menu, Popup, Icon
 } from 'semantic-ui-react';
 import styles from './index.scss';
-import { AgentsContainer, BreadCrumbContainer, CompaniesContainer, CompanyFormContainer } from "@containers";
+import { AgentsContainer, ProfileContainer, BreadCrumbContainer, CompaniesContainer, CompanyFormContainer } from "@containers";
 import ChartJs from 'chart.js';
 import DatePickerSelect from "components/@common/datepicker";
 import * as moment from 'moment';
 import CompanyModal from '../@common/modals/company';
+import {Auth} from "@services";
 
 const agents = [
   { key: null, text: 'All agents', value: null },
@@ -31,10 +32,22 @@ class CompanyProfile extends Component {
 
   componentWillMount() {
     const { companyId } = this.props.match.params;
-    this.props.getCompanyBy(companyId, true);
     this.props.loadSelectBoxAgents({
       companyId
     });
+    if (Auth.isAgency) {
+      this.props.addBreadCrumb({
+        name: 'Companies',
+        path: '/companies',
+      });
+      this.props.getCompanyBy(companyId, true);
+    } else {
+      this.props.addBreadCrumb({
+        name: 'Statistics',
+        path: '',
+        active: true
+      }, false);
+    }
   }
 
   componentDidMount() {
@@ -48,11 +61,6 @@ class CompanyProfile extends Component {
 
     this.Chart.data = this.props.graphContactedLeadsAverage.data;
     this.Chart.update();
-
-    this.props.addBreadCrumb({
-      name: 'Companies',
-      path: '/companies',
-    });
   }
 
   onChangeAgent = (event, data) => {
@@ -111,17 +119,23 @@ class CompanyProfile extends Component {
 
   onEditCompany = () => {
     console.log(this.props);
-    this.props.loadForm({ ...this.props.company, show: true })
+    this.props.loadForm({ ...this.props.profile, show: true })
   };
 
   render() {
     const { startDateDisplay, endDateDisplay } = this.state;
     return (<div className={styles.CompanyProfile}>
-      <CompanyModal />
+      {
+        Auth.isAgency ? <CompanyModal /> : null
+      }
       <Segment attached='top'>
         <Grid>
           <Grid.Column>
-            <Header floated='left' as='h1'>Company</Header>
+            <Header floated='left' as='h1'>
+              {
+                Auth.isAgency ? 'Company' : 'Statistic'
+              }
+              </Header>
           </Grid.Column>
         </Grid>
         <Grid columns={2}>
@@ -159,7 +173,11 @@ class CompanyProfile extends Component {
           <Grid.Column>
             <Menu secondary>
               <Menu.Menu position='right'>
-                <Button color='teal' content='Edit Company' onClick={this.onEditCompany} icon='pencil alternate' labelPosition='left' />
+                {
+                  Auth.isAgency
+                    ? <Button color='teal' content='Edit Company' onClick={this.onEditCompany} icon='pencil alternate' labelPosition='left' />
+                    : null
+                }
               </Menu.Menu>
             </Menu>
           </Grid.Column>
@@ -174,4 +192,4 @@ class CompanyProfile extends Component {
   }
 }
 
-export default compose(CompaniesContainer, CompanyFormContainer, BreadCrumbContainer, AgentsContainer)(CompanyProfile);
+export default compose(CompaniesContainer, ProfileContainer, CompanyFormContainer, BreadCrumbContainer, AgentsContainer)(CompanyProfile);

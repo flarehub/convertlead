@@ -60,7 +60,9 @@ trait CompanyRepository {
                 Carbon::createFromFormat('Y-m-d', $startDate),
                 Carbon::createFromFormat('Y-m-d', $endDate)]);
         
-        if ($companyAgencyId) {
+        if (is_array($companyAgencyId)) {
+            $query->whereIn('leads.agency_company_id', $companyAgencyId);
+        } elseif ($companyAgencyId) {
             $query->where('leads.agency_company_id', $companyAgencyId);
         }
         

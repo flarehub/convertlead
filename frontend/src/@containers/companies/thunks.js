@@ -3,6 +3,10 @@ import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
 import {addBreadCrumb} from "../breadcrumb/actions";
 import {api, Auth} from "@services";
+import {
+  fetchAgencyCompanies, agencyLockCompany, fetchAgencyCompany, fetchAgencyCompanyGraph,
+  fetchCompanyGraph
+} from "./api";
 
 export const deleteCompany = id => async (dispatch, getState) => {
   try {
@@ -25,7 +29,7 @@ export const deleteCompany = id => async (dispatch, getState) => {
 
 export const updateLockStatusCompany = form => async (dispatch) => {
   try {
-    await api.patch(`/v1/${Auth.role}/companies/${form.id}/lock-status`, form);
+    await agencyLockCompany(form);
     dispatch(sendMessage('Successfully saved'));
     await dispatch(loadCompanies());
   } catch (e) {
@@ -43,14 +47,12 @@ export const loadCompanies = (page = 1, perPage = 10, search = '', sort = {
 }) => async (dispatch, getState) => {
   try {
     dispatch(showLoader());
-    const response = await api.get(`/v1/${Auth.role}/companies`, {
-      params: {
-        per_page: perPage,
-        current_page: page,
-        showDeleted: (getState().companies.query.showDeleted ? 1 : null),
-        search,
-        ...sort,
-      },
+    const response = await fetchAgencyCompanies({
+      per_page: perPage,
+      current_page: page,
+      showDeleted: (getState().companies.query.showDeleted ? 1 : null),
+      search,
+      ...sort,
     });
     const { data, ...pagination } = response.data;
     await dispatch(actions.addCompanies(data, pagination));
@@ -79,15 +81,13 @@ export const searchCompanies = search => (dispatch, getState) => {
   ));
 };
 
-export const loadSelectBoxCompanies = (search, agentId = null) => async (dispatch, getState) => {
+export const loadSelectBoxCompanies = (search, agentId = null) => async dispatch => {
   try {
-    const response = await api.get(`/v1/${Auth.role}/companies`, {
-      params: {
-        agentId,
-        reduced: 1,
-        search: search || null,
-        per_page: 10000,
-      },
+    const response = await fetchAgencyCompanies({
+      agentId,
+      reduced: 1,
+      search: search || null,
+      per_page: 10000,
     });
     const { data } = response.data;
     dispatch(actions.addSelectBoxCompanies(data));
@@ -118,7 +118,7 @@ export const toggleShowDeleted = () => async (dispatch, getState) => {
 
 export const getCompanyBy = (id, beadCrumbData) => async dispatch => {
   try {
-    const response = await api.get(`/v1/${Auth.role}/companies/${id}`);
+    const response = await fetchAgencyCompany(id);
     await dispatch(actions.loadCompany(response.data));
 
     if (beadCrumbData) {
@@ -135,11 +135,10 @@ export const getCompanyBy = (id, beadCrumbData) => async dispatch => {
 export const getCompanyGraph = (graphContext, companyId, filters) => async dispatch => {
   try {
     const response =
-      await api.get(`/v1/${Auth.role}/companies/${companyId}/graph/${filters.graphType}`, {
-      params: {
-        ...filters,
-      }
-    });
+      await (Auth.isAgency
+        ? fetchAgencyCompanyGraph(companyId, filters)
+        : fetchCompanyGraph(filters));
+
     await dispatch(actions.loadCompanyLeadContactedLeadsAverage(response.data));
     if (graphContext) {
       graphContext.data = response.data;

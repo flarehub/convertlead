@@ -63,6 +63,9 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
                 Route::apiResource('deals/{deal}/campaigns', 'CampaignController')->middleware('scope:CAMPAIGN_READ,CAMPAIGN_WRITE');
                 Route::apiResource('leads', 'LeadController')->middleware('scope:LEAD_READ,LEAD_WRITE');
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');
+                Route::get('graph/{graphType}', 'CompanyController@graph');
+                Route::get('agents/{agentId}/graph/{graphType}', 'AgentController@graph');
+    
             });
         });
     });
