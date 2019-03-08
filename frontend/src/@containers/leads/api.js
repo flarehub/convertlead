@@ -3,7 +3,7 @@ import {api, Auth} from "@services";
 export const fetchLeads = params => {
   return api.get(`/v1/${Auth.role}/leads`, {
     params,
-  })
+  });
 };
 
 export const deleteAgencyCompanyLead = (companyId, id) => {
