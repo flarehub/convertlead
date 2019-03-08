@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\Company;
 use App\Models\Lead;
+use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -97,6 +98,23 @@ class CompanyController extends Controller
     {
         $company = $request->user()->getCompanyBy($id);
         $company->pivot->is_locked = $request->get('is_locked');
+        if ($company->pivot->is_locked) {
+            $permissions = \App\Models\Permission::whereIn('name',
+                [
+                    Permission::$PERMISSION_AGENT_WRITE,
+                    Permission::$PERMISSION_DEAL_WRITE
+                ]
+            )->get();
+            $company->permissions()->detach($permissions);
+        } else {
+            $permissions = \App\Models\Permission::whereIn('name',
+                [
+                    Permission::$PERMISSION_AGENT_WRITE,
+                    Permission::$PERMISSION_DEAL_WRITE
+                ]
+            )->get();
+            $company->permissions()->attach($permissions);
+        }
         $company->pivot->save();
         return $company;
     }

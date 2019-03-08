@@ -1,7 +1,13 @@
-import { sendMessage } from '../../messages/thunks';
 import * as actions from './actions';
-import {api, Auth} from '@services';
-import { getCompanyDeals } from '../../deals/thunks';
+import { Auth } from '@services';
+import { getCompanyDeals } from '@containers/deals/thunks';
+import { sendMessage } from '@containers/messages/thunks';
+import {
+  createAgencyCompanyDeal,
+  createCompanyDeal,
+  updateAgencyCompanyDeal,
+  updateCompanyDeal
+} from "./api";
 
 export const saveDeal = form => (dispatch) => {
   try {
@@ -17,10 +23,13 @@ export const saveDeal = form => (dispatch) => {
 
 export const createDeal = form => async (dispatch) => {
   try {
-    if (!form.companyId) {
+    if (!form.companyId && Auth.isAgency) {
       throw new Error('Missing required Company!');
     }
-    await api.post(`/v1/${Auth.role}/companies/${form.companyId}/deals`, form);
+    await (Auth.isAgency
+      ? createAgencyCompanyDeal(form)
+      : createCompanyDeal(form));
+
     await dispatch(sendMessage('Successfully saved!'));
     await dispatch(actions.savedDeal());
     await dispatch(getCompanyDeals());
@@ -31,11 +40,14 @@ export const createDeal = form => async (dispatch) => {
 
 export const updateDeal = form => async (dispatch) => {
   try {
-    if (!form.companyId) {
+    if (!form.companyId && Auth.isAgency) {
       throw new Error('Missing required Company!');
     }
 
-    await api.patch(`/v1/${Auth.role}/companies/${form.companyId}/deals/${form.id}`, form);
+    await (Auth.isAgency
+      ? updateAgencyCompanyDeal(form)
+      : updateCompanyDeal(form));
+
     await dispatch(sendMessage('Successfully saved!'));
     await dispatch(actions.savedDeal());
     await dispatch(getCompanyDeals());

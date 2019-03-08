@@ -1,12 +1,21 @@
-import { api, Auth } from '../../@services';
+import { Auth } from '../../@services';
 import { addCompanyDeals } from './actions';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
+import { deleteAgencyCompanyDeal,
+  deleteCompanyDeal,
+  fetchAgencyCompanyDeals,
+  fetchCompanyDeals } from "./api";
 
-export const getCompanyDeals = (currentPage = 1, perPage = 10000) => async (dispatch, getState) => {
+export const getCompanyDeals = (currentPage = 1, perPage = 10000) => async dispatch => {
   try {
     dispatch(showLoader());
-    const { data } = await api.get(`/v1/${Auth.role}/deals`, { params: { per_page: perPage, current_page: currentPage } });
+    const params = { per_page: perPage, current_page: currentPage };
+    const { data } = await (
+      Auth.isAgency
+        ? fetchAgencyCompanyDeals(params)
+        : fetchCompanyDeals(params));
+
     await dispatch(addCompanyDeals(data.data));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
@@ -16,7 +25,10 @@ export const getCompanyDeals = (currentPage = 1, perPage = 10000) => async (disp
 
 export const deleteDeal = (companyId, id) => async (dispatch) => {
   try {
-    await api.delete(`/v1/${Auth.role}/companies/${companyId}/deals/${id}`);
+    await (Auth.isAgency
+      ? deleteAgencyCompanyDeal(companyId, id)
+      : deleteCompanyDeal(id));
+
     await dispatch(getCompanyDeals());
   } catch (e) {
     dispatch(sendMessage(e.message, true));

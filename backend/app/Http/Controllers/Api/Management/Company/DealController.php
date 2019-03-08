@@ -30,10 +30,12 @@ class DealController extends Controller
             'name' => 'required|string|max:255'
         ]);
     
-        $agencyCompanyId = $request->user()->pivot->id;
-        $request->merge(['agency_company_id' => $agencyCompanyId ]);
-        $deal->fill($request->only(['name', 'description', 'agency_company_id']));
-        $deal->save();
+        $agencies = $request->user()->agencies()->withPivot('id')->where('is_locked', 0)->get();
+        $agencies->map(function ($agency) use ($request, $deal) {
+            $request->merge(['agency_company_id' => $agency->pivot->id ]);
+            $deal->fill($request->only(['name', 'description', 'agency_company_id']));
+            $deal->save();
+        });
     
         return $deal;
     }

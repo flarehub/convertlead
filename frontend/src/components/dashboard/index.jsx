@@ -109,8 +109,8 @@ class Dashboard extends Component {
                       <Card.Content>
                         {
                           Auth.isAgency
-                            ? <CardContent deal={deal} link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`} />
-                            : <CardContent deal={deal} link={`/deals/${deal.id}/campaigns`} />
+                            ? <CardContent deal={deal} company={deal.company} link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`} />
+                            : <CardContent deal={deal} company={deal.agency} link={`/deals/${deal.id}/campaigns`} />
                         }
                         <Button.Group basic size='small'>
                           <Button icon='pencil alternate' onClick={this.props.loadForm.bind(this, { ...deal, companyId: deal.company.id, show: true })} />

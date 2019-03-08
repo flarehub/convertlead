@@ -12,9 +12,9 @@ class Company extends User
     protected $appends = ['avatar_path'];
 
     public function agencies() {
-        return $this->belongsToMany('App\Models\Agency', 'users', 'agency_companies', 'company_id');
+        return $this->belongsToMany('App\Models\Agency', 'agency_companies', 'company_id', 'id');
     }
-    
+
     public function agents() {
         return $this->belongsToMany('App\Models\Agent', 'company_agents', 'company_id');
     }

@@ -56,20 +56,20 @@ class Agency extends User
             users.phone,
             users.email,
             users.avatar_id,
-            ac.is_locked,
+            agency_companies.is_locked,
             IF(users.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
             COUNT(DISTINCT users.id, deals.id) as deals_count,
             COUNT(DISTINCT users.id, leads.id) as leads_count,
             COUNT(DISTINCT users.id, company_agents.id) as agents_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF((SELECT MIN(created_at) FROM lead_notes as ld WHERE ld.lead_id = leads.id), leads.created_at)))) AS avg_lead_response
             ')
-            ->join('agency_companies as ac', 'ac.company_id', 'users.id')
-            ->join('users AS ag', 'ag.id', 'ac.agency_id')
-            ->leftJoin('deals', 'deals.agency_company_id', 'ac.id')
+            ->join('agency_companies', 'agency_companies.company_id', 'users.id')
+            ->leftJoin('deals', 'deals.agency_company_id', 'agency_companies.id')
             ->leftJoin('company_agents', 'company_agents.company_id', 'users.id')
-            ->leftJoin('leads', 'leads.agency_company_id', 'ac.id')
+            ->leftJoin('leads', 'leads.agency_company_id', 'agency_companies.id')
             ->leftJoin('lead_notes', 'lead_notes.lead_id', 'leads.id')
-            ->where('ag.id', $this->id)->groupBy('users.id', 'ac.is_locked');
+            ->where('agency_companies.agency_id', $this->id)
+            ->groupBy('agency_companies.company_id', 'agency_companies.is_locked');
     
         if ( isset($queryParams['showDeleted']) ) {
             $query->withTrashed();
@@ -104,7 +104,7 @@ class Agency extends User
         if ( isset($queryParams['avg_response']) ) {
             $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
         }
-    
+
         return $query;
     }
     

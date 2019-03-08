@@ -7,7 +7,7 @@ import {
   Select,
 } from 'semantic-ui-react';
 import './index.scss';
-import * as R from 'ramda';
+import {Auth} from "@services";
 
 class DealForm extends Component {
   state = {};
@@ -30,18 +30,22 @@ class DealForm extends Component {
         <label>Name</label>
         <Input placeholder='Deal name' value={name} onChange={this.onChangeName} />
       </Form.Field>
-      <Form.Field
-        loading={!this.props.selectBoxCompanies.length}
-        control={Select}
-        options={this.props.selectBoxCompanies || []}
-        label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
-        placeholder='Select company'
-        search
-        defaultValue={this.props.form.companyId}
-        onChange={this.onChangeCompany}
-        onSearchChange={this.onSearchChange}
-        searchInput={{ id: 'deal-form-companies-list' }}
-      />
+      {
+        Auth.isAgency ?
+          <Form.Field
+            loading={!this.props.selectBoxCompanies.length}
+            control={Select}
+            options={this.props.selectBoxCompanies || []}
+            label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
+            placeholder='Select company'
+            search
+            defaultValue={this.props.form.companyId}
+            onChange={this.onChangeCompany}
+            onSearchChange={this.onSearchChange}
+            searchInput={{ id: 'deal-form-companies-list' }}
+          />
+          : null
+      }
     </Form>)
   }
 }

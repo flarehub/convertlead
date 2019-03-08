@@ -17,7 +17,7 @@ class Deal extends Model
         'agency_company_id',
     ];
     
-    protected $appends = ['company', 'campaigns'];
+    protected $appends = ['company', 'agency', 'campaigns'];
     
     public function agencies() {
         return $this->belongsToMany('App\Models\Agency', 'agency_companies', 'id', 'agency_id', 'agency_company_id', 'id');
@@ -37,6 +37,14 @@ class Deal extends Model
             return $company->only('name', 'avatar_path', 'id');
         }
         return $company;
+    }
+  
+    public function getAgencyAttribute() {
+        $agency = $this->agencies()->first();
+        if ($agency) {
+            return $agency->only('name', 'avatar_path', 'id');
+        }
+        return $agency;
     }
 
     public function getCampaignsAttribute() {
