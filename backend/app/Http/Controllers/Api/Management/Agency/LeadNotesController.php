@@ -29,7 +29,7 @@ class LeadNotesController extends Controller
      */
     public function store(Request $request, $company, $lead)
     {
-        $request->user()->getCompanyBy($company);
+        $lead = $request->user()->getCompanyBy($company)->getLeadBy($lead);
         return LeadNote::createLeadNote($request, $lead);
     }
 

@@ -26,6 +26,7 @@ class LeadNoteController extends Controller
      */
     public function store(Request $request, $lead)
     {
+        $lead = $request->user()->getLeadBy($lead);
         return LeadNote::createLeadNote($request, $lead);
     }
 

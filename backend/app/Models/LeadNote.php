@@ -39,11 +39,10 @@ class LeadNote extends Model
         return $this->status()->first();
     }
     
-    public static function createLeadNote(Request $request, $lead) {
+    public static function createLeadNote(Request $request, Lead $lead) {
         try {
             \DB::beginTransaction();
             $leadStatus = LeadStatus::where('type', $request->get('status'))->firstOrFail();
-            $lead = $request->user()->getLeadBy($lead);
     
             $request->merge([
                 'agent_id' => $request->user()->id,
