@@ -116,6 +116,19 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Media', 'id', 'avatar_id');
     }
     
+    public function companyAgencies() {
+        return $this->belongsToMany('App\Models\Agency', 'agency_companies', 'company_id')->withPivot('id', 'is_locked');
+    }
+
+    public function getAgencies() {
+        return $this->companyAgencies()->get()->map(function ($agency) {
+            $agency->agency_company_id = $agency->pivot->id;
+            $agency->is_locked = $agency->pivot->is_locked;
+            
+            return $agency->only('id', 'name', 'email', 'avatar_path', 'agency_company_id', 'is_locked');
+        });
+    }
+
     public function createUser($data) {
         \Validator::validate($data, self::requiredFieldsForCreate());
         $data['password'] = bcrypt($data['password']);

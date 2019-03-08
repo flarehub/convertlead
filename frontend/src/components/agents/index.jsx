@@ -24,6 +24,7 @@ import styles from './index.scss';
 import Loader from '../loader';
 import * as R from "ramda";
 import { CompaniesContainer } from "@containers";
+import { Auth } from "@services";
 
 const companies = [
   { key: null, text: 'All companies', value: null },
@@ -107,17 +108,21 @@ class Agents extends Component {
                   <Form.Field>
                     <Checkbox label='Show Archived' toggle onChange={this.onShowArch} />
                   </Form.Field>
-                  <Form.Field
-                    loading={!this.props.selectBoxCompanies.length}
-                    control={Select}
-                    options={[...companies, ...this.props.selectBoxCompanies]}
-                    label={{ children: 'Filter', htmlFor: 'form-companies-list' }}
-                    placeholder='All companies'
-                    search
-                    onChange={this.onChangeCompany}
-                    defaultValue={companyId}
-                    searchInput={{ id: 'form-companies-list' }}
-                  />
+                  {
+                    Auth.isAgency
+                      ? <Form.Field
+                        loading={!this.props.selectBoxCompanies.length}
+                        control={Select}
+                        options={[...companies, ...this.props.selectBoxCompanies]}
+                        label={{ children: 'Filter', htmlFor: 'form-companies-list' }}
+                        placeholder='All companies'
+                        search
+                        onChange={this.onChangeCompany}
+                        defaultValue={companyId}
+                        searchInput={{ id: 'form-companies-list' }}
+                      />
+                      : null
+                  }
                 </Form.Group>
               </Form>
             </Grid.Column>
@@ -141,7 +146,11 @@ class Agents extends Component {
                   <Icon name={this.getSort('name')}
                         onClick={this.props.sort.bind(this, 'name')}/>
                 </Table.HeaderCell>
-                <Table.HeaderCell>Companies</Table.HeaderCell>
+                {
+                  Auth.isAgency
+                    ? <Table.HeaderCell>Companies</Table.HeaderCell>
+                    : null
+                }
                 <Table.HeaderCell>Campaigns  <Icon name={this.getSort('campaigns')}
                                                onClick={this.props.sort.bind(this, 'campaigns')}/>
                 </Table.HeaderCell>
@@ -168,18 +177,21 @@ class Agents extends Component {
                         Added {moment(agent.created_at).format('DD/MM/YYYY')}
                       </div>
                     </Table.Cell>
-                    <Table.Cell>
-                      {
-                        agent.companies.map((company, key) =>  <div key={key}>
-                          <Link to={`/companies/${company.id}/profile`}>
-                            <Image avatar src={company.avatar_path} rounded size='mini' />
-                            {company.name}
-                          </Link>
-                        </div>)
-                      }
+                    {
+                      Auth.isAgency
+                        ? <Table.Cell>
+                          {
+                            agent.companies.map((company, key) =>  <div key={key}>
+                              <Link to={`/companies/${company.id}/profile`}>
+                                <Image avatar src={company.avatar_path} rounded size='mini' />
+                                {company.name}
+                              </Link>
+                            </div>)
+                          }
 
-                    </Table.Cell>
-                    {/*<Table.Cell>{<Link to={`/agents/${agent.id}/campaigns`}>{agent.campaigns_count || 0}</Link>}</Table.Cell>*/}
+                        </Table.Cell>
+                        : null
+                    }
                     <Table.Cell>{agent.campaigns_count || 0}</Table.Cell>
                     <Table.Cell>{<Link to={`/agents/${agent.id}/leads`}>{agent.leads_count || 0}</Link>}</Table.Cell>
                     <Table.Cell>{agent.avg_lead_response || 0}</Table.Cell>

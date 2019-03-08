@@ -12,6 +12,7 @@ const initialState = {
     avatar_path: null,
     role: null,
     permissions: [],
+    agencies: [],
   }, ['user'], SessionStorage.getItem('session')),
   profileForm: {
     id: null,

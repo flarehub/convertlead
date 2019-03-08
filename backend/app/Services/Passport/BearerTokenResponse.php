@@ -18,9 +18,15 @@ class BearerTokenResponse extends \League\OAuth2\Server\ResponseTypes\BearerToke
      */
     protected function getExtraParams(AccessTokenEntityInterface $accessToken)
     {
+        $user = User::find($this->accessToken->getUserIdentifier());
+        
+        if ($user->role === User::$ROLE_COMPANY) {
+            $user->agencies = $user->getAgencies();
+        }
+
         return [
-            'user' => User::find($this->accessToken->getUserIdentifier())->only([
-                'id', 'name', 'email', 'avatar_path', 'permissions', 'phone', 'role'
+            'user' => $user->only([
+                'id', 'name', 'email', 'avatar_path', 'permissions', 'phone', 'role', 'agencies'
             ]),
         ];
     }
