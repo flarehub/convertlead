@@ -13,6 +13,7 @@ import {
 import './index.scss';
 import avatarDemo from '../avatar-demo.png';
 import * as R from "ramda";
+import {Auth} from "@services";
 
 const panes = [
   { menuItem: 'Create Agent', pane: 'Create agent' },
@@ -48,6 +49,12 @@ class AgentForm extends Component {
     this.props.searchCompanies(event.target.value);
   };
 
+  componentWillMount() {
+    if (Auth.isAgency) {
+      this.props.loadSelectBoxCompanies();
+    }
+  }
+
   render() {
     const { id, name, phone, email, avatar, avatar_path } = this.props.form;
     return (<Form size='big'>
@@ -61,19 +68,22 @@ class AgentForm extends Component {
             <label>Phone Number</label>
             <Input placeholder='Phone Number' name='phone' value={phone || ''} onChange={this.onChange} />
           </Form.Field>
-          <Form.Field
-            loading={!this.props.selectBoxCompanies.length}
-            control={Select}
-            options={this.props.selectBoxCompanies || []}
-            label={{ children: 'Company', htmlFor: 'companies-list' }}
-            placeholder='Select company'
-            search
-            multiple
-            defaultValue={this.props.form.companies}
-            onChange={this.onChangeCompany}
-            onSearchChange={this.onSearchChange}
-            searchInput={{ id: 'companies-list' }}
-          />
+          {
+            Auth.isAgency ?  <Form.Field
+              loading={!this.props.selectBoxCompanies.length}
+              control={Select}
+              options={this.props.selectBoxCompanies || []}
+              label={{ children: 'Company', htmlFor: 'companies-list' }}
+              placeholder='Select company'
+              search
+              multiple
+              defaultValue={this.props.form.companies}
+              onChange={this.onChangeCompany}
+              onSearchChange={this.onSearchChange}
+              searchInput={{ id: 'companies-list' }}
+            />
+              : null
+          }
         </Grid.Column>
         <Grid.Column verticalAlign='middle'>
           <Form.Field required>

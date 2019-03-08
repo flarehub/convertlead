@@ -15,8 +15,18 @@ class AgentController extends Controller
      */
     public function index(Request $request)
     {
-        return $request->user()->agents()->paginate(100);
-    }
+        $itemsPerPage = (int)$request->get('per_page', 10);
+        $page = (int)$request->get('current_page', 1);
+    
+        return $request->user()->getAgents($request->only([
+            'search',
+            'companyId',
+            'name',
+            'campaigns',
+            'leads',
+            'avg_response',
+            'showDeleted',
+        ]))->paginate($itemsPerPage, ['*'], 'agents', $page);    }
 
     /**
      * Store a newly created resource in storage.
@@ -67,7 +77,11 @@ class AgentController extends Controller
     public function destroy(Request $request, $id)
     {
         $agent = $request->user()->getAgentBy($id);
-        $agent->delete();
+        if (!$agent->agent_agency_id) {
+            $agent->delete();
+        } else {
+            $request->user()->agents()->detach($agent);
+        }
         return $agent;
     }
 }

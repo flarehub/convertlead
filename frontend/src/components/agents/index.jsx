@@ -46,7 +46,11 @@ class Agents extends Component {
     this.props.filterAgents({
       companyId
     });
-    this.props.loadSelectBoxCompanies();
+
+    if (Auth.isAgency) {
+      this.props.loadSelectBoxCompanies();
+    }
+
     this.setState({
       ...this.state,
       companyId: companyId
@@ -197,7 +201,7 @@ class Agents extends Component {
                     <Table.Cell>{agent.avg_lead_response || 0}</Table.Cell>
                     <Table.Cell>
                       {
-                        !agent.is_deleted
+                        !agent.deleted_at
                           ?<Button.Group>
                             <Button onClick={this.props.loadForm.bind(this, {...agent, show: true})} ><Icon name='pencil alternate' /></Button>
                             <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}><Icon name='trash alternate outline'/></Button>

@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\Models\Agent;
 use App\Models\Company;
 use App\Models\Lead;
 use Carbon\Carbon;
@@ -165,7 +166,7 @@ trait CompanyRepository {
     public function getAgents($queryParams = []) {
         $query = Agent::selectRaw
         (
-            'users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.avatar_id,
+            'users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.avatar_id, users.deleted_at,
             SUM((SELECT COUNT(id)
                     FROM deal_campaigns AS dc
                     WHERE dc.id = dca.deal_campaign_id GROUP BY dc.id
@@ -181,11 +182,10 @@ trait CompanyRepository {
                     WHERE lead_notes.lead_id = ld.id ORDER BY created_at ASC LIMIT 1), ld.created_at)))) AS avg_lead_response,
             users.created_at'
         )
-            ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
             ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
             ->leftJoin('leads AS ld', 'ld.deal_campaign_id', 'dca.deal_campaign_id')
-            ->where('agency.id', $this->id)
+            ->where('ca.company_id', $this->id)
             ->groupBy('users.id');
         
         if ( isset($queryParams['showDeleted']) ) {

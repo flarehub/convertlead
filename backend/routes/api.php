@@ -47,7 +47,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
         Route::group(['namespace' => 'Api\Management\Agent'], function () {
             Route::prefix('agent')->group(function () {
                 Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_READ')->only(['index', 'show']);
-                Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_WRITE')->only(['update', 'store', 'delete']);
+                Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_WRITE')->only(['update', 'store', 'destroy']);
                 Route::apiResource('devices', 'DeviceController')->middleware('scope:DEVICE_READ,DEVICE_WRITE');
                 Route::apiResource('leads', 'LeadController')->middleware('scope:LEAD_READ,LEAD_WRITE');
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');
@@ -57,9 +57,9 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
         Route::group(['namespace' => 'Api\Management\Company'], function () {
             Route::prefix('company')->group(function () {
                 Route::apiResource('agents', 'AgentController')->middleware('scope:AGENT_READ')->only(['index', 'show']);
-                Route::apiResource('agents', 'AgentController')->middleware('scope:AGENT_WRITE')->only(['store', 'update', 'delete']);
+                Route::apiResource('agents', 'AgentController')->middleware('scope:AGENT_WRITE')->only(['store', 'update', 'destroy']);
                 Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_READ')->only(['index', 'show']);
-                Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_WRITE')->only(['store', 'update', 'delete']);
+                Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_WRITE')->only(['store', 'update', 'destroy']);
                 Route::apiResource('deals/{deal}/campaigns', 'CampaignController')->middleware('scope:CAMPAIGN_READ,CAMPAIGN_WRITE');
                 Route::apiResource('leads', 'LeadController')->middleware('scope:LEAD_READ,LEAD_WRITE');
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');
