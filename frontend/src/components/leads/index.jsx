@@ -178,10 +178,14 @@ class Leads extends Component {
                                                   onClick={this.props.sort.bind(this, 'email')}/>
                 </Table.HeaderCell>
                 <Table.HeaderCell>Phone Number</Table.HeaderCell>
-                <Table.HeaderCell>Company
-                  <Icon name={this.getSort('company')}
-                        onClick={this.props.sort.bind(this, 'company')}/>
-                </Table.HeaderCell>
+                {
+                  Auth.isAgency
+                    ? <Table.HeaderCell>Company
+                        <Icon name={this.getSort('company')}
+                          onClick={this.props.sort.bind(this, 'company')}/>
+                      </Table.HeaderCell>
+                    : null
+                }
                 <Table.HeaderCell>Source
                   <Icon name={this.getSort('campaign')}
                         onClick={this.props.sort.bind(this, 'campaign')}/>
@@ -209,18 +213,22 @@ class Leads extends Component {
                     </Table.Cell>
                     <Table.Cell>{lead.email}</Table.Cell>
                     <Table.Cell>{lead.phone}</Table.Cell>
-                    <Table.Cell>
-                      {
-                        lead.company
-                          ? <div>
-                            <Link to={`/companies/${lead.company.id}/profile`}>
-                              <Image avatar src={lead.company.avatar_path} rounded size='mini'/>
-                              {lead.company.name}
-                            </Link>
-                          </div>
-                          : null
-                      }
-                    </Table.Cell>
+                    {
+                      Auth.isAgency
+                        ? <Table.Cell>
+                          {
+                            lead.company
+                              ? <div>
+                                <Link to={`/companies/${lead.company.id}/profile`}>
+                                  <Image avatar src={lead.company.avatar_path} rounded size='mini'/>
+                                  {lead.company.name}
+                                </Link>
+                              </div>
+                              : null
+                          }
+                        </Table.Cell>
+                        : null
+                    }
                     <Table.Cell><Link to={{
                       pathname: `/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`,
                       state: { deal: lead.campaign.deal }
