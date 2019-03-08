@@ -18,7 +18,7 @@ export const saveCampaign = form => (dispatch) => {
 
 export const updateCampaign = form => async (dispatch) => {
   try {
-    if (!form.companyId) {
+    if (!form.companyId && Auth.isAgency) {
       throw new Error('Missing required company!');
     }
 
@@ -39,7 +39,7 @@ export const updateCampaign = form => async (dispatch) => {
 
 export const createCampaign = form => async (dispatch, getState) => {
   try {
-    if (!form.companyId) {
+    if (!form.companyId && Auth.isAgency) {
       throw new Error('Missing required company!');
     }
 

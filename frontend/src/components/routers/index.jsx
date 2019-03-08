@@ -38,5 +38,6 @@ export default () => (<div className={styles.Routes}>
   <PrivateRoute exact path='/leads/:leadId/notes' component={LeadNotes} />
   <PrivateRoute exact path='/campaigns/:campaignId/leads' component={Leads} />
   <PrivateRoute exact path='/stats' component={CompanyProfile} />
+  <PrivateRoute exact path='/agents/:agentId/leads' component={Leads} />
 
 </div>)

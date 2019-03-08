@@ -167,33 +167,39 @@ trait CompanyRepository {
         $query = Agent::selectRaw
         (
             'users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.avatar_id, users.deleted_at,
-            SUM((SELECT COUNT(id)
-                    FROM deal_campaigns AS dc
-                    WHERE dc.id = dca.deal_campaign_id GROUP BY dc.id
-                    )) AS campaigns_count,
-             SUM((SELECT COUNT(id)
-                FROM leads
-                WHERE leads.deal_campaign_id = dca.deal_campaign_id GROUP BY leads.deal_campaign_id
-                )) AS leads_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(
-            (
-                SELECT created_at
-                    FROM lead_notes
-                    WHERE lead_notes.lead_id = ld.id ORDER BY created_at ASC LIMIT 1), ld.created_at)))) AS avg_lead_response,
+            COUNT(DISTINCT dca.id) AS campaigns_count,
+            COUNT(DISTINCT ld.id) AS leads_count,
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
             users.created_at'
         )
-            ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
-            ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
-            ->leftJoin('leads AS ld', 'ld.deal_campaign_id', 'dca.deal_campaign_id')
+            ->join('company_agents AS ca', 'ca.agent_id', 'users.id')
+            ->join('agency_companies AS ac', 'ac.company_id', 'ca.company_id')
+            ->leftJoin('leads AS ld', function ($join) {
+                $join->on('ld.agency_company_id', '=', 'ac.id')
+                    ->on('ld.agent_id', '=', 'users.id')
+                ;
+            })
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'CONTACTED_SMS' OR
+                              lead_statuses.type = 'CONTACTED_CALL' OR
+                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+                          "), function ($join) {
+                $join->on('leadNotes.lead_id', '=', 'ld.id');
+            })
+            ->leftJoin('deal_campaigns as dc', 'dc.agency_company_id', 'ac.id')
+            ->leftJoin('deal_campaign_agents as dca', function ($join) {
+                $join->on('dca.agent_id', '=', 'users.id')
+                    ->on('dca.deal_campaign_id', '=', 'dc.id')
+                ;
+            })
             ->where('ca.company_id', $this->id)
             ->groupBy('users.id');
         
         if ( isset($queryParams['showDeleted']) ) {
             $query->withTrashed();
-        }
-        
-        if (isset($queryParams['companyId']) && $queryParams['companyId']) {
-            $query->where('ca.company_id', $queryParams['companyId']);
         }
         
         if (isset($queryParams['search'])) {
@@ -243,6 +249,10 @@ trait CompanyRepository {
 
         if (isset($queryParams['campaignId']) && $queryParams['campaignId']) {
             $query->where('dc.id', $queryParams['campaignId']);
+        }
+
+        if (isset($queryParams['agentId']) && $queryParams['agentId']) {
+            $query->where('leads.agent_id', $queryParams['agentId']);
         }
 
         if (isset($queryParams['statusType']) && $queryParams['statusType']) {

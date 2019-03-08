@@ -88,6 +88,7 @@ class Leads extends Component {
   componentWillMount() {
     const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
     const campaignId = +R.pathOr('', ['match', 'params', 'campaignId'], this.props);
+    const agentId = +R.pathOr('', ['match', 'params', 'agentId'], this.props);
     this.setState({
       ...this.state,
       companyId,
@@ -97,6 +98,7 @@ class Leads extends Component {
     this.props.filterLeads({
       companyId,
       campaignId,
+      agentId,
     });
 
     this.props.addBreadCrumb({
