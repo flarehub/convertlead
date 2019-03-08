@@ -1,8 +1,9 @@
 import * as actions from './actions';
 import { fetchCampaigns } from "@containers/campaigns/thunks";
 import { sendMessage } from '@containers/messages/thunks';
-import {api, Auth} from "@services";
+import { Auth } from "@services";
 import {IntegrationForm} from "@models/optin-form";
+import {createAgencyCompanyCampaign, createCompanyCampaign, updateAgencyCompanyCampaign, updateCompanyCampaign} from "./api";
 
 export const saveCampaign = form => (dispatch) => {
   try {
@@ -25,10 +26,10 @@ export const updateCampaign = form => async (dispatch) => {
     if (!form.dealId) {
       throw new Error('Missing required deal!');
     }
-    await api.patch(
-      `/v1/${Auth.role}/companies/${form.companyId}/deals/${form.dealId}/campaigns/${form.id}`,
-      form
-    );
+    await (Auth.isAgency
+      ? updateAgencyCompanyCampaign(form)
+      : updateCompanyCampaign(form));
+
     await dispatch(actions.savedCampaign());
     await dispatch(fetchCampaigns());
     await dispatch(sendMessage('Successfully saved!'));
@@ -46,14 +47,15 @@ export const createCampaign = form => async (dispatch, getState) => {
     if (!form.dealId) {
       throw new Error('Missing required deal!');
     }
+    const formData = {
+      ...form,
+      integration_config: JSON.stringify(IntegrationForm),
+    };
 
-    await api.post(
-      `/v1/${Auth.role}/companies/${form.companyId}/deals/${form.dealId}/campaigns`,
-      {
-        ...form,
-        integration_config: JSON.stringify(IntegrationForm),
-      },
-    );
+    await (Auth.isAgency
+      ? createAgencyCompanyCampaign(formData)
+      : createCompanyCampaign(formData));
+
     await dispatch(actions.savedCampaign());
     await dispatch(fetchCampaigns());
     await dispatch(sendMessage('Successfully saved!'));

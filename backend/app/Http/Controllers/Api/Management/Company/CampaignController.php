@@ -6,6 +6,7 @@ use App\Models\Deal;
 use App\Models\DealCampaign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Faker\Generator as Faker;
 
 class CampaignController extends Controller
 {
@@ -25,12 +26,15 @@ class CampaignController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $deal, DealCampaign $campaign)
+    public function store(Request $request, $deal, Faker $faker)
     {
-        $campaign->fill($request->only(['name', 'description']));
-        $campaign->deal()->associate($request->user()->getDealBy($deal));
-        $campaign->save();
-        return $campaign;
+        $request->merge([
+            'uuid' => $faker->uuid,
+            'deal_id' => $deal,
+            'agency_company_id' => $request->user()->getDealBy($deal)->agency_company_id,
+        ]);
+    
+        return DealCampaign::createCampaign($request);
     }
 
     /**
@@ -54,9 +58,7 @@ class CampaignController extends Controller
     public function update(Request $request, $deal, $id)
     {
         $campaign = $request->user()->getDealBy($deal)->getCampaignBy($id);
-        $campaign->fill($request->only(['name', 'description']));
-        $campaign->save();
-        return $campaign;
+        $campaign->updateCampaign($request);
     }
 
     /**

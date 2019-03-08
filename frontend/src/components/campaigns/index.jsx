@@ -192,7 +192,7 @@ class Campaigns extends Component {
                     <Table.Cell><Link to={`/companies/${companyId}/campaigns/${campaign.id}/leads`}>{campaign.leads_count}</Link></Table.Cell>
                     <Table.Cell>{
                       campaign.agents && campaign.agents.map((agent, key) =>
-                        <div key={key}><Link to={`/agents/${agent.id}`}>{agent.name}</Link></div>)
+                        <div key={key}><Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link></div>)
                     }</Table.Cell>
                     <Table.Cell>{campaign.avg_time_response || 0}</Table.Cell>
                     <Table.Cell>

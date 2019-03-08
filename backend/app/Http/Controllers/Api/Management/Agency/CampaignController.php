@@ -40,34 +40,15 @@ class CampaignController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Faker $faker, $company, $deal, DealCampaign $campaign)
+    public function store(Request $request, Faker $faker, $company, $deal)
     {
-        $this->validate($request, [
-            'name' => 'required|string',
-            'integration' => 'required|string',
-            'agents' => 'required'
-        ]);
-
         $request->merge([
             'uuid' => $faker->uuid,
             'deal_id' => $deal,
             'agency_company_id' => $request->user()->getCompanyBy($company)->pivot->id,
         ]);
         
-        $campaign->fill($request->only([
-            'name',
-            'uuid',
-            'deal_id',
-            'agency_company_id',
-            'integration_config',
-            'integration',
-            'description'
-        ]));
-        $campaign->save();
-    
-        $campaign->agents()->attach($request->get('agents'));
-        
-        return $campaign;
+        return DealCampaign::createCampaign($request);
     }
     
     /**
@@ -89,35 +70,11 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Faker $faker, $company, $deal, $id)
+    public function update(Request $request, $company, $deal, $id)
     {
-        try {
-            \DB::beginTransaction();
-            $campaign = $request->user()->getCompanyBy($company)->getDealBy($deal)->getCampaignBy($id);
-            
-            $request->merge([
-                'uuid' => ($campaign->uuid ? $campaign->uuid : $faker->uuid)
-            ]);
-            
-            $campaign->fill($request->only([
-                'name',
-                'uuid',
-                'integration_config',
-                'integration',
-                'description'
-            ]));
-            
-            $campaign->save();
-            if ($request->get('agents')) {
-                $campaign->agents()->detach($campaign->agents()->get());
-                $campaign->agents()->attach($request->get('agents'));
-            }
-            \DB::commit();
-        } catch (Exception $exception) {
-            \DB::rollBack();
-            throw $exception;
-        }
-
+        $campaign = $request->user()->getCompanyBy($company)->getDealBy($deal)->getCampaignBy($id);
+        $campaign->updateCampaign($request);
+    
         return $campaign;
     }
     

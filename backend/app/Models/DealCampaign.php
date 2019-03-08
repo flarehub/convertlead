@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
+use Faker\Generator as Faker;
+use Mockery\Exception;
 
 class DealCampaign extends Model
 {
@@ -52,5 +55,65 @@ class DealCampaign extends Model
     
     public function getLeadsCountAttribute() {
         return $this->leads()->count();
+    }
+    
+    public static function createCampaign(Request $request) {
+        try {
+            \DB::beginTransaction();
+            \Validator::validate($request->all(), [
+                'name' => 'required|string',
+                'deal_id' => 'required|int',
+                'uuid' => 'required|string',
+                'agency_company_id' => 'required|int',
+                'integration' => 'required|string',
+                'agents' => 'required'
+            ]);
+    
+            $campaign = (new DealCampaign())->fill($request->only([
+                'name',
+                'uuid',
+                'deal_id',
+                'agency_company_id',
+                'integration_config',
+                'integration',
+                'description'
+            ]));
+            $campaign->save();
+            $campaign->agents()->attach($request->get('agents'));
+            \DB::commit();
+            return $campaign;
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            throw $exception;
+        }
+    }
+
+    public function updateCampaign(Request $request, Faker $faker = null) {
+        try {
+
+            \DB::beginTransaction();
+            $request->merge([
+                'uuid' => ($this->uuid ? $this->uuid : $faker->uuid)
+            ]);
+        
+            $this->fill($request->only([
+                'name',
+                'uuid',
+                'integration_config',
+                'integration',
+                'description'
+            ]));
+
+            $this->save();
+            if ($request->get('agents')) {
+                $this->agents()->detach($this->agents()->get());
+                $this->agents()->attach($request->get('agents'));
+            }
+
+            \DB::commit();
+        } catch (Exception $exception) {
+            \DB::rollBack();
+            throw $exception;
+        }
     }
 }
