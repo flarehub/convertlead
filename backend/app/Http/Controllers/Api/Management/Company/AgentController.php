@@ -35,17 +35,13 @@ class AgentController extends Controller
     {
         switch ($graphType) {
             case 'contacted': {
-                $companyAgencyIds = null;
-                $companyIds = $request->get('companyIds');
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
-                $agent = $request->user()->getAgent($agentId);
-                
-                if ($companyIds) {
-                    $companyAgencyIds = collect($companyIds)->map(function ($companyId) use ($request) {
-                        return $request->user()->getCompanyBy($companyId)->pivot->id;
-                    });
-                }
+                $agent = $request->user()->getAgentBy($agentId);
+    
+                $companyAgencyIds = $request->user()->agencies->map(function ($agency) use ($request) {
+                    return $agency->pivot->id;
+                });
                 
                 return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
             }

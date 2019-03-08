@@ -9,6 +9,7 @@ import ChartJs from 'chart.js';
 import DatePickerSelect from "components/@common/datepicker";
 import * as moment from 'moment';
 import AgentModal from '../@common/modals/agent';
+import {Auth} from "../../@services";
 
 class AgentProfile extends Component {
   state = {
@@ -122,18 +123,21 @@ class AgentProfile extends Component {
           <Grid.Column>
             <Form>
               <Form.Group widths='equal'>
-                <Form.Field
-                  loading={!this.props.selectBoxAgentCompanies.length}
-                  control={Select}
-                  options={this.props.selectBoxAgentCompanies}
-                  label={{ children: '', htmlFor: 'agents-list' }}
-                  placeholder='Agent companies'
-                  search
-                  multiple
-                  defaultValue={this.props.agentCompaniesIds}
-                  onChange={this.onChangeCompany}
-                  searchInput={{ id: 'agents-list' }}
-                />
+                {
+                  Auth.isAgency ? <Form.Field
+                    loading={!this.props.selectBoxAgentCompanies.length}
+                    control={Select}
+                    options={this.props.selectBoxAgentCompanies}
+                    label={{ children: '', htmlFor: 'agents-list' }}
+                    placeholder='Agent companies'
+                    search
+                    multiple
+                    defaultValue={this.props.agentCompaniesIds}
+                    onChange={this.onChangeCompany}
+                    searchInput={{ id: 'agents-list' }}
+                  />
+                    : null
+                }
                 <Popup position='bottom left'
                        trigger={
                          <Form.Field>
