@@ -12,8 +12,7 @@ const Header = ({ profile }) => (
           <Breadcrumb />
         </Grid.Column>
         <Grid.Column>
-          { profile.role }
-          { profile.name }
+          <label>{ profile.name }</label>
         </Grid.Column>
       </Grid.Row>
     </Grid>
