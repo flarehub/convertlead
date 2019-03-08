@@ -19,48 +19,18 @@ class LeadNotesController extends Controller
     {
         return $request->user()->getCompanyBy($company)->getLeadBy($lead)->leadNotes()->get();
     }
-
+    
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $company
+     * @param $lead
+     * @return LeadNote
+     * @throws \Exception
      */
     public function store(Request $request, $company, $lead)
     {
-        $this->validate($request, [
-            'message' => 'required|string|max:240',
-            'status' => 'required|string',
-        ]);
-    
-        try {
-            \DB::beginTransaction();
-            $leadStatus = LeadStatus::where('type', $request->get('status'))->firstOrFail();
-            $lead = $request->user()->getCompanyBy($company)->getLeadBy($lead);
-    
-            $request->merge([
-                'agent_id' => $request->user()->id,
-                'lead_status_id' => $leadStatus->id,
-                'lead_id' => $lead->id,
-            ]);
-    
-            $lead->lead_status_id = $leadStatus->id;
-            $lead->save();
-    
-            $leadNote = new LeadNote();
-            $leadNote->fill($request->only([
-                'agent_id',
-                'lead_status_id',
-                'lead_id',
-                'message',
-            ]));
-            $leadNote->save();
-            \DB::commit();
-            return $leadNote;
-        } catch (Exception $exception) {
-            \DB::rollBack();
-            throw $exception;
-        }
+        $request->user()->getCompanyBy($company);
+        return LeadNote::createLeadNote($request, $lead);
     }
 
     /**
@@ -72,19 +42,12 @@ class LeadNotesController extends Controller
      */
     public function update(Request $request, $company, $lead, $id)
     {
-        $this->validate($request, [
-            'message' => 'required|string|max:240',
-        ]);
-
-        $leadNote = $request->user()->getCompanyBy($company)->getLeadBy($lead)->getLeadNoteBy($id);
-
-        $leadNote->fill($request->only([
-            'message',
-        ]));
-    
-        $leadNote->save();
-    
-        return $leadNote;
+        return $request
+            ->user()
+            ->getCompanyBy($company)
+            ->getLeadBy($lead)
+            ->getLeadNoteBy($id)
+            ->updateLeadNote($request);
     }
 
     /**

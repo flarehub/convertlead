@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class LeadNote extends Model
 {
@@ -36,5 +37,58 @@ class LeadNote extends Model
  
     public function getStatusAttribute() {
         return $this->status()->first();
+    }
+    
+    public static function createLeadNote(Request $request, $lead) {
+        try {
+            \DB::beginTransaction();
+            $leadStatus = LeadStatus::where('type', $request->get('status'))->firstOrFail();
+            $lead = $request->user()->getLeadBy($lead);
+    
+            $request->merge([
+                'agent_id' => $request->user()->id,
+                'lead_status_id' => $leadStatus->id,
+                'lead_id' => $lead->id,
+            ]);
+    
+            \Validator::validate($request->all(), [
+                'agent_id' => 'required|int',
+                'lead_status_id' => 'required|int',
+                'lead_id' => 'required|int',
+                'message' => 'required|string|max:240',
+                'status' => 'required|string',
+            ]);
+        
+            $lead->lead_status_id = $leadStatus->id;
+            $lead->save();
+        
+            $leadNote = new LeadNote();
+            $leadNote->fill($request->only([
+                'agent_id',
+                'lead_status_id',
+                'lead_id',
+                'message',
+            ]));
+            $leadNote->save();
+            \DB::commit();
+            return $leadNote;
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            throw $exception;
+        }
+    }
+    
+    public function updateLeadNote(Request $request) {
+        \Validator::validate($request->all(), [
+            'message' => 'required|string|max:240',
+        ]);
+        
+        $this->fill($request->only([
+            'message',
+        ]));
+    
+        $this->save();
+    
+        return $this;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management\Company;
 
+use App\Models\LeadNote;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,31 +13,20 @@ class LeadNoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $lead)
     {
-        //
+        return $request->user()->getLeadBy($lead)->leadNotes()->get();
     }
-
+    
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $lead
+     * @return LeadNote
+     * @throws \Exception
      */
-    public function store(Request $request)
+    public function store(Request $request, $lead)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return LeadNote::createLeadNote($request, $lead);
     }
 
     /**
@@ -46,9 +36,13 @@ class LeadNoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $lead, $id)
     {
-        //
+        return $request
+            ->user()
+            ->getLeadBy($lead)
+            ->getLeadNoteBy($id)
+            ->updateLeadNote($request);
     }
 
     /**
@@ -57,8 +51,10 @@ class LeadNoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $lead, $id)
     {
-        //
+        $leadNote = $request->user()->getLeadBy($lead)->getLeadNoteBy($id);
+        $leadNote->delete();
+        return $leadNote;
     }
 }
