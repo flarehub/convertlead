@@ -12,9 +12,25 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-    
+        $itemsPerPage = (int)$request->get('per_page', 10);
+        $page = (int)$request->get('current_page', 1);
+        return $request
+            ->user()
+            ->getLeads($request->only([
+                'search',
+                'showDeleted',
+                'companyId',
+                'campaignId',
+                'statusType',
+                'status',
+                'name',
+                'email',
+                'company',
+                'campaign',
+            ]))
+            ->paginate($itemsPerPage, ['*'], 'page', $page);
     }
 
     /**

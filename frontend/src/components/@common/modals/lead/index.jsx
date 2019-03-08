@@ -6,15 +6,8 @@ import {
   LeadsContainer
 } from "../../../../@containers";
 import LeadForm from "../../forms/lead";
+import {Auth} from "../../../../@services";
 
-class LeadModal extends Component {
-  componentWillMount() {
-    this.props.loadSelectBoxCompanies();
-    this.props.getCompanyDeals();
-  }
-  render() {
-    return (<EntityModal {...{...this.props, Container: LeadForm }} />)
-  }
-}
+const LeadModal = (props) => (<EntityModal {...{...props, Container: LeadForm }} />);
 
 export default compose(LeadFormContainer, MessageContainer, LeadsContainer, DealsContainer, CompaniesContainer)(LeadModal);

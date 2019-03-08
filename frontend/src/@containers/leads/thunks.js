@@ -1,22 +1,23 @@
 import * as actions from './actions';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
-import {api, Auth} from '../../@services';
+import { Auth } from '@services';
+import {deleteAgencyCompanyLead, deleteCompanyLead, fetchLeads} from "./api";
 
 export const loadLeads = () => async (dispatch, getState) => {
   dispatch(showLoader());
   try {
     const { query, pagination } = getState().leads;
-    const response = await api.get(`/v1/${Auth.role}/leads`, {
-      params: {
-        ...query.filters,
-        ...query.sort,
-        search: query.search,
-        showDeleted: (query.showDeleted ? query.showDeleted : null),
-        per_page: pagination.per_page,
-        current_page: pagination.current_page,
-      },
+
+    const response = await fetchLeads({
+      ...query.filters,
+      ...query.sort,
+      search: query.search,
+      showDeleted: (query.showDeleted ? query.showDeleted : null),
+      per_page: pagination.per_page,
+      current_page: pagination.current_page,
     });
+
     const { data, ...rest } = response.data;
 
     dispatch(actions.loadLeads(data, rest));
@@ -26,18 +27,13 @@ export const loadLeads = () => async (dispatch, getState) => {
   dispatch(hideLoader());
 };
 
-
-export const addLead = (companyId, campaignId, lead) => (dispatch, getState) => {
-  dispatch(actions.addLead(campaignId, companyId, lead));
-};
-
-export const updateLead = (id, lead) => (dispatch) => {
-  dispatch();
-};
-
 export const deleteLead = (companyId, id) => async (dispatch) => {
   try {
-    await api.delete(`/v1/${Auth.role}/companies/${companyId}/leads/${id}`);
+    if (Auth.isAgency) {
+      await deleteAgencyCompanyLead(companyId, id);
+    } else {
+      await deleteCompanyLead(id);
+    }
     await dispatch(loadLeads());
     dispatch(sendMessage('Successfully deleted'));
   } catch (e) {

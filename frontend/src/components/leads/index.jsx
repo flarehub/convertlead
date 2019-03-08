@@ -24,6 +24,7 @@ import { BreadCrumbContainer, CompaniesContainer, LeadsContainer, LeadFormContai
 import Loader from '../loader';
 import * as R from "ramda";
 import {getSelectBoxStatuses} from "@models/lead-statuses";
+import {Auth} from "@services";
 
 const companies = [
   { key: '', text: 'All companies', value: '' },
@@ -125,7 +126,7 @@ class Leads extends Component {
              <Form>
                <Form.Group widths='equal'>
                  {
-                   !campaignId
+                   !campaignId && Auth.isAgency
                      ?  <Form.Field
                        loading={!this.props.selectBoxCompanies.length}
                        control={Select}
@@ -203,7 +204,7 @@ class Leads extends Component {
                     </Table.Cell>
                     <Table.Cell>
                       {
-                        lead.agent && <Link to={`/agents/${lead.agent.id}`}>{lead.agent.name}</Link>
+                        lead.agent && <Link to={`/agents/${lead.agent.id}/profile`}>{lead.agent.name}</Link>
                       }
                     </Table.Cell>
                     <Table.Cell>{lead.email}</Table.Cell>

@@ -7,6 +7,7 @@ import {
   Grid,
 } from 'semantic-ui-react';
 import './index.scss';
+import {Auth} from "../../../../@services";
 
 class LeadForm extends Component {
   componentWillMount() {
@@ -15,6 +16,10 @@ class LeadForm extends Component {
       this.props.filterDealsByCompany(this.props.form.company_id);
       this.props.filterDealCampaignsById(this.props.form.deal_campaign_id);
     }
+    if (Auth.isAgency) {
+      this.props.loadSelectBoxCompanies();
+    }
+    this.props.getCompanyDeals();
   }
 
   onChange = (event, data) => {

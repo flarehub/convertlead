@@ -15,7 +15,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadLeads: () => dispatch(thunks.loadLeads()),
-  updateLead: (id, lead) => dispatch(thunks.updateLead(id, lead)),
   delete: (companyId, id) => dispatch(thunks.deleteLead(companyId, id)),
   filterLeads: filters => dispatch(thunks.filterLeads(filters)),
   searchLeads: search => dispatch(thunks.searchLeads(search)),
