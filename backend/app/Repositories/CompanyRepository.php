@@ -57,8 +57,8 @@ trait CompanyRepository {
             })
             ->groupBy('creation_date')
             ->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $startDate),
-                Carbon::createFromFormat('Y-m-d', $endDate)]);
+                Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay(),
+                Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay()]);
         
         if (is_array($companyAgencyId)) {
             $query->whereIn('leads.agency_company_id', $companyAgencyId);
@@ -105,10 +105,10 @@ trait CompanyRepository {
     static public function mapLeadsData($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d') {
         $interval = new \DateInterval('P1D');
         $dateRange = new \DatePeriod(new \DateTime($startDate), $interval , new \DateTime($endDate));
-    
         $dateCollection = collect($dateRange)->map(function ($date) use ($format) {
             return $date->format($format);
         });
+        $dateCollection[] = $endDate;
 
         $datasets = [
             [

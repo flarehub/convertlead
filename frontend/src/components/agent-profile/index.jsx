@@ -57,7 +57,7 @@ class AgentProfile extends Component {
     });
 
     this.props.getAgentGraph(this.Chart, this.agentId, {
-      companyIds: this.state.companyIds,
+      companyIds: data.value,
       graphType: 'contacted',
       startDate: this.state.startDate,
       endDate: this.state.endDate,

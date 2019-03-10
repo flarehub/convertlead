@@ -77,8 +77,8 @@ trait AgentRepository {
                 ;
             })
             ->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $startDate),
-                Carbon::createFromFormat('Y-m-d', $endDate)]);
+                Carbon::createFromFormat($format, $startDate)->startOfDay(),
+                Carbon::createFromFormat($format, $endDate)->endOfDay()]);
         
         if ($companyAgencyIds) {
             $query->whereIn('leads.agency_company_id', $companyAgencyIds);
@@ -96,6 +96,7 @@ trait AgentRepository {
         $dateCollection = collect($dateRange)->map(function ($date) use ($format) {
             return $date->format($format);
         });
+        $dateCollection[] = $endDate;
         
         $datasets = [
             [
