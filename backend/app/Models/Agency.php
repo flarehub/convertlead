@@ -121,10 +121,7 @@ class Agency extends User
         $query = Agent::selectRaw
         (
             'users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.avatar_id,
-            SUM((SELECT COUNT(id)
-                    FROM deal_campaigns AS dc
-                    WHERE dc.id = dca.deal_campaign_id GROUP BY dc.id
-                    )) AS campaigns_count,
+            COUNT(DISTINCT dca.id) AS campaigns_count,
              COUNT(DISTINCT ld.id) AS leads_count,
                 SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
             users.created_at'

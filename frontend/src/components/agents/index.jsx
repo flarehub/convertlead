@@ -196,7 +196,12 @@ class Agents extends Component {
                         </Table.Cell>
                         : null
                     }
-                    <Table.Cell>{agent.campaigns_count || 0}</Table.Cell>
+                    <Table.Cell>
+                      {<Link to={{
+                        pathname: `/agents/${agent.id}/campaigns`,
+                        state: { agent }
+                      }}>{agent.campaigns_count || 0}</Link>}
+                    </Table.Cell>
                     <Table.Cell>{<Link to={`/agents/${agent.id}/leads`}>{agent.leads_count || 0}</Link>}</Table.Cell>
                     <Table.Cell>{agent.avg_lead_response || 0}</Table.Cell>
                     <Table.Cell>

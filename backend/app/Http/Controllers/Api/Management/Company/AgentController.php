@@ -30,6 +30,20 @@ class AgentController extends Controller
         ]))->paginate($itemsPerPage, ['*'], 'agents', $page);
     }
     
+    public function campaigns(Request $request, $agentId) {
+        $itemsPerPage = (int)$request->get('per_page', 10);
+        $page = (int)$request->get('current_page', 1);
+        
+        $agent = $request->user()->getAgentBy($agentId);
+        
+        return $agent->getCampaignsBy($request->only([
+            'showDeleted',
+            'name',
+            'type',
+            'leads',
+            'avg_time_response',
+        ]))->paginate($itemsPerPage, ['*'], 'agents', $page);
+    }
     
     public function graph(Request $request, $agentId, $graphType)
     {

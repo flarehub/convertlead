@@ -1,5 +1,6 @@
 import {
-  FETCH_CAMPAIGNS,
+  FETCH_AGENT_CAMPAIGNS,
+  FETCH_CAMPAIGNS, FETCH_COMPANY_CAMPAIGNS,
   GOTO_PAGE_CAMPAIGN,
   LOAD_DEAL_CAMPAIGNS,
   SHOW_DELETED_CAMPAIGNS,
@@ -10,6 +11,7 @@ const initState = {
   campaigns: [],
   companyId: null,
   dealId: null,
+  agentId: null,
   query: {
     showDeleted: false,
     sort: {
@@ -57,6 +59,18 @@ const campaigns = (state = initState, action) => {
         ...state,
         companyId: action.companyId,
         dealId: action.dealId,
+      };
+    }
+    case FETCH_AGENT_CAMPAIGNS: {
+      return {
+        ...state,
+        agentId: action.agentId,
+      };
+    }
+    case FETCH_COMPANY_CAMPAIGNS: {
+      return {
+        ...state,
+        companyId: action.companyId,
       };
     }
     case SHOW_DELETED_CAMPAIGNS: {

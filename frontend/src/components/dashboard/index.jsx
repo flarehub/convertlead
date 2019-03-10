@@ -29,11 +29,11 @@ class Dashboard extends Component {
     this.props.resetBreadCrumbToDefault();
     this.props.getCompanyDeals();
 
+    this.props.filterDealsByDealId(null);
+    this.props.filterDealCampaignsById(null);
+
     if (Auth.isAgency) {
       this.props.loadSelectBoxCompanies();
-      this.props.filterDealsByDealId(null);
-      this.props.filterDealCampaignsById(null);
-
       this.props.filterDealsByCompany(companyId);
       this.setState({
         ...this.state,

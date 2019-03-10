@@ -15,6 +15,10 @@ class Agent extends User
     public function companies() {
         return $this->belongsToMany('App\Models\Company', 'company_agents', 'agent_id');
     }
+
+    public function campaigns() {
+        return $this->belongsToMany('App\Models\DealCampaign', 'deal_campaign_agents', 'agent_id');
+    }
     
     public function getCompanyAttribute() {
         if ($this->company_id) {
@@ -34,144 +38,49 @@ class Agent extends User
         return null;
     }
     
+    public function getCampaignsBy($queryParams = []) {
+        $query = $this->campaigns()
+            ->leftJoin('leads', 'leads.deal_campaign_id', 'deal_campaigns.id')
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'CONTACTED_SMS' OR
+                              lead_statuses.type = 'CONTACTED_CALL' OR
+                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+                          "), function ($join) {
+                $join->on('leadNotes.lead_id', '=', 'leads.id');
+            })->leftJoin('agency_companies as ac', 'ac.id', 'deal_campaigns.agency_company_id')
+        ;
     
-    public static function contactedLeadsGraph(
-        $startDate,
-        $endDate,
-        $agentId,
-        $companyAgencyIds = null,
-        $format = 'Y-m-d') {
-        $query = Lead::selectRaw(
-            "
-          DATE(leads.created_at) as creation_date,
-	   SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
-             SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)
-       ) as up30Mintes,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)
-       ) as up2Hours,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)
-       ) as up12Hours,
-            SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
-     
-            ")
-            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-            ->where(function ($query) {
-                $query
-                    ->where('ls.type', 'CONTACTED_SMS')
-                    ->orWhere('ls.type', 'CONTACTED_CALL')
-                    ->orWhere('ls.type', 'CONTACTED_EMAIL')
-                ;
-            })
-            ->groupBy('creation_date')
-            ->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $startDate),
-                Carbon::createFromFormat('Y-m-d', $endDate)]);
-    
-        $query->where('leads.agent_id', $agentId);
-    
-    
-        if ($companyAgencyIds) {
-            $query->whereIn('leads.agency_company_id', $companyAgencyIds);
-        }
-        
-        
-        $averageResponseTime = static::getAverageTime($startDate, $endDate, $companyAgencyIds, $agentId, $format);
-        return static::mapLeadsData($query->get(), $averageResponseTime, $startDate, $endDate, $format);
-    }
-    
-    static function getAverageTime($startDate,
-                                   $endDate,
-                                   $companyAgencyIds = null,
-                                   $agentId = null, $format = 'Y-m-d') {
-        $query = Lead::selectRaw(
-            "sec_to_time(AVG(time_to_sec(timediff(ln.created_at, leads.created_at)))) as avg_time")
-            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-            ->where(function ($query) {
-                $query
-                    ->where('ls.type', 'CONTACTED_SMS')
-                    ->orWhere('ls.type', 'CONTACTED_CALL')
-                    ->orWhere('ls.type', 'CONTACTED_EMAIL')
-                ;
-            })
-            ->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $startDate),
-                Carbon::createFromFormat('Y-m-d', $endDate)]);
-        
-        if ($companyAgencyIds) {
-            $query->whereIn('leads.agency_company_id', $companyAgencyIds);
+        $query->selectRaw('
+            deal_campaigns.*,
+            ac.company_id,
+            COUNT(leads.id) as leads_count,
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_time_response
+        ');
+        $query->groupBy('deal_campaigns.id', 'deal_campaign_agents.agent_id');
+
+        if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] === 'true') {
+            $query->withTrashed();
         }
     
-        $query->where('leads.agent_id', $agentId);
+        if ( isset($queryParams['name']) ) {
+            $query->orderBy('name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
+        }
     
-        return $query->first();
-    }
+        if ( isset($queryParams['type']) ) {
+            $query->orderBy('integration', ($queryParams['type'] === 'true' ? 'DESC' : 'ASC'));
+        }
     
-    static public function mapLeadsData($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d') {
-        $interval = new \DateInterval('P1D');
-        $dateRange = new \DatePeriod(new \DateTime($startDate), $interval , new \DateTime($endDate));
-        
-        $dateCollection = collect($dateRange)->map(function ($date) use ($format) {
-            return $date->format($format);
-        });
-        
-        $datasets = [
-            [
-                "label" => '15 min (0-15)',
-                "data" => 'up15Minutes',
-                "backgroundColor" => ['rgba(0, 0, 0, 0)'],
-                "borderColor" => ['#21ba45'],
-                "borderWidth" => 2,
-            ],
-            [
-                "label" => '30 min (15-30)',
-                "data" => 'up30Mintes',
-                "backgroundColor" => ['rgba(0, 0, 0, 0)'],
-                "borderColor" => ['#f2711c'],
-                "borderWidth" => 2,
-            ],
-            [
-                "label" => '2 hrs (30-2)',
-                "data" => 'up2Hours',
-                "backgroundColor" => ['rgba(0, 0, 0, 0)'],
-                "borderColor" => ['#2cb3c8'],
-                "borderWidth" => 2,
-            ],
-            [
-                "label" => '12 hrs (2-12)',
-                "data" => 'up12Hours',
-                "backgroundColor" => ['rgba(0, 0, 0, 0)'],
-                "borderColor" => ['#6435c9'],
-                "borderWidth" => 2,
-            ],
-            [
-                "label" => '12 hrs + Missed leads',
-                "data" => '12plus',
-                "backgroundColor" => ['rgba(0, 0, 0, 0)'],
-                "borderColor" => ['#db2828'],
-                "borderWidth" => 2,
-            ]
-        ];
-        
-        
-        $datasets = collect($datasets)->map(function ($dataset) use ($leads, $dateCollection) {
-            $fieldName = $dataset['data'];
-            $dataset['data'] = collect($dateCollection)->map(function ($date) use ($leads, $fieldName) {
-                return  (int)$leads->where('creation_date', $date)->first()[$fieldName];
-            });
-            return $dataset;
-        });
-        
-        
-        return [
-            'avg_response_time' => ($averageResponseTime->avg_time ? $averageResponseTime->avg_time : '00:00:00'),
-            'labels' => $dateCollection,
-            'datasets' => $datasets
-        ];
+        if ( isset($queryParams['leads']) ) {
+            $query->orderBy('leads_count', ($queryParams['leads'] === 'true' ? 'DESC' : 'ASC'));
+        }
+    
+        if ( isset($queryParams['avg_time_response']) ) {
+            $query->orderBy('avg_time_response', ($queryParams['avg_time_response'] === 'true' ? 'DESC' : 'ASC'));
+        }
+    
+        return $query;
     }
 }

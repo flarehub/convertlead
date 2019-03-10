@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import * as styles from './index.scss';
 import {
+  AgentsContainer,
   BreadCrumbContainer,
-  CampaignsContainer,
   CampaignFormContainer,
+  CampaignsContainer,
   OptinFormIntegrationContainer,
+  ProfileContainer,
 } from "@containers";
 import Loader from '../loader';
 import {
@@ -17,7 +19,7 @@ import * as R from "ramda";
 import CampaignModal from 'components/@common/modals/campaign';
 import ModalOptinFormIntegration from 'components/@common/modals/integrations/optinform';
 import ZapierInterationModal from "../@common/modals/integrations/zapier";
-import {config} from "../../@services";
+import { Auth, config} from "@services";
 
 class Campaigns extends Component {
   state = {
@@ -26,19 +28,26 @@ class Campaigns extends Component {
     campaignId: '',
     campaignLink: '',
     companyId: '',
+    dealId: '',
   };
 
   constructor(props) {
     super(props);
-    const { companyId, dealId } = props.match.params;
-    props.loadDealCampaigns(companyId, dealId);
+    const { companyId, dealId, agentId } = props.match.params;
+    if (agentId) {
+      props.loadAgentCampaigns(agentId);
+    } else {
+      props.loadDealCampaigns(companyId, dealId);
+    }
   }
 
   componentWillMount() {
-    const { companyId } = this.props.match.params;
+    const { companyId, agentId, dealId } = this.props.match.params;
     this.setState({
       ...this.state,
-      companyId: +companyId,
+      companyId: +companyId || (Auth.isCompany ? this.props.profile.id : null),
+      agentId: +agentId,
+      dealId: +dealId,
     })
   }
 
@@ -50,16 +59,36 @@ class Campaigns extends Component {
       }
     }, ['history', 'location', 'state', 'deal'], this.props);
 
-    this.props.addBreadCrumb({
-      name: deal.company.name,
-      path: `/companies/${this.state.companyId}/profile`,
-    });
+    if (this.state.companyId) {
+      this.props.addBreadCrumb({
+        name: deal.company.name,
+        path: `/companies/${this.state.companyId}/profile`,
+      });
 
-    this.props.addBreadCrumb({
-      name: deal.name,
-      path: '/',
-      active: true,
-    }, false);
+      this.props.addBreadCrumb({
+        name: deal.name,
+        path: '/',
+        active: true,
+      }, false);
+    }
+
+    if (this.state.agentId) {
+      const agentName = R.pathOr('Agent', ['location', 'state', 'agent', 'name'], this.props);
+      this.props.addBreadCrumb({
+        name: 'Agents',
+        path: `/agents`,
+      });
+
+      this.props.addBreadCrumb({
+        name: agentName,
+        path: `/agents/${this.state.agentId}/profile`,
+      }, false);
+
+      this.props.addBreadCrumb({
+        name: 'Campaigns',
+        path: '',
+      }, false);
+    }
   }
 
   getSort = field => {
@@ -92,9 +121,8 @@ class Campaigns extends Component {
   }
 
   loadIntegrationForm = campaign => {
-    const { companyId, dealId } = this.props.match.params;
     if (campaign.integration === 'OPTIN_FORM') {
-      this.props.loadOptinForm({ ...campaign, companyId, dealId, show: true })
+      this.props.loadOptinForm({ ...campaign, companyId: campaign.company_id, dealId: campaign.deal_id, show: true })
     }
 
     if (campaign.integration === 'ZAPIER') {
@@ -121,8 +149,9 @@ class Campaigns extends Component {
         <ZapierInterationModal open={this.state.openApiIntegration} onClose={this.onCloseApiIntegration} campaignLink={this.state.campaignLink} />
         <ModalOptinFormIntegration />
         <CampaignModal
-          companyId={this.props.match.params.companyId}
-          dealId={this.props.match.params.dealId}
+          companyId={this.state.companyId}
+          dealId={this.state.dealId}
+          agentId={this.state.agentId}
         />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Grid columns={2}>
@@ -135,7 +164,7 @@ class Campaigns extends Component {
           <Grid.Column>
             <Menu secondary>
               <Menu.Menu position='right'>
-                <Button color='teal' content='New Campaign' onClick={this.props.loadForm.bind(this, { show: true })} icon='add' labelPosition='left' />
+                <Button color='teal' content='New Campaign' onClick={this.props.loadForm.bind(this, { agentId: this.state.agentId, show: true })} icon='add' labelPosition='left' />
               </Menu.Menu>
             </Menu>
           </Grid.Column>
@@ -158,6 +187,9 @@ class Campaigns extends Component {
                                                onClick={this.props.sort.bind(this, 'leads')}/>
                 </Table.HeaderCell>
                 <Table.HeaderCell>Assigned to</Table.HeaderCell>
+                {
+                  this.state.agentId && Auth.isAgency ? <Table.HeaderCell>Company</Table.HeaderCell> : null
+                }
                 <Table.HeaderCell>
                   Avg Response time
                   <Icon name={this.getSort('avg_time_response')}
@@ -194,13 +226,24 @@ class Campaigns extends Component {
                       campaign.agents && campaign.agents.map((agent, key) =>
                         <div key={key}><Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link></div>)
                     }</Table.Cell>
+                    {
+                      this.state.agentId && Auth.isAgency ? <Table.Cell>
+                        <Link to={`/companies/${campaign.company.id}/profile`}>{campaign.company.name}</Link>
+                        </Table.Cell> : null
+                    }
                     <Table.Cell>{campaign.avg_time_response || 0}</Table.Cell>
                     <Table.Cell>
                       {
                         !campaign.deleted_at
                         ? <Button.Group>
                             <Button onClick={this.loadIntegrationForm.bind(this, campaign)}>Integration</Button>
-                            <Button onClick={this.props.loadForm.bind(this, { ...campaign, agents: campaign.agents && campaign.agents.map(agent => agent.id), show: true })}><Icon name='pencil alternate' /></Button>
+                            <Button onClick={this.props.loadForm.bind(this, { ...campaign,
+                              companyId: campaign.company_id,
+                              dealId: campaign.deal_id,
+                              agentId: this.state.agentId,
+                              agents: campaign.agents && campaign.agents.map(agent => agent.id), show: true })}>
+                              <Icon name='pencil alternate' />
+                            </Button>
                             <Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}><Icon name='trash alternate outline'/></Button>
                           </Button.Group>
                         : null
@@ -226,4 +269,4 @@ class Campaigns extends Component {
   }
 }
 
-export default compose(OptinFormIntegrationContainer, CampaignsContainer, CampaignFormContainer, BreadCrumbContainer)(Campaigns);
+export default compose(OptinFormIntegrationContainer, ProfileContainer, AgentsContainer, CampaignsContainer, CampaignFormContainer, BreadCrumbContainer)(Campaigns);

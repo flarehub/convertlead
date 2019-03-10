@@ -58,13 +58,25 @@ class Deal extends Model
     }
     
     public function getCampaignsBy($queryParams = []) {
-        $query = $this->campaigns();
-        $query->leftJoin('leads', 'leads.deal_campaign_id', 'deal_campaigns.id');
-        $query->leftJoin('lead_notes', 'lead_notes.lead_id', 'leads.id');
+        $query = $this->campaigns()
+            ->leftJoin('leads', 'leads.deal_campaign_id', 'deal_campaigns.id')
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'CONTACTED_SMS' OR
+                              lead_statuses.type = 'CONTACTED_CALL' OR
+                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+                          "), function ($join) {
+            $join->on('leadNotes.lead_id', '=', 'leads.id');
+        })->leftJoin('agency_companies as ac', 'ac.id', 'deal_campaigns.agency_company_id')
+        ;
+
         $query->selectRaw('
             deal_campaigns.*,
+            ac.company_id,
             COUNT(leads.id) as leads_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF((SELECT MIN(created_at) FROM lead_notes WHERE lead_notes.lead_id = leads.id), leads.created_at)))) AS avg_time_response
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_time_response
         ');
         $query->groupBy('deal_campaigns.id');
         

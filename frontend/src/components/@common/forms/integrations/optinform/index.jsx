@@ -25,7 +25,7 @@ class OptInForm extends Component {
   };
 
   onCopy = () => {
-    this.setState({copied: true, value: this.props.optinFormLink});
+    this.setState({copied: true, value: `<iframe src="${this.props.optinFormLink}"></iframe>`});
     setTimeout(() => {
       this.setState({
         copied: false,
@@ -48,7 +48,7 @@ class OptInForm extends Component {
                 labelPosition: 'right',
                 icon: 'copy',
                 content: `${(this.state.copied ? 'Copied' : 'Copy')}`, onClick: this.onCopy }}
-              defaultValue={this.props.optinFormLink}
+              defaultValue={`<iframe src="${this.props.optinFormLink}"></iframe>`}
             />
           </Form.Field>
           <Form.Field>

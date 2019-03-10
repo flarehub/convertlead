@@ -27,10 +27,14 @@ class DealCampaign extends Model
         'integration_config',
     ];
     
-    protected $appends = ['agents'];
+    protected $appends = ['agents', 'company'];
     
     public function deal() {
         return $this->belongsTo('App\Models\Deal');
+    }
+    
+    public function company() {
+        return $this->belongsToMany('App\Models\Company', 'agency_companies', 'id', 'company_id', 'agency_company_id');
     }
     
     public function agents() {
@@ -51,6 +55,13 @@ class DealCampaign extends Model
             });
         }
         return $agents;
+    }
+    public function getCompanyAttribute() {
+        $company = $this->company()->first();
+        if ($company) {
+            return $company->only('name', 'avatar_path', 'id', 'pivot');
+        }
+        return null;
     }
     
     public function getLeadsCountAttribute() {

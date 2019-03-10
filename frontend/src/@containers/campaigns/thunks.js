@@ -2,22 +2,30 @@ import * as actions from './actions';
 import {api, Auth} from "../../@services";
 import {hideLoader, showLoader} from "../loader/actions";
 import {sendMessage} from "../messages/thunks";
-import {fetchAgencyDealCampaigns, fetchCompanyDealCampaigns} from "./api";
+import {fetchAgencyDealCampaigns, fetchAgentCompanies, fetchCompanyDealCampaigns} from "./api";
 
 export const fetchCampaigns = () => async (dispatch, getState) => {
   try {
     await dispatch(showLoader());
-    const { pagination, companyId, dealId, query } = getState().campaigns;
+    const { pagination, companyId, dealId, agentId, query } = getState().campaigns;
     let response;
-    if (Auth.isAgency) {
+
+    if (Auth.isAgency && companyId && dealId) {
       response = await fetchAgencyDealCampaigns(companyId, dealId, {
         current_page: pagination.current_page,
         per_page: pagination.per_page,
         showDeleted: (query.showDeleted ? query.showDeleted : null),
         ...query.sort,
       });
-    } else {
+    } else if (dealId) {
       response = await fetchCompanyDealCampaigns(dealId, {
+        current_page: pagination.current_page,
+        per_page: pagination.per_page,
+        showDeleted: (query.showDeleted ? query.showDeleted : null),
+        ...query.sort,
+      });
+    } else {
+      response = await fetchAgentCompanies(agentId, {
         current_page: pagination.current_page,
         per_page: pagination.per_page,
         showDeleted: (query.showDeleted ? query.showDeleted : null),
@@ -36,7 +44,17 @@ export const fetchCampaigns = () => async (dispatch, getState) => {
 
 export const loadDealCampaigns = (companyId, dealId) => async (dispatch, getState) => {
   try {
-    await dispatch(actions.fetchCampaigns(companyId, dealId));
+    await dispatch(actions.fetchAgentCampaigns(''));
+    await dispatch(actions.fetchDealCampaigns(companyId, dealId));
+    await dispatch(fetchCampaigns());
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+};
+export const loadAgentCampaigns = agentId => async dispatch => {
+  try {
+    await dispatch(actions.fetchDealCampaigns('', ''));
+    await dispatch(actions.fetchAgentCampaigns(agentId));
     await dispatch(fetchCampaigns());
   } catch (e) {
     dispatch(sendMessage(e.message, true));
