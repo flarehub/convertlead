@@ -61,16 +61,27 @@ class Campaigns extends Component {
 
     if (this.state.companyId) {
       this.props.addBreadCrumb({
+        name: deal.name,
+        path: '/dashboard',
+      });
+    }
+
+    if (this.state.companyId && Auth.isAgency) {
+      this.props.addBreadCrumb({
         name: deal.company.name,
         path: `/companies/${this.state.companyId}/profile`,
       });
+    }
 
+    if (this.state.companyId) {
       this.props.addBreadCrumb({
-        name: deal.name,
+        name: 'Campaigns',
         path: '/',
         active: true,
       }, false);
     }
+
+
 
     if (this.state.agentId) {
       const agentName = R.pathOr('Agent', ['location', 'state', 'agent', 'name'], this.props);
@@ -221,7 +232,7 @@ class Campaigns extends Component {
                     </Table.Cell>
                     <Table.Cell>{campaign.name}</Table.Cell>
                     <Table.Cell>{campaign.integration}</Table.Cell>
-                    <Table.Cell><Link to={`/companies/${companyId}/campaigns/${campaign.id}/leads`}>{campaign.leads_count}</Link></Table.Cell>
+                    <Table.Cell><Link to={`/companies/${campaign.company.id}/campaigns/${campaign.id}/leads`}>{campaign.leads_count || 0}</Link></Table.Cell>
                     <Table.Cell>{
                       campaign.agents && campaign.agents.map((agent, key) =>
                         <div key={key}><Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link></div>)

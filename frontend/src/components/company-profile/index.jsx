@@ -46,7 +46,7 @@ class CompanyProfile extends Component {
         name: 'Statistics',
         path: '',
         active: true
-      }, false);
+      });
     }
   }
 

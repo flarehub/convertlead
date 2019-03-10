@@ -17,7 +17,20 @@ class CampaignController extends Controller
      */
     public function index(Request $request, $deal)
     {
-        return $request->user()->getDealBy($deal)->campaigns()->paginate(100);
+        $itemsPerPage = (int)$request->get('per_page', 10);
+        $page = (int)$request->get('current_page', 1);
+    
+        return $request
+            ->user()
+            ->getDealBy($deal)
+            ->getCampaignsBy($request->only([
+                'showDeleted',
+                'name',
+                'type',
+                'leads',
+                'avg_time_response',
+            ]))
+            ->paginate($itemsPerPage, ['*'], 'campaigns', $page);
     }
 
     /**

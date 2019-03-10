@@ -56,13 +56,17 @@ class Agent extends User
         $query->selectRaw('
             deal_campaigns.*,
             ac.company_id,
-            COUNT(leads.id) as leads_count,
+            COUNT(DISTINCT leads.id) as leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_time_response
         ');
         $query->groupBy('deal_campaigns.id', 'deal_campaign_agents.agent_id');
 
         if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] === 'true') {
             $query->withTrashed();
+        }
+
+        if (isset($queryParams['companyId']) && $queryParams['companyId']) {
+            $query->where('ac.company_id', $queryParams['companyId']);
         }
     
         if ( isset($queryParams['name']) ) {

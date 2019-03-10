@@ -13,7 +13,7 @@ trait CompanyRepository {
     }
 
     public function getAgentBy($agentId) {
-        return $this->agents()->where('agent_id', $agentId)->firstOrFail();
+        return $this->agents()->withTrashed()->where('agent_id', $agentId)->firstOrFail();
     }
     
     public function getDealBy($dealId) {
@@ -169,7 +169,7 @@ trait CompanyRepository {
         $query = Agent::selectRaw
         (
             'users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.avatar_id, users.deleted_at,
-            COUNT(DISTINCT dca.id) AS campaigns_count,
+            COUNT(dca.id) AS campaigns_count,
             COUNT(DISTINCT ld.id) AS leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
             users.created_at'
@@ -193,7 +193,7 @@ trait CompanyRepository {
             })
             ->leftJoin('deal_campaigns as dc', 'dc.agency_company_id', 'ac.id')
             ->leftJoin('deal_campaign_agents as dca', function ($join) {
-                $join->on('dca.agent_id', '=', 'users.id')
+                $join->on('dca.agent_id', '=', 'ca.agent_id')
                     ->on('dca.deal_campaign_id', '=', 'dc.id')
                 ;
             })
@@ -248,7 +248,7 @@ trait CompanyRepository {
                 ;
             });
         }
-    
+
         if (
             (isset($queryParams['startDate']) && $queryParams['startDate']) &&
             (isset($queryParams['endDate']) && $queryParams['endDate'])

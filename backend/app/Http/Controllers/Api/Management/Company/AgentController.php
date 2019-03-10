@@ -35,9 +35,12 @@ class AgentController extends Controller
         $page = (int)$request->get('current_page', 1);
         
         $agent = $request->user()->getAgentBy($agentId);
-        
+        $request->merge([
+           'companyId' => $request->user()->id,
+        ]);
         return $agent->getCampaignsBy($request->only([
             'showDeleted',
+            'companyId',
             'name',
             'type',
             'leads',

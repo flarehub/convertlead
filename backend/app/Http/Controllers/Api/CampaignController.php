@@ -52,6 +52,10 @@ class CampaignController extends Controller
            ]);
            
            $lead = new Lead();
+           $request->merge([
+               'metadata' => \json_encode($request->input('metadata')),
+           ]);
+           
            $lead->fill($request->only([
                'agency_company_id',
                'agent_id',
@@ -72,8 +76,7 @@ class CampaignController extends Controller
            ]);
     
            \DB::commit();
-
-           return $lead->only([
+           $lead->only([
                'id',
                'status',
                'fullname',
@@ -85,6 +88,7 @@ class CampaignController extends Controller
                'lead_notes',
                'agent',
            ]);
+           return $lead;
        } catch (Exception $exception) {
            \DB::rollBack();
            throw $exception;

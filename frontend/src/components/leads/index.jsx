@@ -298,7 +298,11 @@ class Leads extends Component {
                         : null
                     }
                     <Table.Cell><Link to={{
-                      pathname: `/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`,
+                      pathname: (
+                        Auth.isAgency
+                          ? `/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`
+                          : `/deals/${lead.deal_id}/campaigns`
+                      ),
                       state: { deal: lead.campaign.deal }
                     }}>{lead.campaign.name}</Link></Table.Cell>
                     <Table.Cell>
