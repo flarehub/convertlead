@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions from './actions';
-import { selectBoxCompanies } from './reselect';
+import { selectBoxCompanies } from './selectors';
 
 const mapStateToProps = state => ({
   company: state.companies.company,
@@ -10,8 +10,8 @@ const mapStateToProps = state => ({
   pagination: state.companies.pagination,
   query: state.companies.query,
   openModal: state.companies.openModal,
-  graphContactedLeadsAverage: state.companies.graphContactedLeadsAverage,
-  averageResponseTime: state.companies.averageResponseTime,
+  companyGraph: state.companies.graphContactedLeadsAverage,
+  companyAverageResponseTime: state.companies.averageResponseTime,
 });
 
 const mapDispatchToProps = dispatch => ({

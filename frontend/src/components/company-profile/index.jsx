@@ -48,6 +48,7 @@ class CompanyProfile extends Component {
         active: true
       });
     }
+    console.log(this.props);
   }
 
   componentDidMount() {
@@ -118,12 +119,12 @@ class CompanyProfile extends Component {
   };
 
   onEditCompany = () => {
-    console.log(this.props);
     this.props.loadForm({ ...this.props.profile, show: true })
   };
 
   render() {
     const { startDateDisplay, endDateDisplay } = this.state;
+    const { companyAverageResponseTime } = this.props;
     return (<div className={styles.CompanyProfile}>
       {
         Auth.isAgency ? <CompanyModal /> : null
@@ -184,12 +185,11 @@ class CompanyProfile extends Component {
         </Grid>
         <Segment className='average-response-time' basic>
           <canvas ref={this.canvas}></canvas>
-          <label className='average-response-time-label'>Average response time: {this.props.averageResponseTime}</label>
+          <label className='average-response-time-label'>Average response time: {companyAverageResponseTime}</label>
         </Segment>
-
       </Segment>
     </div>)
   }
 }
 
-export default compose(CompaniesContainer, ProfileContainer, CompanyFormContainer, BreadCrumbContainer, AgentsContainer)(CompanyProfile);
+export default compose(AgentsContainer, CompaniesContainer, ProfileContainer, CompanyFormContainer, BreadCrumbContainer)(CompanyProfile);
