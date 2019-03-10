@@ -44,20 +44,24 @@ class Dashboard extends Component {
 
   openConfirmModal = (open = true, companyId = '', dealId = '') => {
     this.setState({ open, companyId, dealId })
-  }
+  };
 
   onConfirm = () => {
     this.setState({ open: false });
     this.props.deleteDeal(this.state.companyId, this.state.dealId);
-  }
+  };
 
 
   searchDealsByCompany = (event, data) => {
     this.props.searchDealCompaniesBy(data.value);
-  }
+  };
 
   filterDealsByCompany = (event, data) => {
     this.props.filterDealsByCompany(data.value);
+  };
+
+  onSearchChange = event => {
+    this.props.loadSelectBoxCompanies(event.target.value);
   };
 
 	render() {
@@ -81,6 +85,7 @@ class Dashboard extends Component {
                 search
                 onChange={this.filterDealsByCompany}
                 defaultValue={companyId}
+                onSearchChange={this.onSearchChange}
                 searchInput={{ id: 'form-companies-list' }}
               />
                 : null

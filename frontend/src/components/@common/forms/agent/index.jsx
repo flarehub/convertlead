@@ -43,10 +43,11 @@ class AgentForm extends Component {
 
   onChangeCompany = (event, data) => {
     this.props.changeForm({ new_companies: data.value });
+    this.props.loadSelectBoxCompanies('');
   };
 
   onSearchChange = event => {
-    this.props.searchCompanies(event.target.value);
+    this.props.loadSelectBoxCompanies(event.target.value);
   };
 
   componentWillMount() {

@@ -13,10 +13,14 @@ class DealForm extends Component {
   state = {};
   onChangeName = (event, data) => {
     this.props.changeForm({ name: data.value });
+    if (Auth.isCompany && this.props.selectBoxAgencies.length === 1) {
+      this.onChangeAgency(event, { value: this.props.selectBoxAgencies[0].value });
+    }
   };
 
   onChangeCompany = (event, data) => {
     this.props.changeForm({ companyId: data.value });
+    this.props.loadSelectBoxCompanies('');
   };
 
   onChangeAgency = (event, data) => {
@@ -24,7 +28,7 @@ class DealForm extends Component {
   };
 
   onSearchChange = event => {
-    this.props.searchCompanies(event.target.value);
+    this.props.loadSelectBoxCompanies(event.target.value);
   };
 
   render() {
@@ -51,7 +55,7 @@ class DealForm extends Component {
           : null
       }
       {
-        Auth.isCompany ?
+        Auth.isCompany && this.props.selectBoxAgencies.length > 1 ?
           <Form.Field
             loading={!this.props.selectBoxAgencies}
             control={Select}
@@ -65,6 +69,7 @@ class DealForm extends Component {
           />
           : null
       }
+
     </Form>)
   }
 }

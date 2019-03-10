@@ -19,6 +19,9 @@ class LeadForm extends Component {
     if (Auth.isAgency) {
       this.props.loadSelectBoxCompanies();
     }
+    if (Auth.isCompany) {
+      this.props.changeForm({ company_id: this.props.profile.id });
+    }
     this.props.getCompanyDeals();
   }
 
@@ -30,6 +33,7 @@ class LeadForm extends Component {
     this.props.changeForm({ company_id: data.value });
     this.props.filterDealsByCompany(data.value);
     this.props.filterDealsByDealId('');
+    this.props.loadSelectBoxCompanies('');
   };
 
   onChangeStatus = (event, data) => {

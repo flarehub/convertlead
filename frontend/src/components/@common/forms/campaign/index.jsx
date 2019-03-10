@@ -73,10 +73,15 @@ class CampaignForm extends Component {
     this.props.loadSelectBoxAgents({
       companyId
     });
+    this.props.loadSelectBoxCompanies('');
   };
 
   onChangeCompanyDeal = (event, data) => {
     this.props.changeForm({ dealId: data.value });
+  };
+
+  onSearchChange = event => {
+    this.props.loadSelectBoxCompanies(event.target.value);
   };
 
   render() {

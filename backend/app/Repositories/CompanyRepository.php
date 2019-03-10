@@ -169,7 +169,7 @@ trait CompanyRepository {
         $query = Agent::selectRaw
         (
             'users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.avatar_id, users.deleted_at,
-            COUNT(dca.id) AS campaigns_count,
+            COUNT(DISTINCT ac.id, dca.id) AS campaigns_count,
             COUNT(DISTINCT ld.id) AS leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
             users.created_at'
@@ -197,7 +197,7 @@ trait CompanyRepository {
                     ->on('dca.deal_campaign_id', '=', 'dc.id')
                 ;
             })
-            ->where('ca.company_id', $this->id)
+            ->where('ac.company_id', $this->id)
             ->groupBy('users.id');
         
         if ( isset($queryParams['showDeleted']) ) {
