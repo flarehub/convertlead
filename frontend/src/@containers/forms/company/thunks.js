@@ -1,6 +1,6 @@
 import { sendMessage } from '../../messages/thunks';
 import * as actions from './actions';
-import { loadCompanies } from '../../companies/thunks';
+import {getCompanies} from '@containers/companies/thunks';
 import {createAgencyCompany, updateAgencyCompany} from "./api";
 
 export const saveCompany = form => (dispatch) => {
@@ -20,7 +20,7 @@ export const createCompany = form => async (dispatch) => {
     await createAgencyCompany(form);
     dispatch(sendMessage('Successfully saved'));
     dispatch(actions.savedCompany());
-    await dispatch(loadCompanies());
+    await dispatch(getCompanies());
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }
@@ -31,7 +31,7 @@ export const updateCompany = form => async (dispatch) => {
     await updateAgencyCompany(form);
     dispatch(sendMessage('Successfully saved'));
     dispatch(actions.savedCompany());
-    await dispatch(loadCompanies());
+    await dispatch(getCompanies());
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }

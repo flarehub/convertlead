@@ -47,33 +47,31 @@ class Companies extends Component {
       return 'sort amount up';
     }
     return 'sort';
-  }
+  };
 
-  onSearch = (event) => {
-    this.props.searchCompanies(event.target.value);
-  }
+  onSearch = event => this.props.searchCompanies(event.target.value);
 
   loadCompanies = (event, data) => {
-    this.props.openCompaniesPage(data.activePage);
-  }
+    this.props.gotoCompaniesPage(data.activePage);
+  };
 
   openConfirmModal = (open = true, companyId = null) => {
     this.setState({ open, companyId })
-  }
+  };
 
   onConfirm = () => {
     this.setState({ open: false });
     this.props.deleteCompany(this.state.companyId);
-  }
+  };
 
   onShowArch = () => {
     this.props.toggleShowDeleted();
-  }
+  };
 
   onLockCompany = (company) => {
     company.is_locked = +!company.is_locked;
     this.props.updateLockStatusCompany(company);
-  }
+  };
 
   render() {
     const companies  = this.props.companies || [];
@@ -94,7 +92,9 @@ class Companies extends Component {
             <Menu secondary>
               <Menu.Menu position='right'>
                 <Menu.Item>
-                  <Input icon='search' onKeyPress={this.onSearch} value={query.search} placeholder='Search...' />
+                  <Input icon='search'
+                         onChange={this.onSearch}
+                         value={query.search} placeholder='Search...' />
                 </Menu.Item>
                 <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Company' icon='add' labelPosition='left' />
               </Menu.Menu>

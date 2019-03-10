@@ -1,5 +1,7 @@
 import {
-  ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, LOAD_COMPANY, LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE, OPEN_COMPANY_MODAL,
+  ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, GOTO_COMPANIES_PAGE, LOAD_COMPANY,
+  LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE, OPEN_COMPANY_MODAL,
+  SEARCH_COMPANIES,
   SORT_COMPANIES,
   TOGGLE_SHOW_DELETED,
 } from './actions';
@@ -88,8 +90,16 @@ const companies = (state = initState, action) => {
         companies: [...action.companies],
         pagination: action.pagination,
         query: {
-          ...state.query,
-          search: (action.search ? action.search : ''),
+          ...state.query
+        },
+      };
+    }
+    case GOTO_COMPANIES_PAGE: {
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          current_page: action.page
         },
       };
     }
@@ -102,6 +112,15 @@ const companies = (state = initState, action) => {
             ...state.query.sort,
             [action.field]: (state.query.sort[action.field] === false ? null : !state.query.sort[action.field]),
           },
+        },
+      };
+    }
+    case SEARCH_COMPANIES: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          search: action.search,
         },
       };
     }

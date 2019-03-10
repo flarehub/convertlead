@@ -15,17 +15,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadCompanies: (page = 1, perPage = 10, search = '', sort = {
-    name: true,
-    deals: null,
-    leads: null,
-    agents: null,
-    avg_response: null,
-  }) => dispatch(thunks.loadCompanies(page, perPage, search, sort)),
+  loadCompanies: () => dispatch(thunks.getCompanies()),
   searchCompanies: search => dispatch(thunks.searchCompanies(search)),
   updateLockStatusCompany: company => dispatch(thunks.updateLockStatusCompany(company)),
   loadSelectBoxCompanies: (search, agentId = null) => dispatch(thunks.loadSelectBoxCompanies(search, agentId)),
-  openCompaniesPage: activePage => dispatch(thunks.openCompaniesPage(activePage)),
+  gotoCompaniesPage: activePage => dispatch(thunks.gotoCompaniesPage(activePage)),
   sort: field => dispatch(thunks.onSortCompanies(field)),
   openCompanyModal: open => dispatch(actions.openCompanyModal(open)),
   deleteCompany: id => dispatch(thunks.deleteCompany(id)),

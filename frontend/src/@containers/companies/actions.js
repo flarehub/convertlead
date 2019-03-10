@@ -1,6 +1,5 @@
 export const ADD_COMPANIES = 'ADD_COMPANIES';
-export const ADD_COMPANY = 'ADD_COMPANY';
-export const UPDATE_COMPANY = 'UPDATE_COMPANY';
+export const GOTO_COMPANIES_PAGE = 'GOTO_COMPANIES_PAGE';
 export const SORT_COMPANIES = 'SORT_COMPANIES';
 export const SEARCH_COMPANIES = 'SEARCH_COMPANIES';
 export const TOGGLE_SHOW_DELETED = 'TOGGLE_WITH_DELETED';
@@ -14,21 +13,19 @@ export const addCompanies = (companies, pagination) => ({
   companies,
   pagination,
 });
+export const gotoCompaniesPage = page => ({
+  type: GOTO_COMPANIES_PAGE,
+  page
+});
 
 export const addSelectBoxCompanies = companies => ({
   type: ADD_SELECT_BOX_COMPANIES,
   companies,
 });
 
-export const addCompany = company => ({
-  type: ADD_COMPANY,
-  company,
-});
-
-
-export const updateCompany = company => ({
-  type: UPDATE_COMPANY,
-  company,
+export const searchCompanies = search => ({
+  type: SEARCH_COMPANIES,
+  search,
 });
 
 export const sortCompanies = field => ({
