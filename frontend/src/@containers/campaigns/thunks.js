@@ -2,7 +2,7 @@ import * as actions from './actions';
 import {api, Auth} from "../../@services";
 import {hideLoader, showLoader} from "../loader/actions";
 import {sendMessage} from "../messages/thunks";
-import {fetchAgencyCampaigns, fetchCompanyCampaigns} from "./api";
+import {fetchAgencyDealCampaigns, fetchCompanyDealCampaigns} from "./api";
 
 export const fetchCampaigns = () => async (dispatch, getState) => {
   try {
@@ -10,14 +10,14 @@ export const fetchCampaigns = () => async (dispatch, getState) => {
     const { pagination, companyId, dealId, query } = getState().campaigns;
     let response;
     if (Auth.isAgency) {
-      response = await fetchAgencyCampaigns(companyId, dealId, {
+      response = await fetchAgencyDealCampaigns(companyId, dealId, {
         current_page: pagination.current_page,
         per_page: pagination.per_page,
         showDeleted: (query.showDeleted ? query.showDeleted : null),
         ...query.sort,
       });
     } else {
-      response = await fetchCompanyCampaigns(dealId, {
+      response = await fetchCompanyDealCampaigns(dealId, {
         current_page: pagination.current_page,
         per_page: pagination.per_page,
         showDeleted: (query.showDeleted ? query.showDeleted : null),
@@ -26,7 +26,7 @@ export const fetchCampaigns = () => async (dispatch, getState) => {
     }
 
     const { data, ...rest } = response.data;
-    await dispatch(actions.loadCampaigns(data, rest));
+    await dispatch(actions.loadDealCampaigns(data, rest));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }
@@ -34,7 +34,7 @@ export const fetchCampaigns = () => async (dispatch, getState) => {
   await dispatch(hideLoader());
 };
 
-export const loadCampaigns = (companyId, dealId) => async (dispatch, getState) => {
+export const loadDealCampaigns = (companyId, dealId) => async (dispatch, getState) => {
   try {
     await dispatch(actions.fetchCampaigns(companyId, dealId));
     await dispatch(fetchCampaigns());

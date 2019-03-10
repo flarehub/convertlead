@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatcheToProps = dispatch => ({
-  loadCampaigns: (companyId, dealId) => dispatch(thunks.loadCampaigns(companyId, dealId)),
+  loadDealCampaigns: (companyId, dealId) => dispatch(thunks.loadDealCampaigns(companyId, dealId)),
   deleteCampaign: (companyId, dealId, campaignId) => dispatch(thunks.deleteCampaign(companyId, dealId, campaignId)),
   gotoPage: page => dispatch(thunks.gotoPage(page)),
   sort: field => dispatch(thunks.sortCampaigns(field)),

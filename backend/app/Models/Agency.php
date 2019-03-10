@@ -116,21 +116,24 @@ class Agency extends User
                     FROM deal_campaigns AS dc
                     WHERE dc.id = dca.deal_campaign_id GROUP BY dc.id
                     )) AS campaigns_count,
-             SUM((SELECT COUNT(id)
-                FROM leads
-                WHERE leads.deal_campaign_id = dca.deal_campaign_id GROUP BY leads.deal_campaign_id
-                )) AS leads_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(
-            (
-                SELECT created_at
-                    FROM lead_notes
-                    WHERE lead_notes.lead_id = ld.id ORDER BY created_at ASC LIMIT 1), ld.created_at)))) AS avg_lead_response,
+             COUNT(DISTINCT ld.id) AS leads_count,
+                SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
             users.created_at'
         )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
             ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
-            ->leftJoin('leads AS ld', 'ld.deal_campaign_id', 'dca.deal_campaign_id')
+            ->leftJoin('leads AS ld', 'ld.agent_id', 'users.id')
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'CONTACTED_SMS' OR
+                              lead_statuses.type = 'CONTACTED_CALL' OR
+                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+                          "), function ($join) {
+                $join->on('leadNotes.lead_id', '=', 'ld.id');
+            })
             ->where('agency.id', $this->id)
             ->groupBy('users.id');
     
@@ -189,6 +192,10 @@ class Agency extends User
         
         if (isset($queryParams['companyId']) && $queryParams['companyId']) {
             $query->where('ac.company_id', $queryParams['companyId']);
+        }
+
+        if (isset($queryParams['agentId']) && $queryParams['agentId']) {
+            $query->where('leads.agent_id', $queryParams['agentId']);
         }
 
         if (isset($queryParams['campaignId']) && $queryParams['campaignId']) {

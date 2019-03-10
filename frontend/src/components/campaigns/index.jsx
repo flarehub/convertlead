@@ -31,7 +31,7 @@ class Campaigns extends Component {
   constructor(props) {
     super(props);
     const { companyId, dealId } = props.match.params;
-    props.loadCampaigns(companyId, dealId);
+    props.loadDealCampaigns(companyId, dealId);
   }
 
   componentWillMount() {

@@ -1,7 +1,7 @@
 import {
   FETCH_CAMPAIGNS,
   GOTO_PAGE_CAMPAIGN,
-  LOAD_CAMPAIGNS,
+  LOAD_DEAL_CAMPAIGNS,
   SHOW_DELETED_CAMPAIGNS,
   SORT_CAMPAIGNS,
 } from "./actions";
@@ -24,7 +24,7 @@ const initState = {
 
 const campaigns = (state = initState, action) => {
   switch (action.type) {
-    case LOAD_CAMPAIGNS: {
+    case LOAD_DEAL_CAMPAIGNS: {
       return {
         ...state,
         campaigns: [...action.campaigns],
