@@ -43,7 +43,7 @@ class Leads extends Component {
     campaignId: null,
     startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
     endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-    startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+    startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
     endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
   };
 
@@ -117,12 +117,12 @@ class Leads extends Component {
       ...this.state,
       startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
       endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
       endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     });
 
     this.props.filterLeads({
-      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
       endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     });
   };

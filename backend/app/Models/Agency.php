@@ -206,8 +206,8 @@ class Agency extends User
         (isset($queryParams['endDate']) && $queryParams['endDate'])
         ) {
             $query->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $queryParams['startDate']),
-                Carbon::createFromFormat('Y-m-d', $queryParams['endDate'])]);
+                Carbon::createFromFormat('Y-m-d', $queryParams['startDate'])->startOfDay(),
+                Carbon::createFromFormat('Y-m-d', $queryParams['endDate'])->endOfDay()]);
         }
         
 

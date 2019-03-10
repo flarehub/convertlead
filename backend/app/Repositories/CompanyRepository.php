@@ -230,7 +230,7 @@ trait CompanyRepository {
         return $query;
     }
     
-    public function getLeads($queryParams = []) {
+    public function getLeads($queryParams = [], $format='Y-m-d') {
         $query = $this->leads()
             ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
             ->join('users as cp', 'cp.id', 'ac.company_id')
@@ -254,8 +254,8 @@ trait CompanyRepository {
             (isset($queryParams['endDate']) && $queryParams['endDate'])
         ) {
             $query->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $queryParams['startDate']),
-                Carbon::createFromFormat('Y-m-d', $queryParams['endDate'])]);
+                Carbon::createFromFormat($format, $queryParams['startDate'])->startOfDay(),
+                Carbon::createFromFormat($format, $queryParams['endDate'])->endOfDay()]);
         }
     
     

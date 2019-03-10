@@ -16,7 +16,7 @@ class AgentProfile extends Component {
     companyIds: [],
     startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
     endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-    startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+    startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
     endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
   };
 
@@ -92,14 +92,14 @@ class AgentProfile extends Component {
       ...this.state,
       startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
       endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
       endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     });
 
     this.props.getAgentGraph(this.Chart, this.agentId, {
       companyIds: this.state.companyIds,
       graphType: 'contacted',
-      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
       endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     });
   };

@@ -20,7 +20,7 @@ class CompanyProfile extends Component {
     agentId: '',
     startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
     endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-    startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+    startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
     endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
   };
 
@@ -106,14 +106,14 @@ class CompanyProfile extends Component {
       ...this.state,
       startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
       endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
       endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     });
 
     this.props.getCompanyGraph(this.Chart, this.companyId, {
       agentId: this.state.agentId,
       graphType: 'contacted',
-      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
       endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     });
   };
