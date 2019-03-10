@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Repositories\AgencyRepository;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Agency extends User
@@ -199,6 +200,16 @@ class Agency extends User
         if (isset($queryParams['companyId']) && $queryParams['companyId']) {
             $query->where('ac.company_id', $queryParams['companyId']);
         }
+
+        if (
+        (isset($queryParams['startDate']) && $queryParams['startDate']) &&
+        (isset($queryParams['endDate']) && $queryParams['endDate'])
+        ) {
+            $query->whereBetween('leads.created_at', [
+                Carbon::createFromFormat('Y-m-d', $queryParams['startDate']),
+                Carbon::createFromFormat('Y-m-d', $queryParams['endDate'])]);
+        }
+        
 
         if (isset($queryParams['agentId']) && $queryParams['agentId']) {
             $query->where('leads.agent_id', $queryParams['agentId']);

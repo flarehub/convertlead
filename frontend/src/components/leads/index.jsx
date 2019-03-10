@@ -18,13 +18,15 @@ import {
   Menu,
   Confirm,
   Select,
+  Popup,
 } from 'semantic-ui-react';
 import styles from './index.scss';
-import { BreadCrumbContainer, CompaniesContainer, LeadsContainer, LeadFormContainer } from '@containers';
+import { BreadCrumbContainer, DealsContainer, CompaniesContainer, LeadsContainer, LeadFormContainer } from '@containers';
 import Loader from '../loader';
 import * as R from "ramda";
 import {getSelectBoxStatuses} from "@models/lead-statuses";
 import {Auth} from "@services";
+import DatePickerSelect from "../@common/datepicker";
 
 const companies = [
   { key: '', text: 'All companies', value: '' },
@@ -39,6 +41,10 @@ class Leads extends Component {
     leadId: null,
     companyId: null,
     campaignId: null,
+    startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
+    endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
+    startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+    endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
   };
 
   getSort = field => {
@@ -85,6 +91,42 @@ class Leads extends Component {
     })
   }
 
+  onChangeDateFrom = (date) => {
+    this.setState({
+      ...this.state,
+      startDate:  moment(date).format('Y-MM-DD'),
+      startDateDisplay:  moment(date).format('MM/DD/Y'),
+    });
+  };
+
+  onChangeDateTo = (date) => {
+    this.setState({
+      ...this.state,
+      endDate:  moment(date).format('Y-MM-DD'),
+      endDateDisplay:  moment(date).format('MM/DD/Y'),
+    });
+
+    this.props.filterLeads({
+      startDate: this.state.startDate,
+      endDate: moment(date).format('Y-MM-DD'),
+    });
+  };
+
+  onRestDate = () => {
+    this.setState({
+      ...this.state,
+      startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
+      endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
+      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
+    });
+
+    this.props.filterLeads({
+      startDate: moment().startOf('isoWeek').format('Y-M-DD'),
+      endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
+    });
+  };
+
   componentWillMount() {
     const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
     const campaignId = +R.pathOr('', ['match', 'params', 'campaignId'], this.props);
@@ -99,18 +141,27 @@ class Leads extends Component {
       companyId,
       campaignId,
       agentId,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
     });
 
     this.props.addBreadCrumb({
       name: 'Leads',
       path: '/leads'
     });
+
+    if (Auth.isAgency) {
+      this.props.loadSelectBoxCompanies();
+    }
+
+    this.props.filterDealsByDealId(null);
+    this.props.filterDealCampaignsById(null);
   }
 
   render() {
     const leads = this.props.leads || [];
     const {pagination, statuses, query} = this.props;
-    const { companyId, campaignId } = this.state;
+    const { companyId, campaignId, startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
     return (
       <div className={styles.Leads}>
         <LeadModal size='small' />
@@ -152,6 +203,21 @@ class Leads extends Component {
                    searchInput={{ id: 'form-statuses-list' }}
                  />
                </Form.Group>
+               <Popup position='bottom left'
+                      trigger={
+                        <Form.Field>
+                          <Button>
+                            <Icon name='calendar alternate outline' />
+                            {startDateDisplay} - {endDateDisplay}
+                          </Button>
+                        </Form.Field>} flowing hoverable>
+
+                 <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
+                                   onChangeDateTo={this.onChangeDateTo}
+                                   onRestDate={this.onRestDate}
+                                   from={new Date(startDate)} to={new Date(endDate)}
+                 />
+               </Popup>
              </Form>
             </Grid.Column>
             <Grid.Column>
@@ -265,4 +331,4 @@ class Leads extends Component {
   }
 }
 
-export default compose(BreadCrumbContainer, CompaniesContainer, LeadsContainer, LeadFormContainer)(Leads);
+export default compose(BreadCrumbContainer, DealsContainer, CompaniesContainer, LeadsContainer, LeadFormContainer)(Leads);

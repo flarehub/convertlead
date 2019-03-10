@@ -248,7 +248,17 @@ trait CompanyRepository {
                 ;
             });
         }
-
+    
+        if (
+            (isset($queryParams['startDate']) && $queryParams['startDate']) &&
+            (isset($queryParams['endDate']) && $queryParams['endDate'])
+        ) {
+            $query->whereBetween('leads.created_at', [
+                Carbon::createFromFormat('Y-m-d', $queryParams['startDate']),
+                Carbon::createFromFormat('Y-m-d', $queryParams['endDate'])]);
+        }
+    
+    
         if (isset($queryParams['campaignId']) && $queryParams['campaignId']) {
             $query->where('dc.id', $queryParams['campaignId']);
         }
