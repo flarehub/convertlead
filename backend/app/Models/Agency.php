@@ -61,13 +61,22 @@ class Agency extends User
             COUNT(DISTINCT users.id, deals.id) as deals_count,
             COUNT(DISTINCT users.id, leads.id) as leads_count,
             COUNT(DISTINCT users.id, company_agents.id) as agents_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF((SELECT MIN(created_at) FROM lead_notes as ld WHERE ld.lead_id = leads.id), leads.created_at)))) AS avg_lead_response
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_lead_response
             ')
             ->join('agency_companies', 'agency_companies.company_id', 'users.id')
             ->leftJoin('deals', 'deals.agency_company_id', 'agency_companies.id')
             ->leftJoin('company_agents', 'company_agents.company_id', 'users.id')
             ->leftJoin('leads', 'leads.agency_company_id', 'agency_companies.id')
-            ->leftJoin('lead_notes', 'lead_notes.lead_id', 'leads.id')
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'CONTACTED_SMS' OR
+                              lead_statuses.type = 'CONTACTED_CALL' OR
+                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+                          "), function ($join) {
+                $join->on('leadNotes.lead_id', '=', 'leads.id');
+            })
             ->where('agency_companies.agency_id', $this->id)
             ->groupBy('agency_companies.company_id', 'agency_companies.is_locked');
     
