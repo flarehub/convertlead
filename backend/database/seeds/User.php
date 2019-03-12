@@ -19,6 +19,15 @@ class User extends Seeder
             'password' => bcrypt('testtest'),
             'role' => \App\Models\User::$ROLE_AGENCY,
         ]);
+
+        $secondAgency = \App\Models\Agency::create([
+            'email' => 'costan.alex88@yahoo.ro',
+            'name' => 'Alex Agency Costan ',
+            'password' => bcrypt('testtest'),
+            'role' => \App\Models\User::$ROLE_AGENCY,
+        ]);
+        $this->addPermissions($secondAgency);
+
         $agent = \App\Models\Agent::create([
             'email' => 'dmitri.russu+ag@gmail.com',
             'name' => 'Dmitri Russu',
