@@ -1,4 +1,5 @@
 .idea/*
+backend/.env
 backend/vendor
 backend/node_modules
 frontend/node_modules
