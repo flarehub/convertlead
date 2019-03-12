@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.1.6",
-    "@material-ui/core": "^3.9.0",
-    "@material-ui/icons": "^3.0.2",
     "@svgr/webpack": "2.4.1",
     "app-module-path": "^2.2.0",
     "axios": "^0.18.0",
