@@ -4,11 +4,11 @@ import AppSidebar from '../sidebar'
 import Container from './container'
 import Header from './header'
 import Footer from './footer'
-import styles from './index.scss'
+import './index.scss'
 
 export class Layout extends Component {
   render() {
-    return (<div className={styles.Layout}>
+    return (<div className='freshAppLayout'>
       <Grid padded='horizontally' columns={2}>
         <Grid.Column width={1}>
           <AppSidebar />

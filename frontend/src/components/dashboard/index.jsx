@@ -7,7 +7,7 @@ import {
   Segment, Confirm, Card, Header, Menu, Image, Form, Select, Input, Grid, Button
 } from 'semantic-ui-react';
 
-import styles from './index.scss';
+import './index.scss';
 import {DealFormContainer} from "../../@containers";
 import * as R from "ramda";
 import {Auth} from "../../@services";
@@ -68,7 +68,7 @@ class Dashboard extends Component {
     const { deals, filters } = this.props;
     const { companyId } = this.state;
 		return (
-			<div className={styles.Dashboard}>
+			<div className='Dashboard'>
         <DealModal />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Segment attached='top'>
@@ -84,7 +84,7 @@ class Dashboard extends Component {
                 placeholder='All companies'
                 search
                 onChange={this.filterDealsByCompany}
-                defaultValue={companyId}
+                defaultValue={companyId || null}
                 onSearchChange={this.onSearchChange}
                 searchInput={{ id: 'form-companies-list' }}
               />

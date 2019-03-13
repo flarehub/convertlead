@@ -63,7 +63,7 @@ class LeadForm extends Component {
       fullname, email, phone, metadata,
     } = this.props.form;
     return (
-      <Form size="big">
+      <Form size="big" className='leadForm'>
         <Grid columns={2} relaxed="very" stackable>
           <Grid.Column>
             <Form.Field required>
@@ -92,7 +92,7 @@ class LeadForm extends Component {
               label={{ children: 'Statuses', htmlFor: 'status-list' }}
               placeholder="Select status"
               search
-              defaultValue={this.props.form.status}
+              defaultValue={this.props.form.status || null}
               onChange={this.onChangeStatus}
               searchInput={{ id: 'status-list' }}
             />
@@ -106,7 +106,7 @@ class LeadForm extends Component {
                   label={{ children: 'Company', htmlFor: 'companies-list' }}
                   placeholder="Select company"
                   search
-                  defaultValue={this.props.form.company_id}
+                  defaultValue={this.props.form.company_id || null}
                   onChange={this.onChangeCompany}
                   onSearchChange={this.onSearchChange}
                   searchInput={{ id: 'companies-list' }}
@@ -121,7 +121,7 @@ class LeadForm extends Component {
               label={{ children: 'Deals', htmlFor: 'deals-list' }}
               placeholder="Select deal"
               search
-              defaultValue={this.props.form.deal_id}
+              defaultValue={this.props.form.deal_id || null}
               onChange={this.onChangeDeal}
               searchInput={{ id: 'deals-list' }}
             />
@@ -133,7 +133,7 @@ class LeadForm extends Component {
               label={{ children: 'Campaigns', htmlFor: 'campaigns-list' }}
               placeholder="Select campaign"
               search
-              defaultValue={this.props.form.deal_campaign_id}
+              defaultValue={this.props.form.deal_campaign_id || null}
               onChange={this.onChangeCampaign}
               searchInput={{ id: 'campaigns-list' }}
             />
@@ -145,7 +145,7 @@ class LeadForm extends Component {
               label={{ children: 'Agents', htmlFor: 'agents-list' }}
               placeholder="Select agent"
               search
-              defaultValue={this.props.form.agent_id}
+              defaultValue={this.props.form.agent_id || null}
               onChange={this.onChangeAgent}
               searchInput={{ id: 'agents-list' }}
             />

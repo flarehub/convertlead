@@ -2,7 +2,7 @@ import React, { Component }  from 'react';
 import {IntegrationOptionFormContainer} from "@containers";
 import { Loader } from 'components';
 import { Button, Icon } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 import OptinForm from "./form";
 
 class OptinFormPage extends Component {
@@ -26,7 +26,7 @@ class OptinFormPage extends Component {
 
   render() {
     const { integrationForm, integrationFormFields, form } = this.props;
-    return (<div className={styles.OptionForm}>
+    return (<div className='OptionForm'>
       <Loader />
       {
         form.showResend

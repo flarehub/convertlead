@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Breadcrumb } from 'semantic-ui-react'
 import { BreadCrumbContainer } from '@containers'
-import styles from './index.scss';
+import './index.scss';
 
 class AppBreadcrumb extends Component {
   render() {
     const { breadcrumbs } = this.props;
-    return (<div className={styles.Breadcrumb}>
+    return (<div className='freshAppBreadcrumb'>
       <Breadcrumb size='small'>
         {
           breadcrumbs.map((crumb, i) => {

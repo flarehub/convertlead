@@ -20,7 +20,7 @@ import {
   Menu,
   Confirm,
 } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 
 class Companies extends Component {
   state = {
@@ -77,7 +77,7 @@ class Companies extends Component {
     const companies  = this.props.companies || [];
     const { pagination, query } = this.props;
     return (
-      <div className={styles.Companies}>
+      <div className='Companies'>
       <CompanyModal />
       <Segment attached='top'>
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />

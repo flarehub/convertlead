@@ -2,9 +2,9 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Routes from 'components/routers';
 
-import styles from './index.scss';
+import './index.scss';
 
-const Container = (props) => (<div className={styles.Container}>
+const Container = (props) => (<div className='freshAppContainer'>
   <Routes />
 </div>);
 

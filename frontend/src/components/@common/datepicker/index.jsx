@@ -81,7 +81,7 @@ export default class DatePickerSelect extends React.Component {
     const disabledDays = { before: this.state.from };
     const selectedDays = [from, { from, to: enteredTo }];
     return (
-      <div>
+      <div className='freshappDatepicker'>
         <DayPicker
           className="Range"
           numberOfMonths={2}

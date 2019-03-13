@@ -58,7 +58,7 @@ class AgentForm extends Component {
 
   render() {
     const { id, name, phone, email, avatar, avatar_path } = this.props.form;
-    return (<Form size='big'>
+    return (<Form size='big' className='agentForm'>
       <Grid columns={2} relaxed='very' stackable>
         <Grid.Column>
           <Form.Field required>
@@ -78,7 +78,7 @@ class AgentForm extends Component {
               placeholder='Select company'
               search
               multiple
-              defaultValue={this.props.form.companies}
+              defaultValue={this.props.form.companies || null}
               onChange={this.onChangeCompany}
               onSearchChange={this.onSearchChange}
               searchInput={{ id: 'companies-list' }}

@@ -10,9 +10,9 @@ import {
   CompanyProfile, AgentProfile,
 } from "../index";
 import PrivateRoute from './PrivateRoute';
-import styles from './index.scss';
+import './index.scss';
 
-export default () => (<div className={styles.Routes}>
+export default () => (<div className='freshappRoutes'>
   {/* AGENCY or COMPANY or Agent */}
   <PrivateRoute exact path='/' component={Dashboard} />
   <PrivateRoute exact path='/dashboard' component={Dashboard} />

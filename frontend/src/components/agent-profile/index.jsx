@@ -3,13 +3,13 @@ import { compose } from 'recompose';
 import {
   Segment, Grid, Button, Select, Form, Header, Menu, Popup, Icon
 } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 import { AgentsContainer, BreadCrumbContainer, AgentFormContainer } from "@containers";
 import ChartJs from 'chart.js';
 import DatePickerSelect from "components/@common/datepicker";
 import * as moment from 'moment';
 import AgentModal from '../@common/modals/agent';
-import {Auth} from "../../@services";
+import {Auth} from "@services";
 
 class AgentProfile extends Component {
   state = {
@@ -111,7 +111,7 @@ class AgentProfile extends Component {
   render() {
     const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
     const { agent } = this.props;
-    return (<div className={styles.AgentProfile}>
+    return (<div className='AgentProfile'>
       <AgentModal />
       <Segment attached='top'>
         <Grid>
@@ -132,7 +132,7 @@ class AgentProfile extends Component {
                     placeholder='Agent companies'
                     search
                     multiple
-                    defaultValue={this.props.agentCompaniesIds}
+                    defaultValue={this.props.agentCompaniesIds || null}
                     onChange={this.onChangeCompany}
                     searchInput={{ id: 'agents-list' }}
                   />

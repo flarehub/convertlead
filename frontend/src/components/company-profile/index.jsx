@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import {
   Segment, Grid, Button, Select, Form, Header, Menu, Popup, Icon
 } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 import { AgentsContainer, ProfileContainer, BreadCrumbContainer, CompaniesContainer, CompanyFormContainer } from "@containers";
 import ChartJs from 'chart.js';
 import DatePickerSelect from "components/@common/datepicker";
@@ -125,7 +125,7 @@ class CompanyProfile extends Component {
   render() {
     const { startDateDisplay, endDateDisplay } = this.state;
     const { companyAverageResponseTime } = this.props;
-    return (<div className={styles.CompanyProfile}>
+    return (<div className='CompanyProfile'>
       {
         Auth.isAgency ? <CompanyModal /> : null
       }

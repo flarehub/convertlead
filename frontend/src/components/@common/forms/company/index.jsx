@@ -35,7 +35,7 @@ class CompanyForm extends Component {
 
   render() {
     const { id, name, phone, email, avatar, avatar_path } = this.props.form;
-    return (<Form size='big'>
+    return (<Form size='big' className='companyForm'>
       <Grid columns={2} relaxed='very' stackable>
         <Grid.Column>
           <Form.Field required>

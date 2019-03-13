@@ -4,7 +4,7 @@ import {
   Modal,
   Button,
 } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 
 class EntityModal extends Component {
   onSave = () => {
@@ -41,7 +41,7 @@ class EntityModal extends Component {
   render() {
     const { Container, ...rest } = this.props;
 
-    return (<Modal className={styles.EntityModal} open={this.props.form.show} centered={false}
+    return (<Modal className='freshAppEntityModal' open={this.props.form.show} centered={false}
                    size={rest.size || 'tiny'} dimmer='blurring' onClose={this.props.loadForm.bind(this, { show: false })}>
       <Modal.Header>{this.props.form.title}</Modal.Header>
       <Modal.Content>

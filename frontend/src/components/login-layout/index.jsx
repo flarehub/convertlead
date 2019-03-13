@@ -5,7 +5,6 @@ import { AuthContainer } from "@containers";
 import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
 import './index.scss';
 import logo from '../assets/logo.png';
-import {Auth} from "../../@services";
 
 class Login extends Component {
   email = '';

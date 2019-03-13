@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './index.scss';
+import './index.scss';
 import {TimeLineRecord} from "./timeline-record";
 import { Button, Form, Icon, TextArea, Dropdown, Popup } from 'semantic-ui-react';
 
@@ -40,7 +40,7 @@ class TimeLine extends Component {
 
   render() {
     const { lead, notes, leadStatuses } = this.props;
-    return (<div className={styles.TimeLine}>
+    return (<div className='freshAppTimeLine'>
       <ul>
         <li className='timeline-record'>
           <div className={`timeline-status timeline-bg-color-${lead.status.charAt(0).toLowerCase()}`}>

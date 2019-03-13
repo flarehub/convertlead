@@ -1,12 +1,12 @@
 import React from 'react';
 import { Grid, Header, Image } from 'semantic-ui-react';
 import { compose, lifecycle } from 'recompose';
-import styles from './index.scss';
+import './index.scss';
 import { Breadcrumb } from 'components';
 import { ProfileContainer } from '@containers';
 
 const LayoutHeader = ({ profile }) => (
-  <div className={styles.Header}>
+  <div className='freshAppHeader'>
     <Grid columns={2} stackable>
       <Grid.Row verticalAlign="middle">
         <Grid.Column>

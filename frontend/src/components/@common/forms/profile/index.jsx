@@ -13,7 +13,6 @@ import './index.scss';
 import avatarDemo from '../avatar-demo.png';
 import * as R from "ramda";
 import {ProfileContainer, MessagesContainer} from "@containers";
-import * as thunks from "../../../../@containers/profile/thunks";
 
 class AgentForm extends Component {
   onFileLoad = (event) => {
@@ -78,7 +77,7 @@ class AgentForm extends Component {
   render() {
     const { name, phone, email, avatar, avatar_path } = this.props.profileForm;
     const { password, password_confirmation } = this.props.passwordResetForm;
-    return (<Form size='big'>
+    return (<Form size='big' className='profileForm'>
       <Grid columns={2} relaxed='very' stackable>
         <Grid.Column textAlign='left'>
           <Form.Field required>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
 import { Segment, Button, Icon, Grid } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 import { BreadCrumbContainer, LeadNotesContainer } from "@containers";
 import TimeLine from "./timeline";
 import Loader from 'components/loader';
@@ -26,7 +26,7 @@ class LeadNotes extends Component {
 
   render() {
     const { lead, leadNotes, leadStatuses } = this.props;
-    return (<div className={styles.LeadNotes}>
+    return (<div className='LeadNotes'>
       <Segment>
         <Loader />
         <Grid columns='equal'>

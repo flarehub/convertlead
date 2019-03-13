@@ -6,7 +6,7 @@ import PropTypes  from 'prop-types';
 
 import { Icon, Menu, Dropdown, Image } from 'semantic-ui-react'
 import logo from '../assets/logo.png';
-import styles from './index.scss';
+import './index.scss';
 import {Auth} from "@services";
 
 class AppSidebar extends Component {
@@ -22,7 +22,7 @@ class AppSidebar extends Component {
 	render() {
 	  const { visibleMenus } = this.props;
 		return (
-      <Menu className={styles.AppSidebar} fixed='left' vertical={true} icon={true}>
+      <Menu className='AppSidebar' fixed='left' vertical={true} icon={true}>
         <Menu.Item className='app-logo'>
           <Image src={logo} />
         </Menu.Item>

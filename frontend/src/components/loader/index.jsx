@@ -5,9 +5,9 @@ import {
   Dimmer,
   Loader as SemanticLoader
 } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 
-const Loader = (props) => (<div className={styles.Loader}>
+const Loader = (props) => (<div className='Loader'>
   <Dimmer active={!props.loadReady} inverted>
     <SemanticLoader size='medium'>Loading</SemanticLoader>
   </Dimmer>

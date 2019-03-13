@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import * as styles from './index.scss';
+import './index.scss';
 import {
   AgentsContainer,
   BreadCrumbContainer,
@@ -154,8 +154,7 @@ class Campaigns extends Component {
 
   render() {
     const { campaigns, pagination } = this.props;
-    const { companyId } = this.state;
-    return (<div className={styles.Campaigns}>
+    return (<div className='Campaigns'>
       <Segment attached='top'>
         <ZapierInterationModal open={this.state.openApiIntegration} onClose={this.onCloseApiIntegration} campaignLink={this.state.campaignLink} />
         <ModalOptinFormIntegration />

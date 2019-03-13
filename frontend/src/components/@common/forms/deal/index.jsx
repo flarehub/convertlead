@@ -33,7 +33,7 @@ class DealForm extends Component {
 
   render() {
     const { name } = this.props.form;
-    return (<Form size='big'>
+    return (<Form size='big' className='dealForm'>
       <Form.Field required>
         <label>Name</label>
         <Input placeholder='Deal name' value={name} onChange={this.onChangeName} />
@@ -47,7 +47,7 @@ class DealForm extends Component {
             label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
             placeholder='Select company'
             search
-            defaultValue={this.props.form.companyId}
+            defaultValue={this.props.form.companyId || null}
             onChange={this.onChangeCompany}
             onSearchChange={this.onSearchChange}
             searchInput={{ id: 'deal-form-companies-list' }}
@@ -63,7 +63,7 @@ class DealForm extends Component {
             label={{ children: 'Agency', htmlFor: 'deal-form-agencies-list' }}
             placeholder='Select Agency'
             search
-            defaultValue={this.props.form.agency_company_id}
+            defaultValue={this.props.form.agency_company_id || null}
             onChange={this.onChangeAgency}
             searchInput={{ id: 'deal-form-agencies-list' }}
           />

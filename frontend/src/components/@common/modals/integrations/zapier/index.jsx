@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Form, Input, Header, Image, Modal } from 'semantic-ui-react'
-import styles from './index.scss';
+import './index.scss';
 import CopyText from 'react-copy-text';
 import ReactJson from 'react-json-view'
 import ResponseLeadSchema from './schemas/response-lead';
@@ -24,7 +24,7 @@ class ZapierInterationModal extends Component {
 
   render() {
     return (
-      <Modal className={styles.ApiIntegration} open={this.props.open} onClose={this.props.onClose}>
+      <Modal className='ApiIntegration' open={this.props.open} onClose={this.props.onClose}>
         <Modal.Header>Zapier API Integration</Modal.Header>
         <Modal.Content>
           <Form>

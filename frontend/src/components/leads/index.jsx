@@ -20,7 +20,7 @@ import {
   Select,
   Popup,
 } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 import { BreadCrumbContainer, DealsContainer, CompaniesContainer, LeadsContainer, LeadFormContainer } from '@containers';
 import Loader from '../loader';
 import * as R from "ramda";
@@ -163,7 +163,7 @@ class Leads extends Component {
     const {pagination, statuses, query} = this.props;
     const { companyId, campaignId, startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
     return (
-      <div className={styles.Leads}>
+      <div className='Leads'>
         <LeadModal size='small' />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
         <Segment attached='top'>
@@ -187,7 +187,7 @@ class Leads extends Component {
                        placeholder='All companies'
                        search
                        onChange={this.filterByCompany}
-                       defaultValue={companyId}
+                       defaultValue={companyId || null}
                        searchInput={{ id: 'form-companies-list' }}
                      />
                      : null

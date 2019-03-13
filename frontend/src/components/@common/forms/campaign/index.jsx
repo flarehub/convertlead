@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Select } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 import {Auth} from "../../../../@services";
 
 class CampaignForm extends Component {
@@ -87,7 +87,7 @@ class CampaignForm extends Component {
   render() {
     const { agentId } = this.state;
     const { integrationTypes, form } = this.props;
-    return (<Form size='big' className={styles.CampaignForm}>
+    return (<Form size='big' className='CampaignForm'>
       <Form.Field required>
         <label>Campaign Name</label>
         <Input placeholder='Campaign Name' name='name' value={form.name} onChange={this.onChange} />
@@ -97,7 +97,7 @@ class CampaignForm extends Component {
         <Select placeholder='Select Integration'
                 name='integration'
                 options={integrationTypes}
-                defaultValue={form.integration}
+                defaultValue={form.integration || null}
                 onChange={this.onChange} />
       </Form.Field>
 
@@ -111,7 +111,7 @@ class CampaignForm extends Component {
             label={{ children: 'Company', htmlFor: 'companies-list' }}
             placeholder="Select company"
             search
-            defaultValue={this.props.form.company_id}
+            defaultValue={this.props.form.company_id || null}
             onChange={this.onChangeCompany}
             onSearchChange={this.onSearchChange}
             searchInput={{ id: 'companies-list' }}
@@ -127,7 +127,7 @@ class CampaignForm extends Component {
           label={{ children: 'Deals', htmlFor: 'deals-list' }}
           placeholder="Select deal"
           search
-          defaultValue={this.props.form.deal_id}
+          defaultValue={this.props.form.deal_id || null}
           onChange={this.onChangeCompanyDeal}
           searchInput={{ id: 'deals-list' }}
         />
@@ -146,7 +146,7 @@ class CampaignForm extends Component {
         name='agents'
         onChange={this.onChangeAgents}
         onSearchChange={this.onSearchAgent}
-        defaultValue={(form.agents && form.agents.length ? form.agents : agentId)}
+        defaultValue={(form.agents && form.agents.length ? form.agents : agentId) || null}
         searchInput={{ id: 'agents-list' }}
       />
     </Form>)

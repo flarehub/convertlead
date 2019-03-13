@@ -20,7 +20,7 @@ import {
   Table,
   Select,
 } from 'semantic-ui-react';
-import styles from './index.scss';
+import './index.scss';
 import Loader from '../loader';
 import * as R from "ramda";
 import { CompaniesContainer } from "@containers";
@@ -100,7 +100,7 @@ class Agents extends Component {
     const { pagination, query  } = this.props;
     const { companyId } = this.state;
     return (
-      <div className={styles.Agents}>
+      <div className='Agents'>
         <AgentModal />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Segment attached='top'>
