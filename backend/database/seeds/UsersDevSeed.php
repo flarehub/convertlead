@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class User extends Seeder
+class UsersDevSeed extends Seeder
 {
     /**
      * Run the database seeds.
@@ -45,6 +45,59 @@ class User extends Seeder
         
         $agency->companies()->attach($company);
         $company->agents()->attach($agent);
+    
+        foreach ($agency->companies as $company) {
+            factory(\App\Models\Deal::class, 10)->create()->each(function($deal) use ($company) {
+                $deal->agency_company_id = $company->pivot->id;
+                $deal->save();
+            });
+        }
+    
+        factory(\App\Models\Agency::class, 10)->create([
+            'role' => \App\Models\User::$ROLE_AGENCY
+        ])->each(function ($agency) {
+            $this->addPermissions($agency);
+
+            $companies = factory(\App\Models\Company::class, 10)
+                ->create(['role' => \App\Models\User::$ROLE_COMPANY])
+                ->each(function ($company) use ($agency) {
+                    $this->addPermissions($company);
+                    
+                    $agents = factory(\App\Models\Agent::class, 10)
+                        ->create(['role' => \App\Models\User::$ROLE_AGENT, 'agent_agency_id' => $agency->id])
+                        ->each(function ($agent) {
+                            $this->addPermissions($agent);
+                        });
+    
+                    $company->agents()->attach($agents);
+                });
+
+            $agency->companies()->attach($companies, ['is_locked' => true]);
+
+            foreach ($agency->companies as $company) {
+                factory(\App\Models\Deal::class, 10)->create()->each(function($deal) use ($company) {
+                    $deal->agency_company_id = $company->pivot->id;
+                    $deal->save();
+    
+    
+                    factory(\App\Models\DealCampaign::class, 10)->create([
+                        'agency_company_id' => $deal->agency_company_id,
+                        'deal_id' => $deal->id,
+                    ])->each(function (\App\Models\DealCampaign $dealCampaign) use ($deal, $company) {
+                        foreach ($company->agents as $agent) {
+                            $dealCampaign->agents()->attach($agent);
+                            break;
+                        }
+                        $statusNew = \App\Models\LeadStatus::where('type', \App\Models\LeadStatus::$STATUS_NEW)->first();
+                        factory(\App\Models\Lead::class, 10)->create([
+                            'lead_status_id' => $statusNew->id,
+                            'agency_company_id' => $deal->agency_company_id,
+                            'deal_campaign_id' => $dealCampaign->id,
+                        ]);
+                    });
+                });
+            }
+        });
         
         $this->createUsersPermissions($agency, $agent, $company);
     }
