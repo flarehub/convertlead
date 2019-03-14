@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import './index.scss';
 import avatarDemo from '../avatar-demo.png';
+import {AvatarImage} from "components/@common/image";
 
 class CompanyForm extends Component {
   onFileLoad = (event) => {
@@ -47,7 +48,7 @@ class CompanyForm extends Component {
             <Input placeholder='Phone Number' name='phone' value={phone || ''} onChange={this.onChange} />
           </Form.Field>
           <Segment.Inline>
-            <Image size='tiny' circular src={avatar || avatar_path || avatarDemo} />
+            <AvatarImage size='tiny' circular src={avatar || avatar_path || avatarDemo} />
             <label
               htmlFor="avatar"
             >

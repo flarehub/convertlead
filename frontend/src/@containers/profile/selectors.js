@@ -7,7 +7,6 @@ export const getSelectBoxAgencies = createSelector(
       key: agency.agency_company_id,
       value: agency.agency_company_id,
       text: agency.name,
-      image: { avatar: true, src: agency.avatar_path },
     }))
   }
 );

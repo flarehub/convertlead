@@ -9,7 +9,6 @@ import {
   Table,
   Segment,
   Pagination,
-  Image,
   Button,
   Checkbox,
   Header,
@@ -21,6 +20,7 @@ import {
   Confirm,
 } from 'semantic-ui-react';
 import './index.scss';
+import {AvatarImage} from "../@common/image";
 
 class Companies extends Component {
   state = {
@@ -134,7 +134,7 @@ class Companies extends Component {
               companies.map((company, index) => (
                 <Table.Row key={index}>
                   <Table.Cell>
-                    <Image avatar src={company.avatar_path} rounded size='mini' />
+                    <AvatarImage src={company.avatar_path}  avatar rounded size='medium'  />
                   </Table.Cell>
                   <Table.Cell><Link to={`/companies/${company.id}/profile`}>{company.name}</Link></Table.Cell>
                   <Table.Cell><Link to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>

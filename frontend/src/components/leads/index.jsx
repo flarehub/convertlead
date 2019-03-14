@@ -7,7 +7,6 @@ import {
   Table,
   Segment,
   Pagination,
-  Image,
   Button,
   Checkbox,
   Header,
@@ -27,6 +26,7 @@ import * as R from "ramda";
 import {getSelectBoxStatuses} from "@models/lead-statuses";
 import {Auth} from "@services";
 import DatePickerSelect from "../@common/datepicker";
+import {AvatarImage} from "../@common/image";
 
 const companies = [
   { key: '', text: 'All companies', value: '' },
@@ -288,7 +288,7 @@ class Leads extends Component {
                             lead.company
                               ? <div>
                                 <Link to={`/companies/${lead.company.id}/profile`}>
-                                  <Image avatar src={lead.company.avatar_path} rounded size='mini'/>
+                                  <AvatarImage avatar src={lead.company.avatar_path} rounded size='mini'/>
                                   {lead.company.name}
                                 </Link>
                               </div>

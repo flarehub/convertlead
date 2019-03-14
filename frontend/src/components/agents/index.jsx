@@ -25,6 +25,7 @@ import Loader from '../loader';
 import * as R from "ramda";
 import { CompaniesContainer } from "@containers";
 import { Auth } from "@services";
+import { AvatarImage } from "../@common/image";
 
 const companies = [
   { key: null, text: 'All companies', value: null },
@@ -122,7 +123,7 @@ class Agents extends Component {
                         placeholder='All companies'
                         search
                         onChange={this.onChangeCompany}
-                        defaultValue={companyId}
+                        defaultValue={companyId || null}
                         searchInput={{ id: 'form-companies-list' }}
                       />
                       : null
@@ -187,7 +188,7 @@ class Agents extends Component {
                           {
                             agent.companies.map((company, key) =>  <div key={key}>
                               <Link to={`/companies/${company.id}/profile`}>
-                                <Image avatar src={company.avatar_path} rounded size='mini' />
+                                <AvatarImage avatar src={company.avatar_path} rounded size='mini' />
                                 {company.name}
                               </Link>
                             </div>)

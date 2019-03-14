@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Grid, Header, Image } from 'semantic-ui-react';
 import { compose, lifecycle } from 'recompose';
 import './index.scss';
@@ -13,13 +14,20 @@ const LayoutHeader = ({ profile }) => (
           <Breadcrumb />
         </Grid.Column>
         <Grid.Column textAlign='right'>
+          <Link to='/profile'>
           <Header as='h2'>
-            { profile.name }
+              { profile.name }
+              <Image avatar src={profile.avatar_path} size='tiny' />
           </Header>
+          </Link>
         </Grid.Column>
       </Grid.Row>
     </Grid>
   </div>
 );
 
-export default compose(ProfileContainer)(LayoutHeader);
+export default compose(ProfileContainer, lifecycle({
+  componentWillMount() {
+    this.props.getUserProfile();
+  }
+}))(LayoutHeader);

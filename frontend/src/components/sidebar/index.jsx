@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { compose } from 'recompose';
 import { Link } from 'react-router-dom'
-import { MenuContainer, AuthContainer, ProfileContainer } from "@containers";
+import { MenuContainer, AuthContainer } from "@containers";
 import PropTypes  from 'prop-types';
 
-import { Icon, Menu, Dropdown, Image } from 'semantic-ui-react'
+import { Icon, Menu, Image } from 'semantic-ui-react'
 import logo from '../assets/logo.png';
 import './index.scss';
 import {Auth} from "@services";
@@ -36,14 +36,18 @@ class AppSidebar extends Component {
             </Link>
           ))
         }
-       <Menu.Item className='user-avatar'>
-          <Dropdown trigger={<Image avatar src={this.props.profile.avatar_path} size='tiny' />} pointing='top left' icon={null} >
-            <Dropdown.Menu>
-              <Dropdown.Item><Link to='/profile'>My Profile</Link></Dropdown.Item>
-              <Dropdown.Item onClick={this.logout}>Logout</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Menu.Item>
+        <div className='user-avatar'>
+          <Link to='/profile'>
+            <Menu.Item>
+              <Icon name='user circle outline' />
+              <label>Profile</label>
+            </Menu.Item>
+          </Link>
+          <Menu.Item onClick={this.logout}>
+            <Icon name='log out'/>
+            <label>Logout</label>
+          </Menu.Item>
+        </div>
       </Menu>
 		)
 	}
@@ -53,5 +57,5 @@ AppSidebar.propTypes = {
   visibleMenus: PropTypes.array.isRequired
 };
 
-export default compose(MenuContainer, ProfileContainer, AuthContainer)(AppSidebar);
+export default compose(MenuContainer, AuthContainer)(AppSidebar);
 

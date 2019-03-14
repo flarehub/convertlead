@@ -4,7 +4,6 @@ import {
   Form,
   Input,
   Segment,
-  Image,
   Button,
   Grid,
   label,
@@ -14,11 +13,8 @@ import './index.scss';
 import avatarDemo from '../avatar-demo.png';
 import * as R from "ramda";
 import {Auth} from "@services";
+import {AvatarImage} from "components/@common/image";
 
-const panes = [
-  { menuItem: 'Create Agent', pane: 'Create agent' },
-  { menuItem: 'Tab 2', pane: 'Tab 2 Content' },
-]
 class AgentForm extends Component {
   onFileLoad = (event) => {
     if (!R.pathOr(false, ['target', 'files'], event)) {
@@ -102,7 +98,7 @@ class AgentForm extends Component {
         </Grid.Column>
       </Grid>
       <Segment basic>
-        <Image size='tiny' circular src={avatar || avatar_path || avatarDemo} />
+        <AvatarImage size='tiny' circular src={avatar || avatar_path || avatarDemo} />
         <label
           htmlFor="avatar"
         >

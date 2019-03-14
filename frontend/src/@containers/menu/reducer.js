@@ -7,28 +7,28 @@ import { GET_USER_MENU } from './actions';
 const initialState = {
   sideBarMenu: [
     {
-      icon: 'home',
-      name: 'Dashboard',
+      icon: 'icon-home1',
+      name: 'Home',
       path: '/dashboard',
       component: Dashboard,
       role: ['agency', 'company', 'agent'],
     },
     {
-      icon: 'address card outline',
-      name: 'Companies',
+      icon: 'icon-clients',
+      name: 'Clients',
       path: '/companies',
       component: Companies,
       role: ['agency'],
     },
     {
-      icon: 'address book',
+      icon: 'icon-leads',
       name: 'Leads',
       path: '/leads',
       component: Leads,
       role: ['agency', 'company'],
     },
     {
-      icon: 'user secret',
+      icon: 'icon-agents',
       name: 'Agents',
       path: '/agents',
       component: Agents,

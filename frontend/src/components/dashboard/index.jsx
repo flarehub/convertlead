@@ -107,6 +107,9 @@ class Dashboard extends Component {
         </Grid>
           <Segment basic>
             <Loader />
+            <div className='deals-active-container'>
+              <label className='deals-active'>Active <span>{deals.length}</span></label>
+            </div>
             <Card.Group>
               {
                 deals.map((deal, key) => (
@@ -118,7 +121,7 @@ class Dashboard extends Component {
                             : <CardContent deal={deal} company={deal.agency} link={`/deals/${deal.id}/campaigns`} />
                         }
                         <Button.Group basic size='small'>
-                          <Button icon='pencil alternate' onClick={this.props.loadForm.bind(this, { ...deal, companyId: deal.company.id, show: true })} />
+                          <Button onClick={this.props.loadForm.bind(this, { ...deal, companyId: deal.company.id, show: true })}>Edit</Button>
                           <Button icon='trash alternate outline' onClick={this.openConfirmModal.bind(this, true, deal.company.id, deal.id)}  />
                         </Button.Group>
                       </Card.Content>

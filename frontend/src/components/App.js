@@ -8,6 +8,8 @@ import { AuthContainer, ProfileContainer } from '@containers';
 import { LoginLayout, OptinFormPage } from '.';
 
 import './App.scss';
+import './static/linearicons.css';
+import './static/style.css';
 
 const App = ({ session }) => (
   <div className="App">

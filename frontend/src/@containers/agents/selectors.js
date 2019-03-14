@@ -6,7 +6,6 @@ export const selectBoxAgents = createSelector(
     key: +agent.id,
     value: +agent.id,
     text: agent.name,
-    image: { avatar: true, src: agent.avatar_path },
   })),
 );
 
@@ -17,7 +16,6 @@ export const selectBoxCompanies = createSelector(
       key: company.id,
       value: company.id,
       text: company.name,
-      image: { avatar: true, src: company.avatar_path },
     })) || []
   },
 );

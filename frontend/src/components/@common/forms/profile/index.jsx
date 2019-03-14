@@ -13,6 +13,7 @@ import './index.scss';
 import avatarDemo from '../avatar-demo.png';
 import * as R from "ramda";
 import {ProfileContainer, MessagesContainer} from "@containers";
+import {AvatarImage} from "components/@common/image";
 
 class AgentForm extends Component {
   onFileLoad = (event) => {
@@ -93,7 +94,7 @@ class AgentForm extends Component {
             <Input placeholder='Email Address' name='email' value={email || ''} onChange={this.onChange} />
           </Form.Field>
           <Segment basic>
-            <Image size='tiny' circular src={avatar || avatar_path || avatarDemo} />
+            <AvatarImage size='tiny' circular src={avatar || avatar_path || avatarDemo} />
             <label
               htmlFor="avatar"
             >
