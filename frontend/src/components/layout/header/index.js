@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Header, Image } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
 import { compose, lifecycle } from 'recompose';
 import './index.scss';
 import { Breadcrumb } from 'components';
@@ -17,7 +17,6 @@ const LayoutHeader = ({ profile }) => (
           <Link to='/profile'>
           <Header as='h2'>
               { profile.name }
-              <Image avatar src={profile.avatar_path} size='tiny' />
           </Header>
           </Link>
         </Grid.Column>

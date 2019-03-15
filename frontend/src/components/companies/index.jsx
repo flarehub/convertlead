@@ -96,7 +96,7 @@ class Companies extends Component {
                          onChange={this.onSearch}
                          value={query.search} placeholder='Search...' />
                 </Menu.Item>
-                <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Company' icon='add' labelPosition='left' />
+                <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Company'/>
               </Menu.Menu>
             </Menu>
           </Grid.Column>

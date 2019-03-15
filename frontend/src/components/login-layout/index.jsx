@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { AuthContainer } from "@containers";
 import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
 import './index.scss';
-import logo from '../assets/logo.png';
+import logo from '../static/assets/logo.png';
 
 class Login extends Component {
   email = '';

@@ -137,7 +137,7 @@ class Agents extends Component {
                   <Menu.Item>
                     <Input icon='search' onChange={this.onSearch} value={query.search || ''} placeholder='Search...' />
                   </Menu.Item>
-                  <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Agent' icon='add' labelPosition='left' />
+                  <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Agent' />
                 </Menu.Menu>
               </Menu>
             </Grid.Column>

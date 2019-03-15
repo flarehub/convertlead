@@ -226,8 +226,7 @@ class Leads extends Component {
                   <Menu.Item>
                     <Input icon='search' onChange={this.onSearch} value={query.search} placeholder='Search...'/>
                   </Menu.Item>
-                  <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Lead' icon='add'
-                          labelPosition='left'/>
+                  <Button color='teal' onClick={this.props.loadForm.bind(this, { show: true })} content='New Lead'/>
                 </Menu.Menu>
               </Menu>
             </Grid.Column>

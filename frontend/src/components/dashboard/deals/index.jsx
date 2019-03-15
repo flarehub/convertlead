@@ -99,7 +99,7 @@ class Dashboard extends Component {
                 <Button color='teal'
                         content='New Deal'
                         onClick={this.props.loadForm.bind(this, { show: true })}
-                        icon='add' labelPosition='left' />
+                        s/>
               </Menu.Menu>
             </Menu>
           </Grid.Column>

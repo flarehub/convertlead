@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { compose } from 'recompose';
 import { Link } from 'react-router-dom'
-import { MenuContainer, AuthContainer } from "@containers";
+import { MenuContainer, AuthContainer, ProfileContainer } from "@containers";
 import PropTypes  from 'prop-types';
 
-import { Icon, Menu, Image } from 'semantic-ui-react'
-import logo from '../assets/logo.png';
+import { Menu, Image } from 'semantic-ui-react'
+import logo from '../static/assets/logo.png';
 import './index.scss';
 import {Auth} from "@services";
+import {AvatarImage} from "components/@common/image";
 
 class AppSidebar extends Component {
 
@@ -17,10 +18,11 @@ class AppSidebar extends Component {
 
   componentWillMount() {
     this.props.getUserSideBarMenu(Auth.role);
+    console.log(this.props.profile);
   }
 
 	render() {
-	  const { visibleMenus } = this.props;
+	  const { visibleMenus, profile } = this.props;
 		return (
       <Menu className='AppSidebar' fixed='left' vertical={true} icon={true}>
         <Menu.Item className='app-logo'>
@@ -36,18 +38,17 @@ class AppSidebar extends Component {
             </Link>
           ))
         }
-        <div className='user-avatar'>
-          <Link to='/profile'>
-            <Menu.Item>
-              <Icon name='user circle outline' />
-              <label>Profile</label>
-            </Menu.Item>
-          </Link>
-          <Menu.Item onClick={this.logout}>
-            <Icon name='log out'/>
-            <label>Logout</label>
-          </Menu.Item>
-        </div>
+       <div className='sidebar-bootom'>
+         <a href='http://support.digitalfollow.com' target='_blank'>
+           <i className='icon-support' />
+         </a>
+         <Menu.Item onClick={this.logout}>
+           <i className='icon-logoff'/>
+         </Menu.Item>
+         <Link to='/profile'>
+           <AvatarImage src={profile.avatar_path} sidebar-avatar rounded size='tiny'  />
+         </Link>
+       </div>
       </Menu>
 		)
 	}
@@ -57,5 +58,5 @@ AppSidebar.propTypes = {
   visibleMenus: PropTypes.array.isRequired
 };
 
-export default compose(MenuContainer, AuthContainer)(AppSidebar);
+export default compose(ProfileContainer, MenuContainer, AuthContainer)(AppSidebar);
 

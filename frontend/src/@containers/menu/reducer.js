@@ -28,6 +28,13 @@ const initialState = {
       role: ['agency', 'company'],
     },
     {
+      icon: 'icon-leads',
+      name: 'Leads',
+      path: '/companies/leads',
+      component: Leads,
+      role: ['agent'],
+    },
+    {
       icon: 'icon-agents',
       name: 'Agents',
       path: '/agents',
