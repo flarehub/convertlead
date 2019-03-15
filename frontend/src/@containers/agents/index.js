@@ -9,10 +9,12 @@ const mapStateToProps = state => ({
   agentCompaniesIds: agentCompaniesIds(state),
   selectBoxAgentCompanies: selectBoxCompanies(state),
   selectBoxAgents: selectBoxAgents(state),
+  selectBoxDates: state.agents.selectBoxDates,
   pagination: state.agents.pagination,
   query: state.agents.query,
   openModalStatus: state.agents.openModalStatus,
   graphContactedLeadsAverage: state.agents.graphContactedLeadsAverage,
+  pieGraphContactedLeadsAverage: state.agents.pieGraphContactedLeadsAverage,
   averageResponseTime: state.agents.averageResponseTime,
 });
 
@@ -30,6 +32,7 @@ const mapDispatchToProps = dispatch => ({
   toggleShowDeleted: open => dispatch(thunks.toggleShowDeleted(open)),
   loadSelectBoxAgents: filters => dispatch(thunks.loadSelectBoxAgents(filters)),
   getAgentGraph: (graphContext, agentId, filters) => dispatch(thunks.getAgentGraph(graphContext, agentId, filters)),
+  getAgentGraphPie: (graphContext, agentId, filters) => dispatch(thunks.getAgentGraphPie(graphContext, agentId, filters)),
 });
 
 

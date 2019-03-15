@@ -1,5 +1,6 @@
 import {
-  ADD_AGENTS, FILTER_AGENTS, GOTO_PAGE, LOAD_AGENT_DATA, LOAD_AGENT_LEADS_GRAPH, LOAD_SELECTBOX_AGENTS,
+  ADD_AGENTS, FILTER_AGENTS, GOTO_PAGE, LOAD_AGENT_DATA, LOAD_AGENT_LEADS_GRAPH, LOAD_AGENT_LEADS_GRAPH_PIE,
+  LOAD_SELECTBOX_AGENTS,
   OPEN_AGENT_MODAL, SEARCH_AGENTS,
   SHOW_DELETED_AGENTS,
   SORT_AGENTS,
@@ -64,6 +65,64 @@ const initState = {
       }
     }
   },
+  pieGraphContactedLeadsAverage: {
+    type: 'doughnut',
+    data: {
+      labels: ["15 min (0-15)", "30 min (15-30)", "2 hrs (30-2)", "12 hrs (2-12)", "12 hrs + Missed leads"],
+      datasets: [
+        {
+          data: [0, 0, 0, 0, 0],
+          backgroundColor: ['#21ba45', '#f2711c', '#2cb3c8', '#6435c9', '#db2828'],
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: false,
+        text: 'Chart.js Doughnut Chart'
+      },
+      animation: {
+        animateScale: true,
+        animateRotate: true
+      }
+    }
+  },
+  selectBoxDates: [
+    {
+      key: 'today',
+      value: 'today',
+      text: 'Today',
+    },
+    {
+      key: 'yesterday',
+      value: 'yesterday',
+      text: 'Yesterday',
+    },
+    {
+      key: 'this-week',
+      value: 'this-week',
+      text: 'This Week',
+    },
+    {
+      key: 'previous-week',
+      value: 'previous-week',
+      text: 'Previous Week',
+    },
+    {
+      key: 'this-month',
+      value: 'this-month',
+      text: 'This Month',
+    },
+    {
+      key: 'previous-month',
+      value: 'previous-month',
+      text: 'Previous Month',
+    }
+  ],
   selectBoxAgents: [],
   pagination: {
     current_page: 1,
@@ -170,6 +229,18 @@ const agents = (state = initState, action) => {
         averageResponseTime: action.graphData.avg_response_time,
         graphContactedLeadsAverage: {
           ...state.graphContactedLeadsAverage,
+          data: {
+            ...action.graphData
+          }
+        }
+      }
+    }
+    case LOAD_AGENT_LEADS_GRAPH_PIE: {
+      return {
+        ...state,
+        averageResponseTime: action.graphData.avg_response_time,
+        pieGraphContactedLeadsAverage: {
+          ...state.pieGraphContactedLeadsAverage,
           data: {
             ...action.graphData
           }

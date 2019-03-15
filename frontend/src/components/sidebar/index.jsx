@@ -30,8 +30,8 @@ class AppSidebar extends Component {
           visibleMenus.map((menu, i) => (
             <Link to={menu.path} key={i}>
               <Menu.Item index={i}>
-                <Icon name={menu.icon} />
-                {menu.name}
+                <i className={menu.icon} />
+                <div>{menu.name}</div>
               </Menu.Item>
             </Link>
           ))

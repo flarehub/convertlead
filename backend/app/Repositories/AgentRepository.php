@@ -17,7 +17,7 @@ trait AgentRepository {
         $endDate,
         $agentId,
         $companyAgencyIds = null,
-        $format = 'Y-m-d') {
+        $format = 'Y-m-d', $pieGraph = false) {
         $query = Lead::selectRaw(
             "
           DATE(leads.created_at) as creation_date,
@@ -46,8 +46,8 @@ trait AgentRepository {
             })
             ->groupBy('creation_date')
             ->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $startDate),
-                Carbon::createFromFormat('Y-m-d', $endDate)]);
+                Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay(),
+                Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay()]);
         
         $query->where('leads.agent_id', $agentId);
         
@@ -58,7 +58,12 @@ trait AgentRepository {
         
         
         $averageResponseTime = static::getAverageTime($startDate, $endDate, $companyAgencyIds, $agentId, $format);
-        return static::mapLeadsData($query->get(), $averageResponseTime, $startDate, $endDate, $format);
+        
+        
+        if ($pieGraph) {
+            return static::mapLeadsToPieGraph($query->get(), $averageResponseTime, $startDate, $endDate, $format);
+        }
+        return static::mapLeadsToLineGraph($query->get(), $averageResponseTime, $startDate, $endDate, $format);
     }
     
     static function getAverageTime($startDate,
@@ -89,7 +94,7 @@ trait AgentRepository {
         return $query->first();
     }
     
-    static public function mapLeadsData($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d') {
+    static public function mapLeadsToLineGraph($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d') {
         $interval = new \DateInterval('P1D');
         $dateRange = new \DatePeriod(new \DateTime($startDate), $interval , new \DateTime($endDate));
         
@@ -150,6 +155,44 @@ trait AgentRepository {
             'avg_response_time' => ($averageResponseTime->avg_time ? $averageResponseTime->avg_time : '00:00:00'),
             'labels' => $dateCollection,
             'datasets' => $datasets
+        ];
+    }
+    static public function mapLeadsToPieGraph($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d') {
+        $interval = new \DateInterval('P1D');
+        $dateRange = new \DatePeriod(new \DateTime($startDate), $interval , new \DateTime($endDate));
+        
+        $dateCollection = collect($dateRange)->map(function ($date) use ($format) {
+            return $date->format($format);
+        });
+        $dateCollection[] = $endDate;
+        $labels = ['15 min (0-15)', '30 min (15-30)', '2 hrs (30-2)', '12 hrs (2-12)', '12 hrs + Missed leads'];
+        $backGroundColors = ['#21ba45', '#f2711c', '#2cb3c8', '#6435c9', '#db2828'];
+        
+        $datasets = [
+            'backgroundColor' => $backGroundColors,
+            'data' => [
+                'up15Minutes',
+                'up30Mintes',
+                'up2Hours',
+                'up12Hours',
+                '12plus',
+            ]
+        ];
+    
+    
+        $datasets['data'] = collect($datasets['data'])->map(function ($fieldName) use ($leads, $dateCollection) {
+            return collect($leads)->reduce(function ($acc, $lead) use ($leads, $fieldName) {
+                return $acc + (int)$lead[$fieldName];
+            });
+        });
+        
+        
+        return [
+            'avg_response_time' => ($averageResponseTime->avg_time ? $averageResponseTime->avg_time : '00:00:00'),
+            'labels' => $labels,
+            'datasets' => [
+                $datasets
+            ],
         ];
     }
 }

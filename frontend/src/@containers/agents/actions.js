@@ -10,6 +10,7 @@ export const OPEN_AGENT_MODAL = 'OPEN_AGENT_MODAL';
 export const SHOW_DELETED_AGENTS = 'SHOW_DELETED_AGENTS';
 export const LOAD_SELECTBOX_AGENTS = 'LOAD_SELECTBOX_AGENTS';
 export const LOAD_AGENT_LEADS_GRAPH = 'LOAD_AGENT_LEADS_GRAPH';
+export const LOAD_AGENT_LEADS_GRAPH_PIE = 'LOAD_AGENT_LEADS_GRAPH_PIE';
 export const LOAD_AGENT_DATA = 'LOAD_AGENT_DATA';
 
 export const addAgents = (agents, pagination) => ({
@@ -74,5 +75,10 @@ export const loadAgent = agent => ({
 
 export const loadAgentLeadsGraph = graphData => ({
   type: LOAD_AGENT_LEADS_GRAPH,
+  graphData,
+});
+
+export const loadAgentLeadsGraphPie = graphData => ({
+  type: LOAD_AGENT_LEADS_GRAPH_PIE,
   graphData,
 });

@@ -3,6 +3,7 @@ import {api, Auth} from '@services';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
 import {addBreadCrumb} from "../breadcrumb/actions";
+import {agentLeadGraph, companyAgentLeadGraph} from "./api";
 
 export const loadAgents = () => async (dispath, getState) => {
   try {
@@ -105,13 +106,21 @@ export const getAgent = (id, addBreadCrumbOn = false) => async dispatch => {
 
 export const getAgentGraph = (graphContext, agentId, filters) => async dispatch => {
   try {
-    const response =
-      await api.get(`/v1/${Auth.role}/agents/${agentId}/graph/${filters.graphType}`, {
-        params: {
-          ...filters,
-        }
-      });
+    const response = await (Auth.isCompany || Auth.isAgency ? companyAgentLeadGraph(agentId, filters) : agentLeadGraph(filters));
     await dispatch(actions.loadAgentLeadsGraph(response.data));
+    if (graphContext) {
+      graphContext.data = response.data;
+      await graphContext.update();
+    }
+  } catch (e) {
+    dispatch(sendMessage(e.message, true))
+  }
+}
+
+export const getAgentGraphPie = (graphContext, agentId, filters) => async dispatch => {
+  try {
+    const response = await (Auth.isCompany || Auth.isAgency ? companyAgentLeadGraph(agentId, filters) : agentLeadGraph(filters));
+    await dispatch(actions.loadAgentLeadsGraphPie(response.data));
     if (graphContext) {
       graphContext.data = response.data;
       await graphContext.update();

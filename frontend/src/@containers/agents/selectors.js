@@ -6,6 +6,7 @@ export const selectBoxAgents = createSelector(
     key: +agent.id,
     value: +agent.id,
     text: agent.name,
+    image: { avatar: true, src: agent.avatar_path },
   })),
 );
 
