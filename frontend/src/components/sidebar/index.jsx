@@ -18,7 +18,6 @@ class AppSidebar extends Component {
 
   componentWillMount() {
     this.props.getUserSideBarMenu(Auth.role);
-    console.log(this.props.profile);
   }
 
 	render() {
