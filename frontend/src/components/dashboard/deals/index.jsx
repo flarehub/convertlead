@@ -129,6 +129,15 @@ class Dashboard extends Component {
               }
             </Card.Group>
           </Segment>
+          
+           <Segment basic>
+                      <div className='deals-active-container archieved'>
+              <label className='deals-active'>Archieved <span>{deals.length}</span></label>
+              <p>When you delete/archieve deals, they'll show up here for easy access. <a href="">Learn more</a></p>
+            </div>
+            </Segment>
+            
+            
         </Segment>
 			</div>
 		);
