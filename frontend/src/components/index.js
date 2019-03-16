@@ -12,3 +12,5 @@ export { default as LoginLayout } from './login-layout';
 export { default as OptinFormPage } from './optinform-page';
 export { default as Profile } from './profile';
 export { default as Routers } from './routers';
+export { default as AgentLeads } from './agent/leads';
+export { default as AgentLeadNotes } from './agent/leads/lead-notes';

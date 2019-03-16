@@ -136,8 +136,6 @@ class Dashboard extends Component {
               <p>When you delete/archieve deals, they'll show up here for easy access. <a href="">Learn more</a></p>
             </div>
             </Segment>
-            
-            
         </Segment>
 			</div>
 		);

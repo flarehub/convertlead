@@ -19,7 +19,11 @@ class Agent extends User
     public function campaigns() {
         return $this->belongsToMany('App\Models\DealCampaign', 'deal_campaign_agents', 'agent_id');
     }
-    
+
+    public function leads() {
+        return $this->hasMany('App\Models\Lead', 'agent_id');
+    }
+
     public function getCompanyAttribute() {
         if ($this->company_id) {
             $company = Company::withTrashed()->find($this->company_id);
@@ -85,6 +89,69 @@ class Agent extends User
             $query->orderBy('avg_time_response', ($queryParams['avg_time_response'] === 'true' ? 'DESC' : 'ASC'));
         }
     
+        return $query;
+    }
+    
+    public function getLeads($queryParams = [], $format='Y-m-d') {
+        $query = $this->leads()
+            ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
+            ->join('users as cp', 'cp.id', 'ac.company_id')
+            ->join('lead_statuses as ls', 'ls.id', 'leads.lead_status_id')
+            ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')
+            ->selectRaw('leads.*, ac.company_id, ac.agency_id, dc.deal_id')
+        ;
+
+        if (isset($queryParams['search'])) {
+            $query->where(function ($query) use ($queryParams) {
+                $query
+                    ->where('leads.fullname', 'like', "%{$queryParams['search']}%")
+                    ->orWhere('leads.email', 'like', "%{$queryParams['search']}%")
+                    ->orWhere('leads.phone', 'like', "%{$queryParams['search']}%")
+                ;
+            });
+        }
+        
+        if (
+            (isset($queryParams['startDate']) && $queryParams['startDate']) &&
+            (isset($queryParams['endDate']) && $queryParams['endDate'])
+        ) {
+            $query->whereBetween('leads.created_at', [
+                Carbon::createFromFormat($format, $queryParams['startDate'])->startOfDay(),
+                Carbon::createFromFormat($format, $queryParams['endDate'])->endOfDay()]);
+        }
+        
+        
+        if (isset($queryParams['campaignId']) && $queryParams['campaignId']) {
+            $query->where('dc.id', $queryParams['campaignId']);
+        }
+
+        if (isset($queryParams['statuses']) && $queryParams['statuses']) {
+            $query->whereIn('ls.type', $queryParams['statuses']);
+        }
+
+        if (isset($queryParams['statusType']) && $queryParams['statusType']) {
+            $query->where('ls.type', $queryParams['statusType']);
+        }
+        
+        if ( isset($queryParams['showDeleted']) ) {
+            $query->withTrashed();
+        }
+        
+        if ( isset($queryParams['name']) ) {
+            $query->orderBy('leads.fullname', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
+        }
+        
+        if ( isset($queryParams['email']) ) {
+            $query->orderBy('leads.email', ($queryParams['email'] === 'true' ? 'DESC' : 'ASC'));
+        }
+        
+        if ( isset($queryParams['company']) ) {
+            $query->orderBy('cp.name', ($queryParams['company'] === 'true' ? 'DESC' : 'ASC'));
+        }
+        if ( isset($queryParams['campaign']) ) {
+            $query->orderBy('dc.name', ($queryParams['campaign'] === 'true' ? 'DESC' : 'ASC'));
+        }
+        
         return $query;
     }
 }

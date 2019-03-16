@@ -5,8 +5,8 @@ import './index.scss';
 export class AvatarImage extends Component {
   render() {
     const { src, ...props } = this.props;
-    return <img style={{
+    return <div style={{
       backgroundImage: `url('${src}')`
-    }} className={R.keys(props).join(' ').concat(' icon-image')} />;
+    }} className={R.keys(props).join(' ').concat(' icon-image')}></div>
   }
 }

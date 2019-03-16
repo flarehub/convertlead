@@ -25,9 +25,9 @@ class AuthUserSetup
         if ($user) {
             if ($user->role === User::$ROLE_AGENCY) {
                 $user = Agency::find($user->id);
-            } elseif ($user->role = User::$ROLE_COMPANY) {
+            } elseif ($user->role === User::$ROLE_COMPANY) {
                 $user = Company::find($user->id);
-            } elseif ($user->role = User::$ROLE_AGENT) {
+            } elseif ($user->role === User::$ROLE_AGENT) {
                 $user = Agent::find($user->id);
             }
     
