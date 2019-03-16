@@ -5,6 +5,7 @@ import {getSelectBoxStatuses} from "./selectors";
 
 const mapStateToProps = state => ({
   leads: state.leads.leads,
+  agentLeads: state.leads.agentLeads,
   pagination: state.leads.pagination,
   statuses: state.leads.statuses,
   selectBoxStatuses: getSelectBoxStatuses(state),
@@ -22,6 +23,9 @@ const mapDispatchToProps = dispatch => ({
   toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted()),
   sort: field => dispatch(thunks.sortLeads(field)),
   openModal: open => dispatch(actions.openLeadModal(open)),
+  searchAgentLeads: search => dispatch(thunks.searchAgentLeads(search)),
+  agentLeadsByStatuses: statuses => dispatch(thunks.agentLeadsByStatuses(statuses)),
+  scrollToPage: page => dispatch(thunks.scrollToPage(page)),
 });
 
 

@@ -65,3 +65,42 @@ export const sortLeads = field => async (dispatch) => {
   await dispatch(actions.sortLeads(field));
   await dispatch(loadLeads());
 };
+
+
+export const loadAgentLeads = () => async (dispatch, getState) => {
+  dispatch(showLoader());
+  try {
+    const { query, pagination, agentLeadStatuses } = getState().leads;
+
+    const response = await fetchLeads({
+      statuses: agentLeadStatuses.join(','),
+      search: query.search,
+      per_page: 100,
+      current_page: pagination.current_page,
+    });
+
+    const { data, ...rest } = response.data;
+
+    dispatch(actions.agentLoadLeads(data, rest));
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+  dispatch(hideLoader());
+};
+
+export const searchAgentLeads = search => async dispatch => {
+  await dispatch(actions.agentSearchLeads(search));
+  await dispatch(loadAgentLeads());
+};
+
+export const agentLeadsByStatuses = statuses => async dispatch => {
+  await dispatch(actions.agentResetLeads());
+  await dispatch(actions.agentLoadLeadsStatuses(statuses));
+  await dispatch(actions.gotoPage(1));
+  await dispatch(loadAgentLeads());
+};
+
+export const scrollToPage = page => async (dispatch) => {
+  await dispatch(actions.gotoPage(page));
+  await dispatch(loadAgentLeads());
+};

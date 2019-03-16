@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Tab, List, Image } from 'semantic-ui-react';
+import { Tab, List, Visibility } from 'semantic-ui-react';
 import * as moment from 'moment';
 import './index.scss';
 
@@ -8,7 +8,6 @@ class LeadsList extends Component {
   render() {
     const { leads, statuses } = this.props;
     return (<Tab.Pane attached={false}>
-
       <List className='AgentLeadsList' relaxed='very'>
         {
           leads && leads.map((lead, key) => <List.Item key={key} className='listItem'>
@@ -16,7 +15,7 @@ class LeadsList extends Component {
               <List.Header as={Link} to={`/companies/leads/${lead.id}/notes`}>
                 <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
                   {lead.fullname && lead.fullname[0] || statuses[lead.status].icon}
-                  </div>
+                </div>
                 {lead.fullname}
               </List.Header>
               <List.Description>

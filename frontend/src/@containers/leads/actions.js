@@ -8,6 +8,10 @@ export const GOTO_PAGE_LEADS = 'GOTO_PAGE_LEADS';
 export const SHOW_DELETE_LEADS = 'SHOW_DELETE_LEADS';
 export const SORT_LEADS = 'SORT_LEADS';
 export const OPEN_LEAD_MODAL = 'OPEN_LEAD_MODAL';
+export const AGENT_LOAD_LEADS = 'AGENT_LOAD_LEADS';
+export const AGENT_LOAD_LEADS_BY_STATUSES = 'AGENT_LOAD_LEADS_BY_STATUSES';
+export const AGENT_RESET_LEADS = 'AGENT_RESET_LEADS';
+export const AGENT_SEARCH_LEADS = 'AGENT_SEARCH_LEADS';
 
 export const loadLeads = (leads, pagination) => ({
   type: LOAD_LEADS,
@@ -61,3 +65,26 @@ export const openLeadModal = status => ({
   type: OPEN_LEAD_MODAL,
   status,
 });
+
+export const agentLoadLeads = (leads, pagination) => ({
+  type: AGENT_LOAD_LEADS,
+  leads,
+  pagination,
+});
+
+export const agentLoadLeadsStatuses = statuses => ({
+  type: AGENT_LOAD_LEADS_BY_STATUSES,
+  statuses,
+});
+
+
+export const agentResetLeads = () => ({
+  type: AGENT_RESET_LEADS,
+});
+
+
+export const agentSearchLeads = search => ({
+  type: AGENT_SEARCH_LEADS,
+  search,
+});
+

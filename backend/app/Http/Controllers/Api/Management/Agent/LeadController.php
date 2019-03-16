@@ -18,6 +18,12 @@ class LeadController extends Controller
     {
         $itemsPerPage = (int)$request->get('per_page', 10);
         $page = (int)$request->get('current_page', 1);
+        
+        if ($request->get('statuses')) {
+            $request->merge([
+                'statuses' => explode(',', $request->get('statuses'))
+            ]);
+        }
         return $request
             ->user()
             ->getLeads($request->only([

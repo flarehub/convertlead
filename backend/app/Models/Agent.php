@@ -100,6 +100,8 @@ class Agent extends User
             ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')
             ->selectRaw('leads.*, ac.company_id, ac.agency_id, dc.deal_id')
         ;
+    
+        $query->orderBy('leads.created_at', 'DESC');
 
         if (isset($queryParams['search'])) {
             $query->where(function ($query) use ($queryParams) {

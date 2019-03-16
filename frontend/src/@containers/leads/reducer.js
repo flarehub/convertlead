@@ -1,4 +1,5 @@
 import {
+  AGENT_LOAD_LEADS, AGENT_LOAD_LEADS_BY_STATUSES, AGENT_RESET_LEADS, AGENT_SEARCH_LEADS,
   FILTER_LEADS,
   GOTO_PAGE_LEADS, LOAD_LEADS, OPEN_LEAD_MODAL, SEARCH_LEADS, SHOW_DELETE_LEADS, SORT_LEADS,
 } from './actions';
@@ -6,6 +7,8 @@ import { LeadStatuses } from "@models/lead-statuses";
 
 const initState = {
   leads: [],
+  agentLeads: [],
+  agentLeadStatuses: [],
   pagination: {
     current_page: 1,
     per_page: 10,
@@ -94,6 +97,39 @@ const leads = (state = initState, action) => {
         ...state,
         openModalStatus: action.status,
       };
+    }
+    case AGENT_LOAD_LEADS: {
+      return {
+        ...state,
+        agentLeads: [ ...state.agentLeads, ...action.leads ],
+        pagination: action.pagination,
+      };
+    }
+    case AGENT_LOAD_LEADS_BY_STATUSES: {
+      return {
+        ...state,
+        agentLeadStatuses: [ action.statuses ],
+      };
+    }
+    case AGENT_SEARCH_LEADS: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          search: action.search
+        },
+      };
+    }
+    case AGENT_RESET_LEADS: {
+      return {
+        ...state,
+        agentLeads: [],
+        pagination:  {
+          current_page: 1,
+          per_page: 10,
+          last_page: 1,
+        },
+      }
     }
     default: {
       return state;
