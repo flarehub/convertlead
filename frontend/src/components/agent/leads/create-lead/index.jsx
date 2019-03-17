@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import {compose} from "recompose";
 import {
-  CompaniesContainer, LeadFormContainer, LeadsContainer, MessageContainer,
+  CompaniesContainer, LeadFormContainer, LeadsContainer, MessageContainer, BreadCrumbContainer,
   ProfileContainer
 } from "@containers";
 import { Button } from 'semantic-ui-react';
@@ -13,6 +12,15 @@ class CreateLead extends Component {
   componentWillMount() {
     this.props.loadForm({});
     this.props.loadSelectBoxCompanies();
+    this.props.addBreadCrumb({
+      name: 'Leads',
+      path: '/companies/leads'
+    }, true);
+    this.props.addBreadCrumb({
+      name: 'Create',
+      path: '',
+      active: true,
+    }, false);
   }
 
   onSave = () => {
@@ -57,6 +65,7 @@ class CreateLead extends Component {
 }
 
 export default compose(
+  BreadCrumbContainer,
   ProfileContainer,
   LeadFormContainer,
   LeadsContainer,
