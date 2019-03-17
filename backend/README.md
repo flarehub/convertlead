@@ -18,6 +18,11 @@ $ php artisan passport:install
 $ php artisan passport:keys --force
 
 ````
+###COPY APP KEY to .env.dev or .env.prod
+````bash
+APP_CLIENT_ID=2
+APP_CLIENT_SECRET=gjlU21LYRB64wXHTdM8WZ8BFaqEB3hHzBs5KvYCp
+````
 
 #### Run SEEDS
 ````bash
