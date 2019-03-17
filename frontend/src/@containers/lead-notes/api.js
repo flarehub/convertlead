@@ -5,7 +5,7 @@ export const fetchAgencyCompanyLead = (companyId, id) => {
 };
 
 export const fetchCompanyLead = id => {
-  return api.get(`/v1/company/leads/${id}`);
+  return api.get(`/v1/${Auth.role}/leads/${id}`);
 };
 
 export const createAgencyCompanyLeadNote = (companyId, leadId, form) => {

@@ -12,7 +12,10 @@ class LeadsList extends Component {
         {
           leads && leads.map((lead, key) => <List.Item key={key} className='listItem'>
             <List.Content>
-              <List.Header as={Link} to={`/companies/leads/${lead.id}/notes`}>
+              <List.Header as={Link} to={{
+                pathname: `/companies/leads/${lead.id}/notes`,
+                state: { lead }
+              }}>
                 <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
                   {lead.fullname && lead.fullname[0] || statuses[lead.status].icon}
                 </div>

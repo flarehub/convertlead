@@ -170,4 +170,8 @@ class Agent extends User
         
         return $query->count();
     }
+
+    public function getLeadBy($leadId) {
+        return $this->leads()->where('leads.id', $leadId)->firstOrFail();
+    }
 }
