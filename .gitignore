@@ -3,3 +3,4 @@ backend/.env
 backend/vendor
 backend/node_modules
 frontend/node_modules
+mobileApp/node_modules
