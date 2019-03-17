@@ -7,7 +7,7 @@ import {
   Profile,
   Campaigns,
   LeadNotes,
-  CompanyProfile, AgentProfile, AgentLeads, AgentLeadNotes
+  CompanyProfile, AgentProfile, AgentLeads, AgentLeadNotes, CreateLead
 } from "../index";
 import PrivateRoute from './PrivateRoute';
 import './index.scss';
@@ -42,6 +42,7 @@ export default () => (<div className='freshappRoutes'>
   <PrivateRoute exact path='/agents/:agentId/leads' component={Leads} />
   <PrivateRoute exact path='/companies/leads' component={AgentLeads} />
   <PrivateRoute exact path='/companies/leads/:leadId/notes' component={AgentLeadNotes} />
+  <PrivateRoute exact path='/companies/leads/create' component={CreateLead} />
 
   {/* only AGENT routes */}
 </div>)

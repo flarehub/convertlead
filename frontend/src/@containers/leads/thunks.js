@@ -79,9 +79,11 @@ export const loadAgentLeads = () => async (dispatch, getState) => {
       current_page: pagination.current_page,
     });
 
-    const { data, ...rest } = response.data;
+    const { data, ...rest } = response.data.leads;
+    const { new_leads_count } = response.data;
 
     dispatch(actions.agentLoadLeads(data, rest));
+    dispatch(actions.agentNewLeadsCount(new_leads_count));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }

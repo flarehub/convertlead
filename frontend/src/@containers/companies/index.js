@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions from './actions';
-import { selectBoxCompanies } from './selectors';
+import { selectBoxCompanies, selectBoxDealCampaigns } from './selectors';
 
 const mapStateToProps = state => ({
   company: state.companies.company,
   companies: state.companies.companies,
   selectBoxCompanies: selectBoxCompanies(state),
+  selectBoxDealCampaigns: selectBoxDealCampaigns(state),
   pagination: state.companies.pagination,
   query: state.companies.query,
   openModal: state.companies.openModal,
@@ -26,6 +27,7 @@ const mapDispatchToProps = dispatch => ({
   toggleShowDeleted: () => dispatch(thunks.toggleShowDeleted()),
   getCompanyBy: (id, breadCrumb) => dispatch(thunks.getCompanyBy(id, breadCrumb)),
   getCompanyGraph: (graphContext, companyId, filters) => dispatch(thunks.getCompanyGraph(graphContext, companyId, filters)),
+  loadCompanyCampaigns: (companyId) => dispatch(actions.loadCompanyCampaigns(companyId)),
 });
 
 

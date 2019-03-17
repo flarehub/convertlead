@@ -3,6 +3,7 @@ import * as thunks from './thunks';
 import * as actions from './actions';
 
 const mapStateToProps = state => ({
+  formSaved: state.forms.lead.formSaved,
   form: state.forms.lead.form,
   show: state.forms.lead.form.show,
   required: state.forms.lead.required,

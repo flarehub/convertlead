@@ -1,5 +1,5 @@
 import {
-  AGENT_LOAD_LEADS, AGENT_LOAD_LEADS_BY_STATUSES, AGENT_RESET_LEADS, AGENT_SEARCH_LEADS,
+  AGENT_LOAD_LEADS, AGENT_LOAD_LEADS_BY_STATUSES, AGENT_NEW_LEADS_COUNT, AGENT_RESET_LEADS, AGENT_SEARCH_LEADS,
   FILTER_LEADS,
   GOTO_PAGE_LEADS, LOAD_LEADS, OPEN_LEAD_MODAL, SEARCH_LEADS, SHOW_DELETE_LEADS, SORT_LEADS,
 } from './actions';
@@ -8,6 +8,7 @@ import { LeadStatuses } from "@models/lead-statuses";
 const initState = {
   leads: [],
   agentLeads: [],
+  newLeadsCount: 0,
   agentLeadStatuses: [],
   pagination: {
     current_page: 1,
@@ -129,6 +130,12 @@ const leads = (state = initState, action) => {
           per_page: 10,
           last_page: 1,
         },
+      }
+    }
+    case AGENT_NEW_LEADS_COUNT: {
+      return {
+        ...state,
+        newLeadsCount: action.count,
       }
     }
     default: {

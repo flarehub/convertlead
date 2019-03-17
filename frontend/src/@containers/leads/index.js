@@ -5,6 +5,7 @@ import {getSelectBoxStatuses} from "./selectors";
 
 const mapStateToProps = state => ({
   leads: state.leads.leads,
+  newLeadsCount: state.leads.newLeadsCount,
   agentLeads: state.leads.agentLeads,
   pagination: state.leads.pagination,
   statuses: state.leads.statuses,

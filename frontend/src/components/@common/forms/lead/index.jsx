@@ -22,7 +22,12 @@ class LeadForm extends Component {
     if (Auth.isCompany) {
       this.props.changeForm({ company_id: this.props.profile.id });
     }
-    this.props.getCompanyDeals();
+    if (!Auth.isAgent) {
+      this.props.getCompanyDeals();
+    }
+    if (Auth.isAgent) {
+      this.props.changeForm({ agent_id: this.props.profile.id });
+    }
   }
 
   onChange = (event, data) => {
@@ -31,9 +36,14 @@ class LeadForm extends Component {
 
   onChangeCompany = (event, data) => {
     this.props.changeForm({ company_id: data.value });
-    this.props.filterDealsByCompany(data.value);
-    this.props.filterDealsByDealId('');
-    this.props.loadSelectBoxCompanies('');
+    if (!Auth.isAgent) {
+      this.props.filterDealsByCompany(data.value);
+      this.props.filterDealsByDealId('');
+      this.props.loadSelectBoxCompanies('');
+    }
+    if (Auth.isAgent) {
+      this.props.loadCompanyCampaigns(data.value);
+    }
   };
 
   onChangeStatus = (event, data) => {
@@ -51,7 +61,9 @@ class LeadForm extends Component {
 
   onChangeCampaign = (event, data) => {
     this.props.changeForm({ deal_campaign_id: data.value });
-    this.props.filterDealCampaignsById(data.value);
+    if (!Auth.isAgent) {
+      this.props.filterDealCampaignsById(data.value);
+    }
   };
 
   onChangeAgent = (event, data) => {
@@ -97,7 +109,7 @@ class LeadForm extends Component {
               searchInput={{ id: 'status-list' }}
             />
             {
-              Auth.isAgency
+              Auth.isAgency || Auth.isAgent
                 ? <Form.Field
                   required
                   loading={!this.props.selectBoxCompanies.length}
@@ -113,18 +125,21 @@ class LeadForm extends Component {
                 />
                 : null
             }
-            <Form.Field
-              required
-              loading={!this.props.selectBoxDeals.length}
-              control={Select}
-              options={this.props.selectBoxDeals || []}
-              label={{ children: 'Deals', htmlFor: 'deals-list' }}
-              placeholder="Select deal"
-              search
-              defaultValue={this.props.form.deal_id || null}
-              onChange={this.onChangeDeal}
-              searchInput={{ id: 'deals-list' }}
-            />
+            {
+              !Auth.isAgent ?  <Form.Field
+                required
+                loading={!this.props.selectBoxDeals.length}
+                control={Select}
+                options={this.props.selectBoxDeals || []}
+                label={{ children: 'Deals', htmlFor: 'deals-list' }}
+                placeholder="Select deal"
+                search
+                defaultValue={this.props.form.deal_id || null}
+                onChange={this.onChangeDeal}
+                searchInput={{ id: 'deals-list' }}
+              />
+                : null
+            }
             <Form.Field
               required
               loading={!this.props.selectBoxDealCampaigns.length}
@@ -137,18 +152,21 @@ class LeadForm extends Component {
               onChange={this.onChangeCampaign}
               searchInput={{ id: 'campaigns-list' }}
             />
-            <Form.Field
-              required
-              loading={!this.props.selectBoxDealCampaignAgents}
-              control={Select}
-              options={this.props.selectBoxDealCampaignAgents || []}
-              label={{ children: 'Agents', htmlFor: 'agents-list' }}
-              placeholder="Select agent"
-              search
-              defaultValue={this.props.form.agent_id || null}
-              onChange={this.onChangeAgent}
-              searchInput={{ id: 'agents-list' }}
-            />
+            {
+              !Auth.isAgent ? <Form.Field
+                required
+                loading={!this.props.selectBoxDealCampaignAgents}
+                control={Select}
+                options={this.props.selectBoxDealCampaignAgents || []}
+                label={{ children: 'Agents', htmlFor: 'agents-list' }}
+                placeholder="Select agent"
+                search
+                defaultValue={this.props.form.agent_id || null}
+                onChange={this.onChangeAgent}
+                searchInput={{ id: 'agents-list' }}
+              />
+                : null
+            }
           </Grid.Column>
         </Grid>
       </Form>

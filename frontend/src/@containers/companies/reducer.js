@@ -1,5 +1,5 @@
 import {
-  ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, GOTO_COMPANIES_PAGE, LOAD_COMPANY,
+  ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, GOTO_COMPANIES_PAGE, LOAD_COMPANY, LOAD_COMPANY_CAMPAIGNS,
   LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE, OPEN_COMPANY_MODAL,
   SEARCH_COMPANIES,
   SORT_COMPANIES,
@@ -8,6 +8,7 @@ import {
 
 const initState = {
   company: {},
+  companId: '',
   companies: [],
   selectBoxCompanies: [],
   averageResponseTime: '',
@@ -161,6 +162,12 @@ const companies = (state = initState, action) => {
             ...action.graphData
           }
         }
+      }
+    }
+    case LOAD_COMPANY_CAMPAIGNS: {
+      return {
+        ...state,
+        companyId: action.companyId,
       }
     }
     default: {

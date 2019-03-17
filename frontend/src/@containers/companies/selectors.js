@@ -8,3 +8,20 @@ export const selectBoxCompanies = createSelector(
     text: company.name,
   })),
 );
+
+export const selectBoxDealCampaigns = createSelector(
+  [state => state.companies.selectBoxCompanies, state => state.companies.companyId],
+  (selectBoxCompanies, companyId) => {
+    if (selectBoxCompanies && selectBoxCompanies.length) {
+      const company = selectBoxCompanies.find(company => +company.id === +companyId);
+      if (company && company.campaigns && company.campaigns.length) {
+        return company.campaigns.map(campaign => ({
+          key: campaign.id,
+          value: campaign.id,
+          text: campaign.name,
+        }))
+      }
+    }
+    return []
+  },
+);

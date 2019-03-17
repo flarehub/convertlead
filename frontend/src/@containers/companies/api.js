@@ -1,7 +1,7 @@
-import {api} from "@services";
+import {api, Auth} from "@services";
 
 export const agencyLockCompany = form =>  api.patch(`/v1/agency/companies/${form.id}/lock-status`, form);
-export const fetchAgencyCompanies = params =>  api.get(`/v1/agency/companies`, {
+export const fetchAgencyCompanies = params =>  api.get(`/v1/${Auth.role}/companies`, {
   params,
 });
 export const fetchAgencyCompany = id => api.get(`/v1/agency/companies/${id}`);

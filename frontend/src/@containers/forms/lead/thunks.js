@@ -28,8 +28,10 @@ export const updateLead = form => async (dispatch) => {
       await updateCompanyLead(form);
     }
 
-    await dispatch(loadLeads());
     await dispatch(actions.savedLead());
+    if (!Auth.isAgent) {
+      await dispatch(loadLeads());
+    }
     dispatch(sendMessage('Successfully saved!'));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
@@ -45,7 +47,11 @@ export const createLead = form => async (dispatch) => {
     }
 
     await dispatch(actions.savedLead());
-    await dispatch(loadLeads());
+    if (!Auth.isAgent) {
+      await dispatch(loadLeads());
+    } else {
+      window.location = '/companies/leads'
+    }
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }

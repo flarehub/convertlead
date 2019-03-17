@@ -47,6 +47,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
         
         Route::group(['namespace' => 'Api\Management\Agent'], function () {
             Route::prefix('agent')->group(function () {
+                Route::get('companies', 'CompanyController@companies');
                 Route::apiResource('devices', 'DeviceController')->middleware('scope:DEVICE_READ,DEVICE_WRITE');
                 Route::apiResource('leads', 'LeadController')->middleware('scope:LEAD_READ,LEAD_WRITE');
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');

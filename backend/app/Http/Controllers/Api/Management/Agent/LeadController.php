@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Management\Agent;
 
 use App\Models\Agent;
+use App\Models\Lead;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,7 @@ class LeadController extends Controller
                 'statuses' => explode(',', $request->get('statuses'))
             ]);
         }
-        return $request
+        $data =  $request
             ->user()
             ->getLeads($request->only([
                 'search',
@@ -43,6 +44,11 @@ class LeadController extends Controller
                 'campaign',
             ]))
             ->paginate($itemsPerPage, ['*'], 'page', $page);
+
+        return [
+            'leads' => $data,
+            'new_leads_count' => $request->user()->countNewLeads(),
+        ];
     }
     
     
@@ -67,7 +73,7 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Lead::createLead($request);
     }
 
     /**

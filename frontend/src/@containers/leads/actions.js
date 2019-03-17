@@ -12,6 +12,7 @@ export const AGENT_LOAD_LEADS = 'AGENT_LOAD_LEADS';
 export const AGENT_LOAD_LEADS_BY_STATUSES = 'AGENT_LOAD_LEADS_BY_STATUSES';
 export const AGENT_RESET_LEADS = 'AGENT_RESET_LEADS';
 export const AGENT_SEARCH_LEADS = 'AGENT_SEARCH_LEADS';
+export const AGENT_NEW_LEADS_COUNT = 'AGENT_NEW_LEADS_COUNT';
 
 export const loadLeads = (leads, pagination) => ({
   type: LOAD_LEADS,
@@ -86,5 +87,11 @@ export const agentResetLeads = () => ({
 export const agentSearchLeads = search => ({
   type: AGENT_SEARCH_LEADS,
   search,
+});
+
+
+export const agentNewLeadsCount = count => ({
+  type: AGENT_NEW_LEADS_COUNT,
+  count,
 });
 

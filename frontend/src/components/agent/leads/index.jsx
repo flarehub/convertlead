@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import { LeadsContainer } from '@containers';
-import { Tab, Menu, Label } from 'semantic-ui-react';
+import { LeadsContainer, BreadCrumbContainer } from '@containers';
+import { Tab, Menu, Label, Button } from 'semantic-ui-react';
 import './index.scss'
 import LeadsList from "./list";
 
@@ -12,6 +13,11 @@ class AgentLeads extends Component {
 
   componentWillMount() {
     this.props.agentLeadsByStatuses([]);
+    this.props.addBreadCrumb({
+      name: 'Leads',
+      path: '/agents',
+      active: true,
+    });
   }
 
   componentDidMount() {
@@ -61,7 +67,7 @@ class AgentLeads extends Component {
   };
 
   render() {
-    const { agentLeads, statuses } = this.props;
+    const { agentLeads, statuses, newLeadsCount } = this.props;
     const panes =  [
       { menuItem: (
           <Menu.Item key='all' onClick={this.showAllLeads}>
@@ -70,7 +76,7 @@ class AgentLeads extends Component {
         ), render: () => <LeadsList statuses={statuses} leads={agentLeads} /> },
       { menuItem: (
           <Menu.Item key='fresh' onClick={this.showFreshLeads}>
-            Fresh<Label>15</Label>
+            Fresh<Label>{newLeadsCount}</Label>
           </Menu.Item>
         ), render: () => <LeadsList statuses={statuses} leads={agentLeads} /> },
       { menuItem: (
@@ -86,8 +92,11 @@ class AgentLeads extends Component {
     ];
     return (<div className='AgentLeads'>
         <Tab menu={{ secondary: true }} panes={panes} />
+      <Link to='/companies/leads/create'>
+        <Button circular primary size='massive' icon='plus' className='add-lead' />
+      </Link>
     </div>)
   }
 }
 
-export default compose(LeadsContainer)(AgentLeads);
+export default compose(LeadsContainer, BreadCrumbContainer)(AgentLeads);

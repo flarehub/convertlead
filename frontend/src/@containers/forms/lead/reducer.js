@@ -6,6 +6,7 @@ import {
 import { Auth } from "@services";
 
 const initState = {
+  formSaved: false,
   form: {
     title: '',
     show: false,
@@ -36,6 +37,7 @@ const leadForm = (state = initState, action) => {
     case LOAD_LEAD: {
       return {
         ...state,
+        formSaved: false,
         form: {
           ...action.form,
           title: !action.form.id ? 'Create Lead' : 'Edit lead',
@@ -54,6 +56,7 @@ const leadForm = (state = initState, action) => {
     case SAVED_LEAD: {
       return {
         ...state,
+        formSaved: true,
         form: {
           ...state.form,
           ...action.form,

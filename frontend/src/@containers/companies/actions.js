@@ -6,12 +6,17 @@ export const TOGGLE_SHOW_DELETED = 'TOGGLE_WITH_DELETED';
 export const OPEN_COMPANY_MODAL = 'OPEN_COMPANY_MODAL';
 export const ADD_SELECT_BOX_COMPANIES = 'ADD_SELECT_BOX_COMPANIES';
 export const LOAD_COMPANY = 'LOAD_COMPANY';
+export const LOAD_COMPANY_CAMPAIGNS = 'LOAD_COMPANY_CAMPAIGNS';
 export const LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE = 'LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE';
 
 export const addCompanies = (companies, pagination) => ({
   type: ADD_COMPANIES,
   companies,
   pagination,
+});
+export const loadCompanyCampaigns = companyId => ({
+  type: LOAD_COMPANY_CAMPAIGNS,
+  companyId
 });
 export const gotoCompaniesPage = page => ({
   type: GOTO_COMPANIES_PAGE,
