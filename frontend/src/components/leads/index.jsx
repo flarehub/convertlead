@@ -268,10 +268,10 @@ class Leads extends Component {
                       <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
                         <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>{lead.fullname && lead.fullname[0] || statuses[lead.status].icon}</div>
                         {lead.fullname}
-                        <div>
-                          Added {moment(lead.created_at).format('DD/MM/YYYY')}
-                        </div>
                       </Link>
+                      <div className='date-added'>
+                        Added {moment(lead.created_at).format('DD/MM/YYYY')}
+                      </div>
                     </Table.Cell>
                     <Table.Cell>
                       {

@@ -21,6 +21,7 @@ import {
 } from 'semantic-ui-react';
 import './index.scss';
 import {AvatarImage} from "../@common/image";
+import * as moment from 'moment';
 
 class Companies extends Component {
   state = {
@@ -136,7 +137,12 @@ class Companies extends Component {
                   <Table.Cell>
                     <AvatarImage src={company.avatar_path}  avatar rounded size='medium'  />
                   </Table.Cell>
-                  <Table.Cell><Link to={`/companies/${company.id}/profile`}>{company.name}</Link></Table.Cell>
+                  <Table.Cell>
+                    <div>
+                      <Link to={`/companies/${company.id}/profile`}>{company.name}</Link>
+                    </div>
+                    <span className='date-added'>added</span> {moment(company.created_at).format('DD/MM/YYYY')}
+                  </Table.Cell>
                   <Table.Cell><Link to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>
                   <Table.Cell><Link to={`/companies/${company.id}/leads`} >{company.leads_count}</Link></Table.Cell>
                   <Table.Cell><Link to={`/companies/${company.id}/agents`}>{company.agents_count}</Link></Table.Cell>
