@@ -170,10 +170,11 @@ class Leads extends Component {
           <Grid columns={2}>
             <Grid.Column>
               <Header floated='left' as='h1'>Leads</Header>
-              <Form.Field>
-                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
-              </Form.Field>
-              <label>Filter by: </label>
+              
+              <div class="field">
+              
+               <label>Filter by: </label>
+               
              <Form>
                <Form.Group widths='equal'>
                  {
@@ -217,6 +218,15 @@ class Leads extends Component {
                  />
                </Popup>
              </Form>
+              
+              </div> 
+              
+              
+                      
+             <Form.Field>
+                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
+              </Form.Field>
+             
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
