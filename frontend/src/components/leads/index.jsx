@@ -167,14 +167,12 @@ class Leads extends Component {
         <LeadModal size='small' />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
         <Segment attached='top'>
-          <Grid columns={3}>
+          <Grid columns={2}>
             <Grid.Column>
               <Header floated='left' as='h1'>Leads</Header>
               <Form.Field>
                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
               </Form.Field>
-            </Grid.Column>
-            <Grid.Column textAlign='left'>
               <label>Filter by: </label>
              <Form>
                <Form.Group widths='equal'>
@@ -257,7 +255,7 @@ class Leads extends Component {
                   <Icon name={this.getSort('campaign')}
                         onClick={this.props.sort.bind(this, 'campaign')}/>
                 </Table.HeaderCell>
-                <Table.HeaderCell>Edit/Access/Archieve</Table.HeaderCell>
+                <Table.HeaderCell><span class="linearicons-cog"></span></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
