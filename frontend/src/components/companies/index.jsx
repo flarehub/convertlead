@@ -107,8 +107,7 @@ class Companies extends Component {
           <Table singleLine>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>#</Table.HeaderCell>
-              <Table.HeaderCell>Company name
+              <Table.HeaderCell>Name
                 <Icon name={this.getSort('name')}
                                                   onClick={this.props.sort.bind(this, 'name')}/>
               </Table.HeaderCell>
@@ -127,17 +126,16 @@ class Companies extends Component {
                 <Icon name={this.getSort('avg_response')}
                       onClick={this.props.sort.bind(this, 'avg_response')}/>
               </Table.HeaderCell>
-              <Table.HeaderCell>Edit/Access/Archieve</Table.HeaderCell>
+              <Table.HeaderCell><span class="linearicons-cog"></span></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {
               companies.map((company, index) => (
                 <Table.Row key={index}>
+                 
                   <Table.Cell>
                     <AvatarImage src={company.avatar_path}  avatar rounded size='medium'  />
-                  </Table.Cell>
-                  <Table.Cell>
                     <div>
                       <Link to={`/companies/${company.id}/profile`}>{company.name}</Link>
                     </div>
