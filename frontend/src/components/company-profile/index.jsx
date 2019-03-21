@@ -130,17 +130,17 @@ class CompanyProfile extends Component {
         Auth.isAgency ? <CompanyModal /> : null
       }
       <Segment attached='top'>
-        <Grid>
+       
+               
+        <Grid columns={2}>
           <Grid.Column>
-            <Header floated='left' as='h1'>
+          
+          <Header floated='left' as='h1'>
               {
                 Auth.isAgency ? 'Company' : 'Statistic'
               }
               </Header>
-          </Grid.Column>
-        </Grid>
-        <Grid columns={2}>
-          <Grid.Column>
+                            
             <Form>
               <Form.Group widths='equal'>
                 <Form.Field
@@ -176,7 +176,7 @@ class CompanyProfile extends Component {
               <Menu.Menu position='right'>
                 {
                   Auth.isAgency
-                    ? <Button color='teal' content='Edit Company' onClick={this.onEditCompany} icon='pencil alternate' labelPosition='left' />
+                    ? <Button color='teal' content='Edit Company' onClick={this.onEditCompany} labelPosition='left' />
                     : null
                 }
               </Menu.Menu>
