@@ -36,14 +36,20 @@ class Login extends Component {
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='teal' textAlign='center'>
-              <Image src={logo} /> Log-in to your account
+              <Image src={logo} /> 
             </Header>
             <Form size='large' onSubmit={this.login}>
               <Segment stacked>
-                <Form.Input fluid icon='user' type='text' onChange={this.onEmailChange} iconPosition='left' placeholder='E-mail address' />
-                <Form.Input
+              <p> Log-in to your account </p>
+              <label>Username/E-mail address</label>
+                <Form.Input fluid icon='linearicons-user ' type='text' onChange={this.onEmailChange} iconPosition='left' placeholder='E-mail address' />
+                
+                
+                <label>Password</label>              
+               
+               <Form.Input
                   fluid
-                  icon='lock'
+                  icon='linearicons-lock'
                   iconPosition='left'
                   placeholder='Password'
                   type='password'
