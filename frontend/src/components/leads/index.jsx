@@ -283,9 +283,9 @@ class Leads extends Component {
                         ? <Table.Cell>
                           {
                             lead.company
-                              ? <div>
+                              ? <div class="comp-logo-box">
+                              <AvatarImage avatar src={lead.company.avatar_path} rounded size='mini'/>
                                 <Link to={`/companies/${lead.company.id}/profile`}>
-                                  <AvatarImage avatar src={lead.company.avatar_path} rounded size='mini'/>
                                   {lead.company.name}
                                 </Link>
                               </div>
