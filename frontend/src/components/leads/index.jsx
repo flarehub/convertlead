@@ -316,9 +316,8 @@ class Leads extends Component {
                       {
                         !lead.deleted_at
                           ? <Button.Group>
-                            <Button onClick={this.props.loadForm.bind(this, { ...lead, company_id: lead.company.id, show: true })} ><Icon name='pencil alternate'/></Button>
-                            <Button onClick={this.openConfirmModal.bind(this, true, lead.company_id, lead.id)}><Icon
-                              name='trash alternate outline'/></Button>
+                            <Button onClick={this.props.loadForm.bind(this, { ...lead, company_id: lead.company.id, show: true })} >Edit</Button>
+                            <Button onClick={this.openConfirmModal.bind(this, true, lead.company_id, lead.id)}>Archieve</Button>
                           </Button.Group>
                           : null
                       }
