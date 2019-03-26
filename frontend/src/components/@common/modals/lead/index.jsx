@@ -9,4 +9,4 @@ import LeadForm from "../../forms/lead";
 
 const LeadModal = (props) => (<EntityModal {...{...props, Container: LeadForm }} />);
 
-export default compose(ProfileContainer, LeadFormContainer, MessageContainer, LeadsContainer, DealsContainer, CompaniesContainer)(LeadModal);
+export default compose(ProfileContainer, LeadFormContainer, MessageContainer, LeadsContainer, CompaniesContainer, DealsContainer)(LeadModal);

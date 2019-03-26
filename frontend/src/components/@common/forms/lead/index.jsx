@@ -7,7 +7,7 @@ import {
   Grid,
 } from 'semantic-ui-react';
 import './index.scss';
-import {Auth} from "../../../../@services";
+import {Auth} from "@services";
 
 class LeadForm extends Component {
   componentWillMount() {
