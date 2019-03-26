@@ -7,15 +7,15 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, WebView} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
+import { WebView } from 'react-native-webview';
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
       <WebView
-        source={{uri: 'http://155.138.229.190'}}
-        style={{marginTop: 0}}
+        source={{uri: 'http://155.138.229.190/login'}} style={{marginTop: 0}}
       />
     );
   }

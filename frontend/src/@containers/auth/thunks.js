@@ -22,8 +22,6 @@ export const login = (email, password) => async (dispatch, getState) => {
     await dispatch(addSessionToken(tokenData));
     await dispatch(updateUserProfile(tokenData.user));
     await dispatch(loadProfileForm(tokenData.user));
-
-    // SessionStorage.setItem('user_role', tokenData);
     await dispatch(sendMessage('You have been logged successfully!'));
   } catch (error) {
     await dispatch(sendMessage(error.message, true));
