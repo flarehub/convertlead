@@ -167,7 +167,7 @@ class Agents extends Component {
                   <Icon name={this.getSort('avg_response')}
                         onClick={this.props.sort.bind(this, 'avg_response')}/>
                 </Table.HeaderCell>
-                <Table.HeaderCell>Edit/Access/Archieve</Table.HeaderCell>
+                <Table.HeaderCell><span class="linearicons-cog"></span></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -209,8 +209,8 @@ class Agents extends Component {
                       {
                         !agent.deleted_at
                           ?<Button.Group>
-                            <Button onClick={this.props.loadForm.bind(this, {...agent, show: true})} ><Icon name='pencil alternate' /></Button>
-                            <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}><Icon name='trash alternate outline'/></Button>
+                            <Button onClick={this.props.loadForm.bind(this, {...agent, show: true})} >Edit</Button>
+                            <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archieve</Button>
                           </Button.Group>
                           : null
                       }
