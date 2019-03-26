@@ -5,6 +5,7 @@ import Container from './container'
 import Header from './header'
 import Footer from './footer'
 import './index.scss'
+import {Auth} from "@services";
 
 export class Layout extends Component {
   render() {
@@ -14,9 +15,11 @@ export class Layout extends Component {
           <AppSidebar />
         </Grid.Column>
         <Grid.Column width={15}>
-            <Header />
-            <Container />
-            <Footer />
+          {
+            !Auth.isAgent ? <Header /> : null
+          }
+          <Container />
+          <Footer />
         </Grid.Column>
       </Grid>
     </div>);

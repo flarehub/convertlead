@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import { LeadsContainer, BreadCrumbContainer } from '@containers';
-import { Tab, Menu, Label, Button } from 'semantic-ui-react';
+import { Tab, Menu, Label, Button, Segment } from 'semantic-ui-react';
 import './index.scss'
 import LeadsList from "./list";
 
@@ -91,7 +91,12 @@ class AgentLeads extends Component {
         ), render: () => <LeadsList statuses={statuses} leads={agentLeads} /> },
     ];
     return (<div className='AgentLeads'>
+      <Segment basic>
+        <h1 className="ui left floated header mobile-app-menu">Leads</h1>
+      </Segment>
+      <Segment basic>
         <Tab menu={{ secondary: true }} panes={panes} />
+      </Segment>
       <Link to='/companies/leads/create'>
         <Button circular primary size='massive' icon='plus' className='add-lead' />
       </Link>

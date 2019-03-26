@@ -4,7 +4,7 @@ import {
   CompaniesContainer, LeadFormContainer, LeadsContainer, MessageContainer, BreadCrumbContainer,
   ProfileContainer
 } from "@containers";
-import { Button } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 import LeadForm from "components/@common/forms/lead";
 import * as R from "ramda";
 
@@ -55,12 +55,17 @@ class CreateLead extends Component {
   };
 
   render() {
-    return (<div>
-      <LeadForm {...this.props} />
-      <div>
-        <Button onClick={this.onSave}>Save</Button>
+    return (<Segment basic>
+      <div className="create-lead-header">
+        <h1 className="ui left floated header mobile-app-menu">Create lead</h1>
       </div>
-    </div>)
+      <div className="create-lead-form">
+        <LeadForm {...this.props} />
+        <div>
+          <Button onClick={this.onSave}>Save</Button>
+        </div>
+      </div>
+    </Segment>)
   }
 }
 
