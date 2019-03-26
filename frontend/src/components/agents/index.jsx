@@ -186,9 +186,9 @@ class Agents extends Component {
                       Auth.isAgency
                         ? <Table.Cell>
                           {
-                            agent.companies.map((company, key) =>  <div key={key}>
+                            agent.companies.map((company, key) =>  <div key={key} className="comp-logo-box">
+                              <AvatarImage avatar src={company.avatar_path} rounded size='mini' />
                               <Link to={`/companies/${company.id}/profile`}>
-                                <AvatarImage avatar src={company.avatar_path} rounded size='mini' />
                                 {company.name}
                               </Link>
                             </div>)
