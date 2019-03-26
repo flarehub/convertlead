@@ -73,7 +73,11 @@ class LeadStats extends Component {
       <Segment attached='top'>
         <Grid columns={2}>
           <Grid.Column>
-            <Form>
+           <h1 class="ui left floated header mobile-app-menu">Dashboard</h1>
+          </Grid.Column>
+          <Grid.Column>
+          
+           <Form>
               <Form.Group widths='equal'>
                 <Form.Field
                   required
@@ -87,8 +91,7 @@ class LeadStats extends Component {
                 />
               </Form.Group>
             </Form>
-          </Grid.Column>
-          <Grid.Column>
+          
           </Grid.Column>
         </Grid>
         <Segment className='average-response-time' basic>
@@ -96,7 +99,7 @@ class LeadStats extends Component {
           <div className='agent-welcome'>
             <h3>Hi {this.props.profile.name}</h3>
             <p>
-              Looks like you've started your leads. You can see... this page. Click below to see new leads.
+              Looks like you've started calling your leads. You can see your stats on this page. Click below to check your new leads.
             </p>
             <Link to='/companies/leads'>
               <Button primary>View fresh leads</Button>
