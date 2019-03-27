@@ -227,6 +227,8 @@ class Leads extends Component {
                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
               </Form.Field>
              
+             <div class="export-data">Export your data <a href="">.csv export</a> <a href="">.pdf export</a></div>
+             
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
