@@ -49,12 +49,10 @@ class EntityModal extends Component {
       </Modal.Content>
       <Modal.Actions>
         <Button color='black' onClick={this.props.loadForm.bind(this, { show: false })}>
-          Close
+          Cancel
         </Button>
         <Button
-          positive
-          icon='checkmark'
-          labelPosition='right'
+          teal
           content="Save"
           onClick={this.onSave}
         />
