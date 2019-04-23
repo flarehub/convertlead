@@ -40,23 +40,27 @@ class Login extends Component {
             </Header>
             <Form size='large' onSubmit={this.login}>
               <Segment stacked>
-              <p> Log-in to your account </p>
-              <label>Username/E-mail address</label>
-                <Form.Input fluid icon='linearicons-user ' type='text' onChange={this.onEmailChange} iconPosition='left' placeholder='E-mail address' />
-                
-                
+                <p> Log-in to your account </p>
+                <label>Username/E-mail address</label>
+                <Form.Input
+                  fluid
+                  icon='linearicons-user'
+                  iconPosition='left'
+                  placeholder='E-mail address'
+                  type='text'
+                  onChange={this.onEmailChange}/>
+
                 <label>Password</label>              
                
-               <Form.Input
+                <Form.Input
                   fluid
                   icon='linearicons-lock'
                   iconPosition='left'
                   placeholder='Password'
                   type='password'
-                  onChange={this.onPasswordChange}
-                />
+                  onChange={this.onPasswordChange}/>
 
-                <Button color='teal' fluid size='large' >
+                <Button color='teal' fluid size='large'>
                   Login
                 </Button>
               </Segment>

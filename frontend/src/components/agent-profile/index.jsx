@@ -32,22 +32,29 @@ class AgentProfile extends Component {
   }
 
   componentDidMount() {
-    this.Chart =  new ChartJs(this.canvas.current.getContext('2d'),
-      this.props.graphContactedLeadsAverage);
+    let opt = this.props.graphContactedLeadsAverage;
+    opt.options.legendCallback = function(chart) {
+      let ul = document.createElement('ul');
+      chart.data.datasets.forEach(function(item) {
+        ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="background-color: ${item['backgroundColor']}; border: ${item['borderColor']} solid ${item['borderWidth']}px; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item['label']}</li>`;
+      });
+      return ul.outerHTML;
+    };
+
+    this.Chart =  new ChartJs(this.canvas.current.getContext('2d'), opt);
     this.props.getAgentGraph(this.Chart, this.agentId, {
       companyIds: this.state.companyIds,
       graphType: 'contacted',
       startDate: this.state.startDate,
       endDate: this.state.endDate,
     });
-
     this.Chart.data = this.props.graphContactedLeadsAverage.data;
     this.Chart.update();
-
     this.props.addBreadCrumb({
       name: 'Agents',
       path: '/agents',
     });
+    this.refs.legend.innerHTML = this.Chart.generateLegend();
   }
 
   onChangeCompany = (event, data) => {
@@ -165,7 +172,8 @@ class AgentProfile extends Component {
           </Grid.Column>
         </Grid>
         <Segment className='average-response-time' basic>
-          <canvas ref={this.canvas}></canvas>
+          <div ref='legend'/>
+          <canvas ref={this.canvas}/>
           <label className='average-response-time-label'>Average response time: {this.props.averageResponseTime}</label>
         </Segment>
 

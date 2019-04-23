@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
-
+import './my.custom.css'
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>

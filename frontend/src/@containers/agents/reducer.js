@@ -62,7 +62,8 @@ const initState = {
             beginAtZero: true
           }
         }]
-      }
+      },
+      legend: false,
     }
   },
   pieGraphContactedLeadsAverage: {

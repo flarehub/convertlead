@@ -13,11 +13,11 @@ export const selectBoxAgents = createSelector(
 export const selectBoxCompanies = createSelector(
   state => state.agents.agent,
   agent => {
-    return agent.companies && agent.companies.map(company => ({
+    return (agent.companies && agent.companies.map(company => ({
       key: company.id,
       value: company.id,
       text: company.name,
-    })) || []
+    }))) || []
   },
 );
 
@@ -25,7 +25,7 @@ export const selectBoxCompanies = createSelector(
 export const agentCompaniesIds = createSelector(
   state => state.agents.agent,
   agent => {
-    return agent.companies && agent.companies.map(company => Number(company.id)) || []
+    return (agent.companies && agent.companies.map(company => Number(company.id))) || []
   },
 );
 

@@ -98,8 +98,7 @@ class Dashboard extends Component {
                 </Menu.Item>
                 <Button color='teal'
                         content='New Deal'
-                        onClick={this.props.loadForm.bind(this, { show: true })}
-                        s/>
+                        onClick={this.props.loadForm.bind(this, { show: true })}/>
               </Menu.Menu>
             </Menu>
           </Grid.Column>

@@ -23,8 +23,8 @@ body {
 }
 
 a:hover {
-    transition: color 0.5s ease;
-    transition: background-color 0.5s ease;
+    /*transition: color 0.5s ease;*/
+    /*transition: background-color 0.5s ease;*/
     transition: border-color 0.5s ease;
 }
 
@@ -93,7 +93,7 @@ header {
 }
 
 .ui.top.attached.segment {
-    padding: 10px 0px !important;
+    padding: 10px 0 !important;
     border: none;
     margin-top: 27px !important;
     overflow: hidden;
@@ -105,14 +105,14 @@ header {
     font-size: 30px !important;
     font-weight: 400 !important;
     font-family: 'Dosis', sans-serif !important;
-    margin: 0px !important;
+    margin: 0 !important;
     color: #1B2733 !important;
 }
 
 
 .Dashboard .ui.basic.segment {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .Dashboard .field {
@@ -200,7 +200,7 @@ header {
 
 
 .ui.card > .content, .ui.cards > .card > .content {
-    padding: 0px !important;
+    padding: 0 !important;
     text-align: left;
     position: relative;
 }
@@ -222,7 +222,7 @@ header {
 }
 
 .ui.card > .content > .ui.small.basic.buttons button {
-    padding-right: 0px;
+    padding-right: 0;
     border: none;
     box-shadow: none;
 }
@@ -273,7 +273,7 @@ header {
 
 
 .ui.secondary.menu .right.menu .item {
-    padding: 0px .92857143em !important;
+    padding: 0 .92857143em !important;
 }
 
 .ui.button {
@@ -298,7 +298,6 @@ header {
 
 .ui.icon.menu a .item div {
     font-weight: 500;
-    font-family: Dosis;
     font-size: 14px;
     padding-top: 4px;
 }
@@ -447,7 +446,7 @@ input:focus {
 
 .ui.teal.button, .ui.teal.buttons .button, .ui.teal.labeled.button:not(.icon) {
     background-color: #005ff8 !important;
-    padding: 0px 35px;
+    padding: 0 35px;
 }
 
 
@@ -515,7 +514,7 @@ input:focus {
 
 .ui.card > .content > .ui.small.basic.buttons .button:nth-child(1) {
     border: 1px solid #005ff8;
-    padding: 0px 10px !important;
+    padding: 0 10px !important;
     color: #005ff8 !important;
     border-radius: 3px;
 
@@ -552,7 +551,7 @@ input:focus {
     text-align: inherit;
     color: #1b2733 !important;
     border-bottom: 1px solid rgba(34, 36, 38, .1);
-    border-top: 0px !important;
+    border-top: 0 !important;
 }
 
 .ui.table td a {
@@ -599,7 +598,7 @@ input:focus {
     position: absolute;
     top: 15px;
     z-index: 0;
-    font-family: 'Linearicons' !important;
+    font-family: 'Linearicons', serif !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -630,7 +629,7 @@ input:focus {
 .ui.table tr td:last-child .ui.buttons .ui.button:last-child {
     border-bottom: 1px solid rgba(34, 36, 38, .3);
     padding-bottom: 15px;
-    padding-top: 0px;
+    padding-top: 0;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px
 }
@@ -645,7 +644,7 @@ input:focus {
     background: #fff;
     border-right: 1px solid rgba(34, 36, 38, .2);
     border-left: 1px solid rgba(34, 36, 38, .2);
-    margin-top: 0px;
+    margin-top: 0;
     font-weight: 500;
     box-shadow: 0 11px 16px 0 rgba(27, 39, 51, 0.08);
     text-align: left;
@@ -683,7 +682,7 @@ input:focus {
 
 .freshAppLayout > .two.column.grid > .fifteen.wide.column {
     width: calc(100% - 120px) !important;
-    padding: 0px !important;
+    padding: 0 !important;
 }
 
 .ui.top.attached.segment > .ui.two.column.grid > .column:first-child {
@@ -766,13 +765,13 @@ input:focus {
 }
 
 .ui.bottom.attached.right.aligned.segment {
-    padding-right: 0px !important;
+    padding-right: 0 !important;
 }
 
 .equal.width.fields {
     float: left;
     margin-left: 30px !important;
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
 }
 
 .Agents .field {
@@ -822,7 +821,7 @@ input:focus {
 .login-form .ui.stacked.segment .ui.teal.large.button {
     padding: 15px 35px;
     margin: 25px 0;
-    font-family: Dosis;
+    font-family: Dosis, serif;
     font-weight: 600;
 }
 
@@ -868,7 +867,7 @@ input:focus {
 }
 
 #company-lock i {
-    margin: 0px !important;
+    margin: 0 !important;
 }
 
 #company-lock {
@@ -1050,7 +1049,7 @@ input:focus {
     align-content: center;
     align-items: center;
     padding-bottom: 5px;
-    font-family: Dosis;
+    font-family: Dosis, serif;
     font-weight: 500;
     color: #637282 !important;
 }
@@ -1086,7 +1085,7 @@ input:focus {
 
 .ui.small.modal .two.column.grid .column, .ui.tiny.modal .two.column.grid .column {
     padding: 1.3rem;
-    font-family: Lato;
+    font-family: Lato, serif;
     font-size: 13px;
 }
 
@@ -1100,7 +1099,7 @@ input:focus {
 .ui.small.modal .ui.form input, .ui.tiny.modal .ui.form input {
     box-shadow: none !important;
     border: none;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     border-bottom: 1px solid #ccc !important;
     padding: 16px !important;
     font-size: 15px !important;
@@ -1111,7 +1110,7 @@ input:focus {
 .ui.tiny.modal .ui.form .search {
     position: absolute;
     width: 100%;
-    margin: 0px;
+    margin: 0;
 }
 
 .ui.small.modal .ui.form textarea, .ui.tiny.modal .ui.form textarea {
@@ -1245,8 +1244,7 @@ input:focus {
         display: inline-block;
         margin-right: 10px;
         font-size: 20px;
-        font-family: 'Linearicons' !important;
-        speak: none;
+        font-family: 'Linearicons', serif !important;
         font-style: normal;
         font-weight: normal;
         font-variant: normal;

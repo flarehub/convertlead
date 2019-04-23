@@ -167,7 +167,7 @@ class Agents extends Component {
                   <Icon name={this.getSort('avg_response')}
                         onClick={this.props.sort.bind(this, 'avg_response')}/>
                 </Table.HeaderCell>
-                <Table.HeaderCell><span class="linearicons-cog"></span></Table.HeaderCell>
+                <Table.HeaderCell><span className="linearicons-cog"/></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
