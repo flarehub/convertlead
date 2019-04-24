@@ -56,40 +56,40 @@ class Leads extends Component {
             return 'sort amount up';
         }
         return 'sort';
-    }
+    };
 
     onSearch = (event, data) => {
         this.props.searchLeads(data.value);
-    }
+    };
 
     gotoPage = (event, data) => {
         this.props.gotoPage(data.activePage);
-    }
+    };
 
     openConfirmModal = (open = true, companyId, leadId = null) => {
         this.setState({open, companyId, leadId})
-    }
+    };
 
     onConfirm = () => {
         this.setState({open: false});
         this.props.delete(this.state.companyId, this.state.leadId);
-    }
+    };
 
     onShowArch = () => {
         this.props.toggleShowDeleted();
-    }
+    };
 
     filterByCompany = (event, data) => {
         this.props.filterLeads({
             companyId: data.value,
         })
-    }
+    };
 
     filterByStatus = (event, data) => {
         this.props.filterLeads({
             statusType: data.value,
         })
-    }
+    };
 
     onChangeDateFrom = (date) => {
         this.setState({
@@ -165,22 +165,18 @@ class Leads extends Component {
         return (
             <div className='Leads'>
                 <LeadModal size='small'/>
-                <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
-                         onConfirm={this.onConfirm}/>
+                <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
                 <Segment attached='top'>
                     <Grid columns={2}>
                         <Grid.Column>
                             <Header floated='left' as='h1'>Leads</Header>
-
                             <div className="field">
-
                                 <label>Filter by: </label>
-
                                 <Form>
                                     <Form.Group widths='equal'>
                                         {
-                                            !campaignId && Auth.isAgency
-                                                ? <Form.Field
+                                            !campaignId && Auth.isAgency ?
+                                                <Form.Field
                                                     loading={!this.props.selectBoxCompanies.length}
                                                     control={Select}
                                                     options={[...companies, ...this.props.selectBoxCompanies]}
@@ -188,8 +184,7 @@ class Leads extends Component {
                                                     search
                                                     onChange={this.filterByCompany}
                                                     defaultValue={companyId || null}
-                                                    searchInput={{id: 'form-companies-list'}}
-                                                />
+                                                    searchInput={{id: 'form-companies-list'}} />
                                                 : null
                                         }
 
@@ -215,14 +210,10 @@ class Leads extends Component {
                                         <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
                                                           onChangeDateTo={this.onChangeDateTo}
                                                           onRestDate={this.onRestDate}
-                                                          from={new Date(startDate)} to={new Date(endDate)}
-                                        />
+                                                          from={new Date(startDate)} to={new Date(endDate)}/>
                                     </Popup>
                                 </Form>
-
                             </div>
-
-
                             <Form.Field>
                                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
                             </Form.Field>
@@ -269,7 +260,7 @@ class Leads extends Component {
                                         <Icon name={this.getSort('campaign')}
                                               onClick={this.props.sort.bind(this, 'campaign')}/>
                                     </Table.HeaderCell>
-                                    <Table.HeaderCell><span className="linearicons-cog"></span></Table.HeaderCell>
+                                    <Table.HeaderCell><span className="linearicons-cog"/></Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>

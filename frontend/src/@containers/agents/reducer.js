@@ -81,6 +81,7 @@ const initState = {
       responsive: true,
       legend: {
         position: 'top',
+        display: false
       },
       title: {
         display: false,
