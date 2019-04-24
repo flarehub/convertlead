@@ -174,7 +174,7 @@ class Campaigns extends Component {
           <Grid.Column>
             <Menu secondary>
               <Menu.Menu position='right'>
-                <Button color='teal' content='New Campaign' onClick={this.props.loadForm.bind(this, { agentId: this.state.agentId, show: true })} icon='add' labelPosition='left' />
+                <Button color='teal' content='New Campaign' onClick={this.props.loadForm.bind(this, { agentId: this.state.agentId, show: true })} labelPosition='left' />
               </Menu.Menu>
             </Menu>
           </Grid.Column>
@@ -220,12 +220,12 @@ class Campaigns extends Component {
                       }
                       {
                         campaign.integration === 'ZAPIER'
-                        ?  <Button circular color='google plus' icon='assistive listening systems' />
+                        ?  <Button circular color='orange' icon='asterisk' />
                         : null
                       }
                       {
                         campaign.integration === 'OPTIN_FORM'
-                          ?  <Button circular color='purple' icon='wpforms' />
+                          ?  <Button circular color='grey' icon='bars' />
                           : null
                       }
                     </Table.Cell>
@@ -245,17 +245,18 @@ class Campaigns extends Component {
                     <Table.Cell>
                       {
                         !campaign.deleted_at
-                        ? <Button.Group>
-                            <Button onClick={this.loadIntegrationForm.bind(this, campaign)}>Integration</Button>
+                        ?
+                            <><Button className={"integration-but"} onClick={this.loadIntegrationForm.bind(this, campaign)}>Integration</Button>
+                            <Button.Group>
                             <Button onClick={this.props.loadForm.bind(this, { ...campaign,
                               companyId: campaign.company_id,
                               dealId: campaign.deal_id,
                               agentId: this.state.agentId,
                               agents: campaign.agents && campaign.agents.map(agent => agent.id), show: true })}>
-                              <Icon name='pencil alternate' />
+                              Edit
                             </Button>
-                            <Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}><Icon name='trash alternate outline'/></Button>
-                          </Button.Group>
+                            <Button onClick={this.openConfirmModal.bind(this, true, campaign.id)}>Archieve</Button>
+                          </Button.Group></>
                         : null
                       }
                     </Table.Cell>

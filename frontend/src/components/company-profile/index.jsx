@@ -158,7 +158,7 @@ class CompanyProfile extends Component {
                   control={Select}
                   options={[...agents, ...this.props.selectBoxAgents]}
                   label={{ children: '', htmlFor: 'agents-list' }}
-                  placeholder='Company agents'
+                  placeholder='Select agent'
                   search
                   onChange={this.onChangeAgent}
                   searchInput={{ id: 'agents-list' }}

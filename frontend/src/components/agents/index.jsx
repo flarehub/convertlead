@@ -108,11 +108,10 @@ class Agents extends Component {
           <Grid columns={2}>
             <Grid.Column>
               <Header floated='left' as='h1'>Agents</Header>
-              <Form>
-                <Form.Group widths='equal'>
-                  <Form.Field>
+                <Form.Field>
                     <Checkbox label='Show Archived' toggle onChange={this.onShowArch} />
-                  </Form.Field>
+                </Form.Field>
+                <Form>
                   {
                     Auth.isAgency
                       ? <Form.Field
@@ -128,7 +127,6 @@ class Agents extends Component {
                       />
                       : null
                   }
-                </Form.Group>
               </Form>
             </Grid.Column>
             <Grid.Column>

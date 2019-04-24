@@ -52,7 +52,8 @@ class EntityModal extends Component {
           Cancel
         </Button>
         <Button
-          teal
+          color="teal"
+          labelPosition="left"
           content="Save"
           onClick={this.onSave}
         />

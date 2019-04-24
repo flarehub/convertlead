@@ -948,10 +948,12 @@ input:focus {
 }
 
 
-.CompanyProfile .ui.two.column.grid .column:nth-child(1) .ui.form > .equal.width.fields > div:nth-child(2), .AgentProfile .ui.two.column.grid .column:nth-child(1) .ui.form > .equal.width.fields > div:nth-child(2) {
+.CompanyProfile .ui.two.column.grid .column:first-child .ui.form > .equal.width.fields > div:nth-child(2), .AgentProfile .ui.two.column.grid .column:first-child .ui.form > .equal.width.fields > div:nth-child(2) {
     display: inline-flex !important;
     margin: 3px;
     padding: 5px;
+    white-space: nowrap ;
+
 }
 
 
@@ -963,7 +965,7 @@ input:focus {
     background: transparent;
     padding: 5px;
     border-radius: 2px;
-    color: #1b2733;
+    color: #637282;
     display: inline-block !important;
     float: left;
     margin: 0;
@@ -1202,6 +1204,19 @@ input:focus {
     margin-left: 0 !important;
 }
 
+
+
+.Leads .ui.two.column.grid .column:nth-child(1) .field .ui.form .equal.width.fields div:nth-child(2) .ui.active.visible.search.selection.dropdown .visible.menu.transition .item:first-child:before {
+    content: '';
+    display: none;
+    width: 7px;
+    height: 7px;
+    background: #0028ff;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+
 .Leads .ui.two.column.grid .column:nth-child(1) .field .ui.form .equal.width.fields div:nth-child(2) .ui.active.visible.search.selection.dropdown .visible.menu.transition .item:before {
     content: '';
     display: inline-block;
@@ -1211,6 +1226,30 @@ input:focus {
     margin-right: 10px;
     border-radius: 5px;
 }
+
+
+.Leads .ui.two.column.grid .column:nth-child(1) .field .ui.form .equal.width.fields div:nth-child(2) .ui.active.visible.search.selection.dropdown .visible.menu.transition .item:nth-child(2):before {
+    background: #a2afbd;
+}
+
+.Leads .ui.two.column.grid .column:nth-child(1) .field .ui.form .equal.width.fields div:nth-child(2) .ui.active.visible.search.selection.dropdown .visible.menu.transition .item:nth-child(3):before {
+    background: #f2711c;
+}
+
+.Leads .ui.two.column.grid .column:nth-child(1) .field .ui.form .equal.width.fields div:nth-child(2) .ui.active.visible.search.selection.dropdown .visible.menu.transition .item:nth-child(7):before {
+    background: #db3d28;
+}
+
+.Leads .ui.two.column.grid .column:nth-child(1) .field .ui.form .equal.width.fields div:nth-child(2) .ui.active.visible.search.selection.dropdown .visible.menu.transition .item:nth-child(8):before {
+    background: #db2828;
+}
+
+
+
+.Leads .ui.two.column.grid .column:nth-child(1) .field .ui.form .equal.width.fields div:nth-child(2) .ui.active.visible.search.selection.dropdown .visible.menu.transition .item:nth-child(9):before {
+    background: #21ba45;
+}
+
 
 
 .Leads .ui.two.column.grid .column:nth-child(1) .field .ui.form .equal.width.fields .field .ui.active.visible.search.selection.dropdown {
@@ -1232,7 +1271,32 @@ input:focus {
     position: relative;
 }
 
+
+
+.average-response-time ul li div {
+
+    width:10px !important;
+    border-radius: 25px;
+
+}
+
+.average-response-time ul li {
+    margin-right: 25px !important;
+}
+
+
+
+
+
+
+
+
+
 /* Mobile view / Media queries */
+
+
+
+
 
 @media only screen and (max-width: 1024px){
 
@@ -1245,7 +1309,7 @@ input:focus {
         display: inline-block;
         margin-right: 10px;
         font-size: 20px;
-        font-family: 'Linearicons' !important;
+        font-family: 'Linearicons', sans-serif !important;
         speak: none;
         font-style: normal;
         font-weight: normal;
@@ -1288,12 +1352,28 @@ input:focus {
         width: 200px;
     }
 
+
+    .ui.single.line.table tbody{
+        display: contents !important;
+    }
+
+
+    .ui.single.line.table tr  {
+        display:table-row !important;
+    }
+
+
+    .ui.single.line.table tr > th, .ui.single.line.table tr > td {
+        display:table-cell !important;
+    }
+
+
     .Leads .ui.table thead th:nth-child(3), .Leads .ui.table thead th:nth-child(2), .Leads .ui.table thead th:nth-child(5), .Leads .ui.table thead th:nth-child(6), .Leads .ui.table tbody tr td:nth-child(3), .Leads .ui.table tbody tr td:nth-child(2), .Leads .ui.table tbody tr td:nth-child(5), .Leads .ui.table tbody tr td:nth-child(6) {
-        display: none;
+        display: none !important;
     }
 
     .Companies .ui.table thead th:nth-child(3), .Companies .ui.table thead th:nth-child(2), .Companies .ui.table thead th:nth-child(5), .Companies .ui.table tbody tr td:nth-child(3), .Companies .ui.table tbody tr td:nth-child(2), .Companies .ui.table tbody tr td:nth-child(5) {
-        display: none;
+        display: none !important;
     }
 
     .ui.table:not(.unstackable) td:first-child, .ui.table:not(.unstackable) th:first-child {
@@ -1341,6 +1421,8 @@ input:focus {
     .ui.small.modal .ui.form .field > label, .ui.tiny.modal .ui.form .field > label {
         font-size: 16px;
     }
+
+
 }
 
 @media only screen and (max-width: 662px) {

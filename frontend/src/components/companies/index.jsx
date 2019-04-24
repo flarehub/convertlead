@@ -149,14 +149,15 @@ class Companies extends Component {
                     {
                       !company.is_deleted
                       ?
-                      <Button.Group>
-                        <Button id="company-lock" onClick={this.onLockCompany.bind(this, company)}><Icon name={company.is_locked ? 'linearicons-lock ' : 'linearicons-shield-check '} /></Button>
-                        
+                          <>
+                         <Button id="company-lock" onClick={this.onLockCompany.bind(this, company)}><Icon name={company.is_locked ? 'linearicons-lock ' : 'linearicons-shield-check '} /></Button>
+                          <Button.Group>
                         <Button onClick={this.props.loadForm.bind(this, { ...company, show: true })}>Edit</Button>
                         <Button onClick={this.openConfirmModal.bind(this, true, company.id)}>Archieve</Button>
                       </Button.Group>
+                          </>
                       : null
-                    }
+                          }
                   </Table.Cell>
                 </Table.Row>
               ))

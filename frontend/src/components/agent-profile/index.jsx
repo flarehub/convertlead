@@ -136,10 +136,8 @@ class AgentProfile extends Component {
                     control={Select}
                     options={this.props.selectBoxAgentCompanies}
                     label={{ children: '', htmlFor: 'agents-list' }}
-                    placeholder='Agent companies'
+                    placeholder='Select Company'
                     search
-                    multiple
-                    defaultValue={this.props.agentCompaniesIds || null}
                     onChange={this.onChangeCompany}
                     searchInput={{ id: 'agents-list' }}
                   />
@@ -166,7 +164,7 @@ class AgentProfile extends Component {
           <Grid.Column>
             <Menu secondary>
               <Menu.Menu position='right'>
-                <Button color='teal' content='Edit Agent' onClick={this.onEditAgent} icon='pencil alternate' labelPosition='left' />
+                <Button color='teal' content='Edit Agent' onClick={this.onEditAgent} labelPosition='left' />
               </Menu.Menu>
             </Menu>
           </Grid.Column>
