@@ -1329,17 +1329,34 @@ input:focus {
 }
 
 
+.average-response-time ul {
+    padding-left:0px;
+    text-align:center;
+    margin:20px auto;
+}
 
 .average-response-time ul li div {
 
     width:10px !important;
     border-radius: 25px;
+    display: block;
+    margin-bottom: 15px;
 
 }
 
 .average-response-time ul li {
-    margin-right: 25px !important;
+    display: inline-flex!important;
+    margin-right: 15px !important;
+    width: 60px;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
 }
+
+.average-response-time ul li:nth-child(5) {
+    margin-right:0!important;
+    }
 
 
 .AgentLeads .ui.segment.active.tab {
@@ -1476,7 +1493,7 @@ input:focus {
     font-size: 30px !important;
     font-weight: 400 !important;
     font-family: 'Dosis', sans-serif !important;
-    margin-top:20px;
+    margin-top:40px;
     color: #1B2733 !important;
 }
 
@@ -1490,7 +1507,7 @@ input:focus {
 
 .LeadsStats .required.field {
     display:block !important;
-    line-height: 40px;
+    line-height: 45px;
 }
 
 .LeadsStats .required.field .selection.dropdown {
@@ -1610,6 +1627,10 @@ input:focus {
 
     .freshAppHeader {
         display: none;
+    }
+
+    .ui.top.attached.segment {
+        margin-top:38px !important;
     }
 
     .ui.table:not(.unstackable) tr > td, .ui.table:not(.unstackable) tr > th {

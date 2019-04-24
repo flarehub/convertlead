@@ -262,7 +262,7 @@ class Campaigns extends Component {
                                                 {
                                                     !campaign.deleted_at ?
                                                         (<div className="action-button">
-                                                            <Button basic size="tiny" onClick={this.loadIntegrationForm.bind(this, campaign)}>
+                                                            <Button className={"integration-but"} onClick={this.loadIntegrationForm.bind(this, campaign)}>
                                                                 Integration
                                                             </Button>
                                                             <Button.Group>
@@ -274,11 +274,11 @@ class Campaigns extends Component {
                                                                     agents: campaign.agents && campaign.agents.map(agent => agent.id),
                                                                     show: true
                                                                 })}>
-                                                                    <Icon name='pencil alternate'/>
+                                                                    Edit
                                                                 </Button>
                                                                 <Button
                                                                     onClick={this.openConfirmModal.bind(this, true, campaign.id)}>
-                                                                    <Icon name='trash alternate outline'/>
+                                                                    Archieve
                                                                 </Button>
                                                             </Button.Group>
                                                         </div>)

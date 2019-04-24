@@ -118,10 +118,11 @@ class LeadStats extends Component {
                     </div>
 
                     <div className='agent-welcome'>
-                        <h3>Hi {this.props.profile.name}</h3>
+                        <h3>Hi, {this.props.profile.name}</h3>
                         <p>
-                            Looks like you've started calling your leads. You can see your stats on this page. Click
-                            below to check your new leads.
+                            Welcome to your dashboard! <br></br> When you start calling your leads, your stats will show up in the chart above
+                            for easy access. Follow the link below to check your fresh leads.
+
                         </p>
                         <Link to='/companies/leads'>
                             <Button primary>View fresh leads</Button>
