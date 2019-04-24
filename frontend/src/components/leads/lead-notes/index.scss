@@ -1,18 +1,25 @@
 .LeadNotes {
+  .export-data{
+    text-align: left;
+    padding: 20px 0;
+  }
   .lead-profile {
     .lead-profile-row {
       padding: 5px;
+
       .lead-profile-label {
         width: 40%;
         display: inline-flex;
         text-align: left;
         color: gray;
       }
+
       .lead-profile-value {
         width: 60%;
         display: inline-flex;
         text-align: left;
       }
+
       p {
         text-align: left;
       }

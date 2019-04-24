@@ -7,6 +7,6 @@ export class AvatarImage extends Component {
     const { src, ...props } = this.props;
     return <div style={{
       backgroundImage: `url('${src}')`
-    }} className={R.keys(props).join(' ').concat(' icon-image')}></div>
+    }} className={R.keys(props).join(' ').concat(' icon-image')}/>
   }
 }
