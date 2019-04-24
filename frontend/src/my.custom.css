@@ -448,7 +448,7 @@ input:focus {
 
 .ui.teal.button, .ui.teal.buttons .button, .ui.teal.labeled.button:not(.icon) {
     background-color: #005ff8 !important;
-    padding: 0px 35px;
+    padding: 0 35px;
 }
 
 
@@ -531,7 +531,7 @@ input:focus {
 
 .ui.card > .content > .ui.small.basic.buttons .button:nth-child(1) {
     border: 1px solid #005ff8;
-    padding: 0px 10px !important;
+    padding: 0 10px !important;
     color: #005ff8 !important;
     border-radius: 3px;
 
@@ -568,7 +568,7 @@ input:focus {
     text-align: inherit;
     color: #1b2733 !important;
     border-bottom: 1px solid rgba(34, 36, 38, .1);
-    border-top: 0px !important;
+    border-top: 0 !important;
 }
 
 .ui.table td a {
@@ -651,7 +651,7 @@ input:focus {
 .ui.table tr td:last-child .ui.buttons .ui.button:last-child {
     border-bottom: 1px solid rgba(34, 36, 38, .3);
     padding-bottom: 15px;
-    padding-top: 0px;
+    padding-top: 0;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px
 }
@@ -666,7 +666,7 @@ input:focus {
     background: #fff;
     border-right: 1px solid rgba(34, 36, 38, .2);
     border-left: 1px solid rgba(34, 36, 38, .2);
-    margin-top: 0px;
+    margin-top: 0;
     font-weight: 500;
     box-shadow: 0 11px 16px 0 rgba(27, 39, 51, 0.08);
     text-align: left;
@@ -1667,7 +1667,7 @@ input:focus {
         display: inline !important;
         float: left;
         width: unset !important;
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 
 
