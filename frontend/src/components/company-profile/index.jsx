@@ -54,7 +54,6 @@ class CompanyProfile extends Component {
                 active: true
             });
         }
-        console.log(this.props);
     }
 
     componentDidMount() {

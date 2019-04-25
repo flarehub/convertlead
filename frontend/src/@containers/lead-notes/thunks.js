@@ -1,5 +1,5 @@
 import {sendMessage} from "../messages/thunks";
-import {api, Auth} from "@services";
+import {Auth} from "@services";
 import * as actions from './actions';
 import {addBreadCrumb} from "../breadcrumb/actions";
 import {hideLoader, showLoader} from "../loader/actions";

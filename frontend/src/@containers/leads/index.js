@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
   pagination: state.leads.pagination,
   statuses: state.leads.statuses,
   selectBoxStatuses: getSelectBoxStatuses(state),
+  selectBoxDates: state.agents.selectBoxDates,
   query: state.leads.query,
   openModal: state.leads.openModal,
   openModalStatus: state.leads.openModalStatus,

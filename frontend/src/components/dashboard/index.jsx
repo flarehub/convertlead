@@ -27,7 +27,7 @@ class Dashboard extends Component {
         return (
             <div className='Dashboard'>
                 {
-                    Auth.isAgency || Auth.isCompany ? <Deals companyId={this.state.companyId} /> : <LeadStats/>
+                    (Auth.isAgency || Auth.isCompany) ? <Deals companyId={this.state.companyId}/> : <LeadStats/>
                 }
             </div>
         );

@@ -4,7 +4,7 @@ import {CompaniesContainer, DealsContainer} from '@containers';
 import DealModal from 'components/@common/modals/deal';
 import Loader from 'components/loader';
 import {
-    Segment, Confirm, Card, Header, Menu, Form, Select, Input, Grid, Button
+    Segment, Confirm, Card, Header, Menu,Input, Grid, Button
 } from 'semantic-ui-react';
 
 import './index.scss';
@@ -13,9 +13,9 @@ import * as R from "ramda";
 import {Auth} from "@services";
 import {CardContent} from "./card-content";
 
-const companies = [
-    {key: null, text: 'All companies', value: null},
-];
+// const companies = [
+//     {key: null, text: 'All companies', value: null},
+// ];
 
 class Dashboard extends Component {
     state = {
@@ -65,7 +65,6 @@ class Dashboard extends Component {
 
     render() {
         const {deals, filters} = this.props;
-        const {companyId} = this.state;
         return (
             <div className='Dashboard'>
                 <DealModal/>
@@ -75,21 +74,6 @@ class Dashboard extends Component {
                     <Grid columns={2}>
                         <Grid.Column>
                             <Header floated='left' as='h1'>Deals</Header>
-                            {
-                                Auth.isAgency ? <Form.Field
-                                        loading={!this.props.selectBoxCompanies.length}
-                                        control={Select}
-                                        options={[...companies, ...this.props.selectBoxCompanies]}
-                                        label={{children: 'Filter', htmlFor: 'form-companies-list'}}
-                                        placeholder='All companies'
-                                        search
-                                        onChange={this.filterDealsByCompany}
-                                        defaultValue={companyId || null}
-                                        onSearchChange={this.onSearchChange}
-                                        searchInput={{id: 'form-companies-list'}}
-                                    />
-                                    : null
-                            }
                         </Grid.Column>
                         <Grid.Column>
                             <Menu secondary>

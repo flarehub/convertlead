@@ -12,7 +12,7 @@ import {
 } from "@containers";
 import Loader from '../loader';
 import {
-    Segment, Confirm, Checkbox, Header, Menu, Image, Form, Select, Input,
+    Segment, Confirm, Checkbox, Header, Menu, Form,
     Grid, Button, Table, Icon, Pagination,
 } from 'semantic-ui-react';
 import * as R from "ramda";

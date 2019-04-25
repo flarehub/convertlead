@@ -1,4 +1,4 @@
-import {api, Auth} from "../../../@services";
+import {api} from "../../../@services";
 
 export const createAgencyCompanyDeal = form => {
   return api.post(`/v1/agency/companies/${form.companyId}/deals`, form);

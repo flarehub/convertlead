@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
-import {Segment, Button, Icon, Grid, Header, Select, Popup, Checkbox} from 'semantic-ui-react';
-import './index.scss';
+import {Segment, Button, Icon, Grid, Header} from 'semantic-ui-react';
 import {BreadCrumbContainer, LeadNotesContainer} from "@containers";
 import TimeLine from "./timeline";
 import Loader from 'components/loader';
-import {Form} from "semantic-ui-react/dist/commonjs/collections/Form";
-import DatePickerSelect from "../index";
+import './index.scss';
 
 class LeadNotes extends Component {
 

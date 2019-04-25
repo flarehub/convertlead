@@ -1,107 +1,193 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { compose } from 'recompose';
-import { LeadsContainer, BreadCrumbContainer } from '@containers';
-import { Tab, Menu, Label, Button, Segment } from 'semantic-ui-react';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {compose} from 'recompose';
+import {LeadsContainer, BreadCrumbContainer} from '@containers';
+import {Tab, Menu, Label, Button, Segment, Grid, Select, Form, Input} from 'semantic-ui-react';
 import './index.scss'
 import LeadsList from "./list";
+import * as moment from 'moment';
 
 class AgentLeads extends Component {
-  state = {
-    scrollY: window.scrollY,
-  };
-
-  componentWillMount() {
-    this.props.agentLeadsByStatuses([]);
-    this.props.addBreadCrumb({
-      name: 'Leads',
-      path: '/agents',
-      active: true,
-    });
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll = () => {
-    const { pagination } = this.props;
-    if (window.scrollY > this.state.scrollY && pagination.current_page < pagination.last_page) {
-      this.props.scrollToPage(pagination.current_page + 1);
-      this.setState({
+    state = {
         scrollY: window.scrollY,
-      });
+        dates: {
+            'today': {
+                startDate: moment().startOf('day').format('Y-MM-DD'),
+                endDate: moment().endOf('day').format('Y-MM-DD'),
+            },
+            'yesterday': {
+                startDate: moment().subtract(1, 'days').startOf('day').format('Y-MM-DD'),
+                endDate: moment().subtract(1, 'days').endOf('day').format('Y-MM-DD'),
+            },
+            'this-week': {
+                startDate: moment().startOf('week').format('Y-MM-DD'),
+                endDate: moment().endOf('week').format('Y-MM-DD'),
+            },
+            'previous-week': {
+                startDate: moment().subtract(1, 'week').startOf('week').format('Y-MM-DD'),
+                endDate: moment().subtract(1, 'week').endOf('week').format('Y-MM-DD'),
+            },
+            'this-month': {
+                startDate: moment().startOf('month').format('Y-MM-DD'),
+                endDate: moment().endOf('month').format('Y-MM-DD'),
+            },
+            'previous-month': {
+                startDate: moment().subtract(1, 'month').startOf('month').format('Y-MM-DD'),
+                endDate: moment().subtract(1, 'month').endOf('month').format('Y-MM-DD'),
+            },
+        }
+    };
+
+    componentWillMount() {
+        this.props.agentLeadsByStatuses([]);
+        this.props.addBreadCrumb({
+            name: 'Leads',
+            path: '/agents',
+            active: true,
+        });
     }
-  }
 
-  showAllLeads = () => {
-    this.setState({
-      pageStart: 0,
-    });
-    this.props.agentLeadsByStatuses([]);
-  };
+    componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll);
+    }
 
-  showFreshLeads = () => {
-    this.setState({
-      pageStart: 0,
-    });
-    this.props.agentLeadsByStatuses(['NEW']);
-  };
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
 
-  showContactedLeads = () => {
-    this.setState({
-      pageStart: 0,
-    });
-    this.props.agentLeadsByStatuses(['CONTACTED_SMS', 'CONTACTED_CALL', 'CONTACTED_EMAIL']);
-  };
+    handleScroll = () => {
+        const {pagination} = this.props;
+        if (window.scrollY > this.state.scrollY && pagination.current_page < pagination.last_page) {
+            this.props.scrollToPage(pagination.current_page + 1);
+            this.setState({
+                scrollY: window.scrollY,
+            });
+        }
+    };
 
-  showSoldLeads = () => {
-    this.setState({
-      pageStart: 0,
-    });
-    this.props.agentLeadsByStatuses(['SOLD']);
-  };
+    showAllLeads = () => {
+        this.setState({
+            pageStart: 0,
+        });
+        this.props.agentLeadsByStatuses([]);
+    };
 
-  render() {
-    const { agentLeads, statuses, newLeadsCount } = this.props;
-    const panes =  [
-      { menuItem: (
-          <Menu.Item key='all' onClick={this.showAllLeads}>
-            All
-          </Menu.Item>
-        ), render: () => <LeadsList statuses={statuses} leads={agentLeads} /> },
-      { menuItem: (
-          <Menu.Item key='fresh' onClick={this.showFreshLeads}>
-            Fresh<Label>{newLeadsCount}</Label>
-          </Menu.Item>
-        ), render: () => <LeadsList statuses={statuses} leads={agentLeads} /> },
-      { menuItem: (
-          <Menu.Item key='contacted' onClick={this.showContactedLeads}>
-            Contacted
-          </Menu.Item>
-        ), render: () => <LeadsList statuses={statuses} leads={agentLeads} /> },
-      { menuItem: (
-          <Menu.Item key='soldout' onClick={this.showSoldLeads}>
-            Sold
-          </Menu.Item>
-        ), render: () => <LeadsList statuses={statuses} leads={agentLeads} /> },
-    ];
-    return (<div className='AgentLeads'>
-      <Segment basic>
-        <h1 className="ui left floated header mobile-app-menu">Leads</h1>
-      </Segment>
-      <Segment basic>
-        <Tab menu={{ secondary: true }} panes={panes} />
-      </Segment>
-      <Link to='/companies/leads/create'>
-        <Button circular primary size='massive' icon='plus' className='add-lead' />
-      </Link>
-    </div>)
-  }
+    showFreshLeads = () => {
+        this.setState({
+            pageStart: 0,
+        });
+        this.props.agentLeadsByStatuses(['NEW']);
+    };
+
+    showContactedLeads = () => {
+        this.setState({
+            pageStart: 0,
+        });
+        this.props.agentLeadsByStatuses(['CONTACTED_SMS', 'CONTACTED_CALL', 'CONTACTED_EMAIL']);
+    };
+
+    showSoldLeads = () => {
+        this.setState({
+            pageStart: 0,
+        });
+        this.props.agentLeadsByStatuses(['SOLD']);
+    };
+
+    onSearch = (event, data) => {
+        this.props.searchAgentLeads(data.value);
+    };
+
+    onChangeDate = (event, data) => {
+
+    };
+
+    render() {
+        const {agentLeads, statuses, newLeadsCount, query} = this.props;
+        const panes = [
+            {
+                menuItem: (
+                    <Menu.Item key='all' onClick={this.showAllLeads}>
+                        All
+                    </Menu.Item>
+                ), render: () => (
+                    <div className="tab-panel">
+                        <Input icon='search' placeholder='Search...' onChange={this.onSearch} value={query.search || ''}/>
+                        <LeadsList statuses={statuses} leads={agentLeads}/>
+                    </div>
+                )
+            },
+            {
+                menuItem: (
+                    <Menu.Item key='fresh' onClick={this.showFreshLeads}>
+                        Fresh<Label>{newLeadsCount}</Label>
+                    </Menu.Item>
+                ), render: () => (
+                    <div className="tab-panel">
+                        <Input icon='search' placeholder='Search...' onChange={this.onSearch} value={query.search || ''}/>
+                        <LeadsList statuses={statuses} leads={agentLeads}/>
+                    </div>
+                )
+            },
+            {
+                menuItem: (
+                    <Menu.Item key='contacted' onClick={this.showContactedLeads}>
+                        Contacted
+                    </Menu.Item>
+                ), render: () => (
+                    <div className="tab-panel">
+                        <Input icon='search' placeholder='Search...' onChange={this.onSearch} value={query.search || ''}/>
+                        <LeadsList statuses={statuses} leads={agentLeads}/>
+                    </div>
+                )
+            },
+            {
+                menuItem: (
+                    <Menu.Item key='soldout' onClick={this.showSoldLeads}>
+                        Sold
+                    </Menu.Item>
+                ), render: () => (
+                    <div className="tab-panel">
+                        <Input icon='search' placeholder='Search...' onChange={this.onSearch} value={query.search || ''}/>
+                        <LeadsList statuses={statuses} leads={agentLeads}/>
+                    </div>
+                )
+            },
+        ];
+        return (
+            <div className='AgentLeads'>
+                <Segment basic>
+                    <Grid columns={2}>
+                        <Grid.Column>
+                            <h1 className="ui left floated header mobile-app-menu">Leads</h1>
+                        </Grid.Column>
+                        <Grid.Column>
+
+                            <Form>
+                                <Form.Group widths='equal'>
+                                    <Form.Field
+                                        required
+                                        loading={!this.props.selectBoxDates.length}
+                                        control={Select}
+                                        options={this.props.selectBoxDates || []}
+                                        placeholder="Select Date"
+                                        defaultValue='today'
+                                        onChange={this.onChangeDate}
+                                        searchInput={{id: 'leads-date'}}
+                                    />
+                                </Form.Group>
+                            </Form>
+
+                        </Grid.Column>
+                    </Grid>
+                </Segment>
+                <Segment basic>
+                    <Tab menu={{secondary: true}} panes={panes}/>
+                </Segment>
+                <Link to='/companies/leads/create'>
+                    <Button circular primary size='massive' icon='plus' className='add-lead'/>
+                </Link>
+            </div>)
+    }
 }
 
 export default compose(LeadsContainer, BreadCrumbContainer)(AgentLeads);

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './index.scss';
 import {TimeLineRecord} from "./timeline-record";
-import {Button, Form, Icon, TextArea, Dropdown, Popup} from 'semantic-ui-react';
+import {Button, Form, Icon, TextArea, Dropdown} from 'semantic-ui-react';
 
 class TimeLine extends Component {
     state = {
@@ -45,7 +45,7 @@ class TimeLine extends Component {
                 <ul>
                     <li className='timeline-record'>
                         <div className={`timeline-status timeline-bg-color-${lead.status.charAt(0).toLowerCase()}`}>
-                            <span>{lead.fullname && lead.fullname.charAt(0) || lead.status.charAt(0)}</span>
+                            <span>{(lead.fullname && lead.fullname.charAt(0)) || lead.status.charAt(0)}</span>
                         </div>
                         <div className='timeline-vertical-line'/>
                         <div className='timeline-record-text'>

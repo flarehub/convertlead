@@ -3,72 +3,72 @@ import * as R from "ramda";
 import {SessionStorage} from "@services";
 
 const initialState = {
-  role: R.pathOr('', ['user', 'role'], SessionStorage.getItem('session')),
-  profile: R.pathOr({
-    id: null,
-    name: null,
-    email: null,
-    phone: null,
-    avatar_path: null,
-    role: null,
-    permissions: [],
-    agencies: [],
-  }, ['user'], SessionStorage.getItem('session')),
-  profileForm: {
-    id: null,
-    name: '',
-    email: '',
-    phone: '',
-    avatar: '',
-  },
-  passwordResetForm: {
-    password: '',
-    password_confirmation: '',
-  }
+    role: R.pathOr('', ['user', 'role'], SessionStorage.getItem('session')),
+    profile: R.pathOr({
+        id: null,
+        name: null,
+        email: null,
+        phone: null,
+        avatar_path: null,
+        role: null,
+        permissions: [],
+        agencies: [],
+    }, ['user'], SessionStorage.getItem('session')),
+    profileForm: {
+        id: null,
+        name: '',
+        email: '',
+        phone: '',
+        avatar: '',
+    },
+    passwordResetForm: {
+        password: '',
+        password_confirmation: '',
+    }
 };
 
 function profile(state = initialState, action) {
-  switch (action.type) {
-    case UPDATE_USER_PROFILE: {
-      return {
-        ...state,
-        role: action.profile.role.toLowerCase(),
-        profile: {
-          ...action.profile,
+    switch (action.type) {
+        case UPDATE_USER_PROFILE: {
+            return {
+                ...state,
+                role: action.profile.role.toLowerCase(),
+                profile: {
+                    ...action.profile,
+                }
+            };
         }
-      };
-    }
-    case LOAD_PROFILE_FORM: {
-      return {
-        ...state,
-        profileForm: action.profile
-      };
-    }
-    case CHANGE_PROFILE_FORM: {
-      return {
-        ...state,
-        profileForm: {
-          ...state.profileForm,
-          ...action.profile,
+        case LOAD_PROFILE_FORM: {
+            return {
+                ...state,
+                profileForm: action.profile
+            };
         }
-      };
-    }
-    case CHANGE_PASSWORD_RESET_FORM: {
-      return {
-        ...state,
-        passwordResetForm: {
-          ...state.passwordResetForm,
-          ...action.passwordResetForm
+        case CHANGE_PROFILE_FORM: {
+            return {
+                ...state,
+                profileForm: {
+                    ...state.profileForm,
+                    ...action.profile,
+                }
+            };
         }
-      }
+        case CHANGE_PASSWORD_RESET_FORM: {
+            return {
+                ...state,
+                passwordResetForm: {
+                    ...state.passwordResetForm,
+                    ...action.passwordResetForm
+                }
+            }
+        }
+        default: {
+            return {
+                ...state,
+                role: state.role.toLowerCase(),
+            };
+        }
     }
-    default: {
-      return {
-        ...state,
-        role: state.role.toLowerCase(),
-      };
-    }
-  }
 }
 
 export default profile;

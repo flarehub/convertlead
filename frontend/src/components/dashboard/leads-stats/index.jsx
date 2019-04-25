@@ -70,8 +70,6 @@ class LeadStats extends Component {
         this.Chart.data = this.props.pieGraphContactedLeadsAverage.data;
         this.Chart.update();
         this.refs.legend.innerHTML = this.Chart.generateLegend();
-        console.log(this.state.dates);
-        console.log(this.Chart);
     }
 
     onChangeDate = (event, data) => {
@@ -85,53 +83,55 @@ class LeadStats extends Component {
 
     render() {
         const {data} = this.props.pieGraphContactedLeadsAverage.data.datasets[0];
-        return (<div className='LeadsStats'>
-            <Segment attached='top'>
-                <Grid columns={2}>
-                    <Grid.Column>
-                        <h1 className="ui left floated header mobile-app-menu">Dashboard</h1>
-                    </Grid.Column>
-                    <Grid.Column>
+        return (
+            <div className='LeadsStats'>
+                <Segment attached='top'>
+                    <Grid columns={2}>
+                        <Grid.Column>
+                            <h1 className="ui left floated header mobile-app-menu">Dashboard</h1>
+                        </Grid.Column>
+                        <Grid.Column>
 
-                        <Form>
-                            <Form.Group widths='equal'>
-                                <Form.Field
-                                    required
-                                    loading={!this.props.selectBoxDates.length}
-                                    control={Select}
-                                    options={this.props.selectBoxDates || []}
-                                    placeholder="Select Date"
-                                    defaultValue='today'
-                                    onChange={this.onChangeDate}
-                                    searchInput={{id: 'graph-date'}}
-                                />
-                            </Form.Group>
-                        </Form>
+                            <Form>
+                                <Form.Group widths='equal'>
+                                    <Form.Field
+                                        required
+                                        loading={!this.props.selectBoxDates.length}
+                                        control={Select}
+                                        options={this.props.selectBoxDates || []}
+                                        placeholder="Select Date"
+                                        defaultValue='today'
+                                        onChange={this.onChangeDate}
+                                        searchInput={{id: 'graph-date'}}
+                                    />
+                                </Form.Group>
+                            </Form>
 
-                    </Grid.Column>
-                </Grid>
-                <Segment className='average-response-time' basic>
-                    <div ref='legend'/>
-                    <div className="chart-wrapper">
-                        <canvas ref={this.canvas}/>
-                        { R.sum(data)===0? (<div className="empty-wrapper"/>) : null}
-                    </div>
+                        </Grid.Column>
+                    </Grid>
+                    <Segment className='average-response-time' basic>
+                        <div ref='legend'/>
+                        <div className="chart-wrapper">
+                            <canvas ref={this.canvas}/>
+                            {R.sum(data) === 0 ? (<div className="empty-wrapper"/>) : null}
+                        </div>
 
-                    <div className='agent-welcome'>
-                        <h3>Hi, {this.props.profile.name}</h3>
-                        <p>
-                            Welcome to your dashboard! <br></br> When you start calling your leads, your stats will show up in the chart above
-                            for easy access. Follow the link below to check your fresh leads.
+                        <div className='agent-welcome'>
+                            <h3>Hi, {this.props.profile.name}</h3>
+                            <p>
+                                Welcome to your dashboard! <br></br> When you start calling your leads, your stats will
+                                show up in the chart above
+                                for easy access. Follow the link below to check your fresh leads.
 
-                        </p>
-                        <Link to='/companies/leads'>
-                            <Button primary>View fresh leads</Button>
-                        </Link>
-                    </div>
+                            </p>
+                            <Link to='/companies/leads'>
+                                <Button primary>View fresh leads</Button>
+                            </Link>
+                        </div>
+                    </Segment>
+
                 </Segment>
-
-            </Segment>
-        </div>)
+            </div>)
     }
 }
 
