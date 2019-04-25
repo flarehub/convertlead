@@ -170,8 +170,9 @@ class AgentController extends Controller
         try {
             \DB::beginTransaction();
             $agent = $request->user()->getAgent($id);
-            foreach ($agent->companies AS $company) {
-                $company->agents()->detach($agent);
+            $companies = $agent->companies()->get();
+            foreach ($companies AS $company) {
+                $company->agents()->detach($id);
             }
             $agent->delete();
             \DB::commit();

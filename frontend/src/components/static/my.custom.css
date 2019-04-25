@@ -1328,14 +1328,32 @@ input:focus {
     position: relative;
 }
 
+.average-response-time ul li {
 
-.average-response-time ul {
+    margin-right: 15px !important;
+
+}
+
+.average-response-time ul li div {
+
+    width:10px !important;
+    height:10px;
+    border-radius: 25px;
+    display: block;
+
+}
+
+.LeadsStats .average-response-time div{
+    margin-bottom:35px;
+}
+
+.LeadsStats .average-response-time ul {
     padding-left:0;
     text-align:center;
     margin:20px auto;
 }
 
-.average-response-time ul li div {
+.LeadsStats .average-response-time ul li div {
 
     width:10px !important;
     border-radius: 25px;
@@ -1344,7 +1362,7 @@ input:focus {
 
 }
 
-.average-response-time ul li {
+.LeadsStats .average-response-time ul li {
     display: inline-flex!important;
     margin-right: 15px !important;
     width: 60px;
@@ -1352,9 +1370,12 @@ input:focus {
     align-content: center;
     justify-content: center;
     text-align: center;
+    font-weight: 600;
+    font-family: Lato,sans-serif;
+    color: #637282 !important;
 }
 
-.average-response-time ul li:nth-child(5) {
+.LeadsStats .average-response-time ul li:nth-child(5) {
     margin-right:0!important;
     }
 
