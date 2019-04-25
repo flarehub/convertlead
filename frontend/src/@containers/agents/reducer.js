@@ -47,7 +47,7 @@ const initState = {
           borderWidth: 2
         },
         {
-          label: '12 hrs + Missed leads',
+          label: '12 hrs + Missed',
           data: [0, 0, 0, 0, 0, 0],
           backgroundColor: ['rgba(0, 0, 0, 0)'],
           borderColor: ['#db2828'],
@@ -69,7 +69,7 @@ const initState = {
   pieGraphContactedLeadsAverage: {
     type: 'doughnut',
     data: {
-      labels: ["15 min (0-15)", "30 min (15-30)", "2 hrs (30-2)", "12 hrs (2-12)", "12 hrs + Missed leads"],
+      labels: ["15 min (0-15)", "30 min (15-30)", "2 hrs (30-2)", "12 hrs (2-12)", "12 hrs + Missed"],
       datasets: [
         {
           data: [0, 0, 0, 0, 0],
