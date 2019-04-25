@@ -1527,7 +1527,7 @@ input:focus {
 
 .LeadsStats .required.field {
     display:block !important;
-    line-height: 45px;
+    line-height: 45px ;
 }
 
 .LeadsStats .required.field .selection.dropdown {
