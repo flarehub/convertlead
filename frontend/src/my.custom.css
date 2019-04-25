@@ -1486,7 +1486,7 @@ input:focus {
     color: #637282 !important;
     padding-bottom: 16px;
     display: block;
-    margin-bottom: 25px;
+    margin: auto 25px 25px 25px;
 }
 
 .agent-welcome h3 {
@@ -1527,6 +1527,20 @@ input:focus {
     left: -50px;
     top: 40px;
     max-height: 250px;
+}
+
+.empty-wrapper{
+    border:none !important;
+    position:relative;
+}
+
+.empty-wrapper:before{
+    content:url('../src/components/static/assets/nostatsicon.svg');
+    display: flex;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Mobile view / Media queries */
