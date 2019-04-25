@@ -222,7 +222,7 @@ header {
 }
 
 .ui.card > .content > .ui.small.basic.buttons button {
-    padding-right: 0px;
+    padding-right: 0;
     border: none;
     box-shadow: none;
 }
@@ -615,7 +615,7 @@ input:focus {
     position: absolute;
     top: 15px;
     z-index: 0;
-    font-family: 'Linearicons' !important;
+    font-family: 'Linearicons', serif !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -704,7 +704,7 @@ input:focus {
 
 .freshAppLayout > .two.column.grid > .fifteen.wide.column {
     width: calc(100% - 120px) !important;
-    padding: 0px !important;
+    padding: 0 !important;
 }
 
 .ui.top.attached.segment > .ui.two.column.grid > .column:first-child {
@@ -791,13 +791,13 @@ input:focus {
 }
 
 .ui.bottom.attached.right.aligned.segment {
-    padding-right: 0px !important;
+    padding-right: 0 !important;
 }
 
 .equal.width.fields {
     float: left;
     margin-left: 30px !important;
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
 }
 
 .Agents .field {
@@ -834,7 +834,7 @@ input:focus {
 .login-form .ui.stacked.segment .ui.teal.large.button {
     padding: 15px 35px;
     margin: 25px 0;
-    font-family: Dosis;
+    font-family: Dosis, serif;
     font-weight: 600;
 }
 
@@ -891,7 +891,7 @@ input:focus {
 }
 
 #company-lock i {
-    margin: 0px !important;
+    margin: 0 !important;
 }
 
 #company-lock {
@@ -1106,7 +1106,7 @@ input:focus {
     align-content: center;
     align-items: center;
     padding-bottom: 5px;
-    font-family: Dosis;
+    font-family: Dosis, serif;
     font-weight: 500;
     color: #637282 !important;
 }
@@ -1145,7 +1145,7 @@ input:focus {
 
 .ui.small.modal .two.column.grid .column, .ui.tiny.modal .two.column.grid .column {
     padding: 1.3rem;
-    font-family: Lato;
+    font-family: Lato, serif;
     font-size: 13px;
 }
 
@@ -1159,7 +1159,7 @@ input:focus {
 .ui.small.modal .ui.form input, .ui.tiny.modal .ui.form input {
     box-shadow: none !important;
     border: none;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     border-bottom: 1px solid #ccc !important;
     padding: 16px !important;
     font-size: 15px !important;
@@ -1170,7 +1170,7 @@ input:focus {
 .ui.tiny.modal .ui.form .search {
     position: absolute;
     width: 100%;
-    margin: 0px;
+    margin: 0;
 }
 
 .ui.small.modal .ui.form textarea, .ui.tiny.modal .ui.form textarea {
@@ -1330,7 +1330,7 @@ input:focus {
 
 
 .average-response-time ul {
-    padding-left:0px;
+    padding-left:0;
     text-align:center;
     margin:20px auto;
 }
@@ -1369,7 +1369,7 @@ input:focus {
     white-space: nowrap;
     width: 100%;
     display: inline-block;
-    margin: 0px;
+    margin: 0;
 }
 
 .AgentLeads .header.mobile-app-menu {
@@ -1407,7 +1407,6 @@ input:focus {
 }
 
 .AgentLeads .ui.secondary.menu .item:hover{
-    background:transparent;
     background: #fff;
     color: #005ff8;
     font-weight: 600;
@@ -1535,7 +1534,7 @@ input:focus {
 }
 
 .empty-wrapper:before{
-    content:url('../src/components/static/assets/nostatsicon.svg');
+    content:url('./assets/nostatsicon.svg');
     display: flex;
     text-align: center;
     align-content: center;
@@ -1560,7 +1559,7 @@ input:focus {
         display: inline-block;
         margin-right: 10px;
         font-size: 20px;
-        font-family: 'Linearicons' !important;
+        font-family: 'Linearicons', serif !important;
         speak: none;
         font-style: normal;
         font-weight: normal;
