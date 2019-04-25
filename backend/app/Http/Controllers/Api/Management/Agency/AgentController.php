@@ -134,14 +134,17 @@ class AgentController extends Controller
             
             $oldCompanies = $request->get('companies');
             $newCompanies = $request->get('new_companies');
-    
-            if ($oldCompanies && $newCompanies) {
-                foreach ($oldCompanies AS $company) {
-                    $company = $request->user()->getCompanyBy($company);
-                    $company->agents()->detach($agent);
+
+            foreach ($oldCompanies AS $company) {
+                $company = $request->user()->getCompanyBy($company);
+                $company->agents()->detach($agent);
+                $campaigns = $company->campaigns()->get();
+                foreach ($campaigns as $campaign) {
+                 $campaign->agents()->detach($agent);
                 }
             }
-            
+            if ($oldCompanies && $newCompanies) {
+            }
             if ($newCompanies) {
                 foreach ($newCompanies AS $newCompany) {
                     $newCompany = $request->user()->getCompanyBy($newCompany);
