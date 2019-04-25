@@ -54,13 +54,13 @@ class AgentController extends Controller
             case 'contacted': {
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
-                $agent = $request->user()->getAgentBy($agentId);
+                //$agent = $request->user()->getAgentBy($agentId);
     
                 $companyAgencyIds = $request->user()->agencies->map(function ($agency) use ($request) {
                     return $agency->pivot->id;
                 });
                 
-                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
+                return Agent::contactedLeadsGraph($startDate, $endDate, $agentId, $companyAgencyIds);
             }
         }
         throw new \Exception('Wrong graph type!');
@@ -70,7 +70,7 @@ class AgentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Agent
      */
     public function store(Request $request, Agent $agent)
     {

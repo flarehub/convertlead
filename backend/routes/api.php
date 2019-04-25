@@ -12,22 +12,19 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
-    ->group(/**
-     *
-     */
-        function () {
+Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
+    function () {
         Route::group(['namespace' => 'Api\Management'], function () {
             Route::get('profile', 'ProfileController@index');
             Route::patch('profile', 'ProfileController@update');
         });
-        
+
         Route::group(['namespace' => 'Api\Management\Admin'], function () {
             Route::prefix('admin')->group(function () {
                 Route::apiResource('users', 'UserController');
             });
         });
-        
+
         Route::group(['namespace' => 'Api\Management\Agency'], function () {
             Route::prefix('agency')->group(function () {
                 Route::get('deals', 'DealController@all');
@@ -44,7 +41,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
                 Route::apiResource('companies/{company}/deals/{deal}/campaigns', 'CampaignController');
             });
         });
-        
+
         Route::group(['namespace' => 'Api\Management\Agent'], function () {
             Route::prefix('agent')->group(function () {
                 Route::get('companies', 'CompanyController@companies');
@@ -54,7 +51,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
                 Route::get('leads/graph/{graphType}', 'LeadController@graph');
             });
         });
-        
+
         Route::group(['namespace' => 'Api\Management\Company'], function () {
             Route::prefix('company')->group(function () {
                 Route::apiResource('agents', 'AgentController')->middleware('scope:AGENT_READ')->only(['index', 'show']);
@@ -67,7 +64,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');
                 Route::get('graph/{graphType}', 'CompanyController@graph');
                 Route::get('agents/{agentId}/graph/{graphType}', 'AgentController@graph');
-    
+
             });
         });
     });

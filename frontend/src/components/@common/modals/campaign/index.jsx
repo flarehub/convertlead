@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { compose } from 'recompose';
 import EntityModal from "../index";
 import CampaignForm from "components/@common/forms/campaign";

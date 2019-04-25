@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Input, Header, Image, Modal } from 'semantic-ui-react'
+import { Button, Form, Input, Modal } from 'semantic-ui-react'
 import './index.scss';
 import CopyText from 'react-copy-text';
 import ReactJson from 'react-json-view'

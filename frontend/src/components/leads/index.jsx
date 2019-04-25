@@ -218,18 +218,14 @@ class Leads extends Component {
                                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
                             </Form.Field>
 
-                            {/*<div className="export-data">Export your data <a href="">.csv export</a> <a href="">.pdf export</a></div>*/}
-
                         </Grid.Column>
                         <Grid.Column>
                             <Menu secondary>
                                 <Menu.Menu position='right'>
                                     <Menu.Item>
-                                        <Input icon='search' onChange={this.onSearch} value={query.search}
-                                               placeholder='Search...'/>
+                                        <Input icon='search' onChange={this.onSearch} value={query.search} placeholder='Search...'/>
                                     </Menu.Item>
-                                    <Button color='teal' onClick={this.props.loadForm.bind(this, {show: true})}
-                                            content='New Lead'/>
+                                    <Button color='teal' onClick={this.props.loadForm.bind(this, {show: true})} content='New Lead'/>
                                 </Menu.Menu>
                             </Menu>
                         </Grid.Column>
@@ -269,8 +265,9 @@ class Leads extends Component {
                                         <Table.Row key={index}>
                                             <Table.Cell>
                                                 <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                                                    <div
-                                                        className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>{lead.fullname && lead.fullname[0] || statuses[lead.status].icon}</div>
+                                                    <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
+                                                        {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
+                                                    </div>
                                                     {lead.fullname}
                                                 </Link>
                                                 <div className='date-added'>
