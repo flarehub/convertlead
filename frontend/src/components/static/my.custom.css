@@ -37,6 +37,10 @@ header {
     top: 0;
 }
 
+.ui.button{
+    background-color: #005ff8;
+}
+
 .sidebar-avatar {
     margin: 0 auto;
 }
