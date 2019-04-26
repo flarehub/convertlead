@@ -707,13 +707,13 @@ input:focus {
     padding: 0 !important;
 }
 
-.ui.top.attached.segment > .ui.two.column.grid > .column:first-child {
+.ui.segment > .ui.two.column.grid > .column:first-child {
     display: flex;
     align-items: center;
     width: 100%;
 }
 
-.ui.top.attached.segment > .ui.two.column.grid > .column:nth-child(2) {
+.ui.segment > .ui.two.column.grid > .column:nth-child(2) {
     width: unset;
     position: absolute;
     right: 0;
@@ -1364,8 +1364,8 @@ input:focus {
 
 .LeadsStats .average-response-time ul li {
     display: inline-flex!important;
-    margin-right: 15px !important;
-    width: 60px;
+    margin-right: 5px !important;
+    width: 50px;
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
@@ -1373,16 +1373,30 @@ input:focus {
     font-weight: 600;
     font-family: Lato,sans-serif;
     color: #637282 !important;
+    font-size: 12px;
 }
 
 .LeadsStats .average-response-time ul li:nth-child(5) {
     margin-right:0!important;
     }
 
+.AgentLeads {
+    margin-top: 27px !important;
+    }
+
+.AgentLeads .tab-panel .ui.icon.input{
+    width: 100%;
+    margin: 10px auto;
+}
+
+.AgentLeads .tab-panel .ui.icon.input input{
+    border-radius:25px;
+}
 
 .AgentLeads .ui.segment.active.tab {
     border:none;
     box-shadow:none;
+    padding:0;
 }
 
 
@@ -1425,6 +1439,7 @@ input:focus {
     color: #b3b3b3;
     font-size: 14px;
     font-family: 'Nunito', sans-serif;
+    margin:0;
 }
 
 .AgentLeads .ui.secondary.menu .item:hover{
@@ -1455,7 +1470,7 @@ input:focus {
     padding: 1.286em 0 !important ;
 }
 
-.AgentLeadsList .item .content a.header{
+.ui.very.relaxed.list.AgentLeadsList .item .content a.header{
     color: #1b2733 !important ;
     font-size: 17px;
     font-family: 'Roboto Condensed', sans-serif;
@@ -1468,7 +1483,7 @@ input:focus {
     font-weight: 400;
     color: #637282;
     font-size: 14px;
-    width: 220px;
+    width: 120px;
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1517,20 +1532,28 @@ input:focus {
     color: #1B2733 !important;
 }
 
-.agent-welcome a .button{
+.agent-welcome a .button, .AgentLeads .massive.circular{
     border-radius: 25px;
     font-weight: 400;
     background: #005ff8 !important;
     box-shadow: 5px 5px 14px 5px rgba(0, 12, 255, 0.2)!important;
     padding: 15px 35px;
+    font-weight:600;
+
 }
 
-.LeadsStats .required.field {
+.AgentLeads .button.add-lead{
+    font-size: 18px!important;
+    width:60px;
+    height:60px;
+}
+
+.LeadsStats .required.field, .AgentLeads .required.field {
     display:block !important;
     line-height: 45px ;
 }
 
-.LeadsStats .required.field .selection.dropdown {
+.LeadsStats .required.field .selection.dropdown, .AgentLeads .required.field .selection.dropdown {
     border: 1px solid #c0c0c0;
     border-radius: 25px !important;
     display: inline;
@@ -1542,7 +1565,7 @@ input:focus {
     top:.5571429em;
 }
 
-.LeadsStats .required.field .selection.dropdown .visible.menu.transition {
+.LeadsStats .required.field .selection.dropdown .visible.menu.transition, .AgentLeads .required.field .selection.dropdown .visible.menu.transition {
     width: 140px;
     left: -50px;
     top: 40px;
