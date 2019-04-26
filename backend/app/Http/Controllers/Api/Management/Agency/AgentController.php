@@ -67,12 +67,13 @@ class AgentController extends Controller
         }
         throw new \Exception('Wrong graph type!');
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function store(Request $request, Agent $agent)
     {
@@ -121,9 +122,10 @@ class AgentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function update(Request $request, $id)
     {
@@ -165,8 +167,9 @@ class AgentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Request $request, $id)
     {
