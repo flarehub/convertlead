@@ -3,35 +3,35 @@ import titleCase from "title-case"
 
 export const LeadStatuses = {
     NEW: {
-        color: '#6435c9',
+        color: 'purple',//'#6435c9',
         icon: 'N',
     },
     VIEWED: {
-        color: '#2cb3c8',
+        color: 'teal',//'#2cb3c8',
         icon: 'V',
     },
     CONTACTED_SMS: {
-        color: '#f2711c',
+        color: 'orange',//'#f2711c',
         icon: 'C',
     },
     CONTACTED_CALL: {
-        color: '#f2711c',
+        color: 'orange',//'#f2711c',
         icon: 'C',
     },
     CONTACTED_EMAIL: {
-        color: '#f2711c',
+        color: 'orange',//'#f2711c',
         icon: 'C',
     },
     MISSED: {
-        color: '#db2828',
+        color: 'red',//'#db2828',
         icon: 'M',
     },
     BAD: {
-        color: '#db2828',
+        color: 'red',//'#db2828',
         icon: 'B',
     },
     SOLD: {
-        color: '#21ba45',
+        color: 'green',//'#21ba45',
         icon: 'S',
     },
 };
