@@ -7,6 +7,7 @@ import './index.scss';
 class LeadsList extends Component {
     render() {
         const {leads, statuses} = this.props;
+        console.log("==========>leads", leads);
         return (<Tab.Pane attached={false}>
             <List className='AgentLeadsList' relaxed='very'>
                 {
@@ -23,7 +24,7 @@ class LeadsList extends Component {
                             </List.Header>
                             <List.Description>
                                 <span className='company-name'>{lead.company.name}, </span>
-                                <span className='deal-name'>{lead.campaign.deal.name}</span>
+                                <span className='deal-name'>{lead.campaign.deal?lead.campaign.deal.name:''}</span>
                                 <span className='listItemTime'>{moment(lead.created_at).fromNow()}</span>
                             </List.Description>
                         </List.Content>

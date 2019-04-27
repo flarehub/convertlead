@@ -36,7 +36,8 @@ class Agency extends User
         return $this
             ->deals()
             ->join('users as company', 'company.id', '=', 'company_id')
-            ->whereRaw('company.deleted_at IS NULL');
+            ->whereRaw('company.deleted_at IS NULL')
+            ->withTrashed();
     }
     
     public function getCompanies($queryParams) {

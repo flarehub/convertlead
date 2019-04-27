@@ -4,7 +4,7 @@ import {CompaniesContainer, DealsContainer} from '@containers';
 import DealModal from 'components/@common/modals/deal';
 import Loader from 'components/loader';
 import {
-    Segment, Confirm, Card, Header, Menu,Input, Grid, Button
+    Segment, Confirm, Card, Header, Menu, Input, Grid, Button, Checkbox, Form
 } from 'semantic-ui-react';
 
 import './index.scss';
@@ -22,6 +22,7 @@ class Dashboard extends Component {
         open: false,
         companyId: '',
         dealId: '',
+        showArchived: false
     };
 
     componentWillMount() {
@@ -63,8 +64,13 @@ class Dashboard extends Component {
         this.props.loadSelectBoxCompanies(event.target.value);
     };
 
+    onShowArch = () => {
+        this.state.showArchived = !this.state.showArchived
+        this.setState(this.state)
+    };
+
     render() {
-        const {deals, filters} = this.props;
+        const {deals, deleted_deals, filters} = this.props;
         return (
             <div className='Dashboard'>
                 <DealModal/>
@@ -74,6 +80,9 @@ class Dashboard extends Component {
                     <Grid columns={2}>
                         <Grid.Column>
                             <Header floated='left' as='h1'>Deals</Header>
+                            <Form.Field>
+                                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
+                            </Form.Field>
                         </Grid.Column>
                         <Grid.Column>
                             <Menu secondary>
@@ -94,40 +103,74 @@ class Dashboard extends Component {
                         <div className='deals-active-container'>
                             <label className='deals-active'>Active <span>{deals.length}</span></label>
                         </div>
-                        <Card.Group>
-                            {
-                                deals.map((deal, key) => (
-                                    <Card key={key}>
-                                        <Card.Content>
-                                            {
-                                                Auth.isAgency
-                                                    ? <CardContent deal={deal} company={deal.company}
-                                                                   link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
-                                                    : <CardContent deal={deal} company={deal.agency}
-                                                                   link={`/deals/${deal.id}/campaigns`}/>
-                                            }
-                                            <Button.Group basic size='small'>
-                                                <Button onClick={this.props.loadForm.bind(this, {
-                                                    ...deal,
-                                                    companyId: deal.company.id,
-                                                    show: true
-                                                })}>Edit</Button>
-                                                <Button icon='trash alternate outline'
-                                                        onClick={this.openConfirmModal.bind(this, true, deal.company.id, deal.id)}/>
-                                            </Button.Group>
-                                        </Card.Content>
-                                    </Card>
-                                ))
-                            }
-                        </Card.Group>
+                        {
+                            deals.length === 0 ?
+                                <div className="empty-deal-wrapper">
+                                    Welcome! Looks like you haven’t created a deal yet. Once you create one, you’ll see
+                                    it here.
+                                </div>
+                                :
+                                <Card.Group>
+                                    {
+                                        deals.map((deal, key) => (
+                                            <Card key={key}>
+                                                <Card.Content>
+                                                    {
+                                                        Auth.isAgency
+                                                            ? <CardContent deal={deal} company={deal.company}
+                                                                           link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
+                                                            : <CardContent deal={deal} company={deal.agency}
+                                                                           link={`/deals/${deal.id}/campaigns`}/>
+                                                    }
+                                                    <Button.Group basic size='small'>
+                                                        <Button onClick={this.props.loadForm.bind(this, {
+                                                            ...deal,
+                                                            companyId: deal.company.id,
+                                                            show: true
+                                                        })}>Edit</Button>
+                                                        <Button icon='trash alternate outline'
+                                                                onClick={this.openConfirmModal.bind(this, true, deal.company.id, deal.id)}/>
+                                                    </Button.Group>
+                                                </Card.Content>
+                                            </Card>
+                                        ))
+                                    }
+                                </Card.Group>
+                        }
+
                     </Segment>
 
-                    <Segment basic>
+                    <Segment basic style={{display: this.state.showArchived ? 'block' : 'none'}}>
                         <div className='deals-active-container archieved'>
-                            <label className='deals-active'>Archieved <span>{deals.length}</span></label>
-                            <p>When you delete/archieve deals, they'll show up here for easy access. <a href="">Learn more</a></p>
+                            <label className='deals-active'>Archieved <span>{deleted_deals.length}</span></label>
                         </div>
+                        {
+                            deleted_deals.length === 0 ?
+                                <div className='deals-active-container'>
+                                    <p>When you achieve a deal, you’ll see them here. <a href="">Learn more</a></p>
+                                </div>
+                                :
+                                <Card.Group>
+                                    {
+                                        deleted_deals.map((deal, key) => (
+                                            <Card key={key}>
+                                                <Card.Content>
+                                                    {
+                                                        Auth.isAgency
+                                                            ? <CardContent deal={deal} company={deal.company}
+                                                                           link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
+                                                            : <CardContent deal={deal} company={deal.agency}
+                                                                           link={`/deals/${deal.id}/campaigns`}/>
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                        ))
+                                    }
+                                </Card.Group>
+                        }
+
                     </Segment>
+
                 </Segment>
             </div>
         );

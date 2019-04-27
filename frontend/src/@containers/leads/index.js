@@ -26,6 +26,7 @@ const mapDispatchToProps = dispatch => ({
   sort: field => dispatch(thunks.sortLeads(field)),
   openModal: open => dispatch(actions.openLeadModal(open)),
   searchAgentLeads: search => dispatch(thunks.searchAgentLeads(search)),
+  filterAgentLeads: filters => dispatch(thunks.filterAgentLeads(filters)),
   agentLeadsByStatuses: statuses => dispatch(thunks.agentLeadsByStatuses(statuses)),
   scrollToPage: page => dispatch(thunks.scrollToPage(page)),
 });

@@ -77,6 +77,8 @@ export const loadAgentLeads = () => async (dispatch, getState) => {
             search: query.search,
             per_page: 100,
             current_page: pagination.current_page,
+            startDate: query.filters.startDate,
+            endDate: query.filters.endDate
         });
 
         const {data, ...rest} = response.data.leads;
@@ -92,6 +94,11 @@ export const loadAgentLeads = () => async (dispatch, getState) => {
 
 export const searchAgentLeads = search => async dispatch => {
     await dispatch(actions.agentSearchLeads(search));
+    await dispatch(loadAgentLeads());
+};
+
+export const filterAgentLeads = filters => async dispatch => {
+    await dispatch(actions.filterLeads(filters));
     await dispatch(loadAgentLeads());
 };
 

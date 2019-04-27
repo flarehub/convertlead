@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Deal extends Model
 {
-    use SoftDeletes, DealRepository;
+    use DealRepository, SoftDeletes;
 
     protected $fillable = [
         'id',

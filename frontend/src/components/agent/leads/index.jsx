@@ -98,7 +98,10 @@ class AgentLeads extends Component {
     };
 
     onChangeDate = (event, data) => {
-
+        this.props.filterAgentLeads({
+            startDate: this.state.dates[data.value].startDate,
+            endDate: this.state.dates[data.value].endDate,
+        });
     };
 
     render() {
