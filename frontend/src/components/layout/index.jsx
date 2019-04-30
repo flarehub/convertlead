@@ -6,7 +6,6 @@ import Header from './header'
 import Footer from './footer'
 import './index.scss'
 import {Auth} from "@services";
-import PropTypes from "prop-types";
 
 const getWidth = () => {
     const isSSR = typeof window === 'undefined'
@@ -16,8 +15,6 @@ const getWidth = () => {
 class DesktopContainer extends Component {
     state = {}
     render() {
-        const {children} = this.props
-
         return (
             <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
                 <div className='freshAppLayout'>
@@ -39,17 +36,12 @@ class DesktopContainer extends Component {
     }
 }
 
-DesktopContainer.propTypes = {
-    children: PropTypes.node,
-}
-
 class MobileContainer extends Component {
     state = {}
 
     handleSidebarHide = () => this.setState({sidebarOpened: false})
     handleToggle = () => this.setState({sidebarOpened: true})
     render() {
-        const {children} = this.props
         const {sidebarOpened} = this.state
 
         return (
@@ -88,10 +80,6 @@ class MobileContainer extends Component {
             </Responsive>
         )
     }
-}
-
-MobileContainer.propTypes = {
-    children: PropTypes.node,
 }
 
 const Layout = () => (
