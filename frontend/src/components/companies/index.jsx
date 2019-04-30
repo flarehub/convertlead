@@ -184,7 +184,6 @@ class Companies extends Component {
                                 nextItem={null}
                                 totalPages={pagination.last_page}/>
                 </Segment>
-
             </div>
         );
     }

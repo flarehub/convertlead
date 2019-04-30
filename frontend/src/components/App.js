@@ -3,7 +3,7 @@ import {compose, lifecycle} from 'recompose';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {withRouter, Route, Switch} from 'react-router-dom';
-import {Layout} from './layout';
+import Layout from './layout';
 import {AuthContainer, ProfileContainer} from '@containers';
 import {LoginLayout, OptinFormPage} from '.';
 
