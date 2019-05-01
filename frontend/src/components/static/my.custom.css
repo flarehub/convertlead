@@ -1615,7 +1615,6 @@ input:focus {
     transform: translate3d(120px,0,0) !important;
 }
 
-/* Mobile view / Media queries */
 
 
 .ui.large.pointing.secondary.menu {
@@ -1623,6 +1622,12 @@ input:focus {
 }
 
 
+.App > div:nth-child(1) {
+    display: block;
+    height: 100%;
+}
+
+/* Mobile view / Media queries */
 
 
 
