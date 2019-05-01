@@ -57,11 +57,11 @@ class MobileContainer extends Component {
                 <Sidebar.Pusher dimmed={sidebarOpened}>
                     <Segment
                         textAlign='center'
-                        style={{minHeight: 700, padding: '1em 0em'}}
+                        style={{padding:0}}
                         vertical>
                         {/*<Container>*/}
-                        <Menu pointing secondary size='large'>
-                            <Menu.Item onClick={this.handleToggle}>
+                        <Menu pointing secondary size='large' style={{margin:0, display:"unset"}}>
+                            <Menu.Item style={{ zIndex:9999, position:"absolute", top:"55px", left:"10px"}} onClick={this.handleToggle}>
                                 <Icon name='sidebar'/>
                             </Menu.Item>
                         </Menu>

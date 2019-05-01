@@ -39,10 +39,17 @@ header {
 
 .ui.button{
     background-color: #005ff8;
+    color:#fff;
 }
 
 .sidebar-avatar {
     margin: 0 auto;
+}
+
+i.icon.sidebar:before {
+    content: "\EC2B" !important;
+    font-size: 20px;
+    font-family: Linearicons,serif !important;
 }
 
 .freshAppHeader {
@@ -674,6 +681,7 @@ input:focus {
     font-weight: 500;
     box-shadow: 0 11px 16px 0 rgba(27, 39, 51, 0.08);
     text-align: left;
+    color: #1b2733;
 }
 
 .ui.table tr td:last-child .ui.buttons .ui.button:hover {
@@ -1550,11 +1558,14 @@ input:focus {
     font-size: 18px!important;
     width:60px;
     height:60px;
+    padding: 0 !important;
+    border-radius: 50px;
 }
 
 .LeadsStats .required.field, .AgentLeads .required.field {
     display:block !important;
     line-height: 45px ;
+    padding:0 !important;
 }
 
 .LeadsStats .required.field .selection.dropdown, .AgentLeads .required.field .selection.dropdown {
@@ -1590,7 +1601,26 @@ input:focus {
     justify-content: center;
 }
 
+
+.empty-deal-wrapper {
+    text-align:left;
+}
+
+.ui.left.sidebar, .ui.right.sidebar {
+    width:120px !important;
+}
+
+.ui.visible.left.sidebar ~ .fixed, .ui.visible.left.sidebar ~ .pusher {
+    -webkit-transform: translate3d(120px,0,0) !important;
+    transform: translate3d(120px,0,0) !important;
+}
+
 /* Mobile view / Media queries */
+
+
+.ui.large.pointing.secondary.menu {
+    border:0 !important;
+}
 
 
 
@@ -1603,7 +1633,7 @@ input:focus {
 @media only screen and (max-width: 767px) {
 
     .ui.left.floated.header:before {
-        content: '\ec2b';
+        content: '';
         display: inline-block;
         margin-right: 10px;
         font-size: 20px;
@@ -1618,10 +1648,12 @@ input:focus {
         vertical-align: middle;
         cursor: pointer;
         padding-bottom: 7px;
+        width:20px;
+
     }
 
     .freshAppContainer {
-        padding: 5px 35px;
+        padding: 5px 15px;
     }
 
     .freshAppHeader {
@@ -1691,7 +1723,7 @@ input:focus {
     }
 
     .ui.top.attached.segment {
-        margin-top:38px !important;
+        margin-top:28px !important;
     }
 
     .ui.table:not(.unstackable) tr > td, .ui.table:not(.unstackable) tr > th {
