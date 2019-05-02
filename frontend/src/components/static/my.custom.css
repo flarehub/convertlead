@@ -1627,11 +1627,189 @@ input:focus {
     height: 100%;
 }
 
+.AgentLeadNotes {
+    text-align:left;
+}
+
+.info-header, .meta-header, .timeline-header {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 15px;
+    font-family: 'Roboto Condensed', sans-serif;
+    margin: 0;
+    color: #637282;
+}
+
+.lead-info, .lead-meta {
+    border-bottom: 1px solid rgba(34, 36, 38, .1);
+    padding: 15px 5px;
+}
+
+.lead-timeline .timeline-header {
+    padding: 15px 5px;
+  }
+
+.AgentLeadNotes .lead-note {
+    margin:10px 0;
+    background: #fff;
+    border-radius: 3px;
+}
+.AgentLeadNotes .column {
+    display: inline-block;
+    width:100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.AgentLeadNotes h1 {
+    margin-top: 25px !important;
+    font-size: 30px !important;
+    font-weight: 400 !important;
+    font-family: Dosis,sans-serif !important;
+    color: #1b2733 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    white-space: nowrap;
+}
+
+.AgentLeadNotes .lead-profile-row > a {
+    background:transparent;
+    padding:0px !important;
+    font-family: Dosis, sans-serif !important;
+    font-weight: 500;
+    text-align: center;
+}
+
+.AgentLeadNotes .lead-profile-row > a:hover {
+    background:transparent;
+
+}
+
+.AgentLeadNotes .lead-profile-row > a > i{
+    width:100% !important;
+    margin-bottom:10px !important;
+
+}
+
+.AgentLeadNotes .lead-profile-row.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.AgentLeadNotes .lead-profile-row > .call-lead-but {
+    width: 55px;
+    height: 55px;
+    background: #005ff8 !important;
+    color: #fff !important;
+    border-radius: 45px;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    -webkit-align-content: center;
+    align-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    font-size: 19px;
+    margin:20px;
+    box-shadow: 3px 3px 14px 2px rgba(0,12,255,.2) ;
+}
+
+.AgentLeadNotes .lead-profile-row > .ui.button .mail,.AgentLeadNotes .lead-profile-row > .ui.button .pencil  {
+    margin:auto auto 10px auto !important;
+}
+
+.AgentLeadNotes .lead-profile-row > .call-lead-but i {
+    margin:0 !important;
+}
+
+
+
+.AgentLeadNotes i.icon.mail:before {
+    content: '\e999' !important;
+    font-family: 'Linearicons', serif !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.AgentLeadNotes  i.icon.pencil.alternate:before {
+    content: '\e9d1' !important;
+    font-family: 'Linearicons', serif !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-left:5px;
+}
+
+.AgentLeadNotes i.icon.mail, i.icon.pencil {
+    font-size: 30px;
+}
+
+
+.AgentLeadNotes .lead-note-datetime {
+     font-weight: 600;
+     color: #637282;
+     font-size: 12px;
+ }
+
+.AgentLeadNotes .lead-note-content, .AgentLeadNotes .lead-info, .AgentLeadNotes .lead-meta {
+color: #1b2733 !important;
+font-family: 'Roboto Condensed', sans-serif;
+}
+
+.AgentLeadNotes .addLeadNote {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    background:#fff;
+}
+
+.AgentLeadNotes .addLeadNote textarea {
+    border-radius: 0!important;
+    border-bottom: 0!important;
+    border-left:0!important;
+    border-right:0!important;
+    height: 65px;
+    font-family: Lato, sans-serif;
+    font-weight: 400;
+}
+
+.AgentLeadNotes .addLeadNote .ui.form .field {
+    margin-bottom:0;
+    box-shadow: 0px -5px 7px rgba(0,0,0,0.1);
+}
+
+
+.ui.form textarea:focus {
+    border-color: #005ff8 !important ;
+}
 /* Mobile view / Media queries */
 
 
 
 @media only screen and (max-width: 1024px){
+
+    .pushable:not(body) {
+        -webkit-transform: unset !important;
+        transform: unset !important;
+    }
 
 }
 
