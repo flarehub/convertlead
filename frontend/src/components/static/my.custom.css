@@ -39,7 +39,7 @@ header {
 
 .ui.button{
     background-color: #005ff8;
-    color:#fff;
+
 }
 
 .sidebar-avatar {
@@ -1420,7 +1420,7 @@ input:focus {
 }
 
 .AgentLeads .header.mobile-app-menu {
-    margin-top:30px;
+
     font-size: 30px !important;
     font-weight: 400 !important;
     font-family: 'Dosis', sans-serif !important;
@@ -1663,7 +1663,7 @@ input:focus {
 }
 
 .AgentLeadNotes h1 {
-    margin-top: 25px !important;
+    margin-top: 23px !important;
     font-size: 30px !important;
     font-weight: 400 !important;
     font-family: Dosis,sans-serif !important;
