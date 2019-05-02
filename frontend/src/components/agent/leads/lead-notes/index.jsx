@@ -46,14 +46,6 @@ class AgentLeadNotes extends Component {
         this.props.loadLead(lead.company.id, lead.id, true);
     }
 
-    componentDidMount () {
-        document.body.style.backgroundColor = "#f7f9fa";
-    }
-
-    componentWillUnmount() {
-        document.body.style.backgroundColor ="#ffffff";
-    }
-
     onCall = () => {
         this.props.createLeadNote({
             message: 'Lead have been called!',
@@ -114,7 +106,7 @@ class AgentLeadNotes extends Component {
                 <Button className='call-lead-but' as='a' href={`tel:${lead.phone}`} onClick={this.onCall} circular>
                     <Icon name='call'/>
                 </Button>
-                <Button as='a' href={`text:${lead.phone}`} onClick={this.onText} circular >
+                <Button as='a' href={`sms:${lead.phone}`} onClick={this.onText} circular >
                     <Icon name='pencil alternate'/>
                     Text
                 </Button>
@@ -138,7 +130,7 @@ class AgentLeadNotes extends Component {
               <div className='addLeadNote'>
                 <Form>
                     <Form.Field>
-                        <TextArea name='message' onChange={this.onChange}/>
+                        <TextArea name='message' placeholder={"+ add note"} onChange={this.onChange}/>
                     </Form.Field>
                     <Button.Group>
                         <Button onClick={this.onAddNote} positive>Submit</Button>

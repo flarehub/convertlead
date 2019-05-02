@@ -1653,6 +1653,7 @@ input:focus {
     margin:10px 0;
     background: #fff;
     border-radius: 3px;
+    border: 1px solid #d5d5d5;
 }
 .AgentLeadNotes .column {
     display: inline-block;
@@ -1796,6 +1797,42 @@ font-family: 'Roboto Condensed', sans-serif;
     box-shadow: 0px -5px 7px rgba(0,0,0,0.1);
 }
 
+
+.AgentLeadNotes .addLeadNote .ui.form .ui.buttons{
+    width: 100%;
+    border-top: 1px dashed #ccc;
+}
+
+.AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button {
+    border-radius:0;
+    font-family: Lato, sans-serif !important;
+}
+
+.AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.positive {
+    background-color: #005ff8 !important;
+}
+
+.AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.floating.dropdown.icon {
+    background-color: #f7f9fa;
+    width: 60%;
+}
+
+.AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.floating.dropdown.icon i {
+    float:right;
+}
+
+.AgentLeadNotes .addLeadNote .ui.form .ui.buttons .or::before {
+    content:'\e999  ';
+    font-family: 'Linearicons', serif !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
 
 .ui.form textarea:focus {
     border-color: #005ff8 !important ;
