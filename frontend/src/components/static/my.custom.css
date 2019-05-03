@@ -1618,6 +1618,7 @@ input:focus {
 
 .ui.large.pointing.secondary.menu {
     border:0 !important;
+    display:inline!important;
 }
 
 
@@ -1836,6 +1837,88 @@ font-family: 'Roboto Condensed', sans-serif;
 .ui.form textarea:focus {
     border-color: #005ff8 !important ;
 }
+
+.create-lead-header {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1rem 0;
+    text-align: left;
+    vertical-align: top;
+    margin-top: 12px;
+}
+
+
+.create-lead-header .header.mobile-app-menu {
+    width: 100%;
+    text-align: left;
+    display: block;
+    font-size: 30px !important;
+    font-weight: 400 !important;
+    font-family: Dosis,sans-serif !important;
+    color: #1b2733 !important;
+    float: left;
+}
+
+.create-lead-form {
+    padding-bottom: 50px;
+}
+
+.create-lead-form .ui.big.form.leadForm  label {
+    display:none;
+}
+
+.create-lead-form .ui.big.form.leadForm input {
+    border: 0;
+    border-bottom: 1px solid #ccc;
+    border-bottom-color: rgb(204, 204, 204);
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    border-radius: 0;
+}
+
+.create-lead-form .ui.big.form.leadForm textarea {
+
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    color: #1a1a1a;
+    border-radius: 0;
+    border:1px solid #ccc;
+}
+
+
+.create-lead-form .ui.big.form.leadForm .text {
+    font-family: Lato,sans-serif;
+    font-size: 14px;
+}
+
+.create-lead-form .ui.big.form.leadForm i {
+    padding: 10px;
+    padding-left: 0;
+}
+
+.create-lead-form .ui.big.form.leadForm div.column:nth-child(2) .field {
+    margin-bottom: 5px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.create-lead-form > div:nth-child(2) {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    box-shadow: 0px -2px 4px 4px rgba(0,0,0,0.1);
+}
+
+.create-lead-form > div:nth-child(2) .button {
+    width: 100%;
+    background: #005ff8;
+    color: #fff;
+    font-family: Lato, sans-serif !important;
+    padding: 15px;
+    border-radius: 0px;
+}
+
 /* Mobile view / Media queries */
 
 
@@ -1946,7 +2029,7 @@ font-family: 'Roboto Condensed', sans-serif;
     }
 
     .ui.table:not(.unstackable) tr > td, .ui.table:not(.unstackable) tr > th {
-        padding: .95em .75em !important;
+        padding: 1.2em .75em !important;
     }
 
     .ui.table:not(.unstackable) tfoot, .ui.table:not(.unstackable) thead {
@@ -1982,7 +2065,20 @@ font-family: 'Roboto Condensed', sans-serif;
         margin-bottom: 0;
     }
 
+    .ui.secondary.menu .right.menu .ui.teal.button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        height: 35px;
+        z-index: 99999;
+        border-radius: 65px;
+        padding: 10px 25px;
+        box-shadow: 5px 5px 14px 5px rgba(0,12,255,.2) !important;
+    }
 
+    .ui.two.column.grid .column:nth-child(1) .field {
+        display:none ;
+    }
 }
 
 @media only screen and (max-width: 662px) {
