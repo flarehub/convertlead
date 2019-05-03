@@ -72,7 +72,6 @@ class LeadForm extends Component {
 
     render() {
         const { fullname, email, phone, metadata } = this.props.form;
-        console.log(this.props.selectBoxStatuses);
         return (
             <Form size="big" className='leadForm'>
                 <Grid columns={2} relaxed="very" stackable>

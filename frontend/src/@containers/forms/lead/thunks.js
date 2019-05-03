@@ -41,9 +41,9 @@ export const updateLead = form => async (dispatch) => {
 export const createLead = form => async (dispatch) => {
   try {
     if (Auth.isAgency) {
-      createAgencyCompanyLead(form);
+      await createAgencyCompanyLead(form);
     } else {
-      createCompanyLead(form);
+      await createCompanyLead(form);
     }
 
     await dispatch(actions.savedLead());
