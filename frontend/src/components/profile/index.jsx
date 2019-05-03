@@ -13,9 +13,9 @@ class Profile extends Component {
     }, true);
   }
   render() {
-    return (<Segment basic>
+    return (<Segment basic className={"AccountProfile"}>
       <Segment basic attached='top' textAlign='left'>
-        <Header as='h1'>Profile</Header>
+        <Header as='h1' className={'ui left floated header mobile-app-menu'}>Profile</Header>
       </Segment>
       <Segment attached='bottom'>
         <ProfileForm />
