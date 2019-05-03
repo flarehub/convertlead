@@ -51,7 +51,7 @@ class Media extends Model
      *
      * @param type $file
      * @param type $path
-     * @return string
+     * @return array
      */
     public function uploadBase64($file, $path)
     {
@@ -84,7 +84,7 @@ class Media extends Model
      *
      * @param type $file
      * @param type $path
-     * @return type
+     * @return array
      */
     public function uploadFile(File $file, $path)
     {
@@ -224,7 +224,7 @@ class Media extends Model
      *
      * @param type $extension
      * @param type $name
-     * @return type
+     * @return string
      */
     protected static function getUniqueName($extension, $name = 'upload')
     {

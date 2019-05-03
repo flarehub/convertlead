@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Lead;
+use App\Models\LeadStatus;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use function MongoDB\BSON\toJSON;
 
 class LeadStatusUpdate extends Command
 {
@@ -37,6 +41,13 @@ class LeadStatusUpdate extends Command
      */
     public function handle()
     {
+        $leadStatusNew = LeadStatus::where('type', '=', 'NEW')->firstOrFail();
+        $leadStatusMissed = LeadStatus::where('type', '=', 'MISSED')->firstOrFail();
+        Lead::where('leads.created_at', '<', Carbon::now()->subHours(12)->toDateTimeString())
+            ->where('lead_status_id', '=', $leadStatusNew->id)
+            ->update([
+                'lead_status_id'  => $leadStatusMissed->id
+            ]);
         $this->info('***Lead status updated!***');
     }
 }

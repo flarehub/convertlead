@@ -27,7 +27,7 @@ class Lead extends Model
         'company',
         'agent',
     ];
-    
+
     public function campaign() {
         return $this->hasOne('App\Models\DealCampaign', 'id', 'deal_campaign_id');
     }
