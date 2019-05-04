@@ -14,22 +14,27 @@ class AppSidebar extends Component {
 
     logout = () => {
         this.props.logout();
+        this.onItemClick();
     };
 
     componentWillMount() {
         this.props.getUserSideBarMenu(Auth.role);
     }
 
+    onItemClick = () => {
+        this.props.onClickMenuItem && this.props.onClickMenuItem()
+    }
+
     render() {
         const {visibleMenus, profile} = this.props;
         return (
             <Menu className='AppSidebar' fixed='left' vertical={true} icon={true}>
-                <Menu.Item className='app-logo'>
+                <Menu.Item className='app-logo' onClick={this.onItemClick}>
                     <Image src={logo}/>
                 </Menu.Item>
                 {
                     visibleMenus.map((menu, i) => (
-                        <Link to={menu.path} key={i}>
+                        <Link to={menu.path} key={i} onClick={this.onItemClick}>
                             <Menu.Item index={i}>
                                 <i className={menu.icon}/>
                                 <div>{menu.name}</div>
@@ -38,13 +43,13 @@ class AppSidebar extends Component {
                     ))
                 }
                 <div className='sidebar-bootom'>
-                    <a href='http://support.digitalfollow.com' target='_blank'>
+                    <a href='http://support.digitalfollow.com' target='_blank' onClick={this.onItemClick}>
                         <i className='icon-support'/>
                     </a>
                     <Menu.Item onClick={this.logout}>
                         <i className='icon-logoff'/>
                     </Menu.Item>
-                    <Link to='/profile'>
+                    <Link to='/profile' onClick={this.onItemClick}>
                         <AvatarImage src={profile.avatar_path} sidebar-avatar rounded size='tiny'/>
                     </Link>
                 </div>

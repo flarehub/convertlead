@@ -14,13 +14,14 @@ const getWidth = () => {
 
 class DesktopContainer extends Component {
     state = {}
+    // handleSidebarHide = () => {}
     render() {
         return (
             <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
                 <div className='freshAppLayout'>
                     <Grid padded='horizontally' columns={2}>
                         <Grid.Column width={1}>
-                            <AppSidebar/>
+                            <AppSidebar />
                         </Grid.Column>
                         <Grid.Column width={15}>
                             {
@@ -49,19 +50,17 @@ class MobileContainer extends Component {
                 <Sidebar
                     animation='push'
                     onHide={this.handleSidebarHide}
-                    vertical
                     visible={sidebarOpened}>
-                    <AppSidebar/>
+                    <AppSidebar onClickMenuItem={this.handleSidebarHide}/>
                 </Sidebar>
 
                 <Sidebar.Pusher dimmed={sidebarOpened}>
                     <Segment
                         textAlign='center'
-                        style={{padding:0}}
-                        vertical>
+                        style={{padding:0}}>
                         {/*<Container>*/}
                         <Menu pointing secondary size='large' style={{margin:0, display:"unset"}}>
-                            <Menu.Item style={{ zIndex:9999, position:"absolute", top:"55px", left:"10px"}} onClick={this.handleToggle}>
+                            <Menu.Item style={{ zIndex:9999, position:"absolute", top:"40px", left:"10px"}} onClick={this.handleToggle}>
                                 <Icon name='sidebar'/>
                             </Menu.Item>
                         </Menu>
