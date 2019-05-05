@@ -6,6 +6,7 @@ use App\Models\Agency;
 use App\Models\Company;
 use App\Models\Lead;
 use Carbon\Carbon;
+use DB;
 
 trait AgentRepository
 {
@@ -39,14 +40,21 @@ trait AgentRepository
        time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
      
             ")
-            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-            ->where(function ($query) {
-                $query
-                    ->where('ls.type', 'CONTACTED_SMS')
-                    ->orWhere('ls.type', 'CONTACTED_CALL')
-                    ->orWhere('ls.type', 'CONTACTED_EMAIL');
-            })
+            ->join(DB::raw('(SELECT ln1.lead_id as lead_id, Min(ln1.created_at) as created_at FROM lead_notes as ln1 
+                    JOIN lead_statuses as ls ON ln1.lead_status_id=ls.id
+                    WHERE ls.type="CONTACTED_SMS" or ls.type="CONTACTED_CALL" or ls.type="CONTACTED_EMAIL"
+                    group by ln1.lead_id) AS ln'),
+                function($join) {
+                    $join->on('ln.lead_id', '=', 'leads.id');
+                })
+//            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
+//            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
+//            ->where(function ($query) {
+//                $query
+//                    ->where('ls.type', 'CONTACTED_SMS')
+//                    ->orWhere('ls.type', 'CONTACTED_CALL')
+//                    ->orWhere('ls.type', 'CONTACTED_EMAIL');
+//            })
             ->groupBy('creation_date')
             ->whereBetween('leads.created_at', [
                 Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay(),
