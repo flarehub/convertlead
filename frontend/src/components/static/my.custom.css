@@ -1454,7 +1454,7 @@ input:focus {
     margin:0;
 }
 
-.AgentLeads .ui.secondary.menu .item:hover{
+.AgentLeads .ui.secondary.menu .item:hover, .AgentLeads .ui.secondary.menu .active.item:hover{
     background: #fff;
     color: #005ff8;
     font-weight: 600;
@@ -1649,6 +1649,9 @@ input:focus {
     padding: 15px 5px;
   }
 
+.AgentLeadNotes .lead-timeline {
+    padding-bottom:110px;
+}
 .AgentLeadNotes .lead-note {
     margin:10px 0;
     background: #fff;
