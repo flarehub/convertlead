@@ -731,6 +731,11 @@ input:focus {
     right: 0;
 }
 
+.ui.segment {
+    box-shadow:none !important;
+    border-bottom:0 !important;
+}
+
 .ui.table tbody tr td a:hover {
     color: #005ff8 !important;
     border-bottom: 1px dotted #005ff8
@@ -1790,6 +1795,7 @@ font-family: 'Roboto Condensed', sans-serif;
     border-bottom: 0!important;
     border-left:0!important;
     border-right:0!important;
+    border-top: 1px solid #bababa !important;
     height: 65px;
     font-family: Lato, sans-serif;
     font-weight: 400;
@@ -1949,7 +1955,6 @@ font-family: 'Roboto Condensed', sans-serif;
 /* Mobile view / Media queries */
 
 
-
 @media only screen and (max-width: 1024px){
 
     .pushable:not(body) {
@@ -1962,6 +1967,25 @@ font-family: 'Roboto Condensed', sans-serif;
 @media only screen and (max-width: 767px) {
 
 
+    .ui[class*="left fixed"].menu {
+        height:unset !important;
+    }
+    .sidebar-bootom {
+        margin:0;
+    }
+
+    .ui.visible.left.sidebar ~ .fixed, .ui.visible.left.sidebar ~ .pusher {
+        -webkit-transform: translate3d(80px,0,0) !important;
+
+        transform: translate3d(80px,0,0) !important;
+    }
+
+    .ui.left.sidebar, .ui.right.sidebar {
+        width:80px  !important;
+    }
+    .ui.icon.left.AppSidebar.menu {
+        width:80px;
+    }
 
     .create-lead-form > div:nth-child(2) .button,  .AccountProfile .ui.big.form.profileForm .primary.button {
         width: 100%;
@@ -2047,6 +2071,11 @@ font-family: 'Roboto Condensed', sans-serif;
         display: none !important;
     }
 
+    .Agents .ui.table thead th:nth-child(2), .Agents .ui.table tbody tr td:nth-child(2),  .Agents .ui.table thead th:nth-child(3), .Agents .ui.table tbody tr td:nth-child(3), .Agents .ui.table thead th:nth-child(5), .Agents .ui.table tbody tr td:nth-child(5) {
+        display:none !important;
+    }
+
+
     .ui.table:not(.unstackable) td:first-child, .ui.table:not(.unstackable) th:first-child {
         font-weight: inherit !important;
     }
@@ -2093,6 +2122,15 @@ font-family: 'Roboto Condensed', sans-serif;
         margin-top: 0 !important;
     }
 
+    .ui.modal .size.circular.icon-image {
+        float:left;
+        margin:5px;
+    }
+
+    .ui.modal .ui.basic.segment {
+        padding: 0 1.5rem 1.5rem 1.5rem;
+    }
+
     .ui.small.modal .ui.form .field > label, .ui.tiny.modal .ui.form .field > label {
         font-size: 16px;
     }
@@ -2115,8 +2153,12 @@ font-family: 'Roboto Condensed', sans-serif;
         box-shadow: 5px 5px 14px 5px rgba(0,12,255,.2) !important;
     }
 
-    .Agents .ui.two.column.grid  .column:nth-child(1) .field, .Campaigns .ui.two.column.grid  .column:nth-child(1) .field {
+    .Agents .ui.two.column.grid .column:nth-child(1) .field, .Campaigns .ui.two.column.grid  .column:nth-child(1) .field {
         display:none ;
+    }
+
+    .Agents .ui.two.column.grid .column:nth-child(1) .ui.form {
+     border:0;
     }
 }
 
@@ -2129,5 +2171,15 @@ font-family: 'Roboto Condensed', sans-serif;
     .Dashboard .field {
         display: none;
     }
-}
 
+    .Companies .ui.table tbody tr td:nth-child(4),  .Companies .ui.table thead th:nth-child(4) {
+        display:none !Important;
+    }
+
+    .Leads .ui.table thead th:nth-child(4), .Leads .ui.table tbody tr td:nth-child(4) {
+        display:none !important;
+    }
+
+    .Agents .ui.table thead th:nth-child(2), .Agents .ui.table tbody tr td:nth-child(2),  .Agents .ui.table thead th:nth-child(3), .Agents .ui.table tbody tr td:nth-child(3), .Agents .ui.table thead th:nth-child(4), .Agents .ui.table tbody tr td:nth-child(4), .Agents .ui.table thead th:nth-child(5), .Agents .ui.table tbody tr td:nth-child(5) {
+    display:none !important;}
+}
