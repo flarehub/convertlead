@@ -2,6 +2,7 @@ package com.mobileapp;
 
 import android.app.Application;
 
+import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.facebook.react.ReactNativeHost;
@@ -24,7 +25,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNCWebViewPackage()
+          new RNCWebViewPackage(),
+          new FIRMessagingPackage()
       );
     }
 
