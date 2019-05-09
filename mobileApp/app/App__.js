@@ -1,5 +1,5 @@
 /**
- * Sample React Native App
+ * Sample React Native App__
  * https://github.com/facebook/react-native
  *
  * @format
@@ -10,9 +10,10 @@ import React, { Component } from 'react';
 import { TextInput, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import NotifyService from './NotifService';
 import appConfig from './app.json';
+import * as PushNotification from "react-native";
 
 type Props = {};
-export default class App extends Component<Props> {
+export default class App__ extends Component<Props> {
 
   constructor(props) {
     super(props);
@@ -54,7 +55,7 @@ export default class App extends Component<Props> {
   }
 
   onNotify(notify) {
-    console.log(notify);
+    console.log("===========>", notify);
     Alert.alert(notify.title, notify.message);
   }
 
