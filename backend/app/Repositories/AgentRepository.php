@@ -6,6 +6,8 @@ use App\Models\Agency;
 use App\Models\Company;
 use App\Models\Lead;
 use Carbon\Carbon;
+use DB;
+use function MongoDB\BSON\toJSON;
 
 trait AgentRepository
 {
@@ -22,51 +24,70 @@ trait AgentRepository
         $companyAgencyIds = null,
         $format = 'Y-m-d', $pieGraph = false)
     {
-        $query = Lead::selectRaw(
-            "
-          DATE(leads.created_at) as creation_date,
-	   SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
-             SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)
-       ) as up30Mintes,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)
-       ) as up2Hours,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)
-       ) as up12Hours,
-            SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
-     
-            ")
-            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-            ->where(function ($query) {
-                $query
-                    ->where('ls.type', 'CONTACTED_SMS')
-                    ->orWhere('ls.type', 'CONTACTED_CALL')
-                    ->orWhere('ls.type', 'CONTACTED_EMAIL');
-            })
-            ->groupBy('creation_date')
+//        $query = Lead::selectRaw("
+//            DATE(leads.created_at) as creation_date,
+//            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
+//            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)) as up30Mintes,
+//            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)) as up2Hours,
+//            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)) as up12Hours,
+//            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
+//            ")
+//            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
+//            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
+//            ->where(function ($query) {
+//                $query
+//                    ->where('ls.type', 'CONTACTED_SMS')
+//                    ->orWhere('ls.type', 'CONTACTED_CALL')
+//                    ->orWhere('ls.type', 'CONTACTED_EMAIL');
+//            })
+//            ->groupBy('creation_date')
+//            ->whereBetween('leads.created_at', [
+//                Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay(),
+//                Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay()]);
+
+
+        $query = Lead::selectRaw("COUNT(*) as count")
+            ->join(DB::raw("(SELECT ld.id as ld_id, Min(ln.created_at) as ln_created_at
+                            FROM leads as ld join lead_notes as ln on ld.id = ln.lead_id join lead_statuses ls on ln.lead_status_id = ls.id
+                            WHERE (ls.type='CONTACTED_SMS' or ls.type='CONTACTED_CALL' or ls.type='CONTACTED_EMAIL')
+                            group by ld_id) as tb"),
+                function($join) {
+                    $join->on('leads.id', '=', 'tb.ld_id');
+                })
             ->whereBetween('leads.created_at', [
                 Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay(),
                 Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay()]);
 
         $query->where('leads.agent_id', $agentId);
 
-
         if ($companyAgencyIds) {
             $query->whereIn('leads.agency_company_id', $companyAgencyIds);
         }
 
+        $up15Minutes = $query->whereRaw('time_to_sec(timediff(leads.created_at, tb.ln_created_at)) <= (15*60)')->first();
+        $up30Mintes = $query->whereRaw('time_to_sec(timediff(leads.created_at, tb.ln_created_at)) >= (15*60) AND
+                                        time_to_sec(timediff(leads.created_at, tb.ln_created_at)) <= (30*60)')->first();
+        $up2Hours = $query->whereRaw('time_to_sec(timediff(leads.created_at, tb.ln_created_at)) >= (30*60) AND
+                                        time_to_sec(timediff(leads.created_at, tb.ln_created_at)) <= (2*60*60)')->first();
+        $up12Hours = $query->whereRaw('time_to_sec(timediff(leads.created_at, tb.ln_created_at)) >= (2*60*60) AND
+                                        time_to_sec(timediff(leads.created_at, tb.ln_created_at)) <= (12*60*60)')->first();
+        $up12plus = $query->whereRaw('time_to_sec(timediff(leads.created_at, tb.ln_created_at)) >= (12*60*60)')->first();
+
+        $leads = [
+            'up15Minutes' => $up15Minutes['count'],
+            'up30Mintes' => $up30Mintes['count'],
+            'up2Hours' => $up2Hours['count'],
+            'up12Hours' => $up12Hours['count'],
+            '12plus' => $up12plus['count'],
+        ];
 
         $averageResponseTime = static::getAverageTime($startDate, $endDate, $companyAgencyIds, $agentId, $format);
 
 
         if ($pieGraph) {
-            return static::mapLeadsToPieGraph($query->get(), $averageResponseTime, $startDate, $endDate, $format);
+            return static::mapLeadsToPieGraph($leads, $averageResponseTime, $startDate, $endDate, $format);
         }
-        return static::mapLeadsToLineGraph($query->get(), $averageResponseTime, $startDate, $endDate, $format);
+        return static::mapLeadsToLineGraph($leads, $averageResponseTime, $startDate, $endDate, $format);
     }
 
     static function getAverageTime($startDate,
@@ -148,9 +169,7 @@ trait AgentRepository
 
         $datasets = collect($datasets)->map(function ($dataset) use ($leads, $dateCollection) {
             $fieldName = $dataset['data'];
-            $dataset['data'] = collect($dateCollection)->map(function ($date) use ($leads, $fieldName) {
-                return (int)$leads->where('creation_date', $date)->first()[$fieldName];
-            });
+            $dataset['data'] = $leads[$fieldName];
             return $dataset;
         });
 
@@ -185,11 +204,8 @@ trait AgentRepository
             ]
         ];
 
-
         $datasets['data'] = collect($datasets['data'])->map(function ($fieldName) use ($leads, $dateCollection) {
-            return collect($leads)->reduce(function ($acc, $lead) use ($leads, $fieldName) {
-                return $acc + (int)$lead[$fieldName];
-            });
+            return $leads[$fieldName];
         });
 
 

@@ -14,7 +14,6 @@ const getWidth = () => {
 
 class DesktopContainer extends Component {
     state = {}
-    // handleSidebarHide = () => {}
     render() {
         return (
             <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
