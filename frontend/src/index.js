@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import { store } from '@containers';
 import App from 'components/App';
 import * as serviceWorker from './serviceWorker';
+import * as webviewInteraction from './utils/webviewInteraction';
 
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
@@ -31,3 +32,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+webviewInteraction.init();

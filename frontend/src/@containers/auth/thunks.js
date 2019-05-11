@@ -23,6 +23,11 @@ export const login = (email, password) => async (dispatch, getState) => {
         await dispatch(updateUserProfile(tokenData.user));
         await dispatch(loadProfileForm(tokenData.user));
         await dispatch(sendMessage('You have been logged successfully!'));
+        window.webViewBridge.send('onSuccessLogin', tokenData, function(res) {
+            console.log("===Success Send Login Data to app!!! ===: ", res)
+        }, function(err) {
+            console.error("===Error Send Login Data to app!!! ===: ", err)
+        });
     } catch (error) {
         await dispatch(sendMessage(error.message, true));
     }
