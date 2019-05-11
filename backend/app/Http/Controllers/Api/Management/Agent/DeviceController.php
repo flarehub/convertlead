@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Management\Agent;
 
+use App\Models\Device;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,11 +22,12 @@ class DeviceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return void
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function store(Request $request)
     {
-        //
+        return Device::createDeviceToken($request);
     }
 
     /**
