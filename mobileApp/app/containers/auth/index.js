@@ -1,15 +1,18 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as thunks from './thunks';
-// import {Auth} from "@services";
+import * as actions from './actions';
 
 const mapStateToProps = state => ({
-  // isAuthorised: state.auth.session.isAuthorised || Auth.isAuthorised(),
+    isAuthorised: state.auth.session.isAuthorised,
+    session: state.auth.session
 });
 
 const mapActionsToProps = dispatch => ({
-  // autoLogin: () => dispatch(thunks.autoLogin()),
-  // login: (email, password) => dispatch(thunks.login(email, password)),
-  // logout: () => dispatch(thunks.logout()),
+    updateUserProfile: (profile) => dispatch(actions.updateUserProfile(profile)),
+    addSessionToken: (tokenData) => dispatch(actions.addSessionToken(tokenData)),
+    addDeviceToken: (deviceToken) => dispatch(actions.addDeviceToken(deviceToken)),
+    registerDeviceToken: () => dispatch(thunks.registerDeviceToken()),
+    logout: () => dispatch(actions.removeSessionToken(), actions.removeUserProfile()),
 });
 
 export default connect(mapStateToProps, mapActionsToProps);
