@@ -23,7 +23,7 @@ export const login = (email, password) => async (dispatch, getState) => {
         await dispatch(updateUserProfile(tokenData.user));
         await dispatch(loadProfileForm(tokenData.user));
         await dispatch(sendMessage('You have been logged successfully!'));
-        window.webViewBridge.send('onSuccessLogin', tokenData, function(res) {
+        window.webViewBridge.send('onLogin', tokenData, function(res) {
             console.log("===Success Send Login Data to app!!! ===: ", res)
         }, function(err) {
             console.error("===Error Send Login Data to app!!! ===: ", err)
@@ -49,6 +49,11 @@ export const autoLogin = () => {
 
 export const logout = () => {
     SessionStorage.removeItem('session');
+    window.webViewBridge.send('onLogout', '', function(res) {
+        console.log("===Success Logout to app!!! ===: ", res)
+    }, function(err) {
+        console.error("===Error Logout to app!!! ===: ", err)
+    });
     return (dispatch) => {
         dispatch(removeSessionToken());
     };
