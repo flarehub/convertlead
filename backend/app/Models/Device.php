@@ -28,12 +28,17 @@ class Device extends Model
                 'type' => 'required|string|max:255',
             ]);
 
-
-            $deviceToken = self::create($request->only([
-                'agent_id',
-                'device_token',
-                'type',
-            ]));
+            $deviceToken = Device::where('agent_id', $request->agent_id)
+                ->where('device_token', $request->device_token)
+                ->where('type', $request->type)
+                ->first();
+            if (!$deviceToken) {
+                $deviceToken = self::create($request->only([
+                    'agent_id',
+                    'device_token',
+                    'type',
+                ]));
+            }
 
             \DB::commit();
             return $deviceToken;
