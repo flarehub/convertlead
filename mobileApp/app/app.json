@@ -1,5 +1,6 @@
 {
   "name": "mobileApp",
   "displayName": "Fresh app",
-  "senderID": "131363990295"
+  "senderID": "131363990295",
+  "serverURL": "http://155.138.229.190:8081/api"
 }
