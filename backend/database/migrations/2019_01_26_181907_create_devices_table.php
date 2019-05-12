@@ -16,7 +16,7 @@ class CreateDevicesTable extends Migration
        DB::getPdo()->exec("
        CREATE TABLE IF NOT EXISTS `devices` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `agent_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+  `agent_id` INT(10) UNSIGNED NOT NULL,
   `device_token` VARCHAR(245) NULL DEFAULT NULL,
   `type` ENUM('NONE', 'IOS', 'ANDROID', 'WEB', 'DESCKTOP') NULL DEFAULT NULL,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
