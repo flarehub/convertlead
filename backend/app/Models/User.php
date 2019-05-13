@@ -101,6 +101,8 @@ class User extends Authenticatable
                 Permission::$PERMISSION_LEAD_NOTE_READ,
                 Permission::$PERMISSION_LEAD_NOTE_WRITE,
                 Permission::$PERMISSION_CAMPAIGN_READ,
+                Permission::$PERMISSION_DEVICE_READ,
+                Permission::$PERMISSION_DEVICE_WRITE,
             ];
         }
         return [

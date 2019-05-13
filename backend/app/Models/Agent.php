@@ -24,6 +24,10 @@ class Agent extends User
         return $this->hasMany('App\Models\Lead', 'agent_id');
     }
 
+    public function devices() {
+        return $this->hasMany('App\Models\Device', 'agent_id');
+    }
+
     public function getCompanyAttribute() {
         if ($this->company_id) {
             $company = Company::withTrashed()->find($this->company_id);

@@ -35,4 +35,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'fcm' => [
+        'api_key' => env('FCM_API_KEY', 'AAAAHpXnaxc:APA91bFZyyXvBnUCufCFYJ4AH1dG6JaAwrCA5z4tIiQ1b8blji5P6EW2NYpZY_MFvc3xRaCBed4tfLmCHYnthUy2ukPl5eL4rHW8ygzG9QnOppidtAYRce1mBp-B30jVMyByHvJAyO-o'),
+    ]
+
 ];
