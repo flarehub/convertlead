@@ -20,11 +20,13 @@ class App extends Component<Props> {
         this.onWebViewMessage = this.onWebViewMessage.bind(this);
     }
 
+    componentWillMount() {
+        this.props.init();
+    }
+
     onLogin(msgData) {
         console.log("=====> Message Data from webview", msgData);
-        const { refreshToken, token, user } = msgData.data;
-        this.props.addSessionToken({refreshToken, token});
-        this.props.updateUserProfile(user);
+        this.props.login(msgData.data);
         this.props.registerDeviceToken();
     }
 
@@ -76,7 +78,7 @@ class App extends Component<Props> {
 
     onNotify(notify) {
         console.log("===========>", notify);
-        Alert.alert(notify.title, notify.message);
+        // Alert.alert(notify.title, notify.message);
     }
 }
 

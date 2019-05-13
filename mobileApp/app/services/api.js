@@ -18,6 +18,7 @@ const instance = new Api(axios).createServer();
 
 instance.interceptors.response.use(response => response,
     (error) => {
+        console.log("============> axios error", error);
         if (error.response && error.response.data) {
             const errors = R.pathOr([], ['response', 'data', 'errors'], error);
             const message = R.pathOr([], ['response', 'data', 'message'], error);
