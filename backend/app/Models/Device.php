@@ -11,6 +11,7 @@ class Device extends Model
     use SoftDeletes;
 
     protected $table = 'devices';
+
     protected $fillable = [
         'agent_id',
         'device_token',
@@ -58,5 +59,14 @@ class Device extends Model
             \DB::rollBack();
             throw $exception;
         }
+    }
+
+    public static function getTokenListFromAgentIds($agentIds=[]) {
+        $tokenList = [];
+        $devices = Device::whereIn('agent_id', $agentIds)->get();
+        foreach ($devices as $device) {
+            $tokenList[] = $device->device_token;
+        }
+        return $tokenList;
     }
 }
