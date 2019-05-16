@@ -66,10 +66,10 @@ export function init() {
         }
 
         if (message && message.title) {
-            window.location.href = '/company/leads/new'
-            // if (message.title === 'NEW_LEAD_NOTIFICATION') {
-            //
-            // }
+            if (message.title === 'NEW_LEAD_NOTIFICATION') {
+                alert("Push notificatio arrived!!!!")
+                // window.location.href = '/company/leads/new'
+            }
         }
 
         //trigger callback
