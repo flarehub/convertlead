@@ -56,8 +56,6 @@ export function init() {
     window.addEventListener('message', function(e) {
         console.log("message received from react native");
 
-        alert("Push notificatio arrived!!!!")
-
         let message;
         try {
             message = JSON.parse(e.data)
@@ -69,8 +67,7 @@ export function init() {
 
         if (message && message.title) {
             if (message.title === 'NEW_LEAD_NOTIFICATION') {
-                alert("Push notificatio arrived!!!!")
-                // window.location.href = '/company/leads/new'
+                window.location.href = '/company/leads/new'
             }
         }
 
