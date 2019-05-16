@@ -50,7 +50,7 @@ export const createLead = form => async (dispatch) => {
     if (!Auth.isAgent) {
       await dispatch(loadLeads());
     } else {
-      window.location = '/companies/leads'
+      window.location = '/companies/leads/all'
     }
   } catch (e) {
     dispatch(sendMessage(e.message, true));

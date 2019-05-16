@@ -33,7 +33,6 @@ class App extends Component<Props> {
     onLogout(msgData) {
         console.log("=====> Message Data from webview", msgData);
         this.props.logout();
-        // this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgData)}', '*');`);
     }
 
     onWebViewMessage(event) {
@@ -78,7 +77,10 @@ class App extends Component<Props> {
 
     onNotify(notify) {
         console.log("===========>", notify);
-        // Alert.alert(notify.title, notify.message);
+        let msgToWeb = {
+            'title': 'NEW_LEAD_NOTIFICATION'
+        }
+        this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgToWeb)}', '*');`);
     }
 }
 

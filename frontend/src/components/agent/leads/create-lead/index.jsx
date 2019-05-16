@@ -13,7 +13,7 @@ class CreateLead extends Component {
         this.props.loadSelectBoxCompanies();
         this.props.addBreadCrumb({
             name: 'Leads',
-            path: '/companies/leads'
+            path: '/companies/leads/all'
         }, true);
         this.props.addBreadCrumb({
             name: 'Create',

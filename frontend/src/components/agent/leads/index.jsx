@@ -39,6 +39,12 @@ class AgentLeads extends Component {
     };
 
     componentWillMount() {
+        const {tab} = this.props.match.params;
+        console.log("=========> active tab index:", tab);
+        this.defaultActiveIndex = 0
+        if (tab && tab === 'new') {
+            this.defaultActiveIndex = 1
+        }
         this.props.agentLeadsByStatuses([]);
         this.props.addBreadCrumb({
             name: 'Leads',
@@ -48,6 +54,9 @@ class AgentLeads extends Component {
     }
 
     componentDidMount() {
+        if (this.defaultActiveIndex === 1) {
+            this.showFreshLeads()
+        }
         window.addEventListener('scroll', this.handleScroll);
     }
 
@@ -184,7 +193,7 @@ class AgentLeads extends Component {
                     </Grid>
                 </Segment>
                 <Segment basic>
-                    <Tab menu={{secondary: true}} panes={panes}/>
+                    <Tab menu={{secondary: true}} panes={panes} defaultActiveIndex={this.defaultActiveIndex}/>
                 </Segment>
                 <Link to='/companies/leads/create'>
                     <Button circular primary size='massive' icon='plus' className='add-lead'/>

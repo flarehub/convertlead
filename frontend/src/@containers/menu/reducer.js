@@ -30,7 +30,7 @@ const initialState = {
     {
       icon: 'icon-leads',
       name: 'Leads',
-      path: '/companies/leads',
+      path: '/companies/leads/all',
       component: Leads,
       role: ['agent'],
     },

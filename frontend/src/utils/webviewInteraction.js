@@ -65,6 +65,12 @@ export function init() {
             return;
         }
 
+        if (message && message.title) {
+            if (message.title === 'NEW_LEAD_NOTIFICATION') {
+                window.location.href = '/company/leads/new'
+            }
+        }
+
         //trigger callback
         if (message.args && callbacks[message.msgId]) {
             if (message.isSuccessfull) {

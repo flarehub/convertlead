@@ -124,7 +124,7 @@ class LeadStats extends Component {
                                 for easy access. Follow the link below to check your fresh leads.
 
                             </p>
-                            <Link to='/companies/leads'>
+                            <Link to='/companies/leads/all'>
                                 <Button primary>View fresh leads</Button>
                             </Link>
                         </div>
