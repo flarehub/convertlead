@@ -65,6 +65,8 @@ export function init() {
             return;
         }
 
+        alert("Push notificatio arrived!!!!")
+
         if (message && message.title) {
             if (message.title === 'NEW_LEAD_NOTIFICATION') {
                 alert("Push notificatio arrived!!!!")
