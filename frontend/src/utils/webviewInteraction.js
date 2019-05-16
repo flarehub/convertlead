@@ -56,6 +56,8 @@ export function init() {
     window.addEventListener('message', function(e) {
         console.log("message received from react native");
 
+        alert("Push notificatio arrived!!!!")
+
         let message;
         try {
             message = JSON.parse(e.data)
@@ -64,8 +66,6 @@ export function init() {
             console.error("failed to parse message from react-native " + err);
             return;
         }
-
-        alert("Push notificatio arrived!!!!")
 
         if (message && message.title) {
             if (message.title === 'NEW_LEAD_NOTIFICATION') {
