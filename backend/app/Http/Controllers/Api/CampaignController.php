@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\DealCampaign;
+use App\Models\Device;
 use App\Models\Lead;
 use App\Models\LeadNote;
 use App\Models\LeadStatus;
@@ -76,6 +77,15 @@ class CampaignController extends Controller
            ]);
     
            \DB::commit();
+
+           $notification = [
+               'title' => 'New Lead',
+               'body' => 'New Lead created: '.$lead->fullname,
+               'sound' => true,
+           ];
+           $tokenList = Device::getTokenListFromAgentIds([$lead->agent_id]);
+           Lead::notification($tokenList, $notification);
+
            $lead->only([
                'id',
                'status',
