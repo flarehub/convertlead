@@ -1,35 +1,42 @@
 {
   "project_info": {
-    "project_number": "131363990295",
-    "firebase_url": "https://test-a6de0.firebaseio.com",
-    "project_id": "test-a6de0",
-    "storage_bucket": "test-a6de0.appspot.com"
+    "project_number": "170482632377",
+    "firebase_url": "https://freshleadapp.firebaseio.com",
+    "project_id": "freshleadapp",
+    "storage_bucket": "freshleadapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:131363990295:android:df4c6b4a1ddfad30",
+        "mobilesdk_app_id": "1:170482632377:android:df4c6b4a1ddfad30",
         "android_client_info": {
           "package_name": "com.mobileapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "131363990295-rmbg2dhq2gvvje60192sahil332me5in.apps.googleusercontent.com",
+          "client_id": "170482632377-4gc4jqcv8catt8ti99u1u7n4mhqsd1dg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAhYWZhqz1E7KqDq9jrtvwUTnuBojN32i4"
+          "current_key": "AIzaSyA4WvPh3BGUPNkkLTnUA6UyhBtMHlkRMzU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "131363990295-rmbg2dhq2gvvje60192sahil332me5in.apps.googleusercontent.com",
+              "client_id": "170482632377-4gc4jqcv8catt8ti99u1u7n4mhqsd1dg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "170482632377-7gg3fbfc9qvl2h7sqcldkrq8envrs5ua.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mobileapp.freshapp"
+              }
             }
           ]
         }

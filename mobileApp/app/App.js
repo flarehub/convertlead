@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, Platform, StyleSheet} from 'react-native';
+import {BackHandler, ToastAndroid, Alert, Platform, StyleSheet} from 'react-native';
 import {compose} from 'recompose';
 import {WebView} from 'react-native-webview';
 import NotifyService from "./NotifService";
@@ -22,6 +22,22 @@ class App extends Component<Props> {
 
     componentWillMount() {
         this.props.init();
+    }
+
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton() {
+        Alert.alert(
+            'Exit App',
+            'Do you want to exit?',
+            [
+                {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: 'Yes', onPress: () => BackHandler.exitApp()},
+            ],
+            { cancelable: false });
+        return true;
     }
 
     onLogin(msgData) {
@@ -76,11 +92,11 @@ class App extends Component<Props> {
     }
 
     onNotify(notify) {
-        console.log("===========>", notify);
-        let msgToWeb = {
+        console.log("=========== Notification arrived =========", notify);
+        let msgData = {
             'title': 'NEW_LEAD_NOTIFICATION'
         }
-        this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgToWeb)}', '*');`);
+        this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgData)}', '*');`);
     }
 }
 
