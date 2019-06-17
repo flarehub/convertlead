@@ -14,6 +14,7 @@ class App extends Component<Props> {
         this.state = {
             senderId: appConfig.senderID
         };
+        this.onWebViewMessage = this.onWebViewMessage.bind(this);
     }
 
     async componentWillMount() {
@@ -49,13 +50,13 @@ class App extends Component<Props> {
         * */
         this.notificationListener = firebase.notifications().onNotification((notification) => {
             const { title, body } = notification;
-            this.showAlert(title, body);
-            console.log("===notification====", notification)
             const notify = new firebase.notifications.Notification()
                 .setNotificationId('notificationId')
-                .setTitle('My notification title')
-                .setBody('My notification body');
+                .setTitle(title)
+                .setBody(body)
+                .setSound("default");
             firebase.notifications().displayNotification(notify)
+            this.goToNewLeadPage();
         });
 
         /*
@@ -63,8 +64,7 @@ class App extends Component<Props> {
         * */
         this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
             const { title, body } = notificationOpen.notification;
-            this.showAlert(title, body);
-            console.log("===notification====", notificationOpen)
+            this.goToNewLeadPage();
         });
 
         /*
@@ -73,8 +73,7 @@ class App extends Component<Props> {
         const notificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
             const { title, body } = notificationOpen.notification;
-            this.showAlert(title, body);
-            console.log("===notification====", notificationOpen)
+            this.goToNewLeadPage();
         }
         /*
         * Triggered for data only payload in foreground
@@ -178,14 +177,13 @@ class App extends Component<Props> {
     //     console.log(token);
     //     this.props.addDeviceToken(token.token);
     // }
-    //
-    // onNotify(notify) {
-    //     console.log("=========== Notification arrived =========", notify);
-    //     let msgData = {
-    //         'title': 'NEW_LEAD_NOTIFICATION'
-    //     }
-    //     this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgData)}', '*');`);
-    // }
+
+    goToNewLeadPage() {
+        let msgData = {
+            'title': 'NEW_LEAD_NOTIFICATION'
+        }
+        this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgData)}', '*');`);
+    }
 }
 
 export default compose(AuthContainer)(App);
