@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {BackHandler, ToastAndroid, Alert, Platform, StyleSheet} from 'react-native';
+import {BackHandler, Alert} from 'react-native';
 import {compose} from 'recompose';
 import {WebView} from 'react-native-webview';
-import NotifyService from "./NotifService";
 import {AuthContainer} from "./containers";
+import firebase from 'react-native-firebase';
 import appConfig from './app.json';
 
 type Props = {};
@@ -14,18 +14,21 @@ class App extends Component<Props> {
         this.state = {
             senderId: appConfig.senderID
         };
-
-        this.notify = new NotifyService(this.onRegister.bind(this), this.onNotify.bind(this));
-        this.notify.configure(this.onRegister.bind(this), this.onNotify.bind(this), this.state.senderId);
-        this.onWebViewMessage = this.onWebViewMessage.bind(this);
     }
 
-    componentWillMount() {
+    async componentWillMount() {
         this.props.init();
     }
 
     componentDidMount() {
+        this.checkPermission();
+        this.createNotificationListeners();
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    componentWillUnmount() {
+        this.notificationListener();
+        this.notificationOpenedListener();
     }
 
     handleBackButton() {
@@ -38,6 +41,91 @@ class App extends Component<Props> {
             ],
             { cancelable: false });
         return true;
+    }
+
+    async createNotificationListeners() {
+        /*
+        * Triggered when a particular notification has been received in foreground
+        * */
+        this.notificationListener = firebase.notifications().onNotification((notification) => {
+            const { title, body } = notification;
+            this.showAlert(title, body);
+            console.log("===notification====", notification)
+            const notify = new firebase.notifications.Notification()
+                .setNotificationId('notificationId')
+                .setTitle('My notification title')
+                .setBody('My notification body');
+            firebase.notifications().displayNotification(notify)
+        });
+
+        /*
+        * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+        * */
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            const { title, body } = notificationOpen.notification;
+            this.showAlert(title, body);
+            console.log("===notification====", notificationOpen)
+        });
+
+        /*
+        * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+        * */
+        const notificationOpen = await firebase.notifications().getInitialNotification();
+        if (notificationOpen) {
+            const { title, body } = notificationOpen.notification;
+            this.showAlert(title, body);
+            console.log("===notification====", notificationOpen)
+        }
+        /*
+        * Triggered for data only payload in foreground
+        * */
+        this.messageListener = firebase.messaging().onMessage((message) => {
+            //process data message
+            console.log(JSON.stringify(message));
+        });
+    }
+
+    showAlert(title, body) {
+        Alert.alert(
+            title, body,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
+    }
+
+
+    //1
+    async checkPermission() {
+        const enabled = await firebase.messaging().hasPermission();
+        if (enabled) {
+            this.getToken();
+        } else {
+            this.requestPermission();
+        }
+    }
+
+    //3
+    async getToken() {
+        const fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            // user has a device token
+            this.props.addDeviceToken(fcmToken);
+            console.log("===token===", fcmToken);
+        }
+    }
+
+    //2
+    async requestPermission() {
+        try {
+            await firebase.messaging().requestPermission();
+            // User has authorised
+            this.getToken();
+        } catch (error) {
+            // User has rejected permissions
+            console.log('permission rejected');
+        }
     }
 
     onLogin(msgData) {
@@ -86,18 +174,18 @@ class App extends Component<Props> {
         );
     }
 
-    onRegister(token) {
-        console.log(token);
-        this.props.addDeviceToken(token.token);
-    }
-
-    onNotify(notify) {
-        console.log("=========== Notification arrived =========", notify);
-        let msgData = {
-            'title': 'NEW_LEAD_NOTIFICATION'
-        }
-        this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgData)}', '*');`);
-    }
+    // onRegister(token) {
+    //     console.log(token);
+    //     this.props.addDeviceToken(token.token);
+    // }
+    //
+    // onNotify(notify) {
+    //     console.log("=========== Notification arrived =========", notify);
+    //     let msgData = {
+    //         'title': 'NEW_LEAD_NOTIFICATION'
+    //     }
+    //     this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgData)}', '*');`);
+    // }
 }
 
 export default compose(AuthContainer)(App);
