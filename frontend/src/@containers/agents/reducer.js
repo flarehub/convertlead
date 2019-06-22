@@ -16,39 +16,39 @@ const initState = {
   graphContactedLeadsAverage: {
     type: 'line',
     data: {
-      labels: ["date x", "date y", "date y", "date y", "date y"],
+      labels: ["date 1", "date 2", "date 3", "date 4", "date 5"],
       datasets: [
         {
           label: '15 min (0-15)',
-          data: [0, 0, 0, 0, 0, 0],
+          data: [0, 0, 0, 0, 0],
           backgroundColor: ['rgba(0, 0, 0, 0)'],
           borderColor: ['#21ba45'],
           borderWidth: 2
         },
         {
           label: '30 min (15-30)',
-          data: [0, 0, 0, 0, 0, 0],
+          data: [0, 0, 0, 0, 0],
           backgroundColor: ['rgba(0, 0, 0, 0)'],
           borderColor: ['#f2711c'],
           borderWidth: 2
         },
         {
           label: '2 hrs (30-2)',
-          data: [0, 0, 0, 0, 0, 0],
+          data: [0, 0, 0, 0, 0],
           backgroundColor: ['rgba(0, 0, 0, 0)'],
           borderColor: ['#2cb3c8'],
           borderWidth: 2
         },
         {
           label: '12 hrs (2-12)',
-          data: [0, 0, 0, 0, 0, 0],
+          data: [0, 0, 0, 0, 0],
           backgroundColor: ['rgba(0, 0, 0, 0)'],
           borderColor: ['#6435c9'],
           borderWidth: 2
         },
         {
           label: '12 hrs + Missed',
-          data: [0, 0, 0, 0, 0, 0],
+          data: [0, 0, 0, 0, 0],
           backgroundColor: ['rgba(0, 0, 0, 0)'],
           borderColor: ['#db2828'],
           borderWidth: 2

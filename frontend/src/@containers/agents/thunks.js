@@ -108,6 +108,7 @@ export const getAgentGraph = (graphContext, agentId, filters) => async dispatch 
   try {
     const response = await (Auth.isCompany || Auth.isAgency ? companyAgentLeadGraph(agentId, filters) : agentLeadGraph(filters));
     await dispatch(actions.loadAgentLeadsGraph(response.data));
+    console.log("===========222222222222", response.data)
     if (graphContext) {
       graphContext.data = response.data;
       await graphContext.update();
