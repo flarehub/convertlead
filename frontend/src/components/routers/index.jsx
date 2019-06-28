@@ -42,7 +42,7 @@ export default () => (<div className='freshappRoutes'>
   <PrivateRoute exact path='/agents/:agentId/leads' component={Leads} />
   <PrivateRoute exact path='/companies/leads/:tab' component={AgentLeads} />
   <PrivateRoute exact path='/companies/leads/:leadId/notes' component={AgentLeadNotes} />
-  <PrivateRoute exact path='/companies/leads/create' component={CreateLead} />
+  <PrivateRoute exact path='/companies/leads/new/create' component={CreateLead} />
 
   {/* only AGENT routes */}
 </div>)

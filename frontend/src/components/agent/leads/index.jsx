@@ -195,7 +195,7 @@ class AgentLeads extends Component {
                 <Segment basic>
                     <Tab menu={{secondary: true}} panes={panes} defaultActiveIndex={this.defaultActiveIndex}/>
                 </Segment>
-                <Link to='/companies/leads/create'>
+                <Link to='/companies/leads/new/create'>
                     <Button circular primary size='massive' icon='plus' className='add-lead'/>
                 </Link>
             </div>)
