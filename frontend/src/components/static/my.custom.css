@@ -2093,7 +2093,7 @@ font-family: 'Roboto Condensed', sans-serif;
     }
 
     .ui.top.attached.segment {
-        margin-top:28px !important;
+        margin: 28px auto !important;
     }
 
     .ui.table:not(.unstackable) tr > td, .ui.table:not(.unstackable) tr > th {
