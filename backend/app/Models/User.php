@@ -206,4 +206,19 @@ class User extends Authenticatable
     public function setupUserRolePermissions() {
         Passport::actingAs($this, $this->getPermissions());
     }
+
+    public static function getAll($query) {
+        $user = User::select();
+
+        if (isset($query['search']) && $query['search']) {
+            $user
+                ->where('name', 'like', "%{$query['search']}%")
+                ->orWhere('email', 'like', "%{$query['search']}%")
+                ->orWhere('phone', 'like', "%{$query['search']}%")
+                ->orWhere('role', 'like', "%{$query['search']}%")
+            ;
+        }
+
+        return $user;
+    }
 }

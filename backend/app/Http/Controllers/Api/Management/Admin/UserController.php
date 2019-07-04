@@ -18,7 +18,14 @@ class UserController extends Controller
     {
         $itemsPerPage = (int)$request->get('per_page', 10);
         $page = (int)$request->get('current_page', 1);
-        return User::paginate($itemsPerPage, ['*'], 'users', $page);
+        return User::getAll($request->only([
+            'search',
+            'name',
+            'email',
+            'role',
+            'phone',
+            'showDeleted',
+        ]))->paginate($itemsPerPage, ['*'], 'users', $page);
     }
 
     /**
