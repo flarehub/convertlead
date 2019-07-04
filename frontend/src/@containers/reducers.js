@@ -12,6 +12,7 @@ import leads from './leads/reducer';
 import loader from './loader/reducer';
 import menu from './menu/reducer';
 import profile from './profile/reducer';
+import users from './users/reducer';
 
 const reducers = combineReducers({
   agents,
@@ -27,6 +28,7 @@ const reducers = combineReducers({
   loader,
   menu,
   profile,
+  users,
 });
 
 export default reducers;

@@ -15,3 +15,4 @@ export { default as Routers } from './routers';
 export { default as AgentLeads } from './agent/leads';
 export { default as AgentLeadNotes } from './agent/leads/lead-notes';
 export { default as CreateLead } from './agent/leads/create-lead';
+export { default as Users } from './users';

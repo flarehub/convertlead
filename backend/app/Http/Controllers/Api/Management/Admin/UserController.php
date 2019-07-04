@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\Management;
+namespace App\Http\Controllers\Api\Management\Admin;
 
+use App\Models\Agency;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +14,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $itemsPerPage = (int)$request->get('per_page', 10);
+        $page = (int)$request->get('current_page', 1);
+        return User::paginate($itemsPerPage, ['*'], 'users', $page);
     }
 
     /**
@@ -23,9 +27,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Agency $agency)
     {
-        //
+        $agency->handleAvatar($request);
+        $agency->createCompany($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
+        return $agency;
     }
 
     /**
@@ -36,7 +42,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return User::findOrFail($id);
     }
 
     /**
@@ -48,7 +54,9 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->fill($request->all());
+        return $user->save();
     }
 
     /**
@@ -59,6 +67,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
     }
 }

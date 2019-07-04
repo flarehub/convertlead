@@ -2,6 +2,7 @@ import Companies from 'components/companies';
 import Dashboard from 'components/dashboard';
 import Leads from 'components/leads';
 import Agents from 'components/agents';
+import Users from 'components/users';
 import { GET_USER_MENU } from './actions';
 
 const initialState = {
@@ -12,6 +13,13 @@ const initialState = {
       path: '/dashboard',
       component: Dashboard,
       role: ['agency', 'company', 'agent'],
+    },
+    {
+      icon: 'icon-home1',
+      name: 'Users',
+      path: '/users',
+      component: Users,
+      role: ['admin'],
     },
     {
       icon: 'icon-clients',

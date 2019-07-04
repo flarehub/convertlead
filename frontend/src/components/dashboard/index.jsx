@@ -6,6 +6,7 @@ import * as R from "ramda";
 import {Auth} from "@services";
 import './index.scss';
 import LeadStats from "./leads-stats";
+import Users from "../users";
 
 class Dashboard extends Component {
     state = {
@@ -27,7 +28,9 @@ class Dashboard extends Component {
         return (
             <div className='Dashboard'>
                 {
-                    (Auth.isAgency || Auth.isCompany) ? <Deals companyId={this.state.companyId}/> : <LeadStats/>
+                    (Auth.isAgency || Auth.isCompany)
+                        ? <Deals companyId={this.state.companyId}/>
+                    : Auth.isAdmin ? <Users/> : <LeadStats/>
                 }
             </div>
         );

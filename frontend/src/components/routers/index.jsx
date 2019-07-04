@@ -7,7 +7,7 @@ import {
   Profile,
   Campaigns,
   LeadNotes,
-  CompanyProfile, AgentProfile, AgentLeads, AgentLeadNotes, CreateLead
+  CompanyProfile, AgentProfile, AgentLeads, AgentLeadNotes, CreateLead, Users
 } from "../index";
 import PrivateRoute from './PrivateRoute';
 import './index.scss';
@@ -16,6 +16,9 @@ export default () => (<div className='freshappRoutes'>
   {/* AGENCY or COMPANY or Agent */}
   <PrivateRoute exact path='/' component={Dashboard} />
   <PrivateRoute exact path='/dashboard' component={Dashboard} />
+
+  {/*Admin routes*/}
+  <PrivateRoute exact path='/users' component={Users} />
 
   {/* only AGENCY ROUTS */}
   <PrivateRoute exact path='/companies' component={Companies} />

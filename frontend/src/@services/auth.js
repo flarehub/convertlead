@@ -14,6 +14,10 @@ export class Auth {
         return this.role === 'company';
     }
 
+    static get isAdmin() {
+        return this.role === 'admin';
+    }
+
     static get isAgent() {
         return this.role === 'agent';
     }

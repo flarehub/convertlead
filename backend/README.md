@@ -4,14 +4,14 @@
 ````bash
 $ cp .env.dev .env
 ````
-#### Generate private application key
-````bash
-$ php artisan key:generate
-````
 ### Setup database 
 ```bash
 $ php artisan migrate
 ```
+#### Generate private application key
+````bash
+$ php artisan key:generate
+````
 ### Install authorization 
 ````bash
 $ php artisan passport:install

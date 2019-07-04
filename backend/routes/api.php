@@ -76,6 +76,7 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['namespace' => 'Api'], function () {
     Route::prefix('v1')->group(function () {
         Route::post('agencies', 'AgencyController@store');
+        Route::post('agencies/{agencyUUID}/companies', 'AgencyController@storeCompany');
         Route::get('campaigns/{campaignUUID}', 'CampaignController@getIntegration');
         Route::post('campaigns/{campaignUUID}/leads', 'CampaignController@createLead');
     });
