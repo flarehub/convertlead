@@ -3,6 +3,7 @@ export const FILTER_USERS = 'FILTER_USERS';
 export const SORT_USERS = 'SORT_USERS';
 export const SEARCH_USERS = 'SEARCH_USERS';
 export const GOTO_USER_PAGE = 'GOTO_USER_PAGE';
+export const TOGGLE_SHOW_DELETED_USERS = 'TOGGLE_SHOW_DELETED_USERS';
 
 export const loadUsers = (users, pagination) => ({
   type: LOAD_USERS,
@@ -27,4 +28,8 @@ export const gotoUserPage = page => ({
 export const searchUsers = search => ({
   type: SEARCH_USERS,
   search
+});
+
+export const toggleShowDeleted = () => ({
+  type: TOGGLE_SHOW_DELETED_USERS,
 });

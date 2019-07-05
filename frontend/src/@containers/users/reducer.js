@@ -1,4 +1,4 @@
-import {LOAD_USERS, FILTER_USERS, GOTO_USER_PAGE, SEARCH_USERS} from './actions';
+import {LOAD_USERS, FILTER_USERS, GOTO_USER_PAGE, SEARCH_USERS, TOGGLE_SHOW_DELETED_USERS} from './actions';
 
 const initState = {
   users: [],
@@ -9,6 +9,7 @@ const initState = {
   },
   query: {
     search: '',
+    showDeleted: false,
     sort: {},
   }
 };
@@ -50,6 +51,15 @@ const users = (state = initState, action) => {
         query: {
           ...state.query,
           search: action.search,
+        },
+      };
+    }
+    case TOGGLE_SHOW_DELETED_USERS: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          showDeleted: !state.query.showDeleted,
         },
       };
     }

@@ -14,7 +14,7 @@ import {
     Input,
     Icon,
     Grid,
-    Menu,
+    Menu, Confirm,
 } from 'semantic-ui-react';
 import './index.scss';
 import * as R from "ramda";
@@ -22,7 +22,7 @@ import * as R from "ramda";
 class Users extends Component {
     state = {
         open: false,
-        companyId: null,
+        userId: null,
         ready: false,
     };
 
@@ -55,7 +55,17 @@ class Users extends Component {
         this.props.searchUsers(event.target.value)
     };
 
-    onShowArch = () => {
+    onShowArchived = () => {
+        this.props.toggleShowDeleted();
+    };
+
+    openConfirmModal = (open = true, userId = null) => {
+        this.setState({open, userId})
+    };
+
+    onConfirm = () => {
+        this.setState({open: false});
+        this.props.deleteUser(this.state.userId);
     };
 
     render() {
@@ -64,11 +74,13 @@ class Users extends Component {
         return (
             <div className='Companies'>
                 <Segment attached='top'>
+                    <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
+                             onConfirm={this.onConfirm}/>
                     <Grid columns={2}>
                         <Grid.Column>
                             <Header floated='left' as='h1'>Users</Header>
                             <Form.Field>
-                                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
+                                <Checkbox label='Show Archived' toggle onChange={this.onShowArchived}/>
                             </Form.Field>
                         </Grid.Column>
                         <Grid.Column>
@@ -118,12 +130,11 @@ class Users extends Component {
                                             <Table.Cell>{user.phone}</Table.Cell>
                                             <Table.Cell>
                                                 <Button>Edit</Button>
-                                                <Button>Delete</Button>
+                                                <Button onClick={this.openConfirmModal.bind(this, true, user.id)}>Delete</Button>
                                             </Table.Cell>
                                         </Table.Row>
                                     ))
                                 }
-
                             </Table.Body>
                         </Table>
                     </Segment>

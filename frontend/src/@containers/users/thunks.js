@@ -14,6 +14,20 @@ export const loadUsers = () => async (dispatch, getState) => {
   }
 };
 
+export const deleteUser = userId => async (dispatch) => {
+  try {
+    await api.delete(`/v1/admin/users/${userId}`);
+    dispatch(loadUsers());
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+};
+
+export const toggleShowDeleted = () => async dispatch => {
+  await dispatch(actions.toggleShowDeleted());
+  dispatch(loadUsers());
+};
+
 export const filterUsers = filter => async dispatch => {
   try {
     await dispatch(actions.filterUsers(filter));
