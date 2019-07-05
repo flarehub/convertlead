@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import UserModal from '../@common/modals/user';
 import {compose} from 'recompose';
-import {UsersContainer, BreadCrumbContainer} from '@containers';
+import {UsersContainer, BreadCrumbContainer, UserFormContainer} from '@containers';
 import Loader from '../loader';
 import {
     Table,
@@ -73,6 +74,7 @@ class Users extends Component {
         const {pagination, query} = this.props;
         return (
             <div className='Companies'>
+                <UserModal/>
                 <Segment attached='top'>
                     <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
                              onConfirm={this.onConfirm}/>
@@ -91,7 +93,11 @@ class Users extends Component {
                                                onChange={this.onSearch}
                                                value={query.search} placeholder='Search...'/>
                                     </Menu.Item>
-                                    <Button color='teal' content='New User'/>
+                                    <Button
+                                        onClick={this.props.loadForm.bind(this, {show: true})}
+                                        color='teal'
+                                        content='New User'
+                                    />
                                 </Menu.Menu>
                             </Menu>
                         </Grid.Column>
@@ -129,7 +135,10 @@ class Users extends Component {
                                             <Table.Cell>{user.role}</Table.Cell>
                                             <Table.Cell>{user.phone}</Table.Cell>
                                             <Table.Cell>
-                                                <Button>Edit</Button>
+                                                <Button onClick={this.props.loadForm.bind(this, {
+                                                    ...user,
+                                                    show: true
+                                                })}>Edit</Button>
                                                 <Button onClick={this.openConfirmModal.bind(this, true, user.id)}>Delete</Button>
                                             </Table.Cell>
                                         </Table.Row>
@@ -151,4 +160,4 @@ class Users extends Component {
     }
 }
 
-export default compose(UsersContainer, BreadCrumbContainer)(Users);
+export default compose(UsersContainer, UserFormContainer, BreadCrumbContainer)(Users);

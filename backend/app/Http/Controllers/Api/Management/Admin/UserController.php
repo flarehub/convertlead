@@ -34,11 +34,12 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Agency $agency)
+    public function store(Request $request, Agency $user)
     {
-        $agency->handleAvatar($request);
-        $agency->createCompany($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
-        return $agency;
+        $user->handleAvatar($request);
+        $request->merge(['role' => 'AGENCY']);
+        $user->createCompany($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
+        return $user;
     }
 
     /**
@@ -62,8 +63,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->fill($request->all());
-        return $user->save();
+        $user->handleAvatar($request);
+        return $user->updateUser($request->except(['role']));
     }
 
     /**

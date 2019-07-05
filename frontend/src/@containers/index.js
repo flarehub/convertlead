@@ -6,6 +6,7 @@ export { default as CampaignFormContainer } from './forms/campaign';
 export { default as CampaignsContainer } from './campaigns';
 export { default as CompaniesContainer } from './companies';
 export { default as CompanyFormContainer } from './forms/company';
+export { default as UserFormContainer } from './forms/user';
 export { default as DealFormContainer } from './forms/deal';
 export { default as DealsContainer } from './deals';
 export { default as IntegrationOptionFormContainer } from './integrations/optinform';

@@ -27,6 +27,7 @@ const initState = {
 const userForm = (state = initState, action) => {
   switch (action.type) {
     case LOAD_USER_FORM: {
+      console.log(action);
       return {
         ...state,
         form: {

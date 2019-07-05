@@ -5,6 +5,7 @@ import campaign from './campaign/reducer';
 import company from './company/reducer';
 import deal from './deal/reducer';
 import lead from './lead/reducer';
+import user from './user/reducer';
 import optinFormIntegration from './integrations/optinform/reducer';
 
 export default combineReducers({
@@ -14,4 +15,5 @@ export default combineReducers({
   company,
   deal,
   lead,
+  user,
 });
