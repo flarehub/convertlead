@@ -219,6 +219,10 @@ class User extends Authenticatable
             ;
         }
 
+        if (isset($query['showDeleted']) && $query['showDeleted'] === 'true') {
+            $user->withTrashed();
+        }
+
         return $user;
     }
 }
