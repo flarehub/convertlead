@@ -41,6 +41,7 @@ class User extends Authenticatable
     public static $ROLE_AGENCY = 'AGENCY';
     public static $ROLE_COMPANY = 'COMPANY';
     public static $ROLE_AGENT = 'AGENT';
+
     public static $SUBSCRIPTION_TYPE_BASE = 'BASE';
     public static $SUBSCRIPTION_TYPE_PREMIUM = 'PREMIUM';
 
@@ -73,7 +74,7 @@ class User extends Authenticatable
     public function getDefaultPermissions() {
         return self::getDefaultPermissionsByRole($this->role);
     }
-    
+
     public static function getDefaultPermissionsByRole($role) {
         if ($role === self::$ROLE_ADMIN) {
             return [
@@ -187,7 +188,6 @@ class User extends Authenticatable
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|userEmail',
-            'phone' => 'required|max:100',
             'password' => 'required|confirmed|min:6',
         ];
     }

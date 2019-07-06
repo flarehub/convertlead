@@ -17,7 +17,7 @@ trait AgencyRepository {
         return $this->agents()->withTrashed()->where('id', $id)->firstOrFail();
     }
 
-    public function createCompany($data) {
+    public function createAgency($data) {
         $data['role'] = Company::$ROLE_AGENCY;
         return $this->createUser($data);
     }

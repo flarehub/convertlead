@@ -20,7 +20,6 @@ const initState = {
   required: {
     name: true,
     email: true,
-    phone: true,
     password: true,
     password_confirmation: true,
   },

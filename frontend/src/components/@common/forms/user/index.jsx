@@ -70,7 +70,7 @@ class UserForm extends Component {
                             <label>User Name</label>
                             <Input placeholder='User Name' name='name' value={name || ''} onChange={this.onChange}/>
                         </Form.Field>
-                        <Form.Field required>
+                        <Form.Field>
                             <label>Phone Number</label>
                             <Input placeholder='Phone Number' name='phone' value={phone || ''}
                                    onChange={this.onChange}/>
