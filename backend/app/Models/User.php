@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\User
@@ -40,14 +41,22 @@ class User extends Authenticatable
     public static $ROLE_AGENCY = 'AGENCY';
     public static $ROLE_COMPANY = 'COMPANY';
     public static $ROLE_AGENT = 'AGENT';
-    
+    public static $SUBSCRIPTION_TYPE_BASE = 'BASE';
+    public static $SUBSCRIPTION_TYPE_PREMIUM = 'PREMIUM';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'avatar_id', 'agent_agency_id', 'email', 'password', 'role',
+        'name', 'phone', 'avatar_id', 'agent_agency_id',
+        'email',
+        'password',
+        'role',
+        'max_agency_companies',
+        'subscription_type',
+        'uuid'
     ];
 
     protected $appends = ['avatar_path', 'permissions'];
@@ -131,9 +140,10 @@ class User extends Authenticatable
         });
     }
 
-    public function createUser($data) {
+    public function createUser($data, Faker $faker = null) {
         \Validator::validate($data, self::requiredFieldsForCreate());
         $data['password'] = bcrypt($data['password']);
+        $data['uuid'] = Str::uuid();
         $this->fill($data);
         $this->saveOrFail();
         return $this;
@@ -167,6 +177,7 @@ class User extends Authenticatable
                 'email' => "required|email|userEmail:{$this->id}"
             ]);
         }
+        $data['uuid'] = ($this->uuid ? $this->uuid : Str::uuid());
         $this->fill($data);
         $this->save();
         return $this;

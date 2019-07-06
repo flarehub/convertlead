@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 use Mockery\Exception;
 
 class DealCampaign extends Model
@@ -99,12 +99,12 @@ class DealCampaign extends Model
         }
     }
 
-    public function updateCampaign(Request $request, Faker $faker = null) {
+    public function updateCampaign(Request $request) {
         try {
 
             \DB::beginTransaction();
             $request->merge([
-                'uuid' => ($this->uuid ? $this->uuid : $faker->uuid)
+                'uuid' => ($this->uuid ? $this->uuid : Str::uuid())
             ]);
         
             $this->fill($request->only([

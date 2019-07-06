@@ -17,6 +17,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => "dmitri.russu+{$faker->randomNumber()}@gmail.com",
+        'uuid' => $faker->uuid,
         'password' => bcrypt('testtest'),
         'remember_token' => str_random(10),
     ];

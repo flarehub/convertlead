@@ -14,6 +14,8 @@ const initState = {
     avatar: '',
     password: '',
     password_confirmation: '',
+    subscription_type: '',
+    max_agency_companies: '',
   },
   required: {
     name: true,

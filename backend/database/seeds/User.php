@@ -16,6 +16,8 @@ class User extends Seeder
         $agency = \App\Models\Agency::create([
             'email' => 'dmitri.russu@gmail.com',
             'name' => 'Dmitri Russu',
+            'max_agency_companies' => 5,
+            'subscription_type' => 'BASE',
             'password' => bcrypt('testtest'),
             'role' => \App\Models\User::$ROLE_AGENCY,
         ]);
@@ -23,6 +25,8 @@ class User extends Seeder
         $secondAgency = \App\Models\Agency::create([
             'email' => 'costan.alex88@yahoo.ro',
             'name' => 'Alex Agency Costan ',
+            'max_agency_companies' => 10,
+            'subscription_type' => 'PREMIUM',
             'password' => bcrypt('testtest'),
             'role' => \App\Models\User::$ROLE_AGENCY,
         ]);

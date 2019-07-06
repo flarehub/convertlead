@@ -38,7 +38,15 @@ class UserController extends Controller
     {
         $user->handleAvatar($request);
         $request->merge(['role' => 'AGENCY']);
-        $user->createCompany($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
+        $user->createCompany($request->only([
+            'name',
+            'subscription_type',
+            'max_agency_companies',
+            'avatar_id',
+            'phone',
+            'email',
+            'password',
+            'password_confirmation']));
         return $user;
     }
 

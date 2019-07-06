@@ -146,7 +146,7 @@ class Users extends Component {
                                                             show: true
                                                         })}>Edit</Button>
                                                         <Button onClick={this.openConfirmModal.bind(this, true, user.id)}>Delete</Button>
-                                                        <Button onClick={this.autologin.bind(this, user.email)}>Login</Button>
+                                                        <Button primary onClick={this.autologin.bind(this, user.email)}>Login</Button>
                                                     </div>
                                                     : null}
                                             </Table.Cell>
