@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import UserModal from '../@common/modals/user';
 import {compose} from 'recompose';
-import {UsersContainer, BreadCrumbContainer, UserFormContainer} from '@containers';
+import {UsersContainer, BreadCrumbContainer, UserFormContainer,AuthContainer} from '@containers';
 import Loader from '../loader';
 import {
     Table,
@@ -67,6 +67,10 @@ class Users extends Component {
     onConfirm = () => {
         this.setState({open: false});
         this.props.deleteUser(this.state.userId);
+    };
+
+    autologin = email => {
+        this.props.autoLoginBy(email);
     };
 
     render() {
@@ -135,11 +139,16 @@ class Users extends Component {
                                             <Table.Cell>{user.role}</Table.Cell>
                                             <Table.Cell>{user.phone}</Table.Cell>
                                             <Table.Cell>
-                                                <Button onClick={this.props.loadForm.bind(this, {
-                                                    ...user,
-                                                    show: true
-                                                })}>Edit</Button>
-                                                <Button onClick={this.openConfirmModal.bind(this, true, user.id)}>Delete</Button>
+                                                { !user.deleted_at
+                                                    ? <div>
+                                                        <Button onClick={this.props.loadForm.bind(this, {
+                                                            ...user,
+                                                            show: true
+                                                        })}>Edit</Button>
+                                                        <Button onClick={this.openConfirmModal.bind(this, true, user.id)}>Delete</Button>
+                                                        <Button onClick={this.autologin.bind(this, user.email)}>Login</Button>
+                                                    </div>
+                                                    : null}
                                             </Table.Cell>
                                         </Table.Row>
                                     ))
@@ -160,4 +169,4 @@ class Users extends Component {
     }
 }
 
-export default compose(UsersContainer, UserFormContainer, BreadCrumbContainer)(Users);
+export default compose(UsersContainer, UserFormContainer, AuthContainer, BreadCrumbContainer)(Users);

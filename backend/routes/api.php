@@ -12,8 +12,25 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['namespace' => 'Auth'], function () {
+    Route::post('login', 'ApiLoginController@login');
+});
+
+Route::group(['namespace' => 'Api'], function () {
+    Route::prefix('v1')->group(function () {
+        Route::post('agencies', 'AgencyController@store');
+        Route::post('agencies/{agencyUUID}/companies', 'AgencyController@storeCompany');
+        Route::get('campaigns/{campaignUUID}', 'CampaignController@getIntegration');
+        Route::post('campaigns/{campaignUUID}/leads', 'CampaignController@createLead');
+    });
+});
+
 Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
     function () {
+        Route::group(['namespace' => 'Auth'], function () {
+            Route::post('autologin', 'ApiLoginController@autologin');
+        });
+
         Route::group(['namespace' => 'Api\Management'], function () {
             Route::get('profile', 'ProfileController@index');
             Route::patch('profile', 'ProfileController@update');
@@ -68,16 +85,3 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
             });
         });
     });
-
-Route::group(['namespace' => 'Auth'], function () {
-    Route::post('login', 'ApiLoginController@login');
-});
-
-Route::group(['namespace' => 'Api'], function () {
-    Route::prefix('v1')->group(function () {
-        Route::post('agencies', 'AgencyController@store');
-        Route::post('agencies/{agencyUUID}/companies', 'AgencyController@storeCompany');
-        Route::get('campaigns/{campaignUUID}', 'CampaignController@getIntegration');
-        Route::post('campaigns/{campaignUUID}/leads', 'CampaignController@createLead');
-    });
-});
