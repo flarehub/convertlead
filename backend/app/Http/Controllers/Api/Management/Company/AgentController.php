@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Management\Company;
 
 use App\Models\Agent;
+use App\Services\MailService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -77,6 +78,14 @@ class AgentController extends Controller
         $agent->handleAvatar($request);
         $agent->createAgent($request->only(['name', 'phone', 'avatar_id', 'email', 'password', 'password_confirmation']));
         $request->user()->agents()->attach($agent);
+
+        MailService::sendMail('emails.agent-welcome', [
+            'company' => $request->user(),
+            'password' => $request->get('password'),
+        ],
+            $agent->email,
+            env('APP_AGENT_WELCOME_EMAIL_SUBJECT', 'Agent Welcome email')
+        );
         return $agent;
     }
 

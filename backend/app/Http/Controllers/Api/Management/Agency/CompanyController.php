@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Management\Agency;
 use App\Models\Company;
 use App\Models\Lead;
 use App\Models\Permission;
+use App\Services\MailService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -61,6 +62,16 @@ class CompanyController extends Controller
             'password',
             'password_confirmation']));
         $request->user()->companies()->attach($company);
+
+        MailService::sendMail('emails.company-welcome', [
+            'agency' => $request->user(),
+            'company' => $company,
+            'password' => $request->get('password'),
+        ],
+            $company->email,
+            env('APP_COMPANY_WELCOME_EMAIL_SUBJECT', 'Company Welcome email')
+        );
+
         return $company;
     }
 

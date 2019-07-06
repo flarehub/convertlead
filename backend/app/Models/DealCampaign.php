@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\MailService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -91,6 +92,27 @@ class DealCampaign extends Model
             ]));
             $campaign->save();
             $campaign->agents()->attach($request->get('agents'));
+            $company = $campaign->company()->first();
+
+            $campaign->agents()->get()->map(function ($agent) use ($campaign, $company) {
+                MailService::sendMail('emails.new-agent-campaign', [
+                    'agent' => $agent,
+                    'campaign' => $campaign,
+                    'company' => $company->first(),
+                ],
+                    $agent->email,
+                    env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New Campaign: {$campaign->name}")
+                );
+            });
+
+            MailService::sendMail('emails.new-company-campaign', [
+                'campaign' => $campaign,
+                'company' => $company,
+            ],
+                $company->email,
+                env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New Campaign: {$campaign->name}")
+            );
+
             \DB::commit();
             return $campaign;
         } catch (\Exception $exception) {

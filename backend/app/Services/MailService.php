@@ -14,25 +14,32 @@ Class MailService {
      * @param type $attachment
      * @return boolean
      */
-    public static function sendMail($template, $params, $email, $subject, $attachment = null) {
-        if(isEnvironment('testing')) {
-            $email = env('MAIL_TEST_ADDRESS', 'dmitri.russu@codefactorygroup.com');
+    public static function sendMail($template, $params, $email, $subject, $cc = null, $attachment = null) {
+        if(env('testing', false)) {
+            $email = env('APP_MAIL_TEST_ADDRESS', 'dmitri.russu@gmail.com');
         }
-        
-        $mail = Mail::send($template, $params, function ($m) use ($email, $subject, $attachment) {
-            $m->to($email)
-                ->subject($subject)
-                ->priority(1);
-            
-            if($attachment) {
-                $m->attach($attachment);
-            }
-            
-        });
+        try {
+            $mail = Mail::send($template, $params, function ($m) use ($email, $subject, $cc, $attachment) {
+                if ($cc) {
+                    $m->cc($cc);
+                }
+                $m->to($email)
+                    ->subject($subject)
+                    ->priority(1);
+                if($attachment) {
+                    $m->attach($attachment);
+                }
 
-        if ($mail) {
-            return true;
+            });
+
+            if ($mail) {
+                return true;
+            }
+        } catch (\Exception $exception) {
+            \Log::critical($exception->getMessage());
+            self::sendErrorNotification($exception, "Error: {$subject}");
         }
+        return false;
     }
 
     /**
@@ -42,10 +49,10 @@ Class MailService {
      * @param type $subject
      */
     public static function sendErrorNotification($exception, $subject = null) {
-        $to = env('MAIL_ERROR_NOTIFY', 'logs@e3creative.co.uk');
+        $to = env('MAIL_ERROR_NOTIFY', 'dmitri.russu@gmail.com');
 
         if($subject === null) {
-            $subject = 'IMPORTANT - Site Down: Volution - Error Code 500'; 
+            $subject = 'IMPORTANT - Site Down: Lead aggregator - Error Code 500';
         }
         
         $mail = Mail::send('emails.error-notification', ['exception' => $exception], function ($m) use ($to, $subject) {

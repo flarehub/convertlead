@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Agency;
 use App\Models\Company;
+use App\Services\MailService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
@@ -43,6 +44,15 @@ class AgencyController extends Controller
             'password',
             'password_confirmation'
         ]));
+
+        MailService::sendMail('emails.agency-welcome', [
+            'agency' => $agency,
+            'password' => $password,
+        ],
+            $agency->email,
+            env('APP_AGENCY_WELCOME_EMAIL_SUBJECT', 'Agency Welcome email')
+        );
+
         return $agency;
     }
 
@@ -77,6 +87,16 @@ class AgencyController extends Controller
         $company->handleAvatar($request);
         $company->createCompany($request->only(['name', 'avatar_id', 'phone', 'email', 'password', 'password_confirmation']));
         $agency->companies()->attach($company);
+
+        MailService::sendMail('emails.company-welcome', [
+            'agency' => $agency,
+            'company' => $company,
+            'password' => $password,
+        ],
+            $company->email,
+            env('APP_COMPANY_WELCOME_EMAIL_SUBJECT', 'Company Welcome email')
+        );
+
         return $company;
     }
 }

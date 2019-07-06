@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\Agent;
 use App\Models\Company;
+use App\Services\MailService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -98,6 +99,14 @@ class AgentController extends Controller
                     $newCompany->agents()->attach($agent);
                 }
             }
+
+            MailService::sendMail('emails.agent-welcome', [
+                'company' => $request->user(),
+                'password' => $request->get('password'),
+            ],
+                $agent->email,
+                env('APP_AGENT_WELCOME_EMAIL_SUBJECT', 'Agent Welcome email')
+            );
 
             \DB::commit();
             return $agent;

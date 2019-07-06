@@ -141,7 +141,7 @@ class User extends Authenticatable
         });
     }
 
-    public function createUser($data, Faker $faker = null) {
+    public function createUser($data) {
         \Validator::validate($data, self::requiredFieldsForCreate());
         $data['password'] = bcrypt($data['password']);
         $data['uuid'] = Str::uuid();

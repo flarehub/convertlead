@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\MailService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -141,7 +142,10 @@ class Lead extends Model
     public static function createLead(Request $request) {
         try {
             \DB::beginTransaction();
-            $agencyCompanyId = DealCampaign::findOrFail($request->get('deal_campaign_id'))->agency_company_id;
+            $campaign = DealCampaign::findOrFail($request->get('deal_campaign_id'));
+            $deal = $campaign->deal()->first();
+            $company = $campaign->company()->first();
+            $agencyCompanyId = $campaign->agency_company_id;
 
             $request->merge([
                 'agency_company_id' => $agencyCompanyId
@@ -189,6 +193,20 @@ class Lead extends Model
 
             $tokenList = Device::getTokenListFromAgentIds([$lead->agent_id]);
             self::notification($tokenList, $notification);
+            $agent = $lead->agent()->first();
+
+            MailService::sendMail('emails.new-lead', [
+                'deal' => $deal,
+                'lead' => $lead,
+                'campaign' => $campaign,
+                'agent' => $agent,
+            ],
+                [
+                    $agent->email,
+                    $company->email,
+                ],
+                env('APP_NEW_LEAD_EMAIL_SUBJECT', "New Lead: {$campaign->name}")
+            );
 
             return $lead;
         } catch (\Exception $exception) {
