@@ -8,6 +8,7 @@ use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class CompanyController extends Controller
 {
@@ -42,6 +43,14 @@ class CompanyController extends Controller
      */
     public function store(Request $request, Company $company)
     {
+        $user = $request->user();
+        $countCompanies = $request->user()->companies()->count();
+        if ($countCompanies >= $user->max_agency_companies) {
+            $error = ValidationException::withMessages([
+                'max_agency_companies' => ['You have exceeded the maxim number of allowed companies to create!'],
+            ]);
+            throw $error;
+        }
         $company->handleAvatar($request);
         $company->createCompany($request->only([
             'name',

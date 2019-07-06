@@ -53,10 +53,10 @@ class UserForm extends Component {
         this.props.changeForm({ subscription_type: data.value });
         if (data.value === 'BASE' && (this.props.form.max_agency_companies > 5 || !this.props.form.max_agency_companies)) {
             this.props.changeForm({ max_agency_companies: 5 });
-        }
-
-        if (data.value === 'PREMIUM' && this.props.form.max_agency_companies < 10) {
+        } else if (data.value === 'PREMIUM' && this.props.form.max_agency_companies < 10) {
             this.props.changeForm({max_agency_companies: 10});
+        } else {
+            this.props.changeForm({max_agency_companies: 0});
         }
     };
 
