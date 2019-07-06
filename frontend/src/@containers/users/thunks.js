@@ -4,10 +4,14 @@ import * as actions from './actions';
 
 export const loadUsers = () => async (dispatch, getState) => {
   try {
-    const { query } = getState().users;
-    const response = await api.get(`/v1/admin/users`, { params: query });
-    const { data, ...pagination } = response.data;
-    dispatch(actions.loadUsers(data, pagination));
+    const { query, pagination } = getState().users;
+    const response = await api.get(`/v1/admin/users`, { params: {
+      ...query,
+      per_page: pagination.per_page,
+      current_page: pagination.current_page,
+    } });
+    const { data, ...rest } = response.data;
+    dispatch(actions.loadUsers(data, rest));
 
   } catch (e) {
     dispatch(sendMessage(e.message, true));
