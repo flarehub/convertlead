@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BackHandler, Alert} from 'react-native';
+import {Platform, BackHandler, Alert} from 'react-native';
 import {compose} from 'recompose';
 import {WebView} from 'react-native-webview';
 import {AuthContainer} from "./containers";
@@ -45,17 +45,33 @@ class App extends Component<Props> {
     }
 
     async createNotificationListeners() {
+        const channel = new firebase.notifications.Android.Channel('test-channel', 'Test Channel', firebase.notifications.Android.Importance.Max)
+            .setDescription('My apps test channel');
+        // Create the channel
+        firebase.notifications().android.createChannel(channel);
+
         /*
         * Triggered when a particular notification has been received in foreground
         * */
         this.notificationListener = firebase.notifications().onNotification((notification) => {
             const { title, body } = notification;
-            const notify = new firebase.notifications.Notification()
-                .setNotificationId('notificationId')
-                .setTitle(title)
-                .setBody(body)
-                .setSound("default");
-            firebase.notifications().displayNotification(notify)
+            if (Platform.OS === 'android' ) {
+                notification
+                    .android.setChannelId('test-channel')
+                    .android.setSmallIcon('ic_launcher')
+                    .setTitle(title)
+                    .setBody(body)
+                    .setSound("default");
+                firebase.notifications().displayNotification(notification);
+            } else {
+                const notify = new firebase.notifications.Notification()
+                    .setNotificationId('notificationId')
+                    .setTitle(title)
+                    .setBody(body)
+                    .setSound("default");
+                firebase.notifications().displayNotification(notify)
+            }
+
             this.goToNewLeadPage();
         });
 
@@ -63,6 +79,7 @@ class App extends Component<Props> {
         * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
         * */
         this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            console.log("=============background000==============");
             const { title, body } = notificationOpen.notification;
             this.goToNewLeadPage();
         });
@@ -72,6 +89,7 @@ class App extends Component<Props> {
         * */
         const notificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
+            console.log("=============background111==============");
             const { title, body } = notificationOpen.notification;
             this.goToNewLeadPage();
         }
@@ -83,17 +101,6 @@ class App extends Component<Props> {
             console.log(JSON.stringify(message));
         });
     }
-
-    showAlert(title, body) {
-        Alert.alert(
-            title, body,
-            [
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
-            ],
-            { cancelable: false },
-        );
-    }
-
 
     //1
     async checkPermission() {
@@ -172,11 +179,6 @@ class App extends Component<Props> {
                 style={{marginTop: 0}}/>
         );
     }
-
-    // onRegister(token) {
-    //     console.log(token);
-    //     this.props.addDeviceToken(token.token);
-    // }
 
     goToNewLeadPage() {
         let msgData = {

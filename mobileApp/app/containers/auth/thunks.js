@@ -1,4 +1,4 @@
-import {api, Auth} from '../../services';
+import {api} from '../../services';
 import {addSessionToken, updateUserProfile, removeSessionToken, removeUserProfile} from './actions';
 import {Platform} from "react-native";
 import { useAsyncStorage } from '@react-native-community/async-storage';
