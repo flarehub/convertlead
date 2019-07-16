@@ -29,86 +29,79 @@ class LeadNotes extends Component {
         const {lead, leadNotes, leadStatuses} = this.props;
         return (
             <div className='LeadNotes'>
+                <Grid.Column width={6}>
+                    <Segment className='lead-profile'>
+                        <div className='lead-profile-row'>
+
+                            <div className='lead-profile-value fullname'>{lead.fullname}</div>
+                            <div
+                                className={`block timeline-status timeline-bg-color-${lead.status.charAt(0).toLowerCase()}`}></div>
+                        </div>
+                        <div className='lead-profile-row'>
+                            <div className='lead-profile-label'><label>Phone</label></div>
+                            <div className='lead-profile-value'>{lead.phone}</div>
+                        </div>
+                       <div className='lead-profile-row'>
+                            <div className='lead-profile-label'><label>Email</label></div>
+                            <div className='lead-profile-value'>{lead.email}</div>
+                        </div>
+                         <div className='lead-profile-row'>
+                            <div className='lead-profile-label'><label>Deal</label></div>
+                            <div className='lead-profile-value'>{lead.name}</div>
+                        </div>
+                        <div className='lead-profile-row'>
+                            <div className='lead-profile-label'><label>Source</label></div>
+                            <div className='lead-profile-value'>{lead.campaign.name}</div>
+                        </div>
+                        <div className='lead-profile-row'>
+                            <div className='lead-profile-label'><label>Assigned to</label></div>
+                            <div className='lead-profile-value'>{lead.agent.name}</div>
+                        </div>
+                        <div className='lead-profile-row'>
+                            <div className='lead-profile-label'><label>Company</label></div>
+                            <div className='lead-profile-value'>{lead.company.name}</div>
+                        </div>
+                        <div className='lead-profile-row'>
+                            <div className='lead-profile-label'><label>Additional information:</label></div>
+                            <div className='lead-profile-value'/>
+                        </div>
+                        <div className='lead-profile-row'>
+                            <p>{lead.metadata}</p>
+                        </div>
+                    </Segment>
+                </Grid.Column>
+
                 <Segment attached='top'>
                     <Grid>
                         <Grid.Row columns={2}>
                             <Grid.Column floated='left' style={{textAlign:'left'}}>
                                 <Header floated='left' as='h1'>Lead timeline</Header>
-                                <Button size="tiny" circular>
+                                <Button  >
                                     Send e-mail
                                 </Button>
                             </Grid.Column>
                             <Grid.Column floated='right' style={{textAlign:'right'}}>
-                                <Button size="tiny" circular>
+                                <div className={'right floated ui secondary menu'} >
+
+                                <Button >
                                     Edit lead
                                 </Button>
-                                <Button size="tiny" color='violet' circular>
+                                <Button  color='teal' >
                                     New lead
                                 </Button>
+                            </div>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
 
-                    <Segment basic>
+                    <Segment basic className={"notoppad"}>
                         <Loader/>
 
                         <div className="export-data">Export your data <a href="">.csv export</a> <a href="">.pdf export</a></div>
 
                         <Grid columns='equal'>
                             <Grid.Row>
-                                <Grid.Column width={6}>
-                                    <Segment className='lead-profile'>
-                                        <div className='lead-profile-row'>
-                                            <div className='lead-profile-label'><label>Phone</label></div>
-                                            <div className='lead-profile-value'>{lead.phone}</div>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <div className='lead-profile-label'><label>Fullname</label></div>
-                                            <div className='lead-profile-value'>{lead.fullname}</div>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <div className='lead-profile-label'><label>Email</label></div>
-                                            <div className='lead-profile-value'>{lead.email}</div>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <Button as='a' href={`tel:${lead.phone}`} circular>
-                                                <Icon name='call'/>
-                                                Call
-                                            </Button>
-                                            <Button as='a' href={`mailto:${lead.email}`} circular>
-                                                <Icon name='mail'/>
-                                                E-mail
-                                            </Button>
-                                            <Button circular>
-                                                <Icon name='pencil alternate'/>
-                                                Text
-                                            </Button>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <div className='lead-profile-label'><label>Deal</label></div>
-                                            <div className='lead-profile-value'>{lead.name}</div>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <div className='lead-profile-label'><label>Source</label></div>
-                                            <div className='lead-profile-value'>{lead.campaign.name}</div>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <div className='lead-profile-label'><label>Assigned to</label></div>
-                                            <div className='lead-profile-value'>{lead.agent.name}</div>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <div className='lead-profile-label'><label>Company</label></div>
-                                            <div className='lead-profile-value'>{lead.company.name}</div>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <div className='lead-profile-label'><label>Additional information:</label></div>
-                                            <div className='lead-profile-value'/>
-                                        </div>
-                                        <div className='lead-profile-row'>
-                                            <p>{lead.metadata}</p>
-                                        </div>
-                                    </Segment>
-                                </Grid.Column>
+
                                 <Grid.Column textAlign='left'>
                                     <Segment basic>
                                         <TimeLine notes={leadNotes} lead={lead} onAddNote={this.onAddNote}
