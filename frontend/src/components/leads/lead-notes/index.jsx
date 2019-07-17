@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
 import {Segment, Button, Icon, Grid, Header} from 'semantic-ui-react';
-import {BreadCrumbContainer, LeadNotesContainer} from "@containers";
+import {BreadCrumbContainer, LeadNotesContainer, LeadFormContainer} from "@containers";
 import TimeLine from "./timeline";
 import Loader from 'components/loader';
 import './index.scss';
+import LeadModal from "../../@common/modals/lead";
 
 class LeadNotes extends Component {
 
@@ -29,23 +30,24 @@ class LeadNotes extends Component {
         const {lead, leadNotes, leadStatuses} = this.props;
         return (
             <div className='LeadNotes'>
+                <LeadModal size='small'/>
                 <Grid.Column width={6}>
                     <Segment className='lead-profile'>
                         <div className='lead-profile-row'>
 
                             <div className='lead-profile-value fullname'>{lead.fullname}</div>
                             <div
-                                className={`block timeline-status timeline-bg-color-${lead.status.charAt(0).toLowerCase()}`}></div>
+                                className={`block timeline-status timeline-bg-color-${lead.status.charAt(0).toLowerCase()}`}/>
                         </div>
                         <div className='lead-profile-row'>
                             <div className='lead-profile-label'><label>Phone</label></div>
                             <div className='lead-profile-value'>{lead.phone}</div>
                         </div>
-                       <div className='lead-profile-row'>
+                        <div className='lead-profile-row'>
                             <div className='lead-profile-label'><label>Email</label></div>
                             <div className='lead-profile-value'>{lead.email}</div>
                         </div>
-                         <div className='lead-profile-row'>
+                        <div className='lead-profile-row'>
                             <div className='lead-profile-label'><label>Deal</label></div>
                             <div className='lead-profile-value'>{lead.name}</div>
                         </div>
@@ -74,22 +76,20 @@ class LeadNotes extends Component {
                 <Segment attached='top'>
                     <Grid>
                         <Grid.Row columns={2}>
-                            <Grid.Column floated='left' style={{textAlign:'left'}}>
+                            <Grid.Column floated='left' style={{textAlign: 'left'}}>
                                 <Header floated='left' as='h1'>Lead timeline</Header>
-                                <Button  >
-                                    Send e-mail
-                                </Button>
+                                <Button content='Send e-mail' as='a' href={`mailto:${lead.email}`}/>
                             </Grid.Column>
-                            <Grid.Column floated='right' style={{textAlign:'right'}}>
-                                <div className={'right floated ui secondary menu'} >
-
-                                <Button >
-                                    Edit lead
-                                </Button>
-                                <Button  color='teal' >
-                                    New lead
-                                </Button>
-                            </div>
+                            <Grid.Column floated='right' style={{textAlign: 'right'}}>
+                                <div className={'right floated ui secondary menu'}>
+                                    <Button content='Edit lead' onClick={this.props.loadForm.bind(this, {
+                                        ...lead,
+                                        company_id: lead.company.id,
+                                        show: true
+                                    })}/>
+                                    <Button color='teal' content='New Lead'
+                                            onClick={this.props.loadForm.bind(this, {show: true})}/>
+                                </div>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -97,7 +97,8 @@ class LeadNotes extends Component {
                     <Segment basic className={"notoppad"}>
                         <Loader/>
 
-                        <div className="export-data">Export your data <a href="">.csv export</a> <a href="">.pdf export</a></div>
+                        <div className="export-data">Export your data <a href="">.csv export</a> <a href="">.pdf
+                            export</a></div>
 
                         <Grid columns='equal'>
                             <Grid.Row>
@@ -117,4 +118,4 @@ class LeadNotes extends Component {
     }
 }
 
-export default compose(BreadCrumbContainer, LeadNotesContainer)(LeadNotes);
+export default compose(BreadCrumbContainer, LeadNotesContainer, LeadFormContainer)(LeadNotes);

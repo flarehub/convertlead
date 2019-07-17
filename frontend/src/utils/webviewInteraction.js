@@ -60,7 +60,7 @@ export function init() {
             message = JSON.parse(e.data)
         }
         catch(err) {
-            console.error("failed to parse message from react-native " + err);
+            // console.error("failed to parse message from react-native " + err);
             return;
         }
 
