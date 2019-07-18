@@ -1,4 +1,5 @@
 import * as actions from './actions';
+import * as leadStateAction from '../../lead-notes/actions'
 import { Auth } from '@services';
 import { loadLeads } from '@containers/leads/thunks';
 import { sendMessage } from '@containers/messages/thunks';
@@ -23,7 +24,9 @@ export const saveLead = form => (disptach) => {
 export const updateLead = form => async (dispatch) => {
   try {
     if (Auth.isAgency) {
-      await updateAgencyCompanyLead(form);
+      let response = await updateAgencyCompanyLead(form);
+      const { data } = response;
+      await dispatch(leadStateAction.loadLead(data));
     } else {
       await updateCompanyLead(form);
     }

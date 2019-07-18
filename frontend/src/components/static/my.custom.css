@@ -15,7 +15,9 @@
 a {
     color: #005ff8;
 }
-
+.LeadNotes a {
+    color: #005ff8 !important;
+}
 body {
     font-family: 'Lato', sans-serif;
     font-size: 14px;
@@ -38,7 +40,8 @@ header {
 }
 
 .ui.button{
-    background-color: #005ff8;
+    background-color: #f1f5f9;
+    color:#637282;
 
 }
 
@@ -108,6 +111,7 @@ i.icon.sidebar:before {
     border: none;
     margin-top: 27px !important;
     overflow: hidden;
+    min-height: 35vw;
 
 }
 
@@ -950,6 +954,7 @@ input:focus {
     border:1px solid #5998ff !important;
     color:#005ff8;
     font-weight:400;
+    background:#fff;
 }
 
 .ui.table tr:hover #company-lock, .ui.table tr:hover .ui.button.integration-but {
@@ -1149,6 +1154,11 @@ input:focus {
 
 .ui.small.modal, .ui.tiny.modal {
     width: 600px !important;
+}
+
+.ui.modal .size.circular.icon-image {
+    float:left;
+    margin:5px;
 }
 
 .ui.small.modal .content, .ui.tiny.modal .content {
@@ -1951,8 +1961,159 @@ font-family: 'Roboto Condensed', sans-serif;
     font-weight:600;
 }
 
+.LeadNotes .six.wide.column {
+
+    width: 350px;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    border-right: 1px solid rgba(34, 36, 38, .1);
+    top: 90px;
+    padding-left: 75px;
+    box-shadow: 0px 44px 34px 3px rgba(0,0,0,0.1);
+
+}
+
+.LeadNotes .ui.top.attached.segment {
+
+    width: calc(100% - 320px) !important;
+    margin-left: 320px;
+}
+
+.LeadNotes .ui.segment.lead-profile {
+
+    border: none;
+
+}
+
+
+.LeadNotes .freshAppTimeLine {
+    padding-left:20px;
+}
+
+
+.LeadNotes .timeline-record-text {
+    background-color: #f1f5f9 !important;
+    color: #243546 !important;
+    width:100%;
+}
+
+.freshAppTimeLine ul .timeline-record:first-child .timeline-record-text  {
+    background:none !important;
+
+}
+
+.LeadNotes .freshAppTimeLine ul .timeline-record .timeline-record-text .creation-date, .LeadNotes .freshAppTimeLine ul .timeline-record .timeline-record-text .creation-time {
+    color: #637282 !important;
+
+    font-family: Raleway, sans-serif;
+    font-size: 13px;
+}
+
+
+.LeadNotes .freshAppTimeLine ul .timeline-record {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.ui.basic.segment.notoppad {
+
+margin-top:0px;
+    padding-top:0px;
+}
+
+.lead-profile-value.fullname {
+
+    font-size: 22px;
+    margin: 20px auto;
+    width: 100% !important;
+
+
+}
+
+.LeadNotes .block.timeline-status{
+
+    display:block;
+    width:75%;
+    height:2px;
+    border-radius:5px;
+    position:relative;
+    margin-bottom: 15px;
+}
+
+
+.LeadNotes .timeline-bg-color-c {
+    background-color: #005ff8 !important;
+}
+
+
+.LeadNotes .timeline-bg-color-n {
+    background-color: #f7f9fa !important;
+}
+
+
+.LeadNotes .timeline-bg-color-v {
+    background-color: #f2711c !important;
+}
+
+
+
+.App > div:nth-child(1) > div:nth-child(1) {
+    height:100%;
+}
+
+.ui.horizontally.padded.two.column.grid {
+    height:100%;
+}
+
+
+
+.LeadNotes .lead-profile-label {
+    width:100% !important;
+    display:block !important;
+    color: #637282 !important;
+    font-family: Raleway, sans-serif;
+    font-size: 13px;
+}
+
+.LeadNotes .lead-profile .lead-profile-row .lead-profile-value {
+    width:100%;
+    color: #243546 !important;
+    font-weight: 600;
+
+}
+
+.LeadNotes .freshAppTimeLine ul .timeline-record .timeline-record-text .timeline-text {
+    margin-top:5px;
+}
+
+
+
+
+.freshAppTimeLine ul .timeline-record .timeline-color-v {
+
+    color: #f2711c !important ;
+}
+
+
+.LeadNotes .ui.left.floated.header{
+    padding-right:20px
+}
+
+.freshAppTimeLine > button:nth-child(2) {
+    margin-left:50px;
+}
+
+
+
+
+
+
 
 /* Mobile view / Media queries */
+
 
 
 @media only screen and (max-width: 1024px){
@@ -2122,12 +2283,7 @@ font-family: 'Roboto Condensed', sans-serif;
         margin-top: 0 !important;
     }
 
-    .ui.modal .size.circular.icon-image {
-        float:left;
-        margin:5px;
-    }
-
-    .ui.modal .ui.basic.segment {
+   .ui.modal .ui.basic.segment {
         padding: 0 1.5rem 1.5rem 1.5rem;
     }
 
@@ -2183,3 +2339,4 @@ font-family: 'Roboto Condensed', sans-serif;
     .Agents .ui.table thead th:nth-child(2), .Agents .ui.table tbody tr td:nth-child(2),  .Agents .ui.table thead th:nth-child(3), .Agents .ui.table tbody tr td:nth-child(3), .Agents .ui.table thead th:nth-child(4), .Agents .ui.table tbody tr td:nth-child(4), .Agents .ui.table thead th:nth-child(5), .Agents .ui.table tbody tr td:nth-child(5) {
     display:none !important;}
 }
+

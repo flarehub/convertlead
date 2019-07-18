@@ -195,18 +195,18 @@ class Lead extends Model
             self::notification($tokenList, $notification);
             $agent = $lead->agent()->first();
 
-            MailService::sendMail('emails.new-lead', [
-                'deal' => $deal,
-                'lead' => $lead,
-                'campaign' => $campaign,
-                'agent' => $agent,
-            ],
-                [
-                    $agent->email,
-                    $company->email,
-                ],
-                env('APP_NEW_LEAD_EMAIL_SUBJECT', "New Lead: {$campaign->name}")
-            );
+//            MailService::sendMail('emails.new-lead', [
+//                'deal' => $deal,
+//                'lead' => $lead,
+//                'campaign' => $campaign,
+//                'agent' => $agent,
+//            ],
+//                [
+//                    $agent->email,
+//                    $company->email,
+//                ],
+//                env('APP_NEW_LEAD_EMAIL_SUBJECT', "New Lead: {$campaign->name}")
+//            );
 
             return $lead;
         } catch (\Exception $exception) {

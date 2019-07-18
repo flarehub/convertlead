@@ -115,6 +115,8 @@ class Users extends Component {
                                         <Icon name={this.getSort('name')}
                                               onClick={this.props.sort.bind(this, 'name')}/>
                                     </Table.HeaderCell>
+                                    <Table.HeaderCell>UUID</Table.HeaderCell>
+                                    <Table.HeaderCell>Subscription</Table.HeaderCell>
                                     <Table.HeaderCell>E-mail
                                         <Icon name={this.getSort('email')}
                                               onClick={this.props.sort.bind(this, 'email')}/>
@@ -135,6 +137,8 @@ class Users extends Component {
                                     users.map((user, index) => (
                                         <Table.Row key={index}>
                                             <Table.Cell>{user.name}</Table.Cell>
+                                            <Table.Cell>{user.uuid}</Table.Cell>
+                                            <Table.Cell>{user.subscription_type}</Table.Cell>
                                             <Table.Cell>{user.email}</Table.Cell>
                                             <Table.Cell>{user.role}</Table.Cell>
                                             <Table.Cell>{user.phone}</Table.Cell>
