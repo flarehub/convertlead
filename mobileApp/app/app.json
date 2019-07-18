@@ -1,6 +1,6 @@
 {
   "name": "mobileApp",
-  "displayName": "Freshlead",
+  "displayName": "ConvertLead",
   "senderID": "170482632377",
   "serverURL": "http://155.138.229.190:8081/api"
 }

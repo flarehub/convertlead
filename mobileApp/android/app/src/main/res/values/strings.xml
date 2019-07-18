@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Freshlead</string>
-    <string name="default_notification_channel_id">Freshlead</string>
+    <string name="app_name">ConvertLead</string>
+    <string name="default_notification_channel_id">ConvertLead</string>
 </resources>
