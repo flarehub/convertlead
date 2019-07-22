@@ -13,7 +13,7 @@ class AdminUserSeed extends Seeder
     {
         \App\Models\User::where('email', 'alex.hypetutor@gmail.com')
             ->where('role', '<>', \App\Models\User::$ROLE_AGENCY)
-            ->delete();
+            ->forceDelete();
 
         \App\Models\User::create([
             'email' => 'admin.alex@test.com',
