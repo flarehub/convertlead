@@ -23,9 +23,29 @@ class AgencyController extends Controller
     {
         $event = $request->get('event');
         $email = $request->get('buyer_email', $request->get('email'));
-
         if (($event === 'subscription-created') || ($event === 'subscription-trial-start')) {
-            return $this->createAgency($request, $agency);
+            try {
+
+                \DB::beginTransaction();
+                // check if company exits, in case that exist is Upgraded to agency
+                $company = $this->getCompanyByEmail($email);
+
+                $this->changeCompanyEmail($company);
+
+                $agency = $this->createAgency($request, $agency);
+
+                $this->assigneOldCompanyToAgency($agency, $company);
+
+                \DB::commit();
+                return $agency;
+            } catch (\Exception $exception) {
+                \DB::rollBack();
+                return [
+                        $exception->getMessage(),
+                        $exception->getCode(),
+                        $exception->getTrace(),
+                ];
+            }
         } elseif (($event === 'subscription-payment-failed') || ($event === 'subscription-cancelled')) {
             $agency = Agency::where('email', $email)->firstOrFail();
             $agency->delete();
@@ -87,7 +107,7 @@ class AgencyController extends Controller
         $maxNumberOfCompanies = Agency::getMaxCompaniesCanCreateBy($type);
         $password = Str::random(10);
         $name = $request->get('buyer_first_name') . ' ' . $request->get('buyer_last_name');
-        $name = ($name ? $name : $request->get('name'));
+        $name = $request->get('name', $name);
         $email = $request->get('buyer_email', $request->get('email'));
         $request->merge([
             'email' => $email,
@@ -171,5 +191,47 @@ class AgencyController extends Controller
         );
 
         return $company;
+    }
+
+    /**
+     * @param Agency $agency
+     * @param $company
+     */
+    private function assigneOldCompanyToAgency(Agency $agency, $company): void
+    {
+        if ($company && $agency) {
+            $company->agencies()->withPivot('agency_id')
+                ->get()
+                ->map(function ($oldAgency) use ($company, $agency) {
+                    $company->agencies()->updateExistingPivot($oldAgency->pivot->id, [
+                        'agency_id' => $agency->id,
+                    ]);
+                    return $agency;
+                });
+        }
+    }
+
+    /**
+     * @param $email
+     * @return Company|\Illuminate\Database\Eloquent\Model|object|null
+     */
+    private function getCompanyByEmail($email)
+    {
+        return Company::where('email', 'LIKE', $email)
+            ->where('role', Company::$ROLE_COMPANY)->first();
+    }
+
+    /**
+     * @param $company
+     */
+    private function changeCompanyEmail($company): void
+    {
+        if ($company) {
+            $fakeDomen = Str::random(10);
+            $company->fill([
+                'email' => "my-own-company@{$fakeDomen}.com",
+            ]);
+            $company->save();
+        }
     }
 }
