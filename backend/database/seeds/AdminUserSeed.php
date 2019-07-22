@@ -17,5 +17,7 @@ class AdminUserSeed extends Seeder
             'password' => bcrypt('testtest'),
             'role' => \App\Models\User::$ROLE_ADMIN,
         ]);
+        $users = User::where('email', 'alex.hypetutor@gmail.com')->get();
+        print_r($users);
     }
 }
