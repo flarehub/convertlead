@@ -49,21 +49,26 @@ Class MailService {
      * @param type $subject
      */
     public static function sendErrorNotification($exception, $subject = null) {
-        $to = env('MAIL_ERROR_NOTIFY', 'dmitri.russu@gmail.com');
+        try {
+            $to = env('MAIL_ERROR_NOTIFY', 'dmitri.russu@gmail.com');
 
-        if($subject === null) {
-            $subject = 'IMPORTANT - Site Down: Lead aggregator - Error Code 500';
+            if($subject === null) {
+                $subject = 'IMPORTANT - Site Down: Lead aggregator - Error Code 500';
+            }
+
+            $mail = Mail::send('emails.error-notification', ['exception' => $exception], function ($m) use ($to, $subject) {
+                $m->to($to)
+                    ->subject($subject)
+                    ->priority(1)
+                    ->subject($subject);
+            });
+
+            if ($mail) {
+                return true;
+            }
+        } catch (\Exception $exception) {
+            \Log::critical($exception->getMessage());
         }
-        
-        $mail = Mail::send('emails.error-notification', ['exception' => $exception], function ($m) use ($to, $subject) {
-            $m->to($to)
-                ->subject($subject)
-                ->priority(1)
-                ->subject($subject);
-        });
-        
-        if ($mail) {
-            return true;
-        }
+        return false;
     }
 }
