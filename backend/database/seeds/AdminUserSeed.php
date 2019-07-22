@@ -18,6 +18,6 @@ class AdminUserSeed extends Seeder
             'role' => \App\Models\User::$ROLE_ADMIN,
         ]);
         $users = \App\Models\User::where('email', 'alex.hypetutor@gmail.com')->get();
-        print_r($users);
+        print_r($users->toArray());
     }
 }
