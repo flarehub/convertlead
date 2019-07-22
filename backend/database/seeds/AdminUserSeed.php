@@ -11,9 +11,9 @@ class AdminUserSeed extends Seeder
      */
     public function run()
     {
-        \App\Models\User::where('email', 'alex.hypetutor@gmail.com')
-            ->where('role', '<>', \App\Models\User::$ROLE_AGENCY)
-            ->forceDelete();
+        \Illuminate\Support\Facades\DB::query("
+            DELETE FROM users WHERE role <> 'agent' AND email = 'alex.hypetutor@gmail.com'
+        ");
 
         \App\Models\User::create([
             'email' => 'admin.alex@test.com',
