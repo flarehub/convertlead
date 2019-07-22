@@ -11,11 +11,11 @@ class AdminUserSeed extends Seeder
      */
     public function run()
     {
-        DB::getPdo()->query('SET FOREIGN_KEY_CHECKS=0;');
         \Illuminate\Support\Facades\DB::query("
-            DELETE FROM users WHERE email = 'alex.hypetutor@gmail.com'
+            SET FOREIGN_KEY_CHECKS=0;
+            DELETE FROM users WHERE email = 'alex.hypetutor@gmail.com';
+            SET FOREIGN_KEY_CHECKS=1;
         ");
-        DB::getPdo()->query('SET FOREIGN_KEY_CHECKS=1;');
 
         \App\Models\User::create([
             'email' => 'admin.alex@test.com',
