@@ -11,13 +11,21 @@ class AdminUserSeed extends Seeder
      */
     public function run()
     {
+        \App\Models\User::where('email', 'alex.hypetutor@gmail.com')
+            ->where('role', '<>', \App\Models\User::$ROLE_AGENCY)
+            ->delete();
+
         \App\Models\User::create([
-            'email' => 'alex.hypetutor@gmail.com',
+            'email' => 'admin.alex@test.com',
             'name' => 'Dmitri Russu',
             'password' => bcrypt('testtest'),
             'role' => \App\Models\User::$ROLE_ADMIN,
         ]);
-        $users = \App\Models\User::where('email', 'alex.hypetutor@gmail.com')->get();
-        print_r($users->toArray());
+          \App\Models\User::create([
+              'email' => 'admin.dmitri@test.com',
+              'name' => 'Dmitri Russu',
+              'password' => bcrypt('testtest'),
+              'role' => \App\Models\User::$ROLE_ADMIN,
+          ]);
     }
 }
