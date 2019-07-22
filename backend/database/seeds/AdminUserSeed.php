@@ -11,12 +11,6 @@ class AdminUserSeed extends Seeder
      */
     public function run()
     {
-        \Illuminate\Support\Facades\DB::query("
-            SET FOREIGN_KEY_CHECKS=0;
-            DELETE FROM users WHERE email = 'alex.hypetutor@gmail.com';
-            SET FOREIGN_KEY_CHECKS=1;
-        ");
-
         \App\Models\User::create([
             'email' => 'admin.alex@test.com',
             'name' => 'Dmitri Russu',
