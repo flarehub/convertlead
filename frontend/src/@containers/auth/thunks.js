@@ -107,7 +107,7 @@ export const loginToAdmin = () => {
                 await dispatch(updateUserProfile(tokenData.user));
                 await dispatch(loadProfileForm(tokenData.user));
                 await dispatch(sendMessage('You have been logged successfully!'));
-                window.location.reload();
+                window.location = '/';
             } catch (error) {
                 await dispatch(sendMessage(error.message, true));
             }
