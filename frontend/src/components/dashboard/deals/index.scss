@@ -3,3 +3,43 @@
     text-align: left;
   }
 }
+
+.ui.message.dash {
+
+  position:absolute;
+  right:20px;
+  bottom:20px;
+  background: #ffffff ;
+  width:300px;
+  box-shadow: -5px 5px 55px 5px rgba(0,0,0,0.1);
+  font-family:Lato, sans-serif;
+  background: #ffffff; /* Old browsers */
+   text-align:left;
+  padding: 30px;
+}
+
+.ui.message.dash .header {
+  color: #005ff8;
+  font-size: 20px;
+  font-weight: 600;
+  font-family:Dosis, sans-serif;
+  margin-bottom:10px;
+}
+
+.ui.message.dash .message-wrap {
+  display:inline-block;
+  float:left;
+  width:100%;
+}
+
+.ui.message.dash .item {
+  display: inline-block;
+  background: #005ff8;
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 25px;
+  border-radius: 3px;
+
+
+}

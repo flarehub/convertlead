@@ -4,7 +4,7 @@ import {CompaniesContainer, DealsContainer} from '@containers';
 import DealModal from 'components/@common/modals/deal';
 import Loader from 'components/loader';
 import {
-    Segment, Confirm, Card, Header, Menu, Input, Grid, Button, Checkbox, Form, Select
+    Segment, Message, Confirm, Card, Header, Menu, Input, Grid, Button, Checkbox, Form, Select
 } from 'semantic-ui-react';
 
 import './index.scss';
@@ -12,6 +12,40 @@ import {DealFormContainer} from "@containers";
 import * as R from "ramda";
 import {Auth} from "@services";
 import {CardContent} from "./card-content";
+
+class MessageExampleDismissibleBlock extends Component {
+    state = { visible: true }
+
+    handleDismiss = () => {
+        this.setState({ visible: false })
+
+        setTimeout(() => {
+            this.setState({ visible: true })
+        }, 2000)
+    }
+
+    render() {
+        if (this.state.visible) {
+            return (
+                <Message
+                    onDismiss={this.handleDismiss}
+                    header='Welcome back!'
+                    content='This is a special notification which you can dismiss.'
+                />
+            )
+        }
+
+        return (
+            <p>
+                <br />
+                <i>The message will return in 2s</i>
+                <br />
+                <br />
+            </p>
+        )
+    }
+}
+
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -189,9 +223,22 @@ class Dashboard extends Component {
                     </Segment>
 
                 </Segment>
+
+                <div className="ui message dash">
+                    <i aria-hidden="true" className="close icon"></i>
+                    <div className='message-wrap content'>
+                   <div className="header">
+                        New to ConvertLead ?
+                    </div>
+                    <p>Click the button below to watch our video tutorials & quick startup guide .</p>
+                        <a className="item" href="http://convertlead.com/" target="_blank">Take me there</a>
+                    </div>
+
+                </div>
             </div>
+
         );
     }
 }
 
-export default compose(CompaniesContainer, DealsContainer, DealFormContainer)(Dashboard);
+export default compose(CompaniesContainer, DealsContainer, DealFormContainer)(Dashboard) ;

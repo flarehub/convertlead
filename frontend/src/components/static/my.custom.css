@@ -111,10 +111,14 @@ i.icon.sidebar:before {
     border: none;
     margin-top: 27px !important;
     overflow: hidden;
-    min-height: 35vw;
+
 
 }
 
+
+.Leads .ui.top.attached.segment {
+    min-height: 35vw;
+}
 
 .ui.top.attached.segment .ui.header {
     font-size: 30px !important;
