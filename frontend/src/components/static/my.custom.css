@@ -850,6 +850,7 @@ input:focus {
 .login-form .ui.stacked.segment {
     padding: 4em;
     box-shadow: none !important;
+    border-bottom:1px solid rgba(34,36,38,.15) !important ;
 }
 
 .login-form .ui.stacked.segment:after {
