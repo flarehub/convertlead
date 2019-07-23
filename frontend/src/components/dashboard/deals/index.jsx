@@ -13,40 +13,6 @@ import * as R from "ramda";
 import {Auth} from "@services";
 import {CardContent} from "./card-content";
 
-class MessageExampleDismissibleBlock extends Component {
-    state = { visible: true }
-
-    handleDismiss = () => {
-        this.setState({ visible: false })
-
-        setTimeout(() => {
-            this.setState({ visible: true })
-        }, 2000)
-    }
-
-    render() {
-        if (this.state.visible) {
-            return (
-                <Message
-                    onDismiss={this.handleDismiss}
-                    header='Welcome back!'
-                    content='This is a special notification which you can dismiss.'
-                />
-            )
-        }
-
-        return (
-            <p>
-                <br />
-                <i>The message will return in 2s</i>
-                <br />
-                <br />
-            </p>
-        )
-    }
-}
-
-
 const companies = [
     {key: null, text: 'All companies', value: null},
 ];
@@ -56,7 +22,8 @@ class Dashboard extends Component {
         open: false,
         companyId: '',
         dealId: '',
-        showArchived: false
+        showArchived: false,
+        visible: true
     };
 
     componentWillMount() {
@@ -103,11 +70,37 @@ class Dashboard extends Component {
         this.setState(this.state)
     };
 
+    handleDismiss = () => {
+        this.setState({
+            ...this.state,
+            visible: false,
+        });
+        setTimeout(()  => {
+            this.setState({
+                ...this.state,
+                visible: true,
+            });
+        }, 24 * 60 * 60 * 1000);
+    };
+
     render() {
         const {deals, deleted_deals, filters} = this.props;
-        const { companyId } = this.state;
+        const { companyId, visible } = this.state;
         return (
             <div className='Dashboard'>
+                {
+                    visible
+                        ?  <Message className='dash' onDismiss={this.handleDismiss}>
+                        <Message.Header>
+                            New to ConvertLead ?
+                        </Message.Header>
+                        <Message.Content>
+                            <p>Click the button below to watch our video tutorials & quick startup guide .</p>
+                            <a className="item" href="http://convertlead.com/" target="_blank">Take me there</a>
+                        </Message.Content>
+                        </Message>
+                        : null
+                }
                 <DealModal/>
                 <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
                          onConfirm={this.onConfirm}/>
@@ -224,17 +217,16 @@ class Dashboard extends Component {
 
                 </Segment>
 
-                <div className="ui message dash">
-                    <i aria-hidden="true" className="close icon"></i>
-                    <div className='message-wrap content'>
-                   <div className="header">
-                        New to ConvertLead ?
-                    </div>
-                    <p>Click the button below to watch our video tutorials & quick startup guide .</p>
-                        <a className="item" href="http://convertlead.com/" target="_blank">Take me there</a>
-                    </div>
-
-                </div>
+                {/*<div className="ui message dash">*/}
+                {/*    <i aria-hidden="true" onClick={this.handleDismiss} className="close icon"></i>*/}
+                {/*    <div className='message-wrap content'>*/}
+                {/*   <div className="header">*/}
+                {/*        New to ConvertLead ?*/}
+                {/*    </div>*/}
+                {/*    <p>Click the button below to watch our video tutorials & quick startup guide .</p>*/}
+                {/*        <a className="item" href="http://convertlead.com/" target="_blank">Take me there</a>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
 
         );
