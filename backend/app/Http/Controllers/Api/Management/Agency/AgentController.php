@@ -101,6 +101,7 @@ class AgentController extends Controller
             }
 
             MailService::sendMail('emails.agent-welcome', [
+                'agent' => $agent,
                 'company' => $request->user(),
                 'password' => $request->get('password'),
             ],
