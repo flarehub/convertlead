@@ -15,6 +15,15 @@ use Illuminate\Http\Request;
 Route::group(['namespace' => 'Auth'], function () {
     Route::post('login', 'ApiLoginController@login');
 });
+Route::group([
+    'namespace' => 'Auth',
+    'middleware' => 'api',
+    'prefix' => 'password'
+], function () {
+    Route::post('create', 'PasswordResetController@create');
+    Route::get('find/{token}', 'PasswordResetController@find');
+    Route::post('reset', 'PasswordResetController@reset');
+});
 
 Route::group(['namespace' => 'Api'], function () {
     Route::prefix('v1')->group(function () {
