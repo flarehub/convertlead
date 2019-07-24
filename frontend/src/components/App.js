@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {withRouter, Route, Switch} from 'react-router-dom';
 import Layout from './layout';
 import {AuthContainer, ProfileContainer} from '@containers';
-import {LoginLayout, OptinFormPage} from '.';
+import {LoginLayout, OptinFormPage, ResetPassword} from '.';
 
 import './App.scss';
 import './static/linearicons.css';
@@ -17,6 +17,7 @@ const App = ({session}) => (
         {
             <Switch>
                 <Route exact path="/login" component={LoginLayout}/>
+                <Route exact path="/password-reset" component={ResetPassword}/>
                 <Route exact path="/campaign/:uuid" component={OptinFormPage}/>
                 <Route path="/" component={Layout}/>
             </Switch>

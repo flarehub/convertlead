@@ -6,21 +6,16 @@ import {Button, Form, Grid, Header, Image, Segment} from 'semantic-ui-react'
 import './index.scss';
 import logo from '../static/assets/logo.png';
 
-class Login extends Component {
+class ResetPassword extends Component {
     email = '';
-    password = '';
 
     onEmailChange = (event) => {
         this.email = event.target.value;
     };
 
-    onPasswordChange = (event) => {
-        this.password = event.target.value;
-    };
 
-
-    login = () => {
-        this.props.login(this.email, this.password);
+    resetPassword = () => {
+        this.props.resetPassword(this.email);
     };
 
     async componentWillMount() {
@@ -40,8 +35,9 @@ class Login extends Component {
                                <Header as='h2' color='teal' textAlign='center'>
                                    <Image src={logo}/>
                                </Header>
-                                <p> Log-in to your account </p>
-                                <label>Username/E-mail address</label>
+                               <label><a href="/login"> Back to Login!</a></label>
+                               <p> Reset Password </p>
+                                <label>E-mail address</label>
                                 <Form.Input
                                     fluid
                                     icon={{className: 'linearicons-user'}}
@@ -49,22 +45,9 @@ class Login extends Component {
                                     placeholder='E-mail address'
                                     type='text'
                                     onChange={this.onEmailChange}/>
-
-                                <label>Password</label>
-
-                                <Form.Input
-                                    fluid
-                                    icon={{className: 'linearicons-lock'}}
-                                    iconPosition='left'
-                                    placeholder='Password'
-                                    type='password'
-                                    onChange={this.onPasswordChange}/>
-                               <label><a href="http://convertlead.com">Forgot password ?</a></label>
-                                <Button color='teal' fluid size='large'>
-                                    Sign in
+                                <Button color='teal' onClick={this.resetPassword} fluid size='large'>
+                                    Reset password
                                 </Button>
-
-                                <span>Don't have an account? <a href="http://convertlead.com">Sign up here</a> </span>
                             </Segment>
                         </Form>
                     </Grid.Column>
@@ -74,4 +57,4 @@ class Login extends Component {
     }
 }
 
-export default compose(AuthContainer)(Login);
+export default compose(AuthContainer)(ResetPassword);

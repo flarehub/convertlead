@@ -59,7 +59,7 @@ class Login extends Component {
                                     placeholder='Password'
                                     type='password'
                                     onChange={this.onPasswordChange}/>
-                               <label><a href="http://convertlead.com">Forgot password ?</a></label>
+                               <label><a href="/password-reset">Forgot password ?</a></label>
                                 <Button color='teal' fluid size='large'>
                                     Sign in
                                 </Button>

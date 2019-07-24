@@ -13,6 +13,7 @@ const mapActionsToProps = dispatch => ({
   autoLoginBy: email => dispatch(thunks.autoLoginBy(email)),
   loginToAdmin: () => dispatch(thunks.loginToAdmin()),
   login: (email, password) => dispatch(thunks.login(email, password)),
+  resetPassword: email => dispatch(thunks.resetPassword(email)),
   logout: () => dispatch(thunks.logout()),
 });
 

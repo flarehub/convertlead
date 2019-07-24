@@ -33,6 +33,19 @@ export const login = (email, password) => async (dispatch, getState) => {
     }
 };
 
+export const resetPassword = (email, password) => async (dispatch, getState) => {
+    try {
+        const {data} = await api.post('/password/reset', {
+            email,
+        });
+        if (data.id) {
+            await dispatch(sendMessage('Password succesfully sent!'));
+        }
+    } catch (error) {
+        await dispatch(sendMessage(error.message, true));
+    }
+};
+
 export const autoLogin = () => {
     const session = SessionStorage.getItem('session');
     const checkSessionTokenExits = R.pathOr(false, ['token'], session);

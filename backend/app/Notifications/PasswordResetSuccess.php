@@ -7,15 +7,16 @@ use Illuminate\Notifications\Messages\MailMessage;
 class PasswordResetSuccess extends Notification implements ShouldQueue
 {
     use Queueable;
+    private $password;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($password)
     {
-        //
+        $this->password = $password;
     }
     /**
      * Get the notification's delivery channels.
@@ -36,9 +37,8 @@ class PasswordResetSuccess extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('You are changed your password succeful.')
-            ->line('If you did change password, no further action is required.')
-            ->line('If you did not change password, protect your account.');
+            ->line('You are changed your password succefully.')
+            ->line("Temporary password: {$this->password}");
     }
     /**
      * Get the array representation of the notification.

@@ -20,8 +20,6 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'password'
 ], function () {
-    Route::post('create', 'PasswordResetController@create');
-    Route::get('find/{token}', 'PasswordResetController@find');
     Route::post('reset', 'PasswordResetController@reset');
 });
 
@@ -90,7 +88,6 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');
                 Route::get('graph/{graphType}', 'CompanyController@graph');
                 Route::get('agents/{agentId}/graph/{graphType}', 'AgentController@graph');
-
             });
         });
     });
