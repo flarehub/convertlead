@@ -4,15 +4,15 @@ div.login-form {
 }
 
 a {
-	color:#005ff8 !important;
+	color:#005ff8;
 }
 
-label a {
+div.login-form  label a {
 	color: inherit !important;
 	border-bottom: 1px dashed #333;
 }
 
-label a:hover {
+div.login-form  label a:hover {
 	color:#005ff8 !important;
 }
 
