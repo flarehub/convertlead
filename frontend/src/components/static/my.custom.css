@@ -119,6 +119,18 @@ i.icon.sidebar:before {
     padding-bottom: 2px;
 }
 
+
+
+.darkorange {
+    background-color:#ff4a00 !important;
+    color:#fff !important;
+}
+
+.purplegray {
+    background-color:#71727b !important;
+    color:#fff !important;
+}
+
 .ui.top.attached.segment {
     padding: 10px 0 !important;
     border: none;
