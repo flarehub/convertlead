@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-zapier:before {
+  content: "\e906";
+}
 .icon-logoff:before {
   content: "\e904";
   color: #656565;

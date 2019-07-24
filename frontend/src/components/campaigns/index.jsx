@@ -229,13 +229,13 @@ class Campaigns extends Component {
                                                 }
                                                 {
                                                     campaign.integration === 'ZAPIER'
-                                                        ? <Button circular color='google plus'
-                                                                  icon='assistive listening systems'/>
+                                                        ? <Button circular color='darkorange'
+                                                                  icon='icon-zapier'/>
                                                         : null
                                                 }
                                                 {
                                                     campaign.integration === 'OPTIN_FORM'
-                                                        ? <Button circular color='purple' icon='wpforms'/>
+                                                        ? <Button circular color='purplegray' icon='sticky note outline icon'/>
                                                         : null
                                                 }
                                             </Table.Cell>
