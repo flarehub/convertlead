@@ -9,7 +9,7 @@ export const getUserProfile = () => async (dispatch) => {
         await dispatch(actions.updateUserProfile(data));
         await dispatch(actions.loadProfileForm(data));
     } catch (e) {
-        dispatch(sendMessage(e.message, true))
+        // dispatch(sendMessage(e.message, true))
     }
 };
 
