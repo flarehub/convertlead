@@ -21,7 +21,7 @@
 .ui.message.dash .header {
   color: #005ff8;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   font-family:Dosis, sans-serif;
   margin-bottom:10px;
 }
@@ -35,11 +35,18 @@
 .ui.message.dash .item {
   display: inline-block;
   background: #005ff8;
-  color: #fff;
+  color: #fff !important;
   font-weight: 600;
   font-size: 15px;
   padding: 10px 25px;
   border-radius: 3px;
 
 
+}
+
+@media screen and (max-width: 800px) {
+
+  .ui.message.dash {
+    display: none;
+  }
 }
