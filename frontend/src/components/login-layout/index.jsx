@@ -34,12 +34,12 @@ class Login extends Component {
                     this.props.isAuthorised ? <Redirect from='/login' to='/dashboard'/> : null
                 }
                 <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
-                    <Grid.Column style={{maxWidth: 450}}>
-                        <Header as='h2' color='teal' textAlign='center'>
-                            <Image src={logo}/>
-                        </Header>
+                    <Grid.Column style={{maxWidth: 450}} className="logincontainer">
                         <Form size='large' onSubmit={this.login}>
-                            <Segment stacked>
+                           <Segment stacked>
+                               <Header as='h2' color='teal' textAlign='center'>
+                                   <Image src={logo}/>
+                               </Header>
                                 <p> Log-in to your account </p>
                                 <label>Username/E-mail address</label>
                                 <Form.Input
@@ -59,10 +59,12 @@ class Login extends Component {
                                     placeholder='Password'
                                     type='password'
                                     onChange={this.onPasswordChange}/>
-
+                               <label><a href="http://convertlead.com">Forgot password ?</a></label>
                                 <Button color='teal' fluid size='large'>
-                                    Login
+                                    Sign in
                                 </Button>
+
+                                <span>Don't have an account? <a href="http://convertlead.com">Sign up here</a> </span>
                             </Segment>
                         </Form>
                     </Grid.Column>

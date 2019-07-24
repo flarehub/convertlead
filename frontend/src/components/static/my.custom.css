@@ -15,6 +15,19 @@
 a {
     color: #005ff8;
 }
+
+.ui.form .field.field input:-webkit-autofill,
+.ui.form .field.field input:-webkit-autofill:hover,
+.ui.form .field.field input:-webkit-autofill:focus,
+.ui.form .field.field input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 100px white inset !important;
+    border-color:rgba(34,36,38,.15) !important;
+}
+
+input {
+    filter: none;
+}
+
 .LeadNotes a {
     color: #005ff8 !important;
 }
