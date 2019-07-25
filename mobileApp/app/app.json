@@ -2,5 +2,5 @@
   "name": "mobileApp",
   "displayName": "ConvertLead",
   "senderID": "170482632377",
-  "serverURL": "http://155.138.229.190:8081/api"
+  "serverURL": "http://api.convertlead.com/api"
 }
