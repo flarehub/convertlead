@@ -33,6 +33,27 @@ div.login-form  label a:hover {
 
 	}
 
+  div.login-form label, div.login-form  label a {
+    font-size:1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .ui.large.form {
+    font-size:1.3rem !important;
+  }
+
+  div.login-form .ui.form  input, div.login-form .ui.form  button {
+    font-size: 1.5em;
+  }
+
+  div.login-form .ui.form .field {
+    margin-bottom:1.5em;
+  }
+
+  .login-form .ui.stacked.segment p {
+    font-size: 27px !important;
+  }
+
 	div.login-form .logincontainer .ui.stacked.segment, div.login-form .logincontainer .ui.form {
 		height:100%;
 	}
