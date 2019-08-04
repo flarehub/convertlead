@@ -8,12 +8,12 @@
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
   "static/media/semantic.min.css": "/static/media/brand-icons.a1a749e8.svg",
-  "static/media/linearicons.css": "/static/media/Linearicons.4063170a.eot",
-  "static/media/style.css": "/static/media/icomoon.caf8b99e.svg",
+  "static/media/linearicons.css": "/static/media/Linearicons.a8bd93e5.woff",
+  "static/media/style.css": "/static/media/icomoon.6a3656bc.ttf",
   "static/media/my.custom.css": "/static/media/nostatsicon.8f5b406a.svg",
   "static/css/main.3078295e.chunk.css.map": "/static/css/main.3078295e.chunk.css.map",
   "static/css/1.d2caffa5.chunk.css.map": "/static/css/1.d2caffa5.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.c3636465538b3dcb005f9932636ba103.js": "/precache-manifest.c3636465538b3dcb005f9932636ba103.js",
+  "precache-manifest.0ea6cb8d4c07a251c53bf2cf8ef74b33.js": "/precache-manifest.0ea6cb8d4c07a251c53bf2cf8ef74b33.js",
   "service-worker.js": "/service-worker.js"
 }
