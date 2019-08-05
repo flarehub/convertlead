@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/static/media/outline-icons.701ae6ab.eot"
   },
   {
-    "revision": "eafacce8968b2d9d3311",
+    "revision": "936b7dee05ee38be7cb8",
     "url": "/static/css/main.7dc4831f.chunk.css"
   },
   {
@@ -36,12 +36,12 @@ self.__precacheManifest = [
     "url": "/static/media/icomoon.32922b6b.eot"
   },
   {
-    "revision": "b39486292579205ba9430dd20b521b9b",
-    "url": "/static/media/icomoon.b3948629.woff"
-  },
-  {
     "revision": "6a3656bc4d3657502327bd1822f90d19",
     "url": "/static/media/icomoon.6a3656bc.ttf"
+  },
+  {
+    "revision": "b39486292579205ba9430dd20b521b9b",
+    "url": "/static/media/icomoon.b3948629.woff"
   },
   {
     "revision": "caf8b99ef955f8a26ea3178a86c93dd1",
@@ -52,16 +52,16 @@ self.__precacheManifest = [
     "url": "/static/media/nostatsicon.8f5b406a.svg"
   },
   {
-    "revision": "cd6c777f1945164224dee082abaea03a",
-    "url": "/static/media/outline-icons.cd6c777f.woff2"
-  },
-  {
     "revision": "ef60a4f6c25ef7f39f2d25a748dbecfe",
     "url": "/static/media/outline-icons.ef60a4f6.woff"
   },
   {
-    "revision": "eafacce8968b2d9d3311",
-    "url": "/static/js/main.eafacce8.chunk.js"
+    "revision": "cd6c777f1945164224dee082abaea03a",
+    "url": "/static/media/outline-icons.cd6c777f.woff2"
+  },
+  {
+    "revision": "936b7dee05ee38be7cb8",
+    "url": "/static/js/main.936b7dee.chunk.js"
   },
   {
     "revision": "ad97afd3337e8cda302d10ff5a4026b8",
@@ -88,12 +88,12 @@ self.__precacheManifest = [
     "url": "/static/media/flags.9c74e172.png"
   },
   {
-    "revision": "8e3c7f5520f5ae906c6cf6d7f3ddcd19",
-    "url": "/static/media/icons.8e3c7f55.eot"
-  },
-  {
     "revision": "b87b9ba532ace76ae9f6edfe9f72ded2",
     "url": "/static/media/icons.b87b9ba5.ttf"
+  },
+  {
+    "revision": "8e3c7f5520f5ae906c6cf6d7f3ddcd19",
+    "url": "/static/media/icons.8e3c7f55.eot"
   },
   {
     "revision": "13db00b7a34fee4d819ab7f9838cc428",
@@ -116,7 +116,7 @@ self.__precacheManifest = [
     "url": "/static/css/1.391fad71.chunk.css"
   },
   {
-    "revision": "ebb636a93861829795391ed37e7fe1f1",
+    "revision": "86e6fb64794ced50c1fe190ddfc5ae1b",
     "url": "/index.html"
   }
 ];
