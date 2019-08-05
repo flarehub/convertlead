@@ -40,7 +40,7 @@ class Login extends Component {
                                <Header as='h2' color='teal' textAlign='center'>
                                    <Image src={logo}/>
                                </Header>
-                                <p> Log-in to your account </p>
+                                <p> Sign in to your account </p>
                                 <label>Username/E-mail address</label>
                                 <Form.Input
                                     fluid
