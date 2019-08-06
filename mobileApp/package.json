@@ -8,11 +8,11 @@
     "ios": "react-native run-ios --simulator 'iPhone 8'"
   },
   "dependencies": {
-    "@react-native-community/async-storage": "1.4.0",
+    "@react-native-community/async-storage": "^1.6.1",
     "axios": "^0.18.0",
     "ramda": "^0.26.1",
     "react": "16.8.3",
-    "react-native": "0.59.1",
+    "react-native": "0.59.8",
     "react-native-firebase": "^5.4.3",
     "react-native-webview": "^5.4.4",
     "react-redux": "^7.0.3",
