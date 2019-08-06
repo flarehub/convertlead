@@ -1,6 +1,6 @@
 {
   "name": "mobileApp",
-  "displayName": "ConvertLead",
+  "displayName": "Convert Lead",
   "senderID": "170482632377",
   "serverURL": "http://api.convertlead.com/api"
 }
