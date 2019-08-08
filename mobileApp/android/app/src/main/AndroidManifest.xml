@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.mobileapp">
+          package="com.costan.convertlead">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -11,7 +11,7 @@
             android:allowBackup="false"
             android:fullBackupContent="false"
             android:hardwareAccelerated="true"
-            android:name=".MainApplication"
+            android:name="com.costan.convertlead.MainApplication"
             android:label="@string/app_name"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
@@ -39,7 +39,7 @@
         </receiver>
 
         <activity
-                android:name=".MainActivity"
+                android:name="com.costan.convertlead.MainActivity"
                 android:label="@string/app_name"
                 android:launchMode="singleTop"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize"

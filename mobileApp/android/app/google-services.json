@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:170482632377:android:df4c6b4a1ddfad30",
+        "mobilesdk_app_id": "1:170482632377:android:4de32f733f2ec96b",
         "android_client_info": {
-          "package_name": "com.mobileapp"
+          "package_name": "com.costan.convertlead"
         }
       },
       "oauth_client": [

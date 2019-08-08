@@ -1,4 +1,4 @@
-package com.mobileapp;
+package com.costan.convertlead;
 
 import com.facebook.react.ReactActivity;
 
