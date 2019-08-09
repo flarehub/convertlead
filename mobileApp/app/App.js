@@ -168,15 +168,13 @@ class App extends Component<Props> {
 
     render() {
         console.log(this.props.session);
-        const INJECTEDJAVASCRIPT = `const meta = document.createElement('meta'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'); meta.setAttribute('name', 'viewport'); document.getElementsByTagName('head')[0].appendChild(meta); `
         return (
             <WebView
-                source={{uri: 'http://app.convertlead.com'}}
+                source={{uri: 'http://155.138.229.190:8082'}}
                 ref={webview => {
                     this.myWebView = webview;
                 }}
                 scrollEnabled={false}
-                injectedJavaScript={INJECTEDJAVASCRIPT}
                 onMessage={this.onWebViewMessage}
                 style={{marginTop: 0}}/>
         );
