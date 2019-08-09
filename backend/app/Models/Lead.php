@@ -189,6 +189,7 @@ class Lead extends Model
                 'title' => 'New Lead',
                 'body' => 'New Lead created: '.$lead->fullname,
                 'sound' => true,
+                'badge' => 1
             ];
 
             $tokenList = Device::getTokenListFromAgentIds([$lead->agent_id]);
