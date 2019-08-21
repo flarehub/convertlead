@@ -271,7 +271,7 @@ class Leads extends Component {
                                                     {lead.fullname}
                                                 </Link>
                                                 <div className='date-added'>
-                                                    Added {moment(lead.created_at).format('DD/MM/YYYY')}
+                                                    Added {moment.utc(lead.created_at).local().format('DD/MM/YYYY')}
                                                 </div>
                                             </Table.Cell>
                                             <Table.Cell>

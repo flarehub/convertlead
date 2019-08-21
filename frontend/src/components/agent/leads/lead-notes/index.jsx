@@ -10,7 +10,6 @@ import {Button, Icon, Form, TextArea, Dropdown, Segment} from 'semantic-ui-react
 import {LeadNoteTimeLine} from './timeline';
 
 
-
 class AgentLeadNotes extends Component {
     state = {
         showTimeline: true,
@@ -31,7 +30,6 @@ class AgentLeadNotes extends Component {
             ...this.state,
             lead,
         });
-
 
         this.props.addBreadCrumb({
             name: 'Leads',
@@ -96,57 +94,55 @@ class AgentLeadNotes extends Component {
         const {leadNotes, leadStatuses} = this.props;
         return (
             <div className='AgentLeadNotes'>
-            <div className="column"><h1 className="ui left floated header mobile-app-menu">
-                {lead.fullname}</h1></div>
-            <div className='lead-profile-row buttons'>
-                <Button as='a' href={`mailto:${lead.email}`} onClick={this.onEmail} circular>
-                    <Icon name='mail'/>
-                    E-mail
-                </Button>
-                <Button className='call-lead-but' as='a' href={`tel:${lead.phone}`} onClick={this.onCall} circular>
-                    <Icon name='call'/>
-                </Button>
-                <Button as='a' href={`sms:${lead.phone}`} onClick={this.onText} circular >
-                    <Icon name='pencil alternate'/>
-                    Text
-                </Button>
+                <div className="column">
+                    <h1 className="ui left floated header mobile-app-menu">{lead.fullname}</h1>
+                </div>
+                <div className='lead-profile-row buttons'>
+                    <Button as='a' href={`mailto:${lead.email}`} onClick={this.onEmail} circular>
+                        <Icon name='mail'/>
+                        E-mail
+                    </Button>
+                    <Button className='call-lead-but' as='a' href={`tel:${lead.phone}`} onClick={this.onCall} circular>
+                        <Icon name='call'/>
+                    </Button>
+                    <Button as='a' href={`sms:${lead.phone}`} onClick={this.onText} circular>
+                        <Icon name='pencil alternate'/>
+                        Text
+                    </Button>
+                </div>
+                <div className='lead-info'>
+                    <div className='info-header'>Subscribed for:</div>
+                    <label>{lead.campaign.name}</label>
+                </div>
+                <div className='lead-meta'>
+                    <div className='meta-header'>Additional info:
+                    </div>
+                    <p>{lead.metadata}</p>
+                </div>
+                <div className='lead-timeline'>
+                    <div className='timeline-header' onClick={this.toggleTimeline}>Lead Timeline
+                        <Icon name={(showTimeline ? 'angle down' : 'angle up')}/></div>
+                    {
+                        showTimeline ? <LeadNoteTimeLine notes={leadNotes}/> : null
+                    }
+                </div>
+                <div className='addLeadNote'>
+                    <Form>
+                        <Form.Field>
+                            <TextArea name='message' placeholder={"+ add note"} onChange={this.onChange}/>
+                        </Form.Field>
+                        <Button.Group>
+                            <Button onClick={this.onAddNote} positive>Submit</Button>
+                            <Button.Or/>
+                            <Dropdown options={leadStatuses} name='status' onChange={this.onChange} floating button
+                                      className='icon' defaultValue={lead.status}/>
+                        </Button.Group>
+                    </Form>
+                </div>
             </div>
-            <div className='lead-info'>
-                <div className='info-header'>Subscribed for:</div>
-                <label>{lead.campaign.name}</label>
-            </div>
-            <div className='lead-meta'>
-                <div className='meta-header'>Additional info:
-                   </div>
-                <p>{lead.metadata}</p>
-            </div>
-            <div className='lead-timeline'>
-                <div className='timeline-header' onClick={this.toggleTimeline}>Lead Timeline
-                    <Icon name={(showTimeline ? 'angle down' : 'angle up')}/></div>
-                {
-                    showTimeline ? <LeadNoteTimeLine notes={leadNotes}/> : null
-                }
-            </div>
-              <div className='addLeadNote'>
-                <Form>
-                    <Form.Field>
-                        <TextArea name='message' placeholder={"+ add note"} onChange={this.onChange}/>
-                    </Form.Field>
-                    <Button.Group>
-                        <Button onClick={this.onAddNote} positive>Submit</Button>
-                        <Button.Or/>
-                        <Dropdown options={leadStatuses} name='status' onChange={this.onChange} floating button
-                                  className='icon' defaultValue={lead.status}/>
-                    </Button.Group>
-                </Form>
-            </div>
-        </div>);
+        );
     }
 }
 
 
-
-export default compose(
-    LeadsContainer,
-    LeadNotesContainer,
-    BreadCrumbContainer)(AgentLeadNotes);
+export default compose(LeadsContainer, LeadNotesContainer, BreadCrumbContainer)(AgentLeadNotes);

@@ -179,7 +179,7 @@ class Agents extends Component {
                                                     {agent.name}
                                                 </Link>
                                                 <div>
-                                                    Added {moment(agent.created_at).format('DD/MM/YYYY')}
+                                                    Added {moment.utc(agent.created_at).local().format('DD/MM/YYYY')}
                                                 </div>
                                             </Table.Cell>
                                             {

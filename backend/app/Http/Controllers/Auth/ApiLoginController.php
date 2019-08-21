@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Lang;
 use Laravel\Passport\Passport;
+use Log;
 
 class ApiLoginController extends Controller {
 

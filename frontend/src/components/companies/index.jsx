@@ -142,7 +142,7 @@ class Companies extends Component {
                                                     <Link to={`/companies/${company.id}/profile`}>{company.name}</Link>
                                                 </div>
                                                 <span
-                                                    className='date-added'>added</span> {moment(company.created_at).format('DD/MM/YYYY')}
+                                                    className='date-added'>added</span> {moment.utc(company.created_at).local().format('DD/MM/YYYY')}
                                             </Table.Cell>
                                             <Table.Cell><Link
                                                 to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>

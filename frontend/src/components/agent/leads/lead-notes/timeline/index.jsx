@@ -3,8 +3,7 @@ import * as moment from 'moment';
 import './index.scss';
 
 export class LeadNoteTimeLine extends Component {
-    componentWillMount() {
-    }
+    componentWillMount() {}
 
     render() {
         const {notes} = this.props;
@@ -15,8 +14,8 @@ export class LeadNoteTimeLine extends Component {
                     notes && notes.map(note =>
                         <div className='lead-note' key={note.id}>
                             <div className='lead-note-datetime'>
-                                <span className='lead-note-date'>{moment(note.created_at).format('DD.MM.YYYY')}</span>
-                                <span className='lead-note-time'>{moment(note.created_at).format('LT')}</span>
+                                <span className='lead-note-date'>{moment.utc(note.created_at).local().format('DD.MM.YYYY')}</span>
+                                <span className='lead-note-time'>{moment.utc(note.created_at).local().format('LT')}</span>
                             </div>
                             <div className='lead-note-content'>
                                 <span className='agent-name'>{note.agent.name}, </span> {note.message}
@@ -24,6 +23,7 @@ export class LeadNoteTimeLine extends Component {
                         </div>
                     )
                 }
-            </div>);
+            </div>
+        );
     }
 }
