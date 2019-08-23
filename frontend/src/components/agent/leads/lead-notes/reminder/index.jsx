@@ -35,7 +35,7 @@ export class LeadReminder extends Component {
                     reminders && reminders.map(reminder =>
                         <div className='reminder' key={reminder.id} onClick={() => this.editReminder(reminder)}>
                             <div className='reminder-content'>
-                                <span className='icon-delete-reminder' onClick={() => this.openConfirmModal(true, reminder)}>
+                                <span className='icon-delete-reminder' onClick={(e) => {e.stopPropagation();this.openConfirmModal(true, reminder)}}>
                                     <Icon name='delete' size='small' />
                                 </span>
                                 <span>{reminder.name + '   '}</span>
