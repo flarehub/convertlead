@@ -7,7 +7,6 @@ export class LeadNoteTimeLine extends Component {
 
     render() {
         const {notes} = this.props;
-        console.log(notes);
         return (
             <div>
                 {

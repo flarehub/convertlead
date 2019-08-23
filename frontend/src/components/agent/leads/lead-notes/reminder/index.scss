@@ -1,0 +1,23 @@
+.reminder {
+  margin: 10px 0;
+  background: #ff5248;
+  border-radius: 3px;
+  padding: 10px;
+  color: white;
+  .reminder-datetime {
+    width: 100%;
+    display: inline-block;
+    .lead-note-date {
+      float: left;
+    }
+    .lead-note-time {
+      float: right;
+    }
+  }
+  .reminder-content {
+    text-align: left;
+    .icon-delete-reminder {
+      float: right;
+    }
+  }
+}

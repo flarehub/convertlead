@@ -1692,17 +1692,27 @@ input:focus {
 
 .lead-timeline .timeline-header {
     padding: 15px 5px;
-  }
+}
 
 .AgentLeadNotes .lead-timeline {
+    padding-bottom:10px;
+}
+
+.lead-reminder .timeline-header {
+    padding: 15px 5px;
+}
+
+.AgentLeadNotes .lead-reminder {
     padding-bottom:110px;
 }
+
 .AgentLeadNotes .lead-note {
     margin:10px 0;
     background: #fff;
     border-radius: 3px;
     border: 1px solid #d5d5d5;
 }
+
 .AgentLeadNotes .column {
     display: inline-block;
     width:100%;
@@ -2136,6 +2146,13 @@ margin-top:0px;
     margin-left:50px;
 }
 
+.ui.dimmer {
+    background-color: rgba(0, 0, 0, 0.33) !important;
+}
+
+.MuiInput-underline:after {
+    border-bottom: 1px solid #ccc !important;
+}
 
 
 

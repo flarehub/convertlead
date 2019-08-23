@@ -49,6 +49,10 @@ class Lead extends Model
         return $this->hasMany('App\Models\LeadNote', 'lead_id', 'id');
     }
 
+    public function reminders() {
+        return $this->hasMany('App\Models\Reminder', 'lead_id', 'id');
+    }
+
     public function getCampaignAttribute() {
         $campaign = $this->campaign()->withTrashed()->first();
         if ($campaign) {

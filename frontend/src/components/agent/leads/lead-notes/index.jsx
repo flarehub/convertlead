@@ -2,17 +2,22 @@ import React, {Component} from 'react';
 import {
     BreadCrumbContainer,
     LeadsContainer,
-    LeadNotesContainer
+    LeadNotesContainer,
+    ReminderFormContainer
 } from "@containers";
 import {compose} from 'recompose';
 import * as R from 'ramda';
+import {Auth} from "@services";
 import {Button, Icon, Form, TextArea, Dropdown, Segment} from 'semantic-ui-react';
 import {LeadNoteTimeLine} from './timeline';
+import {LeadReminder} from "./reminder";
+import ReminderModal from "../../../@common/modals/reminder";
 
 
 class AgentLeadNotes extends Component {
     state = {
         showTimeline: true,
+        showReminder: true,
         lead: {
             email: '',
             phone: '',
@@ -22,7 +27,6 @@ class AgentLeadNotes extends Component {
             message: ''
         }
     };
-
 
     componentWillMount() {
         const lead = R.path(['history', 'location', 'state', 'lead'], this.props);
@@ -72,6 +76,13 @@ class AgentLeadNotes extends Component {
         })
     };
 
+    toggleReminder = () => {
+        this.setState({
+            ...this.state,
+            showReminder: !this.state.showReminder
+        })
+    };
+
     onChange = (event, data) => {
         this.setState({
             ...this.state,
@@ -89,13 +100,46 @@ class AgentLeadNotes extends Component {
         });
     };
 
+    onNewReminder = () => {
+        const data = {
+            show: true,
+            leadId: this.state.lead.id,
+            companyId: this.state.lead.company.id
+        };
+        this.props.loadForm(data);
+    }
+
+    onEditReminder = (reminder) => {
+        const data = {
+            show: true,
+            leadId: this.state.lead.id,
+            companyId: this.state.lead.company.id,
+            ...reminder
+        };
+        this.props.loadForm(data);
+    }
+
+    onDeleteReminder = (reminder) => {
+        const data = {
+            show: true,
+            leadId: this.state.lead.id,
+            companyId: this.state.lead.company.id,
+            ...reminder
+        };
+        this.props.deleteForm(data);
+    }
+
     render() {
-        const {lead, showTimeline} = this.state;
-        const {leadNotes, leadStatuses} = this.props;
+        const {lead, showTimeline, showReminder} = this.state;
+        const {leadNotes, leadStatuses, reminders} = this.props;
         return (
             <div className='AgentLeadNotes'>
+                <ReminderModal/>
                 <div className="column">
                     <h1 className="ui left floated header mobile-app-menu">{lead.fullname}</h1>
+                </div>
+                <div className='lead-profile-row buttons'>
+                    <Button circular onClick={this.onNewReminder}> Add reminder </Button>
                 </div>
                 <div className='lead-profile-row buttons'>
                     <Button as='a' href={`mailto:${lead.email}`} onClick={this.onEmail} circular>
@@ -120,10 +164,24 @@ class AgentLeadNotes extends Component {
                     <p>{lead.metadata}</p>
                 </div>
                 <div className='lead-timeline'>
-                    <div className='timeline-header' onClick={this.toggleTimeline}>Lead Timeline
-                        <Icon name={(showTimeline ? 'angle down' : 'angle up')}/></div>
+                    <div className='timeline-header' onClick={this.toggleTimeline}>
+                        Lead Timeline
+                        <Icon name={(showTimeline ? 'angle down' : 'angle up')}/>
+                    </div>
                     {
                         showTimeline ? <LeadNoteTimeLine notes={leadNotes}/> : null
+                    }
+                </div>
+                <div className='lead-reminder'>
+                    <div className='timeline-header' onClick={this.toggleReminder}>
+                        Lead Reminder
+                        <Icon name={(showReminder ? 'angle down' : 'angle up')}/>
+                    </div>
+                    {
+                        showReminder ?
+                            <LeadReminder reminders={reminders} lead={lead}
+                                 onEdit={(reminder) => this.onEditReminder(reminder)}
+                                 onDelete={(reminder) => this.onDeleteReminder(reminder)}/> : null
                     }
                 </div>
                 <div className='addLeadNote'>
@@ -145,4 +203,4 @@ class AgentLeadNotes extends Component {
 }
 
 
-export default compose(LeadsContainer, LeadNotesContainer, BreadCrumbContainer)(AgentLeadNotes);
+export default compose(LeadsContainer, LeadNotesContainer, BreadCrumbContainer, ReminderFormContainer)(AgentLeadNotes);

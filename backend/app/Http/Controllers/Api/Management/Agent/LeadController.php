@@ -86,7 +86,7 @@ class LeadController extends Controller
     public function show(Request $request, $id)
     {
         return $request->user()->getLeadBy($id)->load(
-            'leadNotes'
+            'leadNotes', 'reminders'
         );
     }
 

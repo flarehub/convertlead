@@ -16,7 +16,8 @@ const leadNotes = (state = initState, action) => {
       return {
         ...state,
         lead: action.lead,
-        leadNotes: action.lead.lead_notes
+        leadNotes: action.lead.lead_notes,
+        reminders: action.lead.reminders
       }
     }
     default: {

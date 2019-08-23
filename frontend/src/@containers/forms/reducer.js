@@ -7,6 +7,7 @@ import deal from './deal/reducer';
 import lead from './lead/reducer';
 import user from './user/reducer';
 import optinFormIntegration from './integrations/optinform/reducer';
+import reminder from './reminder/reducer'
 
 export default combineReducers({
   optinFormIntegration,
@@ -16,4 +17,5 @@ export default combineReducers({
   deal,
   lead,
   user,
+  reminder,
 });

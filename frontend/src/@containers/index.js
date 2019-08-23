@@ -8,6 +8,7 @@ export { default as CompaniesContainer } from './companies';
 export { default as CompanyFormContainer } from './forms/company';
 export { default as UserFormContainer } from './forms/user';
 export { default as DealFormContainer } from './forms/deal';
+export { default as ReminderFormContainer } from './forms/reminder';
 export { default as DealsContainer } from './deals';
 export { default as IntegrationOptionFormContainer } from './integrations/optinform';
 export { default as LeadFormContainer } from './forms/lead';

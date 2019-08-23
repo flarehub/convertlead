@@ -5,6 +5,7 @@ import {getSelectBoxStatuses} from "@models/lead-statuses";
 const mapStateToProps = state => ({
   lead: state.leadNotes.lead,
   leadNotes: state.leadNotes.leadNotes,
+  reminders: state.leadNotes.reminders,
   leadStatuses: getSelectBoxStatuses,
 });
 
