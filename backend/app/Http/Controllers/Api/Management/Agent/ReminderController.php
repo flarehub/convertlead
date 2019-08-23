@@ -29,7 +29,7 @@ class ReminderController extends Controller
      */
     public function store(Request $request, $leadId)
     {
-         Log::info('=============: ', array('$lead' => $request->time));
+        Log::info('=============: ', array('$lead' => $request->time));
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'time' => 'required|string|max:50'
@@ -40,7 +40,7 @@ class ReminderController extends Controller
             'lead_id' => $lead->id,
             'agent_id' => $request->user()->id,
         ]);
-        $reminder->fill($request->only(['name', 'time', 'lead_id', 'agent_id']));
+        $reminder->fill($request->only(['name', 'lead_id', 'agent_id']));
         $reminder->fill([
             'time' => Carbon::parse($request->time)->format('Y-m-d H:i:s')
         ]);
@@ -68,7 +68,10 @@ class ReminderController extends Controller
             'lead_id' => $lead->id,
             'agent_id' => $request->user()->id,
         ]);
-        $reminder->fill($request->only(['name', 'time', 'lead_id', 'agent_id']));
+        $reminder->fill($request->only(['name', 'lead_id', 'agent_id']));
+        $reminder->fill([
+            'time' => Carbon::parse($request->time)->format('Y-m-d H:i:s')
+        ]);
         $reminder->save();
         return $reminder;
     }
