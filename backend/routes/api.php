@@ -74,7 +74,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
                 Route::apiResource('leads/{leadId}/reminders', 'ReminderController')->middleware('scope:LEAD_READ,LEAD_WRITE');
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');
                 Route::get('leads/graph/{graphType}', 'LeadController@graph');
-                Route::post('leads/graph/test', 'ReminderController@index');
+                Route::post('leads/graph1/test', 'ReminderController@index');
             });
         });
 
