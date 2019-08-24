@@ -53,7 +53,10 @@ class ReminderNotification extends Command
                 'sound' => true,
                 'badge' => 1
             ];
-            Lead::notification($tokenList, $notification);
+            $data = [
+                'url'=> '/companies/leads/all'
+            ];
+            Lead::notification($tokenList, $notification, $data);
         }
     }
 }

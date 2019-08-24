@@ -54,7 +54,7 @@ export function init() {
     };
 
     window.addEventListener('message', function(e) {
-        console.log("message received from react native");
+        // console.log("message received from react native");
         let message;
         try {
             message = JSON.parse(e.data)
@@ -64,10 +64,9 @@ export function init() {
             return;
         }
 
-        if (message && message.title) {
-            if (message.title === 'NEW_LEAD_NOTIFICATION') {
-                window.location.href = '/companies/leads/new'
-            }
+        if (message && message.title === 'NEW_NOTIFICATION') {
+            let data = message.data;
+            window.location.href = data.url;
         }
 
         //trigger callback

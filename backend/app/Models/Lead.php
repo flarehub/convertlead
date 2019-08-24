@@ -196,8 +196,12 @@ class Lead extends Model
                 'badge' => 1
             ];
 
+            $data = [
+                'url'=> '/companies/leads/all'
+            ];
+
             $tokenList = Device::getTokenListFromAgentIds([$lead->agent_id]);
-            self::notification($tokenList, $notification);
+            self::notification($tokenList, $notification, $data);
             $agent = $lead->agent()->first();
 
             MailService::sendMail('emails.new-lead', [
@@ -220,7 +224,7 @@ class Lead extends Model
         }
     }
 
-    public static function notification($tokenList, $notification)
+    public static function notification($tokenList, $notification, $data=null)
     {
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
 
@@ -228,6 +232,7 @@ class Lead extends Model
             //'to'        => $token, //single token
             'registration_ids' => $tokenList, //multple token array
             'notification' => $notification,
+            'data' => $data
         ];
 
         $api_key = \Config::get('services.fcm.api_key');
