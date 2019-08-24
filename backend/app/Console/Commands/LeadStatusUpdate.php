@@ -6,7 +6,6 @@ use App\Models\Lead;
 use App\Models\LeadStatus;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use function MongoDB\BSON\toJSON;
 
 class LeadStatusUpdate extends Command
 {

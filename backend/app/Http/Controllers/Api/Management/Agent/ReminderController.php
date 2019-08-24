@@ -17,7 +17,7 @@ class ReminderController extends Controller
      */
     public function index()
     {
-        return "success";
+        //
     }
 
     /**
@@ -42,7 +42,7 @@ class ReminderController extends Controller
         ]);
         $reminder->fill($request->only(['name', 'lead_id', 'agent_id']));
         $reminder->fill([
-            'time' => Carbon::parse($request->time)->format('Y-m-d H:i:s')
+            'time' => Carbon::parse($request->time)->format('Y-m-d H:i')
         ]);
         $reminder->save();
         return $reminder;
@@ -70,7 +70,7 @@ class ReminderController extends Controller
         ]);
         $reminder->fill($request->only(['name', 'lead_id', 'agent_id']));
         $reminder->fill([
-            'time' => Carbon::parse($request->time)->format('Y-m-d H:i:s')
+            'time' => Carbon::parse($request->time)->format('Y-m-d H:i')
         ]);
         $reminder->save();
         return $reminder;
