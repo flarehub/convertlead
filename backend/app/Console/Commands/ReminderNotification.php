@@ -43,6 +43,7 @@ class ReminderNotification extends Command
     public function handle()
     {
         $now = Carbon::now()->format('Y-m-d H:i');
+        Log::info("Start reminder cron job", array('now' => $now));
         $reminders = Reminder::where('time', '=', $now)->get();
         foreach ($reminders as $reminder) {
             $tokenList = Device::getTokenListFromAgentIds([$reminder->agent_id]);
