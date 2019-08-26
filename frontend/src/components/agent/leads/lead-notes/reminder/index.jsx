@@ -38,13 +38,12 @@ export class LeadReminder extends Component {
                                 <span className='icon-delete-reminder' onClick={(e) => {e.stopPropagation();this.openConfirmModal(true, reminder)}}>
                                     <Icon name='delete' size='small' />
                                 </span>
-                                <span>{reminder.name + '   '}</span>
-                                <span className='reminder-time'>{moment.utc(reminder.time).local().format('DD.MM.YYYY LT')} </span>
+                                <span>{reminder.name}</span>
                             </div>
 
                             <div className='reminder-datetime'>
                                 <span className='reminder-created-time'>
-                                    {moment.utc(reminder.created_at).local().format('DD.MM.YYYY LT')}
+                                    {moment.utc(reminder.time).local().format('DD.MM.YYYY LT')}
                                 </span>
                             </div>
                         </div>

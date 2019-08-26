@@ -48,7 +48,7 @@ class ReminderNotification extends Command
         foreach ($reminders as $reminder) {
             $tokenList = Device::getTokenListFromAgentIds([$reminder->agent_id]);
             $notification = [
-                'title' => 'New Reminder',
+                'title' => $reminder->lead->fullname? $reminder->lead->fullname: 'New Reminder',
                 'body' => $reminder->name,
                 'sound' => true,
                 'badge' => 1
