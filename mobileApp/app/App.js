@@ -72,7 +72,11 @@ class App extends Component<Props> {
                 firebase.notifications().displayNotification(notify)
             }
 
-            this.goToNewLeadPage();
+            console.log("Foreground message", notification);
+
+            if (notification.data) {
+                this.goToTargetPage(notification.data);
+            }
         });
 
         /*
@@ -81,7 +85,12 @@ class App extends Component<Props> {
         this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
             console.log("=============background000==============");
             const { title, body } = notificationOpen.notification;
-            this.goToNewLeadPage();
+
+            console.log("background message when notification is clicked", notificationOpen);
+
+            if (notificationOpen.notification.data) {
+                this.goToTargetPage(notificationOpen.notification.data);
+            }
         });
 
         /*
@@ -91,14 +100,19 @@ class App extends Component<Props> {
         if (notificationOpen) {
             console.log("=============background111==============");
             const { title, body } = notificationOpen.notification;
-            this.goToNewLeadPage();
+
+            console.log("app closed message when notification is clicked", notificationOpen);
+
+            if (notificationOpen.notification.data) {
+                this.goToTargetPage(notificationOpen.notification.data);
+            }
         }
         /*
         * Triggered for data only payload in foreground
         * */
         this.messageListener = firebase.messaging().onMessage((message) => {
             //process data message
-            console.log(JSON.stringify(message));
+            console.log("Triggered for data only payload in foreground", message);
         });
     }
 
@@ -180,9 +194,10 @@ class App extends Component<Props> {
         );
     }
 
-    goToNewLeadPage() {
+    goToTargetPage(data) {
         let msgData = {
-            'title': 'NEW_LEAD_NOTIFICATION'
+            'title': 'NEW_NOTIFICATION',
+            'data': data
         }
         this.myWebView.injectJavaScript(`window.postMessage('${JSON.stringify(msgData)}', '*');`);
     }
