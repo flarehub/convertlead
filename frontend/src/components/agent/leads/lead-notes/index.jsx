@@ -139,7 +139,7 @@ class AgentLeadNotes extends Component {
                     <h1 className="ui left floated header mobile-app-menu">{lead.fullname}</h1>
                 </div>
                 <div className='lead-profile-row buttons'>
-                    <Button circular onClick={this.onNewReminder}> Add reminder </Button>
+                    <Button className='remindernew-but' circular onClick={this.onNewReminder}> <Icon name='plus'/> Add reminder </Button>
                 </div>
                 <div className='lead-profile-row buttons'>
                     <Button as='a' href={`mailto:${lead.email}`} onClick={this.onEmail} circular>

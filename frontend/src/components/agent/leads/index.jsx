@@ -95,6 +95,13 @@ class AgentLeads extends Component {
         this.props.agentLeadsByStatuses(['CONTACTED_SMS', 'CONTACTED_CALL', 'CONTACTED_EMAIL']);
     };
 
+    showViewedLeads = () => {
+        this.setState({
+            pageStart: 0,
+        });
+        this.props.agentLeadsByStatuses(['VIEWED']);
+    };
+
     showSoldLeads = () => {
         this.setState({
             pageStart: 0,
@@ -154,6 +161,18 @@ class AgentLeads extends Component {
             },
             {
                 menuItem: (
+                    <Menu.Item key='followup' onClick={this.showViewedLeads}>
+                        Follow up
+                    </Menu.Item>
+                ), render: () => (
+                    <div className="tab-panel">
+                        <Input icon='search' placeholder='Search...' onChange={this.onSearch} value={query.search || ''}/>
+                        <LeadsList statuses={statuses} leads={agentLeads}/>
+                    </div>
+                )
+            },
+            {
+                menuItem: (
                     <Menu.Item key='soldout' onClick={this.showSoldLeads}>
                         Sold
                     </Menu.Item>
@@ -164,6 +183,8 @@ class AgentLeads extends Component {
                     </div>
                 )
             },
+
+
         ];
         return (
             <div className='AgentLeads'>

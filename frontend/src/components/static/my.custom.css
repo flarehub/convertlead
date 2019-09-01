@@ -1182,6 +1182,11 @@ input:focus {
     background-color: #21ba45;
 }
 
+.lead-status-v {
+
+    background-color: #ff9d00;
+}
+
 .ui.small.modal, .ui.tiny.modal {
     width: 600px !important;
 }
@@ -1494,9 +1499,11 @@ input:focus {
     text-transform: uppercase;
     font-weight: 600;
     color: #b3b3b3;
-    font-size: 14px;
+    font-size: 13px;
     font-family: 'Nunito', sans-serif;
     margin:0;
+    padding: .78571429em .62857143em;
+
 }
 
 .AgentLeads .ui.secondary.menu .item:hover, .AgentLeads .ui.secondary.menu .active.item:hover{
@@ -1702,6 +1709,25 @@ input:focus {
     padding: 15px 5px;
 }
 
+.reminder-created-time.hour {
+
+    float:right
+}
+
+.ui.circular.button.remindernew-but {
+
+    font-family: Roboto Condensed !important;
+    background: #f7f7f7;
+    margin: 15px auto;
+    color: #637282;
+    font-weight: 500;
+    border: 1px dashed #929fac;
+}
+
+.ui.circular.button.remindernew-but i {
+    font-size:12px;
+}
+
 .AgentLeadNotes .lead-reminder {
     padding-bottom:110px;
 }
@@ -1756,6 +1782,10 @@ input:focus {
     justify-content: center;
     align-items: center;
     align-content: center;
+}
+
+.ui.primary.button {
+    background:#005ff8 !important;
 }
 
 .AgentLeadNotes .lead-profile-row > .call-lead-but {
@@ -1860,6 +1890,7 @@ font-family: 'Roboto Condensed', sans-serif;
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons{
     width: 100%;
     border-top: 1px dashed #ccc;
+    height: 50px;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button {
@@ -1874,10 +1905,16 @@ font-family: 'Roboto Condensed', sans-serif;
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.floating.dropdown.icon {
     background-color: #f7f9fa;
     width: 60%;
+    line-height: 25px;
+    padding-left:20px;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.floating.dropdown.icon i {
     float:right;
+}
+
+.ui.buttons .or {
+    height: 3.57142857em !important ;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .or::before {
@@ -2100,10 +2137,6 @@ margin-top:0px;
 
 
 
-.App > div:nth-child(1) > div:nth-child(1) {
-    height:100%;
-}
-
 .ui.horizontally.padded.two.column.grid {
     height:100%;
 }
@@ -2291,6 +2324,11 @@ margin-top:0px;
     .Dashboard .ui.cards .ui.card {
         min-width: 290px;
         flex: 1;
+    }
+
+    .dimmed.dimmable > .ui.animating.dimmer, .dimmed.dimmable > .ui.visible.dimmer, .ui.active.dimmer {
+
+        justify-content:center;
     }
 }
 

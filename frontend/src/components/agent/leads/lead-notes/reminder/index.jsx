@@ -40,12 +40,15 @@ export class LeadReminder extends Component {
                                 </span>
                                 <span>{reminder.name}</span>
                             </div>
-
                             <div className='reminder-datetime'>
                                 <span className='reminder-created-time'>
-                                    {moment.utc(reminder.time).local().format('DD.MM.YYYY LT')}
+                                    {moment.utc(reminder.time).local().format('DD.MM.YYYY')}
+                                </span>
+                              <span className='reminder-created-time hour'>
+                                    {moment.utc(reminder.time).local().format('LT')}
                                 </span>
                             </div>
+
                         </div>
                     )
                 }
