@@ -208,12 +208,8 @@ class Campaigns extends Component {
       }, {
         scope: [
           'manage_pages',
-          'pages_show_list',
           'ads_management',
-          'read_insights',
-          'ads_read',
           'leads_retrieval',
-          'business_management',
         ]
       });
     }
