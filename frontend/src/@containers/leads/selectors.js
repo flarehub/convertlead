@@ -5,7 +5,7 @@ export const getSelectBoxStatuses = state => {
     return R.map(status => {
             return {
                 kay: status,
-                text: status,
+                text: state.leads.statuses[status].name || status,
                 value: status,
                 label: {color: state.leads.statuses[status].color, empty: true, circular: true},
             }

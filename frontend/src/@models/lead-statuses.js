@@ -9,6 +9,7 @@ export const LeadStatuses = {
     VIEWED: {
         color: 'teal',//'#2cb3c8',
         icon: 'V',
+        name: 'Follow-up'
     },
     CONTACTED_SMS: {
         color: 'orange',//'#f2711c',
@@ -37,5 +38,5 @@ export const LeadStatuses = {
 };
 
 export const getSelectBoxStatuses = R.pipe(R.mapObjIndexed((object, status) => {
-    return {key: status, text: titleCase(R.replace(/_/g, ' ', status)), value: status};
+    return {key: status, text: object.name || titleCase(R.replace(/_/g, ' ', status)), value: status};
 }), R.values)(LeadStatuses);
