@@ -28,7 +28,7 @@ class DealCampaign extends Model
         'integration_config',
     ];
     
-    protected $appends = ['agents', 'company'];
+    protected $appends = ['agents', 'company', 'fbIntegrations'];
     
     public function deal() {
         return $this->belongsTo('App\Models\Deal');
@@ -37,7 +37,13 @@ class DealCampaign extends Model
     public function company() {
         return $this->belongsToMany('App\Models\Company', 'agency_companies', 'id', 'company_id', 'agency_company_id');
     }
-    
+
+    public function integrations() {
+        return $this->hasMany(
+            'App\Models\DealCampaignFacebookIntegration',
+            'deal_campaign_id', 'id');
+    }
+
     public function agents() {
         return $this->belongsToMany('App\Models\Agent', 'deal_campaign_agents');
     }
@@ -63,6 +69,10 @@ class DealCampaign extends Model
             return $company->only('name', 'avatar_path', 'id', 'pivot');
         }
         return null;
+    }
+
+    public function getFbIntegrationsAttribute() {
+         return $this->integrations()->get();
     }
     
     public function getLeadsCountAttribute() {

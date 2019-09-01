@@ -66,6 +66,24 @@ export const toggleShowDeletedCampaigns = () => async dispatch => {
   await dispatch(fetchCampaigns());
 };
 
+export const subscribeToFbIntegration = (campaignId, integration) => async dispatch => {
+  try {
+    await api.post(`/v1/${Auth.role}/campaigns/${campaignId}/fb-integrations`, integration);
+    await dispatch(fetchCampaigns());
+  } catch (e) {
+    dispatch(sendMessage(e.message, true))
+  }
+};
+
+export const unsubscribeToFbIntegration = (campaignId, integrationId) => async dispatch => {
+  try {
+    await api.delete(`/v1/${Auth.role}/campaigns/${campaignId}/fb-integrations/${integrationId}`);
+    await dispatch(fetchCampaigns());
+  } catch (e) {
+    dispatch(sendMessage(e.message, true))
+  }
+};
+
 export const gotoPage = page => async dispatch =>  {
   await dispatch(actions.gotoPageCampaigns(page));
   await dispatch(fetchCampaigns());

@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -161,6 +160,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        App\Providers\FacebookServiceProvider::class,
         // Authorisation passport
     ],
 
@@ -170,6 +170,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This array of class aliases will be registered when this application
+    | is started. However, feel free to register as many as you wish as
     | is started. However, feel free to register as many as you wish as
     | the aliases are "lazy" loaded so they don't hinder performance.
     |

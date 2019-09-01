@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\DealCampaign;
+use App\Models\DealCampaignFacebookIntegration;
 use App\Models\Device;
 use App\Models\Lead;
 use App\Models\LeadNote;
 use App\Models\LeadStatus;
+use Facebook\Facebook;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Mockery\Exception;
@@ -130,5 +132,51 @@ class CampaignController extends Controller
                 'email' => 'required|email',
             ]);
         }
+    }
+
+    public function facebookWebHook(Request $request) {
+        \Log::critical(json_encode($_REQUEST));
+        $challenge = isset($_REQUEST['hub_challenge']) ? $_REQUEST['hub_challenge'] : null;
+        $verify_token = isset($_REQUEST['hub_verify_token']) ? $_REQUEST['hub_verify_token'] : null;
+        echo $challenge;
+        return;
+    }
+
+    public function facebookWebHookPost(Request $request, Facebook $fb) {
+        $leads = $request->input('entry');
+        if ($leads) {
+            foreach($leads as $lead) {
+                foreach ($lead['changes'] as $leadFields) {
+                    $leadForm = $leadFields['value'];
+                    $leadId = $leadForm['leadgen_id'];
+
+                    $found = DealCampaignFacebookIntegration::where('fb_form_id', $leadForm['form_id'])
+                        ->where('fb_page_id', $leadForm['page_id'])->first();
+
+                    if (!$found) {
+                        \Log::critical(print_r($leadForm, true));
+                        continue;
+                    }
+//                    $accessToken = $found->fb_page_access_token;
+//                    $dealCampaign = DealCampaign::where('id', $found->deal_campaign_id)->firstOrFail();
+//                    $oAuth2Client = $fb->getOAuth2Client();
+//                    $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
+//                    $fb->setDefaultAccessToken($longLiveAccessToken);
+//                    $lead = $fb->get("/{$leadId}");
+//                    $request->merge([
+//                        ''
+//                    ]);
+
+                    $this->createLead($request, $dealCampaign->uuid);
+
+                    return $found;
+                }
+            }
+        }
+
+        $challenge = isset($_REQUEST['hub_challenge']) ? $_REQUEST['hub_challenge'] : null;
+        $verify_token = isset($_REQUEST['hub_verify_token']) ? $_REQUEST['hub_verify_token'] : null;
+        echo $challenge;
+        return;
     }
 }

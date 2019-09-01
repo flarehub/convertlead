@@ -29,6 +29,8 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('agencies/{agencyUUID}/companies', 'AgencyController@storeCompany');
         Route::get('campaigns/{campaignUUID}', 'CampaignController@getIntegration');
         Route::post('campaigns/{campaignUUID}/leads', 'CampaignController@createLead');
+        Route::get('campaigns/leads/webhook', 'CampaignController@facebookWebHook');
+        Route::post('campaigns/leads/webhook', 'CampaignController@facebookWebHookPost');
     });
 });
 
@@ -63,6 +65,14 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
                 Route::apiResource('companies/{company}/leads/{lead}/notes', 'LeadNotesController');
                 Route::apiResource('companies/{company}/deals', 'DealController');
                 Route::apiResource('companies/{company}/deals/{deal}/campaigns', 'CampaignController');
+                Route::post(
+                    'campaigns/{campaign}/fb-integrations',
+                    'CampaignFacebookIntegrationController@subscribe'
+                );
+
+                Route::delete(
+                    'campaigns/{campaign}/fb-integrations/{integration}',
+                    'CampaignFacebookIntegrationController@unsubscribe');
             });
         });
 
@@ -89,6 +99,15 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
                 Route::apiResource('leads/{lead}/notes', 'LeadNoteController')->middleware('scope:LEAD_NOTE_READ,LEAD_NOTE_WRITE');
                 Route::get('graph/{graphType}', 'CompanyController@graph');
                 Route::get('agents/{agentId}/graph/{graphType}', 'AgentController@graph');
+
+                Route::post(
+                    'campaigns/{campaign}/fb-integrations',
+                    'CampaignFacebookIntegrationController@subscribe'
+                );
+
+                Route::delete(
+                    'campaigns/{campaign}/fb-integrations/{integration}',
+                    'CampaignFacebookIntegrationController@unsubscribe');
             });
         });
     });
