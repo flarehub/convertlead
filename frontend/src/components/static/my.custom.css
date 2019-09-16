@@ -58,6 +58,14 @@ header {
 
 }
 
+a.ui.button {
+
+    color:rgba(0,0,0,.6) !important ;
+    font-weight: 600;
+    height:40px;
+    font-family: Lato, sans-serif !important;
+}
+
 .sidebar-avatar {
     margin: 0 auto;
 }
@@ -78,6 +86,10 @@ i.icon.sidebar:before {
 
 .freshAppContainer {
     padding: 5px 95px;
+}
+
+.App > div:nth-child(1) > div:nth-child(1) {
+    height:100%;
 }
 
 .freshAppHeader .middle.aligned.row {
@@ -117,6 +129,10 @@ i.icon.sidebar:before {
 .ui.breadcrumb .active {
     border-bottom: 1px solid;
     padding-bottom: 2px;
+}
+
+.freshAppTimeLine ul .timeline-record .timeline-vertical-line {
+    background-color: #ececec;
 }
 
 
@@ -802,6 +818,11 @@ input:focus {
     width: 0.8rem !important;
     height: 0.8rem !important;
     border: 1px solid #637282 !important;
+}
+
+.Companies {
+
+    background-color: #fff !important;
 }
 
 .ui.toggle.checkbox input:checked ~ .box::after, .ui.toggle.checkbox input:checked ~ label:after {
@@ -2180,7 +2201,7 @@ margin-top:0px;
 }
 
 .ui.dimmer {
-    background-color: rgba(0, 0, 0, 0.33) !important;
+    background-color: hsla(0,0%,100%,.85) !important;
 }
 
 .MuiInput-underline:after {
@@ -2329,6 +2350,61 @@ margin-top:0px;
     .dimmed.dimmable > .ui.animating.dimmer, .dimmed.dimmable > .ui.visible.dimmer, .ui.active.dimmer {
 
         justify-content:center;
+    }
+
+
+    .LeadNotes .six.wide.column {
+
+        width: 100%;
+        position:unset;
+        left: 0;
+        height: 100%;
+        border-right: 0;
+        margin-top: 5px;
+        padding-left: 30px;
+        box-shadow: none;
+    }
+
+    .LeadNotes .ui.top.attached.segment {
+        margin: 0 !important;
+        padding: 0 45px !important;
+        width: 100% !important;
+    }
+
+    .LeadNotes .ui.top.attached.segment .left.floated.column .ui.left.floated.header:before {
+        display:none;
+    }
+
+    .LeadNotes .ui.top.attached.segment .left.floated.column a {
+        display:none;
+    }
+
+    .LeadNotes .ui.top.attached.segment .right.floated.ui.secondary.menu .teal {
+        display:none;
+    }
+
+    .LeadNotes .ui.top.attached.segment .left.floated.column {
+
+    white-space: nowrap;
+    }
+
+    .LeadNotes .timeline-record .timeline-status {
+        display:none !important;
+    }
+
+    .LeadNotes .timeline-record .timeline-vertical-line {
+        display:none;
+    }
+
+    .LeadNotes .timeline-record-text, .LeadNotes .timeline-record {
+        margin-left:0px !important;
+    }
+
+    .LeadNotes .freshAppTimeLine > button:nth-child(2) {
+        margin-left:0px;
+    }
+    .LeadNotes .freshAppTimeLine {
+        padding-left:0px;
     }
 }
 
