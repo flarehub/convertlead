@@ -393,7 +393,7 @@ i.icon.sidebar:before {
     border: none;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100% !important;
     flex-wrap: wrap;
     border-right: solid 1px rgba(139, 147, 156, 0.1);
 }
@@ -1685,6 +1685,7 @@ input:focus {
 .ui.visible.left.sidebar ~ .fixed, .ui.visible.left.sidebar ~ .pusher {
     -webkit-transform: translate3d(120px,0,0) !important;
     transform: translate3d(120px,0,0) !important;
+
 }
 
 
