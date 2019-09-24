@@ -138,7 +138,7 @@ class AgentLeads extends Component {
             {
                 menuItem: (
                     <Menu.Item key='fresh' onClick={this.showFreshLeads}>
-                        Fresh<Label>{newLeadsCount}</Label>
+                        New<Label>{newLeadsCount}</Label>
                     </Menu.Item>
                 ), render: () => (
                     <div className="tab-panel">
