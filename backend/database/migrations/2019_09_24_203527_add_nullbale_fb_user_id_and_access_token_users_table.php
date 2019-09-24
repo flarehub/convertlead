@@ -13,11 +13,12 @@ class AddNullbaleFbUserIdAndAccessTokenUsersTable extends Migration
      */
     public function up()
     {
-
+        DB::getPdo()->query('SET FOREIGN_KEY_CHECKS=0;');
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('fb_user_id');
             $table->dropColumn('fb_access_token');
         });
+        DB::getPdo()->query('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     /**
