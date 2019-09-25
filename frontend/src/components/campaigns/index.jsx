@@ -59,7 +59,7 @@ class Campaigns extends Component {
 
     window.fbAsyncInit = function() {
       window.FB.init({
-        appId      : '269921810572567',
+        appId      : config.get('REACT_APP_FB_APP_ID'),
         cookie     : true,
         xfbml      : true,
         version    : 'v4.0'
