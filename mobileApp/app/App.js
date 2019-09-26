@@ -5,6 +5,7 @@ import {WebView} from 'react-native-webview';
 import {AuthContainer} from "./containers";
 import firebase from 'react-native-firebase';
 import appConfig from './app.json';
+import {PermissionsAndroid} from 'react-native';
 
 type Props = {};
 class App extends Component<Props> {
@@ -21,10 +22,34 @@ class App extends Component<Props> {
         this.props.init();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.checkPermission();
         this.createNotificationListeners();
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    async requestCameraPermission() {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                {
+                    title: 'ConvertLead requires Camera Permission',
+                    message:
+                    'ConvertLead needs access to your camera ' +
+                    'so you can take picture to update your profile image.',
+                    buttonNeutral: 'Ask Me Later',
+                    buttonNegative: 'Cancel',
+                    buttonPositive: 'OK',
+                },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('You can use the camera');
+            } else {
+                console.log('Camera permission denied');
+            }
+        } catch (err) {
+            console.warn(err);
+        }
     }
 
     componentWillUnmount() {
@@ -173,6 +198,7 @@ class App extends Component<Props> {
         switch (msgData.targetFunc) {
             case "onLogin":
                 this[msgData.targetFunc].apply(this, [msgData]);
+                this.requestCameraPermission();
                 break;
             case "onLogout":
                 this[msgData.targetFunc].apply(this, [msgData]);
@@ -188,7 +214,15 @@ class App extends Component<Props> {
                 ref={webview => {
                     this.myWebView = webview;
                 }}
+                useWebKit={true}
                 scrollEnabled={false}
+                originWhitelist={['*']}
+                domStorageEnabled={true}
+                allowsInlineMediaPlayback={true}
+                allowUniversalAccessFromFileURLs={true}
+                allowFileAccess={true}
+                allowingReadAccessToURL={true}
+                mediaPlaybackRequiresUserAction={false}
                 onMessage={this.onWebViewMessage}
                 style={{marginTop: 0}}/>
         );
