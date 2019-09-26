@@ -28,6 +28,18 @@ class App extends Component<Props> {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     }
 
+    async checkCameraPermission() {
+        try {
+            const status = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
+            if (!status) {
+                this.requestCameraPermission()
+            }
+        } catch (err) {
+            console.warn(err);
+            this.requestCameraPermission()
+        }
+    }
+
     async requestCameraPermission() {
         try {
             const granted = await PermissionsAndroid.request(
@@ -197,8 +209,11 @@ class App extends Component<Props> {
 
         switch (msgData.targetFunc) {
             case "onLogin":
+                if (Platform.OS === 'android') {
+                    console.log("=================");
+                    this.checkCameraPermission();
+                }
                 this[msgData.targetFunc].apply(this, [msgData]);
-                this.requestCameraPermission();
                 break;
             case "onLogout":
                 this[msgData.targetFunc].apply(this, [msgData]);
