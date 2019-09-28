@@ -194,6 +194,7 @@ class App extends Component<Props> {
     onLogout(msgData) {
         console.log("=====> Message Data from webview", msgData);
         this.props.logout();
+        this.myWebView.injectJavaScript(`document.getElementById('signupLink').removeAttribute("href");`)
     }
 
     onSignup(msgData) {
