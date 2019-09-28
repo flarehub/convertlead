@@ -242,8 +242,6 @@ class App extends Component<Props> {
         }
     };
 
-    shouldStartLoadWithRequestHandler = ({url}) => url === "https://app.convertlead.com";
-
     render() {
         console.log(this.props.session);
         return (
@@ -262,7 +260,6 @@ class App extends Component<Props> {
                 allowingReadAccessToURL={true}
                 mediaPlaybackRequiresUserAction={false}
                 onMessage={this.onWebViewMessage}
-                onShouldStartLoadWithRequest={this.shouldStartLoadWithRequestHandler}
                 onNavigationStateChange={this.navigationStateChangedHandler}
                 style={{marginTop: 0}}/>
         );
