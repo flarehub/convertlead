@@ -237,16 +237,9 @@ class App extends Component<Props> {
 
     navigationStateChangedHandler = ({url}) => {
         console.log("====url1===", url);
-        // if (url !== "https://app.convertlead.com") {
-        //     this.myWebView.stopLoading();
-        // }
-    };
-
-    onShouldStartLoadWithRequest= ({url}) => {
-        console.log("====url2===", url);
-        // if (url !== "https://app.convertlead.com") {
-        //     this.myWebView.stopLoading();
-        // }
+        if (url !== "https://app.convertlead.com/") {
+            this.myWebView.stopLoading();
+        }
     };
 
     shouldStartLoadWithRequestHandler = ({url}) => url === "https://app.convertlead.com";
