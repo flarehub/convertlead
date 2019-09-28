@@ -3,14 +3,15 @@
 ==============================================*/
 /*@import url("../media/linearicons/css/linearicons.css"); !* Using a url *!*/
 @import url('https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900');
-@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
 @import url('https://fonts.googleapis.com/css?family=Dosis:400,500');
+@import url('https://fonts.googleapis.com/css?family=Cabin+Condensed:500,600&display=swap');
 
 
-/*==============================================
-================= Header Style ===============
-==============================================*/
+
+      /*==============================================
+      ================= Header Style ===============
+      ==============================================*/
 
 a {
     color: #005ff8;
@@ -1520,8 +1521,8 @@ input:focus {
     text-transform: uppercase;
     font-weight: 600;
     color: #b3b3b3;
-    font-size: 0.9rem;
-    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-family: 'Cabin Condensed', sans-serif;
     margin:0;
     padding: .78571429em .62857143em;
     letter-spacing:-0.3px !important;
