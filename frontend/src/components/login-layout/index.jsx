@@ -23,6 +23,14 @@ class Login extends Component {
         this.props.login(this.email, this.password);
     };
 
+    goMobileSignup = () => {
+        window.webViewBridge.send('onSignup', {url: 'http://convertlead.com'}, function(res) {
+            console.log("===Success Send Signup Data to app!!! ===: ", res)
+        }, function(err) {
+            console.error("===Error Send Signup Data to app!!! ===: ", err)
+        });
+    };
+
     async componentWillMount() {
         await this.props.autoLogin();
     }
@@ -64,7 +72,7 @@ class Login extends Component {
                                     Sign in
                                 </Button>
 
-                                <span>Don't have an account? <a href="http://convertlead.com">Sign up here</a> </span>
+                                <span>Don't have an account? <a href="http://convertlead.com" onClick={this.goMobileSignup}>Sign up here</a> </span>
                             </Segment>
                         </Form>
                     </Grid.Column>
