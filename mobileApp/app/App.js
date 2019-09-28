@@ -235,32 +235,26 @@ class App extends Component<Props> {
         }
     }
 
-    navigationStateChangedHandler = ({url}) => {
-        console.log("====url1===", url);
-        if (url !== "https://app.convertlead.com/") {
-            this.myWebView.stopLoading();
-        }
-    };
-
     render() {
+        let jsCode = `
+            document.getElementById('signupLink').removeAttribute("href");
+        `;
         console.log(this.props.session);
         return (
             <WebView
                 source={{uri: 'https://app.convertlead.com'}}
+                injectedJavaScript={jsCode}
                 ref={webview => {
                     this.myWebView = webview;
                 }}
-                useWebKit={true}
+                bounces={false}
                 scrollEnabled={false}
-                originWhitelist={['*']}
                 domStorageEnabled={true}
-                allowsInlineMediaPlayback={true}
-                allowUniversalAccessFromFileURLs={true}
                 allowFileAccess={true}
                 allowingReadAccessToURL={true}
-                mediaPlaybackRequiresUserAction={false}
+                allowFileAccessFromFileURLS={true}
+                allowUniversalAccessFromFileURLs={true}
                 onMessage={this.onWebViewMessage}
-                onNavigationStateChange={this.navigationStateChangedHandler}
                 style={{marginTop: 0}}/>
         );
     }
