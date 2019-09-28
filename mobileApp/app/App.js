@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, BackHandler, Alert} from 'react-native';
+import {Platform, BackHandler, Alert, Linking} from 'react-native';
 import {compose} from 'recompose';
 import {WebView} from 'react-native-webview';
 import {AuthContainer} from "./containers";
@@ -196,6 +196,17 @@ class App extends Component<Props> {
         this.props.logout();
     }
 
+    onSignup(msgData) {
+        console.log("=====> Message Data from webview", msgData);
+        Linking.canOpenURL(msgData.data.url).then(supported => {
+            if (supported) {
+                Linking.openURL(msgData.data.url);
+            } else {
+                console.log("Don't know how to open URI: " + msgData.data.url);
+            }
+        });
+    }
+
     onWebViewMessage(event) {
         console.log("Message received from webview");
 
@@ -218,8 +229,18 @@ class App extends Component<Props> {
             case "onLogout":
                 this[msgData.targetFunc].apply(this, [msgData]);
                 break;
+            case "onSignup":
+                this[msgData.targetFunc].apply(this, [msgData]);
+                break;
         }
     }
+
+    navigationStateChangedHandler = ({url}) => {
+        console.log("====url1===", url);
+        if (url !== "https://app.convertlead.com/") {
+            this.myWebView.stopLoading();
+        }
+    };
 
     render() {
         console.log(this.props.session);
@@ -239,6 +260,7 @@ class App extends Component<Props> {
                 allowingReadAccessToURL={true}
                 mediaPlaybackRequiresUserAction={false}
                 onMessage={this.onWebViewMessage}
+                onNavigationStateChange={this.navigationStateChangedHandler}
                 style={{marginTop: 0}}/>
         );
     }
