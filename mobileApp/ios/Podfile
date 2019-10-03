@@ -10,14 +10,4 @@ target 'mobileApp' do
   pod 'Firebase/Core', '~> 5.20.1'
   pod 'Firebase/Messaging', '~> 5.20.1'
 
-  target 'mobileApp-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'mobileAppTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end

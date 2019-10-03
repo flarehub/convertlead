@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, BackHandler, Alert, Linking} from 'react-native';
+import {Platform, BackHandler, Alert, Linking, KeyboardAvoidingView, StyleSheet} from 'react-native';
 import {compose} from 'recompose';
 import {WebView} from 'react-native-webview';
 import {AuthContainer} from "./containers";
@@ -249,7 +249,7 @@ class App extends Component<Props> {
                     this.myWebView = webview;
                 }}
                 bounces={false}
-                scrollEnabled={false}
+                scrollEnabled={true}
                 domStorageEnabled={true}
                 allowFileAccess={true}
                 allowingReadAccessToURL={true}
