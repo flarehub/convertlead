@@ -1431,7 +1431,8 @@ input:focus {
     margin-bottom:35px;
 }
 
-.LeadsStats .average-response-time ul {
+
+.LeadStats .average-response-time ul {
     padding-left:0;
     text-align:center;
     margin:20px auto;
@@ -2224,6 +2225,14 @@ margin-top:0px;
     .pushable:not(body) {
         -webkit-transform: unset !important;
         transform: unset !important;
+    }
+
+    .sidebar-bootom > a:nth-child(1) {
+        display:none;
+    }
+
+    .login-form .stacked > span:nth-child(9) {
+        display:none;
     }
 
 }
