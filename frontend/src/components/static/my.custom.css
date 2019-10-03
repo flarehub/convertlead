@@ -1664,6 +1664,7 @@ input:focus {
 .empty-wrapper{
     border:none !important;
     position:relative;
+
 }
 
 .empty-wrapper:before{
