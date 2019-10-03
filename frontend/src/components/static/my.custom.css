@@ -1432,7 +1432,7 @@ input:focus {
 }
 
 
-.LeadStats .average-response-time ul {
+.LeadSStats .average-response-time ul {
     padding-left:0;
     text-align:center;
     margin:20px auto;
