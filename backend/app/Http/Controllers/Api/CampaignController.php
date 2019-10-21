@@ -145,10 +145,10 @@ class CampaignController extends Controller
                     $dealCampaign = DealCampaign::where('id', $found->deal_campaign_id)->firstOrFail();
 
                     try {
-                        $oAuth2Client = $fb->getOAuth2Client();
-                        $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
-                        $fb->setDefaultAccessToken($longLiveAccessToken);
-                        $leadResponse = $fb->get("/{$leadId}", $longLiveAccessToken);
+//                        $oAuth2Client = $fb->getOAuth2Client();
+//                        $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
+//                        $fb->setDefaultAccessToken($longLiveAccessToken);
+                        $leadResponse = $fb->get("/{$leadId}", $accessToken);
                         $leadFields = $leadResponse->getBody();
                         $leadFields = json_decode($leadFields);
                         $leadFields = $leadFields->field_data;

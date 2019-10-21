@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Management\Company;
 
 use App\Models\DealCampaignFacebookIntegration;
+use Facebook\Facebook;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,7 +11,9 @@ class CampaignFacebookIntegrationController extends Controller
 {
     public function subscribe(Request $request,
                               $campaign,
-                              DealCampaignFacebookIntegration $dealCampaignFacebookIntegration) {
+                              DealCampaignFacebookIntegration $dealCampaignFacebookIntegration,
+                              Facebook $fb
+    ) {
         $request->merge([
             'deal_campaign_id' => $campaign,
         ]);
@@ -23,7 +26,12 @@ class CampaignFacebookIntegrationController extends Controller
             'fb_form_id' => 'required',
             'fb_page_access_token' => 'required|string',
         ]);
-
+        $oAuth2Client = $fb->getOAuth2Client();
+        $accessToken = $request->input('fb_page_access_token');
+        $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
+        $request->merge([
+            'fb_page_access_token' => $longLiveAccessToken,
+        ]);
         $dealCampaignFacebookIntegration->fill($request->only([
             'deal_campaign_id',
             'fb_page_id',
