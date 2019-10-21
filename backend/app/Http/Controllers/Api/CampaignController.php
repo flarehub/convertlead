@@ -30,35 +30,28 @@ class CampaignController extends Controller
        try {
            \DB::beginTransaction();
            $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
-    
            $this->validateLead($request, $campaign);
-    
            $leadStatus = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
-
            $agent = $campaign->agents->first();
            if (!$agent) {
                throw new \Exception('Missing required agent');
            }
-    
-           
+
            $campaign
                ->agents()
                ->updateExistingPivot($agent['id'], [
                    'agent_leads_count' => $agent['pivot']['agent_leads_count'] + 1,
                ]);
-        
            $request->merge([
                'agency_company_id' => $campaign->agency_company_id,
                'agent_id' => $agent['id'],
                'lead_status_id' => $leadStatus->id,
                'deal_campaign_id' => $campaign->id,
            ]);
-           
            $lead = new Lead();
            $request->merge([
                'metadata' => \json_encode($request->input('metadata')),
            ]);
-           
            $lead->fill($request->only([
                'agency_company_id',
                'agent_id',
@@ -70,16 +63,13 @@ class CampaignController extends Controller
                'metadata',
            ]));
            $lead->save();
-       
            LeadNote::create([
                'lead_status_id' => $leadStatus->id,
                'lead_id' => $lead->id,
                'agent_id' => $agent['id'],
                'message' => "Lead Created from {$campaign->integration}",
            ]);
-    
            \DB::commit();
-
            $notification = [
                'title' => 'New Lead',
                'body' => 'New Lead created: '.$lead->fullname,
@@ -87,22 +77,10 @@ class CampaignController extends Controller
            ];
            $tokenList = Device::getTokenListFromAgentIds([$lead->agent_id]);
            Lead::notification($tokenList, $notification);
-
-           $lead->only([
-               'id',
-               'status',
-               'fullname',
-               'phone',
-               'email',
-               'metadata',
-               'created_at',
-               'campaign',
-               'lead_notes',
-               'agent',
-           ]);
            return $lead;
        } catch (Exception $exception) {
            \DB::rollBack();
+           \Log::critical($exception->getMessage());
            throw $exception;
        }
     }
@@ -113,21 +91,27 @@ class CampaignController extends Controller
      */
     public function validateLead(Request $request, $campaign)
     {
-        $formFields = \json_decode($campaign->integration_config);
-        if ($formFields->fullname->isRequired) {
-            $this->validate($request, [
-                'fullname' => 'required|string',
-            ]);
-        }
-        
-        if ($formFields->phone->isRequired) {
-            $this->validate($request, [
-                'phone' => 'required|string',
-            ]);
-        }
-        
-        
-        if ($formFields->email->isRequired) {
+        if ($campaign->integration_config && strtoupper($campaign->integration) !== DealCampaign::$INTEGRATION_FACEBOOK) {
+            $formFields = \json_decode($campaign->integration_config);
+            if ($formFields && $formFields->fullname->isRequired) {
+                $this->validate($request, [
+                    'fullname' => 'required|string',
+                ]);
+            }
+
+            if ($formFields && $formFields->phone->isRequired) {
+                $this->validate($request, [
+                    'phone' => 'required|string',
+                ]);
+            }
+
+
+            if ($formFields && $formFields->email->isRequired) {
+                $this->validate($request, [
+                    'email' => 'required|email',
+                ]);
+            }
+        } else {
             $this->validate($request, [
                 'email' => 'required|email',
             ]);
@@ -143,8 +127,6 @@ class CampaignController extends Controller
     }
 
     public function facebookWebHookPost(Request $request, Facebook $fb) {
-        \Log::critical(json_encode($request->input('entry')));
-
         $leads = $request->input('entry');
         if ($leads) {
             foreach($leads as $lead) {
@@ -161,17 +143,35 @@ class CampaignController extends Controller
                     }
                     $accessToken = $found->fb_page_access_token;
                     $dealCampaign = DealCampaign::where('id', $found->deal_campaign_id)->firstOrFail();
-                    $oAuth2Client = $fb->getOAuth2Client();
-                    $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
-                    $fb->setDefaultAccessToken($longLiveAccessToken);
-                    $lead = $fb->get("/{$leadId}");
-                    \Log::critical(json_encode($lead));
 
-//                    $request->merge([
-//                        ''
-//                    ]);
+                    try {
+                        $oAuth2Client = $fb->getOAuth2Client();
+                        $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
+                        $fb->setDefaultAccessToken($longLiveAccessToken);
+                        $leadResponse = $fb->get("/{$leadId}", $longLiveAccessToken);
+                        $leadFields = $leadResponse->getBody();
+                        $leadFields = json_decode($leadFields);
+                        $leadFields = $leadFields->field_data;
+                    } catch (Exception $exception) {
+                        \Log::critical($exception->getMessage());
+                    }
 
-                    $this->createLead($request, $dealCampaign->uuid);
+                    if ($leadFields) {
+                        foreach ($leadFields as $field) {
+                            $field->name = ($field->name === 'full_name' ? 'fullname' : $field->name);
+                            $request->merge([
+                                $field->name => (is_array($field->values) ? array_first($field->values) : ''),
+                            ]);
+                        }
+                        $request->merge([
+                            'metadata' => $leadFields,
+                        ]);
+                        $this->createLead($request, $dealCampaign->uuid);
+                    } else {
+                        \Log::critical(
+                            'Was not possible to create: '. $leadResponse->getBody()
+                        );
+                    }
 
                     return $found;
                 }
