@@ -147,7 +147,7 @@ class CampaignController extends Controller
                     try {
                         $oAuth2Client = $fb->getOAuth2Client();
                         $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
-//                        $fb->setDefaultAccessToken($longLiveAccessToken);
+                        $fb->setDefaultAccessToken($longLiveAccessToken);
                         $leadResponse = $fb->get("/{$leadId}", $longLiveAccessToken);
                         $leadFields = $leadResponse->getBody();
                         $leadFields = json_decode($leadFields);
