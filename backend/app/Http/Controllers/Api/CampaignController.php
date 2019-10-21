@@ -143,6 +143,8 @@ class CampaignController extends Controller
     }
 
     public function facebookWebHookPost(Request $request, Facebook $fb) {
+        \Log::critical(json_encode($request->input('entry')));
+
         $leads = $request->input('entry');
         if ($leads) {
             foreach($leads as $lead) {
@@ -157,12 +159,14 @@ class CampaignController extends Controller
                         \Log::critical(print_r($leadForm, true));
                         continue;
                     }
-//                    $accessToken = $found->fb_page_access_token;
-//                    $dealCampaign = DealCampaign::where('id', $found->deal_campaign_id)->firstOrFail();
-//                    $oAuth2Client = $fb->getOAuth2Client();
-//                    $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
-//                    $fb->setDefaultAccessToken($longLiveAccessToken);
-//                    $lead = $fb->get("/{$leadId}");
+                    $accessToken = $found->fb_page_access_token;
+                    $dealCampaign = DealCampaign::where('id', $found->deal_campaign_id)->firstOrFail();
+                    $oAuth2Client = $fb->getOAuth2Client();
+                    $longLiveAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken)->getValue();
+                    $fb->setDefaultAccessToken($longLiveAccessToken);
+                    $lead = $fb->get("/{$leadId}");
+                    \Log::critical(json_encode($lead));
+
 //                    $request->merge([
 //                        ''
 //                    ]);
