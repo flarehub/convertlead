@@ -67,6 +67,10 @@ a.ui.button {
     font-family: Lato, sans-serif !important;
 }
 
+div[id^=__lpform_] {
+    display: none !important;
+}
+
 .sidebar-avatar {
     margin: 0 auto;
 }
