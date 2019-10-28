@@ -179,7 +179,8 @@ class Agents extends Component {
                                                     {agent.name}
                                                 </Link>
                                                 <div>
-                                                    Added {moment.utc(agent.created_at).local().format('DD/MM/YYYY')}
+                                                     <span
+                                                         className='date-added'>Added {moment.utc(agent.created_at).local().format('DD/MM/YYYY')}</span>
                                                 </div>
                                             </Table.Cell>
                                             {

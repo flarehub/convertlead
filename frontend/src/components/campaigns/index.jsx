@@ -273,7 +273,7 @@ class Campaigns extends Component {
                    onConfirm={this.onConfirm}/>
           <Grid columns={2}>
             <Grid.Column>
-              <Header floated='left' as='h1'>Campaigns</Header>
+              <Header floated='left' as='h1'>Integrations</Header>
               <Form.Field>
                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
               </Form.Field>

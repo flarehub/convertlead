@@ -85,7 +85,7 @@ class LeadStats extends Component {
         const {data} = this.props.pieGraphContactedLeadsAverage.data.datasets[0];
         return (
             <div className='LeadsStats'>
-                <Segment attached='top'>
+                <Segment basic>
                     <Grid columns={2}>
                         <Grid.Column>
                             <h1 className="ui left floated header mobile-app-menu">Dashboard</h1>

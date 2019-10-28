@@ -107,7 +107,7 @@ class Dashboard extends Component {
                 <Segment attached='top'>
                     <Grid columns={2}>
                         <Grid.Column>
-                            <Header floated='left' as='h1'>Deals</Header>
+                            <Header floated='left' as='h1'>Campaigns</Header>
                             <Form.Field>
                                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
                             </Form.Field>

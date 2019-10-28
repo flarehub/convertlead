@@ -6,6 +6,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
 @import url('https://fonts.googleapis.com/css?family=Dosis:400,500');
 @import url('https://fonts.googleapis.com/css?family=Cabin+Condensed:500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Abel&display=swap');
 
 
 
@@ -168,8 +169,8 @@ i.icon.sidebar:before {
 
 .ui.top.attached.segment .ui.header {
     font-size: 30px !important;
-    font-weight: 400 !important;
-    font-family: 'Dosis', sans-serif !important;
+    font-weight: 600 !important;
+    font-family:'Abel',sans-serif!important;
     margin: 0 !important;
     color: #1B2733 !important;
 }
@@ -316,8 +317,9 @@ i.icon.sidebar:before {
 
 
 .ui.card > .content > a > .header {
-    font-weight: 400 !important;
-    color: #1B2733;
+    font-weight: 600 !important;
+    color: #485261;
+    font-size:15px;
 }
 
 .ui.card .meta, .ui.cards > .card .meta {
@@ -751,7 +753,7 @@ input:focus {
 }
 
 .ui.table tbody tr td {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .ui.table tbody tr:hover td {
@@ -835,12 +837,19 @@ input:focus {
 }
 
 
-.ui.toggle.checkbox input:checked ~ .box:before, .ui.toggle.checkbox input:checked ~ label:before {
+.Leads .ui.toggle.checkbox input:checked ~ .box:before, .Leads .ui.toggle.checkbox input:checked ~ label:before, .Companies .ui.toggle.checkbox input:checked ~ .box:before,
+.Companies .ui.toggle.checkbox input:checked ~ label:before, .Agents .ui.toggle.checkbox input:checked ~ .box:before , .Agents .ui.toggle.checkbox input:checked ~ label:before,
+.Dashboard Dashboard  .ui.toggle.checkbox input:checked ~ label:before , .Dashboard Dashboard .ui.toggle.checkbox input:checked ~ .box:before{
     background-color: #005ff8 !important;
 }
 
-.ui.toggle.checkbox input:focus:checked ~ .box::before, .ui.toggle.checkbox input:focus:checked ~ label::before {
+.Leads .ui.toggle.checkbox input:focus:checked ~ .box::before, .Leads .ui.toggle.checkbox input:focus:checked ~ label::before, .Companies .ui.toggle.checkbox input:focus:checked ~ .box::before,
+.Companies .ui.toggle.checkbox input:focus:checked ~ label::before, .Agents .ui.toggle.checkbox input:focus:checked ~ .box::before, .Agents .ui.toggle.checkbox input:focus:checked ~ label::before,
+.Dashboard Dashboard  .ui.toggle.checkbox input:focus:checked ~ label::before, .Dashboard Dashboard  .ui.toggle.checkbox input:focus:checked ~ .box::before{
     background-color: #005ff8 !important;
+}
+.ui.message.dash {
+    z-index:9999;
 }
 
 .ui.toggle.checkbox .box, .ui.toggle.checkbox label {
@@ -1469,7 +1478,7 @@ input:focus {
     margin-right:0!important;
     }
 
-.AgentLeads {
+.AgentLeads, .LeadsStats {
     margin-top: 27px !important;
     }
 
@@ -1496,7 +1505,7 @@ input:focus {
     margin: 0;
 }
 
-.AgentLeads .header.mobile-app-menu {
+.AgentLeads .header.mobile-app-menu, .LeadsStats .header.mobile-app-menu {
 
     font-size: 30px !important;
     font-weight: 400 !important;
@@ -2217,6 +2226,10 @@ margin-top:0px;
 }
 
 
+.Companies .ui.table tr:first-child td:first-child, .Leads .ui.table tr:first-child td:first-child, .Agents .ui.table tr:first-child td:first-child {
+    min-width: 170px !important;
+}
+
 
 
 
@@ -2238,6 +2251,31 @@ margin-top:0px;
 
     .login-form .stacked > span:nth-child(9) {
         display:none;
+    }
+
+    .Agents .ui.segment > .ui.two.column.grid > .column:nth-child(2), .Dashboard .Dashboard .ui.segment > .ui.two.column.grid > .column:nth-child(2), .Companies .ui.segment > .ui.two.column.grid > .column:nth-child(2), .Leads .ui.segment > .ui.two.column.grid > .column:nth-child(2) {
+        width:100% !important;
+        position:relative;
+
+    }
+
+    .ui.segment > .ui.two.column.grid > .column:nth-child(2) .right.menu {
+        width:100%;
+    }
+
+    .Leads .ui.segment > .ui.two.column.grid > .column:nth-child(2) .right.menu .ui.teal.button {
+        margin-right: 20px;
+    }
+
+    .ui.segment > .ui.two.column.grid > .column:nth-child(2) .right.menu .ui.teal.button {
+        margin-right: 5px;
+    }
+
+    .ui.segment > .ui.two.column.grid > .column:nth-child(2) .ui.secondary.menu .right.menu .item {
+        width:100%;
+        flex:1;
+        margin-left: 0 !important;
+        padding-left: 5px !important;
     }
 
 }
