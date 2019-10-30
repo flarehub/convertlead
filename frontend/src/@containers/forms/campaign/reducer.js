@@ -29,7 +29,7 @@ const campaignForm = (state = initState, action) => {
         ...state,
         form: {
           ...action.form,
-          title: !action.form.id ? 'Create Campaign' : 'Edit Campaign',
+          title: !action.form.id ? 'Create Integration' : 'Edit Integration',
         },
       };
     }

@@ -205,6 +205,16 @@ i.icon.sidebar:before {
     font-weight: 600;
     margin-right: 10px;
     color: #637282 !important;
+    vertical-align:middle;
+}
+
+.field .ui.checkbox input.hidden + label, .field .ui.toggle.checkbox input:checked~label {
+    color: #637282 !important;
+    background: #f7f9fa;
+    padding: 5px 15px;
+    border-radius: 25px;
+    font-weight: 600;
+    margin-right: 10px;
 }
 
 .field .ui.search.selection.dropdown {
@@ -811,7 +821,7 @@ input:focus {
 
 
 .ui.toggle.checkbox .box::before, .ui.toggle.checkbox label:before {
-    top: 4px !important;
+    top: 6px !important;
     width: 2rem !important;
     height: 1.16rem !important;
     border: 1px solid #637282 !important;
@@ -820,7 +830,7 @@ input:focus {
 
 
 .ui.toggle.checkbox .box::after, .ui.toggle.checkbox label:after {
-    top: 6px !important;
+    top: 8px !important;
     left: 17px !important;
     width: 0.8rem !important;
     height: 0.8rem !important;
@@ -839,13 +849,13 @@ input:focus {
 
 .Leads .ui.toggle.checkbox input:checked ~ .box:before, .Leads .ui.toggle.checkbox input:checked ~ label:before, .Companies .ui.toggle.checkbox input:checked ~ .box:before,
 .Companies .ui.toggle.checkbox input:checked ~ label:before, .Agents .ui.toggle.checkbox input:checked ~ .box:before , .Agents .ui.toggle.checkbox input:checked ~ label:before,
-.Dashboard Dashboard  .ui.toggle.checkbox input:checked ~ label:before , .Dashboard Dashboard .ui.toggle.checkbox input:checked ~ .box:before{
+.Dashboard .Dashboard  .ui.toggle.checkbox input:checked ~ label:before , .Dashboard .Dashboard .ui.toggle.checkbox input:checked ~ .box:before, .Campaigns .ui.toggle.checkbox input:checked ~ label:before, .Campaigns .ui.toggle.checkbox input:checked ~ .box:before{
     background-color: #005ff8 !important;
 }
 
 .Leads .ui.toggle.checkbox input:focus:checked ~ .box::before, .Leads .ui.toggle.checkbox input:focus:checked ~ label::before, .Companies .ui.toggle.checkbox input:focus:checked ~ .box::before,
 .Companies .ui.toggle.checkbox input:focus:checked ~ label::before, .Agents .ui.toggle.checkbox input:focus:checked ~ .box::before, .Agents .ui.toggle.checkbox input:focus:checked ~ label::before,
-.Dashboard Dashboard  .ui.toggle.checkbox input:focus:checked ~ label::before, .Dashboard Dashboard  .ui.toggle.checkbox input:focus:checked ~ .box::before{
+.Dashboard .Dashboard  .ui.toggle.checkbox input:focus:checked ~ label::before, .Dashboard .Dashboard  .ui.toggle.checkbox input:focus:checked ~ .box::before, .Campaigns  .ui.toggle.checkbox input:focus:checked~.box:before, .Campaigns .ui.toggle.checkbox input:focus:checked ~ label::before {
     background-color: #005ff8 !important;
 }
 .ui.message.dash {
@@ -2238,20 +2248,8 @@ margin-top:0px;
 
 
 
-@media only screen and (max-width: 1024px){
 
-    .pushable:not(body) {
-        -webkit-transform: unset !important;
-        transform: unset !important;
-    }
-
-    .sidebar-bootom > a:nth-child(1) {
-        display:none;
-    }
-
-    .login-form .stacked > span:nth-child(9) {
-        display:none;
-    }
+@media only screen and (max-width: 1231px) {
 
     .Agents .ui.segment > .ui.two.column.grid > .column:nth-child(2), .Dashboard .Dashboard .ui.segment > .ui.two.column.grid > .column:nth-child(2), .Companies .ui.segment > .ui.two.column.grid > .column:nth-child(2), .Leads .ui.segment > .ui.two.column.grid > .column:nth-child(2) {
         width:100% !important;
@@ -2278,9 +2276,29 @@ margin-top:0px;
         padding-left: 5px !important;
     }
 
+
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1024px){
+
+    .pushable:not(body) {
+        -webkit-transform: unset !important;
+        transform: unset !important;
+    }
+
+    .sidebar-bootom > a:nth-child(1) {
+        display:none;
+    }
+
+    .login-form .stacked > span:nth-child(9) {
+        display:none;
+    }
+
+
+
+}
+
+@media only screen and (max-width: 828px) {
 
 
     .ui[class*="left fixed"].menu {
@@ -2462,7 +2480,7 @@ margin-top:0px;
     }
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 828px) {
 
     .freshAppHeader {
         display: none;
@@ -2533,7 +2551,7 @@ margin-top:0px;
     }
 }
 
-@media only screen and (max-width: 662px) {
+@media only screen and (max-width: 921px) {
 
     .Deals .ui.card, .ui.cards > .card {
         width: 100% !important;

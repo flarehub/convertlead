@@ -14,7 +14,7 @@ const dealForm = (state = initState, action) => {
     case LOAD_DEAL: {
       return {
         ...action.form,
-        title: !action.form.id ? 'Create Deal' : 'Edit Deal',
+        title: !action.form.id ? 'Create Campaign' : 'Edit Campaign',
       };
     }
     case SAVED_DEAL: {

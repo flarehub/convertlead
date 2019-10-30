@@ -36,7 +36,7 @@ class DealForm extends Component {
     return (<Form size='big' className='dealForm'>
       <Form.Field required>
         <label>Name</label>
-        <Input placeholder='Deal name' value={name} onChange={this.onChangeName} />
+        <Input placeholder='Campaign name' value={name} onChange={this.onChangeName} />
       </Form.Field>
       {
         Auth.isAgency ?

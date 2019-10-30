@@ -281,10 +281,10 @@ class Campaigns extends Component {
             <Grid.Column>
               <Menu secondary>
                 <Menu.Menu position='right'>
-                  <Button color='teal' content='New Campaign' onClick={this.props.loadForm.bind(this, {
+                  <Button color='teal' content='New Integration' onClick={this.props.loadForm.bind(this, {
                     agentId: this.state.agentId,
                     show: true
-                  })} icon='add' labelPosition='left'/>
+                  })}  labelPosition='left'/>
                 </Menu.Menu>
               </Menu>
             </Grid.Column>

@@ -136,7 +136,7 @@ class Dashboard extends Component {
                                                placeholder='Search...'/>
                                     </Menu.Item>
                                     <Button color='teal'
-                                            content='New Deal'
+                                            content='New Campaign'
                                             onClick={this.props.loadForm.bind(this, {show: true})}/>
                                 </Menu.Menu>
                             </Menu>

@@ -23,7 +23,7 @@ const initialState = {
     },
     {
       icon: 'icon-clients',
-      name: 'Clients',
+      name: 'Companies',
       path: '/companies',
       component: Companies,
       role: ['agency'],

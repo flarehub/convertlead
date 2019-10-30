@@ -89,8 +89,8 @@ class CampaignForm extends Component {
     const { integrationTypes, form } = this.props;
     return (<Form size='big' className='CampaignForm'>
       <Form.Field required>
-        <label>Campaign Name</label>
-        <Input placeholder='Campaign Name' name='name' value={form.name} onChange={this.onChange} />
+        <label>Integration Name</label>
+        <Input placeholder='Integration Name' name='name' value={form.name} onChange={this.onChange} />
       </Form.Field>
       <Form.Field required>
         <label>Integration type</label>
