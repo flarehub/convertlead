@@ -1234,6 +1234,8 @@ input:focus {
 
 .ui.small.modal, .ui.tiny.modal {
     width: 600px !important;
+    box-shadow: 1px 3px 3px 0 rgba(0,0,0,0.1), 1px 3px 15px 2px rgba(0,0,0,.1) !important;
+    padding: 20px 15px 10px 15px;
 }
 
 .ui.modal .size.circular.icon-image {

@@ -50,21 +50,21 @@ class AgentLeadNotes extends Component {
 
     onCall = () => {
         this.props.createLeadNote({
-            message: 'Lead have been called!',
+            message: 'initiated a call',
             status: 'CONTACTED_CALL'
         });
     };
 
     onEmail = () => {
         this.props.createLeadNote({
-            message: 'Lead contacted by email!',
+            message: 'started an email conversation',
             status: 'CONTACTED_EMAIL'
         });
     };
 
     onText = () => {
         this.props.createLeadNote({
-            message: 'Lead contacted by SMS!',
+            message: 'initiated a text message',
             status: 'CONTACTED_SMS'
         });
     };

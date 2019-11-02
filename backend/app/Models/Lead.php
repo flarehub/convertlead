@@ -184,7 +184,7 @@ class Lead extends Model
                 'lead_status_id' => $leadStatus->id,
                 'lead_id' => $lead->id,
                 'agent_id' => $request->user()->id,
-                'message' => 'Lead Created manually',
+                'message' => 'has manually created a lead.',
             ]);
 
             \DB::commit();
