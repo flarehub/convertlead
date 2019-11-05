@@ -130,6 +130,8 @@ class AgencyController extends Controller
             'password_confirmation'
         ]));
 
+        $agency->companies()->attach($agency);
+
         MailService::sendMail('emails.agency-welcome', [
             'agency' => $agency,
             'password' => $password,
