@@ -15,9 +15,13 @@ class DealCampaign extends Model
     public static $INTEGRATION_OPTIN_FORM = 'OPTIN_FORM';
     public static $INTEGRATION_FACEBOOK = 'FACEBOOK';
     public static $INTEGRATION_ZAPIER = 'ZAPIER';
- 
+    public static $INTEGRATION_WEBHOOK = 'WEBHOOK';
+    public static $INTEGRATION_UNBOUNCE = 'UNBOUNCE';
+    public static $INTEGRATION_INSTAPAGE = 'INSTAPAGE';
+    public static $INTEGRATION_CLICKFUNNELS = 'CLICKFUNNELS';
+
     protected $table = 'deal_campaigns';
-    
+
     protected $fillable = [
         'name',
         'uuid',
