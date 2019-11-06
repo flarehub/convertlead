@@ -1,12 +1,13 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?rkojms');
-  src:  url('fonts/icomoon.eot?rkojms#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?rkojms') format('truetype'),
-    url('fonts/icomoon.woff?rkojms') format('woff'),
-    url('fonts/icomoon.svg?rkojms#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?nqf6s1');
+  src:  url('fonts/icomoon.eot?nqf6s1#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?nqf6s1') format('truetype'),
+    url('fonts/icomoon.woff?nqf6s1') format('woff'),
+    url('fonts/icomoon.svg?nqf6s1#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 [class^="icon-"], [class*=" icon-"] {
@@ -24,6 +25,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-clickfunnels .path1:before {
+  content: "\e907";
+  color: rgb(55, 75, 96);
+}
+.icon-clickfunnels .path2:before {
+  content: "\e908";
+  margin-left: -1.1962890625em;
+  color: rgb(232, 78, 56);
+}
+.icon-clickfunnels .path3:before {
+  content: "\e909";
+  margin-left: -1.1962890625em;
+  color: rgb(60, 155, 213);
+}
 .icon-zapier:before {
   content: "\e906";
 }
