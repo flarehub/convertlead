@@ -29,6 +29,17 @@ class CampaignController extends Controller
     public function createLead(Request $request, $campaignUUID) {
        try {
            \DB::beginTransaction();
+           // Remaping for click funnels
+           if ($request->has('contact')) {
+               $contact = $request->input('contact');
+               $request->merge([
+                   'email' => $contact['email'],
+                   'fullname' => $contact['name'],
+                   'phone' => $contact['phone'],
+                   'metadata' => $contact,
+               ]);
+           }
+
            $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
            $this->validateLead($request, $campaign);
            $leadStatus = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
