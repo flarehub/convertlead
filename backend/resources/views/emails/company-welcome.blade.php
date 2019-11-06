@@ -1,6 +1,4 @@
-<style>
-
-
+<style type="text/css">
 	.emailbody {
 		width:100%;
 		height:100%;

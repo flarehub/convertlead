@@ -180,4 +180,10 @@ class CampaignController extends Controller
         echo $challenge;
         return;
     }
+
+    protected function clickFunnelWebHookAuthorise(Request $request) {
+        return [
+            'response' => 'success'
+        ];
+    }
 }
