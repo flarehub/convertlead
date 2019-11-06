@@ -99,20 +99,22 @@
 
 <div class="emailbody">
 	<div class="toplogocont"><img src="http://convertlead.com/wp-content/bloglogo.png"></img></div>
-	<div class="bigcont">
-		<p>Hey {{$company->name}}, </br></br> You've just been assigned to a ConvertLead Agency. Welcome! </p></br>
+	<div class="bigcont" style="max-width: 380px; background:#fff; border: 1px dashed #b3b3b3; padding: 55px; margin: 0 auto; border-radius: 6px; color:#354771;">>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey {{$company->name}}, </br></br> You've just been assigned to a ConvertLead Agency. Welcome! </p></br>
 
 
-		<p><p>You'll be able to login to your account using the following details: </p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">You'll be able to login to your account using the following details: </p>
 
 		<h1>User: {{$company->email}}</h1>
 		<h1>Password: {{$password}}</h1>
 
-		<a href="https://convertlead.com/downloads">Go to login page</a>
-		<p class="smallnote">Didn't sign up for ConvertLead ? <a href="https://support.convertlead.com">Let us know</a></p>
+		<a href="https://convertlead.com/downloads" style="display: block; background:#005ff8; color: #fff; font-size: 16px; font-weight: bold; font-family: Arial,sans-serif; margin: 30px auto; padding: 12px 30px; border-radius: 3px; text-decoration: none; text-align: center;
+		white-space: nowrap; box-sizing: border-box; ">Go to login page</a>
+		<p style="font-size:12px ; text-align:center ; ">Didn't sign up for ConvertLead ? <a href="https://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
+		background:transparent ; font-size:12px; padding:unset !important; display:inline;">Let us know</a></p>
 
 	</div>
-	<div class="emailfot">
+	<div class="emailfot" style="max-width: 450px; text-align: left; font-size: 12px; margin: 20px auto; color:#797979;">
 		This is an automated message. Please do not reply. You are receiving this email because you have an agent account on ConvertLead. If you wish to unsubscribe, please visit your ConvertLead settings.
 
 		All rights reserved, ConvertLead © 2019

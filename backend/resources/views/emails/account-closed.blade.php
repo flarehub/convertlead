@@ -83,16 +83,16 @@
 
 <div class="emailbody">
 	<div class="toplogocont"><img src="http://convertlead.com/wp-content/bloglogo.png"></img></div>
-	<div class="bigcont">
-		<p>Hey, </br></br> This is a confirmation message to let you know your account was closed : </p>
+	<div class="bigcont" style="max-width: 380px; background:#fff; border: 1px dashed #b3b3b3; padding: 55px; margin: 0 auto; border-radius: 6px; color:#354771;">>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey, </br></br> This is a confirmation message to let you know your account was closed : </p>
 		<h1>Account {{$user->email}} closed</h1>
-		<p>If you have any questions about this issue, please contact our support team. </p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">If you have any questions about this issue, please contact our support team. </p>
 
 
-		<p>The ConvertLead team.</p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">The ConvertLead team.</p>
 
 	</div>
-	<div class="emailfot">
+	<div class="emailfot" style="max-width: 450px; text-align: left; font-size: 12px; margin: 20px auto; color:#797979;">
 		This is an automated message. Please do not reply. You are receiving this email because you have an agent account on ConvertLead. If you wish to unsubscribe, please visit your ConvertLead settings.
 
 		All rights reserved, ConvertLead © 2019
