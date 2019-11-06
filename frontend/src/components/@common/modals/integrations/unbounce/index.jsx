@@ -3,7 +3,7 @@ import { Button, Modal } from 'semantic-ui-react'
 import './index.scss';
 import WebHook from "components/@common/forms/integrations/webhook";
 
-class ZapierIntegrationModal extends Component {
+class UnbounceIntegrationModal extends Component {
   state = {
     open: false,
   };
@@ -12,7 +12,7 @@ class ZapierIntegrationModal extends Component {
     const { campaignLink }  = this.props;
     return (
       <Modal className='ApiIntegration' open={this.props.open} onClose={this.props.onClose}>
-        <Modal.Header>Zapier API Integration</Modal.Header>
+        <Modal.Header>Unbounce API Integration</Modal.Header>
         <Modal.Content>
           <WebHook campaignLink={campaignLink}/>
         </Modal.Content>
@@ -26,4 +26,4 @@ class ZapierIntegrationModal extends Component {
   }
 }
 
-export default ZapierIntegrationModal
+export default UnbounceIntegrationModal
