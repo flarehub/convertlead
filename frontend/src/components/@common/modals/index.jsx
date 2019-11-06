@@ -7,10 +7,21 @@ import {
 import './index.scss';
 
 class EntityModal extends Component {
+    state = {
+        formSaved: false,
+    };
+
     onSave = () => {
         if (this.validate()) {
+            this.setState({
+                formSaved: true,
+            });
             this.props.saveForm(this.props.form);
         }
+    };
+
+    onCancel = () => {
+        this.props.loadForm({show: false});
     };
 
     validate = () => {
@@ -40,6 +51,13 @@ class EntityModal extends Component {
 
     render() {
         const {Container, ...rest} = this.props;
+        const { formSaved } = this.state;
+
+        if (!this.props.form.show && formSaved) {
+            this.setState({
+                formSaved: false,
+            })
+        }
 
         return (
             <Modal className='freshAppEntityModal'
@@ -52,14 +70,14 @@ class EntityModal extends Component {
                     <Container {...rest} />
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button color='black' onClick={this.props.loadForm.bind(this, {show: false})}>
+                    <Button color='black' onClick={this.onCancel}>
                         Cancel
                     </Button>
                     <Button
-                        color="teal"
+                        color={(formSaved ? 'grey' : 'teal')}
                         labelPosition="left"
                         content="Save"
-                        onClick={this.onSave}
+                        onClick={(formSaved ? () => null : this.onSave)}
                     />
                 </Modal.Actions>
             </Modal>
