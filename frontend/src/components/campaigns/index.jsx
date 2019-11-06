@@ -406,6 +406,30 @@ class Campaigns extends Component {
                             : null
                         }
                         {
+                          campaign.integration === 'CLICKFUNNELS'
+                            ? <Button circular color='#f0f3f5'
+                                      icon='icon-clickfunnels'/>
+                            : null
+                        }
+                        {
+                          campaign.integration === 'WEBHOOK'
+                            ? <Button circular color='#f0f3f5'
+                                      icon='icon-webhook'/>
+                            : null
+                        }
+                        {
+                          campaign.integration === 'INSTAPAGE'
+                            ? <Button circular color='#f0f3f5'
+                                      icon='icon-instapage'/>
+                            : null
+                        }
+                        {
+                          campaign.integration === 'UNBOUNCE'
+                            ? <Button circular color='#f0f3f5'
+                                      icon='icon-unbounce'/>
+                            : null
+                        }
+                        {
                           campaign.integration === 'OPTIN_FORM'
                             ? <Button circular color='purplegray' icon='sticky note outline icon'/>
                             : null
