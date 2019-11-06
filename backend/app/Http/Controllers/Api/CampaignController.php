@@ -29,6 +29,17 @@ class CampaignController extends Controller
     public function createLead(Request $request, $campaignUUID) {
        try {
            \DB::beginTransaction();
+           // Remaping for click funnels
+           if ($request->has('contact')) {
+               $contact = $request->input('contact');
+               $request->merge([
+                   'email' => $contact['email'],
+                   'fullname' => $contact['name'],
+                   'phone' => $contact['phone'],
+                   'metadata' => $contact,
+               ]);
+           }
+
            $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
            $this->validateLead($request, $campaign);
            $leadStatus = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
@@ -179,5 +190,11 @@ class CampaignController extends Controller
         $verify_token = isset($_REQUEST['hub_verify_token']) ? $_REQUEST['hub_verify_token'] : null;
         echo $challenge;
         return;
+    }
+
+    protected function clickFunnelWebHookAuthorise(Request $request) {
+        return [
+            'response' => 'success'
+        ];
     }
 }

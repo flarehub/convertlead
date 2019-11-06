@@ -48,7 +48,6 @@ class FacebookIntegrationModal extends Component {
   };
 
   onUnSubscribe = (integrationId) => {
-    console.log('unsubscribe', integrationId);
     this.props.unsubscribe(this.props.campaign.id, integrationId);
   };
 

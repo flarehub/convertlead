@@ -52,7 +52,6 @@ class Users extends Component {
     };
 
     onSearch = event => {
-        console.log(event.target.value);
         this.props.searchUsers(event.target.value)
     };
 

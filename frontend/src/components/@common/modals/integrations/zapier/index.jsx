@@ -1,54 +1,20 @@
 import React, { Component } from 'react'
-import { Button, Form, Input, Modal } from 'semantic-ui-react'
+import { Button, Modal } from 'semantic-ui-react'
 import './index.scss';
-import CopyText from 'react-copy-text';
-import ReactJson from 'react-json-view'
-import ResponseLeadSchema from './schemas/response-lead';
-import RequestLeadSchema from './schemas/reques-lead';
+import WebHook from "components/@common/forms/integrations/webhook";
 
-class ZapierInterationModal extends Component {
+class ZapierIntegrationModal extends Component {
   state = {
     open: false,
-    copied: false
-  };
-
-  onCopy = () => {
-    this.setState({copied: true, value: this.props.campaignLink});
-    setTimeout(() => {
-      this.setState({
-        copied: false,
-        value: '',
-      })
-    }, 400)
   };
 
   render() {
+    const { campaignLink }  = this.props;
     return (
       <Modal className='ApiIntegration' open={this.props.open} onClose={this.props.onClose}>
         <Modal.Header>Zapier API Integration</Modal.Header>
         <Modal.Content>
-          <Form>
-            <Form.Field>
-              <h2>Campaign Link</h2>
-              <CopyText text={this.state.value}  />
-              <Input
-                action={{
-                  color: 'teal',
-                  labelPosition: 'right',
-                  icon: 'copy',
-                  content: `${(this.state.copied ? 'Copied' : 'Copy')}`, onClick: this.onCopy }}
-                defaultValue={this.props.campaignLink}
-              />
-            </Form.Field>
-            <Form.Field>
-              <h2>Request Body</h2>
-              <ReactJson name="Body" collapsed={true} src={RequestLeadSchema}/>
-            </Form.Field>
-            <Form.Field>
-              <h2>Request response</h2>
-              <ReactJson collapsed={true} name='Lead' src={ResponseLeadSchema} />
-            </Form.Field>
-          </Form>
+          <WebHook campaignLink={campaignLink}/>
         </Modal.Content>
         <Modal.Actions>
           <Button color='black' onClick={this.props.onClose}>
@@ -60,4 +26,4 @@ class ZapierInterationModal extends Component {
   }
 }
 
-export default ZapierInterationModal
+export default ZapierIntegrationModal

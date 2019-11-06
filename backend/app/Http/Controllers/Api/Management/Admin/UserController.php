@@ -47,6 +47,11 @@ class UserController extends Controller
             'email',
             'password',
             'password_confirmation']));
+
+        if ($request->get('role') === User::$ROLE_AGENCY) {
+            $user->companies()->attach($user);
+        }
+
         return $user;
     }
 

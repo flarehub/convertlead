@@ -5,6 +5,7 @@ import {
 
 const initState = {
   form: {
+    role: 'AGENCY',
     title: '',
     show: false,
     id: '',
@@ -28,10 +29,10 @@ const initState = {
 const userForm = (state = initState, action) => {
   switch (action.type) {
     case LOAD_USER_FORM: {
-      console.log(action);
       return {
         ...state,
         form: {
+          ...initState.form,
           ...action.form,
           title: !action.form.id ? 'Create User' : 'Edit User',
         },
