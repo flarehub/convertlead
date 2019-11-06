@@ -408,7 +408,13 @@ class Campaigns extends Component {
                         {
                           campaign.integration === 'CLICKFUNNELS'
                             ? <Button circular color='#f0f3f5'
-                                      icon='icon-clickfunnels'/>
+                                      icon='icon-clickfunnels path1 path2 path3'>
+                              <span class="icon-clickfunnels">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                              </span>
+                            </Button>
                             : null
                         }
                         {
