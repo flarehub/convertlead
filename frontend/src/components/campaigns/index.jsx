@@ -19,7 +19,11 @@ import {
 import * as R from "ramda";
 import CampaignModal from 'components/@common/modals/campaign';
 import ModalOptinFormIntegration from 'components/@common/modals/integrations/optinform';
-import ZapierInterationModal from "../@common/modals/integrations/zapier";
+import ZapierIntegrationModal from "../@common/modals/integrations/zapier";
+import InstapageIntegrationModal from "../@common/modals/integrations/instapage";
+import ClickFunnelsIntegrationModal from "../@common/modals/integrations/clickfunnels";
+import UnbounceIntegrationModal from "../@common/modals/integrations/unbounce";
+import WebhookIntegrationModal from "../@common/modals/integrations/webhook";
 import FacebookIntegrationModal from "../@common/modals/integrations/facebook";
 import {Auth, config} from "@services";
 
@@ -27,6 +31,10 @@ class Campaigns extends Component {
   state = {
     open: false,
     openApiIntegration: false,
+    openWebhookIntegration: false,
+    openInstapageIntegration: false,
+    openUnbounceIntegration: false,
+    openClickFunnelsIntegration: false,
     openFBIntegration: false,
     campaignId: '',
     campaign: null,
@@ -165,11 +173,45 @@ class Campaigns extends Component {
       })
     }
 
+    const copyLink = `${config.get('REACT_APP_API_SERVER')}/v1/campaigns/${campaign.uuid}/leads`;
+
     if (campaign.integration === 'ZAPIER') {
       this.setState({
         ...this.state,
+        campaignLink: copyLink,
         openApiIntegration: true,
-        campaignLink: `${config.get('REACT_APP_API_SERVER')}/v1/campaigns/${campaign.uuid}/leads`
+      });
+    }
+
+    if (campaign.integration === 'WEBHOOK') {
+      this.setState({
+        ...this.state,
+        campaignLink: copyLink,
+        openWebhookIntegration: true,
+      });
+    }
+
+    if (campaign.integration === 'UNBOUNCE') {
+      this.setState({
+        ...this.state,
+        campaignLink: copyLink,
+        openUnbounceIntegration: true,
+      });
+    }
+
+    if (campaign.integration === 'INSTAPAGE') {
+      this.setState({
+        ...this.state,
+        campaignLink: copyLink,
+        openInstapageIntegration: true,
+      });
+    }
+
+    if (campaign.integration === 'CLICKFUNNELS') {
+      this.setState({
+        ...this.state,
+        campaignLink: copyLink,
+        openClickFunnelsIntegration: true,
       });
     }
 
@@ -245,6 +287,10 @@ class Campaigns extends Component {
       ...this.state,
       openApiIntegration: false,
       openFBIntegration: false,
+      openInstapageIntegration: false,
+      openWebhookIntegration: false,
+      openUnbounceIntegration: false,
+      openClickFunnelsIntegration: false,
     });
   };
 
@@ -253,8 +299,33 @@ class Campaigns extends Component {
     return (
       <div className='Campaigns'>
         <Segment attached='top'>
-          <ZapierInterationModal open={this.state.openApiIntegration} onClose={this.onCloseApiIntegration}
-                                 campaignLink={this.state.campaignLink}/>
+
+          <ZapierIntegrationModal open={this.state.openApiIntegration}
+                                  onClose={this.onCloseApiIntegration}
+                                  campaignLink={this.state.campaignLink}
+          />
+
+          <InstapageIntegrationModal open={this.state.openInstapageIntegration}
+                                     onClose={this.onCloseApiIntegration}
+                                     campaignLink={this.state.campaignLink}
+          />
+
+          <WebhookIntegrationModal open={this.state.openWebhookIntegration}
+                                     onClose={this.onCloseApiIntegration}
+                                     campaignLink={this.state.campaignLink}
+          />
+
+          <UnbounceIntegrationModal open={this.state.openUnbounceIntegration}
+                                     onClose={this.onCloseApiIntegration}
+                                     campaignLink={this.state.campaignLink}
+          />
+
+          <ClickFunnelsIntegrationModal open={this.state.openClickFunnelsIntegration}
+                                     onClose={this.onCloseApiIntegration}
+                                     campaignLink={this.state.campaignLink}
+          />
+
+
           <FacebookIntegrationModal open={this.state.openFBIntegration}
                                     onClose={this.onCloseApiIntegration}
                                     fbPages={this.state.fbPages}
