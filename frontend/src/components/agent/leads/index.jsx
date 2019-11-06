@@ -40,7 +40,6 @@ class AgentLeads extends Component {
 
     componentWillMount() {
         const {tab} = this.props.match.params;
-        console.log("=========> active tab index:", tab);
         this.defaultActiveIndex = 0
         if (tab && tab === 'new') {
             this.defaultActiveIndex = 1

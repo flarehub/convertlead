@@ -19,7 +19,6 @@ export const loadLeads = () => async (dispatch, getState) => {
         });
 
         const {data, ...rest} = response.data;
-        console.log("resoponse.data====>", response.data);
         dispatch(actions.loadLeads(data, rest));
     } catch (e) {
         dispatch(sendMessage(e.message, true));
