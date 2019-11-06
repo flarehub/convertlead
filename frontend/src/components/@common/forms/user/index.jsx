@@ -61,7 +61,11 @@ class UserForm extends Component {
     };
 
     render() {
-        const {id, name, phone, email, avatar, avatar_path, subscription_type, max_agency_companies} = this.props.form;
+        const {
+            id, role, name, phone, email, avatar,
+            avatar_path, subscription_type, max_agency_companies
+        } = this.props.form;
+
         return (
             <Form size='big' className='companyForm'>
                 <Grid columns={2} relaxed='very' stackable>
@@ -96,7 +100,7 @@ class UserForm extends Component {
                             </label>
                         </Segment.Inline>
                         {
-                            this.props.form.role === 'AGENCY'
+                            role === 'AGENCY'
                                 ?  <Form.Field required>
                                     <label>Subscription Type</label>
                                     <Form.Field
@@ -105,7 +109,7 @@ class UserForm extends Component {
                                         label={{ children: 'Subscription', htmlFor: 'sub-form-companies-list' }}
                                         placeholder='Select subscription'
                                         search
-                                        defaultValue={subscription_type || null}
+                                        defaultValue={subscription_type || 'BASE'}
                                         onChange={this.onChangeSubscription}
                                         searchInput={{ id: 'sub-form-companies-list' }}
                                     />
@@ -129,7 +133,7 @@ class UserForm extends Component {
                                    onChange={this.onChange}/>
                         </Form.Field>
                         {
-                            this.props.form.role === 'AGENCY'
+                            role === 'AGENCY'
                                 ?   <Form.Field>
                                         <label>Max Agency companies can create</label>
                                         <Input placeholder='Max Agency companies'
