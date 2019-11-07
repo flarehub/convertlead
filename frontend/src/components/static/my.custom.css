@@ -1027,14 +1027,31 @@ input:focus {
 
 .clickfunnelsbut {
 
-   background:#3c9bd6 !important;
-   color:#fff !important;
+   background:#606d92!important;
+   color:#f9f9f9  !important;
+
 }
 
 .webhookbut {
 
-    color:#fff !important;
-    background:#c73a63 !important;
+    color:#f9f9f9 !important;
+    background:#ffb100  !important;
+
+}
+
+.facebookbut {
+
+    color:#f9f9f9 !important;
+    background:#4267b2 !important;
+
+
+}
+
+.zapierbut {
+
+    color:#f9f9f9 !important;
+    background:#ff4a00 !important;
+
 }
 
 .clickfunnelsbut i:before {
@@ -1042,16 +1059,21 @@ input:focus {
 }
 
 .instapagebut {
-    color:#fff !important;
-    background:#243ec3 !important;
+
+    color:#f9f9f9 !important;
+    background: #0066ff!important;
+
 }
 
 
 .unbouncedbut {
 
-    color:#fff !important;
-    background:#303030 !important;
+    color:#f1f3f4!important;
+    background:#303030  !important;
+
 }
+
+
 
 
 .ui.button.integration-but:hover {
@@ -1332,6 +1354,18 @@ input:focus {
     position: relative;
 }
 
+.ui.tiny.modal .ui.big.form .equal.width.fields .field .ui.checkbox label {
+    padding: 0px 0px 0px 25px
+
+}
+
+
+.ui.tiny.modal .ui.big.form .equal.width.fields {
+
+    width: 100%;
+    margin: 10px 0px !important;
+}
+
 .ui.small.modal .ui.form .field > .selection.dropdown, .ui.tiny.modal .ui.form .field > .selection.dropdown {
     box-sizing: border-box;
     padding: 16px !important;
@@ -1356,7 +1390,7 @@ input:focus {
 }
 
 .ui.small.modal .button.black, .ui.tiny.modal .button.black {
-    background-color: #b9b9b9;
+    background-color: #595c65;
 }
 
 .ui.small.modal .ui.search.dropdown > .text, .ui.tiny.modal .ui.search.dropdown > .text {

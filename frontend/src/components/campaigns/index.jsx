@@ -396,19 +396,19 @@ class Campaigns extends Component {
                       <Table.Cell>
                         {
                           campaign.integration === 'FACEBOOK'
-                            ? <Button circular color='facebook' icon='facebook'/>
+                            ? <Button circular className='facebookbut' icon='facebook'/>
                             : null
                         }
                         {
                           campaign.integration === 'ZAPIER'
-                            ? <Button circular color='darkorange'
+                            ? <Button circular className='zapierbut'
                                       icon='icon-zapier'/>
                             : null
                         }
                         {
                           campaign.integration === 'CLICKFUNNELS'
                             ? <Button circular className='clickfunnelsbut'
-                                      icon='icon-clickfunnels'>
+                                      icon='cog'>
 
                             </Button>
                             : null
@@ -433,7 +433,7 @@ class Campaigns extends Component {
                         }
                         {
                           campaign.integration === 'OPTIN_FORM'
-                            ? <Button circular color='purplegray' icon='sticky note outline icon'/>
+                            ? <Button circular color='purplegray' icon='file alternate outline'/>
                             : null
                         }
                       </Table.Cell>
