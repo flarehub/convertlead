@@ -407,31 +407,27 @@ class Campaigns extends Component {
                         }
                         {
                           campaign.integration === 'CLICKFUNNELS'
-                            ? <Button circular color='#f0f3f5'
-                                      icon='icon-clickfunnels path1 path2 path3'>
-                              <span class="icon-clickfunnels">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                                <span class="path3"></span>
-                              </span>
+                            ? <Button circular className='clickfunnelsbut'
+                                      icon='icon-clickfunnels'>
+
                             </Button>
                             : null
                         }
                         {
                           campaign.integration === 'WEBHOOK'
-                            ? <Button circular color='#f0f3f5'
+                            ? <Button circular className='webhookbut'
                                       icon='icon-webhook'/>
                             : null
                         }
                         {
                           campaign.integration === 'INSTAPAGE'
-                            ? <Button circular color='#f0f3f5'
+                            ? <Button circular className='instapagebut'
                                       icon='icon-instapage'/>
                             : null
                         }
                         {
                           campaign.integration === 'UNBOUNCE'
-                            ? <Button circular color='#f0f3f5'
+                            ? <Button circular className='unbouncedbut'
                                       icon='icon-unbounce'/>
                             : null
                         }

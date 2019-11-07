@@ -1025,6 +1025,35 @@ input:focus {
     font-weight:400;
 }
 
+.clickfunnelsbut {
+
+   background:#3c9bd6 !important;
+   color:#fff !important;
+}
+
+.webhookbut {
+
+    color:#fff !important;
+    background:#c73a63 !important;
+}
+
+.clickfunnelsbut i:before {
+    margin-left: -1px !important;
+}
+
+.instapagebut {
+    color:#fff !important;
+    background:#243ec3 !important;
+}
+
+
+.unbouncedbut {
+
+    color:#fff !important;
+    background:#303030 !important;
+}
+
+
 .ui.button.integration-but:hover {
     border:1px solid #5998ff !important;
     color:#005ff8;
