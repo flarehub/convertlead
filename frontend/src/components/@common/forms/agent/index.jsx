@@ -53,7 +53,7 @@ class AgentForm extends Component {
 
     render() {
         const {id, name, phone, email, avatar, avatar_path} = this.props.form;
-        return (<Form size='big' className='agentForm'>
+        return (<Form size='big' className='agentForm' autocomplete='off'>
             <Grid columns={2} relaxed='very' stackable>
                 <Grid.Column>
                     <Form.Field required>
@@ -87,7 +87,7 @@ class AgentForm extends Component {
                         <Input placeholder='Email Address' name='email' value={email || ''} onChange={this.onChange}/>
                     </Form.Field>
                     <Form.Field required={(id ? false : true)}>
-                        <label>Password</label>
+                        <label>Password (min. 6 characters)</label>
                         <Input placeholder='Password' name='password' type='password' onChange={this.onChange}/>
                     </Form.Field>
                     <Form.Field required={(id ? false : true)}>
@@ -116,7 +116,9 @@ class AgentForm extends Component {
                         onChange={this.onFileLoad}
                     />
                 </label>
+                <label className='note-label'>Add agent profile photo (Optional)</label>
             </Segment>
+
         </Form>)
     }
 }

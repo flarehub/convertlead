@@ -36,12 +36,12 @@ class CompanyForm extends Component {
     render() {
         const {id, name, phone, email, avatar, avatar_path} = this.props.form;
         return (
-            <Form size='big' className='companyForm'>
+            <Form size='big' className='companyForm' autocomplete='off'>
                 <Grid columns={2} relaxed='very' stackable>
                     <Grid.Column>
                         <Form.Field required>
                             <label>Company Name</label>
-                            <Input placeholder='Company Name' name='name' value={name || ''} onChange={this.onChange}/>
+                            <Input placeholder='Company Name' name='name' className='srch' value={name || ''} onChange={this.onChange}/>
                         </Form.Field>
                         <Form.Field required>
                             <label>Phone Number</label>
@@ -68,6 +68,7 @@ class CompanyForm extends Component {
                                 />
                             </label>
                         </Segment.Inline>
+                        <label className='note-label'>Add company logo (Optional)</label>
                     </Grid.Column>
                     <Grid.Column verticalAlign='middle'>
                         <Form.Field required>
@@ -76,7 +77,7 @@ class CompanyForm extends Component {
                                    onChange={this.onChange}/>
                         </Form.Field>
                         <Form.Field required={(!id)}>
-                            <label>Password</label>
+                            <label>Password ( min. 6 characters ) </label>
                             <Input placeholder='Password' name='password' type='password' onChange={this.onChange}/>
                         </Form.Field>
                         <Form.Field required={(!id)}>

@@ -408,7 +408,7 @@ class Campaigns extends Component {
                         {
                           campaign.integration === 'CLICKFUNNELS'
                             ? <Button circular className='clickfunnelsbut'
-                                      icon='cog'>
+                                      icon='icon-clickfunnels'>
 
                             </Button>
                             : null

@@ -1027,9 +1027,13 @@ input:focus {
 
 .clickfunnelsbut {
 
-   background:#606d92!important;
+   background:#374b60 !important;
    color:#f9f9f9  !important;
 
+}
+
+.icon-clickfunnels, .icon-zapier, .icon-unbounce, .icon-instapage, .icont-webhook, .icon-facebook {
+    vertical-align: top !important;
 }
 
 .webhookbut {
@@ -1112,6 +1116,13 @@ input:focus {
     right: 0;
     padding-right: 0;
 
+}
+
+.note-label {
+    padding: 10px;
+    display: block;
+    font-style: italic;
+    color: #ccc;
 }
 
 .AgentProfile .ui.two.column.grid .column:nth-child(2) {
