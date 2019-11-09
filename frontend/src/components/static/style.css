@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?wg45co');
-  src:  url('fonts/icomoon.eot?wg45co#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?wg45co') format('truetype'),
-    url('fonts/icomoon.woff?wg45co') format('woff'),
-    url('fonts/icomoon.svg?wg45co#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?404kka');
+  src:  url('fonts/icomoon.eot?404kka#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?404kka') format('truetype'),
+    url('fonts/icomoon.woff?404kka') format('woff'),
+    url('fonts/icomoon.svg?404kka#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-email:before {
+  content: "\e90b";
+}
+.icon-add:before {
+  content: "\e90c";
+}
+.icon-pencil:before {
+  content: "\e90d";
+}
 .icon-clickfunnels:before {
   content: "\e907";
 }
