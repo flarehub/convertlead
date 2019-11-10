@@ -5,3 +5,5 @@ backend/node_modules
 frontend/node_modules
 mobileApp/node_modules
 frontend/.env.*
+frontend/.env.production
+frontend/.env.development
