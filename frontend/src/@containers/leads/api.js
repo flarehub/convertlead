@@ -10,6 +10,15 @@ export const deleteAgencyCompanyLead = (companyId, id) => {
   return api.delete(`/v1/${Auth.role}/companies/${companyId}/leads/${id}`);
 };
 
+
+export const exportTo = (payload) => {
+  return api.post(`/v1/reports`, { payload });
+};
+
+export const reportPoll = uuid => {
+  return api.get(`/v1/reports/${uuid}/poll`);
+};
+
 export const deleteCompanyLead = id => {
   return api.delete(`/v1/${Auth.role}/leads/${id}`);
 };

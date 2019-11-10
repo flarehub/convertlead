@@ -123,6 +123,10 @@ class User extends Authenticatable
     public function permissions() {
         return $this->belongsToMany('App\Models\Permission', 'user_permissions', 'user_id');
     }
+
+    public function reports() {
+        return $this->hasMany('App\Models\Reports', 'user_id');
+    }
     
     public function avatar() {
         return $this->hasOne('App\Models\Media', 'id', 'avatar_id');

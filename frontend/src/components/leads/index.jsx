@@ -24,7 +24,7 @@ import {BreadCrumbContainer, DealsContainer, CompaniesContainer, LeadsContainer,
 import Loader from '../loader';
 import * as R from "ramda";
 import {getSelectBoxStatuses} from "@models/lead-statuses";
-import {Auth} from "@services";
+import {Auth, config} from "@services";
 import DatePickerSelect from "../@common/datepicker";
 import {AvatarImage} from "../@common/image";
 
@@ -36,13 +36,16 @@ const defaultStatus = {key: '', text: 'All statuses', value: ''};
 
 
 class Leads extends Component {
+    dateDisplayFormat = 'MM/DD/Y';
+
     state = {
         open: false,
+        status: null,
         leadId: null,
         companyId: null,
         campaignId: null,
-        startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
-        endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
+        startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
+        endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
         startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
         endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     };
@@ -86,6 +89,10 @@ class Leads extends Component {
     };
 
     filterByStatus = (event, data) => {
+        this.setState({
+            ...this.state,
+            status: data.value,
+        });
         this.props.filterLeads({
             statusType: data.value,
         })
@@ -95,7 +102,7 @@ class Leads extends Component {
         this.setState({
             ...this.state,
             startDate: moment(date).format('Y-MM-DD'),
-            startDateDisplay: moment(date).format('MM/DD/Y'),
+            startDateDisplay: moment(date).format(this.dateDisplayFormat),
         });
     };
 
@@ -103,7 +110,7 @@ class Leads extends Component {
         this.setState({
             ...this.state,
             endDate: moment(date).format('Y-MM-DD'),
-            endDateDisplay: moment(date).format('MM/DD/Y'),
+            endDateDisplay: moment(date).format(this.dateDisplayFormat),
         });
 
         this.props.filterLeads({
@@ -115,8 +122,8 @@ class Leads extends Component {
     onRestDate = () => {
         this.setState({
             ...this.state,
-            startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
-            endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
+            startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
+            endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
             startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         });
@@ -157,6 +164,19 @@ class Leads extends Component {
         this.props.filterDealsByDealId(null);
         this.props.filterDealCampaignsById(null);
     }
+
+    exportTo = (type) => {
+        this.props.exportTo({
+            type,
+            statusType: this.props.query.filters.statusType,
+            search: this.props.query.search,
+            showDeleted: this.props.query.showDeleted,
+            companyId: this.props.query.filters.companyId,
+            campaignId: this.props.query.filters.campaignId,
+            startDate: this.props.query.filters.startDate,
+            endDate: this.props.query.filters.endDate,
+        });
+    };
 
     render() {
         const leads = this.props.leads || [];
@@ -213,6 +233,10 @@ class Leads extends Component {
                                                           from={new Date(startDate)} to={new Date(endDate)}/>
                                     </Popup>
                                 </Form>
+                                <div>Export your data
+                                    <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
+                                    <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
+                                </div>
                             </div>
                             <Form.Field>
                                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>

@@ -29,6 +29,8 @@ const mapDispatchToProps = dispatch => ({
   filterAgentLeads: filters => dispatch(thunks.filterAgentLeads(filters)),
   agentLeadsByStatuses: statuses => dispatch(thunks.agentLeadsByStatuses(statuses)),
   scrollToPage: page => dispatch(thunks.scrollToPage(page)),
+  exportTo: (payload) => dispatch(thunks.exportTo(payload)),
+  reportPoll: uuid => dispatch(thunks.reportPoll(uuid)),
 });
 
 

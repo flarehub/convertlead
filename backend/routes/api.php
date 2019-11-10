@@ -31,10 +31,14 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('campaigns/{campaignUUID}/leads', 'CampaignController@createLead');
         Route::get('campaigns/leads/webhook', 'CampaignController@facebookWebHook');
         Route::post('campaigns/leads/webhook', 'CampaignController@facebookWebHookPost');
+        Route::get('leads/{lead}/export-pdf', 'LeadController@exportToPDF');
+        Route::get('leads/{lead}/export-csv', 'LeadController@exportToCSV');
+
+        Route::get('reports/{uuid}/download', 'LeadController@download');
     });
 });
 
-Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
+Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
     function () {
         Route::group(['namespace' => 'Auth'], function () {
             Route::post('autologin', 'ApiLoginController@autologin');
@@ -43,6 +47,8 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
         Route::group(['namespace' => 'Api\Management'], function () {
             Route::get('profile', 'ProfileController@index');
             Route::patch('profile', 'ProfileController@update');
+            Route::post('reports', 'ReportController@store');
+            Route::get('reports/{uuid}/poll', 'ReportController@poll');
         });
 
         Route::group(['namespace' => 'Api\Management\Admin'], function () {
@@ -65,6 +71,7 @@ Route::middleware(['auth:api', 'auth-user'])->prefix('v1')->group(
                 Route::apiResource('companies/{company}/leads/{lead}/notes', 'LeadNotesController');
                 Route::apiResource('companies/{company}/deals', 'DealController');
                 Route::apiResource('companies/{company}/deals/{deal}/campaigns', 'CampaignController');
+
                 Route::post(
                     'campaigns/{campaign}/fb-integrations',
                     'CampaignFacebookIntegrationController@subscribe'

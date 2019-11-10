@@ -25,6 +25,7 @@ class Lead extends Model
     protected $appends = [
         'campaign',
         'status',
+        'statusInfo',
         'company',
         'agent',
     ];
@@ -83,6 +84,17 @@ class Lead extends Model
             return $status->type;
         }
         return LeadStatus::$STATUS_NEW;
+    }
+
+    public function getStatusInfoAttribute() {
+        $status = $this->status()->withTrashed()->first();
+        if ($status) {
+            return $status;
+        }
+        $status = new LeadStatus();
+        $status->name = 'New';
+        $status->type = LeadStatus::$STATUS_NEW;
+        return $status;
     }
 
     public function getLeadNoteBy($id) {
