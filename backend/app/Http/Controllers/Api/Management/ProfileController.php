@@ -15,7 +15,8 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        return$request->user()->load(['permissions'])->only(['id', 'name', 'avatar_path', 'role', 'permissions', 'email', 'phone']);
+        return $request->user()->load(['permissions', 'agencies'])
+            ->only(['id', 'name', 'avatar_path', 'role', 'permissions', 'agencies', 'email', 'phone']);
     }
 
     /**

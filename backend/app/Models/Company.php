@@ -12,7 +12,7 @@ class Company extends User
     protected $appends = ['avatar_path'];
 
     public function agencies() {
-        return $this->belongsToMany('App\Models\Agency', 'agency_companies', 'company_id', 'id')->withPivot('id', 'is_locked');
+        return $this->belongsToMany('App\Models\Agency', 'agency_companies', 'company_id')->withPivot('id', 'is_locked');
     }
 
     public function agents() {

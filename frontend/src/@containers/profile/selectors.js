@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect';
+import * as R from 'ramda';
 
 export const getSelectBoxAgencies = createSelector(
   state => state.profile.profile,
   profile => {
     return profile.agencies && profile.agencies.map(agency => ({
-      key: agency.agency_company_id,
-      value: agency.agency_company_id,
+      key: R.path(['pivot', 'id'], agency),
+      value: R.path(['pivot', 'id'], agency),
       text: agency.name,
     }))
   }
