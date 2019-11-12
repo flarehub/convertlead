@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
-import {Segment, Button, Icon, Grid, Header} from 'semantic-ui-react';
-import {BreadCrumbContainer, LeadNotesContainer, LeadFormContainer} from "@containers";
+import {Segment, Button, Grid, Header} from 'semantic-ui-react';
+import { BreadCrumbContainer, LeadNotesContainer, LeadFormContainer, LeadsContainer } from "@containers";
 import TimeLine from "./timeline";
 import Loader from 'components/loader';
 import './index.scss';
-import LeadModal from "../../@common/modals/lead";
+import LeadModal from "components/@common/modals/lead";
+import {config} from "../../../@services";
 
 class LeadNotes extends Component {
 
@@ -25,6 +26,9 @@ class LeadNotes extends Component {
         });
     };
 
+    exportToPDF = (companyId, leadId) => {
+        this.props.exportToPDF(companyId, leadId);
+    };
 
     render() {
         const {lead, leadNotes, leadStatuses} = this.props;
@@ -103,8 +107,10 @@ class LeadNotes extends Component {
                     <Segment basic className={"notoppad"}>
                         <Loader/>
 
-                        <div className="export-data">Export your data <a href="">.csv export</a> <a href="">.pdf
-                            export</a></div>
+                        <div className="export-data">Export your data
+                            <a href={`${config.get('REACT_APP_API_SERVER')}/v1/leads/${lead.id}/export-csv`}>.csv export</a>
+                            <a href={`${config.get('REACT_APP_API_SERVER')}/v1/leads/${lead.id}/export-pdf`}>.pdf export</a>
+                        </div>
 
                         <Grid columns='equal'>
                             <Grid.Row>
@@ -124,4 +130,4 @@ class LeadNotes extends Component {
     }
 }
 
-export default compose(BreadCrumbContainer, LeadNotesContainer, LeadFormContainer)(LeadNotes);
+export default compose(BreadCrumbContainer, LeadsContainer, LeadNotesContainer, LeadFormContainer)(LeadNotes);

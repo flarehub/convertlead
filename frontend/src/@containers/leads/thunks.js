@@ -1,15 +1,15 @@
 import * as actions from './actions';
 import {hideLoader, showLoader} from '../loader/actions';
 import {sendMessage} from '../messages/thunks';
-import {Auth} from '@services';
-import {deleteAgencyCompanyLead, deleteCompanyLead, fetchLeads} from "./api";
+import {Auth, config} from '@services';
+import * as api from './api';
 
 export const loadLeads = () => async (dispatch, getState) => {
     dispatch(showLoader());
     try {
         const {query, pagination} = getState().leads;
 
-        const response = await fetchLeads({
+        const response = await api.fetchLeads({
             ...query.filters,
             ...query.sort,
             search: query.search,
@@ -29,9 +29,9 @@ export const loadLeads = () => async (dispatch, getState) => {
 export const deleteLead = (companyId, id) => async (dispatch) => {
     try {
         if (Auth.isAgency) {
-            await deleteAgencyCompanyLead(companyId, id);
+            await api.deleteAgencyCompanyLead(companyId, id);
         } else {
-            await deleteCompanyLead(id);
+            await api.deleteCompanyLead(id);
         }
         await dispatch(loadLeads());
         dispatch(sendMessage('Successfully deleted'));
@@ -71,7 +71,7 @@ export const loadAgentLeads = () => async (dispatch, getState) => {
     try {
         const {query, pagination, agentLeadStatuses} = getState().leads;
 
-        const response = await fetchLeads({
+        const response = await api.fetchLeads({
             statuses: agentLeadStatuses.join(','),
             search: query.search,
             per_page: 100,
@@ -111,4 +111,26 @@ export const agentLeadsByStatuses = statuses => async dispatch => {
 export const scrollToPage = page => async (dispatch) => {
     await dispatch(actions.gotoPage(page));
     await dispatch(loadAgentLeads());
+};
+
+export const exportTo = (payload) => async dispatch => {
+    try {
+        const report = await api.exportTo(payload);
+        dispatch(reportPoll(report.data.uuid))
+    } catch (e) {
+        console.log(e.message);
+    }
+};
+
+export const reportPoll = uuid => async dispatch => {
+    try {
+        const report = await api.reportPoll(uuid);
+        if (['NONE', 'IN_PROGRESS'].includes(report.data.status)) {
+            setTimeout(() => dispatch(reportPoll(uuid)), 1000);
+        } else {
+            window.location = `${config.get('REACT_APP_API_SERVER')}/v1/reports/${report.data.uuid}/download`;
+        }
+    } catch (e) {
+        dispatch(sendMessage(e.message, true));
+    }
 };

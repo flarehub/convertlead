@@ -18,10 +18,6 @@ class Device extends Model
         'type',
     ];
 
-//    protected $appends = [
-//        'agent',
-//    ];
-
     public function agent() {
         return $this->belongsTo('App\Models\Agent', 'id', 'agent_id');
     }

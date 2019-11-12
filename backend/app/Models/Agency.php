@@ -179,7 +179,7 @@ class Agency extends User
         return $query;
     }
     
-    public function getLeads($queryParams = []) {
+    public function getLeads($queryParams = [], $format = 'Y-m-d') {
         $query = Lead::selectRaw('leads.*, ac.company_id, ac.agency_id, dc.deal_id')
             ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
             ->join('users as cp', 'cp.id', 'ac.company_id')
@@ -207,8 +207,8 @@ class Agency extends User
         (isset($queryParams['endDate']) && $queryParams['endDate'])
         ) {
             $query->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $queryParams['startDate'])->startOfDay(),
-                Carbon::createFromFormat('Y-m-d', $queryParams['endDate'])->endOfDay()]);
+                Carbon::createFromFormat($format, $queryParams['startDate'])->startOfDay(),
+                Carbon::createFromFormat($format, $queryParams['endDate'])->endOfDay()]);
         }
         
 

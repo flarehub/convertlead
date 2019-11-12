@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\Lead;
-use App\Models\LeadNote;
-use App\Models\LeadStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
