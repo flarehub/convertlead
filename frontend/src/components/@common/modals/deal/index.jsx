@@ -6,4 +6,4 @@ import DealForm from "components/@common/forms/deal";
 
 const DealModal = (props) => (<EntityModal {...{...props, Container: DealForm }} />);
 
-export default compose(DealFormContainer, ProfileContainer, MessageContainer, CompaniesContainer)(DealModal);
+export default compose(ProfileContainer, MessageContainer, CompaniesContainer, DealFormContainer)(DealModal);

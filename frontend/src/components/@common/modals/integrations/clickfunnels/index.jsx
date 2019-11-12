@@ -14,7 +14,7 @@ class ClickFunnelsIntegrationModal extends Component {
 
   render() {
     return (
-      <Modal className='ApiIntegration' open={this.props.open} onClose={this.props.onClose}>
+      <Modal className='ApiIntegration tiny' open={this.props.open} onClose={this.props.onClose}>
         <Modal.Header>ClickFunnels API Integration</Modal.Header>
         <Modal.Content>
           <Form>

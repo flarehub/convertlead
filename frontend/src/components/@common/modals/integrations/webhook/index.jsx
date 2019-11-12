@@ -11,7 +11,7 @@ class WebhookIntegrationModal extends Component {
   render() {
     const { campaignLink }  = this.props;
     return (
-      <Modal className='ApiIntegration' open={this.props.open} onClose={this.props.onClose}>
+      <Modal className='ApiIntegration tiny' open={this.props.open} onClose={this.props.onClose}>
         <Modal.Header>Webhook API Integration</Modal.Header>
         <Modal.Content>
           <WebHook campaignLink={campaignLink}/>

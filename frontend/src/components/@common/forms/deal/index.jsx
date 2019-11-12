@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import {
   Form,
   Input,
@@ -36,13 +35,13 @@ class DealForm extends Component {
     return (<Form size='big' className='dealForm'>
       <Form.Field required>
         <label>Name</label>
-        <Input placeholder='Campaign name' value={name} onChange={this.onChangeName} />
+        <Form.Field control={Input} placeholder='Campaign name' value={name} onChange={this.onChangeName} />
       </Form.Field>
       {
         Auth.isAgency ?
           <Form.Field
-            loading={!this.props.selectBoxCompanies.length}
             control={Select}
+            loading={!this.props.selectBoxCompanies.length}
             options={this.props.selectBoxCompanies || []}
             label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
             placeholder='Select company'
@@ -55,7 +54,7 @@ class DealForm extends Component {
           : null
       }
       {
-        Auth.isCompany && this.props.selectBoxAgencies.length > 1 ?
+        Auth.isCompany && this.props.selectBoxAgencies && this.props.selectBoxAgencies.length > 1 ?
           <Form.Field
             loading={!this.props.selectBoxAgencies}
             control={Select}

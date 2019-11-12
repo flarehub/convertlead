@@ -11,8 +11,8 @@ class UnbounceIntegrationModal extends Component {
   render() {
     const { campaignLink }  = this.props;
     return (
-      <Modal className='ApiIntegration' open={this.props.open} onClose={this.props.onClose}>
-        <Modal.Header>Unbounce API Integration</Modal.Header>
+      <Modal className='ApiIntegration tiny' open={this.props.open} onClose={this.props.onClose}>
+        <Modal.Header>Unbounce Webhook Integration</Modal.Header>
         <Modal.Content>
           <WebHook campaignLink={campaignLink}/>
         </Modal.Content>

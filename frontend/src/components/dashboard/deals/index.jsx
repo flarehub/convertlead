@@ -114,7 +114,7 @@ class Dashboard extends Component {
                             {
                                 Auth.isAgency ?
                                     <Form.Field
-                                        loading={!this.props.selectBoxCompanies.length}
+                                        loading={!this.props.selectBoxCompanies}
                                         control={Select}
                                         options={[...companies, ...this.props.selectBoxCompanies]}
                                         label={{ children: 'Filter', htmlFor: 'form-companies-list' }}
@@ -216,17 +216,6 @@ class Dashboard extends Component {
                     </Segment>
 
                 </Segment>
-
-                {/*<div className="ui message dash">*/}
-                {/*    <i aria-hidden="true" onClick={this.handleDismiss} className="close icon"></i>*/}
-                {/*    <div className='message-wrap content'>*/}
-                {/*   <div className="header">*/}
-                {/*        New to ConvertLead ?*/}
-                {/*    </div>*/}
-                {/*    <p>Click the button below to watch our video tutorials & quick startup guide .</p>*/}
-                {/*        <a className="item" href="http://convertlead.com/" target="_blank">Take me there</a>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
             </div>
 
         );

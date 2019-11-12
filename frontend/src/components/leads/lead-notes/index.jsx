@@ -38,12 +38,29 @@ class LeadNotes extends Component {
                 <Grid.Column width={6}>
                     <Segment className='lead-profile'>
                         <div className='lead-profile-row'>
-
+                            <div className={`timeline-status timeline-bg-color-${lead.status.charAt(0).toLowerCase()}`}>
+                                <span>{(lead.fullname && lead.fullname.charAt(0)) || lead.status.charAt(0)}</span>
+                            </div>
                             <div className='lead-profile-value fullname'>{lead.fullname}</div>
-                            <div
-                                className={`block timeline-status timeline-bg-color-${lead.status.charAt(0).toLowerCase()}`}/>
-                        </div>
-                        <div className='lead-profile-row'>
+
+                            <Grid.Column  style={{textAlign: 'center'}}>
+                                <div className={'ui secondary menu leadnotes'}>
+                                    <Button circular className='email'
+                                            icon='icon-email'   as='a' href={`mailto:${lead.email}`}/>
+
+                                    <Button circular className='editlead'
+                                            icon='icon-pencil'  onClick={this.props.loadForm.bind(this, {
+                                        ...lead,
+                                        company_id: lead.company.id,
+                                        show: true
+                                    })}/>
+                                    <Button circular className='newlead'
+                                            icon='icon-add '
+                                            onClick={this.props.loadForm.bind(this, {show: true})}/>
+                                </div>
+                            </Grid.Column>
+
+                             <div className='lead-profile-row'>
                             <div className='lead-profile-label'><label>Phone</label></div>
                             <div className='lead-profile-value'>{lead.phone}</div>
                         </div>
@@ -67,36 +84,25 @@ class LeadNotes extends Component {
                             <div className='lead-profile-label'><label>Company</label></div>
                             <div className='lead-profile-value'>{lead.company.name}</div>
                         </div>
-                        <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Additional information:</label></div>
-                            <div className='lead-profile-value'/>
+                        <div className='lead-profile-row additionalinfo'>
+                            <div className='lead-profile-label-additional '><label>Additional information:</label></div>
+
                         </div>
                         <div className='lead-profile-row'>
                             <p>{lead.metadata}</p>
-                        </div>
+                        </div> </div>
                     </Segment>
                 </Grid.Column>
 
+                <Segment attached='top' className='pagehead'>
+                    <Grid.Column floated='left' style={{textAlign: 'left'}}>
+                        <Header floated='left' as='h1'>Lead timeline</Header>
+
+                    </Grid.Column>
+                </Segment>
+
                 <Segment attached='top'>
-                    <Grid>
-                        <Grid.Row columns={2}>
-                            <Grid.Column floated='left' style={{textAlign: 'left'}}>
-                                <Header floated='left' as='h1'>Lead timeline</Header>
-                                <Button content='Send e-mail' as='a' href={`mailto:${lead.email}`}/>
-                            </Grid.Column>
-                            <Grid.Column floated='right' style={{textAlign: 'right'}}>
-                                <div className={'right floated ui secondary menu'}>
-                                    <Button content='Edit lead' onClick={this.props.loadForm.bind(this, {
-                                        ...lead,
-                                        company_id: lead.company.id,
-                                        show: true
-                                    })}/>
-                                    <Button color='teal' content='New Lead'
-                                            onClick={this.props.loadForm.bind(this, {show: true})}/>
-                                </div>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
+
 
                     <Segment basic className={"notoppad"}>
                         <Loader/>

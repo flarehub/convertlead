@@ -139,6 +139,7 @@ i.icon.sidebar:before {
 
 .freshAppTimeLine ul .timeline-record .timeline-vertical-line {
     background-color: #ececec;
+    margin-top:30px;
 }
 
 
@@ -1025,6 +1026,61 @@ input:focus {
     font-weight:400;
 }
 
+.clickfunnelsbut {
+
+   background:#374b60 !important;
+   color:#f9f9f9  !important;
+
+}
+
+.icon-clickfunnels, .icon-zapier, .icon-unbounce, .icon-instapage, .icont-webhook, .icon-facebook {
+    vertical-align: top !important;
+}
+
+.webhookbut {
+
+    color:#f9f9f9 !important;
+    background:#ffb100  !important;
+
+}
+
+.facebookbut {
+
+    color:#f9f9f9 !important;
+    background:#4267b2 !important;
+
+
+}
+
+.zapierbut {
+
+    color:#f9f9f9 !important;
+    background:#ff4a00 !important;
+
+}
+
+.clickfunnelsbut i:before {
+    margin-left: -1px !important;
+}
+
+.instapagebut {
+
+    color:#f9f9f9 !important;
+    background: #0066ff!important;
+
+}
+
+
+.unbouncedbut {
+
+    color:#f1f3f4!important;
+    background:#303030  !important;
+
+}
+
+
+
+
 .ui.button.integration-but:hover {
     border:1px solid #5998ff !important;
     color:#005ff8;
@@ -1061,6 +1117,13 @@ input:focus {
     right: 0;
     padding-right: 0;
 
+}
+
+.note-label {
+    padding: 10px;
+    display: block;
+    font-style: italic;
+    color: #ccc;
 }
 
 .AgentProfile .ui.two.column.grid .column:nth-child(2) {
@@ -1303,6 +1366,18 @@ input:focus {
     position: relative;
 }
 
+.ui.tiny.modal .ui.big.form .equal.width.fields .field .ui.checkbox label {
+    padding: 0px 0px 0px 25px
+
+}
+
+
+.ui.tiny.modal .ui.big.form .equal.width.fields {
+
+    width: 100%;
+    margin: 10px 0px !important;
+}
+
 .ui.small.modal .ui.form .field > .selection.dropdown, .ui.tiny.modal .ui.form .field > .selection.dropdown {
     box-sizing: border-box;
     padding: 16px !important;
@@ -1327,7 +1402,7 @@ input:focus {
 }
 
 .ui.small.modal .button.black, .ui.tiny.modal .button.black {
-    background-color: #b9b9b9;
+    background-color: #595c65;
 }
 
 .ui.small.modal .ui.search.dropdown > .text, .ui.tiny.modal .ui.search.dropdown > .text {
@@ -2090,23 +2165,98 @@ font-family: 'Roboto Condensed', sans-serif;
 
 .LeadNotes .six.wide.column {
 
-    width: 350px;
+    width: 410px;
     position: absolute;
     left: 0;
     height: 100%;
     border-right: 1px solid rgba(34, 36, 38, .1);
     top: 90px;
-    padding-left: 75px;
-    box-shadow: 0px 44px 34px 3px rgba(0,0,0,0.1);
+    padding:35px;
+    box-shadow: none
 
 }
+
+
+.ui.secondary.menu.leadnotes {
+
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px auto 50px auto;
+
+}
+
+.ui.secondary.menu.leadnotes button , .ui.secondary.menu.leadnotes a {
+
+    color: #637282 !important;
+    font-size: 14px !important;
+    margin: 10px;
+    background: #f1f5f9;
+    display:flex;
+    align-content:center;
+    justify-content:center;
+    align-items:center;
+    width: 45px;
+    height: 45px;
+
+
+}
+
+.LeadNotes .lead-profile .lead-profile-row .lead-profile-value.fullname {
+
+    text-align: center !important;
+    font-size: 25px !important;
+    font-family: -apple-system, sans-serif;
+    display: block !important;
+    margin: 40px 0 30px 0 !important;
+    line-height: 1.2;
+    width: 100% !important;
+
+}
+
+
+.ui.secondary.menu.leadnotes button i , .ui.secondary.menu.leadnotes a i {
+
+    font-weight:900;
+}
+
+
+
+.lead-profile-row.additionalinfo{
+
+    width: 100% !important;
+    margin-top: 30px;
+    border-top: 1px dashed #ccc;
+    padding-top: 30px;
+}
+
+
 
 .LeadNotes .ui.top.attached.segment {
 
-    width: calc(100% - 320px) !important;
-    margin-left: 320px;
+    width: calc(100% - 360px) !important;
+    margin-left: 360px;
+    margin-top:0 !important;
 }
 
+.LeadNotes .ui.top.attached.segment.pagehead {
+    width: 100% !important;
+    margin-left: 315px;
+    margin-top: 0 !important;
+    border-bottom: 1px solid rgba(34, 36, 38, .1) !important;
+padding: 25px 25px 29px 45px !important;
+
+}
+
+.ui.top.attached.segment.pagehead .ui.header {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    font-family: Dosis, sans-serif !important;
+    margin: 0 !important;
+    color: #243546 !important;
+
+}
 .LeadNotes .ui.segment.lead-profile {
 
     border: none;
@@ -2133,7 +2283,7 @@ font-family: 'Roboto Condensed', sans-serif;
 .LeadNotes .freshAppTimeLine ul .timeline-record .timeline-record-text .creation-date, .LeadNotes .freshAppTimeLine ul .timeline-record .timeline-record-text .creation-time {
     color: #637282 !important;
 
-    font-family: Raleway, sans-serif;
+    font-family: Lato, sans-serif;
     font-size: 13px;
 }
 
@@ -2173,11 +2323,27 @@ margin-top:0px;
 
 .LeadNotes .timeline-bg-color-c {
     background-color: #005ff8 !important;
+    color: #fff;
+
+}
+
+.LeadNotes .timeline-status {
+
+    width: 55px;
+    height: 55px;
+    border-radius: 5px;
+    margin: 0 auto;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    font-size: 22px;
 }
 
 
 .LeadNotes .timeline-bg-color-n {
-    background-color: #f7f9fa !important;
+    background-color: #f1f5f9 !important;
 }
 
 
@@ -2194,17 +2360,35 @@ margin-top:0px;
 
 
 .LeadNotes .lead-profile-label {
-    width:100% !important;
-    display:block !important;
+    width:30% !important;
+    display:inline-block !important;
     color: #637282 !important;
-    font-family: Raleway, sans-serif;
+    font-family: Lato, sans-serif;
     font-size: 13px;
+    font-weight:400;
+}
+
+
+.lead-profile-label-additional {
+
+    width:100% !important;
+    color: #637282 !important;
+    font-family: Lato, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-align:left;
+    padding-top:30px;
 }
 
 .LeadNotes .lead-profile .lead-profile-row .lead-profile-value {
-    width:100%;
+
     color: #243546 !important;
     font-weight: 600;
+    width:70% !important;
+    text-align: right !important;
+    display:inline-block !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
 }
 
@@ -2212,12 +2396,19 @@ margin-top:0px;
     margin-top:5px;
 }
 
-
+.freshAppTimeLine ul .timeline-record .timeline-record-text {
+    padding: 35px !important;
+}
 
 
 .freshAppTimeLine ul .timeline-record .timeline-color-v {
 
     color: #f2711c !important ;
+}
+
+.timeline-record .timeline-status span {
+    font-size: 14px;
+    margin-top: 0px !important;
 }
 
 
@@ -2227,6 +2418,9 @@ margin-top:0px;
 
 .freshAppTimeLine > button:nth-child(2) {
     margin-left:50px;
+    border-radius: 25px;
+    color: #fff;
+    background: #005ff8 ;
 }
 
 .ui.dimmer {
@@ -2443,6 +2637,7 @@ margin-top:0px;
         margin: 0 !important;
         padding: 0 45px !important;
         width: 100% !important;
+
     }
 
     .LeadNotes .ui.top.attached.segment .left.floated.column .ui.left.floated.header:before {

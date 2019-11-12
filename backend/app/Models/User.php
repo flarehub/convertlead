@@ -151,6 +151,7 @@ class User extends Authenticatable
         $data['uuid'] = Str::uuid();
         $this->fill($data);
         $this->saveOrFail();
+        $this->addDefaultPermissions();
         return $this;
     }
     
@@ -239,5 +240,14 @@ class User extends Authenticatable
         }
 
         return $user;
+    }
+
+    /**
+     * Add default permissions
+     */
+    public function addDefaultPermissions()
+    {
+        $permissions = \App\Models\Permission::whereIn('name', $this->getDefaultPermissions())->get();
+        $this->permissions()->attach($permissions);
     }
 }
