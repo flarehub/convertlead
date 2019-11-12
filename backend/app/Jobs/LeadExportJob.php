@@ -39,38 +39,53 @@ class LeadExportJob implements ShouldQueue
      */
     public function handle()
     {
-        $payload = json_decode($this->report->payload);
-        \Log::critical('teets');
-        $user = $this->report->user;
-        $isAgency = $user->role === User::$ROLE_AGENCY;
-        $isCompany = $user->role === User::$ROLE_COMPANY;
+        try {
+            $payload = json_decode($this->report->payload);
+            $user = $this->report->user;
+            $isAgency = $user->role === User::$ROLE_AGENCY;
+            $isCompany = $user->role === User::$ROLE_COMPANY;
 
-        if ($isAgency) {
-            $user = Agency::find($user->id);
-        } elseif ($isCompany) {
-            $user = Company::find($user->id);
+            if ($isAgency) {
+                $user = Agency::find($user->id);
+            } elseif ($isCompany) {
+                $user = Company::find($user->id);
+            }
+
+            $leads = $user->getLeads((array)$payload)->get();
+
+            if ($this->report->type === Reports::$TYPE_LEADS_PDF) {
+                $this->exportToPDF($leads, $this->report);
+            } elseif ($this->report->type === Reports::$TYPE_LEADS_CSV) {
+                $this->exportToCSV($leads, $this->report);
+            }
+
+            $this->report->status = Reports::$STATUS_COMPLETED;
+            $this->report->save();
+
+            MailService::sendMail('emails.report', [
+                'report' => $this->report,
+                'user' => $user,
+                'query' => $payload,
+                'file' => url("/api/v1/reports/{$this->report->uuid}/download"),
+            ],
+                $this->report->user->email,
+                env('APP_REPORT', 'Your report have been generated!')
+            );
+        } catch (\Exception $exception) {
+            \Log::critical($exception->getMessage());
+            $this->report->status = Reports::$STATUS_FAILED;
+            $this->report->save();
+
+            MailService::sendMail('emails.report_failed', [
+                'report' => $this->report,
+                'user' => $user,
+                'query' => $payload,
+                'file' => url("/api/v1/reports/{$this->report->uuid}/download"),
+            ],
+                $this->report->user->email,
+                env('APP_REPORT', 'Your report failed!')
+            );
         }
-
-        $leads = $user->getLeads((array)$payload)->get();
-        foreach ($leads AS $lead) {
-            \Log::critical(json_encode($lead->company['name']));
-        }
-
-        if ($this->report->type === Reports::$TYPE_LEADS_PDF) {
-            $this->exportToPDF($leads, $this->report);
-        } elseif ($this->report->type === Reports::$TYPE_LEADS_CSV) {
-            $this->exportToCSV($leads, $this->report);
-        }
-
-        $this->report->status = Reports::$STATUS_COMPLETED;
-        $this->report->save();
-
-//        MailService::sendMail('emails.report', [
-//            'report' => $this->report,
-//        ],
-//            $this->report->user->email,
-//            env('APP_REPORT', 'Your report have been generated!')
-//        );
     }
 
     public function exportToPDF($leads, Reports $report) {
