@@ -233,10 +233,7 @@ class Leads extends Component {
                                                           from={new Date(startDate)} to={new Date(endDate)}/>
                                     </Popup>
                                 </Form>
-                                <div>Export your data
-                                    <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
-                                    <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
-                                </div>
+
                             </div>
                             <Form.Field>
                                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
@@ -253,6 +250,10 @@ class Leads extends Component {
                                 </Menu.Menu>
                             </Menu>
                         </Grid.Column>
+                        <div className='exportbox'>Export your data
+                            <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
+                            <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
+                        </div>
                     </Grid>
                     <Segment basic>
                         <Loader/>

@@ -76,6 +76,31 @@ div[id^=__lpform_] {
     margin: 0 auto;
 }
 
+.sidebar-avatar.icon-image {
+
+    width: 30px;
+    height: 30px;
+
+}
+
+.exportbox {
+    margin: 10px auto 25px auto;
+    width: 100%;
+    text-align: right;
+    color: #637282 !important;
+}
+
+.export-data {
+
+    color: #637282 !important;
+}
+
+.exportbox a, .export-data a {
+    color:#005ff8;
+    margin-left:10px;
+    border-bottom: 1px dashed#005ff8;
+}
+
 i.icon.sidebar:before {
     content: "\EC2B" !important;
     font-size: 20px;
@@ -139,7 +164,7 @@ i.icon.sidebar:before {
 
 .freshAppTimeLine ul .timeline-record .timeline-vertical-line {
     background-color: #ececec;
-    margin-top:30px;
+    margin-top:60px;
 }
 
 
@@ -2344,6 +2369,7 @@ margin-top:0px;
 
 .LeadNotes .timeline-bg-color-n {
     background-color: #f1f5f9 !important;
+    color:#637282 !important;
 }
 
 
