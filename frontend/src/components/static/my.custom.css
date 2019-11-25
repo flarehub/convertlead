@@ -1328,17 +1328,21 @@ input:focus {
 }
 
 .create-fb-form {
-    background-color: #f1f5f9;
-    color: #637282;
-    background: transparent;
-    border-bottom: 1px dashed #637282;
-    border-radius: 0;
-    padding: 5px;
-    margin-left: 10px;
-    font-size: 12px;
-    font-weight: 600;
+
+    background: transparent !important;
+    border-bottom: 1px dashed #637282 !important;
+    border-radius: 0 !important;
+    padding: 5px !important;
+    margin-left: 10px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
 }
 
+.modal.ApiIntegration.tiny {
+
+    width:800px !important;
+
+}
 .modal.Apiintegration .ui.celled.table tr td, .Apiintegration .ui.celled.table tr th {
 
     border-left :0px !important;
@@ -1370,7 +1374,7 @@ input:focus {
 }
 
 .ui.small.modal .content, .ui.tiny.modal .content {
-    padding: 1rem 3.5rem;
+    padding: 1rem 2rem;
     background: #fff;
 }
 
