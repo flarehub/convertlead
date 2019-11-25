@@ -1320,6 +1320,44 @@ input:focus {
     background-color: #ff9d00;
 }
 
+.select-fb-form {
+
+    border: none;
+    padding: 10px 30px 10px 10px !important;
+    font-size: 14px;
+}
+
+.create-fb-form {
+    background-color: #f1f5f9;
+    color: #637282;
+    background: transparent;
+    border-bottom: 1px dashed #637282;
+    border-radius: 0;
+    padding: 5px;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.modal.Apiintegration .ui.celled.table tr td, .Apiintegration .ui.celled.table tr th {
+
+    border-left :0px !important;
+}
+
+
+.modal.ApiIntegration .ui.table td {
+    padding: 0.786em .7em!important;
+}
+
+.modal.ApiIntegration .content {
+    padding: 3rem;
+}
+
+.subscribe-fb-but {
+    background-color: #005ff8!important;
+    color:#fff !important;
+}
+
 .ui.small.modal, .ui.tiny.modal {
     width: 600px !important;
     box-shadow: 1px 3px 3px 0 rgba(0,0,0,0.1), 1px 3px 15px 2px rgba(0,0,0,.1) !important;
@@ -2063,10 +2101,6 @@ font-family: 'Roboto Condensed', sans-serif;
     float:right;
 }
 
-.ui.buttons .or {
-    height: 3.57142857em !important ;
-}
-
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .or::before {
     content:'\e999  ';
     font-family: 'Linearicons', serif !important;
@@ -2463,6 +2497,10 @@ margin-top:0px;
 }
 
 
+.ui.positive.button, .ui.positive.buttons .button, .ui.positive.button:hover, .ui.positive.buttons .button:hover {
+
+    background-color: #005ff8 !important;
+}
 
 
 
@@ -2771,6 +2809,10 @@ margin-top:0px;
 
     .Agents .ui.two.column.grid .column:nth-child(1) .ui.form {
      border:0;
+    }
+
+    .ui.buttons .or {
+        height: 3.57142857em !important ;
     }
 }
 

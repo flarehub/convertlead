@@ -87,15 +87,16 @@ class PageRow extends Component {
         <Table.Cell>{page.name}</Table.Cell>
         <Table.Cell>
           <Select placeholder='Select Form'
+                  className='select-fb-form'
                   defaultValue={this.state.defaultForm}
                   loading={!this.state.pageForms}
                   options={this.state.pageForms || []}
                   onChange={this.formSelected}
           />
-          <Button onClick={this.createNewPageForm}>Create New Form</Button>
+          <Button className='create-fb-form' onClick={this.createNewPageForm}>Create New Form</Button>
         </Table.Cell>
         <Table.Cell>
-          <Button onClick={this.onSubscribe}>Subscribe</Button>
+          <Button className='subscribe-fb-but' onClick={this.onSubscribe}>Subscribe</Button>
         </Table.Cell>
       </Table.Row>
     )

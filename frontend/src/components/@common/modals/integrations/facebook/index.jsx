@@ -54,7 +54,7 @@ class FacebookIntegrationModal extends Component {
   render() {
     let { fbPages = [], fbAdAccounts=[], fbIntegrations = [] } = this.props;
     return (
-      <Modal className='ApiIntegration' open={this.props.open} onClose={this.props.onClose}>
+      <Modal className='ApiIntegration tiny' open={this.props.open} onClose={this.props.onClose}>
         <Modal.Header>Facebook API Integration</Modal.Header>
         <Modal.Content>
           { (!fbPages.length ? 'Missing Active pages!' : '') }
