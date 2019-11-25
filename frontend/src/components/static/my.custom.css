@@ -1338,7 +1338,7 @@ input:focus {
     font-weight: 600 !important;
 }
 
-.modal.ApiIntegration.tiny {
+.ui.tiny.modal.ApiIntegration{
 
     width:800px !important;
 
