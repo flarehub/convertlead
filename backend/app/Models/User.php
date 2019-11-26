@@ -250,4 +250,12 @@ class User extends Authenticatable
         $permissions = \App\Models\Permission::whereIn('name', $this->getDefaultPermissions())->get();
         $this->permissions()->attach($permissions);
     }
+
+    public function isAgency() {
+        return $this->role === self::$ROLE_AGENCY;
+    }
+
+    public function isAgent() {
+        return $this->role === self::$ROLE_AGENT;
+    }
 }
