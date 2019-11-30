@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
-import {Segment, Button, Grid, Header} from 'semantic-ui-react';
+import { Accordion, Icon, Segment, Button, Grid, Header } from 'semantic-ui-react';
 import { BreadCrumbContainer, LeadNotesContainer, LeadFormContainer, LeadsContainer } from "@containers";
 import TimeLine from "./timeline";
 import Loader from 'components/loader';
 import './index.scss';
-import LeadModal from "components/@common/modals/lead";
-import {config} from "../../../@services";
+import LeadModal from 'components/@common/modals/lead';
+import {config} from '@services';
 
 class LeadNotes extends Component {
+    state = {
+        activeIndex: null,
+    };
 
     async componentWillMount() {
         const {companyId, leadId} = this.props.match.params;
@@ -30,8 +33,17 @@ class LeadNotes extends Component {
         this.props.exportToPDF(companyId, leadId);
     };
 
+    handleClick = (e, titleProps) => {
+        const { index } = titleProps;
+        const { activeIndex } = this.state;
+        const newIndex = activeIndex === index ? -1 : index;
+
+        this.setState({ activeIndex: newIndex })
+    };
+
     render() {
         const {lead, leadNotes, leadStatuses} = this.props;
+        const { activeIndex } = this.state;
         return (
             <div className='LeadNotes'>
                 <LeadModal size='small'/>
@@ -85,12 +97,26 @@ class LeadNotes extends Component {
                             <div className='lead-profile-value'>{lead.company.name}</div>
                         </div>
                         <div className='lead-profile-row additionalinfo'>
-                            <div className='lead-profile-label-additional '><label>Additional information:</label></div>
-
+                            <Accordion>
+                                <Accordion.Title
+                                  className='lead-profile-label-additional'
+                                  active={activeIndex === 0}
+                                  index={0}
+                                  onClick={this.handleClick}
+                                >
+                                    <Icon name='dropdown' />
+                                    Additional information
+                                </Accordion.Title>
+                                <Accordion.Content
+                                  className='lead-profile-row'
+                                  active={activeIndex === 0}>
+                                    <p>
+                                        {lead.metadata}
+                                    </p>
+                                </Accordion.Content>
+                            </Accordion>
                         </div>
-                        <div className='lead-profile-row'>
-                            <p>{lead.metadata}</p>
-                        </div> </div>
+                        </div>
                     </Segment>
                 </Grid.Column>
 

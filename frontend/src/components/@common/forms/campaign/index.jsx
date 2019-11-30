@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Input, Select } from 'semantic-ui-react';
+import { Button, Form, Input, Select } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Auth } from '@services';
 import './index.scss';
-import {Auth} from "../../../../@services";
+
 
 class CampaignForm extends Component {
   state = { agentId: '' };
@@ -134,21 +136,26 @@ class CampaignForm extends Component {
           : null
       }
 
-      <Form.Field
-        required
-        loading={!this.props.selectBoxAgents.length}
-        control={Select}
-        options={this.props.selectBoxAgents || []}
-        label={{ children: 'Assign to', htmlFor: 'agents-list' }}
-        placeholder="Select agents"
-        search
-        multiple
-        name='agents'
-        onChange={this.onChangeAgents}
-        onSearchChange={this.onSearchAgent}
-        defaultValue={(form.agents && form.agents.length ? form.agents : agentId) || null}
-        searchInput={{ id: 'agents-list' }}
-      />
+      {
+        !!this.props.selectBoxAgents.length && <Form.Field
+          required
+          loading={!this.props.selectBoxAgents.length}
+          control={Select}
+          options={this.props.selectBoxAgents || []}
+          label={{ children: 'Assign to', htmlFor: 'agents-list' }}
+          placeholder="Select agents"
+          search
+          multiple
+          name='agents'
+          onChange={this.onChangeAgents}
+          onSearchChange={this.onSearchAgent}
+          defaultValue={(form.agents && form.agents.length ? form.agents : agentId) || null}
+          searchInput={{ id: 'agents-list' }}
+        />
+      }
+      {
+        !this.props.selectBoxAgents.length && <Button onClick={() => window.location = '/agents'}>Create agent</Button>
+      }
     </Form>)
   }
 }

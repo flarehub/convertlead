@@ -27,6 +27,7 @@ import {getSelectBoxStatuses} from "@models/lead-statuses";
 import {Auth, config} from "@services";
 import DatePickerSelect from "../@common/datepicker";
 import {AvatarImage} from "../@common/image";
+import {DATE_FORMAT} from '@constants';
 
 const companies = [
     {key: '', text: 'All companies', value: ''},
@@ -296,7 +297,7 @@ class Leads extends Component {
                                                     {lead.fullname}
                                                 </Link>
                                                 <div className='date-added'>
-                                                    Added {moment.utc(lead.created_at).local().format('DD/MM/YYYY')}
+                                                    Added {moment.utc(lead.created_at).local().format(`${DATE_FORMAT} H:mm`)}
                                                 </div>
                                             </Table.Cell>
                                             <Table.Cell>

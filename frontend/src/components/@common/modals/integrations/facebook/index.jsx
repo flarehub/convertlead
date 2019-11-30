@@ -1,19 +1,19 @@
 import { compose } from 'recompose';
 import React, { Component } from 'react'
-import { Button, Modal, Radio, Icon, Table, Select } from 'semantic-ui-react'
+import { Button, Modal, Table, Select } from 'semantic-ui-react'
 import {MessagesContainer} from "@containers";
-import * as R from 'ramda';
 
 import './index.scss';
-import PageRow from "./PageRow";
+import {Facebook} from "@services";
 
 class FacebookIntegrationModal extends Component {
   state = {
     open: false,
     copied: false,
-    pageForms: {},
+    pageForms: [],
     page: {},
     adAccount: null,
+    pageform: null,
   };
 
   onSelectAdAccount = (event, data) => {
@@ -23,52 +23,78 @@ class FacebookIntegrationModal extends Component {
     });
   };
 
-  onSubscribe = (page, form, adAccount = null) => {
-    window.FB.api(
-      `/${page.id}/subscribed_apps`, 'post', {
-        access_token: page.access_token,
-        subscribed_fields: 'leadgen',
-      }, (response) => {
-        if (!response.success) {
-          this.props.sendMessage('Was not possible to subscribe!', true);
-          return;
-        }
-        this.props.sendMessage(`Subscribed to '${page.name}'!`);
-        // todo save integration to server
-        this.props.subscribe(this.props.campaign.id, {
-          deal_campaign_id: +this.props.campaign.id,
-          page_name: page.name,
-          form_name: form.name,
-          fb_page_id: +page.id,
-          fb_form_id: +form.id,
-          fb_page_access_token: page.access_token,
-          fb_ad_account_id: adAccount,
-        });
+  onSelectPage = async (event, data) => {
+    const page = data.value;
+    const pageId = page.id;
+    const pageAccessToken = page.access_token;
+    const pageForms = await Facebook.getPageFormsBy(pageId, pageAccessToken);
+    this.setState({
+      ...this.state,
+      page,
+      pageForms,
+    });
+  };
+
+  onSubscribe = async () => {
+    const { page, pageForm, adAccount } = this.state;
+    const subscribeToPage = await Facebook.subscribeToPageNotificationBy(page.id, page.access_token);
+    if (subscribeToPage) {
+      this.props.sendMessage(`Subscribed to '${page.name}'!`);
+      // todo save integration to server
+      this.props.subscribe(this.props.campaign.id, {
+        deal_campaign_id: +this.props.campaign.id,
+        page_name: page.name,
+        form_name: pageForm.name,
+        fb_page_id: +page.id,
+        fb_form_id: +pageForm.id,
+        fb_page_access_token: page.access_token,
+        fb_ad_account_id: adAccount,
       });
+    } else {
+      this.props.sendMessage('Was not possible to subscribe!', true);
+    }
   };
 
   onUnSubscribe = (integrationId) => {
     this.props.unsubscribe(this.props.campaign.id, integrationId);
   };
 
+  onPageFormSelected = (event, data) => {
+    this.setState({
+      ...this.state,
+      pageForm: data.value
+    })
+  };
+
   render() {
-    let { fbPages = [], fbAdAccounts=[], fbIntegrations = [] } = this.props;
+    const { fbPages = [], fbIntegrations = [] } = this.props;
+    const { page, pageForm, pageForms } = this.state;
     return (
       <Modal className='ApiIntegration tiny' open={this.props.open} onClose={this.props.onClose}>
         <Modal.Header>Facebook API Integration</Modal.Header>
         <Modal.Content>
-          { (!fbPages.length ? 'Missing Active pages!' : '') }
-          {
-            fbAdAccounts.length ? <div className="ads_accounts">
-              <label>Ads Accounts</label>
-              <Select placeholder='Select Ads account'
+          <div className='ac-pages'>
+            {
+              <Select placeholder='Select Page!'
                       required={true}
-                      loading={!fbAdAccounts}
-                      options={fbAdAccounts || []}
-                      onChange={this.onSelectAdAccount}
+                      loading={!fbPages}
+                      options={fbPages || []}
+                      onChange={this.onSelectPage}
               />
-            </div> : null
-          }
+            }
+            {
+              pageForms && pageForms.length && <Select placeholder='Select Form'
+                                                       className='select-fb-form'
+                                                       loading={!pageForms}
+                                                       options={pageForms || []}
+                                                       onChange={this.onPageFormSelected}
+              />
+            }
+            {
+              page && pageForm && <Button className='subscribe-fb-but' onClick={this.onSubscribe}>Subscribe</Button>
+            }
+          </div>
+
           <Table celled compact definition>
             <Table.Header fullWidth>
               <Table.Row>
@@ -79,13 +105,6 @@ class FacebookIntegrationModal extends Component {
             </Table.Header>
 
             <Table.Body>
-              {
-                fbPages && fbPages.map((page, key) => <PageRow key={key}
-                                                    page={page}
-                                                    adAccount={this.state.adAccount}
-                                                    onSubscribe={this.onSubscribe}
-                />)
-              }
               {
                 fbIntegrations && fbIntegrations.map((integration, key) => <Table.Row key={`int-${key}`}>
                   <Table.Cell>{integration.page_name || integration.fb_page_id}</Table.Cell>

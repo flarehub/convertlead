@@ -265,6 +265,7 @@ module.exports = function(webpackEnv) {
         'components': path.resolve('src/components'), // This is ours!!
         '@containers': path.resolve('src/@containers'), // This is ours!!
         '@services': path.resolve('src/@services'), // This is ours!!
+        '@constants': path.resolve('src/@constants'), // This is ours!!
         '@models': path.resolve('src/@models'), // This is ours!!
         'utils': path.resolve('src/utils'), // This is ours!!
         // Support React Native Web

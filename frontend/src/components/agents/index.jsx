@@ -25,6 +25,7 @@ import * as R from "ramda";
 import {CompaniesContainer} from "@containers";
 import {Auth} from "@services";
 import {AvatarImage} from "../@common/image";
+import {DATE_FORMAT} from '@constants';
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -180,7 +181,7 @@ class Agents extends Component {
                                                 </Link>
                                                 <div>
                                                      <span
-                                                         className='date-added'>Added {moment.utc(agent.created_at).local().format('DD/MM/YYYY')}</span>
+                                                         className='date-added'>Added {moment.utc(agent.created_at).local().format(DATE_FORMAT)}</span>
                                                 </div>
                                             </Table.Cell>
                                             {

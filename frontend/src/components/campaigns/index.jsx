@@ -25,7 +25,7 @@ import ClickFunnelsIntegrationModal from "../@common/modals/integrations/clickfu
 import UnbounceIntegrationModal from "../@common/modals/integrations/unbounce";
 import WebhookIntegrationModal from "../@common/modals/integrations/webhook";
 import FacebookIntegrationModal from "../@common/modals/integrations/facebook";
-import {Auth, config} from "@services";
+import {Auth, config, Facebook} from "@services";
 
 class Campaigns extends Component {
   state = {
@@ -57,6 +57,9 @@ class Campaigns extends Component {
   }
 
   componentWillMount() {
+    // init facebook
+    Facebook.init();
+
     const {companyId, agentId, dealId} = this.props.match.params;
     this.setState({
       ...this.state,
@@ -64,24 +67,6 @@ class Campaigns extends Component {
       agentId: +agentId,
       dealId: +dealId,
     });
-
-    window.fbAsyncInit = function() {
-      window.FB.init({
-        appId      : config.get('REACT_APP_FB_APP_ID'),
-        cookie     : true,
-        xfbml      : true,
-        version    : 'v4.0'
-      });
-      window.FB.AppEvents.logPageView();
-    };
-
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
   }
 
   componentDidMount() {
@@ -163,7 +148,7 @@ class Campaigns extends Component {
     this.props.gotoPage(data.activePage);
   };
 
-  loadIntegrationForm = campaign => {
+  loadIntegrationForm = async campaign => {
     if (campaign.integration === 'OPTIN_FORM') {
       this.props.loadOptinForm({
         ...campaign,
@@ -216,7 +201,7 @@ class Campaigns extends Component {
     }
 
     if (campaign.integration === 'FACEBOOK') {
-      this.checkLoginState();
+      await this.checkLoginState();
       this.setState({
         ...this.state,
         campaign,
@@ -257,30 +242,32 @@ class Campaigns extends Component {
     }
   };
 
-  retrieveAccountFacebookPages() {
-    window.FB.api('/me/accounts', ({ data , paging }) => {
+  async retrieveAccountFacebookPages() {
+    try {
+      const fbAdsAccounts = await Facebook.getAdsAccounts();
+      const fbPages = await Facebook.getAccountPages();
+
       this.setState({
         ...this.state,
         openFBIntegration: true,
-        fbPages: data,
+        fbPages: fbPages.map(
+          page => ({ key: page.name, text: page.name, value: page })),
+        fbAdAccounts: fbAdsAccounts.map(
+          adAccount => ({ key: adAccount.account_id, text: adAccount.name, value: adAccount.account_id })),
       });
-    });
-
-    window.FB.api('/me/adaccounts?fields=name,account_id', ({ data , paging }) => {
-      if (data && data.length) {
-        this.setState({
-          fbAdAccounts: data.map(
-            adAccount => ({ key: adAccount.account_id, text: adAccount.name, value: adAccount.account_id })),
-        });
-      }
-    });
+    } catch (e) {
+      this.props.sendMessage('Was not possible to retrieve facebook data!', true);
+    }
   }
 
-  checkLoginState = (campaignId) => {
-    window.FB.getLoginStatus(function(response) {
-      this.statusChangeCallback(response);
-    }.bind(this));
-  }
+  checkLoginState = async (campaignId) => {
+    const isLoggedIn = Facebook.checkIsLoggedIn();
+    if (isLoggedIn) {
+      await this.retrieveAccountFacebookPages();
+    } else {
+      this.props.sendMessage('Was not possible to login!', true);
+    }
+  };
 
   onCloseApiIntegration = () => {
     this.setState({

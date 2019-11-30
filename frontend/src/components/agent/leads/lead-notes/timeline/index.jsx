@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import * as moment from 'moment';
 import './index.scss';
+import { DATE_FORMAT } from '@constants';
 
 export class LeadNoteTimeLine extends Component {
     componentWillMount() {}
@@ -13,7 +14,7 @@ export class LeadNoteTimeLine extends Component {
                     notes && notes.map(note =>
                         <div className='lead-note' key={note.id}>
                             <div className='lead-note-datetime'>
-                                <span className='lead-note-date'>{moment.utc(note.created_at).local().format('DD.MM.YYYY')}</span>
+                                <span className='lead-note-date'>{moment.utc(note.created_at).local().format(DATE_FORMAT)}</span>
                                 <span className='lead-note-time'>{moment.utc(note.created_at).local().format('LT')}</span>
                             </div>
                             <div className='lead-note-content'>

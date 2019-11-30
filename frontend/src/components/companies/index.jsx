@@ -22,6 +22,7 @@ import {
 import './index.scss';
 import {AvatarImage} from "../@common/image";
 import * as moment from 'moment';
+import {DATE_FORMAT} from '@constants';
 
 class Companies extends Component {
     state = {
@@ -142,7 +143,7 @@ class Companies extends Component {
                                                     <Link to={`/companies/${company.id}/profile`}>{company.name}</Link>
                                                 </div>
                                                 <span
-                                                    className='date-added'>Added {moment.utc(company.created_at).local().format('DD/MM/YYYY')}</span>
+                                                    className='date-added'>Added {moment.utc(company.created_at).local().format(DATE_FORMAT)}</span>
                                             </Table.Cell>
                                             <Table.Cell><Link
                                                 to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>
