@@ -83,7 +83,7 @@ class FacebookIntegrationModal extends Component {
               />
             }
             {
-              pageForms && pageForms.length && <Select placeholder='Select Form'
+              pageForms && !!pageForms.length && <Select placeholder='Select Form'
                                                        className='select-fb-form'
                                                        loading={!pageForms}
                                                        options={pageForms || []}
