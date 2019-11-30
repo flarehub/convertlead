@@ -167,6 +167,7 @@ class CampaignController extends Controller
                     if ($leadFields) {
                         foreach ($leadFields as $field) {
                             $field->name = ($field->name === 'full_name' ? 'fullname' : $field->name);
+                            $field->name = ($field->name === 'phone_number' ? 'phone' : $field->name);
                             $request->merge([
                                 $field->name => (is_array($field->values) ? array_first($field->values) : ''),
                             ]);
