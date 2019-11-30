@@ -1,18 +1,7 @@
 import {config} from "./index";
-import {reject} from "ramda";
 
 class Facebook {
   constructor() {
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  }
-
-  init() {
     window.fbAsyncInit = function() {
       window.FB.init({
         appId      : config.get('REACT_APP_FB_APP_ID'),
@@ -22,6 +11,14 @@ class Facebook {
       });
       window.FB.AppEvents.logPageView();
     };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
   }
 
   checkIsLoggedIn() {

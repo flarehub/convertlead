@@ -9,9 +9,6 @@ import LeadModal from 'components/@common/modals/lead';
 import {config} from '@services';
 
 class LeadNotes extends Component {
-    state = {
-        activeIndex: null,
-    };
 
     async componentWillMount() {
         const {companyId, leadId} = this.props.match.params;
@@ -33,17 +30,8 @@ class LeadNotes extends Component {
         this.props.exportToPDF(companyId, leadId);
     };
 
-    handleClick = (e, titleProps) => {
-        const { index } = titleProps;
-        const { activeIndex } = this.state;
-        const newIndex = activeIndex === index ? -1 : index;
-
-        this.setState({ activeIndex: newIndex })
-    };
-
     render() {
         const {lead, leadNotes, leadStatuses} = this.props;
-        const { activeIndex } = this.state;
         return (
             <div className='LeadNotes'>
                 <LeadModal size='small'/>
@@ -97,25 +85,14 @@ class LeadNotes extends Component {
                             <div className='lead-profile-value'>{lead.company.name}</div>
                         </div>
                         <div className='lead-profile-row additionalinfo'>
-                            <Accordion>
-                                <Accordion.Title
-                                  className='lead-profile-label-additional'
-                                  active={activeIndex === 0}
-                                  index={0}
-                                  onClick={this.handleClick}
-                                >
-                                    <Icon name='dropdown' />
-                                    Additional information
-                                </Accordion.Title>
-                                <Accordion.Content
-                                  className='lead-profile-row'
-                                  active={activeIndex === 0}>
-                                    <p>
-                                        {lead.metadata}
-                                    </p>
-                                </Accordion.Content>
-                            </Accordion>
+                            <div className='lead-profile-label-additional '><label>Additional information:</label></div>
+
                         </div>
+                            {
+                                !!lead.metadata && <div className='lead-profile-row'>
+                                    <p>{lead.metadata}</p>
+                                </div>
+                            }
                         </div>
                     </Segment>
                 </Grid.Column>
@@ -123,13 +100,10 @@ class LeadNotes extends Component {
                 <Segment attached='top' className='pagehead'>
                     <Grid.Column floated='left' style={{textAlign: 'left'}}>
                         <Header floated='left' as='h1'>Lead timeline</Header>
-
                     </Grid.Column>
                 </Segment>
 
                 <Segment attached='top'>
-
-
                     <Segment basic className={"notoppad"}>
                         <Loader/>
 

@@ -75,7 +75,7 @@ class FacebookIntegrationModal extends Component {
         <Modal.Content>
           <div className='ac-pages'>
             {
-              <Select placeholder='Select Page!'
+              <Select placeholder='Select Page'
                       required={true}
                       loading={!fbPages}
                       options={fbPages || []}

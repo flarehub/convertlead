@@ -17,6 +17,7 @@ import ReminderModal from "../../../@common/modals/reminder";
 class AgentLeadNotes extends Component {
     state = {
         showTimeline: true,
+        showAdditionalInfo: false,
         showReminder: true,
         lead: {
             email: '',
@@ -75,6 +76,12 @@ class AgentLeadNotes extends Component {
             showTimeline: !this.state.showTimeline
         })
     };
+    toggleAdditionalInfo = () => {
+        this.setState({
+            ...this.state,
+            showAdditionalInfo: !this.state.showAdditionalInfo
+        })
+    };
 
     toggleReminder = () => {
         this.setState({
@@ -130,7 +137,7 @@ class AgentLeadNotes extends Component {
     }
 
     render() {
-        const {lead, showTimeline, showReminder} = this.state;
+        const {lead, showTimeline, showAdditionalInfo, showReminder} = this.state;
         const {leadNotes, leadStatuses, reminders} = this.props;
         return (
             <div className='AgentLeadNotes'>
@@ -159,9 +166,12 @@ class AgentLeadNotes extends Component {
                     <label>{lead.campaign.name}</label>
                 </div>
                 <div className='lead-meta'>
-                    <div className='meta-header'>Additional info:
+                    <div className='meta-header' onClick={this.toggleAdditionalInfo}>Additional info:
+                        <Icon name={(showAdditionalInfo ? 'angle down' : 'angle up')}/>
                     </div>
-                    <p>{lead.metadata}</p>
+                    {
+                        showAdditionalInfo && <p>{lead.metadata}</p>
+                    }
                 </div>
                 <div className='lead-timeline'>
                     <div className='timeline-header' onClick={this.toggleTimeline}>

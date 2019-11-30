@@ -58,8 +58,6 @@ class Campaigns extends Component {
 
   componentWillMount() {
     // init facebook
-    Facebook.init();
-
     const {companyId, agentId, dealId} = this.props.match.params;
     this.setState({
       ...this.state,
