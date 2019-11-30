@@ -23,6 +23,7 @@ import './index.scss';
 import {AvatarImage} from "../@common/image";
 import * as moment from 'moment';
 import {DATE_FORMAT} from '@constants';
+import ButtonGroup from "components/@common/button-group";
 
 class Companies extends Component {
     state = {
@@ -159,13 +160,13 @@ class Companies extends Component {
                                                             <Button id="company-lock" onClick={this.onLockCompany.bind(this, company)}>
                                                                 <Icon className={company.is_locked ? 'linearicons-lock' : 'linearicons-shield-check'}/>
                                                             </Button>
-                                                            <Button.Group>
+                                                            <ButtonGroup>
                                                                 <Button onClick={this.props.loadForm.bind(this, {
                                                                     ...company,
                                                                     show: true
                                                                 })}>Edit</Button>
                                                                 <Button onClick={this.openConfirmModal.bind(this, true, company.id)}>Archieve</Button>
-                                                            </Button.Group>
+                                                            </ButtonGroup>
                                                         </div>
                                                         : null
                                                 }

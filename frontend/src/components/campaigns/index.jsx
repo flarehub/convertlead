@@ -26,6 +26,7 @@ import UnbounceIntegrationModal from "../@common/modals/integrations/unbounce";
 import WebhookIntegrationModal from "../@common/modals/integrations/webhook";
 import FacebookIntegrationModal from "../@common/modals/integrations/facebook";
 import {Auth, config, Facebook} from "@services";
+import ButtonGroup from "components/@common/button-group";
 
 class Campaigns extends Component {
   state = {
@@ -443,7 +444,7 @@ class Campaigns extends Component {
                                 onClick={this.loadIntegrationForm.bind(this, campaign)}>
                                 Integration
                               </Button>
-                              <Button.Group>
+                              <ButtonGroup>
                                 <Button onClick={this.props.loadForm.bind(this, {
                                   ...campaign,
                                   companyId: campaign.company_id,
@@ -458,7 +459,7 @@ class Campaigns extends Component {
                                   onClick={this.openConfirmModal.bind(this, true, campaign.id)}>
                                   Archieve
                                 </Button>
-                              </Button.Group>
+                              </ButtonGroup>
                             </div>)
                             : null
                         }

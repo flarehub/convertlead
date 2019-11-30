@@ -26,6 +26,7 @@ import {CompaniesContainer} from "@containers";
 import {Auth} from "@services";
 import {AvatarImage} from "../@common/image";
 import {DATE_FORMAT} from '@constants';
+import ButtonGroup from 'components/@common/button-group';
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -212,14 +213,14 @@ class Agents extends Component {
                                             <Table.Cell>
                                                 {
                                                     !agent.deleted_at
-                                                        ? <Button.Group>
+                                                        ? <ButtonGroup>
                                                             <Button onClick={this.props.loadForm.bind(this, {
                                                                 ...agent,
                                                                 show: true
                                                             })}>Edit</Button>
                                                             <Button
                                                                 onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archieve</Button>
-                                                        </Button.Group>
+                                                        </ButtonGroup>
                                                         : null
                                                 }
                                             </Table.Cell>

@@ -12,6 +12,7 @@ import {Button, Icon, Form, TextArea, Dropdown, Segment} from 'semantic-ui-react
 import {LeadNoteTimeLine} from './timeline';
 import {LeadReminder} from "./reminder";
 import ReminderModal from "../../../@common/modals/reminder";
+import ButtonGroup from "components/@common/button-group";
 
 
 class AgentLeadNotes extends Component {
@@ -199,12 +200,12 @@ class AgentLeadNotes extends Component {
                         <Form.Field>
                             <TextArea name='message' placeholder={"+ add note"} onChange={this.onChange}/>
                         </Form.Field>
-                        <Button.Group>
+                        <ButtonGroup>
                             <Button onClick={this.onAddNote} positive>Submit</Button>
                             <Button.Or/>
                             <Dropdown options={leadStatuses} name='status' onChange={this.onChange} floating button
                                       className='icon' defaultValue={lead.status}/>
-                        </Button.Group>
+                        </ButtonGroup>
                     </Form>
                 </div>
             </div>
