@@ -11,7 +11,7 @@ const initState = {
     agents: [],
   },
   integrationTypes: [
-    { key: 'FACEBOOK', value: 'FACEBOOK', text: 'Facebook' },
+    { key: 'FACEBOOK', value: 'FACEBOOK', text: 'Facebook Lead Ads' },
     { key: 'ZAPIER', value: 'ZAPIER', text: 'Zapier' },
     { key: 'OPTIN_FORM', value: 'OPTIN_FORM', text: 'Optin Form' },
     { key: 'WEBHOOK', value: 'WEBHOOK', text: 'WebHook' },
