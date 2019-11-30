@@ -2856,7 +2856,12 @@ and (orientation: portrait) {
 .ac-pages {
     padding: 15px;
     background: #f7f9fa;
-    border-radius: 3px
+    border-radius: 3px;
+    border: 1px dashed #eaeaea;
+    margin: 15px 0;
+}
+.ac-pages .listbox {
+    margin-right:15px;
 }
 
 .agents-info {

@@ -40,7 +40,6 @@ class Campaigns extends Component {
     campaign: null,
     campaignLink: '',
     fbPages: [],
-    fbAdAccounts: [],
     companyId: '',
     dealId: '',
     fbIntegrations: [],
@@ -57,7 +56,6 @@ class Campaigns extends Component {
   }
 
   componentWillMount() {
-    // init facebook
     const {companyId, agentId, dealId} = this.props.match.params;
     this.setState({
       ...this.state,
@@ -242,7 +240,6 @@ class Campaigns extends Component {
 
   async retrieveAccountFacebookPages() {
     try {
-      const fbAdsAccounts = await Facebook.getAdsAccounts();
       const fbPages = await Facebook.getAccountPages();
 
       this.setState({
@@ -250,8 +247,6 @@ class Campaigns extends Component {
         openFBIntegration: true,
         fbPages: fbPages.map(
           page => ({ key: page.name, text: page.name, value: page })),
-        fbAdAccounts: fbAdsAccounts.map(
-          adAccount => ({ key: adAccount.account_id, text: adAccount.name, value: adAccount.account_id })),
       });
     } catch (e) {
       this.props.sendMessage('Was not possible to retrieve facebook data!', true);
@@ -259,7 +254,7 @@ class Campaigns extends Component {
   }
 
   checkLoginState = async (campaignId) => {
-    const isLoggedIn = Facebook.checkIsLoggedIn();
+    const isLoggedIn = await Facebook.checkIsLoggedIn();
     if (isLoggedIn) {
       await this.retrieveAccountFacebookPages();
     } else {
@@ -310,7 +305,6 @@ class Campaigns extends Component {
                                      campaignLink={this.state.campaignLink}
           />
 
-
           <FacebookIntegrationModal open={this.state.openFBIntegration}
                                     onClose={this.onCloseApiIntegration}
                                     fbPages={this.state.fbPages}
@@ -318,7 +312,6 @@ class Campaigns extends Component {
                                     fbIntegrations={this.state.fbIntegrations}
                                     subscribe={this.props.subscribeCampaignToFbIntegration}
                                     unsubscribe={this.props.unsubscribeCampaignToFbIntegration}
-                                    fbAdAccounts={this.state.fbAdAccounts}
           />
           <ModalOptinFormIntegration/>
           <CampaignModal
