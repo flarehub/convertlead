@@ -66,7 +66,6 @@ class AgentForm extends Component {
                     </Form.Field>
                     {
                         Auth.isAgency ? <Form.Field
-                                loading={!this.props.selectBoxCompanies.length}
                                 control={Select}
                                 options={this.props.selectBoxCompanies || []}
                                 label={{children: 'Company', htmlFor: 'companies-list'}}

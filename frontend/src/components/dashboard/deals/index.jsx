@@ -114,7 +114,6 @@ class Dashboard extends Component {
                             {
                                 Auth.isAgency ?
                                     <Form.Field
-                                        loading={!this.props.selectBoxCompanies}
                                         control={Select}
                                         options={[...companies, ...this.props.selectBoxCompanies]}
                                         label={{ children: 'Filter', htmlFor: 'form-companies-list' }}

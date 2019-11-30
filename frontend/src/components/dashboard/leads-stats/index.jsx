@@ -96,7 +96,6 @@ class LeadStats extends Component {
                                 <Form.Group widths='equal'>
                                     <Form.Field
                                         required
-                                        loading={!this.props.selectBoxDates.length}
                                         control={Select}
                                         options={this.props.selectBoxDates || []}
                                         placeholder="Select Date"

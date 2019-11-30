@@ -89,7 +89,6 @@ class PageRow extends Component {
           <Select placeholder='Select Form'
                   className='select-fb-form'
                   defaultValue={this.state.defaultForm}
-                  loading={!this.state.pageForms}
                   options={this.state.pageForms || []}
                   onChange={this.formSelected}
           />

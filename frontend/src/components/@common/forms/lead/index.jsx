@@ -100,7 +100,6 @@ class LeadForm extends Component {
                     <Grid.Column>
                         <Form.Field
                             required
-                            loading={!this.props.selectBoxStatuses.length}
                             control={Select}
                             options={this.props.selectBoxStatuses || []}
                             label={{children: 'Statuses', htmlFor: 'status-list'}}
@@ -131,7 +130,6 @@ class LeadForm extends Component {
                             !Auth.isAgent ?
                                 <Form.Field
                                     required
-                                    loading={!this.props.selectBoxDeals.length}
                                     control={Select}
                                     options={this.props.selectBoxDeals || []}
                                     label={{children: 'Deals', htmlFor: 'deals-list'}}
@@ -159,7 +157,6 @@ class LeadForm extends Component {
                             !Auth.isAgent ?
                                 <Form.Field
                                     required
-                                    loading={!this.props.selectBoxDealCampaignAgents}
                                     control={Select}
                                     options={this.props.selectBoxDealCampaignAgents || []}
                                     label={{children: 'Agents', htmlFor: 'agents-list'}}

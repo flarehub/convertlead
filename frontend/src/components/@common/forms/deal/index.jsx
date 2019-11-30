@@ -41,7 +41,6 @@ class DealForm extends Component {
         Auth.isAgency ?
           <Form.Field
             control={Select}
-            loading={!this.props.selectBoxCompanies.length}
             options={this.props.selectBoxCompanies || []}
             label={{ children: 'Company', htmlFor: 'deal-form-companies-list' }}
             placeholder='Select company'
@@ -56,7 +55,6 @@ class DealForm extends Component {
       {
         Auth.isCompany && this.props.selectBoxAgencies && this.props.selectBoxAgencies.length > 1 ?
           <Form.Field
-            loading={!this.props.selectBoxAgencies}
             control={Select}
             options={this.props.selectBoxAgencies || []}
             label={{ children: 'Agency', htmlFor: 'deal-form-agencies-list' }}

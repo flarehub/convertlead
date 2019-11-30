@@ -159,7 +159,6 @@ class CompanyProfile extends Component {
                         <Form>
                             <Form.Group widths='equal'>
                                 <Form.Field
-                                    loading={!this.props.selectBoxAgents.length}
                                     control={Select}
                                     options={[...agents, ...this.props.selectBoxAgents]}
                                     label={{children: '', htmlFor: 'agents-list'}}

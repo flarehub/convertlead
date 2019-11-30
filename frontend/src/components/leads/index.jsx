@@ -198,7 +198,6 @@ class Leads extends Component {
                                         {
                                             !campaignId && Auth.isAgency ?
                                                 <Form.Field
-                                                    loading={!this.props.selectBoxCompanies.length}
                                                     control={Select}
                                                     options={[...companies, ...this.props.selectBoxCompanies]}
                                                     placeholder='All companies'
@@ -210,7 +209,6 @@ class Leads extends Component {
                                         }
 
                                         <Form.Field
-                                            loading={!getSelectBoxStatuses}
                                             control={Select}
                                             options={[defaultStatus, ...getSelectBoxStatuses]}
                                             placeholder='All statuses'

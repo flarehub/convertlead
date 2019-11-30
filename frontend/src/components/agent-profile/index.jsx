@@ -131,7 +131,6 @@ class AgentProfile extends Component {
                             <Form.Group widths='equal'>
                                 {
                                     Auth.isAgency ? <Form.Field
-                                            loading={!this.props.selectBoxAgentCompanies.length}
                                             control={Select}
                                             options={this.props.selectBoxAgentCompanies}
                                             label={{children: '', htmlFor: 'agents-list'}}

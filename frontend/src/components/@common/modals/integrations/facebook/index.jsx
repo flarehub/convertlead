@@ -77,7 +77,6 @@ class FacebookIntegrationModal extends Component {
             {
               <Select placeholder='Select Page'
                       required={true}
-                      loading={!fbPages}
                       options={fbPages || []}
                       onChange={this.onSelectPage}
               />
@@ -85,7 +84,6 @@ class FacebookIntegrationModal extends Component {
             {
               pageForms && !!pageForms.length && <Select placeholder='Select Form'
                                                        className='select-fb-form'
-                                                       loading={!pageForms}
                                                        options={pageForms || []}
                                                        onChange={this.onPageFormSelected}
               />

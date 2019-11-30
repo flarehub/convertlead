@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Select } from 'semantic-ui-react';
+import { Form, Input, Select } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Auth } from '@services';
 import './index.scss';
-
 
 class CampaignForm extends Component {
   state = { agentId: '' };
@@ -107,7 +106,6 @@ class CampaignForm extends Component {
         this.state.agentId && Auth.isAgency
           ? <Form.Field
             required
-            loading={!this.props.selectBoxCompanies.length}
             control={Select}
             options={this.props.selectBoxCompanies || []}
             label={{ children: 'Company', htmlFor: 'companies-list' }}
@@ -123,7 +121,6 @@ class CampaignForm extends Component {
       {
         this.state.agentId ? <Form.Field
           required
-          loading={!this.props.selectBoxDeals.length}
           control={Select}
           options={this.props.selectBoxDeals || []}
           label={{ children: 'Deals', htmlFor: 'deals-list' }}
@@ -139,7 +136,6 @@ class CampaignForm extends Component {
       {
         !!this.props.selectBoxAgents.length && <Form.Field
           required
-          loading={!this.props.selectBoxAgents.length}
           control={Select}
           options={this.props.selectBoxAgents || []}
           label={{ children: 'Assign to', htmlFor: 'agents-list' }}
@@ -154,7 +150,10 @@ class CampaignForm extends Component {
         />
       }
       {
-        !this.props.selectBoxAgents.length && <Button onClick={() => window.location = '/agents'}>Create agent</Button>
+        !this.props.selectBoxAgents.length && <div className='required field'>
+          <label>Assign to</label>
+          Looks like you have no agents. Go to <Link to='/agents'>Create agent</Link> and create one.
+        </div>
       }
     </Form>)
   }
