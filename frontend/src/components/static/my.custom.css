@@ -2842,19 +2842,27 @@ margin-top:0px;
     display:none !important;}
 }
 
-
-
 @media only screen
 and (min-device-width: 375px)
 and (max-device-width: 812px)
 and (-webkit-min-device-pixel-ratio: 3)
 and (orientation: portrait) {
-
-
     .Toastify__toast {
-
         min-height: 85px !important;
         padding-top: 35px !important;
     }
+}
 
+.ac-pages {
+    padding: 15px;
+    background: #f7f9fa;
+    border-radius: 3px
+}
+
+.agents-info {
+    border-bottom: 1px solid #ccc!important;
+    padding: 16px!important;
+    font-size: 15px!important;
+    color: #9ba3a9!important;
+    font-family: Dosis,sans-serif;
 }

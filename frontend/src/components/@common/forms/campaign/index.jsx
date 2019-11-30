@@ -152,7 +152,7 @@ class CampaignForm extends Component {
       {
         !this.props.selectBoxAgents.length && <div className='required field'>
           <label>Assign to</label>
-          Looks like you have no agents. Go to <Link to='/agents'>Create agent</Link> and create one.
+          <p className='agents-info'>Looks like you have no agents. Go to <Link to='/agents'>agents</Link> and create one.</p>
         </div>
       }
     </Form>)
