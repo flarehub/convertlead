@@ -13,6 +13,7 @@ import loader from './loader/reducer';
 import menu from './menu/reducer';
 import profile from './profile/reducer';
 import users from './users/reducer';
+import buttonGroup from './button-group/reducer';
 
 const reducers = combineReducers({
   agents,
@@ -29,6 +30,7 @@ const reducers = combineReducers({
   menu,
   profile,
   users,
+  buttonGroup,
 });
 
 export default reducers;
