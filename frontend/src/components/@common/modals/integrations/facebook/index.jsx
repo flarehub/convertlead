@@ -73,6 +73,7 @@ class FacebookIntegrationModal extends Component {
       <Modal className='ApiIntegration tiny' open={this.props.open} onClose={this.props.onClose}>
         <Modal.Header>Facebook API Integration</Modal.Header>
         <Modal.Content>
+            <p>Select the page and form you want to get the leads from and subscribe.</p>
           <div className='ac-pages'>
             {
               <Select placeholder='Select Page'
@@ -92,6 +93,7 @@ class FacebookIntegrationModal extends Component {
               page && pageForm && <Button className='subscribe-fb-but' onClick={this.onSubscribe}>Subscribe</Button>
             }
           </div>
+            <p>Edit your form subscriptions.</p>
 
           <Table celled compact definition>
             <Table.Header fullWidth>

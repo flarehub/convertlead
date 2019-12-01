@@ -733,6 +733,11 @@ input:focus {
     right: 10px;
 }
 
+.ui.table tr td:last-child .ui.buttons.active :before {
+    border:1px solid #5998ff !important;
+    color:#005ff8;
+}
+
 .ui.table tr td:last-child .ui.buttons:hover:before {
     border:1px solid #5998ff !important;
     color:#005ff8;
@@ -2855,16 +2860,15 @@ and (orientation: portrait) {
 
 .ac-pages {
     padding: 15px;
-    background: #f7f9fa;
+    background: #f9f9f9;
     border-radius: 3px;
-    border: 1px dashed #eaeaea;
-    margin: 15px 0;
+    margin: 15px 0 35px;
+    border-bottom: 1px solid #e8e8e8;
 }
-.ac-pages .listbox {
-    margin-right:15px;
-}
+
 .ac-pages .ui.selection.dropdown {
     margin-right:15px;
+    padding-right: 30px !important;
 }
 
 .agents-info {
