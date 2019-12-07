@@ -20,9 +20,6 @@ class ClickFunnelsIntegrationModal extends Component {
           <Form>
             <Form.Field>
               <h2>Campaign Link</h2>
-              <a href='https://convertlead.com/convertlead-overview/convert-lead-clickfunnels-integration/' target='__blank'>
-                Integration info
-              </a>
               <CopyText text={this.state.value}  />
               <Input
                 action={{
@@ -36,10 +33,16 @@ class ClickFunnelsIntegrationModal extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
+            <p className='help-note'>Need help? Browse through our <a href='https://convertlead.com/convertlead-integration/' target='__blank'>
+                articles, tutorials and resources.
+            </a></p>
           <Button color='black' onClick={this.props.onClose}>
             Close
           </Button>
+
         </Modal.Actions>
+
+
       </Modal>
     )
   }

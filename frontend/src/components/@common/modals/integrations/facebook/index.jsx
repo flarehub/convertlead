@@ -77,6 +77,7 @@ class FacebookIntegrationModal extends Component {
           <div className='ac-pages'>
             {
               <Select placeholder='Select Page'
+                      className='select-fb-page'
                       required={true}
                       options={fbPages || []}
                       onChange={this.onSelectPage}
@@ -114,8 +115,15 @@ class FacebookIntegrationModal extends Component {
               }
             </Table.Body>
           </Table>
+
+
+
         </Modal.Content>
         <Modal.Actions>
+            <p className='help-note'>Need help? Browse through our <a href='https://convertlead.com/convertlead-integration/' target='__blank'>
+                articles, tutorials and resources.
+            </a></p>
+
           <Button color='black' onClick={this.props.onClose}>
             Close
           </Button>

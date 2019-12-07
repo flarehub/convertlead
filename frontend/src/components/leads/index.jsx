@@ -342,7 +342,7 @@ class Leads extends Component {
                                 show: true
                               })}>Edit</Button>
                               <Button
-                                onClick={this.openConfirmModal.bind(this, true, lead.company_id, lead.id)}>Archieve</Button>
+                                onClick={this.openConfirmModal.bind(this, true, lead.company_id, lead.id)}>Archive</Button>
                             </ButtonGroup>
                             : null
                         }

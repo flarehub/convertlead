@@ -15,8 +15,14 @@ class InstapageIntegrationModal extends Component {
         <Modal.Header>Instapage API Integration</Modal.Header>
         <Modal.Content>
           <WebHook campaignLink={campaignLink}/>
+
+
         </Modal.Content>
+
         <Modal.Actions>
+            <p className='help-note'>Need help? Browse through our <a href='https://convertlead.com/convertlead-integration/' target='__blank'>
+                articles, tutorials and resources.
+            </a></p>
           <Button color='black' onClick={this.props.onClose}>
             Close
           </Button>

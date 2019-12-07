@@ -185,7 +185,7 @@ class Dashboard extends Component {
 
                     <Segment basic style={{display: this.state.showArchived ? 'block' : 'none'}}>
                         <div className='deals-active-container archieved'>
-                            <label className='deals-active'>Archieved <span>{deleted_deals.length}</span></label>
+                            <label className='deals-active'>Archived <span>{deleted_deals.length}</span></label>
                         </div>
                         {
                             deleted_deals.length === 0 ?

@@ -166,7 +166,7 @@ class Companies extends Component {
                                   ...company,
                                   show: true,
                                 })}>Edit</Button>
-                                <Button onClick={this.openConfirmModal.bind(this, true, company.id)}>Archieve</Button>
+                                <Button onClick={this.openConfirmModal.bind(this, true, company.id)}>Archive</Button>
                               </ButtonGroup>
                             </div>
                             : null

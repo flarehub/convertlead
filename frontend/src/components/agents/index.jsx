@@ -219,7 +219,7 @@ class Agents extends Component {
                                                                 show: true
                                                             })}>Edit</Button>
                                                             <Button
-                                                                onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archieve</Button>
+                                                                onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
                                                         </ButtonGroup>
                                                         : null
                                                 }

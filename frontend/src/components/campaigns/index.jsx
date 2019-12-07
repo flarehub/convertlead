@@ -365,7 +365,7 @@ class Campaigns extends Component {
                     <Icon name={this.getSort('avg_time_response')}
                           onClick={this.props.sort.bind(this, 'avg_time_response')}/>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>Edit/Access/Archieve</Table.HeaderCell>
+                  <Table.HeaderCell>Edit/Access/Archive</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -457,7 +457,7 @@ class Campaigns extends Component {
                                 </Button>
                                 <Button
                                   onClick={this.openConfirmModal.bind(this, true, campaign.id)}>
-                                  Archieve
+                                  Archive
                                 </Button>
                               </ButtonGroup>
                             </div>)

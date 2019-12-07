@@ -733,15 +733,12 @@ input:focus {
     right: 10px;
 }
 
-.ui.table tr td:last-child .ui.buttons.active :before {
-    border:1px solid #5998ff !important;
-    color:#005ff8;
-}
 
 .ui.table tr td:last-child .ui.buttons:hover:before {
     border:1px solid #5998ff !important;
     color:#005ff8;
 }
+
 
 .ui.table tr:hover td .ui.buttons:before {
     border: 1px solid #ccc;
@@ -1343,11 +1340,42 @@ input:focus {
     font-weight: 600 !important;
 }
 
-.ui.tiny.modal.ApiIntegration{
+.ui.tiny.modal.ApiIntegration .select-fb-form, .ui.tiny.modal.ApiIntegration .select-fb-page {
 
-    width:800px !important;
+    margin-right: 15px;
+    padding-right: 30px!important;
+    display: inline-block;
+    max-width: 10.5em;
 
 }
+
+.help-note {
+    margin-top: 20px;
+    color: #637282!important;
+    background: #f7f9fa;
+    border-radius: 33px;
+    padding: 5px 15px;
+    display: inline-block;
+}
+
+.help-note a {
+    color: #005ff8 !important;
+}
+
+
+.ui.tiny.modal.ApiIntegration .dropdown.select-fb-form .text, .ui.tiny.modal.ApiIntegration .ac-pages .ui.selection.dropdown {
+
+    display: inline-block;
+    transition: none;
+    width: 9em;
+    text-overflow: ellipsis;
+    overflow: hidden !important;
+    white-space: nowrap;
+}
+
+
+
+
 .modal.Apiintegration .ui.celled.table tr td, .Apiintegration .ui.celled.table tr th {
 
     border-left :0px !important;
@@ -1464,7 +1492,7 @@ input:focus {
 
 .ui.small.modal > .actions, .ui.tiny.modal > .actions {
     background: #fff;
-    padding: 1rem 3rem 3rem 3rem;
+    padding: 2rem 2rem 3rem 2rem;
     border-top: none;
     text-align: left;
 }
@@ -2867,8 +2895,10 @@ and (orientation: portrait) {
 }
 
 .ac-pages .ui.selection.dropdown {
-    margin-right:15px;
-    padding-right: 30px !important;
+    margin-right: 15px;
+    padding-right: 30px!important;
+    display: inline-block;
+    max-width: 10.5em;
 }
 
 .agents-info {
@@ -2884,5 +2914,16 @@ and (orientation: portrait) {
 }
 
 .ui.custom-buttons.active button {
-    display: block !important;
+    display: none;
+}
+
+
+.ui.custom-buttons.active:hover button {
+    display:block !important;
+}
+
+
+.ui.custom-buttons.active:before {
+    border:1px solid #5998ff !important;
+    color:#005ff8 !important;
 }
