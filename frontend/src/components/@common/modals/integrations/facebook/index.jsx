@@ -1,4 +1,5 @@
 import { compose } from 'recompose';
+import * as R from 'ramda';
 import React, { Component } from 'react'
 import { Button, Modal, Table, Select } from 'semantic-ui-react'
 import {MessagesContainer} from "@containers";
@@ -15,29 +16,19 @@ class FacebookIntegrationModal extends Component {
     page: {},
     adAccount: null,
     pageform: null,
-  };
-
-  onSelectAdAccount = (event, data) => {
-    this.setState({
-      ...this.state,
-      adAccount: data.value,
-    });
+    displaySubscribeButton: false,
   };
 
   onSelectPage = async (event, data) => {
     const page = data.value;
     const pageId = page.id;
     const pageAccessToken = page.access_token;
-    this.setState({
-      ...this.state,
-      pageForms: null,
-      page: null,
-    });
-    const pageForms = await Facebook.getPageFormsBy(pageId, pageAccessToken);
+    const pageForms = await Facebook.getPageFormsBy(pageId, pageAccessToken) || [];
     this.setState({
       ...this.state,
       page,
       pageForms,
+      displaySubscribeButton: false,
     });
   };
 
@@ -68,8 +59,9 @@ class FacebookIntegrationModal extends Component {
   onPageFormSelected = (event, data) => {
     this.setState({
       ...this.state,
-      pageForm: data.value
-    })
+      pageForm: data.value,
+      displaySubscribeButton: true,
+    });
   };
 
   componentDidMount() {
@@ -78,7 +70,7 @@ class FacebookIntegrationModal extends Component {
 
   render() {
     const { fbPages = [], fbIntegrations = [] } = this.props;
-    const { page, pageForm, pageForms } = this.state;
+    const { page, pageForm, pageForms, displaySubscribeButton } = this.state;
     return (
       <Modal className='ApiIntegration tiny' open={this.props.open} onClose={this.props.onClose}>
         <Modal.Header>Facebook API Integration</Modal.Header>
@@ -101,7 +93,7 @@ class FacebookIntegrationModal extends Component {
               />
             }
             {
-              page && pageForm && <Button className='subscribe-fb-but' onClick={this.onSubscribe}>Subscribe</Button>
+              displaySubscribeButton && <Button className='subscribe-fb-but' onClick={this.onSubscribe}>Subscribe</Button>
             }
           </div>
             <p>Edit your form subscriptions.</p>
