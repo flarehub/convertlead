@@ -10,6 +10,7 @@ import DatePickerSelect from "components/@common/datepicker";
 import * as moment from 'moment';
 import AgentModal from '../@common/modals/agent';
 import {Auth} from "@services";
+import {disableAutoComplete} from '../../utils';
 
 class AgentProfile extends Component {
     state = {
@@ -55,6 +56,7 @@ class AgentProfile extends Component {
             path: '/agents',
         });
         this.refs.legend.innerHTML = this.Chart.generateLegend();
+        disableAutoComplete();
     }
 
     onChangeCompany = (event, data) => {

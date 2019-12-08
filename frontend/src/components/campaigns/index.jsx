@@ -27,6 +27,7 @@ import WebhookIntegrationModal from "../@common/modals/integrations/webhook";
 import FacebookIntegrationModal from "../@common/modals/integrations/facebook";
 import {Auth, config, Facebook} from "@services";
 import ButtonGroup from "components/@common/button-group";
+import {disableAutoComplete} from '../../utils';
 
 class Campaigns extends Component {
   state = {
@@ -114,6 +115,7 @@ class Campaigns extends Component {
         path: '',
       }, false);
     }
+    disableAutoComplete();
   }
 
   getSort = field => {

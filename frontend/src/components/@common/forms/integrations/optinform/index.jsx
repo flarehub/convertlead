@@ -5,6 +5,7 @@ import {
     Input, Checkbox
 } from 'semantic-ui-react';
 import CopyText from 'react-copy-text';
+import {disableAutoComplete} from '../../../../../utils';
 
 class OptInForm extends Component {
     state = {
@@ -32,6 +33,10 @@ class OptInForm extends Component {
             })
         }, 400)
     };
+
+    componentDidMount() {
+        disableAutoComplete();
+    }
 
     render() {
         const {integrationForm} = this.props.form;

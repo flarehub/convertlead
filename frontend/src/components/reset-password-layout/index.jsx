@@ -5,6 +5,7 @@ import {AuthContainer} from "@containers";
 import {Button, Form, Grid, Header, Image, Segment} from 'semantic-ui-react'
 import './index.scss';
 import logo from '../static/assets/logo.png';
+import {disableAutoComplete} from '../../utils';
 
 class ResetPassword extends Component {
     email = '';
@@ -21,6 +22,10 @@ class ResetPassword extends Component {
     async componentWillMount() {
         await this.props.autoLogin();
     }
+
+  componentDidMount() {
+    disableAutoComplete();
+  }
 
     render() {
         return (

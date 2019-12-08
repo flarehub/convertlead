@@ -9,6 +9,7 @@ import {AgentsContainer, ProfileContainer, BreadCrumbContainer} from "@container
 import ChartJs from 'chart.js';
 import * as moment from 'moment';
 import * as R from 'ramda';
+import {disableAutoComplete} from '../../../utils';
 
 class LeadStats extends Component {
     state = {
@@ -47,6 +48,7 @@ class LeadStats extends Component {
     }
 
     componentDidMount() {
+        disableAutoComplete();
 
         let opt = this.props.pieGraphContactedLeadsAverage;
         opt.options.legendCallback = function (chart) {

@@ -70,6 +70,7 @@ class LeadForm extends Component {
         this.props.changeForm({agent_id: data.value});
     };
 
+
     render() {
         const { fullname, email, phone, metadata } = this.props.form;
         return (

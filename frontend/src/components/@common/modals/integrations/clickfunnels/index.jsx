@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import {Button, Form, Input, Modal} from 'semantic-ui-react'
 import './index.scss';
-import WebHook from "components/@common/forms/integrations/webhook";
 import CopyText from "react-copy-text";
-import ReactJson from "react-json-view";
-import RequestLeadSchema from "../../../forms/integrations/webhook/schemas/reques-lead";
-import ResponseLeadSchema from "../../../forms/integrations/webhook/schemas/response-lead";
+import {disableAutoComplete} from '../../../../../utils';
 
 class ClickFunnelsIntegrationModal extends Component {
   state = {
     open: false,
   };
+
+  componentDidMount() {
+    disableAutoComplete();
+  }
 
   render() {
     return (

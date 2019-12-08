@@ -12,6 +12,7 @@ import {DealFormContainer} from "@containers";
 import * as R from "ramda";
 import {Auth} from "@services";
 import {CardContent} from "./card-content";
+import {disableAutoComplete} from '../../../utils';
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -82,6 +83,10 @@ class Dashboard extends Component {
             });
         }, 24 * 60 * 60 * 1000);
     };
+
+    componentDidMount() {
+        disableAutoComplete();
+    }
 
     render() {
         const {deals, deleted_deals, filters} = this.props;

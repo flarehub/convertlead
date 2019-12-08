@@ -4,6 +4,7 @@ import { Loader } from 'components';
 import { Button, Icon } from 'semantic-ui-react';
 import './index.scss';
 import OptinForm from "./form";
+import {disableAutoComplete} from '../../utils';
 
 class OptinFormPage extends Component {
   async componentWillMount() {
@@ -23,6 +24,10 @@ class OptinFormPage extends Component {
   onResend = () => {
     this.props.resetForm({ showResend: false });
   };
+
+  componentDidMount() {
+    disableAutoComplete();
+  }
 
   render() {
     const { integrationForm, integrationFormFields, form } = this.props;

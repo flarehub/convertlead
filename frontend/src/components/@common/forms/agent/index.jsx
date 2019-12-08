@@ -13,6 +13,7 @@ import avatarDemo from '../avatar-demo.png';
 import * as R from "ramda";
 import {Auth} from "@services";
 import {AvatarImage} from "components/@common/image";
+import {disableAutoComplete} from '../../../../utils';
 
 class AgentForm extends Component {
     onFileLoad = (event) => {
@@ -49,6 +50,10 @@ class AgentForm extends Component {
         if (Auth.isAgency) {
             this.props.loadSelectBoxCompanies();
         }
+    }
+
+    componentDidMount() {
+        disableAutoComplete();
     }
 
     render() {

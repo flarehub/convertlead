@@ -5,6 +5,7 @@ import {MessagesContainer} from "@containers";
 
 import './index.scss';
 import {Facebook} from "@services";
+import {disableAutoComplete} from '../../../../../utils';
 
 class FacebookIntegrationModal extends Component {
   state = {
@@ -69,6 +70,10 @@ class FacebookIntegrationModal extends Component {
       pageForm: data.value
     })
   };
+
+  componentDidMount() {
+    disableAutoComplete();
+  }
 
   render() {
     const { fbPages = [], fbIntegrations = [] } = this.props;

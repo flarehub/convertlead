@@ -16,6 +16,7 @@ import DatePickerSelect from "components/@common/datepicker";
 import * as moment from 'moment';
 import CompanyModal from '../@common/modals/company';
 import {Auth} from "@services";
+import {disableAutoComplete} from '../../utils';
 
 const agents = [
     {key: null, text: 'All agents', value: null},
@@ -57,7 +58,7 @@ class CompanyProfile extends Component {
     }
 
     componentDidMount() {
-
+        disableAutoComplete();
         let opt = this.props.graphContactedLeadsAverage;
         opt.options.legendCallback = function (chart) {
             let ul = document.createElement('ul');

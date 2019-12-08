@@ -10,6 +10,7 @@ import {
 import './index.scss';
 import avatarDemo from '../avatar-demo.png';
 import {AvatarImage} from "components/@common/image";
+import {disableAutoComplete} from '../../../../utils';
 
 const SUBSCRIPTIONS = [
     {
@@ -65,12 +66,7 @@ class UserForm extends Component {
     };
 
     componentDidMount() {
-        R.map(element => {
-            element.setAttribute('autocomplete', "off");
-        }, document.getElementsByTagName('form'));
-        R.map(element => {
-            element.setAttribute('data-lpignore', "true");
-        }, document.getElementsByTagName('input'));
+        disableAutoComplete();
     }
 
     render() {

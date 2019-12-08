@@ -25,6 +25,7 @@ import {AvatarImage} from "../@common/image";
 import * as moment from 'moment';
 import {DATE_FORMAT} from '@constants';
 import ButtonGroup from "components/@common/button-group";
+import {disableAutoComplete} from '../../utils';
 
 class Companies extends Component {
   state = {
@@ -76,6 +77,10 @@ class Companies extends Component {
     company.is_locked = +!company.is_locked;
     this.props.updateLockStatusCompany(company);
   };
+
+  componentDidMount() {
+    disableAutoComplete();
+  }
 
   render() {
     const companies = this.props.companies || [];

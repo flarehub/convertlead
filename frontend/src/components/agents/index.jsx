@@ -27,6 +27,7 @@ import {Auth} from "@services";
 import {AvatarImage} from "../@common/image";
 import {DATE_FORMAT} from '@constants';
 import ButtonGroup from 'components/@common/button-group';
+import {disableAutoComplete} from '../../utils';
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -96,6 +97,10 @@ class Agents extends Component {
             companyId: data.value
         });
     };
+
+    componentDidMount() {
+        disableAutoComplete();
+    }
 
     render() {
         const agents = this.props.agents || [];

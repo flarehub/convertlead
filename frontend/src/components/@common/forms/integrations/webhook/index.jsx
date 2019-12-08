@@ -4,6 +4,7 @@ import CopyText from "react-copy-text";
 import ReactJson from "react-json-view";
 import RequestLeadSchema from "./schemas/reques-lead";
 import ResponseLeadSchema from "./schemas/response-lead";
+import {disableAutoComplete} from '../../../../../utils';
 
 class WebHook extends React.Component {
   state = {
@@ -19,6 +20,10 @@ class WebHook extends React.Component {
       })
     }, 400)
   };
+
+  componentDidMount() {
+    disableAutoComplete();
+  }
 
   render () {
     return (<Form>
