@@ -30,6 +30,10 @@ const SUBSCRIPTIONS = [
 ];
 
 class UserForm extends Component {
+    constructor(props) {
+        super(props);
+        this.inputRef = React.createRef();
+    }
     onFileLoad = (event) => {
         if (!R.pathOr(false, ['target', 'files'], event)) {
             this.props.sendMessage('Missing required File!', true);
@@ -60,6 +64,15 @@ class UserForm extends Component {
         }
     };
 
+    componentDidMount() {
+        R.map(element => {
+            element.setAttribute('autocomplete', "off");
+        }, document.getElementsByTagName('form'));
+        R.map(element => {
+            element.setAttribute('data-lpignore', "true");
+        }, document.getElementsByTagName('input'));
+    }
+
     render() {
         const {
             id, role, name, phone, email, avatar,
@@ -67,12 +80,13 @@ class UserForm extends Component {
         } = this.props.form;
 
         return (
-            <Form size='big' className='companyForm' autoComplete="off">
+            <Form size='big' className='companyForm'>
                 <Grid columns={2} relaxed='very' stackable>
                     <Grid.Column>
                         <Form.Field required>
                             <label>User Name</label>
                             <Input placeholder='User Name'
+                                   ref={this.inputRef}
                                    data-lpignore="true"
                                    name='name' value={name || ''} onChange={this.onChange}/>
                         </Form.Field>
