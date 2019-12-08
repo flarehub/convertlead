@@ -12,6 +12,7 @@ import {
 } from 'semantic-ui-react';
 import './index.scss';
 import * as moment from "moment";
+import {disableAutoComplete} from '../../../../utils';
 
 class ReminderForm extends Component {
 
@@ -19,11 +20,12 @@ class ReminderForm extends Component {
         this.props.changeForm({[data.name]: data.value});
     };
 
-    componentWillMount() {
-    }
-
     handleDateChange = (date) => {
         this.props.changeForm({time: date});
+    }
+
+    componentDidMount() {
+        disableAutoComplete();
     }
 
     render() {

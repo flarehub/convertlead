@@ -10,6 +10,7 @@ import {
 import './index.scss';
 import avatarDemo from '../avatar-demo.png';
 import {AvatarImage} from "components/@common/image";
+import {disableAutoComplete} from '../../../../utils';
 
 class CompanyForm extends Component {
     onFileLoad = (event) => {
@@ -32,6 +33,10 @@ class CompanyForm extends Component {
     onChange = (event, data) => {
         this.props.changeForm({[data.name]: data.value});
     };
+
+    componentDidMount() {
+        disableAutoComplete();
+    }
 
     render() {
         const {id, name, phone, email, avatar, avatar_path} = this.props.form;

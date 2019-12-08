@@ -5,8 +5,7 @@ import {AuthContainer} from "@containers";
 import {Button, Form, Grid, Header, Image, Segment} from 'semantic-ui-react';
 import './index.scss';
 import logo from '../static/assets/logo.png';
-import {SessionStorage} from '../../@services';
-import {disableAutoComplete} from '../../utils';
+import { SessionStorage } from '../../@services';
 
 class Login extends Component {
   email = '';
@@ -41,10 +40,6 @@ class Login extends Component {
     } else {
       this.props.logout();
     }
-  }
-
-  componentDidMount() {
-    disableAutoComplete();
   }
 
   render() {

@@ -109,12 +109,14 @@ class AgencyController extends Controller
         $name = $request->get('buyer_first_name') . ' ' . $request->get('buyer_last_name');
         $name = $request->get('name', $name);
         $email = $request->get('buyer_email', $request->get('email'));
+        $companyName = $request->get('buyer_company_name', $request->get('company_name'));
         $request->merge([
             'email' => $email,
             'name' => $name,
             'subscription_type' => $type,
             'password' => $password,
             'password_confirmation' => $password,
+            'company_name' => $companyName,
             'max_agency_companies' => $maxNumberOfCompanies,
         ]);
 
@@ -122,6 +124,7 @@ class AgencyController extends Controller
         $agency->createAgency($request->only([
             'name',
             'avatar_id',
+            'company_name',
             'phone',
             'email',
             'subscription_type',
@@ -170,11 +173,13 @@ class AgencyController extends Controller
         $name = $request->get('buyer_first_name') . ' ' . $request->get('buyer_last_name');
         $name = ($name ? $name : $request->get('name'));
         $email = $request->get('buyer_email', $request->get('email'));
+        $companyName = $request->get('buyer_company_name', $request->get('company_name'));
 
         $password = Str::random(10);
         $request->merge([
             'email' => $email,
             'name' => $name,
+            'company_name' => $companyName,
             'password' => $password,
             'password_confirmation' => $password,
         ]);

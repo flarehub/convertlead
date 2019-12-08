@@ -8,6 +8,7 @@ import {
 } from 'semantic-ui-react';
 import './index.scss';
 import {Auth} from "@services";
+import {disableAutoComplete} from '../../../../utils';
 
 class LeadForm extends Component {
     componentWillMount() {
@@ -69,6 +70,10 @@ class LeadForm extends Component {
     onChangeAgent = (event, data) => {
         this.props.changeForm({agent_id: data.value});
     };
+
+    componentDidMount() {
+        disableAutoComplete();
+    }
 
 
     render() {

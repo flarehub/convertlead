@@ -3,6 +3,7 @@ import { Form, Input, Select } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Auth } from '@services';
 import './index.scss';
+import {disableAutoComplete} from '../../../../utils';
 
 class CampaignForm extends Component {
   state = { agentId: '' };
@@ -84,6 +85,10 @@ class CampaignForm extends Component {
   onSearchChange = event => {
     this.props.loadSelectBoxCompanies(event.target.value);
   };
+
+  componentDidMount() {
+    disableAutoComplete();
+  }
 
   render() {
     const { agentId } = this.state;

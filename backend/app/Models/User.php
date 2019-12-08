@@ -57,7 +57,8 @@ class User extends Authenticatable
         'role',
         'max_agency_companies',
         'subscription_type',
-        'uuid'
+        'company_name',
+        'uuid',
     ];
 
     protected $appends = ['avatar_path', 'permissions'];

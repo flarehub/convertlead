@@ -13,6 +13,7 @@ import avatarDemo from '../avatar-demo.png';
 import * as R from "ramda";
 import {ProfileContainer, MessagesContainer} from "@containers";
 import {AvatarImage} from "components/@common/image";
+import {disableAutoComplete} from '../../../../utils';
 
 class AgentForm extends Component {
     onFileLoad = (event) => {
@@ -73,6 +74,10 @@ class AgentForm extends Component {
         }
         return true;
     };
+
+    componentDidMount() {
+        disableAutoComplete();
+    }
 
     render() {
         const {name, phone, email, avatar, avatar_path} = this.props.profileForm;
