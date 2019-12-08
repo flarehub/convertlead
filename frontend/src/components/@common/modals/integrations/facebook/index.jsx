@@ -30,7 +30,8 @@ class FacebookIntegrationModal extends Component {
     const pageAccessToken = page.access_token;
     this.setState({
       ...this.state,
-      pageForms: [],
+      pageForms: null,
+      page: null,
     });
     const pageForms = await Facebook.getPageFormsBy(pageId, pageAccessToken);
     this.setState({
@@ -124,8 +125,6 @@ class FacebookIntegrationModal extends Component {
               }
             </Table.Body>
           </Table>
-
-
 
         </Modal.Content>
         <Modal.Actions>
