@@ -1368,13 +1368,20 @@ input:focus {
     display: inline-block;
     transition: none;
     width: 9em;
+
+}
+.ui.tiny.modal.ApiIntegration .dropdown.select-fb-form .text,.ui.tiny.modal.ApiIntegration .dropdown.select-fb-page .text{
+
     text-overflow: ellipsis;
     overflow: hidden !important;
     white-space: nowrap;
+
 }
 
+.ui.active.selection.dropdown.select-fb-page, .ui.active.selection.dropdown.select-fb-form {
 
-
+    padding-left:15px !important;
+}
 
 .modal.Apiintegration .ui.celled.table tr td, .Apiintegration .ui.celled.table tr th {
 

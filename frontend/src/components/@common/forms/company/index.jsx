@@ -36,16 +36,16 @@ class CompanyForm extends Component {
     render() {
         const {id, name, phone, email, avatar, avatar_path} = this.props.form;
         return (
-            <Form size='big' className='companyForm' autocomplete='off'>
+            <Form size='big' className='companyForm' autoComplete='off'>
                 <Grid columns={2} relaxed='very' stackable>
                     <Grid.Column>
                         <Form.Field required>
                             <label>Company Name</label>
-                            <Input placeholder='Company Name' name='name' className='srch' value={name || ''} onChange={this.onChange}/>
+                            <Input placeholder='Company Name' name='name' autoComplete='off' className='srch' value={name || ''} onChange={this.onChange}/>
                         </Form.Field>
                         <Form.Field required>
                             <label>Phone Number</label>
-                            <Input placeholder='Phone Number' name='phone' value={phone || ''}
+                            <Input placeholder='Phone Number' name='phone' autoComplete='off' value={phone || ''}
                                    onChange={this.onChange}/>
                         </Form.Field>
                         <Segment.Inline>
