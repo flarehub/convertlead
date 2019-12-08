@@ -42,7 +42,7 @@ class OptInForm extends Component {
                         <label>Form Link</label>
                         <CopyText text={this.state.value} onCopied={this.onCopied}/>
                         <Input
-                            action={{
+                          action={{
                                 color: 'teal',
                                 labelPosition: 'right',
                                 icon: 'copy',

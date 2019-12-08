@@ -67,12 +67,14 @@ class UserForm extends Component {
         } = this.props.form;
 
         return (
-            <Form size='big' className='companyForm'>
+            <Form size='big' className='companyForm' autoComplete="off">
                 <Grid columns={2} relaxed='very' stackable>
                     <Grid.Column>
                         <Form.Field required>
                             <label>User Name</label>
-                            <Input placeholder='User Name' name='name' value={name || ''} onChange={this.onChange}/>
+                            <Input placeholder='User Name'
+                                   data-lpignore="true"
+                                   name='name' value={name || ''} onChange={this.onChange}/>
                         </Form.Field>
                         <Form.Field>
                             <label>Phone Number</label>

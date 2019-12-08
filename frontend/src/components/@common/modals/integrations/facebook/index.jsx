@@ -27,6 +27,10 @@ class FacebookIntegrationModal extends Component {
     const page = data.value;
     const pageId = page.id;
     const pageAccessToken = page.access_token;
+    this.setState({
+      ...this.state,
+      pageForms: [],
+    });
     const pageForms = await Facebook.getPageFormsBy(pageId, pageAccessToken);
     this.setState({
       ...this.state,
