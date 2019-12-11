@@ -97,10 +97,10 @@ class Dashboard extends Component {
                     visible
                         ?  <Message className='dash' onDismiss={this.handleDismiss}>
                         <Message.Header>
-                            New to ConvertLead ?
+                            Need Help?
                         </Message.Header>
                         <Message.Content>
-                            <p>Click the button below to watch our video tutorials & quick startup guide .</p>
+                            <p>Click the button below to watch our video tutorials.</p>
                             <a className="item" href="https://convertlead.com/docs-home/" target="_blank">Take me there</a>
                         </Message.Content>
                         </Message>
