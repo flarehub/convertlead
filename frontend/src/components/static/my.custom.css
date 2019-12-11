@@ -782,9 +782,6 @@ input:focus {
     color: #005ff8;
 }
 
-.ui.table tr td:last-child .ui.buttons:hover .ui.button {
-    display: block;
-}
 
 .ui.basic.segment {
     padding: 10px 0;
@@ -1362,11 +1359,16 @@ input:focus {
     color: #005ff8 !important;
 }
 
-.dimmable dimmed .App {
+.dimmable.dimmed .App {
 
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
+    filter: blur(6px);
+    -webkit-filter: blur(6px);
 
+}
+
+.ui.dimmer {
+
+    background-color: hsla(0,0%,100%,.65)!important;
 }
 
 
