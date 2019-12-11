@@ -154,7 +154,7 @@ class Dashboard extends Component {
                         {
                             deals.length === 0 ?
                                 <div className="empty-deal-wrapper">
-                                    Welcome! Looks like you haven’t created a deal yet. Once you create one, you’ll see
+                                    Welcome! Looks like you haven’t created a campaign yet. Once you create one, you’ll see
                                     it here.
                                 </div>
                                 :

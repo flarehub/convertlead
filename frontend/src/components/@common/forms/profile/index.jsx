@@ -132,7 +132,7 @@ class AgentForm extends Component {
                         <Input placeholder='Re-enter Password' name='password_confirmation'
                                value={password_confirmation} type='password' onChange={this.onChangePassword}/>
                     </Form.Field>
-                    <Button floated='right' onClick={this.onSavePasswordReset} primary>Reset password</Button>
+                    <Button floated='right' onClick={this.onSavePasswordReset} primary>Update password</Button>
                 </Grid.Column>
             </Grid>
         </Form>)

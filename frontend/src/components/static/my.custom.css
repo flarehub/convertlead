@@ -1362,6 +1362,13 @@ input:focus {
     color: #005ff8 !important;
 }
 
+.dimmable dimmed .App {
+
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+
+}
+
 
 .ui.tiny.modal.ApiIntegration .dropdown.select-fb-form .text, .ui.tiny.modal.ApiIntegration .ac-pages .ui.selection.dropdown {
 
@@ -1403,9 +1410,10 @@ input:focus {
 }
 
 .ui.small.modal, .ui.tiny.modal {
-    width: 600px !important;
-    box-shadow: 1px 3px 3px 0 rgba(0,0,0,0.1), 1px 3px 15px 2px rgba(0,0,0,.1) !important;
-    padding: 20px 15px 10px 15px;
+    width: 640px!important;
+    box-shadow: 1px 3px 1px hsla(220, 46%, 28%, 0.1) ,0px 0px 55px 12px hsla(220, 46%, 28%, 0.1)!important;
+    padding: 35px 35px 20px;
+    border-radius: 10px;
 }
 
 .ui.modal .size.circular.icon-image {
@@ -1531,9 +1539,6 @@ input:focus {
     border-bottom: 1px solid #ccc !important
 }
 
-.ui.tiny.modal .ui.form .multiple.search {
-    position: unset !important;
-}
 
 .ui.tiny.modal .ui.form .multiple.search .search, .ui.small.modal .ui.form .multiple.search .search {
     border-bottom: none !important;
@@ -2916,9 +2921,7 @@ and (orientation: portrait) {
     font-family: Dosis,sans-serif;
 }
 
-.ui.custom-buttons:hover button {
-    display: none !important;
-}
+
 
 .ui.custom-buttons.active button {
     display: none;
