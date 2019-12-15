@@ -1366,7 +1366,7 @@ input:focus {
 
 }
 
-.ui.dimmer {
+.ui.dimmer.visible.active {
 
     background-color: hsla(0,0%,100%,.65)!important;
 }
@@ -2603,6 +2603,16 @@ margin-top:0px;
 
     .login-form .stacked > span:nth-child(9) {
         display:none;
+    }
+
+    .login-form > .ui.center.aligned.middle.grid {
+
+        margin: 0px !important;
+    }
+
+    .login-form > .ui.grid > .column.logincontainer {
+
+        padding:0px !important;
     }
 
 
