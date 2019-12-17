@@ -21,7 +21,7 @@ const instance = new Api(axios, config).createServer();
 
 instance.interceptors.response.use(response => response,
   (error) => {
-    if (R.path(['response', 'status'], error) === 401) {
+    if (R.path(['response', 'status'], error) === 401 && window.location.href.indexOf('login') === -1) {
       SessionStorage.removeItem('session');
       window.location = '/login';
     }
