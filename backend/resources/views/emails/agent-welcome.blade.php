@@ -63,31 +63,13 @@
 		font-weight: 600;
 	}
 
-	.bigcont a {
-
-		display: block;
-		background:#005ff8;
-		color: #fff;
-		font-size: 16px;
-		font-weight: bold;
-		font-family: Arial,sans-serif;
-		margin: 30px auto;
-		padding: 12px 30px;
-		border-radius: 3px;
-		text-decoration: none;
-		text-align: center;
-		white-space: nowrap;
-		box-sizing: border-box;
-
-	}
-
 	.bigcont .smallnote {
 
 		font-size:12px;
 		text-align:center;
 	}
 
-	.bigcont .smallnote a {
+	.bigcont .smallnote .bluebut {
 
 		color:#005ff8;
 		text-decoration:none ;

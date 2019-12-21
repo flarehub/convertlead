@@ -189,7 +189,7 @@ class Dashboard extends Component {
             {
               deleted_deals.length === 0 ?
                 <div className='deals-active-container'>
-                  <p>When you achieve a deal, you’ll see them here. <a href="">Learn more</a></p>
+                  <p>When you archieve a campaign, you’ll see it here. <a href="https://convertlead.com/docs-home/">Learn more</a></p>
                 </div>
                 :
                 <Card.Group>
