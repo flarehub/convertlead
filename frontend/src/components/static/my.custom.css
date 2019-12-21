@@ -1462,6 +1462,11 @@ input:focus {
     margin: 0;
 }
 
+.ui.tiny.modal .ui.form .selection.dropdown.search {
+
+    position:relative !important;
+
+}
 .ui.small.modal .ui.form textarea, .ui.tiny.modal .ui.form textarea {
     border: 1px solid #ccc;
     padding: 16px;
