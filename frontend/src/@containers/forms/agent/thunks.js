@@ -33,7 +33,7 @@ export const createAgent = form => {
   return async dispatch => {
     try {
       await api.post(`/v1/${Auth.role}/agents`, form);
-      dispatch(sendMessage('Success - Details sent to specified email'));
+      dispatch(sendMessage('Success! Credentials sent to agent email'));
       await dispatch(actions.savedAgent());
       await dispatch(loadAgents());
     } catch (e) {
