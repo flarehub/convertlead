@@ -57,7 +57,7 @@ export const deleteAgent = (id) => async (dispath, getState) => {
   try {
     await api.delete(`/v1/${Auth.role}/agents/${id}`);
     dispath(loadAgents());
-    dispath(sendMessage('Successfully deleted!'))
+    dispath(sendMessage('Successfully archieved!'))
   } catch (e) {
     dispath(sendMessage(e.message, true))
   }

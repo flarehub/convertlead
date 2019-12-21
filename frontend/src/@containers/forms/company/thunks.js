@@ -18,7 +18,7 @@ export const saveCompany = form => (dispatch) => {
 export const createCompany = form => async (dispatch) => {
   try {
     await createAgencyCompany(form);
-    dispatch(sendMessage('Successfully saved'));
+    dispatch(sendMessage('Successfully added'));
     dispatch(actions.savedCompany());
     await dispatch(getCompanies());
   } catch (e) {
@@ -29,7 +29,7 @@ export const createCompany = form => async (dispatch) => {
 export const updateCompany = form => async (dispatch) => {
   try {
     await updateAgencyCompany(form);
-    dispatch(sendMessage('Successfully saved'));
+    dispatch(sendMessage('Successfully updated'));
     dispatch(actions.savedCompany());
     await dispatch(getCompanies());
   } catch (e) {

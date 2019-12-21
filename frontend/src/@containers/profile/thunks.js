@@ -18,7 +18,7 @@ export const updateProfile = profile => {
         try {
             await api.patch('/v1/profile', profile);
             await dispatch(getUserProfile());
-            dispatch(sendMessage('Successfully saved!'))
+            dispatch(sendMessage('Your profile was updated'))
         } catch (e) {
             dispatch(sendMessage(e.message, true));
         }

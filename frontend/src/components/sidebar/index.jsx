@@ -43,7 +43,7 @@ class AppSidebar extends Component {
                     ))
                 }
                 <div className='sidebar-bootom'>
-                    <a href='http://support.digitalfollow.com' target='_blank' onClick={this.onItemClick}>
+                    <a href='https://support.convertlead.com' target='_blank' onClick={this.onItemClick}>
                         <i className='icon-support'/>
                     </a>
                     <Menu.Item onClick={this.logout}>

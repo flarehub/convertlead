@@ -105,7 +105,7 @@
 		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey, </br></br> {{$company->name}} just added you to their ConvertLead team. Welcome! </p></br>
 
 
-		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Your login informations are on their way. Please take whitelist our email address. </p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Your login informations are on their way. Please take a while to whitelist our email address. </p>
 
 		<a style="display: block; background:#005ff8; color: #fff; font-size: 16px; font-weight: bold; font-family: Arial,sans-serif; margin: 30px auto; padding: 12px 30px; border-radius: 3px; text-decoration: none; text-align: center;
 		white-space: nowrap; box-sizing: border-box; ">Go to login page</a> href="https://convertlead.com/downloads">Download our mobile app</a>

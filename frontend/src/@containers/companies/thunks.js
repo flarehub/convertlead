@@ -24,7 +24,7 @@ export const deleteCompany = id => async dispatch => {
 export const updateLockStatusCompany = form => async (dispatch) => {
   try {
     await agencyLockCompany(form);
-    dispatch(sendMessage('Successfully saved'));
+    dispatch(sendMessage('Company lock status updated'));
     await dispatch(getCompanies());
   } catch (e) {
     dispatch(sendMessage(e.message, true));

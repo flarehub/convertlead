@@ -22,7 +22,7 @@ export const updateAgent = form => {
       await api.patch(`/v1/${Auth.role}/agents/${form.id}`, form);
       await dispatch(actions.savedAgent());
       await dispatch(loadAgents());
-      dispatch(sendMessage('Successfully saved!'));
+      dispatch(sendMessage('Agent account was updated'));
     } catch (e) {
       await dispatch(sendMessage(e.message, true));
     }
@@ -33,7 +33,7 @@ export const createAgent = form => {
   return async dispatch => {
     try {
       await api.post(`/v1/${Auth.role}/agents`, form);
-      dispatch(sendMessage('Successfully saved!'));
+      dispatch(sendMessage('Success - Details sent to specified email'));
       await dispatch(actions.savedAgent());
       await dispatch(loadAgents());
     } catch (e) {

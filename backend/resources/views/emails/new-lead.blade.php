@@ -105,13 +105,13 @@
 		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey, </br></br> A new lead subscribed for {{$deal->name}} , integration {{$campaign->name}} : </p></br>
 
 
-		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">{{$lead->name}}, </br>
-			{{$lead->email}},</br>
-			{{$lead->phone}} </br></p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Name: {{$lead->name}}, </br>
+			Email:{{$lead->email}},</br>
+			Phone number:{{$lead->phone}} </br></p>
 		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Assigned to  {{$agent->name}} </p>
 
 		<a href="https://app.convertlead.com" style="display: block; background:#005ff8; color: #fff; font-size: 16px; font-weight: bold; font-family: Arial,sans-serif; margin: 30px auto; padding: 12px 30px; border-radius: 3px; text-decoration: none; text-align: center;
-		white-space: nowrap; box-sizing: border-box; ">Go to login page</a>
+		white-space: nowrap; box-sizing: border-box; " >Go to login page</a>
 
 
 		<p   style="font-size:12px ; text-align:center ; " class="smallnote">Didn't sign up for ConvertLead ? <a href="https://support.convertlead.com">Let us know</a></p>

@@ -20,7 +20,7 @@ export const createReminder = form => {
   return async dispatch => {
     try {
       await api.post(`/v1/agent/leads/${form.leadId}/reminders`, form);
-      dispatch(sendMessage('Successfully saved!'));
+      dispatch(sendMessage('Successfully added!'));
       await dispatch(actions.savedReminder());
       await dispatch(loadLead(form.companyId, form.leadId, true));
     } catch (e) {

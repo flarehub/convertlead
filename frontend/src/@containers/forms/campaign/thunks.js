@@ -20,11 +20,11 @@ export const saveCampaign = form => (dispatch) => {
 export const updateCampaign = form => async (dispatch) => {
   try {
     if (!form.companyId && Auth.isAgency) {
-      throw new Error('Missing required company!');
+      throw new Error('Missing required field - company!');
     }
 
     if (!form.dealId) {
-      throw new Error('Missing required deal!');
+      throw new Error('Missing required field - campaign!');
     }
     await (Auth.isAgency
       ? updateAgencyCompanyCampaign(form)
@@ -32,7 +32,7 @@ export const updateCampaign = form => async (dispatch) => {
 
     await dispatch(actions.savedCampaign());
     await dispatch(fetchCampaigns());
-    await dispatch(sendMessage('Successfully saved!'));
+    await dispatch(sendMessage('Your integration was updated!'));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }
@@ -41,11 +41,11 @@ export const updateCampaign = form => async (dispatch) => {
 export const createCampaign = form => async (dispatch, getState) => {
   try {
     if (!form.companyId && Auth.isAgency) {
-      throw new Error('Missing required company!');
+      throw new Error('Missing required field - company!');
     }
 
     if (!form.dealId) {
-      throw new Error('Missing required deal!');
+      throw new Error('Missing required field - campaign!');
     }
     const formData = {
       ...form,
@@ -58,7 +58,7 @@ export const createCampaign = form => async (dispatch, getState) => {
 
     await dispatch(actions.savedCampaign());
     await dispatch(fetchCampaigns());
-    await dispatch(sendMessage('Successfully saved!'));
+    await dispatch(sendMessage('Your integration was created!'));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }

@@ -106,7 +106,7 @@
 		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey {{ $agent->name  }}, </br></br> {{ $company->name  }} just added you to their ConvertLead team. Welcome ! </p></br>
 
 
-		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; "> Please take a second to download our mobile. Once you do that, you'll be able to login to your account using the following details: </p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; "> Please take a second to download our mobile app. Once you do that, you'll be able to login to your account using the following details: </p>
 
 		<h1 style=" font-size: 17px; font-family: Arial, sans-serif; font-weight: 600; color:#354771; ">User: {{$agent->email}}</h1>
 		<h1 style=" font-size: 17px; font-family: Arial, sans-serif; font-weight: 600; color:#354771; ">Password: {{$password}}</h1>

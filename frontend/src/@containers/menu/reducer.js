@@ -9,7 +9,7 @@ const initialState = {
   sideBarMenu: [
     {
       icon: 'icon-home1',
-      name: 'Home',
+      name: 'Campaigns',
       path: '/dashboard',
       component: Dashboard,
       role: ['agency', 'company', 'agent'],
