@@ -90,7 +90,7 @@ class Dashboard extends Component {
     return (
       <div className='Dashboard'>
         {
-          visible && <Message className='dash' onDismiss={this.handleDismiss}>
+          !visible || <Message className='dash' onDismiss={this.handleDismiss}>
               <Message.Header>
                 Need Help?
               </Message.Header>
