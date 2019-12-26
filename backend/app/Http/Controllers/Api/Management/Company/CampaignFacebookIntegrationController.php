@@ -14,6 +14,10 @@ class CampaignFacebookIntegrationController extends Controller
                               DealCampaignFacebookIntegration $dealCampaignFacebookIntegration,
                               Facebook $fb
     ) {
+        \Log::critical('-------------FB-PAGE------------');
+        \Log::critical(print_r($request->input(), true));
+        \Log::critical('-------------FB-PAGE------------');
+
         $request->merge([
             'deal_campaign_id' => $campaign,
         ]);
