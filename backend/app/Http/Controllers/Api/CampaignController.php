@@ -152,7 +152,7 @@ class CampaignController extends Controller
                         \Log::critical('Missing FB integration');
                         \Log::critical(print_r($leads, true));
                         \Log::critical('--------------NO FB integration----------------');
-                        return;
+                        continue;
                     }
 
                     foreach ($integrations as $integration) {
@@ -198,8 +198,6 @@ class CampaignController extends Controller
                             );
                             \Log::critical('-------------- MISSING LEAD BODY ----------------');
                         }
-
-                        return $integration;
                     }
                 }
             }
