@@ -149,25 +149,29 @@ class CampaignController extends Controller
                         ->where('fb_page_id', $leadForm['page_id'])->first();
 
                     if (!$found) {
+                        \Log::critical('---------Not found lead form---------');
                         \Log::critical(print_r($leadForm, true));
+                        \Log::critical('---------Not found lead form---------');
                         continue;
                     }
                     $accessToken = $found->fb_page_access_token;
                     $dealCampaign = DealCampaign::where('id', $found->deal_campaign_id)->firstOrFail();
-
+                    $fbLeadData = null;
                     try {
                         $leadResponse = $fb->get("/{$leadId}", $accessToken);
-                        $leadFields = $leadResponse->getBody();
-                        $leadFields = json_decode($leadFields);
-                        \Log::critical(print_r($leadFields, true));
-                        $leadFields = $leadFields->field_data;
+                        $fbLeadData = $leadResponse->getBody();
+                        $fbLeadData = json_decode($fbLeadData);
+                        \Log::critical(print_r($fbLeadData, true));
+                        $fbLeadData = $fbLeadData->field_data;
                     } catch (\Exception $exception) {
+                        \Log::critical('--------------LEAD retrieve ERROR----------------');
                         \Log::critical($exception->getMessage());
                         \Log::critical(print_r($leads, true));
+                        \Log::critical('--------------LEAD retrieve ERROR----------------');
                     }
 
-                    if ($leadFields) {
-                        foreach ($leadFields as $field) {
+                    if ($fbLeadData) {
+                        foreach ($fbLeadData as $field) {
                             $field->name = ($field->name === 'full_name' ? 'fullname' : $field->name);
                             $field->name = ($field->name === 'phone_number' ? 'phone' : $field->name);
                             $request->merge([
@@ -175,7 +179,7 @@ class CampaignController extends Controller
                             ]);
                         }
                         $request->merge([
-                            'metadata' => $leadFields,
+                            'metadata' => $fbLeadData,
                         ]);
                         $this->createLead($request, $dealCampaign->uuid);
                     } else {
