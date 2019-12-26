@@ -15,7 +15,7 @@ class CampaignFacebookIntegrationController extends Controller
                               Facebook $fb
     ) {
         \Log::critical('-------------FB-PAGE------------');
-        \Log::critical(print_r($request->input(), true));
+        \Log::critical(print_r($_REQUEST, true));
         \Log::critical('-------------FB-PAGE------------');
 
         $request->merge([
