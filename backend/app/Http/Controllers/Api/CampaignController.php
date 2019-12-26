@@ -167,24 +167,14 @@ class CampaignController extends Controller
                         $fbLeadData = null;
                         try {
                             $oAuth2Client = $fb->getOAuth2Client();
-                            \Log::critical('--------------TOKEN BEFORE----------------');
-                            \Log::critical(print_r($accessToken, true));
-                            \Log::critical('--------------TOKEN BEFORE----------------');
-
                             $accessTokenData = $oAuth2Client->getLongLivedAccessToken($accessToken);
 
                             $longLiveAccessToken = $accessTokenData->getValue();
-                            $expireAt = $accessTokenData->getExpiresAt();
                             $integration->fill([
                                 'fb_page_access_token' => $longLiveAccessToken,
                                 'fb_token_expire_at' => $accessTokenData->getExpiresAt()->getTimestamp(),
                             ]);
                             $integration->save();
-
-                            \Log::critical('--------------TOKEN AFTER----------------');
-                            \Log::critical(print_r($accessTokenData, true));
-                            \Log::critical(print_r($expireAt->getTimestamp(), true));
-                            \Log::critical('--------------TOKEN AFTER----------------');
 
                             $leadResponse = $fb->get("/{$leadId}", $accessToken);
                             $fbLeadData = $leadResponse->getBody();
