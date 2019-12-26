@@ -162,7 +162,6 @@ class CampaignController extends Controller
                             \Log::critical('---------Not found lead form---------');
                             continue;
                         }
-                        \Log::critical('Access token for page: '. $integration->fb_page_access_token);
                         $accessToken = $integration->fb_page_access_token;
                         $dealCampaign = DealCampaign::where('id', $integration->deal_campaign_id)->firstOrFail();
                         $fbLeadData = null;
@@ -170,9 +169,9 @@ class CampaignController extends Controller
                             $leadResponse = $fb->get("/{$leadId}", $accessToken);
                             $fbLeadData = $leadResponse->getBody();
                             $fbLeadData = json_decode($fbLeadData);
-                            \Log::critical(print_r($fbLeadData, true));
                             $fbLeadData = $fbLeadData->field_data;
                         } catch (\Exception $exception) {
+                            \Log::critical('Access token for page: '. $integration->fb_page_access_token);
                             \Log::critical('--------------LEAD retrieve ERROR----------------');
                             \Log::critical($exception->getMessage());
                             \Log::critical(print_r($leads, true));
@@ -191,12 +190,6 @@ class CampaignController extends Controller
                                 'metadata' => $fbLeadData,
                             ]);
                             $this->createLead($request, $dealCampaign->uuid);
-                        } else {
-                            \Log::critical('-------------- MISSING LEAD BODY ----------------');
-                            \Log::critical(
-                                'Was not possible to create: '. print_r($leads, true)
-                            );
-                            \Log::critical('-------------- MISSING LEAD BODY ----------------');
                         }
                     }
                 }
