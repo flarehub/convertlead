@@ -139,6 +139,7 @@ class CampaignController extends Controller
 
     public function facebookWebHookPost(Request $request, Facebook $fb) {
         $leads = $request->input('entry');
+        \Log::critical(print_r($leads, true));
         if ($leads) {
             foreach($leads as $lead) {
                 foreach ($lead['changes'] as $leadFields) {
