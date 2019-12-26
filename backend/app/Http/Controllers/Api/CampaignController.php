@@ -182,7 +182,7 @@ class CampaignController extends Controller
 
                             \Log::critical('--------------TOKEN AFTER----------------');
                             \Log::critical(print_r($accessTokenData, true));
-                            \Log::critical(print_r($expireAt, true));
+                            \Log::critical(print_r($expireAt->getTimestamp(), true));
                             \Log::critical('--------------TOKEN AFTER----------------');
 
                             $leadResponse = $fb->get("/{$leadId}", $accessToken);
