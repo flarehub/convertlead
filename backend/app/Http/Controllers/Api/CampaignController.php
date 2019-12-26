@@ -183,9 +183,11 @@ class CampaignController extends Controller
                         ]);
                         $this->createLead($request, $dealCampaign->uuid);
                     } else {
+                        \Log::critical('-------------- MISSING LEAD BODY ----------------');
                         \Log::critical(
-                            'Was not possible to create: '. $leadResponse->getBody()
+                            'Was not possible to create: '. print_r($fbLeadData, true)
                         );
+                        \Log::critical('-------------- MISSING LEAD BODY ----------------');
                     }
 
                     return $found;
