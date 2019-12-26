@@ -159,6 +159,7 @@ class CampaignController extends Controller
                         $leadResponse = $fb->get("/{$leadId}", $accessToken);
                         $leadFields = $leadResponse->getBody();
                         $leadFields = json_decode($leadFields);
+                        \Log::critical(print_r($leadFields, true));
                         $leadFields = $leadFields->field_data;
                     } catch (\Exception $exception) {
                         \Log::critical($exception->getMessage());
