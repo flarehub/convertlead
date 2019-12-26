@@ -193,7 +193,7 @@ class CampaignController extends Controller
                         } else {
                             \Log::critical('-------------- MISSING LEAD BODY ----------------');
                             \Log::critical(
-                                'Was not possible to create: '. print_r($fbLeadData, true)
+                                'Was not possible to create: '. print_r($leads, true)
                             );
                             \Log::critical('-------------- MISSING LEAD BODY ----------------');
                         }
