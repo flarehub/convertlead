@@ -233,7 +233,6 @@ class Campaigns extends Component {
         this.props.sendMessage('Was not possible to login!', true);
       }, {
         scope: [
-          'fb_exchange_token',
           'manage_pages',
           'business_management',
           'ads_management',

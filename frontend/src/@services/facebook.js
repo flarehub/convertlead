@@ -35,11 +35,10 @@ class Facebook {
           }, {
             scope: [
               'manage_pages',
-              'fb_exchange_token',
               'business_management',
               'ads_management',
               'leads_retrieval',
-            ]
+            ],
           });
         }
       });
