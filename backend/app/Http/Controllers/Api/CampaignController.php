@@ -166,6 +166,17 @@ class CampaignController extends Controller
                         $dealCampaign = DealCampaign::where('id', $integration->deal_campaign_id)->firstOrFail();
                         $fbLeadData = null;
                         try {
+                            $oAuth2Client = $fb->getOAuth2Client();
+                            \Log::critical('--------------TOKEN BEFORE----------------');
+                            \Log::critical(print_r($accessToken, true));
+                            \Log::critical('--------------TOKEN BEFORE----------------');
+
+                            $accessTokenData = $oAuth2Client->getLongLivedAccessToken($accessToken);
+
+                            \Log::critical('--------------TOKEN AFTER----------------');
+                            \Log::critical(print_r($accessTokenData, true));
+                            \Log::critical('--------------TOKEN AFTER----------------');
+
                             $leadResponse = $fb->get("/{$leadId}", $accessToken);
                             $fbLeadData = $leadResponse->getBody();
                             $fbLeadData = json_decode($fbLeadData);
