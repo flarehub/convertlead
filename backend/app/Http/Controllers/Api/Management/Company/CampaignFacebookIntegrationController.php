@@ -29,6 +29,9 @@ class CampaignFacebookIntegrationController extends Controller
         $oAuth2Client = $fb->getOAuth2Client();
         $accessToken = $request->input('fb_page_access_token');
         $accessTokenData = $oAuth2Client->getLongLivedAccessToken($accessToken);
+        \Log::critical('-------------FB-TOKEN------------');
+        \Log::critical(print_r($accessTokenData, true));
+        \Log::critical('-------------FB-TOKEN------------');
         $longLiveAccessToken = $accessTokenData->getValue();
         $request->merge([
             'fb_page_access_token' => $longLiveAccessToken,
