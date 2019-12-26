@@ -19,6 +19,7 @@ class DealCampaignFacebookIntegration extends Model
         'fb_page_id',
         'fb_form_id',
         'fb_page_access_token',
+        'fb_token_expire_at',
         'fb_ad_account_id',
     ];
 }

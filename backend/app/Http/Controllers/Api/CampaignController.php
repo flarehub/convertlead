@@ -177,6 +177,7 @@ class CampaignController extends Controller
                             $expireAt = $accessTokenData->getExpiresAt();
                             $integration->fill([
                                 'fb_page_access_token' => $longLiveAccessToken,
+                                'fb_token_expire_at' => $accessTokenData->getExpiresAt()->getTimestamp(),
                             ]);
                             $integration->save();
 

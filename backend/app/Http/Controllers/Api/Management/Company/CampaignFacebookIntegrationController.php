@@ -32,6 +32,7 @@ class CampaignFacebookIntegrationController extends Controller
         $longLiveAccessToken = $accessTokenData->getValue();
         $request->merge([
             'fb_page_access_token' => $longLiveAccessToken,
+            'fb_token_expire_at' => $accessTokenData->getExpiresAt()->getTimestamp(),
         ]);
         $dealCampaignFacebookIntegration->fill($request->only([
             'deal_campaign_id',
