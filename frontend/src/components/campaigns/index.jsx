@@ -234,6 +234,7 @@ class Campaigns extends Component {
       }, {
         scope: [
           'manage_pages',
+          'business_management',
           'ads_management',
           'leads_retrieval',
         ]
