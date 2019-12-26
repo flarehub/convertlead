@@ -162,7 +162,7 @@ class CampaignController extends Controller
                             \Log::critical('---------Not found lead form---------');
                             continue;
                         }
-                        \Log::info('Access token for page', $integration->fb_page_access_token);
+                        \Log::critical('Access token for page: '. $integration->fb_page_access_token);
                         $accessToken = $integration->fb_page_access_token;
                         $dealCampaign = DealCampaign::where('id', $integration->deal_campaign_id)->firstOrFail();
                         $fbLeadData = null;
