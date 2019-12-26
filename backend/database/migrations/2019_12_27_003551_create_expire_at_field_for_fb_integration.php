@@ -14,7 +14,7 @@ class CreateExpireAtFieldForFbIntegration extends Migration
     public function up()
     {
         Schema::table('deal_campaign_facebook_integrations', function (Blueprint $table) {
-            $table->timestamp('fb_token_expire_at')->nullable();
+            $table->string('fb_token_expire_at', 100)->nullable();
         });
     }
 
