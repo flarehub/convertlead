@@ -139,7 +139,6 @@ class CampaignController extends Controller
 
     public function facebookWebHookPost(Request $request, Facebook $fb) {
         $leads = $request->input('entry');
-        \Log::critical(print_r($leads, true));
         if ($leads) {
             foreach($leads as $lead) {
                 foreach ($lead['changes'] as $leadFields) {
@@ -161,8 +160,9 @@ class CampaignController extends Controller
                         $leadFields = $leadResponse->getBody();
                         $leadFields = json_decode($leadFields);
                         $leadFields = $leadFields->field_data;
-                    } catch (Exception $exception) {
+                    } catch (\Exception $exception) {
                         \Log::critical($exception->getMessage());
+                        \Log::critical(print_r($leads, true));
                     }
 
                     if ($leadFields) {
