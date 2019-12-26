@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Management\Agency;
 
 use App\Models\DealCampaignFacebookIntegration;
+use Facebook\Facebook;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,7 +11,12 @@ class CampaignFacebookIntegrationController extends Controller
 {
     public function subscribe(Request $request,
                               $dealCampaign,
-                              DealCampaignFacebookIntegration $dealCampaignFacebookIntegration) {
+                              DealCampaignFacebookIntegration $dealCampaignFacebookIntegration,
+                              Facebook $fb) {
+        \Log::critical('-------------FB-PAGE------------');
+        \Log::critical(print_r($_REQUEST, true));
+        \Log::critical('-------------FB-PAGE------------');
+
         $request->merge([
             'deal_campaign_id' => $dealCampaign,
         ]);
@@ -20,6 +26,17 @@ class CampaignFacebookIntegrationController extends Controller
             'fb_page_id' => 'required',
             'fb_form_id' => 'required',
             'fb_page_access_token' => 'required|string',
+        ]);
+
+        $oAuth2Client = $fb->getOAuth2Client();
+        $accessToken = $request->input('fb_page_access_token');
+        $accessTokenData = $oAuth2Client->getLongLivedAccessToken($accessToken);
+        \Log::critical('-------------FB-TOKEN------------');
+        \Log::critical(print_r($accessTokenData, true));
+        \Log::critical('-------------FB-TOKEN------------');
+        $longLiveAccessToken = $accessTokenData->getValue();
+        $request->merge([
+            'fb_page_access_token' => $longLiveAccessToken,
         ]);
 
         $dealCampaignFacebookIntegration->fill($request->only([
