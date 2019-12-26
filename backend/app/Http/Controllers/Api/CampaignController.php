@@ -145,52 +145,61 @@ class CampaignController extends Controller
                     $leadForm = $leadFields['value'];
                     $leadId = $leadForm['leadgen_id'];
 
-                    $found = DealCampaignFacebookIntegration::where('fb_form_id', $leadForm['form_id'])
-                        ->where('fb_page_id', $leadForm['page_id'])->first();
-
-                    if (!$found) {
-                        \Log::critical('---------Not found lead form---------');
-                        \Log::critical(print_r($leadForm, true));
-                        \Log::critical('---------Not found lead form---------');
-                        continue;
-                    }
-                    $accessToken = $found->fb_page_access_token;
-                    $dealCampaign = DealCampaign::where('id', $found->deal_campaign_id)->firstOrFail();
-                    $fbLeadData = null;
-                    try {
-                        $leadResponse = $fb->get("/{$leadId}", $accessToken);
-                        $fbLeadData = $leadResponse->getBody();
-                        $fbLeadData = json_decode($fbLeadData);
-                        \Log::critical(print_r($fbLeadData, true));
-                        $fbLeadData = $fbLeadData->field_data;
-                    } catch (\Exception $exception) {
-                        \Log::critical('--------------LEAD retrieve ERROR----------------');
-                        \Log::critical($exception->getMessage());
+                    $integrations = DealCampaignFacebookIntegration::where('fb_form_id', $leadForm['form_id'])
+                        ->where('fb_page_id', $leadForm['page_id'])->get();
+                    if (!$integrations) {
+                        \Log::critical('--------------NO FB integration----------------');
+                        \Log::critical('Missing FB integration');
                         \Log::critical(print_r($leads, true));
-                        \Log::critical('--------------LEAD retrieve ERROR----------------');
+                        \Log::critical('--------------NO FB integration----------------');
+                        return;
                     }
 
-                    if ($fbLeadData) {
-                        foreach ($fbLeadData as $field) {
-                            $field->name = ($field->name === 'full_name' ? 'fullname' : $field->name);
-                            $field->name = ($field->name === 'phone_number' ? 'phone' : $field->name);
-                            $request->merge([
-                                $field->name => (is_array($field->values) ? array_first($field->values) : ''),
-                            ]);
+                    foreach ($integrations as $integration) {
+                        if (!$integration) {
+                            \Log::critical('---------Not found lead form---------');
+                            \Log::critical(print_r($leadForm, true));
+                            \Log::critical('---------Not found lead form---------');
+                            continue;
                         }
-                        $request->merge([
-                            'metadata' => $fbLeadData,
-                        ]);
-                        $this->createLead($request, $dealCampaign->uuid);
-                    } else {
-                        \Log::critical('-------------- MISSING LEAD BODY ----------------');
-                        \Log::critical(
-                            'Was not possible to create: '. print_r($fbLeadData, true)
-                        );
-                        \Log::critical('-------------- MISSING LEAD BODY ----------------');
-                    }
+                        $accessToken = $integration->fb_page_access_token;
+                        $dealCampaign = DealCampaign::where('id', $integration->deal_campaign_id)->firstOrFail();
+                        $fbLeadData = null;
+                        try {
+                            $leadResponse = $fb->get("/{$leadId}", $accessToken);
+                            $fbLeadData = $leadResponse->getBody();
+                            $fbLeadData = json_decode($fbLeadData);
+                            \Log::critical(print_r($fbLeadData, true));
+                            $fbLeadData = $fbLeadData->field_data;
+                        } catch (\Exception $exception) {
+                            \Log::critical('--------------LEAD retrieve ERROR----------------');
+                            \Log::critical($exception->getMessage());
+                            \Log::critical(print_r($leads, true));
+                            \Log::critical('--------------LEAD retrieve ERROR----------------');
+                        }
 
-                    return $found;
+                        if ($fbLeadData) {
+                            foreach ($fbLeadData as $field) {
+                                $field->name = ($field->name === 'full_name' ? 'fullname' : $field->name);
+                                $field->name = ($field->name === 'phone_number' ? 'phone' : $field->name);
+                                $request->merge([
+                                    $field->name => (is_array($field->values) ? array_first($field->values) : ''),
+                                ]);
+                            }
+                            $request->merge([
+                                'metadata' => $fbLeadData,
+                            ]);
+                            $this->createLead($request, $dealCampaign->uuid);
+                        } else {
+                            \Log::critical('-------------- MISSING LEAD BODY ----------------');
+                            \Log::critical(
+                                'Was not possible to create: '. print_r($fbLeadData, true)
+                            );
+                            \Log::critical('-------------- MISSING LEAD BODY ----------------');
+                        }
+
+                        return $integration;
+                    }
                 }
             }
         }
