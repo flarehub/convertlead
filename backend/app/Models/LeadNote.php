@@ -80,7 +80,7 @@ class LeadNote extends Model
                     $lead->agent()->first()->email,
                     $lead->company()->first()->email,
                 ],
-                env('APP_NEW_LEAD_NOTE_EMAIL_SUBJECT', "New Lead Note: {$lead->name}")
+                env('APP_NEW_LEAD_NOTE_EMAIL_SUBJECT', "New Lead Note")
             );
 
             return $leadNote;

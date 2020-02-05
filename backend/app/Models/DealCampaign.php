@@ -115,7 +115,7 @@ class DealCampaign extends Model
                     'company' => $company->first(),
                 ],
                     $agent->email,
-                    env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New Campaign: {$campaign->name}")
+                    env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New ConvertLead Integration - {{$campaign->name}}")
                 );
             });
 
@@ -124,7 +124,7 @@ class DealCampaign extends Model
                 'company' => $company,
             ],
                 $company->email,
-                env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New Campaign: {$campaign->name}")
+                env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New ConvertLead Integration - {{$campaign->name}}")
             );
 
             \DB::commit();

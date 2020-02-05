@@ -226,7 +226,7 @@ class Lead extends Model
                     $agent->email,
                     $company->email,
                 ],
-                env('APP_NEW_LEAD_EMAIL_SUBJECT', "New Lead: {$campaign->name}")
+                env('APP_NEW_LEAD_EMAIL_SUBJECT', "New Lead Manually Created")
             );
 
             return $lead;

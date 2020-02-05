@@ -140,7 +140,7 @@ class AgencyController extends Controller
             'password' => $password,
         ],
             $agency->email,
-            env('APP_AGENCY_WELCOME_EMAIL_SUBJECT', 'Agency Welcome email')
+            env('APP_AGENCY_WELCOME_EMAIL_SUBJECT', 'Welcome To ConvertLead')
         );
 
         return $agency;
@@ -194,7 +194,7 @@ class AgencyController extends Controller
             'password' => $password,
         ],
             $company->email,
-            env('APP_COMPANY_WELCOME_EMAIL_SUBJECT', 'Company Welcome email')
+            env('APP_COMPANY_WELCOME_EMAIL_SUBJECT', 'Welcome To ConvertLead ')
         );
 
         return $company;

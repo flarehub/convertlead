@@ -84,7 +84,7 @@ class AgentController extends Controller
             'password' => $request->get('password'),
         ],
             $agent->email,
-            env('APP_AGENT_WELCOME_EMAIL_SUBJECT', 'Agent Welcome email')
+            env('APP_AGENT_WELCOME_EMAIL_SUBJECT', 'Welcome To ConvertLead ')
         );
         return $agent;
     }

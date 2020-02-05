@@ -99,26 +99,20 @@
 
 </style>
 
-<div class="emailbody">
+<div class="emailbody" style="width:100%; height:100%; display:block; margin:0 auto; background:#f1f4f5; padding: 60px 0; ">
 	<div class="toplogocont" style="text-align:center; display:block; width:100%; "><img src="http://convertlead.com/wp-content/bloglogo.png" style="width: 120px; margin: 10px auto !important; text-align: center; padding: 15px; display:block;"></img></div>
-	<div class="bigcont" style="max-width: 380px; background:#fff; border: 1px dashed #b3b3b3; padding: 55px; margin: 0 auto; border-radius: 6px; color:#354771;">
-		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey, </br></br> {{$company->name}} just added you to their ConvertLead team. Welcome! </p></br>
-
-
-		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Your login informations are on their way. Please take a while to whitelist our email address. </p>
-
-		<a style="display: block; background:#005ff8; color: #fff; font-size: 16px; font-weight: bold; font-family: Arial,sans-serif; margin: 30px auto; padding: 12px 30px; border-radius: 3px; text-decoration: none; text-align: center;
-		white-space: nowrap; box-sizing: border-box; ">Go to login page</a> href="https://convertlead.com/downloads">Download our mobile app</a>
-
-
-		<p class="smallnote" style="font-size:12px ; text-align:center ; ">Didn't sign up for ConvertLead ? <a href="https://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
+	<div class="bigcont" style="max-width: 320px; background:#fff; border: 1px dashed #b3b3b3; padding: 70px 55px 55px 55px; margin: 0 auto; border-radius: 6px; color:#354771;">
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey, </br></br> A new agent {{ $agent->name  }} has been added to {{$company->name}} by {{ $agency->name  }} </p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">ConvertLead access information has been sent to {{$agent->email}}</p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Now your agent can contact your leads super fast!</p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">The ConvertLead team.</p> </br></br>
+		<p style="font-size:12px ; text-align:center ; ">Need Help? <a href="https://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
 		background:transparent ; font-size:12px; padding:unset !important; display:inline;">Let us know</a></p>
-		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; " > The ConvertLead team.</p>
+
 	</div>
-	<div class="emailfot" style="max-width: 450px; text-align: left; font-size: 12px; margin: 20px auto; color:#797979;">
+	<div class="emailfot" style="max-width: 420px; text-align: left; font-size: 12px; margin: 20px auto; color:#797979; ">
 		This is an automated message. Please do not reply. You are receiving this email because you have an agent account on ConvertLead. If you wish to unsubscribe, please visit your ConvertLead settings.
 
-		All rights reserved, ConvertLead © 2019
 	</div>
 
 </div>

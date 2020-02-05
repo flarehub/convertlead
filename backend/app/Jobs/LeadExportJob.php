@@ -69,7 +69,7 @@ class LeadExportJob implements ShouldQueue
                 'file' => url("/api/v1/reports/{$this->report->uuid}/download"),
             ],
                 $this->report->user->email,
-                env('APP_REPORT', 'Your report have been generated!')
+                env('APP_REPORT', 'Your report has been generated!')
             );
         } catch (\Exception $exception) {
             \Log::critical($exception->getMessage());

@@ -69,7 +69,7 @@ class CompanyController extends Controller
             'password' => $request->get('password'),
         ],
             $company->email,
-            env('APP_COMPANY_WELCOME_EMAIL_SUBJECT', 'Company Welcome email')
+            env('APP_COMPANY_WELCOME_EMAIL_SUBJECT', 'Welcome To ConvertLead ')
         );
 
         return $company;
