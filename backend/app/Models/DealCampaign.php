@@ -112,10 +112,10 @@ class DealCampaign extends Model
                 MailService::sendMail('emails.new-agent-campaign', [
                     'agent' => $agent,
                     'campaign' => $campaign,
-                    'company' => $company->first(),
+                    'company' => $company,
                 ],
                     $agent->email,
-                    env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New ConvertLead Integration - {{$campaign->name}}")
+                    env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New ConvertLead Integration - {$campaign->name}")
                 );
             });
 
@@ -124,7 +124,7 @@ class DealCampaign extends Model
                 'company' => $company,
             ],
                 $company->email,
-                env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New ConvertLead Integration - {{$campaign->name}}")
+                env('APP_AGENT_CAMPAIGN_EMAIL_SUBJECT', "New ConvertLead Integration - {$campaign->name}")
             );
 
             \DB::commit();

@@ -85,7 +85,7 @@
 <div class="emailbody" style="width:100%; height:100%; display:block; margin:0 auto; background:#f1f4f5; padding: 60px 0; ">
 	<div class="toplogocont" style="text-align:center; display:block; width:100%; "><img src="http://convertlead.com/wp-content/bloglogo.png" style="width: 120px; margin: 10px auto !important; text-align: center; padding: 15px; display:block;"></img></div>
 	<div class="bigcont" style="max-width: 320px; background:#fff; border: 1px dashed #b3b3b3; padding: 70px 55px 55px 55px; margin: 0 auto; border-radius: 6px; color:#354771;">
-		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey {{ $agent->name  }}, </br> {{ $company->name  }} just added you to their ConvertLead team. </br> </br> Welcome ! </p>
+		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey {{ $agent->name  }}, </br> {{ $companyName  }} just added you to their ConvertLead team. </br> </br> Welcome ! </p>
 
 		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; "> Please take a second to download our mobile app available on iOS and Android. </br> </br> Once you do that, you'll be able to login to your account using the following details: </p>
 		<h1 style=" font-size: 17px; font-family: Arial, sans-serif; font-weight: 600; color:#354771; ">User: {{$agent->email}}</h1>

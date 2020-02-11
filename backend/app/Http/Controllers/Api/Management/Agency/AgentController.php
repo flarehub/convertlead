@@ -93,21 +93,23 @@ class AgentController extends Controller
             ]));
 
             $newCompanies = $request->get('new_companies');
+            $companyName = '';
             if ($newCompanies) {
                 foreach ($newCompanies AS $newCompany) {
                     $newCompany = $request->user()->getCompanyBy($newCompany);
+                    $companyName .= ($companyName ? ", {$newCompany->name}" : "{$newCompany->name}");
                     $newCompany->agents()->attach($agent);
                 }
             }
 
             MailService::sendMail('emails.agent-welcome', [
                 'agent' => $agent,
-                'company' => $request->user(),
+                'companyName' => $companyName,
                 'password' => $request->get('password'),
             ],
                 $agent->email,
-                env('APP_AGENT_WELCOME_EMAIL_SUBJECT', ' Welcome To ConvertLead {{ $agent->name  }}
-            );
+                env('APP_AGENT_WELCOME_EMAIL_SUBJECT', "Welcome To ConvertLead {$agent->name}"
+            ));
 
             \DB::commit();
             return $agent;
@@ -154,8 +156,6 @@ class AgentController extends Controller
                 foreach ($campaigns as $campaign) {
                  $campaign->agents()->detach($agent);
                 }
-            }
-            if ($oldCompanies && $newCompanies) {
             }
             if ($newCompanies) {
                 foreach ($newCompanies AS $newCompany) {
