@@ -94,7 +94,7 @@
 
 		<a style="display: block; background:#005ff8; color: #fff; font-size: 16px; font-weight: bold; font-family: Arial,sans-serif; margin: 30px auto; padding: 12px 30px; border-radius: 3px; text-decoration: none; text-align: center;
 		white-space: nowrap; box-sizing: border-box; " href="https://convertlead.com/downloads">Visit app download page</a>
-		<p style="font-size:12px ; text-align:center ; ">Need help? <a href="https://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
+		<p style="font-size:12px ; text-align:center ; ">Need help? <a href="http://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
 		background:transparent ; font-size:12px; padding:unset !important; display:inline;">Let us know</a></p>
 
 	</div>

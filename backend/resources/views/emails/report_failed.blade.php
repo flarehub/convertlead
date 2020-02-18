@@ -110,7 +110,7 @@
 
 
 
-        <p class="smallnote" style="font-size:12px ; text-align:center ; ">Didn't sign up for ConvertLead ? <a href="https://support.convertlead.com">Let us know</a></p>
+        <p class="smallnote" style="font-size:12px ; text-align:center ; ">Didn't sign up for ConvertLead ? <a href="http://support.convertlead.com">Let us know</a></p>
         <p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; " > The ConvertLead team.</p>
     </div>
     <div class="emailfot" style="max-width: 450px; text-align: left; font-size: 12px; margin: 20px auto; color:#797979;">

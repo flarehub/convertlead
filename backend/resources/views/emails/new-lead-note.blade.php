@@ -108,7 +108,7 @@
 		white-space: nowrap; box-sizing: border-box; ">Go to login page</a>
 
 
-		<p style="font-size:12px ; text-align:center ; ">Need help ? <a href="https://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
+		<p style="font-size:12px ; text-align:center ; ">Need help ? <a href="http://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
 		background:transparent ; font-size:12px; padding:unset !important; display:inline;">Let us know</a></p>
 		<p  style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; "> The ConvertLead team.</p>
 	</div>

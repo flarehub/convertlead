@@ -106,7 +106,7 @@
 		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">ConvertLead access information has been sent to {{$agent->email}}</p>
 		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Now your agent can contact your leads super fast!</p>
 		<p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">The ConvertLead team.</p> </br></br>
-		<p style="font-size:12px ; text-align:center ; ">Need Help? <a href="https://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
+		<p style="font-size:12px ; text-align:center ; ">Need Help? <a href="http://support.convertlead.com" style="color:#005ff8; text-decoration:none ;
 		background:transparent ; font-size:12px; padding:unset !important; display:inline;">Let us know</a></p>
 
 	</div>
