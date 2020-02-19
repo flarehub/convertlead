@@ -54,10 +54,7 @@ class LeadNotes extends Component {
                                         company_id: lead.company.id,
                                         show: true
                                     })}/>
-                                    <Button circular className='newlead'
-                                            icon='icon-add '
-                                            onClick={this.props.loadForm.bind(this, {show: true})}/>
-                                </div>
+                                    </div>
                             </Grid.Column>
 
                              <div className='lead-profile-row'>
@@ -69,11 +66,11 @@ class LeadNotes extends Component {
                             <div className='lead-profile-value'>{lead.email}</div>
                         </div>
                         <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Deal</label></div>
-                            <div className='lead-profile-value'>{lead.name}</div>
+                            <div className='lead-profile-label'><label>Campaign</label></div>
+                            <div className='lead-profile-value'>{lead.deal.name}</div>
                         </div>
                         <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Source</label></div>
+                            <div className='lead-profile-label'><label>Integration</label></div>
                             <div className='lead-profile-value'>{lead.campaign.name}</div>
                         </div>
                         <div className='lead-profile-row'>

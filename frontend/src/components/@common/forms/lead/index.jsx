@@ -138,8 +138,8 @@ class LeadForm extends Component {
                                     required
                                     control={Select}
                                     options={this.props.selectBoxDeals || []}
-                                    label={{children: 'Deals', htmlFor: 'deals-list'}}
-                                    placeholder="Select deal"
+                                    label={{children: 'Campaign', htmlFor: 'deals-list'}}
+                                    placeholder="Select campaign"
                                     search
                                     defaultValue={this.props.form.deal_id || null}
                                     onChange={this.onChangeDeal}
@@ -152,8 +152,8 @@ class LeadForm extends Component {
                             // loading={!this.props.selectBoxDealCampaigns.length}
                             control={Select}
                             options={this.props.selectBoxDealCampaigns || []}
-                            label={{children: 'Campaigns', htmlFor: 'campaigns-list'}}
-                            placeholder="Select campaign"
+                            label={{children: 'Integrations', htmlFor: 'campaigns-list'}}
+                            placeholder="Select integration"
                             search
                             defaultValue={this.props.form.deal_campaign_id || null}
                             onChange={this.onChangeCampaign}
