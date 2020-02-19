@@ -65,11 +65,7 @@ class LeadNotes extends Component {
                             <div className='lead-profile-label'><label>Email</label></div>
                             <div className='lead-profile-value'>{lead.email}</div>
                         </div>
-                        <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Campaign</label></div>
-                            <div className='lead-profile-value'>{lead.deal.name}</div>
-                        </div>
-                        <div className='lead-profile-row'>
+                         <div className='lead-profile-row'>
                             <div className='lead-profile-label'><label>Integration</label></div>
                             <div className='lead-profile-value'>{lead.campaign.name}</div>
                         </div>

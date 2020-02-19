@@ -117,7 +117,24 @@ i.icon.sidebar:before {
 
 .freshAppContainer {
     padding: 5px 95px;
+    height:100%;
 }
+
+
+.freshappRoutes {
+
+    height:100%;
+}
+.LeadNotes  > .ui.top.attached.segment:nth-child(3) {
+
+ height:100%;
+
+}
+
+.LeadNotes {
+    height:100%;
+}
+
 
 .App > div:nth-child(1) > div:nth-child(1) {
     height:100%;
@@ -2679,6 +2696,12 @@ margin-top:0px;
 
     .freshAppContainer {
         padding: 5px 15px;
+        height:100% ;
+    }
+
+    .freshappRoutes {
+
+        height:100%;
     }
 
     .freshAppHeader {
