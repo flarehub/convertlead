@@ -162,7 +162,7 @@ class Agents extends Component {
                                             ? <Table.HeaderCell>Companies</Table.HeaderCell>
                                             : null
                                     }
-                                    <Table.HeaderCell>Campaigns <Icon name={this.getSort('campaigns')}
+                                    <Table.HeaderCell>Integrations<Icon name={this.getSort('campaigns')}
                                                                       onClick={this.props.sort.bind(this, 'campaigns')}/>
                                     </Table.HeaderCell>
                                     <Table.HeaderCell>Leads

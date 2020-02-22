@@ -121,7 +121,7 @@ class Companies extends Component {
                     <Icon name={this.getSort('name')}
                           onClick={this.props.sort.bind(this, 'name')}/>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>Deals
+                  <Table.HeaderCell>Campaigns
                     <Icon name={this.getSort('deals')}
                           onClick={this.props.sort.bind(this, 'deals')}/>
                   </Table.HeaderCell>
