@@ -2664,6 +2664,15 @@ margin-top:0px;
         width:80px;
     }
 
+    .ui.icon.left.AppSidebar.menu .item  div{
+        display:none;
+    }
+
+    .ui.icon.left.AppSidebar.menu .item {
+        height:60px;
+        display: flex;
+    }
+
     .create-lead-form > div:nth-child(2) .button,  .AccountProfile .ui.big.form.profileForm .primary.button {
         width: 100%;
         background: #005ff8;
