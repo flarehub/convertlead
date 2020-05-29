@@ -2649,6 +2649,8 @@ margin-top:0px;
     }
     .sidebar-bootom {
         margin:0;
+        position: absolute;
+        bottom: 0;
     }
 
     .ui.visible.left.sidebar ~ .fixed, .ui.visible.left.sidebar ~ .pusher {
