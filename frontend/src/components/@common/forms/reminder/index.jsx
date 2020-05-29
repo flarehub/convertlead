@@ -35,8 +35,8 @@ class ReminderForm extends Component {
                 <Grid columns={1} relaxed='very' stackable>
                     <Grid.Column>
                         <Form.Field required>
-                            <label>Name</label>
-                            <Input placeholder='Name' name='name' value={name || ''} onChange={this.onChange}/>
+                            <label>Reminder Note</label>
+                            <Input placeholder='Add note' name='name' value={name || ''} onChange={this.onChange}/>
                         </Form.Field>
                         <Form.Field required>
                             <label>Date Time</label>
