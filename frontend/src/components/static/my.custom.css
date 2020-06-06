@@ -373,6 +373,9 @@ i.icon.sidebar:before {
     font-weight: 600 !important;
     color: #485261;
     font-size:15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .ui.card .meta, .ui.cards > .card .meta {
