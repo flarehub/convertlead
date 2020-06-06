@@ -72,17 +72,6 @@ class LeadNote extends Model
             $leadNote->save();
             \DB::commit();
 
-            MailService::sendMail('emails.new-lead-note', [
-                'lead' => $lead,
-                'leadNote' => $leadNote,
-            ],
-                [
-                    $lead->agent()->first()->email,
-                    $lead->company()->first()->email,
-                ],
-                env('APP_NEW_LEAD_NOTE_EMAIL_SUBJECT', "New Lead Note")
-            );
-
             return $leadNote;
         } catch (\Exception $exception) {
             \DB::rollBack();
