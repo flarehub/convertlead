@@ -101,7 +101,7 @@ export const filterAgentLeads = filters => async dispatch => {
     await dispatch(loadAgentLeads());
 };
 
-export const agentLeadsByStatuses = statuses => async dispatch => {
+export const agentLeadsByStatuses = (statuses) => async dispatch => {
     await dispatch(actions.agentResetLeads());
     await dispatch(actions.agentLoadLeadsStatuses(statuses));
     await dispatch(actions.gotoPage(1));

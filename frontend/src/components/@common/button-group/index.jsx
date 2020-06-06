@@ -18,15 +18,15 @@ class ButtonGroup extends Component {
 
   componentDidMount() {
     document.addEventListener('mouseout', (e) => {
-      if (e.target.className.search(/button/gi) === -1) {
-        this.props.hideAll();
-      }
+      // if (e.target.className.search(/button/gi) === -1) {
+        // this.props.hideAll();
+      // }
     });
     document.addEventListener('click', (e) => {
-      if (e.target.className.indexOf('custom-buttons') === -1) {
-        this.props.hideAll();
-      }
-      e.stopImmediatePropagation();
+      // if (e.target.className && e.target.className.indexOf('custom-buttons') === -1) {
+      //   this.props.hideAll();
+      // }
+      // e.stopImmediatePropagation();
     });
   }
 

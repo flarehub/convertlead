@@ -57,7 +57,17 @@ export const deleteAgent = (id) => async (dispath, getState) => {
   try {
     await api.delete(`/v1/${Auth.role}/agents/${id}`);
     dispath(loadAgents());
-    dispath(sendMessage('Successfully archieved!'))
+    dispath(sendMessage('Successfully archived!'))
+  } catch (e) {
+    dispath(sendMessage(e.message, true))
+  }
+};
+
+export const restoreAgent = (id) => async (dispath, getState) => {
+  try {
+    await api.get(`/v1/${Auth.role}/agents/${id}/restore`);
+    dispath(loadAgents());
+    dispath(sendMessage('Successfully restored!'))
   } catch (e) {
     dispath(sendMessage(e.message, true))
   }

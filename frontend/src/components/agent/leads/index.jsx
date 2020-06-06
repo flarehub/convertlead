@@ -7,6 +7,7 @@ import './index.scss'
 import LeadsList from "./list";
 import * as moment from 'moment';
 
+let scrollTime;
 class AgentLeads extends Component {
     state = {
         scrollY: window.scrollY,
@@ -65,12 +66,10 @@ class AgentLeads extends Component {
 
     handleScroll = () => {
         const {pagination} = this.props;
-        if (window.scrollY > this.state.scrollY && pagination.current_page < pagination.last_page) {
+        clearInterval(scrollTime);
+        scrollTime = setTimeout( () => {
             this.props.scrollToPage(pagination.current_page + 1);
-            this.setState({
-                scrollY: window.scrollY,
-            });
-        }
+        }, 1000);
     };
 
     showAllLeads = () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import EntityModal from "../index";
 import { compose } from 'recompose';
-import {CompaniesContainer, MessageContainer, DealFormContainer, ProfileContainer} from "@containers";
+import {CompaniesContainer, MessagesContainer, DealFormContainer, ProfileContainer} from "@containers";
 import DealForm from "components/@common/forms/deal";
 
 const DealModal = (props) => (<EntityModal {...{...props, Container: DealForm }} />);
 
-export default compose(ProfileContainer, MessageContainer, CompaniesContainer, DealFormContainer)(DealModal);
+export default compose(ProfileContainer, MessagesContainer, CompaniesContainer, DealFormContainer)(DealModal);

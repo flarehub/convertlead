@@ -101,7 +101,7 @@ class LeadStats extends Component {
                                         control={Select}
                                         options={this.props.selectBoxDates || []}
                                         placeholder="Select Date"
-                                        defaultValue='today'
+                                        defaultValue='this-month'
                                         onChange={this.onChangeDate}
                                         searchInput={{id: 'graph-date'}}
                                     />

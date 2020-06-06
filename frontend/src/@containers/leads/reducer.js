@@ -134,9 +134,11 @@ const leads = (state = initState, action) => {
         case AGENT_LOAD_LEADS: {
             return {
                 ...state,
-                agentLeads: [ ...action.leads],
-                // agentLeads: [...state.agentLeads, ...action.leads],
-                pagination: action.pagination,
+                agentLeads: [...state.agentLeads, ...action.leads],
+                pagination: {
+                    ...action.pagination,
+                    current_page: (action.leads && action.leads.length > 0 ? action.pagination.current_page : action.pagination.current_page - 1)
+                },
             };
         }
         case AGENT_LOAD_LEADS_BY_STATUSES: {

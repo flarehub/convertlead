@@ -88,6 +88,10 @@ class Agents extends Component {
         this.props.delete(this.state.agentId);
     };
 
+    onRestore = (agentId) => {
+        this.props.restore(agentId);
+    };
+
     onShowArch = () => {
         this.props.toggleShowDeleted();
     };
@@ -116,7 +120,7 @@ class Agents extends Component {
                         <Grid.Column>
                             <Header floated='left' as='h1'>Agents</Header>
                             <Form.Field>
-                                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
+                                <Checkbox label='Show Archived' checked={this.props.query.showDeleted} toggle onChange={this.onShowArch}/>
                             </Form.Field>
                             <Form>
                                 {
@@ -217,16 +221,24 @@ class Agents extends Component {
                                             <Table.Cell>{agent.avg_lead_response || 0}</Table.Cell>
                                             <Table.Cell>
                                                 {
-                                                    !agent.deleted_at
-                                                        ? <ButtonGroup>
-                                                            <Button onClick={this.props.loadForm.bind(this, {
-                                                                ...agent,
-                                                                show: true
-                                                            })}>Edit</Button>
-                                                            <Button
-                                                                onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
-                                                        </ButtonGroup>
-                                                        : null
+                                                    !agent.deleted_at && (
+                                                      <ButtonGroup>
+                                                          <Button onClick={this.props.loadForm.bind(this, {
+                                                              ...agent,
+                                                              show: true
+                                                          })}>Edit</Button>
+                                                          <Button
+                                                            onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
+                                                      </ButtonGroup>
+                                                    ) || (
+                                                      <ButtonGroup>
+                                                      <Button onClick={this.props.loadForm.bind(this, {
+                                                          ...agent,
+                                                          show: true
+                                                      })}>Edit</Button>
+                                                       <Button onClick={() => this.onRestore(agent.id)}>Restore</Button>
+                                                      </ButtonGroup>
+                                                      )
                                                 }
                                             </Table.Cell>
                                         </Table.Row>

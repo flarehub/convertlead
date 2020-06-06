@@ -1,8 +1,11 @@
 import { connect } from 'react-redux';
+import * as R from 'ramda';
+
 import * as thunks from './thunks';
 
 
 const mapStateToProps = state => ({
+  error: R.pathOr(false, ['messages', 'error'], state)
 });
 
 const mapDispatcherToProps = dispatch => ({

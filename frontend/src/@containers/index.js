@@ -15,7 +15,6 @@ export { default as LeadFormContainer } from './forms/lead';
 export { default as LeadsContainer } from './leads';
 export { default as LoaderContainer } from './loader';
 export { default as MenuContainer } from './menu';
-export { default as MessageContainer } from './messages';
 export { default as MessagesContainer } from './messages';
 export { default as OptinFormIntegrationContainer } from './forms/integrations/optinform';
 export { default as ProfileContainer } from './profile';

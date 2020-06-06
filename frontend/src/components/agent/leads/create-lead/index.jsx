@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {compose} from "recompose";
 import {
-    CompaniesContainer, LeadFormContainer, LeadsContainer, MessageContainer, BreadCrumbContainer,ProfileContainer
+    CompaniesContainer, LeadFormContainer, LeadsContainer, MessagesContainer, BreadCrumbContainer,ProfileContainer
 } from "@containers";
 import {Button, Segment} from 'semantic-ui-react';
 import LeadForm from "components/@common/forms/lead";
@@ -75,6 +75,6 @@ export default compose(
     ProfileContainer,
     LeadFormContainer,
     LeadsContainer,
-    MessageContainer,
+    MessagesContainer,
     CompaniesContainer
 )(CreateLead);

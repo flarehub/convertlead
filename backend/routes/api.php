@@ -62,6 +62,7 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
                 Route::get('deals', 'DealController@all');
                 Route::get('leads', 'LeadController@all');
                 Route::apiResource('agents', 'AgentController');
+                Route::get('agents/{agentId}/restore', 'AgentController@restore');
                 Route::get('agents/{agentId}/graph/{graphType}', 'AgentController@graph');
                 Route::get('agents/{agentId}/campaigns', 'AgentController@campaigns');
                 Route::apiResource('companies', 'CompanyController');
@@ -98,6 +99,7 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
             Route::prefix('company')->group(function () {
                 Route::apiResource('agents', 'AgentController')->middleware('scope:AGENT_READ')->only(['index', 'show']);
                 Route::apiResource('agents', 'AgentController')->middleware('scope:AGENT_WRITE')->only(['store', 'update', 'destroy']);
+                Route::get('agents/{agentId}/restore', 'AgentController@restore');
                 Route::get('agents/{agentId}/campaigns', 'AgentController@campaigns');
                 Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_READ')->only(['index', 'show']);
                 Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_WRITE')->only(['store', 'update', 'destroy']);

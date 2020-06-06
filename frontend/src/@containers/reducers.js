@@ -14,8 +14,10 @@ import menu from './menu/reducer';
 import profile from './profile/reducer';
 import users from './users/reducer';
 import buttonGroup from './button-group/reducer';
+import messages from './messages/reducer';
 
 const reducers = combineReducers({
+  messages,
   agents,
   auth,
   breadcrumb,
