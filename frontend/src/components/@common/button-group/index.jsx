@@ -19,7 +19,7 @@ class ButtonGroup extends Component {
   componentDidMount() {
     document.addEventListener('mouseout', (e) => {
       if (e.target.className.search(/button/gi) === -1) {
-        this.props.hideAll();
+        // this.props.hideAll();
       }
     });
     document.addEventListener('click', (e) => {

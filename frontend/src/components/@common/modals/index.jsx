@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import { compose } from 'recompose'
 import * as R from 'ramda';
+
 import {
     Modal,
     Button,
 } from 'semantic-ui-react';
+
 import './index.scss';
+import { MessagesContainer } from '@containers';
 
 class EntityModal extends Component {
     state = {
@@ -12,6 +16,10 @@ class EntityModal extends Component {
     };
 
     onSave = () => {
+        if (this.state.formSaved && !this.props.error) {
+            return;
+        }
+
         if (this.validate()) {
             this.setState({
                 formSaved: true,
@@ -49,6 +57,15 @@ class EntityModal extends Component {
         return true;
     };
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.error !== this.props.error) {
+            this.setState({
+                ...this.state,
+                formSaved: false,
+            })
+        }
+    }
+
     render() {
         const {Container, ...rest} = this.props;
         const { formSaved } = this.state;
@@ -65,7 +82,7 @@ class EntityModal extends Component {
                    centered={false}
                    size={rest.size || 'tiny'}
                    onClose={this.props.loadForm.bind(this, {show: false})}>
-                <Modal.Header>{this.props.form.title}</Modal.Header>
+                <Modal.Header>{this.props.form.title}{(this.props.error ? 'error' : 'no error')}</Modal.Header>
                 <Modal.Content>
                     <Container {...rest} />
                 </Modal.Content>
@@ -74,10 +91,10 @@ class EntityModal extends Component {
                         Cancel
                     </Button>
                     <Button
-                        color={(formSaved ? 'grey' : 'teal')}
+                        color={(this.props.error || !formSaved ? 'teal' : 'grey')}
                         labelPosition="left"
                         content="Save"
-                        onClick={(formSaved ? () => null : this.onSave)}
+                        onClick={this.onSave}
                     />
                 </Modal.Actions>
             </Modal>
@@ -85,4 +102,4 @@ class EntityModal extends Component {
     }
 }
 
-export default EntityModal;
+export default compose(MessagesContainer)(EntityModal);
