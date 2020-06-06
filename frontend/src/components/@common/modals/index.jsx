@@ -82,7 +82,7 @@ class EntityModal extends Component {
                    centered={false}
                    size={rest.size || 'tiny'}
                    onClose={this.props.loadForm.bind(this, {show: false})}>
-                <Modal.Header>{this.props.form.title}{(this.props.error ? 'error' : 'no error')}</Modal.Header>
+                <Modal.Header>{this.props.form.title}</Modal.Header>
                 <Modal.Content>
                     <Container {...rest} />
                 </Modal.Content>

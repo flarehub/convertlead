@@ -65,8 +65,8 @@ class LeadStats extends Component {
         this.props.getAgentGraphPie(this.Chart, this.agentId, {
             companyIds: [],
             graphType: 'contacted',
-            startDate: this.state.dates.today.startDate,
-            endDate: this.state.dates.today.endDate,
+            startDate: this.state.dates['this-month'].startDate,
+            endDate: this.state.dates['this-month'].endDate,
         });
 
         this.Chart.data = this.props.pieGraphContactedLeadsAverage.data;
