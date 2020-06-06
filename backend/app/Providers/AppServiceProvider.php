@@ -17,9 +17,9 @@ class AppServiceProvider extends ServiceProvider
     {
         \Validator::extend('userEmail', function ($attribute, $value, $parameters, $validator) {
             if (isset($parameters[0])) {
-                return !User::where('email', $value)->whereNotIn('id', [$parameters[0]])->count();
+                return !User::where('email', $value)->withTrashed()->whereNotIn('id', [$parameters[0]])->count();
             }
-            return !User::where('email', $value)->count();
+            return !User::where('email', $value)->withTrashed()->count();
         });
         \Validator::replacer('user_email', function ($message, $attribute, $rule, $parameters) {
             return 'Email already in use!';
