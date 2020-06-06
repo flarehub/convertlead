@@ -7,6 +7,7 @@ import './index.scss'
 import LeadsList from "./list";
 import * as moment from 'moment';
 
+let scrollTime;
 class AgentLeads extends Component {
     state = {
         scrollY: window.scrollY,
