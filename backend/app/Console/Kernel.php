@@ -24,6 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('leads:update:to:missed')
+            ->everyMinute();
         $schedule->command('reminder:notification')
             ->everyMinute();
     }

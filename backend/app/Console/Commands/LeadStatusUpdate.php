@@ -14,7 +14,7 @@ class LeadStatusUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'lead:update';
+    protected $signature = 'leads:update:to:missed';
 
     /**
      * The console command description.
@@ -40,13 +40,15 @@ class LeadStatusUpdate extends Command
      */
     public function handle()
     {
-        $leadStatusNew = LeadStatus::where('type', '=', 'NEW')->firstOrFail();
-        $leadStatusMissed = LeadStatus::where('type', '=', 'MISSED')->firstOrFail();
-        Lead::where('leads.created_at', '<', Carbon::now()->subHours(12)->toDateTimeString())
-            ->where('lead_status_id', '=', $leadStatusNew->id)
-            ->update([
-                'lead_status_id'  => $leadStatusMissed->id
-            ]);
+        $timeLimitHours = 12; // if leads are oldest then $timeLimitHours limit than we Move them to status MISSED
+        $new = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
+        $viewed = LeadStatus::where('type', LeadStatus::$STATUS_VIEWED)->firstOrFail();
+        $missed = LeadStatus::where('type', LeadStatus::$STATUS_MISSED)->firstOrFail();
+
+        Lead::whereRaw("((TIMESTAMPDIFF(SECOND, created_at, NOW()) / 60) / 60) >= ?", [$timeLimitHours])
+            ->whereIn('lead_status_id', [$new->id, $viewed->id])
+            ->update(['lead_status_id' => $missed->id]);
+
         $this->info('***Lead status updated!***');
     }
 }
