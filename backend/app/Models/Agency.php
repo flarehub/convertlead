@@ -126,7 +126,9 @@ class Agency extends User
             COUNT(DISTINCT dca.id) AS campaigns_count,
              COUNT(DISTINCT ld.id) AS leads_count,
                 SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
-            users.created_at'
+            users.created_at,
+            users.deleted_at
+            '
         )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')

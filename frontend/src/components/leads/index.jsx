@@ -236,7 +236,7 @@ class Leads extends Component {
 
               </div>
               <Form.Field>
-                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
+                <Checkbox label='Show Archived' checked={this.props.query.showDeleted}  toggle onChange={this.onShowArch}/>
               </Form.Field>
 
             </Grid.Column>

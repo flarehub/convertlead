@@ -131,4 +131,20 @@ class AgentController extends Controller
         }
         return $agent;
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Request $request, $id)
+    {
+        $agent = $request->user()->getAgentBy($id);
+        if (!$agent->agent_agency_id) {
+            $agent->restore();
+        }
+
+        return $agent;
+    }
 }

@@ -172,7 +172,9 @@ trait CompanyRepository {
             COUNT(DISTINCT ac.id, dca.id) AS campaigns_count,
             COUNT(DISTINCT ld.id) AS leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
-            users.created_at'
+            users.created_at,
+            users.deleted_at
+            '
         )
             ->join('company_agents AS ca', 'ca.agent_id', 'users.id')
             ->join('agency_companies AS ac', 'ac.company_id', 'ca.company_id')
