@@ -2897,14 +2897,26 @@ margin-top:0px;
 
     .ui.secondary.menu .right.menu .ui.teal.button {
         position: fixed;
-        bottom: 20px;
         right: 20px;
         height: 35px;
         z-index: 99999;
         border-radius: 65px;
         padding: 10px 25px;
         box-shadow: 5px 5px 14px 5px rgba(0,12,255,.2) !important;
+        width: 60px;
+        height: 60px;
+        color: transparent;
+        top: 30px;
     }
+
+      .ui.secondary.menu .right.menu .ui.teal.button:after {
+          content: '+';
+          position: absolute;
+          color: #fff;
+          right: 21px;
+          font-size: 30px;
+          top: 21px;
+}
 
     .Agents .ui.two.column.grid .column:nth-child(1) .field, .Campaigns .ui.two.column.grid  .column:nth-child(1) .field {
         display:none ;
