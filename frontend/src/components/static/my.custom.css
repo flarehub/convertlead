@@ -55,6 +55,10 @@ header {
     top: 0;
 }
 
+.ui.search {
+    font-size:0.95em !important;
+}
+
 .ui.button{
     background-color: #f1f5f9;
     color:#637282;
@@ -233,6 +237,7 @@ i.icon.sidebar:before {
 .ui.search.dropdown > .text {
     cursor: pointer !important;
     color: #1b2733 !important;
+    font-family:'Manrope';
 }
 
 
@@ -412,7 +417,7 @@ i.icon.sidebar:before {
 }
 
 .ui.button {
-    font-family: inherit !important;
+    font-family: 'Manrope' !important;
 }
 
 
@@ -508,8 +513,8 @@ i.icon.sidebar:before {
 
 
 .ui.dropdown .menu .selected.item, .ui.dropdown.selected, .ui.dropdown .item {
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px !important;
     color: #1b2733 !important;
     font-weight: 400 !important;
     background: transparent !important;
@@ -646,7 +651,7 @@ input:focus {
 
 .ui.default.dropdown:not(.button) > .text, .ui.dropdown:not(.button) > .default.text {
     color: #3d464d;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: 400;
 }
 
@@ -1483,9 +1488,9 @@ input:focus {
     border-radius: 0 !important;
     border-bottom: 1px solid #ccc !important;
     padding: 16px !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     color: #3d464d !important;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Manrope', sans-serif;
 }
 
 .ui.tiny.modal .ui.form .search {
@@ -1504,7 +1509,7 @@ input:focus {
     padding: 16px;
     font-size: 13px;
     color: #3d464d !important;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Manrope', sans-serif;
 }
 
 .ui.small.modal .header, .ui.tiny.modal .header {
@@ -1563,15 +1568,15 @@ input:focus {
     position: relative;
     left: 1px;
     z-index: 3;
-    font-family: 'Dosis', sans-serif !important;
-    font-size: 15px;
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 14px;
     padding: 0;
     margin: 0;
 }
 
 .ui.small.modal .ui.selection.dropdown .item .text, .ui.tiny.modal .ui.selection.dropdown .item .text {
     font-size: 13px;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Manrope', sans-serif;
 }
 
 .ui.small.modal .ui.form .multiple.search, .ui.tiny.modal .ui.form .multiple.search {
