@@ -15,6 +15,6 @@ export const CardContent = ({ deal, link, company }) => (<Link to={{
   <Card.Meta>Started {moment(deal.created_at).format(DATE_FORMAT)}</Card.Meta>
   <Card.Description>
     <AvatarImage src={company.avatar_path} avatar rounded size='medium' />
-    {company.name}
+  <p>{company.name}</p>
   </Card.Description>
 </Link>);

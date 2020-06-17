@@ -7,6 +7,7 @@
 @import url('https://fonts.googleapis.com/css?family=Dosis:400,500');
 @import url('https://fonts.googleapis.com/css?family=Cabin+Condensed:500,600&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Abel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap');
 
 
 
@@ -112,7 +113,7 @@ i.icon.sidebar:before {
     color: #b4b4b4;
     height: 90px;
     padding: 28px 95px !important;
-    border-bottom: 1px solid rgba(34, 36, 38, .1);
+    border-bottom: 1px solid rgba(139,147,156,.3);
 }
 
 .freshAppContainer {
@@ -211,9 +212,9 @@ i.icon.sidebar:before {
 }
 
 .ui.top.attached.segment .ui.header {
-    font-size: 30px !important;
-    font-weight: 600 !important;
-    font-family:'Abel',sans-serif!important;
+    font-size: 27px !important;
+    font-weight: 800 !important;
+    font-family:'Manrope', sans-serif;
     margin: 0 !important;
     color: #1B2733 !important;
 }
@@ -326,7 +327,7 @@ i.icon.sidebar:before {
 
 
 .ui.card > .content > a {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Monrope', sans-serif;
     font-size: 14px;
     color: #637282;
 }
@@ -355,8 +356,19 @@ i.icon.sidebar:before {
     margin-top: 25px;
     font-weight: 400 !important;
     color: #1B2733;
+    display:flex;
+    align-items:center;
 }
 
+.ui.card > .content > a > .description p {
+
+    width:calc(100% - 2em);
+    overflow:hidden;
+    text-overflow:ellipsis ;
+    font-size: 13px;
+
+
+}
 .ui.card .avatar.icon-image, .ui.single.line.table .avatar.icon-image {
     margin-right: 5px;
     background-repeat: no-repeat !important;
@@ -420,9 +432,9 @@ i.icon.sidebar:before {
 }
 
 .ui.icon.menu a .item div {
-    font-weight: 600;
-    font-family: 'Dosis', sans-serif;
-    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
     padding-top: 4px;
 }
 
@@ -451,14 +463,14 @@ i.icon.sidebar:before {
 
 .ui.icon.left.AppSidebar.menu {
     width: 120px;
-    background: #f7f9fa;
+    background:#f2f4f9;
     box-shadow: none;
     border: none;
     display: flex;
     flex-direction: column;
     height: 100% !important;
     flex-wrap: wrap;
-    border-right: solid 1px rgba(139, 147, 156, 0.1);
+    border-right: 1px solid rgba(139,147,156,.3)
 }
 
 .ui.icon.menu .item i:before {
@@ -467,7 +479,7 @@ i.icon.sidebar:before {
 
 .ui.icon.menu .item i {
 
-    font-size: 18px;
+    font-size: 19px;
     margin-bottom: 5px !important;
     color: #637282;
 }
@@ -1462,7 +1474,7 @@ input:focus {
     font-weight: 400;
     font-size: 13px;
     color: #637282 !important;
-    font-family: 'Dosis', sans-serif !important;
+    font-family: 'Manrope', sans-serif !important;
 }
 
 .ui.small.modal .ui.form input, .ui.tiny.modal .ui.form input {
@@ -1497,10 +1509,10 @@ input:focus {
 
 .ui.small.modal .header, .ui.tiny.modal .header {
     font-size: 16px !important;
-    font-family: 'Dosis', sans-serif;
-    padding: 20px 50px;
-    font-weight: 400 !important;
-    border-bottom: 1px solid rgba(34, 36, 38, .1);
+    font-family: 'Manrope', sans-serif;
+    padding: 25px;
+    font-weight: 600 !important;
+    border-bottom: none;
     COLOR: #1B2733 !important;
 }
 
