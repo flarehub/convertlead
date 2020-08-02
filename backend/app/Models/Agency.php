@@ -104,7 +104,7 @@ class Agency extends User
     
     
         if ( isset($queryParams['deals']) ) {
-            $query->orderBy('deals_count', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
+            $query->orderBy('deals_acount', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
         }
     
         if ( isset($queryParams['leads']) ) {
