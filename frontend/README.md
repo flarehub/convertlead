@@ -25,3 +25,5 @@ Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 
+### NODE_VERSION = 8.17.0
+### NPM = 6.14.5

@@ -160,8 +160,8 @@
       "git add"
     ]
   },
-  "engines" : {
-    "node" : "v8.17.0",
+  "engines": {
+    "node": "v8.17.0",
     "npm": "6.13.4"
   }
 }

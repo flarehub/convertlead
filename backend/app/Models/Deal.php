@@ -30,6 +30,10 @@ class Deal extends Model
     public function campaigns() {
         return $this->hasMany('App\Models\DealCampaign', 'deal_id', 'id');
     }
+
+    public function actions() {
+        return $this->hasMany('App\Models\DealAction', 'deal_id', 'id');
+    }
     
     public function getCompanyAttribute() {
         $company = $this->companies()->first();

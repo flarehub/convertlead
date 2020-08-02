@@ -51,7 +51,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'avatar_id', 'agent_agency_id',
+        'name',
+        'phone',
+        'avatar_id',
+        'agent_agency_id',
         'email',
         'password',
         'role',
@@ -59,6 +62,8 @@ class User extends Authenticatable
         'subscription_type',
         'company_name',
         'uuid',
+        'twilio_sid',
+        'twilio_token'
     ];
 
     protected $appends = ['avatar_path', 'permissions'];
@@ -92,6 +97,8 @@ class User extends Authenticatable
                 Permission::$PERMISSION_AGENT_WRITE,
                 Permission::$PERMISSION_LEAD_READ,
                 Permission::$PERMISSION_CAMPAIGN_READ,
+                Permission::$PERMISSION_DEAL_ACTION_RED,
+                Permission::$PERMISSION_DEAL_ACTION_WRITE,
             ];
         } elseif ($role === self::$ROLE_COMPANY) {
             return [
@@ -103,6 +110,8 @@ class User extends Authenticatable
                 Permission::$PERMISSION_CAMPAIGN_WRITE,
                 Permission::$PERMISSION_LEAD_NOTE_READ,
                 Permission::$PERMISSION_LEAD_NOTE_WRITE,
+                Permission::$PERMISSION_DEAL_ACTION_RED,
+                Permission::$PERMISSION_DEAL_ACTION_WRITE,
             ];
         } elseif ($role === self::$ROLE_AGENT) {
             return [

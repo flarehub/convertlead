@@ -117,6 +117,9 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
                 Route::delete(
                     'campaigns/{campaign}/fb-integrations/{integration}',
                     'CampaignFacebookIntegrationController@unsubscribe');
+
+                Route::apiResource('deals/{deal}/actions', 'DealActionController')
+                    ->middleware('scope:DEAL_ACTION_READ,DEAL_ACTION_WRITE');
             });
         });
     });
