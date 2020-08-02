@@ -2,11 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Jobs\ActionChangeLeadStatus;
-use App\Jobs\ActionConnectAgentLeadViaBlindCall;
-use App\Jobs\ActionPushAgentDeviceNotification;
-use App\Jobs\ActionSendToLeadEmailNotification;
-use App\Jobs\ActionSendToLeadSMSNotification;
 use App\Models\DealAction;
 use App\Models\Lead;
 use App\Models\LeadActionHistory;
