@@ -13,6 +13,8 @@ const initialState = {
         role: null,
         permissions: [],
         agencies: [],
+        twilio_token: null,
+        twilio_sid: null,
     }, ['user'], SessionStorage.getItem('session')),
     profileForm: {
         id: null,
@@ -20,6 +22,8 @@ const initialState = {
         email: '',
         phone: '',
         avatar: '',
+        twilio_token: '',
+        twilio_sid: '',
     },
     passwordResetForm: {
         password: '',

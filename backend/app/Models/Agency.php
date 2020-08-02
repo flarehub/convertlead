@@ -58,6 +58,8 @@ class Agency extends User
             users.phone,
             users.email,
             users.avatar_id,
+            users.twilio_sid,
+            users.twilio_token,
             agency_companies.is_locked,
             IF(users.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
             COUNT(DISTINCT users.id, deals.id) as deals_count,

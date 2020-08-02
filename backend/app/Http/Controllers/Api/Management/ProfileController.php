@@ -15,13 +15,24 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
+        $fields = [
+            'id',
+            'name',
+            'avatar_path',
+            'role',
+            'permissions',
+            'agencies',
+            'email',
+            'phone',
+            'twilio_sid',
+            'twilio_token'
+        ];
+
         if ($request->user()->isAgency() || $request->user()->isAgent()) {
-            return $request->user()->load(['permissions'])
-                ->only(['id', 'name', 'avatar_path', 'role', 'permissions', 'agencies', 'email', 'phone']);
-        } else {
-            return $request->user()->load(['permissions', 'agencies'])
-                ->only(['id', 'name', 'avatar_path', 'role', 'permissions', 'agencies', 'email', 'phone']);
+            return $request->user()->load(['permissions'])->only($fields);
         }
+
+        return $request->user()->load(['permissions', 'agencies'])->only($fields);
     }
 
     /**
@@ -34,9 +45,18 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $request->user()->handleAvatar($request);
-        $data = $request->only(['name', 'email', 'avatar_id', 'phone', 'password', 'password_confirmation']);
-        return $request->user()
-            ->updateUser($data);
+        $data = $request->only([
+            'twilio_sid',
+            'twilio_token',
+            'name',
+            'email',
+            'avatar_id',
+            'phone',
+            'password',
+            'password_confirmation'
+        ]);
+
+        return $request->user()->updateUser($data);
     }
 
     /**

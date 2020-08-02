@@ -12,6 +12,8 @@ const initState = {
     email: '',
     phone: '',
     avatar: '',
+    twilio_sid: '',
+    twilio_token: '',
     password: '',
     password_confirmation: '',
   },

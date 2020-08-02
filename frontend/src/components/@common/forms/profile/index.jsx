@@ -14,6 +14,7 @@ import * as R from "ramda";
 import {ProfileContainer, MessagesContainer} from "@containers";
 import {AvatarImage} from "components/@common/image";
 import {disableAutoComplete} from '../../../../utils';
+import {Auth} from "../../../../@services";
 
 class AgentForm extends Component {
     onFileLoad = (event) => {
@@ -80,7 +81,15 @@ class AgentForm extends Component {
     }
 
     render() {
-        const {name, phone, email, avatar, avatar_path} = this.props.profileForm;
+        const {
+            name,
+            phone,
+            email,
+            avatar,
+            avatar_path,
+            twilio_sid,
+            twilio_token
+        } = this.props.profileForm;
         const {password, password_confirmation} = this.props.passwordResetForm;
         return (<Form size='big' className='profileForm'>
             <Grid columns={2} relaxed='very' stackable>
@@ -97,6 +106,20 @@ class AgentForm extends Component {
                         <label>Email Address</label>
                         <Input placeholder='Email Address' name='email' value={email || ''} onChange={this.onChange}/>
                     </Form.Field>
+                    {
+                        Auth.isCompany && (
+                          <>
+                              <Form.Field required>
+                                  <label>Twilio SID</label>
+                                  <Input placeholder='Twilio SID' name='twilio_sid' value={twilio_sid || ''} onChange={this.onChange}/>
+                              </Form.Field>
+                              <Form.Field required>
+                                  <label>Twilio TOKEN</label>
+                                  <Input placeholder='Twilio Token' name='twilio_token' value={twilio_token || ''} onChange={this.onChange}/>
+                              </Form.Field>
+                          </>
+                        )
+                    }
                     <Segment basic>
                         <AvatarImage size='tiny' circular src={avatar || avatar_path || avatarDemo}/>
                         <label

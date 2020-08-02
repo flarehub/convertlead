@@ -39,7 +39,7 @@ class CompanyForm extends Component {
     }
 
     render() {
-        const {id, name, phone, email, avatar, avatar_path} = this.props.form;
+        const {id, name, phone, email, avatar, twilio_sid, twilio_token, avatar_path} = this.props.form;
         return (
             <Form size='big' className='companyForm' autoComplete='off'>
                 <Grid columns={2} relaxed='very' stackable>
@@ -92,6 +92,22 @@ class CompanyForm extends Component {
                         </Form.Field>
 
                     </Grid.Column>
+                    <Grid.Row className="twilioContainer">
+                        <Grid.Column>
+                            <Form.Field required>
+                                <label>Twilio SID</label>
+                                <Input placeholder='Twilio SID' name='twilio_sid' value={twilio_sid || ''}
+                                       onChange={this.onChange}/>
+                            </Form.Field>
+                        </Grid.Column>
+                        <Grid.Column>
+                        <Form.Field required>
+                            <label>Twilio Token</label>
+                            <Input placeholder='Twilio Token' name='twilio_token' value={twilio_token || ''}
+                                   onChange={this.onChange}/>
+                        </Form.Field>
+                        </Grid.Column>
+                    </Grid.Row>
                 </Grid>
             </Form>
         )

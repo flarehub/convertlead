@@ -15,10 +15,7 @@ class DealActionController extends Controller
      */
     public function index(Request $request, $deal)
     {
-        return $request->user()->getDealBy($deal)->actions->map(function (DealAction $dealAction) {
-            $dealAction->object = json_decode($dealAction->object);
-            return $dealAction;
-        });
+        return $request->user()->getDealBy($deal)->actions;
     }
 
     /**
@@ -45,7 +42,7 @@ class DealActionController extends Controller
         ]));
 
         $dealAction->save();
-        $dealAction->object = json_decode($dealAction->object);
+
         return $dealAction;
     }
 
@@ -92,7 +89,6 @@ class DealActionController extends Controller
     public function destroy(Request $request, $deal, $id)
     {
         $dealAction = $request->user()->getDealBy($deal)->getActionBy($id);
-
         return $dealAction->delete();
     }
 }
