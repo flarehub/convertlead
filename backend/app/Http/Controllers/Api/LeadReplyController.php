@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\DealAction;
 use App\Models\Lead;
-use App\Models\LeadActionHistory;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
+use Twilio\Rest\Client;
 
 class LeadReplyController extends Controller {
 
-    public function onSMSReply(Request $request, LeadActionHistory $leadActionHistory) {
+    public function onSMSReply(Request $request) {
         $fromNumber = $request->get('From');
         $messageBody = $request->get('Body');
 
@@ -46,14 +46,30 @@ class LeadReplyController extends Controller {
             foreach ($keywords as $keyword) {
                 $contains = stripos($messageBody, $keyword) !== -1;
                 if ($contains) {
+                    $this->sendAgentSms($lead, $fromNumber, $messageBody);
                     $dealAction->scheduleNextLeadAction($lead);
                     break;
                 }
             }
         }
         elseif ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY) {
+            $this->sendAgentSms($lead, $fromNumber, $messageBody);
             $dealAction->scheduleNextLeadAction($lead);
         }
+    }
+
+    public function sendAgentSms($lead, $from, $message) {
+        $twilioSid = $lead->company['twilio_sid'];
+        $twilioToken = $lead->company['twilio_token'];
+
+        $twilioClient = new Client($twilioSid, $twilioToken);
+        $twilioClient->messages->create(
+            $lead->agent->phone,
+            [
+                'from' => $lead->company['twilio_mobile_number'],
+                'body' => `From: {$from}, {$message}`
+            ]
+        );
     }
 
     public function onMailReply(Request $request, $leadId, $dealActionId) {
