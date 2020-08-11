@@ -12,4 +12,9 @@ class LeadActionHistory extends Model {
         'deal_action_id',
         'is_completed',
     ];
+
+    public function moveToCompleted() {
+        $this->is_completed = 1;
+        $this->save();
+    }
 }

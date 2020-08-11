@@ -1,11 +1,7 @@
 <?php
 namespace App\Models;
 
-use App\Jobs\ActionChangeLeadStatus;
-use App\Jobs\ActionConnectAgentLeadViaBlindCall;
-use App\Jobs\ActionPushAgentDeviceNotification;
-use App\Jobs\ActionSendToLeadEmailNotification;
-use App\Jobs\ActionSendToLeadSMSNotification;
+use App\Jobs\DealActionJob;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -35,12 +31,16 @@ class DealAction extends Model {
         'delay_type',
     ];
 
+    protected $appends = [
+        'rootParent'
+    ];
+
     public function getObjectAttribute($object)
     {
         return $object ? json_decode($object) : json_decode('{}');
     }
 
-    public function campaign() {
+    public function deal() {
         return $this->hasOne('App\Models\Deal', 'id', 'deal_id');
     }
 
@@ -48,23 +48,46 @@ class DealAction extends Model {
         return $this->newQuery()->where('id', $this->parent_id)->first();
     }
 
-    public function getNextAction() {
-        $rootLeadActionHistory = false;
-        $horizontalNextAction = $this->newQuery()
+    public function getNextHorizontalAction() {
+        return $this->newQuery()
             ->where('parent_id', $this->id)
             ->where('is_root', 0)
             ->first();
+    }
 
-        $rootNextAction = $this->newQuery()
+    public function getNextVerticalAction() {
+        return $this->newQuery()
             ->where('parent_id', $this->id)
             ->where('is_root', 1)
             ->first();
+    }
 
-        if ($rootNextAction) {
-            $rootLeadActionHistory = LeadActionHistory::firstWhere('deal_action_id', $rootNextAction->id);
+    public function scheduleNextLeadAction(Lead $lead) {
+
+        if ($this->rootParent) {
+            $nextAction = $this->getNextHorizontalAction();
+
+            $rootNextVerticalAction = $this->rootParent->getNextVerticalAction();
+
+            if ($rootNextVerticalAction) {
+                $nextRootVerticalAction = LeadActionHistory::query()
+                    ->where('lead_id', $lead->id)
+                    ->where('deal_action_id', $rootNextVerticalAction->id)
+                    ->first();
+                if ($nextRootVerticalAction) {
+                    $nextRootVerticalAction->moveToCompleted();
+                }
+            }
+        } elseif (!$this->rootParent && !$this->is_root) {
+            $nextAction = $this->getNextHorizontalAction();
+        }
+        else {
+            $nextAction = $this->getNextVerticalAction();
         }
 
-        return ($rootLeadActionHistory ?: $horizontalNextAction);
+        if ($nextAction) {
+            $nextAction->scheduleLeadAction($lead);
+        }
     }
 
 
@@ -79,34 +102,18 @@ class DealAction extends Model {
         ]);
         $leadActionHistory->save();
 
-        switch ($this->type) {
-            case DealAction::TYPE_EMAIL_MESSAGE: {
+        DealActionJob::dispatch($leadActionHistory)->delay(
+            now($dealTimezone)->addMinutes($this->delay_time)
+        )->onQueue('deal-actions');
+    }
 
-                ActionSendToLeadEmailNotification::dispatch($leadActionHistory)->delay(
-                    now($dealTimezone)->addMinutes($this->delay_time)
-                )->onQueue('action-email-notification');
-            }
-            case DealAction::TYPE_SMS_MESSAGE: {
-                ActionSendToLeadSMSNotification::dispatch($leadActionHistory)->delay(
-                    now($dealTimezone)->addMinutes($this->delay_time)
-                )->onQueue('action-sms-notification');
-            }
-            case DealAction::TYPE_CHANGE_STATUS: {
-                ActionChangeLeadStatus::dispatch($leadActionHistory)->delay(
-                    now($dealTimezone)->addMinutes($this->delay_time)
-                )->onQueue('action-change-lead-status');
-            }
-            case DealAction::TYPE_BLIND_CALL: {
-                ActionConnectAgentLeadViaBlindCall::dispatch($leadActionHistory)->delay(
-                    now($dealTimezone)->addMinutes($this->delay_time)
-                )->onQueue('action-blind-call');
-            }
-            case DealAction::TYPE_PUSH_NOTIFICATION: {
-                ActionPushAgentDeviceNotification::dispatch($leadActionHistory)->delay(
-                    now($dealTimezone)->addMinutes($this->delay_time)
-                )->onQueue('action-push-notification');
-            }
-            default:
+    public function getRootParentAttribute() {
+        if ($this->parent_id && !$this->is_root) {
+            return DealAction::query()
+                ->where('id', $this->parent_id)
+                ->where('is_root', 1)
+                ->first();
         }
+        return false;
     }
 }

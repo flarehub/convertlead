@@ -65,7 +65,7 @@ class Lead extends Model
     public function getCompanyAttribute() {
         $company = $this->company()->selectRaw('users.*')->where('ac.id', $this->agency_company_id)->withTrashed()->first();
         if ($company) {
-            return $company->only(['id', 'name', 'email', 'avatar_path']);
+            return $company->only(['id', 'name', 'email', 'avatar_path', 'twilio_mobile_number', 'twilio_sid', 'twilio_token']);
         }
         return null;
     }
@@ -238,7 +238,8 @@ class Lead extends Model
 
     public static function notification($tokenList, $notification, $data=null)
     {
-        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+        $fcmUrl = \Config::get('services.fcm.api_host');
+        $api_key = \Config::get('services.fcm.api_key');
 
         $fcmNotification = [
             //'to'        => $token, //single token
@@ -246,8 +247,6 @@ class Lead extends Model
             'notification' => $notification,
             'data' => $data
         ];
-
-        $api_key = \Config::get('services.fcm.api_key');
 
         $headers = [
             'Authorization: key='.$api_key,

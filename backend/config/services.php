@@ -36,6 +36,7 @@ return [
     ],
 
     'fcm' => [
+        'api_host' => env('FCM_API_HOST', 'https://fcm.googleapis.com/fcm/send'),
         'api_key' => env('FCM_API_KEY', 'AAAAJ7GOhrk:APA91bFx15tS42sLFJGsCiiMQ4dTdlK2DFnFp52NBJvgahZQJ6wjrvC9vlxxm6y8PEXOHa6uJ5_cbu7iL6D6UfGsZpfJa73Kohq5HMpZyswHEPtexMnr0Raf2YUDRo7OQtWzDVWmf-IA'),
     ]
 

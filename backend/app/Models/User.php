@@ -64,6 +64,7 @@ class User extends Authenticatable
         'uuid',
         'twilio_sid',
         'twilio_token',
+        'twilio_mobile_number',
     ];
 
     protected $appends = ['avatar_path', 'permissions'];

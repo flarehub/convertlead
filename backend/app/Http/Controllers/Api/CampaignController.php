@@ -41,6 +41,7 @@ class CampaignController extends Controller
            }
 
            $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
+
            $this->validateLead($request, $campaign);
            $leadStatus = LeadStatus::where('type', LeadStatus::$STATUS_NEW)->firstOrFail();
            $agent = $campaign->agents->first();
@@ -88,6 +89,12 @@ class CampaignController extends Controller
            ];
            $tokenList = Device::getTokenListFromAgentIds([$lead->agent_id]);
            Lead::notification($tokenList, $notification);
+
+           if ($campaign->deal->has_automation) {
+               $action = $campaign->deal->getFirstRootAction();
+               $action->scheduleLeadAction($lead);
+           }
+
            return $lead;
        } catch (Exception $exception) {
            \DB::rollBack();

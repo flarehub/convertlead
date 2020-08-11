@@ -16,4 +16,11 @@ trait DealRepository {
     public function getActionBy(int $id) {
         return $this->actions()->where('id', $id)->firstOrFail();
     }
+
+    public function getFirstRootAction() {
+        return $this->actions()
+            ->where('parent_id', null)
+            ->where('is_root', 1)
+            ->first();
+    }
 }

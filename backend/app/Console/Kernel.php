@@ -14,6 +14,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\LeadStatusUpdate::class,
+        Commands\ActionSendToLeadSMSNotification::class,
+        Commands\ActionConnectAgentLeadViaBlindCall::class,
+        Commands\ActionPushAgentDeviceNotification::class,
+        Commands\ActionChangeLeadStatus::class,
+        Commands\ActionSendToLeadEmailNotification::class,
     ];
 
     /**
