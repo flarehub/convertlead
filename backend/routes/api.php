@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('campaigns/{campaignUUID}/leads', 'CampaignController@createLead');
         Route::get('campaigns/leads/webhook', 'CampaignController@facebookWebHook');
         Route::post('campaigns/leads/webhook', 'CampaignController@facebookWebHookPost');
+        Route::post('campaigns/leads/twilio/webhook', 'CampaignController@twilioWebHook');
         Route::get('leads/{lead}/export-pdf', 'LeadController@exportToPDF');
         Route::get('leads/{lead}/export-csv', 'LeadController@exportToCSV');
 

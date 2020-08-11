@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Api\LeadReplyController;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Str;
+use Twilio\Rest\Client;
 
 /**
  * App\Models\User
@@ -268,5 +270,28 @@ class User extends Authenticatable
 
     public function isAgent() {
         return $this->role === self::$ROLE_AGENT;
+    }
+
+    public function setupTwilioWebHook($twilioSid, $twilioToken, $twilioNumber) {
+        if (!trim($twilioSid) || !trim($twilioToken) || !trim($twilioNumber)) {
+            return;
+        }
+
+        $twilioClient = new Client($twilioSid, $twilioToken);
+        $result = $twilioClient->incomingPhoneNumbers->read([
+            'phoneNumber' => $twilioNumber,
+        ], 1);
+        $number = last($result);
+
+        if (empty($number)) {
+            abort('Not valid number');
+        }
+
+        if ($number->sid) {
+            return $twilioClient->incomingPhoneNumbers($number->sid)->update([
+                'smsMethod' => 'POST',
+                'smsUrl' => action([LeadReplyController::class, 'onSMSReply'])
+            ]);
+        }
     }
 }

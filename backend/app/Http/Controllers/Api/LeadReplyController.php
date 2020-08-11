@@ -15,6 +15,7 @@ class LeadReplyController extends Controller {
     public function onSMSReply(Request $request, LeadActionHistory $leadActionHistory) {
         $fromNumber = $request->get('From');
         $messageBody = $request->get('Body');
+
         $lead = Lead::query()
             ->where('phone', 'like', $fromNumber)
             ->orderBy('id', 'desc')

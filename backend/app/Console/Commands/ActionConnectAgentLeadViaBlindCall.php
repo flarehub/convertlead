@@ -37,6 +37,6 @@ class ActionConnectAgentLeadViaBlindCall extends Command
      */
     public function handle()
     {
-        //
+
     }
 }

@@ -15,6 +15,12 @@ use Mockery\Exception;
 
 class CampaignController extends Controller
 {
+    public function twilioWebHook(Request $request) {
+        \Log::critical('twilio callback income');
+        \Log::critical(print_r($request->all(), true));
+        return response()->json(['success']);
+    }
+
     public function getIntegration(Request $request, $campaignUUID) {
         $campaign = DealCampaign::where('uuid', $campaignUUID)->firstOrFail();
         if ($campaign->integration !== DealCampaign::$INTEGRATION_OPTIN_FORM) {

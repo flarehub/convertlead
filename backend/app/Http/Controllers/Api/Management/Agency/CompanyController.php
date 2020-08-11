@@ -54,6 +54,9 @@ class CompanyController extends Controller
         }
         $company->handleAvatar($request);
         $company->createCompany($request->only([
+            'twilio_sid',
+            'twilio_token',
+            'twilio_mobile_number',
             'name',
             'is_locked',
             'avatar_id',
@@ -70,6 +73,12 @@ class CompanyController extends Controller
         ],
             $company->email,
             env('APP_COMPANY_WELCOME_EMAIL_SUBJECT', 'Welcome To ConvertLead ')
+        );
+
+        $company->setupTwilioWebHook(
+            $request->get('twilio_sid'),
+            $request->get('twilio_token'),
+            $request->get('twilio_mobile_number')
         );
 
         return $company;
@@ -111,6 +120,13 @@ class CompanyController extends Controller
         $company = $request->user()->getCompanyBy($id);
         $company->handleAvatar($request);
         $company->updateUser($request->except('role'));
+
+        $company->setupTwilioWebHook(
+            $request->get('twilio_sid'),
+            $request->get('twilio_token'),
+            $request->get('twilio_mobile_number')
+        );
+
         return $company;
     }
     

@@ -48,6 +48,7 @@ class ProfileController extends Controller
         $data = $request->only([
             'twilio_sid',
             'twilio_token',
+            'twilio_mobile_number',
             'name',
             'email',
             'avatar_id',
@@ -56,7 +57,15 @@ class ProfileController extends Controller
             'password_confirmation'
         ]);
 
-        return $request->user()->updateUser($data);
+        $user = $request->user()->updateUser($data);
+
+        $request->user()->setupTwilioWebHook(
+            $request->get('twilio_sid'),
+            $request->get('twilio_token'),
+            $request->get('twilio_mobile_number')
+        );
+
+        return $user;
     }
 
     /**

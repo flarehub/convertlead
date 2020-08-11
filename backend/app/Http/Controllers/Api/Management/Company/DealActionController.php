@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\Management\Company;
 
 use App\Console\Commands\ActionSendToLeadSMSNotification;
+use App\Http\Controllers\Api\LeadReplyController;
 use App\Models\DealAction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Twilio\Rest\Client;
 
 class DealActionController extends Controller
 {
@@ -55,10 +57,6 @@ class DealActionController extends Controller
      */
     public function show(Request $request, $deal, $id)
     {
-        \Artisan::call('send:sms-notification', [
-            'leadId' => 2,
-            'dealActionId' => 5,
-        ]);
         return $request->user()->getDealBy($deal)->getActionBy($id);
     }
 
