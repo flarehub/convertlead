@@ -72,6 +72,12 @@ class LeadReplyController extends Controller {
         $dealAction = DealAction::findOrFail($dealActionId);
 
         if ($dealAction) {
+            LeadNote::create([
+                'lead_status_id' => $lead->lead_status_id,
+                'lead_id' => $lead->id,
+                'agent_id' => $lead->agent_id,
+                'message' => "Lead mail opened!",
+            ]);
             $dealAction->scheduleNextLeadAction($lead);
         }
 
