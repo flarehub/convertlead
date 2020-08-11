@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\DealAction;
 use App\Models\Lead;
+use App\Models\LeadNote;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
-use Twilio\Rest\Client;
 
 class LeadReplyController extends Controller {
 
@@ -46,30 +46,25 @@ class LeadReplyController extends Controller {
             foreach ($keywords as $keyword) {
                 $contains = stripos($messageBody, $keyword) !== -1;
                 if ($contains) {
-                    $this->sendAgentSms($lead, $fromNumber, $messageBody);
+                    $this->leadReplyNote($lead, $fromNumber, $messageBody);
                     $dealAction->scheduleNextLeadAction($lead);
                     break;
                 }
             }
         }
         elseif ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY) {
-            $this->sendAgentSms($lead, $fromNumber, $messageBody);
+            $this->leadReplyNote($lead, $fromNumber, $messageBody);
             $dealAction->scheduleNextLeadAction($lead);
         }
     }
 
-    public function sendAgentSms($lead, $from, $message) {
-        $twilioSid = $lead->company['twilio_sid'];
-        $twilioToken = $lead->company['twilio_token'];
-
-        $twilioClient = new Client($twilioSid, $twilioToken);
-        $twilioClient->messages->create(
-            $lead->agent->phone,
-            [
-                'from' => $lead->company['twilio_mobile_number'],
-                'body' => `From: {$from}, {$message}`
-            ]
-        );
+    public function leadReplyNote($lead, $fromNumber, $messageBody) {
+        LeadNote::create([
+            'lead_status_id' => $lead->lead_status_id,
+            'lead_id' => $lead->id,
+            'agent_id' => $lead->agent_id,
+            'message' => "Lead reply: From: {$fromNumber}, message: {$messageBody}",
+        ]);
     }
 
     public function onMailReply(Request $request, $leadId, $dealActionId) {
