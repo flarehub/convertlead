@@ -72,9 +72,6 @@ class ActionSendToLeadSMSNotification extends Command
                 ]
             );
 
-            $twilioClient = new Client($twilioSid, $twilioToken);
-//            $twilioClient->request('')
-
             LeadNote::create([
                 'lead_status_id' => $lead->lead_status_id,
                 'lead_id' => $lead->id,
