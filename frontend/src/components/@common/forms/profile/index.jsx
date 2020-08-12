@@ -88,7 +88,8 @@ class AgentForm extends Component {
             avatar,
             avatar_path,
             twilio_sid,
-            twilio_token
+            twilio_token,
+            twilio_mobile_number
         } = this.props.profileForm;
         const {password, password_confirmation} = this.props.passwordResetForm;
         return (<Form size='big' className='profileForm'>
@@ -116,6 +117,14 @@ class AgentForm extends Component {
                               <Form.Field required>
                                   <label>Twilio TOKEN</label>
                                   <Input placeholder='Twilio Token' name='twilio_token' value={twilio_token || ''} onChange={this.onChange}/>
+                              </Form.Field>
+                              <Form.Field required>
+                                  <label>Twilio Mobile Number</label>
+                                  <Input placeholder='Twilio mobile number'
+                                         name='twilio_mobile_number'
+                                         value={twilio_mobile_number || ''}
+                                         onChange={this.onChange}
+                                  />
                               </Form.Field>
                           </>
                         )

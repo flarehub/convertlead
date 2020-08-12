@@ -39,7 +39,18 @@ class CompanyForm extends Component {
     }
 
     render() {
-        const {id, name, phone, email, avatar, twilio_sid, twilio_token, avatar_path} = this.props.form;
+        const {
+            id,
+            name,
+            phone,
+            email,
+            avatar,
+            twilio_sid,
+            twilio_token,
+            avatar_path,
+            twilio_mobile_number
+        } = this.props.form;
+
         return (
             <Form size='big' className='companyForm' autoComplete='off'>
                 <Grid columns={2} relaxed='very' stackable>
@@ -94,19 +105,30 @@ class CompanyForm extends Component {
                     </Grid.Column>
                     <Grid.Row className="twilioContainer">
                         <Grid.Column>
-                            <Form.Field required>
+                            <Form.Field>
                                 <label>Twilio SID</label>
                                 <Input placeholder='Twilio SID' name='twilio_sid' value={twilio_sid || ''}
                                        onChange={this.onChange}/>
                             </Form.Field>
                         </Grid.Column>
                         <Grid.Column>
-                        <Form.Field required>
+                        <Form.Field>
                             <label>Twilio Token</label>
                             <Input placeholder='Twilio Token' name='twilio_token' value={twilio_token || ''}
                                    onChange={this.onChange}/>
                         </Form.Field>
                         </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className="twilioMobileContainer">
+                       <Grid.Column>
+                           <Form.Field>
+                               <label>Twilio mobile number</label>
+                               <Input placeholder='Twilio mobile number'
+                                      name='twilio_mobile_number'
+                                      value={twilio_mobile_number || ''}
+                                      onChange={this.onChange}/>
+                           </Form.Field>
+                       </Grid.Column>
                     </Grid.Row>
                 </Grid>
             </Form>

@@ -15,6 +15,7 @@ const initialState = {
         agencies: [],
         twilio_token: null,
         twilio_sid: null,
+        twilio_mobile_number: null,
     }, ['user'], SessionStorage.getItem('session')),
     profileForm: {
         id: null,
@@ -24,6 +25,7 @@ const initialState = {
         avatar: '',
         twilio_token: '',
         twilio_sid: '',
+        twilio_mobile_number: '',
     },
     passwordResetForm: {
         password: '',

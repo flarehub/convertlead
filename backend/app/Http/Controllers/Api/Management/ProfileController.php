@@ -25,7 +25,8 @@ class ProfileController extends Controller
             'email',
             'phone',
             'twilio_sid',
-            'twilio_token'
+            'twilio_token',
+            'twilio_mobile_number'
         ];
 
         if ($request->user()->isAgency() || $request->user()->isAgent()) {

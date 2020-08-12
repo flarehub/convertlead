@@ -14,6 +14,7 @@ const initState = {
     avatar: '',
     twilio_sid: '',
     twilio_token: '',
+    twilio_mobile_number: '',
     password: '',
     password_confirmation: '',
   },
