@@ -16,6 +16,7 @@ class Deal extends Model
         'description',
         'agency_company_id',
         'has_automation',
+        'timezone',
     ];
     
     protected $appends = ['company', 'agency', 'campaigns'];

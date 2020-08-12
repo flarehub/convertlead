@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PermissionsSeed::class);
         $this->call(LeadStatuses::class);
+        $this->call(TimezonesSeed::class);
 //        if (env('ENV_NAME') === 'development') {
 //            $this->call(UsersDevSeed::class);
 //        } else {
