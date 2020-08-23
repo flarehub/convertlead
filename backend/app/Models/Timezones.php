@@ -11,4 +11,14 @@ class Timezones extends Model {
         'offset',
         'offset_dst',
     ];
+
+    public static function getTimeZones(string $search = null) {
+        $query = self::query();
+
+        if (!empty($search)) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        return $query->get();
+    }
 }

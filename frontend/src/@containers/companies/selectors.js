@@ -25,3 +25,17 @@ export const selectBoxDealCampaigns = createSelector(
     return []
   },
 );
+
+export const selectBoxTimezones = createSelector(
+  [state => state.companies.selectBoxTimezones],
+  (selectBoxTimezones) => {
+    if (selectBoxTimezones && selectBoxTimezones.length) {
+      return selectBoxTimezones.map(timezone => ({
+        key: timezone.id,
+        value: timezone.name,
+        text: timezone.name,
+      }))
+    }
+    return []
+  },
+);

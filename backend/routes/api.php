@@ -53,6 +53,7 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
             Route::patch('profile', 'ProfileController@update');
             Route::post('reports', 'ReportController@store');
             Route::get('reports/{uuid}/poll', 'ReportController@poll');
+            Route::get('timezones', 'TimezonesController@all');
         });
 
         Route::group(['namespace' => 'Api\Management\Admin'], function () {

@@ -17,9 +17,17 @@ class DealForm extends Component {
     }
   };
 
+  componentDidMount() {
+    this.props.loadSelectBoxTimezones();
+  }
+
   onChangeCompany = (event, data) => {
     this.props.changeForm({ companyId: data.value });
     this.props.loadSelectBoxCompanies('');
+  };
+
+  onChangeTimezone = (event, data) => {
+    this.props.changeForm({ timezone: data.value });
   };
 
   onChangeAgency = (event, data) => {
@@ -30,6 +38,10 @@ class DealForm extends Component {
     this.props.loadSelectBoxCompanies(event.target.value);
   };
 
+  onSearchTimezone = event => {
+    this.props.loadSelectBoxTimezones(event.target.value);
+  };
+
   render() {
     const { name } = this.props.form;
     return (<Form size='big' className='dealForm'>
@@ -37,6 +49,17 @@ class DealForm extends Component {
         <label>Name</label>
         <Form.Field control={Input} placeholder='Campaign name' value={name} onChange={this.onChangeName} />
       </Form.Field>
+      <Form.Field
+        control={Select}
+        options={this.props.selectBoxTimezones || []}
+        label={{ children: 'Timezones', htmlFor: 'deal-form-timezone-list' }}
+        placeholder='Select timezone'
+        search
+        defaultValue={this.props.form.timezone || null}
+        onChange={this.onChangeTimezone}
+        onSearchChange={this.onSearchTimezone}
+        searchInput={{ id: 'deal-form-timezone-list' }}
+      />
       {
         Auth.isAgency ?
           <Form.Field

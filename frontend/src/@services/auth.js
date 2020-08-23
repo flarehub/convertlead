@@ -22,6 +22,12 @@ export class Auth {
     return this.role === 'agent';
   }
 
+  static get hasTwilio() {
+    const token = R.pathOr('', ['user', 'twilio_token'], SessionStorage.getItem('session')).toLowerCase();
+    const sid = R.pathOr('', ['user', 'twilio_sid'], SessionStorage.getItem('session')).toLowerCase();
+    return token && sid;
+  }
+
   static get role() {
     return R.pathOr('', ['user', 'role'], SessionStorage.getItem('session')).toLowerCase();
   }

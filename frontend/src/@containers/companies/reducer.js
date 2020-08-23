@@ -1,6 +1,12 @@
 import {
-  ADD_COMPANIES, ADD_SELECT_BOX_COMPANIES, GOTO_COMPANIES_PAGE, LOAD_COMPANY, LOAD_COMPANY_CAMPAIGNS,
-  LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE, OPEN_COMPANY_MODAL,
+  ADD_COMPANIES,
+  ADD_SELECT_BOX_COMPANIES,
+  ADD_SELECT_BOX_TIMEZONES,
+  GOTO_COMPANIES_PAGE,
+  LOAD_COMPANY,
+  LOAD_COMPANY_CAMPAIGNS,
+  LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE,
+  OPEN_COMPANY_MODAL,
   SEARCH_COMPANIES,
   SORT_COMPANIES,
   TOGGLE_SHOW_DELETED,
@@ -11,6 +17,7 @@ const initState = {
   companId: '',
   companies: [],
   selectBoxCompanies: [],
+  selectBoxTimezones: [],
   averageResponseTime: '',
   graphContactedLeadsAverage: {
     type: 'line',
@@ -144,6 +151,12 @@ const companies = (state = initState, action) => {
       return {
         ...state,
         selectBoxCompanies: [...action.companies],
+      };
+    }
+    case ADD_SELECT_BOX_TIMEZONES: {
+      return {
+        ...state,
+        selectBoxTimezones: [...action.timezones],
       };
     }
     case LOAD_COMPANY: {

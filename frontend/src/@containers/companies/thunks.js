@@ -5,7 +5,7 @@ import {addBreadCrumb} from "../breadcrumb/actions";
 import {api, Auth} from "@services";
 import {
   fetchAgencyCompanies, agencyLockCompany, fetchAgencyCompany, fetchAgencyCompanyGraph,
-  fetchCompanyGraph
+  fetchCompanyGraph, fetchTimezones
 } from "./api";
 
 export const deleteCompany = id => async dispatch => {
@@ -72,6 +72,18 @@ export const loadSelectBoxCompanies = (search, agentId = null) => async dispatch
     });
     const { data } = response.data;
     dispatch(actions.addSelectBoxCompanies(data));
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+};
+
+export const loadSelectTimezones = (search) => async dispatch => {
+  try {
+    const response = await fetchTimezones({
+      search: search || null,
+    });
+    const { data } = response;
+    dispatch(actions.addSelectBoxTimezones(data));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }

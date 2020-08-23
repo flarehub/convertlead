@@ -5,6 +5,7 @@ export const SEARCH_COMPANIES = 'SEARCH_COMPANIES';
 export const TOGGLE_SHOW_DELETED = 'TOGGLE_WITH_DELETED';
 export const OPEN_COMPANY_MODAL = 'OPEN_COMPANY_MODAL';
 export const ADD_SELECT_BOX_COMPANIES = 'ADD_SELECT_BOX_COMPANIES';
+export const ADD_SELECT_BOX_TIMEZONES = 'ADD_SELECT_BOX_TIMEZONES';
 export const LOAD_COMPANY = 'LOAD_COMPANY';
 export const LOAD_COMPANY_CAMPAIGNS = 'LOAD_COMPANY_CAMPAIGNS';
 export const LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE = 'LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE';
@@ -26,6 +27,11 @@ export const gotoCompaniesPage = page => ({
 export const addSelectBoxCompanies = companies => ({
   type: ADD_SELECT_BOX_COMPANIES,
   companies,
+});
+
+export const addSelectBoxTimezones = timezones => ({
+  type: ADD_SELECT_BOX_TIMEZONES,
+  timezones,
 });
 
 export const searchCompanies = search => ({

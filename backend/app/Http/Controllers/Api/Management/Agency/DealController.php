@@ -37,7 +37,7 @@ class DealController extends Controller
 
         $agencyCompanyId = $request->user()->getCompanyBy($company)->pivot->id;
         $request->merge(['agency_company_id' => $agencyCompanyId ]);
-        $deal->fill($request->only(['name', 'description', 'agency_company_id']));
+        $deal->fill($request->only(['name', 'description', 'timezone', 'agency_company_id']));
         $deal->save();
 
         return $deal;
@@ -69,7 +69,7 @@ class DealController extends Controller
         $company = $request->user()->getCompanyBy($company);
         $request->merge(['agency_company_id' => $company->pivot->id]);
         $deal = Deal::find($id);
-        $deal->fill($request->only(['name', 'agency_company_id', 'description']));
+        $deal->fill($request->only(['name', 'timezone', 'agency_company_id', 'description']));
         $deal->save();
     
         return $deal;
