@@ -280,6 +280,7 @@ class Campaigns extends Component {
 
   render() {
     const {campaigns, pagination} = this.props;
+    const { dealId } = this.state;
     return (
       <div className='Campaigns'>
         <Segment attached='top'>
@@ -334,6 +335,9 @@ class Campaigns extends Component {
             <Grid.Column>
               <Menu secondary>
                 <Menu.Menu position='right'>
+                  <Link to={`/deals/${dealId}/automations`} >
+                    <Button color='teal' content='Automations' labelPosition='left'/>
+                  </Link>
                   <Button color='teal' content='New Integration' onClick={this.props.loadForm.bind(this, {
                     agentId: this.state.agentId,
                     show: true

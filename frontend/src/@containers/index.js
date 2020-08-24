@@ -3,6 +3,7 @@ export { default as AgentsContainer } from './agents';
 export { default as AuthContainer } from './auth';
 export { default as BreadCrumbContainer } from './breadcrumb';
 export { default as CampaignFormContainer } from './forms/campaign';
+export { default as AutomationFormContainer } from './forms/automation';
 export { default as CampaignsContainer } from './campaigns';
 export { default as CompaniesContainer } from './companies';
 export { default as CompanyFormContainer } from './forms/company';

@@ -7,7 +7,13 @@ import {
   Profile,
   Campaigns,
   LeadNotes,
-  CompanyProfile, AgentProfile, AgentLeads, AgentLeadNotes, CreateLead, Users
+  CompanyProfile,
+  AgentProfile,
+  AgentLeads,
+  AgentLeadNotes,
+  CreateLead,
+  Users,
+  Automations
 } from "../index";
 import PrivateRoute from './PrivateRoute';
 import './index.scss';
@@ -39,6 +45,7 @@ export default () => (<div className='freshappRoutes'>
 
   {/* only COMPANY ROUTS */}
   <PrivateRoute exact path='/deals/:dealId/campaigns' component={Campaigns} />
+  <PrivateRoute exact path='/deals/:dealId/automations' component={Automations} />
   <PrivateRoute exact path='/leads/:leadId/notes' component={LeadNotes} />
   <PrivateRoute exact path='/campaigns/:campaignId/leads' component={Leads} />
   <PrivateRoute exact path='/stats' component={CompanyProfile} />

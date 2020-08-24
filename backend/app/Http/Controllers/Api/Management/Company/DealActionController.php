@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Api\Management\Company;
 
-use App\Console\Commands\ActionSendToLeadSMSNotification;
-use App\Http\Controllers\Api\LeadReplyController;
 use App\Models\DealAction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Twilio\Rest\Client;
 
 class DealActionController extends Controller
 {

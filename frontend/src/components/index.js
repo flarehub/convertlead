@@ -2,6 +2,7 @@ export { default as AgentProfile } from './agent-profile';
 export { default as Agents } from './agents';
 export { default as Breadcrumb } from './breadcrumb';
 export { default as Campaigns } from './campaigns';
+export { default as Automations } from './automations';
 export { default as Companies } from './companies';
 export { default as CompanyProfile } from './company-profile';
 export { default as Dashboard } from './dashboard';

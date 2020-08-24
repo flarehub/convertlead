@@ -8,6 +8,7 @@ import lead from './lead/reducer';
 import user from './user/reducer';
 import optinFormIntegration from './integrations/optinform/reducer';
 import reminder from './reminder/reducer'
+import automation from './automation/reducer'
 
 export default combineReducers({
   optinFormIntegration,
@@ -18,4 +19,5 @@ export default combineReducers({
   lead,
   user,
   reminder,
+  automation,
 });
