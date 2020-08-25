@@ -4,17 +4,21 @@ import {
   SAVED_AUTOMATION_ACTION
 } from './actions';
 
+import {DELAY_TYPE_TIME} from "./delayTypes";
+import {TYPE_SMS_MESSAGE} from "./actionTypes";
+
 const initState = {
   form: {
     show: false,
     title: '',
     id: '',
-    type: '',
+    type: TYPE_SMS_MESSAGE,
     lead_reply_type: '',
     is_root: '',
     object: '',
     delay_time: '',
-    delay_type: '',
+    stop_on_manual_contact: false,
+    delay_type: DELAY_TYPE_TIME,
   },
   required: {
     type: true,
@@ -29,7 +33,7 @@ const initState = {
 const agentForm = (state = initState, action) => {
   switch (action.type) {
     case LOAD_AUTOMATION_ACTION: {
-
+      console.log(state.form, action.form);
       return {
         ...state,
         form: {

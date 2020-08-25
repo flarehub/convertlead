@@ -29,6 +29,7 @@ class DealAction extends Model {
         'object',
         'delay_time',
         'delay_type',
+        'stop_on_manual_contact',
     ];
 
     protected $appends = [

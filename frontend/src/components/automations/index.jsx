@@ -5,12 +5,15 @@ import { Button, Grid, Header, Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { SVG } from '@svgdotjs/svg.js'
 
+import {AutomationFormContainer} from "@containers";
+
 import textIcon from './assets/text.png';
 import emailIcon from './assets/email.png';
 import statusChangeIcon from './assets/statuschange.png';
 import whatsappIcon from './assets/whatsapp.png';
 import settingIcon from './assets/settings.png';
 import agentPushIcon from './assets/agentpush.png';
+import AutomationModal from "../@common/modals/automation";
 
 const refSVGContainer = React.createRef();
 
@@ -21,6 +24,8 @@ class Campaigns extends Component {
   };
 
   componentDidMount() {
+    this.props.loadForm({ show: true });
+
     const {companyId, dealId} = this.props.match.params;
     this.setState({
       companyId,
@@ -45,8 +50,10 @@ class Campaigns extends Component {
 
   render() {
     const { dealId } = this.state;
+
     return (
       <div className='Automations'>
+        <AutomationModal />
         <Grid columns={2}>
           <Grid.Column>
             <Header floated='left' as='h1'>Automations</Header>
@@ -69,4 +76,4 @@ class Campaigns extends Component {
   }
 }
 
-export default compose()(Campaigns);
+export default compose(AutomationFormContainer)(Campaigns);
