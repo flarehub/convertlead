@@ -21,6 +21,8 @@ import {
     TYPE_SMS_MESSAGE
 } from "@containers/forms/automation/actionTypes";
 import {checkIsTypeStatusChange} from "@containers/forms/automation/actionTypes";
+import {daysToSeconds, secondsToDays} from "./modules";
+import {timeToSeconds} from "./modules/timeToSeconds";
 
 const editor = React.createRef();
 const config = {
@@ -31,6 +33,8 @@ class AgentForm extends Component {
 
     state = {
         content: '',
+        hours: 0,
+        minutes: 0,
     }
 
     onChange = (event, data) => {
@@ -45,17 +49,29 @@ class AgentForm extends Component {
 
     onChangeTimeHours = (event) => {
         const hours = event.target.value;
-        this.props.changeForm({ delay_hours: hours });
+        this.setState({
+            ...this.state,
+            hours
+        });
+        this.props.changeForm({ delay_time: timeToSeconds(hours, this.state.minutes) });
     };
 
     onChangeTimeMinutes = (event) => {
         const minutes = event.target.value;
-        this.props.changeForm({ delay_minutes: minutes });
+        this.setState({
+            ...this.state,
+            minutes
+        })
+        this.props.changeForm({ delay_time: timeToSeconds(this.state.hours, minutes) });
     };
 
     onChangeDays = (event) => {
         const days = event.target.value;
-        this.props.changeForm({ delay_days: days });
+        this.setState({
+            hours: 0,
+            minutes: 0
+        });
+        this.props.changeForm({ delay_time: daysToSeconds(days) });
     };
 
     onChangeEmailMessage = (message) => {
@@ -67,7 +83,11 @@ class AgentForm extends Component {
     };
 
     render() {
-        const { type = TYPE_SMS_MESSAGE, delay_type, stop_on_manual_contact } = this.props.form;
+        const { type = TYPE_SMS_MESSAGE,
+            delay_type,
+            delay_time,
+            stop_on_manual_contact
+        } = this.props.form;
         const { selectBoxStatuses } = this.props;
         const { content } = this.state;
 
@@ -87,7 +107,14 @@ class AgentForm extends Component {
                         <div className="times">
                             {
                                 checkTypeIsDays(delay_type) && <div className="days">
-                                    <Input placeholder="0" min="0" step="1" type="number" onChange={this.onChangeDays}/>
+                                    <Input
+                                      placeholder="0"
+                                      min="0"
+                                      step="1"
+                                      type="number"
+                                      value={secondsToDays(delay_time || 0)}
+                                      onChange={this.onChangeDays}
+                                    />
                                 </div>
                             }
                             {

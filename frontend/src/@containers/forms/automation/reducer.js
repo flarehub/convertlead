@@ -14,7 +14,7 @@ const initState = {
     id: '',
     type: TYPE_SMS_MESSAGE,
     lead_reply_type: '',
-    is_root: '',
+    is_root: false,
     object: '',
     delay_time: '',
     stop_on_manual_contact: false,
