@@ -4,6 +4,7 @@ import './index.scss';
 import { Button, Grid, Header, Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { SVG } from '@svgdotjs/svg.js'
+import * as R from 'ramda';
 
 import { AutomationFormContainer, DealActionsContainer } from "@containers";
 
@@ -11,17 +12,24 @@ import textIcon from './assets/text.png';
 import emailIcon from './assets/email.png';
 import statusChangeIcon from './assets/statuschange.png';
 import whatsappIcon from './assets/whatsapp.png';
+import blindCall from './assets/blindcall.png';
 import settingIcon from './assets/settings.png';
 import agentPushIcon from './assets/agentpush.png';
 import addNew from './assets/addnew.png';
 import AutomationModal from "../@common/modals/automation";
-import {actionTypes, TYPE_SMS_MESSAGE} from "../../@containers/forms/automation/actionTypes";
+import {
+  TYPE_BLIND_CALL,
+  TYPE_EMAIL_MESSAGE,
+  TYPE_LEAD_CHANGE_STATUS, TYPE_PUSH_NOTIFICATION,
+  TYPE_SMS_MESSAGE
+} from "../../@containers/forms/automation/actionTypes";
 
 const refSVGContainer = React.createRef();
 
 class Campaigns extends Component {
   state = {
     isRoot: true,
+    scale: 1,
     companyId: null,
     dealId: null
   };
@@ -42,100 +50,152 @@ class Campaigns extends Component {
     this.props.fetchDealActions(dealId);
 
     this.draw = SVG().addTo(refSVGContainer.current).size('100%' , '100%');
-    this.createButtonAddVerticalAction();
-
-
-    // const createTriggerVertical = draw.circle(50).attr({ fill: '#ccc' });
-    // const createTriggerHorizontal = draw.circle(50).attr({ fill: '#ccc' }).hide();
-    let firstRootElement = null;
-
-    // createTriggerVertical.click( () => {
-    //   if (!firstRootElement) {
-    //     createTriggerVertical.dy(100);
-    //   }
-    //   draw.circle(50).attr({ fill: '#444' }).dy(createTriggerVertical.y());
-    //   createTriggerHorizontal.dx(100).show();
-    // });
+    this.draw = this.draw.group();
   }
 
-  createButtonAddVerticalAction() {
-    this.addVerticalButtonContainer = this.draw.nested().width(60).height(60);
-    this.addButtonVertical = this.addVerticalButtonContainer.image(addNew, {cursor: 'pointer'}).dx(0).dy(0);
+  createButtonAddVerticalAction(parent) {
+    const addVerticalButtonContainer = this.draw.nested().width(60).height(60);
+    const addButtonVertical = addVerticalButtonContainer.image(addNew, {cursor: 'pointer'}).dx(0).dy(0);
 
-    this.addButtonVertical.on('mouseover', () => {
-      this.addButtonVertical.dx(-62);
+    addButtonVertical.on('mouseover', () => {
+      addButtonVertical.dx(-62);
     });
-    this.addButtonVertical.on('mouseout', () => {
-      this.addButtonVertical.dx(62);
-    });
-
-    this.addButtonVertical.on('click', () => {
-      this.props.loadForm({show: true, is_root: 1});
+    addButtonVertical.on('mouseout', () => {
+      addButtonVertical.dx(62);
     });
 
-    return this.addVerticalButtonContainer;
+    addButtonVertical.on('click', () => {
+      this.props.loadForm({show: true, is_root: 1, parent_id: R.pathOr(null, ['id'], parent) });
+    });
+
+    return addVerticalButtonContainer;
   }
 
-  createButtonAddHorizontalAction() {
-    this.addHorizontalButtonContainer = this.draw.nested().width(60).height(60);
-    this.addButtonHorizontal = this.addHorizontalButtonContainer.image(addNew, {cursor: 'pointer'}).dx(0).dy(0);
+  createButtonAddHorizontalAction(parent) {
+    const addHorizontalButtonContainer = this.draw.nested().width(60).height(60);
+    const addButtonHorizontal = addHorizontalButtonContainer.image(addNew, {cursor: 'pointer' }).dx(0).dy(0);
 
-    this.addButtonHorizontal.on('mouseover', () => {
-      this.addButtonHorizontal.dx(-62);
+    addButtonHorizontal.on('mouseover', () => {
+      addButtonHorizontal.dx(-62);
     });
-    this.addButtonHorizontal.on('mouseout', () => {
-      this.addButtonHorizontal.dx(62);
-    });
-
-    this.addButtonHorizontal.on('click', () => {
-      this.props.loadForm({ show: true, is_root: 1 });
+    addButtonHorizontal.on('mouseout', () => {
+      addButtonHorizontal.dx(62);
     });
 
-    return this.addHorizontalButtonContainer;
+    addButtonHorizontal.on('click', () => {
+      this.props.loadForm({ show: true, is_root: 0, parent_id: parent.id });
+    });
+
+    return addHorizontalButtonContainer;
   }
 
-  drawHorizontalLine() {
-    this.draw.circle(10, { fill: '#ccc' }).dy(25).dx(70);
-    const line = this.draw.line(0, 0, 165, 0).move(75, 30)
+  drawHorizontalLine(draw) {
+    draw.circle(10, { fill: '#ccc' }).dy(25).dx(70);
+    const line = draw.line(0, 0, 165, 0).move(75, 30)
     line.stroke({ color: '#ccc', width: 2, linecap: 'round' });
   }
 
-  drawVerticalLine() {
-    this.draw.circle(10, { fill: '#ccc' }).dy(70).dx(25);
-    const line = this.draw.line(0, 0, 0, 165).move(30, 75)
+  drawVerticalLine(draw) {
+    draw.circle(10, { fill: '#ccc' }).dy(70).dx(25);
+    const line = draw.line(0, 0, 0, 165).move(30, 75)
     line.stroke({ color: '#ccc', width: 2, linecap: 'round' });
   }
 
   componentDidUpdate(prevState) {
-    console.log(this.props.actions);
-
-    if (prevState.actions.length !== this.props.actions.length) {
+    if (prevState.actionsOriginal.length !== this.props.actionsOriginal.length) {
       this.drawSvg();
-      console.log('prevProps.actions=', prevState.actions, this.props.actions);
     }
   }
 
   drawSvg() {
     this.draw.clear();
     this.props.actions.forEach(action => {
-      switch (action.type) {
-        case TYPE_SMS_MESSAGE: {
-          console.log(action);
-          if (action.is_root && !action.parent_id) {
-            this.draw.image(textIcon);
-            this.drawHorizontalLine();
-            this.drawVerticalLine();
-            this.createButtonAddVerticalAction().dy(240);
-            this.createButtonAddHorizontalAction().dx(240);
-          } else if(action.is_root) {
-            this.draw.image(textIcon).dy(60);
-          } else {
-            this.draw.image(textIcon).dx(120);
-          }
-        }
-        default:
+      this.drawAction(action).dy(action.index * 240);
+
+      if (action.children) {
+        this.drawHorizontalActions(action.children, action);
       }
-      console.log(action);
+      if (action.children) {
+        const lastAction = R.last(action.children);
+        this.createButtonAddHorizontalAction(lastAction).dx((lastAction.index + 1) * 240).dy(action.index * 240);
+      } else if (action.is_root && action.parent_id) {
+        this.createButtonAddHorizontalAction(action).dy((action.index) * 240).dx(240);
+      }
+    });
+
+    const lastAction = R.last(this.props.actions);
+    this.createButtonAddVerticalAction(lastAction).move(0, (lastAction.index + 1) * 240);
+  }
+
+  drawHorizontalActions(horizontalActions, parent) {
+      horizontalActions.forEach(action => {
+        this.drawAction(action).dx(action.index * 240).dy((parent.index * 240));
+      });
+  }
+
+  drawAction(action) {
+    const group = this.draw.nested();
+    switch (action.type) {
+      case TYPE_SMS_MESSAGE: {
+        this.drawIcon(group, textIcon, action)
+        break;
+      }
+      case TYPE_EMAIL_MESSAGE: {
+        this.drawIcon(group, emailIcon, action);
+        break;
+      }
+      case TYPE_LEAD_CHANGE_STATUS: {
+        this.drawIcon(group, statusChangeIcon, action);
+        break;
+      }
+      case TYPE_BLIND_CALL: {
+        this.drawIcon(group, blindCall, action)
+        break;
+      }
+      case TYPE_PUSH_NOTIFICATION: {
+        this.drawIcon(group, agentPushIcon, action);
+      }
+      default:
+    }
+
+    this.drawHorizontalLine(group);
+    if (action.is_root) {
+      this.drawVerticalLine(group);
+    }
+
+    return group;
+  }
+
+  drawIcon(group, icon, action) {
+    if (action.is_root && !action.parent_id) {
+      group.image(icon, { kid: action.id });
+    } else if(action.is_root) {
+      group.image(icon, { kid: action.id });
+    } else {
+      group.image(icon, { kid: action.id });
+    }
+  }
+
+  scaleUp = () => {
+    console.log(this.state);
+    const scale = this.state.scale + 0.1;
+    this.setState({
+      ...this.state,
+      scale,
+    })
+    this.draw.attr({
+      transform: `matrix(${scale},0,0,${scale}, 0, 0)`
+    });
+  }
+
+  scaleDown = () => {
+    const scale = this.state.scale - 0.1;
+    this.setState({
+      ...this.state,
+      scale,
+    })
+    this.draw.attr({
+      transform: `matrix(${scale},0,0,${scale}, 0, 0)`
     });
   }
 
@@ -150,6 +210,10 @@ class Campaigns extends Component {
             <Header floated='left' as='h1'>Automations</Header>
           </Grid.Column>
           <Grid.Column>
+            <div className="buttonsToScale">
+              <Button color="teal" content='Scale Up' onClick={this.scaleUp} labelPosition='left'/>
+              <Button color="teal" content='Scale Down' onClick={this.scaleDown} labelPosition='left'/>
+            </div>
             <Menu secondary>
               <Menu.Menu position='right'>
                 <Link to={`/deals/${dealId}/integrations`} >

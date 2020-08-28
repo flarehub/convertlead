@@ -4,6 +4,7 @@ import {getMappedActions} from "./selectors";
 
 const mapStateToProps = state => ({
   actions: getMappedActions(state),
+  actionsOriginal: state.dealActions.actions,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -21,7 +21,7 @@ class DealAction extends Model {
     public const LEAD_REPLY_TYPE_MAIL_OPEN = 'MAIL_OPEN';
 
     protected $fillable = [
-        'paren_id',
+        'parent_id',
         'deal_id',
         'type',
         'lead_reply_type',

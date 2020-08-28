@@ -31,7 +31,7 @@ class DealActionController extends Controller
             'object' => json_encode($request->json('object')),
         ]);
         $dealAction->fill($request->only([
-            'paren_id',
+            'parent_id',
             'deal_id',
             'type',
             'lead_reply_type',
@@ -68,7 +68,7 @@ class DealActionController extends Controller
     {
         $dealAction = $request->user()->getDealBy($deal)->getActionBy($id);
         $dealAction->fill($request->only([
-            'paren_id',
+            'parent_id',
             'type',
             'lead_reply_type',
             'is_root',

@@ -5,7 +5,6 @@ import {sendMessage} from "../messages/thunks";
 export const fetchDealAction = (dealId) => async (dispatch) => {
   try {
     const { data } = await api.get(`/v1/company/deals/${dealId}/actions`);
-    console.log('data===', data);
     dispatch(fetchDealActionsSuccess(data));
   } catch (e) {
     sendMessage(e.message, true);

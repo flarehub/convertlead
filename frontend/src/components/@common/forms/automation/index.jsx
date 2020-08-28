@@ -79,6 +79,7 @@ class AgentForm extends Component {
     };
 
     onChangeEmailMessage = (message) => {
+        console.log('message=', message);
         this.props.changeForm({ object: { message } });
     };
 
@@ -158,7 +159,6 @@ class AgentForm extends Component {
                                 value={content}
                                 config={config}
                                 tabIndex={1}
-                                onBlur={this.onChangeEmailMessage}
                                 onChange={this.onChangeEmailMessage}
                               />
                           </Form.Field>

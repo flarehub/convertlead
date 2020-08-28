@@ -4,28 +4,41 @@ import * as R from 'ramda';
 export const getMappedActions = createSelector(
   state => state.dealActions.actions,
   (actions) => {
-    const actionsResult = R.reduce((acc, action) => {
-      if (action.is_root) {
-        if (action.parent_id) {
-          acc[action.parent_id] = {
-            ...R.pathOr({}, [action.parent_id], acc),
-            verticalActions: [...R.pathOr([], [action.parent_id, 'verticalActions'], acc), action]
-          };
+
+    const rootActions = R.filter((action) => action.is_root, actions);
+    const children = R.filter((action) => !action.is_root, actions);
+
+    const getChildren = (child, action) => {
+      const childElement = R.find(actionFind => actionFind.parent_id === child.id, children);
+
+      if (childElement) {
+        if (action.children) {
+          action.children = [
+            ...action.children,
+            {
+              ...childElement,
+              index: action.children.length + 1,
+            },
+          ];
         } else {
-          acc[action.id] = {
-            ...action,
-            ...R.pathOr({}, [action.id], acc),
-          };
+          action.children = [{
+            ...childElement,
+            index: 1,
+          }];
         }
-      } else if (action.parent_id) {
-        acc[action.parent_id] = {
-          horizontalActions: [...R.pathOr([], ['horizontalActions', action.parent_id], acc), action]
+
+        if (childElement.parent_id) {
+          getChildren(childElement, action)
         }
       }
-
-      return acc;
-    }, {}, actions);
-
-    return Object.values(actionsResult);
+      return action;
+    }
+    let index = 0;
+    return R.map((action) => {
+      return {
+        ...getChildren(action, action),
+        index: index++,
+      };
+    }, Object.values(rootActions));
   }
 )
