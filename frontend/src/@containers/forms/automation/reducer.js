@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import {
   CHANGE_AUTOMATION_ACTION,
   LOAD_AUTOMATION_ACTION,
@@ -38,7 +39,7 @@ const agentForm = (state = initState, action) => {
       return {
         ...state,
         form: {
-          ...state.form,
+          ...R.pick(['lead_reply_type', 'type', 'stop_on_manual_contact', 'delay_type'], state.form),
           ...action.form,
           title: !action.form.id ? 'Create Action' : 'Edit Action',
           saved: false,

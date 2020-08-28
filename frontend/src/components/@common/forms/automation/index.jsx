@@ -172,7 +172,7 @@ class AgentForm extends Component {
                           <Form.Field required>
                               <JoditEditor
                                 ref={editor}
-                                value={content}
+                                value={(object && object.message) || ''}
                                 config={config}
                                 tabIndex={1}
                                 onChange={this.onChangeEmailMessage}

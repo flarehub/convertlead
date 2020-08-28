@@ -66,7 +66,7 @@ class Campaigns extends Component {
     });
 
     addButtonVertical.on('click', () => {
-      this.props.loadForm({show: true, is_root: 1, parent_id: R.pathOr(null, ['id'], parent) });
+      this.props.loadForm({show: true, is_root: 1, id: null, object: null, parent_id: R.pathOr(null, ['id'], parent) });
     });
 
     return addVerticalButtonContainer;
@@ -84,7 +84,7 @@ class Campaigns extends Component {
     });
 
     addButtonHorizontal.on('click', () => {
-      this.props.loadForm({ show: true, is_root: 0, parent_id: parent.id });
+      this.props.loadForm({ show: true, is_root: 0, id: null, object: null, parent_id: parent.id });
     });
 
     return addHorizontalButtonContainer;
