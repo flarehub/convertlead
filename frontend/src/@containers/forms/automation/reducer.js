@@ -27,7 +27,6 @@ const initState = {
   required: {
     deal_id: true,
     type: true,
-    object: true,
     delay_time: true,
     delay_type: true,
   }

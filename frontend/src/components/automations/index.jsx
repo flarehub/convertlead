@@ -51,6 +51,7 @@ class Campaigns extends Component {
 
     this.draw = SVG().addTo(refSVGContainer.current).size('100%' , '100%');
     this.draw = this.draw.group();
+    this.drawSvg();
   }
 
   createButtonAddVerticalAction(parent) {
@@ -118,13 +119,14 @@ class Campaigns extends Component {
       if (action.children) {
         const lastAction = R.last(action.children);
         this.createButtonAddHorizontalAction(lastAction).dx((lastAction.index + 1) * 240).dy(action.index * 240);
-      } else if (action.is_root && action.parent_id) {
+      } else if (action.is_root) {
         this.createButtonAddHorizontalAction(action).dy((action.index) * 240).dx(240);
       }
     });
 
     const lastAction = R.last(this.props.actions);
-    this.createButtonAddVerticalAction(lastAction).move(0, (lastAction.index + 1) * 240);
+    const index = (R.path(['index'], lastAction) !== undefined ? R.path(['index'], lastAction) + 1 : 0);
+    this.createButtonAddVerticalAction(lastAction).move(0, index * 240);
   }
 
   drawHorizontalActions(horizontalActions, parent) {
