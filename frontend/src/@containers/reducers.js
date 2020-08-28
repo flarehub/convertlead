@@ -15,8 +15,10 @@ import profile from './profile/reducer';
 import users from './users/reducer';
 import buttonGroup from './button-group/reducer';
 import messages from './messages/reducer';
+import dealActions from './deal-actions/reducer';
 
 const reducers = combineReducers({
+  dealActions,
   messages,
   agents,
   auth,

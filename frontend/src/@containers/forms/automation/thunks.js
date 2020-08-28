@@ -1,6 +1,8 @@
 import { sendMessage } from '../../messages/thunks';
+import { fetchDealAction } from "../../deal-actions/thunks";
 import * as actions  from './actions';
 import {api} from "@services";
+
 
 export const saveAutomationAction = form => (dispatch) => {
   try {
@@ -9,6 +11,7 @@ export const saveAutomationAction = form => (dispatch) => {
     } else {
       dispatch(createAutomationAction(form));
     }
+    dispatch(fetchDealAction(form.deal_id));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }
@@ -29,7 +32,7 @@ export const updateAutomationAction = form => {
 export const createAutomationAction = form => {
   return async dispatch => {
     try {
-      await api.post(`/v1/company/deals/${form.deal_id}/actions/${form.id}`, form);
+      await api.post(`/v1/company/deals/${form.deal_id}/actions`, form);
       dispatch(sendMessage('Success! Credentials sent to agent email'));
       await dispatch(actions.savedAutomationAction());
     } catch (e) {

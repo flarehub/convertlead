@@ -9,9 +9,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatcherToState = dispatch => ({
-  loadForm: agent => dispatch(actions.loadAutomationAction(agent)),
-  changeForm: agent => dispatch(actions.changeAutomationAction(agent)),
-  saveForm: agent => dispatch(thunks.saveAutomationAction(agent)),
+  loadForm: action => dispatch(actions.loadAutomationAction(action)),
+  changeForm: action => dispatch(actions.changeAutomationAction(action)),
+  saveForm: action => dispatch(thunks.saveAutomationAction(action)),
 });
 
 export default connect(mapStateToProps, mapDispatcherToState);

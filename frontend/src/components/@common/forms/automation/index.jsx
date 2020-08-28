@@ -37,6 +37,10 @@ class AgentForm extends Component {
         minutes: 0,
     }
 
+    componentDidMount() {
+        this.props.changeForm({ deal_id: this.props.dealId });
+    }
+
     onChange = (event, data) => {
         this.props.changeForm({[data.name]: data.value});
     };

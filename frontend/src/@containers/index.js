@@ -22,5 +22,6 @@ export { default as ProfileContainer } from './profile';
 export { default as LeadNotesContainer } from './lead-notes';
 export { default as UsersContainer } from './users';
 export { default as ButtonGroupContainer } from './button-group';
+export { default as DealActionsContainer } from './deal-actions';
 
 export { default as store } from './store';
