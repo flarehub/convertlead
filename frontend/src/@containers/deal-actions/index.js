@@ -1,10 +1,11 @@
 import { connect } from "react-redux";
 import * as thunks from './thunks';
-import {getMappedActions} from "./selectors";
+import {getActionBy, getMappedActions} from "./selectors";
 
 const mapStateToProps = state => ({
   actions: getMappedActions(state),
-  actionsOriginal: state.dealActions.actions,
+  actionsOriginal: state.dealActions.get('actions').toJS(),
+  getActionBy: actionId => getActionBy(actionId, state),
 });
 
 const mapDispatchToProps = dispatch => ({

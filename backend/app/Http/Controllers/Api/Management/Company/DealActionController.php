@@ -39,6 +39,7 @@ class DealActionController extends Controller
             'object',
             'delay_time',
             'delay_type',
+            'stop_on_manual_contact',
         ]));
 
         $dealAction->save();
@@ -66,6 +67,10 @@ class DealActionController extends Controller
      */
     public function update(Request $request, $deal, $id)
     {
+        $request->merge([
+            'object' => json_encode($request->json('object')),
+        ]);
+
         $dealAction = $request->user()->getDealBy($deal)->getActionBy($id);
         $dealAction->fill($request->only([
             'parent_id',
@@ -75,6 +80,7 @@ class DealActionController extends Controller
             'object',
             'delay_time',
             'delay_type',
+            'stop_on_manual_contact',
         ]));
         $dealAction->save();
         return $dealAction;

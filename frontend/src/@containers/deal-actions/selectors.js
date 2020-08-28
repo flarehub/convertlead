@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import * as R from 'ramda';
 
 export const getMappedActions = createSelector(
-  state => state.dealActions.actions,
+  state => state.dealActions.get('actions').toJS(),
   (actions) => {
 
     const rootActions = R.filter((action) => action.is_root, actions);
@@ -41,4 +41,12 @@ export const getMappedActions = createSelector(
       };
     }, Object.values(rootActions));
   }
-)
+);
+
+export const getActionBy = createSelector(
+  (id, state) => {
+    const actions = state.dealActions.get('actions').toJS();
+    return (actions || []).find(action => action.id === id);
+  },
+  (action) => action
+);

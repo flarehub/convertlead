@@ -169,13 +169,12 @@ class Campaigns extends Component {
   }
 
   drawIcon(group, icon, action) {
-    if (action.is_root && !action.parent_id) {
-      group.image(icon, { kid: action.id });
-    } else if(action.is_root) {
-      group.image(icon, { kid: action.id });
-    } else {
-      group.image(icon, { kid: action.id });
-    }
+    const iconButton = group.image(icon, { kid: action.id, cursor: 'pointer' });
+    iconButton.on('click', () => {
+      const action = this.props.getActionBy(iconButton.attr('kid'));
+      console.log(action);
+      this.props.loadForm({ show: true, ...action });
+    });
   }
 
   scaleUp = () => {

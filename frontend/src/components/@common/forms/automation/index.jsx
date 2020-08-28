@@ -21,7 +21,7 @@ import {
     TYPE_SMS_MESSAGE
 } from "@containers/forms/automation/actionTypes";
 import {checkIsTypeStatusChange} from "@containers/forms/automation/actionTypes";
-import {daysToSeconds, secondsToDays} from "./modules";
+import {daysToSeconds, secondsToDays, secondsToTime} from "./modules";
 import {timeToSeconds} from "./modules/timeToSeconds";
 
 const editor = React.createRef();
@@ -43,6 +43,10 @@ class AgentForm extends Component {
 
     onChange = (event, data) => {
         this.props.changeForm({[data.name]: data.value});
+    };
+
+    onChangeStopOnManualChange = () => {
+        this.props.changeForm({ stop_on_manual_contact: !this.props.form.stop_on_manual_contact });
     };
 
     onChangeLeadStatus = (event, data) => {
@@ -83,18 +87,20 @@ class AgentForm extends Component {
         this.props.changeForm({ object: { message } });
     };
 
-    onTextMessageChange = (message) => {
-        this.props.changeForm({ object: { message } });
+    onTextMessageChange = (event) => {
+        this.props.changeForm({ object: { message: event.target.value } });
     };
 
     render() {
         const { type = TYPE_SMS_MESSAGE,
             delay_type,
             delay_time,
-            stop_on_manual_contact
+            stop_on_manual_contact,
+            object
         } = this.props.form;
         const { selectBoxStatuses } = this.props;
         const { content } = this.state;
+        const time = secondsToTime(delay_time);
 
         return (<Form size='big' className='textMessage' autocomplete='off'>
             <Grid columns={1} relaxed='very' stackable>
@@ -125,10 +131,20 @@ class AgentForm extends Component {
                             {
                                 !checkTypeIsDays(delay_type) && <>
                                     <div className="hours">
-                                        <Input placeholder="HH" min="0" step="1" type="number" onChange={this.onChangeTimeHours}/>
+                                        <Input placeholder="HH"
+                                               min="0"
+                                               step="1"
+                                               type="number"
+                                               value={time.h}
+                                               onChange={this.onChangeTimeHours}/>
                                     </div>
                                     <div className="minutes">
-                                        <Input placeholder="mm" min="0" step="1" type="number" onChange={this.onChangeTimeMinutes}/>
+                                        <Input placeholder="mm"
+                                               min="0"
+                                               step="1"
+                                               type="number"
+                                               value={time.m}
+                                               onChange={this.onChangeTimeMinutes}/>
                                     </div>
                                 </>
                             }
@@ -147,7 +163,7 @@ class AgentForm extends Component {
                           checkIsTypePushNotification(type)
                         ) && (
                           <Form.Field required>
-                              <TextArea onChange={this.onTextMessageChange} />
+                              <TextArea onChange={this.onTextMessageChange} value={object && object.message || ''} />
                           </Form.Field>
                         )
                     }
@@ -181,7 +197,7 @@ class AgentForm extends Component {
                           name="stop_on_manual_contact"
                           checked={stop_on_manual_contact}
                           toggle
-                          onChange={this.onChange}
+                          onChange={this.onChangeStopOnManualChange}
                         />
                     </Form.Field>
                 </Grid.Column>
