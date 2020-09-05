@@ -2,6 +2,7 @@ import { sendMessage } from '../../messages/thunks';
 import { fetchDealAction } from "../../deal-actions/thunks";
 import * as actions  from './actions';
 import {api} from "@services";
+import {loadAutomationAction} from "./actions";
 
 
 export const saveAutomationAction = form => (dispatch) => {
@@ -12,6 +13,17 @@ export const saveAutomationAction = form => (dispatch) => {
       dispatch(createAutomationAction(form));
     }
     dispatch(fetchDealAction(form.deal_id));
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+};
+
+
+export const deleteRecord = form => async (dispatch) => {
+  try {
+    await api.delete(`/v1/company/deals/${form.deal_id}/actions/${form.id}`);
+    dispatch(fetchDealAction(form.deal_id));
+    dispatch(loadAutomationAction({ show: false }));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }

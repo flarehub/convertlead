@@ -4,7 +4,7 @@ import * as R from 'ramda';
 
 import {
     Modal,
-    Button,
+    Button, Icon,
 } from 'semantic-ui-react';
 
 import './index.scss';
@@ -25,6 +25,12 @@ class EntityModal extends Component {
                 formSaved: true,
             });
             this.props.saveForm(this.props.form);
+        }
+    };
+
+    onDelete = () => {
+        if (typeof this.props.deleteRecord === 'function') {
+            this.props.deleteRecord(this.props.form);
         }
     };
 
@@ -67,7 +73,7 @@ class EntityModal extends Component {
     }
 
     render() {
-        const {Container, ...rest} = this.props;
+        const { Container, displayDeleteButton, ...rest } = this.props;
         const { formSaved } = this.state;
 
         if (!this.props.form.show && formSaved) {
@@ -96,6 +102,16 @@ class EntityModal extends Component {
                         content="Save"
                         onClick={this.onSave}
                     />
+                    {
+                        displayDeleteButton && (
+                          <a
+                            className="deleteButton"
+                            onClick={this.onDelete}
+                          >
+                              <Icon name="trash alternate" />
+                          </a>
+                        )
+                    }
                 </Modal.Actions>
             </Modal>
         )

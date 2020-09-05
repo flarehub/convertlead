@@ -94,7 +94,18 @@ class DealActionController extends Controller
      */
     public function destroy(Request $request, $deal, $id)
     {
-        $dealAction = $request->user()->getDealBy($deal)->getActionBy($id);
-        return $dealAction->delete();
+        try {
+            \DB::beginTransaction();
+            $dealAction = $request->user()->getDealBy($deal)->getActionBy($id);
+
+            $request->user()->getDealBy($deal)->updateChildrenParentIdBy($id);
+
+            $dealAction->delete();
+
+            \DB::commit();
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            abort($exception->getMessage());
+        }
     }
 }

@@ -17,6 +17,27 @@ trait DealRepository {
         return $this->actions()->where('id', $id)->firstOrFail();
     }
 
+    public function getActionByParentId(int $parentId) {
+        return $this->actions()->where('parent_id', $parentId)->get();
+    }
+
+    public function updateChildrenParentIdBy(int $actionId) {
+        $dealAction = $this->getActionBy($actionId);
+        $dealActionChildren = $this->getActionByParentId($actionId);
+        if ($dealActionChildren) {
+            foreach ($dealActionChildren as $dealActionChild) {
+                $dealActionChild->parent_id = null;
+                $dealActionChild->is_root = 1;
+                if ($dealAction->parent_id) {
+                    $dealActionChild->parent_id = $dealAction->parent_id;
+                    $dealActionChild->is_root = $dealAction->is_root;
+                }
+
+                $dealActionChild->save();
+            }
+        }
+    }
+
     public function getFirstRootAction() {
         return $this->actions()
             ->where('parent_id', null)

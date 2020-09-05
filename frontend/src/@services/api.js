@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as R from 'ramda';
 import config from './config';
 import { SessionStorage } from './index';
-import * as thunks from '../@containers/auth/thunks';
 
 class Api {
   constructor(axios, config) {

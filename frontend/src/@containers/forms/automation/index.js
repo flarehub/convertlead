@@ -12,6 +12,7 @@ const mapDispatcherToState = dispatch => ({
   loadForm: action => dispatch(actions.loadAutomationAction(action)),
   changeForm: action => dispatch(actions.changeAutomationAction(action)),
   saveForm: action => dispatch(thunks.saveAutomationAction(action)),
+  deleteRecord: form => dispatch(thunks.deleteRecord(form)),
 });
 
 export default connect(mapStateToProps, mapDispatcherToState);
