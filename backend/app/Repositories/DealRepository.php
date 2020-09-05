@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Deal;
+use App\Models\DealAction;
 
 trait DealRepository {
     public function getCampaignBy($id) {
@@ -26,6 +27,14 @@ trait DealRepository {
         $dealActionChildren = $this->getActionByParentId($actionId);
         if ($dealActionChildren) {
             foreach ($dealActionChildren as $dealActionChild) {
+                if ($dealAction->is_root &&
+                    !$dealActionChild->is_root && (
+                        $dealActionChild->type !== DealAction::TYPE_EMAIL_MESSAGE &&
+                        $dealActionChild->type !== DealAction::TYPE_SMS_MESSAGE
+                    )) {
+                    abort(400, 'Action restricted!');
+                    break;
+                }
                 $dealActionChild->parent_id = null;
                 $dealActionChild->is_root = 1;
                 if ($dealAction->parent_id) {

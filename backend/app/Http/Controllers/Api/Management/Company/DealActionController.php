@@ -105,7 +105,7 @@ class DealActionController extends Controller
             \DB::commit();
         } catch (\Exception $exception) {
             \DB::rollBack();
-            abort($exception->getMessage());
+            abort(400, $exception->getMessage());
         }
     }
 }
