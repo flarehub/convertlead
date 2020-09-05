@@ -113,13 +113,13 @@ class Campaigns extends Component {
     this.props.actions.forEach(action => {
       this.drawAction(action).dy(action.index * 240);
 
-      if (action.children) {
+      if (this.checkIsAllowedForHorizontalActions(action) && action.children) {
         this.drawHorizontalActions(action.children, action);
       }
-      if (action.children) {
+      if (this.checkIsAllowedForHorizontalActions(action) && action.children) {
         const lastAction = R.last(action.children);
         this.createButtonAddHorizontalAction(lastAction).dx((lastAction.index + 1) * 240).dy(action.index * 240);
-      } else if (action.is_root) {
+      } else if (action.is_root && this.checkIsAllowedForHorizontalActions(action)) {
         this.createButtonAddHorizontalAction(action).dy((action.index) * 240).dx(240);
       }
     });
@@ -127,6 +127,10 @@ class Campaigns extends Component {
     const lastAction = R.last(this.props.actions);
     const index = (R.path(['index'], lastAction) !== undefined ? R.path(['index'], lastAction) + 1 : 0);
     this.createButtonAddVerticalAction(lastAction).move(0, index * 240);
+  }
+
+  checkIsAllowedForHorizontalActions(action) {
+    return (action.type === TYPE_EMAIL_MESSAGE || action.type === TYPE_SMS_MESSAGE);
   }
 
   drawHorizontalActions(horizontalActions, parent) {
@@ -140,27 +144,36 @@ class Campaigns extends Component {
     switch (action.type) {
       case TYPE_SMS_MESSAGE: {
         this.drawIcon(group, textIcon, action)
+        this.drawHorizontalLine(group);
         break;
       }
       case TYPE_EMAIL_MESSAGE: {
         this.drawIcon(group, emailIcon, action);
+        this.drawHorizontalLine(group);
         break;
       }
       case TYPE_LEAD_CHANGE_STATUS: {
         this.drawIcon(group, statusChangeIcon, action);
+        if (!action.is_root) {
+          this.drawHorizontalLine(group);
+        }
         break;
       }
       case TYPE_BLIND_CALL: {
-        this.drawIcon(group, blindCall, action)
+        this.drawIcon(group, blindCall, action);
+        if (!action.is_root) {
+          this.drawHorizontalLine(group);
+        }
         break;
       }
       case TYPE_PUSH_NOTIFICATION: {
         this.drawIcon(group, agentPushIcon, action);
+        if (!action.is_root) {
+          this.drawHorizontalLine(group);
+        }
       }
       default:
     }
-
-    this.drawHorizontalLine(group);
     if (action.is_root) {
       this.drawVerticalLine(group);
     }
