@@ -9,6 +9,7 @@ import user from './user/reducer';
 import optinFormIntegration from './integrations/optinform/reducer';
 import reminder from './reminder/reducer'
 import automation from './automation/reducer'
+import automationReply from './automation_reply/reducer'
 
 export default combineReducers({
   optinFormIntegration,
@@ -20,4 +21,5 @@ export default combineReducers({
   user,
   reminder,
   automation,
+  automationReply,
 });

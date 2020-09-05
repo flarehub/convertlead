@@ -28,7 +28,7 @@ const config = {
     readonly: false,
 };
 
-class AgentForm extends Component {
+class AutomationForm extends Component {
 
     state = {
         content: '',
@@ -213,4 +213,4 @@ class AgentForm extends Component {
     }
 }
 
-export default AgentForm;
+export default AutomationForm;

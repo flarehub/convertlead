@@ -6,7 +6,11 @@ import { Link } from "react-router-dom";
 import { SVG } from '@svgdotjs/svg.js'
 import * as R from 'ramda';
 
-import { AutomationFormContainer, DealActionsContainer } from "@containers";
+import {
+  AutomationFormContainer,
+  DealActionsContainer,
+  AutomationReplyFormContainer
+} from "@containers";
 
 import textIcon from './assets/text.png';
 import emailIcon from './assets/email.png';
@@ -17,6 +21,7 @@ import settingIcon from './assets/settings.png';
 import agentPushIcon from './assets/agentpush.png';
 import addNew from './assets/addnew.png';
 import AutomationModal from "../@common/modals/automation";
+import AutomationReplyModal from "../@common/modals/automation_reply";
 import {
   TYPE_BLIND_CALL,
   TYPE_EMAIL_MESSAGE,
@@ -118,17 +123,42 @@ class Campaigns extends Component {
       });
   }
 
+  drawSmsSettingsButton(action, group) {
+    group.text('on sms reply').dy(3).dx(110);
+    const onSmsReplySettingsButton = group.image(settingIcon)
+    .width(20)
+    .height(20)
+    .attr('cursor', 'pointer')
+    .attr('kid', action.id)
+    .dy(8)
+    .dx(190);
+    onSmsReplySettingsButton.on('click', () => {
+      const action = this.props.getActionBy(onSmsReplySettingsButton.attr('kid'));
+      this.props.loadAutomationReplyForm({ show: true, ...action });
+    });
+  }
+
+  drawTextOnEmailOpen(group) {
+    group.text('on email open').dy(3).dx(110);
+  }
+
   drawAction(action) {
     const group = this.draw.nested();
     switch (action.type) {
       case TYPE_SMS_MESSAGE: {
         this.drawIcon(group, textIcon, action)
         this.drawHorizontalLine(group);
+        if (action.is_root) {
+          this.drawSmsSettingsButton(action, group);
+        }
         break;
       }
       case TYPE_EMAIL_MESSAGE: {
         this.drawIcon(group, emailIcon, action);
         this.drawHorizontalLine(group);
+        if (action.is_root) {
+          this.drawTextOnEmailOpen(group);
+        }
         break;
       }
       case TYPE_LEAD_CHANGE_STATUS: {
@@ -164,7 +194,6 @@ class Campaigns extends Component {
     const iconButton = group.image(icon, { kid: action.id, cursor: 'pointer' });
     iconButton.on('click', () => {
       const action = this.props.getActionBy(iconButton.attr('kid'));
-      console.log(action);
       this.props.loadForm({ show: true, ...action });
     });
   }
@@ -218,6 +247,7 @@ class Campaigns extends Component {
     return (
       <div className='Automations'>
         <AutomationModal dealId={dealId} />
+        <AutomationReplyModal dealId={dealId} />
         <Grid columns={2}>
           <Grid.Column>
             <Header floated='left' as='h1'>Automations</Header>
@@ -244,4 +274,8 @@ class Campaigns extends Component {
   }
 }
 
-export default compose(AutomationFormContainer, DealActionsContainer)(Campaigns);
+export default compose(
+  AutomationReplyFormContainer,
+  AutomationFormContainer,
+  DealActionsContainer
+)(Campaigns);
