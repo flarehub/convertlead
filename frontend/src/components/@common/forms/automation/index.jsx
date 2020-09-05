@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
+import * as R from 'ramda';
 
 import {
     Form,
     Input,
-    Segment,
-    Button,
     TextArea,
     Grid,
     Select, Checkbox,
@@ -39,6 +38,14 @@ class AgentForm extends Component {
 
     componentDidMount() {
         this.props.changeForm({ deal_id: this.props.dealId });
+        this.setState({
+            ...this.state,
+            content: R.pathOr('', [
+              'form',
+              'object',
+              'message'
+            ], this.props),
+        })
     }
 
     onChange = (event, data) => {
@@ -172,7 +179,7 @@ class AgentForm extends Component {
                           <Form.Field required>
                               <JoditEditor
                                 ref={editor}
-                                value={(object && object.message) || ''}
+                                value={content}
                                 config={config}
                                 tabIndex={1}
                                 onChange={this.onChangeEmailMessage}

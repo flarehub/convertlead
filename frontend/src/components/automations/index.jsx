@@ -36,23 +36,8 @@ class Campaigns extends Component {
 
   draw;
   addVerticalButtonContainer;
-  addButtonVertical;
   addHorizontalButtonContainer;
   addButtonHorizontal;
-
-  componentDidMount() {
-    const {companyId, dealId} = this.props.match.params;
-    this.setState({
-      companyId,
-      dealId,
-    });
-
-    this.props.fetchDealActions(dealId);
-
-    this.draw = SVG().addTo(refSVGContainer.current).size('100%' , '100%');
-    this.draw = this.draw.group();
-    this.drawSvg();
-  }
 
   createButtonAddVerticalAction(parent) {
     const addVerticalButtonContainer = this.draw.nested().width(60).height(60);
@@ -100,12 +85,6 @@ class Campaigns extends Component {
     draw.circle(10, { fill: '#ccc' }).dy(70).dx(25);
     const line = draw.line(0, 0, 0, 165).move(30, 75)
     line.stroke({ color: '#ccc', width: 2, linecap: 'round' });
-  }
-
-  componentDidUpdate(prevState) {
-    if (prevState.actionsOriginal.length !== this.props.actionsOriginal.length) {
-      this.drawSvg();
-    }
   }
 
   drawSvg() {
@@ -211,6 +190,26 @@ class Campaigns extends Component {
     this.draw.attr({
       transform: `matrix(${scale},0,0,${scale}, 0, 0)`
     });
+  }
+
+  componentDidMount() {
+    const {companyId, dealId} = this.props.match.params;
+    this.setState({
+      companyId,
+      dealId,
+    });
+
+    this.props.fetchDealActions(dealId);
+
+    this.draw = SVG().addTo(refSVGContainer.current).size('100%' , '100%');
+    this.draw = this.draw.group();
+    this.drawSvg();
+  }
+
+  componentDidUpdate(prevState) {
+    if (JSON.stringify(prevState.actionsOriginal) !== JSON.stringify(this.props.actionsOriginal)) {
+      this.drawSvg();
+    }
   }
 
   render() {
