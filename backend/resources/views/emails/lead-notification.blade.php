@@ -1,5 +1,4 @@
 <div>
-	test
 	<p>
 		{{$message}}
 	</p>
