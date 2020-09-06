@@ -112,15 +112,18 @@ class AutomationForm extends Component {
     };
 
     onChangeEmailMessage = (message) => {
-        this.props.changeForm({ object: { message } });
+        const { object } = this.props.form;
+        this.props.changeForm({ object: { ...(object || {}), message: message } });
     };
 
     onChangeEmailSubject = (event) => {
-        this.props.changeForm({ object: { ...(this.props.object || {}), subject: event.target.value } });
+        const { object } = this.props.form;
+        this.props.changeForm({ object: { ...(object || {}), subject: event.target.value } });
     };
 
     onTextMessageChange = (event) => {
-        this.props.changeForm({ object: { message: event.target.value } });
+        const { object } = this.props.form;
+        this.props.changeForm({ object: { ...(object || {}), message: event.target.value } });
     };
 
     render() {
