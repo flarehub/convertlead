@@ -16,7 +16,7 @@ class ActionPushAgentDeviceNotification extends Command
      *
      * @var string
      */
-    protected $signature = 'send:device-notification';
+    protected $signature = 'send:device-notification {leadId} {dealActionId}';
 
     /**
      * The console command description.

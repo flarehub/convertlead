@@ -11,7 +11,7 @@ class ActionConnectAgentLeadViaBlindCall extends Command
      *
      * @var string
      */
-    protected $signature = 'create:blind-call';
+    protected $signature = 'create:blind-call {leadId} {dealActionId}';
 
     /**
      * The console command description.

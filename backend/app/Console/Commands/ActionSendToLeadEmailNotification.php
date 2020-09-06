@@ -15,7 +15,7 @@ class ActionSendToLeadEmailNotification extends Command
      *
      * @var string
      */
-    protected $signature = 'send:email-notification';
+    protected $signature = 'send:email-notification {leadId} {dealActionId}';
 
     /**
      * The console command description.
@@ -58,6 +58,8 @@ class ActionSendToLeadEmailNotification extends Command
 
             MailService::sendMail('emails.lead-notification', [
                 'message' => $dealAction->object->message,
+                'leadId' => $lead->id,
+                'dealActionId' => $dealAction->id,
             ],
                 $lead->email,
                 $dealAction->object->subject

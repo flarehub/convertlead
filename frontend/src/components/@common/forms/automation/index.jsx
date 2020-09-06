@@ -37,6 +37,7 @@ class AutomationForm extends Component {
 
     state = {
         content: '',
+        subject: '',
         hours: 0,
         minutes: 0,
     }
@@ -49,6 +50,11 @@ class AutomationForm extends Component {
               'form',
               'object',
               'message'
+            ], this.props),
+            subject: R.pathOr('', [
+              'form',
+              'object',
+              'subject'
             ], this.props),
         });
         const { is_root, type, lead_reply_type } = this.props.form;
@@ -106,8 +112,11 @@ class AutomationForm extends Component {
     };
 
     onChangeEmailMessage = (message) => {
-        console.log('message=', message);
         this.props.changeForm({ object: { message } });
+    };
+
+    onChangeEmailSubject = (event) => {
+        this.props.changeForm({ object: { ...(this.props.object || {}), subject: event.target.value } });
     };
 
     onTextMessageChange = (event) => {
@@ -122,10 +131,10 @@ class AutomationForm extends Component {
             object
         } = this.props.form;
         const { selectBoxStatuses } = this.props;
-        const { content } = this.state;
+        const { content, subject } = this.state;
         const time = secondsToTime(delay_time);
 
-        return (<Form size='big' className='textMessage' autocomplete='off'>
+        return (<Form size='big' className='textMessage' autoComplete='off'>
             <Grid columns={1} relaxed='very' stackable>
                 <Grid.Column>
                     <Form.Field required>
@@ -190,6 +199,12 @@ class AutomationForm extends Component {
                           </Form.Field>
                         )
                     }
+
+                    {
+                        checkIsTypeEmail(type) && (
+                          <Input type="text" placeholder="Subject" value={object && object.subject || ''} onChange={this.onChangeEmailSubject}/>
+                        )
+                    }
                     {
                         checkIsTypeEmail(type) && (
                           <Form.Field required>
@@ -218,7 +233,7 @@ class AutomationForm extends Component {
                         <Checkbox
                           label="Stop on manual contact"
                           name="stop_on_manual_contact"
-                          checked={stop_on_manual_contact}
+                          checked={!!stop_on_manual_contact}
                           toggle
                           onChange={this.onChangeStopOnManualChange}
                         />

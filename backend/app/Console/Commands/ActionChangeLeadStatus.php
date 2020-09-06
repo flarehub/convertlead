@@ -15,7 +15,7 @@ class ActionChangeLeadStatus extends Command
      *
      * @var string
      */
-    protected $signature = 'change:lead-status';
+    protected $signature = 'change:lead-status {leadId} {dealActionId}';
 
     /**
      * The console command description.

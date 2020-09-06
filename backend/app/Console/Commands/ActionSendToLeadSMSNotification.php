@@ -57,7 +57,7 @@ class ActionSendToLeadSMSNotification extends Command
             $lead = Lead::findOrFail($leadId);
             $dealAction = DealAction::findOrFail($dealActionId);
             $twilioSid = $lead->company['twilio_sid'];
-            $twilioToken = $lead->company['twilio_sid'];
+            $twilioToken = $lead->company['twilio_token'];
 
             if (empty(trim($twilioSid)) || empty(trim($twilioToken))) {
                 throw new \Exception('Missing required twilio api credentials');

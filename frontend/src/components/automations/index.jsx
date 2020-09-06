@@ -261,7 +261,7 @@ class Campaigns extends Component {
       ...this.state,
       has_automation: checkbox.checked,
     });
-    this.props.saveForm({ ...deal, has_automation: +checkbox.checked });
+    this.props.saveFormDeal({ ...deal, has_automation: +checkbox.checked });
     this.props.fetchDeal(deal.dealId);
   };
 
@@ -271,7 +271,6 @@ class Campaigns extends Component {
 
     return (
       <div className='Automations'>
-        {deal.has_automation ? 'true': 'false'}
         <AutomationModal dealId={dealId} />
         <AutomationReplyModal dealId={dealId} />
         <Grid columns={2}>
@@ -289,11 +288,11 @@ class Campaigns extends Component {
                   <Button color='teal' content='Integrations' labelPosition='left'/>
                 </Link>
                 {
-                  deal && (
+                  deal.has_automation !== undefined && (
                     <Checkbox
                       label="Automation On/Off"
                       name="has_automation"
-                      checked={has_automation}
+                      checked={!!has_automation}
                       toggle
                       onChange={this.onChangeAutomation}
                     />
@@ -313,8 +312,8 @@ class Campaigns extends Component {
 }
 
 export default compose(
+  DealFormContainer,
   AutomationReplyFormContainer,
   AutomationFormContainer,
   DealActionsContainer,
-  DealFormContainer
 )(Campaigns);

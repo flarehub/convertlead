@@ -104,9 +104,12 @@ class DealAction extends Model {
         ]);
         $leadActionHistory->save();
 
-        DealActionJob::dispatch($leadActionHistory)->delay(
-            now($dealTimezone)->addMinutes($this->delay_time)
-        )->onQueue('deal-actions');
+        $minutes = ceil($this->delay_time/60);
+        DealActionJob::dispatch($leadActionHistory)
+            ->delay(
+                now($dealTimezone)->addMinutes($minutes)
+            )
+            ->onQueue('actions');
     }
 
     public function getRootParentAttribute() {

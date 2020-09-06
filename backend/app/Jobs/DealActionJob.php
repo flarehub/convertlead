@@ -47,49 +47,52 @@ class DealActionJob implements ShouldQueue
             try {
                 $this->executeCommand($dealAction, $lead);
             } catch (\Exception $exception) {
-                $dump = print_r($exception, true);
-                Log::critical("{$exception->getMessage()}, {$dump}");
+                Log::critical("{$exception->getMessage()}");
             }
 
             $dealAction->scheduleNextLeadAction($lead);
             $leadActionHistory->moveToCompleted();
         } catch (\Exception $exception) {
-            $dump = print_r($exception, true);
-            Log::critical("{$exception->getMessage()}, {$dump}");
+            Log::critical("{$exception->getMessage()}");
         }
     }
 
     public function executeCommand(DealAction $dealAction, Lead $lead) {
         switch ($dealAction->type) {
             case DealAction::TYPE_EMAIL_MESSAGE: {
-                \Artisan::command('send:email-notification', [
+                \Artisan::call("send:email-notification", [
                     'leadId' => $lead->id,
                     'dealActionId' => $dealAction->id,
                 ]);
+                break;
             }
             case DealAction::TYPE_SMS_MESSAGE: {
-                \Artisan::command('send:sms-notification', [
+                \Artisan::call("send:sms-notification",  [
                     'leadId' => $lead->id,
                     'dealActionId' => $dealAction->id,
                 ]);
+                break;
             }
             case DealAction::TYPE_CHANGE_STATUS: {
-                \Artisan::command('change:lead-status', [
+                \Artisan::call('change:lead-status', [
                     'leadId' => $lead->id,
                     'dealActionId' => $dealAction->id,
                 ]);
+                break;
             }
             case DealAction::TYPE_BLIND_CALL: {
-                \Artisan::command('create:blind-call', [
+                \Artisan::call('create:blind-call', [
                     'leadId' => $lead->id,
                     'dealActionId' => $dealAction->id,
                 ]);
+                break;
             }
             case DealAction::TYPE_PUSH_NOTIFICATION: {
-                \Artisan::command('send:device-notification', [
+                \Artisan::call('send:device-notification', [
                     'leadId' => $lead->id,
                     'dealActionId' => $dealAction->id,
                 ]);
+                break;
             }
             default:
         }
