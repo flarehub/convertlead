@@ -31,7 +31,7 @@ class DealController extends Controller
             'agency_company_id' => 'required|int'
         ]);
 
-        $deal->fill($request->only(['name', 'description', 'timezone', 'agency_company_id']));
+        $deal->fill($request->only(['name', 'description', 'timezone', 'agency_company_id', 'has_automation']));
         $deal->save();
     
         return $deal;
@@ -63,7 +63,7 @@ class DealController extends Controller
         ]);
         $deal = $request->user()->getDealBy($id);
     
-        $deal->fill($request->only(['name', 'timezone', 'description']));
+        $deal->fill($request->only(['name', 'timezone', 'description', 'has_automation']));
         $deal->save();
     
         return $deal;

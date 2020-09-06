@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
 import './index.scss';
-import { Button, Grid, Header, Menu } from "semantic-ui-react";
+import {Button, Checkbox, Form, Grid, Header, Menu} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { SVG } from '@svgdotjs/svg.js'
 import * as R from 'ramda';
@@ -28,6 +28,7 @@ import {
   TYPE_LEAD_CHANGE_STATUS, TYPE_PUSH_NOTIFICATION,
   TYPE_SMS_MESSAGE
 } from "../../@containers/forms/automation/actionTypes";
+import {DealFormContainer} from "../../@containers";
 
 const refSVGContainer = React.createRef();
 
@@ -36,7 +37,8 @@ class Campaigns extends Component {
     isRoot: true,
     scale: 1,
     companyId: null,
-    dealId: null
+    dealId: null,
+    has_automation: null
   };
 
   draw;
@@ -205,7 +207,6 @@ class Campaigns extends Component {
   }
 
   scaleUp = () => {
-    console.log(this.state);
     const scale = this.state.scale + 0.1;
     this.setState({
       ...this.state,
@@ -235,23 +236,42 @@ class Campaigns extends Component {
     });
 
     this.props.fetchDealActions(dealId);
+    this.props.fetchDeal(dealId);
 
     this.draw = SVG().addTo(refSVGContainer.current).size('100%' , '100%');
     this.draw = this.draw.group();
     this.drawSvg();
   }
 
-  componentDidUpdate(prevState) {
-    if (JSON.stringify(prevState.actionsOriginal) !== JSON.stringify(this.props.actionsOriginal)) {
+  componentDidUpdate(prevProp, prevState) {
+    if (JSON.stringify(prevProp.actionsOriginal) !== JSON.stringify(this.props.actionsOriginal)) {
       this.drawSvg();
+    }
+
+    if (this.props.deal.has_automation !== undefined && !this.state.has_automation && this.state.has_automation === null) {
+      this.setState({
+        has_automation: this.props.deal.has_automation,
+      })
     }
   }
 
+  onChangeAutomation = (e, checkbox) => {
+    const { deal } = this.props;
+    this.setState({
+      ...this.state,
+      has_automation: checkbox.checked,
+    });
+    this.props.saveForm({ ...deal, has_automation: +checkbox.checked });
+    this.props.fetchDeal(deal.dealId);
+  };
+
   render() {
-    const { dealId } = this.state;
+    const { dealId, has_automation } = this.state;
+    const { deal } = this.props;
 
     return (
       <div className='Automations'>
+        {deal.has_automation ? 'true': 'false'}
         <AutomationModal dealId={dealId} />
         <AutomationReplyModal dealId={dealId} />
         <Grid columns={2}>
@@ -268,6 +288,18 @@ class Campaigns extends Component {
                 <Link to={`/deals/${dealId}/integrations`} >
                   <Button color='teal' content='Integrations' labelPosition='left'/>
                 </Link>
+                {
+                  deal && (
+                    <Checkbox
+                      label="Automation On/Off"
+                      name="has_automation"
+                      checked={has_automation}
+                      toggle
+                      onChange={this.onChangeAutomation}
+                    />
+                  )
+                }
+
               </Menu.Menu>
             </Menu>
           </Grid.Column>
@@ -283,5 +315,6 @@ class Campaigns extends Component {
 export default compose(
   AutomationReplyFormContainer,
   AutomationFormContainer,
-  DealActionsContainer
+  DealActionsContainer,
+  DealFormContainer
 )(Campaigns);
