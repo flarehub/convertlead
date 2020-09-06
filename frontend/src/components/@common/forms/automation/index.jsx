@@ -22,6 +22,11 @@ import {
 import {checkIsTypeStatusChange} from "@containers/forms/automation/actionTypes";
 import {daysToSeconds, secondsToDays, secondsToTime} from "./modules";
 import {timeToSeconds} from "./modules/timeToSeconds";
+import {
+    LEAD_REPLY_TYPE_MAIL_OPEN, LEAD_REPLY_TYPE_NONE,
+    LEAD_REPLY_TYPE_SMS_REPLY
+} from "../../../../@containers/forms/automation/leadReplyType";
+import {TYPE_EMAIL_MESSAGE} from "../../../../@containers/forms/automation/actionTypes";
 
 const editor = React.createRef();
 const config = {
@@ -45,11 +50,22 @@ class AutomationForm extends Component {
               'object',
               'message'
             ], this.props),
-        })
+        });
+        const { is_root, type, lead_reply_type } = this.props.form;
+        if (type === TYPE_SMS_MESSAGE && is_root && lead_reply_type === LEAD_REPLY_TYPE_NONE ) {
+            this.props.changeForm({ lead_reply_type: LEAD_REPLY_TYPE_SMS_REPLY });
+        }
+        else if (type === TYPE_EMAIL_MESSAGE && is_root && lead_reply_type === LEAD_REPLY_TYPE_NONE) {
+            this.props.changeForm({ lead_reply_type: LEAD_REPLY_TYPE_MAIL_OPEN });
+        }
     }
 
     onChange = (event, data) => {
         this.props.changeForm({[data.name]: data.value});
+    };
+
+    onChangeType = (event, data) => {
+        this.props.changeForm({ type: data.value });
     };
 
     onChangeStopOnManualChange = () => {
@@ -118,7 +134,7 @@ class AutomationForm extends Component {
                                 name='type'
                                 options={actionTypes}
                                 defaultValue={type || TYPE_SMS_MESSAGE}
-                                onChange={this.onChange} />
+                                onChange={this.onChangeType} />
                     </Form.Field>
                     <Form.Field required>
                         <label>Delay</label>

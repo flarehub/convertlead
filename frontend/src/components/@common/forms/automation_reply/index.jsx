@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import * as R from 'ramda';
 
 import {
     Form,
@@ -9,8 +10,9 @@ import {
 import './index.scss';
 import {
     LEAD_REPLY_TYPE_SMS_REPLY,
+    LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN,
     leadReplyTypes
-} from "@containers/forms/automation/leadReplyType";
+} from "@containers/forms/automation_reply/leadReplyType";
 
 class AutomationReplyForm extends Component {
 
@@ -22,6 +24,20 @@ class AutomationReplyForm extends Component {
 
     componentDidMount() {
         this.props.changeForm({ deal_id: this.props.dealId });
+        let values = R.pathOr('', ['form', 'lead_reply_contains'], this.props);
+        values = values.split(',');
+        const options = values && values.map(value => ({
+            value,
+            key: value,
+            text: value,
+        }));
+
+
+        this.setState({
+            ...this.state,
+            values,
+            options
+        })
     }
 
     onChange = (event, data) => {
@@ -29,11 +45,10 @@ class AutomationReplyForm extends Component {
     };
 
     handleChange = (e, { value: values }) => {
-        console.log('value-change', values);
         this.setState({ ...this.state, values });
+        this.props.changeForm({ lead_reply_contains: values.join(',') });
     }
     handleSearchChange = (e, { searchQuery }) => {
-        console.log('searchQuery', searchQuery);
         this.setState({ ...this.state, searchQuery });
     }
 
@@ -61,28 +76,32 @@ class AutomationReplyForm extends Component {
                     <Form.Field required>
                         <label>On Reply</label>
                         <Select placeholder='Select action type'
-                                name='type'
+                                name='lead_reply_type'
                                 options={leadReplyTypes}
                                 defaultValue={lead_reply_type || LEAD_REPLY_TYPE_SMS_REPLY}
                                 onChange={this.onChange} />
                     </Form.Field>
-                    <Form.Field required={leadReplyContains}>
-                        <label>Reply contains</label>
-
-                        <Dropdown
-                          onKeyDown={this.onAddItem}
-                          fluid
-                          multiple
-                          selection
-                          allowAdditions
-                          search
-                          options={options}
-                          value={values}
-                          placeholder='Add Users'
-                          onChange={this.handleChange}
-                          onSearchChange={this.handleSearchChange}
-                        />
-                    </Form.Field>
+                    {
+                        lead_reply_type === LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN && (
+                          <Form.Field required={leadReplyContains}>
+                              <label>Reply contains</label>
+                              <Dropdown
+                                className="onReplayContains"
+                                onKeyDown={this.onAddItem}
+                                fluid
+                                multiple
+                                selection
+                                allowAdditions
+                                search
+                                options={options}
+                                value={values}
+                                placeholder='Add Users'
+                                onChange={this.handleChange}
+                                onSearchChange={this.handleSearchChange}
+                              />
+                          </Form.Field>
+                        )
+                    }
                 </Grid.Column>
             </Grid>
         </Form>)

@@ -25,6 +25,7 @@ class DealAction extends Model {
         'deal_id',
         'type',
         'lead_reply_type',
+        'lead_reply_contains',
         'is_root',
         'object',
         'delay_time',

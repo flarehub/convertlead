@@ -30,3 +30,13 @@
   position: relative !important;
   width: auto !important;
 }
+
+.onReplayContains {
+  border: 1px solid red !important;
+  .dropdow {
+    display: none !important;
+  }
+  .message {
+    display: none !important;
+  }
+}
