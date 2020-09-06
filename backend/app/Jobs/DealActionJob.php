@@ -38,6 +38,7 @@ class DealActionJob implements ShouldQueue
         try {
             $leadActionHistory = LeadActionHistory::findOrFail($this->leadActionHistory->id);
             if ($leadActionHistory->is_completed) {
+                Log::info("Lead action already executed lead={$this->leadActionHistory['lead_id']}, dealAction={$this->leadActionHistory['deal_action_id']}");
                 return;
             }
 
@@ -49,11 +50,11 @@ class DealActionJob implements ShouldQueue
             } catch (\Exception $exception) {
                 Log::critical("{$exception->getMessage()}");
             }
-
-            $dealAction->scheduleNextLeadAction($lead);
             $leadActionHistory->moveToCompleted();
+            $dealAction->scheduleNextLeadAction($lead);
+
         } catch (\Exception $exception) {
-            Log::critical("{$exception->getMessage()}");
+            Log::critical("{$exception->getMessage()} : line=" . $exception->getLine());
         }
     }
 

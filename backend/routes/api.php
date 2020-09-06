@@ -35,7 +35,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::get('leads/{lead}/export-pdf', 'LeadController@exportToPDF');
         Route::get('leads/{lead}/export-csv', 'LeadController@exportToCSV');
 
-        Route::get('leads/sms-reply', 'LeadReplyController@onSMSReply');
+        Route::post('leads/sms-reply', 'LeadReplyController@onSMSReply');
         Route::get('leads/{lead}/actions/{dealAction}/mail-open', 'LeadReplyController@onMailReply');
 
         Route::get('reports/{uuid}/download', 'LeadController@download');

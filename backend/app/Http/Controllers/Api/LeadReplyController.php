@@ -15,6 +15,8 @@ class LeadReplyController extends Controller {
     public function onSMSReply(Request $request) {
         $fromNumber = $request->get('From');
         $messageBody = $request->get('Body');
+        \Log::critical('Sms reply');
+        \Log::critical($messageBody);
 
         $lead = Lead::query()
             ->where('phone', 'like', $fromNumber)
@@ -26,15 +28,20 @@ class LeadReplyController extends Controller {
         }
 
         $dealAction = DealAction::query()
-            ->where('deal_id', $lead->campaign['deal']['id'])
-            ->where('is_root', 1)
-            ->where(function (QueryBuilder $query) {
+            ->select('deal_actions.*')
+            ->join('lead_action_histories as lah', 'lah.deal_action_id', '=', 'deal_actions.id')
+            ->where('deal_actions.deal_id', $lead->campaign['deal']['id'])
+            ->where('deal_actions.is_root', 1)
+            ->where('lah.is_completed', 1)
+            ->whereRaw('lah.deleted_at IS NULL')
+            ->whereRaw('deal_actions.deleted_at IS NULL')
+            ->where(function ($query) {
                 $query
-                    ->where('lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY)
-                    ->orWhere('lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN)
+                    ->where('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY)
+                    ->orWhere('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN)
                 ;
             })
-            ->orderBy('id', 'desc')
+            ->orderBy('deal_actions.id', 'desc')
             ->firstOrFail();
 
         if (empty($dealAction)) {
@@ -42,7 +49,7 @@ class LeadReplyController extends Controller {
         }
 
         if ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN) {
-            $keywords = explode(',', $dealAction->object->keywords);
+            $keywords = explode(',', $dealAction->lead_reply_contains);
             foreach ($keywords as $keyword) {
                 $contains = stripos($messageBody, $keyword) !== -1;
                 if ($contains) {

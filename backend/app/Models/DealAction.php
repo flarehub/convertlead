@@ -65,43 +65,48 @@ class DealAction extends Model {
     }
 
     public function scheduleNextLeadAction(Lead $lead) {
-        if ($this->rootParent) {
-            $nextAction = $this->getNextHorizontalAction();
+        $nextActionHorizontal = $this->getNextHorizontalAction();
+        $nextActionVertical = $this->getNextVerticalAction();
 
-            $rootNextVerticalAction = $this->rootParent->getNextVerticalAction();
-
-            if ($rootNextVerticalAction) {
-                $nextRootVerticalAction = LeadActionHistory::query()
-                    ->where('lead_id', $lead->id)
-                    ->where('deal_action_id', $rootNextVerticalAction->id)
-                    ->first();
-                if ($nextRootVerticalAction) {
-                    $nextRootVerticalAction->moveToCompleted();
-                }
-            }
-        } else {
-            $nextAction = $this->getNextHorizontalAction();
-            if (!$nextAction) {
-                $nextAction = $this->getNextVerticalAction();
+        if ($nextActionVertical) {
+            $nextRootVerticalAction = LeadActionHistory::query()
+                ->where('lead_id', $lead->id)
+                ->where('deal_action_id', $nextActionVertical->id)
+                ->first();
+            if ($nextRootVerticalAction) {
+                $nextRootVerticalAction->moveToCompleted();
+            } else {
+                \Log::info('Next-vertical=>'.$nextActionVertical->id);
+                return $nextActionVertical->scheduleLeadAction($lead);
             }
         }
 
-        if ($nextAction) {
-            $nextAction->scheduleLeadAction($lead);
+        if ($nextActionHorizontal) {
+            \Log::info('Next-horizontal=>'.$nextActionHorizontal->id);
+            return $nextActionHorizontal->scheduleLeadAction($lead);
         }
+
+        \Log::info('None for parent=>' . $this->id);
     }
 
 
     public function scheduleLeadAction(Lead $lead) {
-        $leadActionHistory = new LeadActionHistory();
         $dealTimezone = $this->deal->timezone;
+        $leadActionHistory = LeadActionHistory::query()
+            ->where('lead_id', $lead->id)
+            ->where('deal_action_id', $this->id)
+            ->where('is_completed', 1)->first();
 
-        $leadActionHistory->fill([
-            'lead_id' => $lead->id,
-            'deal_action_id' => $this->id,
-            'is_completed' => 0,
-        ]);
-        $leadActionHistory->save();
+        if (!$leadActionHistory) {
+            $leadActionHistory = new LeadActionHistory();
+
+            $leadActionHistory->fill([
+                'lead_id' => $lead->id,
+                'deal_action_id' => $this->id,
+                'is_completed' => 0,
+            ]);
+            $leadActionHistory->save();
+        }
 
         $minutes = ceil($this->delay_time/60);
         DealActionJob::dispatch($leadActionHistory)
