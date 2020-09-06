@@ -65,7 +65,6 @@ class DealAction extends Model {
     }
 
     public function scheduleNextLeadAction(Lead $lead) {
-
         if ($this->rootParent) {
             $nextAction = $this->getNextHorizontalAction();
 
@@ -80,11 +79,11 @@ class DealAction extends Model {
                     $nextRootVerticalAction->moveToCompleted();
                 }
             }
-        } elseif (!$this->rootParent && !$this->is_root) {
+        } else {
             $nextAction = $this->getNextHorizontalAction();
-        }
-        else {
-            $nextAction = $this->getNextVerticalAction();
+            if (!$nextAction) {
+                $nextAction = $this->getNextVerticalAction();
+            }
         }
 
         if ($nextAction) {

@@ -37,7 +37,6 @@ Class MailService {
             }
         } catch (\Exception $exception) {
             \Log::critical($exception->getMessage());
-            self::sendErrorNotification($exception, "Error: {$subject}");
         }
         return false;
     }

@@ -57,7 +57,7 @@ class ActionSendToLeadEmailNotification extends Command
             ]);
 
             MailService::sendMail('emails.lead-notification', [
-                'message' => $dealAction->object->message,
+                'body' => $dealAction->object->message,
                 'leadId' => $lead->id,
                 'dealActionId' => $dealAction->id,
             ],
