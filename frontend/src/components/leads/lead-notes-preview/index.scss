@@ -1,8 +1,9 @@
-.LeadNotes {
-  .export-data{
-    text-align: left;
-    padding: 20px 0;
-  }
+.LeadNotesPreview {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 19999;
+
   .lead-profile {
     .lead-profile-row {
       padding: 5px;
@@ -27,7 +28,7 @@
   }
 }
 
-
-.freshAppTimeLine ul .timeline-record .timeline-record-text {
-  padding: 35px !important;
+.onClosePreview {
+  float: right;
+  cursor: pointer;
 }

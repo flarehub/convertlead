@@ -29,6 +29,7 @@ import DatePickerSelect from "../@common/datepicker";
 import { AvatarImage } from '../@common/image';
 import {DATE_FORMAT} from '@constants';
 import ButtonGroup from '../@common/button-group';
+import LeadNotesPreview from './lead-notes-preview';
 
 const companies = [
   {key: '', text: 'All companies', value: ''},
@@ -44,6 +45,7 @@ class Leads extends Component {
     active: false,
     status: null,
     leadId: null,
+    previewLeadId: null,
     companyId: null,
     campaignId: null,
     startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
@@ -180,13 +182,39 @@ class Leads extends Component {
     });
   };
 
+  onLeadEnterDisplayNotes = (leadId) => {
+    console.log('leadId==', leadId);
+    this.setState({
+      ...this.state,
+      previewLeadId: leadId,
+    });
+  }
+
+  onLeadLeaveDisplayNotes = () => {
+    this.setState({
+      ...this.state,
+      previewLeadId: null,
+    });
+  }
+
   render() {
     const leads = this.props.leads || [];
     const {pagination, statuses, query} = this.props;
-    const {companyId, campaignId, startDateDisplay, endDateDisplay, startDate, endDate} = this.state;
+    const {
+      companyId,
+      campaignId,
+      startDateDisplay,
+      endDateDisplay,
+      startDate,
+      endDate,
+      previewLeadId,
+    } = this.state;
     return (
       <div className='Leads'>
         <LeadModal size='small'/>
+        {
+          previewLeadId && <LeadNotesPreview leadId={previewLeadId} companyId={companyId} onClose={this.onLeadLeaveDisplayNotes} />
+        }
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
         <Segment attached='top'>
           <Grid columns={2}>
@@ -287,7 +315,9 @@ class Leads extends Component {
               <Table.Body>
                 {
                   leads.map((lead, index) => (
-                    <Table.Row key={index}>
+                    <Table.Row
+                      onMouseEnter={() => this.onLeadEnterDisplayNotes(lead.id)}
+                      key={index}>
                       <Table.Cell>
                         <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
                           <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
