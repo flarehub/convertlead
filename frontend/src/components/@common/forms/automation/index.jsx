@@ -134,7 +134,7 @@ class AutomationForm extends Component {
             object
         } = this.props.form;
         const { selectBoxStatuses } = this.props;
-        const { content, subject } = this.state;
+        const { content } = this.state;
         const time = secondsToTime(delay_time);
 
         return (<Form size='big' className='textMessage' autoComplete='off'>
