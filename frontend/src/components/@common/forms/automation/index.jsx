@@ -224,10 +224,10 @@ class AutomationForm extends Component {
                     {
                         checkIsTypeStatusChange(type) && (
                           <Form.Field required>
-                              <Select placeholder="Select delay"
-                                      name="delay_type"
+                              <Select placeholder="Select Status"
+                                      name="status"
                                       options={selectBoxStatuses}
-                                      defaultValue={delay_type || DELAY_TYPE_TIME}
+                                      defaultValue={object && object.status || 'NONE'}
                                       onChange={this.onChangeLeadStatus} />
                           </Form.Field>
                         )

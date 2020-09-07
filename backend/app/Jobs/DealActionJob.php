@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\DealAction;
 use App\Models\Lead;
 use App\Models\LeadActionHistory;
+use App\Models\LeadStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -45,6 +46,11 @@ class DealActionJob implements ShouldQueue
             $dealAction = DealAction::findOrFail($this->leadActionHistory['deal_action_id']);
             $lead = Lead::findOrFail($this->leadActionHistory['lead_id']);
 
+            if ($this->isContacted($lead->status) && $dealAction->stop_on_manual_contact) {
+                Log::info("Stop on manual contact lead automation lead={$this->leadActionHistory['lead_id']}, dealAction={$this->leadActionHistory['deal_action_id']}");
+                return;
+            }
+
             try {
                 $this->executeCommand($dealAction, $lead);
             } catch (\Exception $exception) {
@@ -56,6 +62,15 @@ class DealActionJob implements ShouldQueue
         } catch (\Exception $exception) {
             Log::critical("{$exception->getMessage()} : line=" . $exception->getLine());
         }
+    }
+
+
+    public function isContacted($status) {
+        return (
+            $status === LeadStatus::$STATUS_CONTACTED_CALL ||
+            $status === LeadStatus::$STATUS_CONTACTED_SMS ||
+            $status === LeadStatus::$STATUS_CONTACTED_EMAIL
+        );
     }
 
     public function executeCommand(DealAction $dealAction, Lead $lead) {

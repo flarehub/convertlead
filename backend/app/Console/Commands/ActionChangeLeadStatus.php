@@ -48,7 +48,7 @@ class ActionChangeLeadStatus extends Command
             $lead = Lead::findOrFail($leadId);
             $dealAction = DealAction::findOrFail($dealActionId);
             $oldLeadStatus = LeadStatus::findOrFail($lead->lead_status_id);
-            $leadStatus = LeadStatus::findOrFail($dealAction->object->status);
+            $leadStatus = LeadStatus::where('type', $dealAction->object->status)->firstOrFail();
 
             $lead->lead_status_id = $leadStatus->id;
             $lead->save();
