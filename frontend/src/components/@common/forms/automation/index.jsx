@@ -148,7 +148,7 @@ class AutomationForm extends Component {
                                 defaultValue={type || TYPE_SMS_MESSAGE}
                                 onChange={this.onChangeType} />
                     </Form.Field>
-                    <Form.Field required>
+                    <Form.Field>
                         <label>Delay</label>
                         <div className="times">
                             {

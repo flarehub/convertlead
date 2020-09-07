@@ -28,8 +28,6 @@ const initState = {
   required: {
     deal_id: true,
     type: true,
-    delay_time: true,
-    delay_type: true,
   }
 };
 
