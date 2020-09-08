@@ -24,7 +24,7 @@ class CreateDealActionsTable extends Migration
             $table->string('lead_reply_contains')->nullable();
             $table->boolean('is_root')->default(0);
             $table->json('object')->nullable();
-            $table->string('delay_time', 255);
+            $table->string('delay_time', 255)->default(0);
             $table->enum('delay_type', ['NONE', 'TIME', 'DAYS'])->default('NONE');
             $table->foreign('deal_id')->references('id')->on('deals');
             $table->softDeletes();
