@@ -73,6 +73,7 @@ class DealAction extends Model {
                 ->where('lead_id', $lead->id)
                 ->where('deal_action_id', $nextActionVertical->id)
                 ->first();
+
             if ($nextRootVerticalAction) {
                 $nextRootVerticalAction->moveToCompleted();
             } else {
@@ -91,7 +92,6 @@ class DealAction extends Model {
 
 
     public function scheduleLeadAction(Lead $lead) {
-        $dealTimezone = $this->deal->timezone;
         $leadActionHistory = LeadActionHistory::query()
             ->where('lead_id', $lead->id)
             ->where('deal_action_id', $this->id)
@@ -111,7 +111,7 @@ class DealAction extends Model {
         $minutes = ceil($this->delay_time/60);
         DealActionJob::dispatch($leadActionHistory)
             ->delay(
-                now($dealTimezone)->addMinutes($minutes)
+                now()->addMinutes($minutes)
             )
             ->onQueue('actions');
     }

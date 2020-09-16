@@ -49,17 +49,6 @@ class DealForm extends Component {
         <label>Name</label>
         <Form.Field control={Input} placeholder='Campaign name' value={name} onChange={this.onChangeName} />
       </Form.Field>
-      <Form.Field
-        control={Select}
-        options={this.props.selectBoxTimezones || []}
-        label={{ children: 'Timezones', htmlFor: 'deal-form-timezone-list' }}
-        placeholder='Select timezone'
-        search
-        defaultValue={this.props.form.timezone || null}
-        onChange={this.onChangeTimezone}
-        onSearchChange={this.onSearchTimezone}
-        searchInput={{ id: 'deal-form-timezone-list' }}
-      />
       {
         Auth.isAgency ?
           <Form.Field

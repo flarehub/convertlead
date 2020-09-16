@@ -13,10 +13,10 @@ use Intervention\Image\Facades\Image;
 class LeadReplyController extends Controller {
 
     public function onSMSReply(Request $request) {
-        $fromNumber = $request->get('From');
+        $fromNumber = ltrim(str_replace('+', '',  $request->get('From', '')), '00');
         $messageBody = $request->get('Body');
         \Log::critical('Sms reply');
-        \Log::critical($messageBody);
+        \Log::critical('number='.$fromNumber.'message='.$messageBody);
 
         $lead = Lead::query()
             ->where('phone', 'like', $fromNumber)
@@ -30,8 +30,10 @@ class LeadReplyController extends Controller {
         $dealAction = DealAction::query()
             ->select('deal_actions.*')
             ->join('lead_action_histories as lah', 'lah.deal_action_id', '=', 'deal_actions.id')
+            ->join('leads', 'leads.id', '=', 'lah.lead_id')
             ->where('deal_actions.deal_id', $lead->campaign['deal']['id'])
             ->where('deal_actions.is_root', 1)
+            ->where('leads.id', $lead->id)
             ->where('lah.is_completed', 1)
             ->whereRaw('lah.deleted_at IS NULL')
             ->whereRaw('deal_actions.deleted_at IS NULL')
@@ -42,9 +44,10 @@ class LeadReplyController extends Controller {
                 ;
             })
             ->orderBy('deal_actions.id', 'desc')
-            ->firstOrFail();
+            ->first();
 
         if (empty($dealAction)) {
+            \Log::critical('Action not found forNumber' . $fromNumber);
             abort(400, 'Deal action not found!');
         }
 
