@@ -16,6 +16,10 @@ import {AvatarImage} from "components/@common/image";
 import {disableAutoComplete} from '../../../../utils';
 
 class AgentForm extends Component {
+    state = {
+      hasTwilio: false,
+    };
+
     onFileLoad = (event) => {
         if (!R.pathOr(false, ['target', 'files'], event)) {
             this.props.sendMessage('Missing required File!', true);
@@ -53,12 +57,18 @@ class AgentForm extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            ...this.state,
+            hasTwilio: this.props.profile.twilio_token && this.props.profile.twilio_sid
+        });
+
         disableAutoComplete();
     }
 
     render() {
-        const {id, name, phone, email, avatar, avatar_path} = this.props.form;
-        return (<Form size='big' className='agentForm' autocomplete='off'>
+        const {id, name, phone, twilio_mobile_number, email, avatar, avatar_path} = this.props.form;
+        const { hasTwilio } = this.state;
+        return (<Form size='big' className='agentForm' autoComplete='off'>
             <Grid columns={2} relaxed='very' stackable>
                 <Grid.Column>
                     <Form.Field required>
@@ -69,6 +79,16 @@ class AgentForm extends Component {
                         <label>Phone Number</label>
                         <Input placeholder='Phone Number' name='phone' value={phone || ''} onChange={this.onChange}/>
                     </Form.Field>
+                    {
+                        hasTwilio && <Form.Field>
+                            <label>Twilio Phone Number</label>
+                            <Input placeholder='Twilio Phone Number'
+                                   name='twilio_mobile_number'
+                                   value={twilio_mobile_number || ''}
+                                   onChange={this.onChange}
+                            />
+                        </Form.Field>
+                    }
                     {
                         Auth.isAgency ? <Form.Field
                                 control={Select}
@@ -92,11 +112,11 @@ class AgentForm extends Component {
                     </Form.Field>
                     <Form.Field required={(id ? false : true)}>
                         <label>Password (min. 6 characters)</label>
-                        <Input placeholder='Password' name='password' type='password' onChange={this.onChange}/>
+                        <Input autoComplete="new-password" placeholder='Password' name='password' type='password' onChange={this.onChange}/>
                     </Form.Field>
                     <Form.Field required={(id ? false : true)}>
                         <label>Re-enter Password</label>
-                        <Input placeholder='Password' name='password_confirmation' type='password'
+                        <Input autoComplete="new-password" placeholder='Password' name='password_confirmation' type='password'
                                onChange={this.onChange}/>
                     </Form.Field>
                 </Grid.Column>

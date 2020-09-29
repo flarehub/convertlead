@@ -168,7 +168,11 @@ trait CompanyRepository {
     public function getAgents($queryParams = []) {
         $query = Agent::selectRaw
         (
-            'users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.avatar_id, users.deleted_at,
+            'users.agent_agency_id, users.id, users.role, users.name, users.email,
+             users.phone,
+             users.twilio_mobile_number,
+              users.avatar_id,
+               users.deleted_at,
             COUNT(DISTINCT ac.id, dca.id) AS campaigns_count,
             COUNT(DISTINCT ld.id) AS leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,

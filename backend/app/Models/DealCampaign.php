@@ -67,6 +67,7 @@ class DealCampaign extends Model
         }
         return $agents;
     }
+
     public function getCompanyAttribute() {
         $company = $this->company()->first();
         if ($company) {

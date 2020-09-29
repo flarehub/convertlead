@@ -34,38 +34,8 @@ class CampaignController extends Controller
     }
     
     public function createLead(Request $request, $campaignUUID) {
-// Find your Account Sid and Auth Token at twilio.com/console
-// DANGER! This is insecure. See http://twil.io/secure
-        $sid    = "AC43c03133f02e865f23aa3fdbf5a2eefa";
-        $token  = "768e57567e7803be9342eeb4233b3aaa";
-//        $twilio = new Client($sid, $token);
-
-//        $call = $twilio->calls
-//            ->create("+19143726771", // to
-//                "+12059227434", // from
-//                ["url" => "https://handler.twilio.com/twiml/EH03f29f3261f8fef84e52665eb222e394"]
-//            );
-//        $call = $twilio->calls
-//            ->create("+19145303029", // to
-//                "+12059227434", // from
-//                ["url" => "https://handler.twilio.com/twiml/EH03f29f3261f8fef84e52665eb222e394"]
-//            );
-//        $dial = $twilio->dial('');
-//        $conference = $dial->conference('test', [
-//            'startConferenceOnEnter' => True,
-//            'endConferenceOnExit' => True
-//        ]);
-
-//        print_r($conference);
-//        $participant = $twilio->conferences("CFXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-//            ->participants
-//            ->create("+15017122661", "+15558675310");
-
-//        print($call->sid);
-
        try {
            \DB::beginTransaction();
-           // Remaping for click funnels
            if ($request->has('contact')) {
                $contact = $request->input('contact');
                $request->merge([

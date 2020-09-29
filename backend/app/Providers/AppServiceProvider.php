@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        app('url')->forceRootUrl(env('APP_URL'));
         \Validator::extend('userEmail', function ($attribute, $value, $parameters, $validator) {
             if (isset($parameters[0])) {
                 return !User::where('email', $value)->withTrashed()->whereNotIn('id', [$parameters[0]])->count();

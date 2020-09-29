@@ -16,6 +16,7 @@ class LeadNote extends Model
         'lead_id',
         'agent_id',
         'message',
+        'recordingUrl',
     ];
 
     protected $appends = ['agent', 'status'];

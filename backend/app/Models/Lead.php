@@ -73,7 +73,7 @@ class Lead extends Model
     public function getAgentAttribute() {
         $agent = $this->agent()->selectRaw('users.*')->withTrashed()->first();
         if ($agent) {
-            return $agent->only(['id', 'name', 'avatar_path']);
+            return $agent->only(['id', 'name', 'avatar_path', 'phone', 'twilio_mobile_number']);
         }
         return null;
     }

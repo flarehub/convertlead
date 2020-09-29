@@ -15,6 +15,7 @@ const initState = {
     email: '',
     password: '',
     password_confirmation: '',
+    twilio_mobile_number: '',
   },
   required: {
     name: true,

@@ -26,6 +26,8 @@ Route::group([
 Route::group(['namespace' => 'Api'], function () {
     Route::prefix('v1')->group(function () {
         Route::post('agencies', 'AgencyController@store');
+        Route::post('twilio/conference/{companyId}/{agentId}', 'TwilioController@conference');
+        Route::post('twilio/recording/{leadId}', 'TwilioController@recording');
         Route::post('agencies/{agencyUUID}/companies', 'AgencyController@storeCompany');
         Route::get('campaigns/{campaignUUID}', 'CampaignController@getIntegration');
         Route::post('campaigns/{campaignUUID}/leads', 'CampaignController@createLead');

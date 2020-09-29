@@ -110,9 +110,9 @@ class DealAction extends Model {
 
         $minutes = ceil($this->delay_time/60);
         DealActionJob::dispatch($leadActionHistory)
-            ->delay(
-                now()->addMinutes($minutes)
-            )
+//            ->delay(
+//                now()->addMinutes($minutes)
+//            )
             ->onQueue('actions');
     }
 
