@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\Api\LeadReplyController;
+use App\Http\Controllers\Api\TwilioController;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -272,7 +273,11 @@ class User extends Authenticatable
         return $this->role === self::$ROLE_AGENT;
     }
 
-    public function setupTwilioWebHook($twilioSid, $twilioToken, $twilioNumber) {
+    public function isCompany() {
+        return $this->role === self::$ROLE_COMPANY;
+    }
+
+    public function setupTwilioSmsWebHook($twilioSid, $twilioToken, $twilioNumber) {
         if (!trim($twilioSid) || !trim($twilioToken) || !trim($twilioNumber)) {
             return;
         }

@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Api\LeadReplyController;
+use App\Http\Controllers\Api\TwilioController;
 use App\Repositories\AgentRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Twilio\Rest\Client;
 
 class Agent extends User
 {
@@ -177,5 +180,33 @@ class Agent extends User
 
     public function getLeadBy($leadId) {
         return $this->leads()->where('leads.id', $leadId)->firstOrFail();
+    }
+
+    public function setupTwilioVoiceWebHook($twilioSid, $twilioToken, $twilioNumber, int $companyId) {
+        if (!trim($twilioSid) || !trim($twilioToken) || !trim($twilioNumber) || !trim($companyId)) {
+            return;
+        }
+
+        $twilioClient = new Client($twilioSid, $twilioToken);
+        $result = $twilioClient->incomingPhoneNumbers->read([
+            'phoneNumber' => $twilioNumber,
+        ], 1);
+        $number = last($result);
+
+        if (empty($number)) {
+            abort('Not valid number');
+        }
+
+        if ($number->sid) {
+            return $twilioClient->incomingPhoneNumbers($number->sid)->update([
+                'smsMethod' => 'POST',
+                'smsUrl' => action([LeadReplyController::class, 'onSMSReply']),
+                'voiceMethod' => 'POST',
+                'voiceUrl' => action([TwilioController::class, 'conference'], [
+                    'companyId' => $companyId,
+                    'agentId' => $this->id,
+                ])
+            ]);
+        }
     }
 }

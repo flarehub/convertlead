@@ -4,11 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
-use App\Models\Company;
 use App\Models\Lead;
 use App\Models\LeadNote;
-use Twilio\Rest\Client;
-use Twilio\Security\RequestValidator;
 use Twilio\TwiML\VoiceResponse;
 use Illuminate\Http\Request;
 
@@ -19,16 +16,32 @@ class TwilioController extends Controller
         $from = $request->get('Caller');
 
         $response = new VoiceResponse();
-        $dial = $response->dial('');
         if ($request->get('leadId', '')) {
+            $dial = $response->dial('');
             $lead = Lead::findOrFail($request->get('leadId', ''));
             $dial->number($lead->phone);
-        }
-        if (stripos($from, $agent->twilio_mobile_number) !== false && !$dial) {
+        } elseif (stripos($from, $agent->twilio_mobile_number) !== false && !$request->get('leadId', '')) {
+            $dial = $response->dial('');
             $dial->conference("conference-{$companyId}-{$agentId}", [
                 'startConferenceOnEnter' => true,
                 'endConferenceOnExit' => true,
                 'maxParticipants' => 2,
+            ]);
+        } else {
+            $lead = Lead::query()->where('phone', 'like', $from)->orderBy('id', 'desc')->firstOrFail();
+            $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
+            $dial = $response->dial('', [
+                'record' => 'record-from-ringing-dual',
+                'recordingStatusCallbackMethod' => 'POST',
+                'recordingStatusCallbackEvent' => 'completed',
+                'recordingStatusCallback' => $recordingStatus,
+            ]);
+            $dial->number($agent->phone);
+            LeadNote::create([
+                'lead_status_id' => $lead->lead_status_id,
+                'lead_id' => $lead->id,
+                'agent_id' => $lead->agent_id,
+                'message' => "Lead Call back Agent!",
             ]);
         }
 

@@ -55,9 +55,6 @@ class ActionConnectAgentLeadViaBlindCall extends Command
             }
 
             $twilioClient = new Client($twilioSid, $twilioToken);
-
-            \Log::critical(print_r($lead->agent, true));
-
             $fromNumber = ($lead->agent['twilio_mobile_number'] ? $lead->agent['twilio_mobile_number'] : $lead->company['twilio_mobile_number']);
 
             $callLead = action([TwilioController::class, 'conference'], [

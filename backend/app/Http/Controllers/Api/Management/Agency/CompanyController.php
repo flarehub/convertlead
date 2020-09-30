@@ -75,7 +75,7 @@ class CompanyController extends Controller
             env('APP_COMPANY_WELCOME_EMAIL_SUBJECT', 'Welcome To ConvertLead ')
         );
 
-        $company->setupTwilioWebHook(
+        $company->setupTwilioSmsWebHook(
             $request->get('twilio_sid'),
             $request->get('twilio_token'),
             $request->get('twilio_mobile_number')
