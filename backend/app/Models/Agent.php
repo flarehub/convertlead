@@ -198,7 +198,7 @@ class Agent extends User
         }
 
         if ($number->sid) {
-            return $twilioClient->incomingPhoneNumbers($number->sid)->update([
+            $twilioClient->incomingPhoneNumbers($number->sid)->update([
                 'smsMethod' => 'POST',
                 'smsUrl' => action([LeadReplyController::class, 'onSMSReply']),
                 'voiceMethod' => 'POST',
@@ -208,5 +208,19 @@ class Agent extends User
                 ])
             ]);
         }
+
+        $application = $twilioClient->applications
+            ->create([
+                    "voiceMethod" => "POST",
+                    "voiceUrl" => action([TwilioController::class, 'conference'], [
+                        'companyId' => $companyId,
+                        'agentId' => $this->id,
+                    ]),
+                    "friendlyName" => $this->name,
+                ]
+            );
+
+        $this->twilio_app_sid = $application->sid;
+        $this->save();
     }
 }

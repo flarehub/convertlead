@@ -68,6 +68,7 @@ class User extends Authenticatable
         'twilio_sid',
         'twilio_token',
         'twilio_mobile_number',
+        'twilio_app_sid',
     ];
 
     protected $appends = ['avatar_path', 'permissions'];
@@ -293,10 +294,24 @@ class User extends Authenticatable
         }
 
         if ($number->sid) {
-            return $twilioClient->incomingPhoneNumbers($number->sid)->update([
+            $twilioClient->incomingPhoneNumbers($number->sid)->update([
                 'smsMethod' => 'POST',
                 'smsUrl' => action([LeadReplyController::class, 'onSMSReply'])
             ]);
         }
+
+        $application = $twilioClient->applications
+            ->create([
+                    "voiceMethod" => "POST",
+                    "voiceUrl" => action([TwilioController::class, 'conference'], [
+                        'companyId' => $this->id,
+                        'agentId' => $this->id,
+                    ]),
+                    "friendlyName" => $this->name,
+                ]
+            );
+
+        $this->twilio_app_sid = $application->sid;
+        $this->save();
     }
 }

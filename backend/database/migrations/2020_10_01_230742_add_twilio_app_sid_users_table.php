@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFieldRecordingUrlToLeadNote extends Migration
+class AddTwilioAppSidUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddFieldRecordingUrlToLeadNote extends Migration
      */
     public function up()
     {
-        Schema::table('lead_note', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $blueprint) {
+            $blueprint->string('twilio_app_sid')->nullable();
         });
     }
 
@@ -25,8 +25,6 @@ class AddFieldRecordingUrlToLeadNote extends Migration
      */
     public function down()
     {
-        Schema::table('lead_note', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

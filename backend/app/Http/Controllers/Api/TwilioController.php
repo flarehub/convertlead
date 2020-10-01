@@ -6,17 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Models\Agent;
 use App\Models\Lead;
 use App\Models\LeadNote;
+use Twilio\Jwt\ClientToken;
+use Twilio\Jwt\TaskRouter\CapabilityToken;
 use Twilio\TwiML\VoiceResponse;
 use Illuminate\Http\Request;
 
 class TwilioController extends Controller
 {
     public function conference(Request $request, $companyId, $agentId) {
+        $response = new VoiceResponse();
         $agent = Agent::findOrFail($agentId);
         $from = $request->get('Caller');
-
-        $response = new VoiceResponse();
-        if ($request->get('leadId', '')) {
+            \Log::info('Call='.$request->get('number'));
+        if (stripos($from, 'client:Anonymous') !== false) {
+            $dial = $response->dial('', [
+                'callerId' => $agent->twilio_mobile_number,
+            ]);
+            $dial->number($request->get('number'));
+        } else if ($request->get('leadId', '')) {
             $dial = $response->dial('');
             $lead = Lead::findOrFail($request->get('leadId', ''));
             $dial->number($lead->phone);
@@ -58,6 +65,21 @@ class TwilioController extends Controller
             'agent_id' => $lead->agent_id,
             'message' => "Call recording!",
             'recordingUrl' => $recordingUrl,
+        ]);
+    }
+
+    public function token($leadId) {
+        $lead = Lead::findOrFail($leadId);
+        $twilioSid = $lead->company['twilio_sid'];
+        $twilioToken = $lead->company['twilio_token'];
+        $appSid = $lead->agent['twilio_app_sid'];
+        $clientCapability = new ClientToken(
+            $twilioSid, $twilioToken
+        );
+        $clientCapability->allowClientOutgoing($appSid);
+
+        return response()->json([
+            'token' => $clientCapability->generateToken(),
         ]);
     }
 }

@@ -110,11 +110,14 @@ class AgentController extends Controller
     public function update(Request $request, $id)
     {
         $agent = $request->user()->getAgentBy($id);
+        $oldNumber = $agent->twilio_mobile_number;
         $agent->handleAvatar($request);
         $agent->updateUser($request->except('role'));
 
         if (($request->user()->twilio_sid && $request->user()->twilio_token &&
-            $request->user()->isCompany()) && $request->get('twilio_mobile_number')) {
+            $request->user()->isCompany()) && $request->get('twilio_mobile_number') &&
+            ($oldNumber !== $request->get('twilio_mobile_number'))
+        ) {
 
             $agent->setupTwilioVoiceWebHook(
                 $request->user()->twilio_sid,
