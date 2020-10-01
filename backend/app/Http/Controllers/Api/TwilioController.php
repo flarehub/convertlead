@@ -16,11 +16,37 @@ class TwilioController extends Controller
         $response = new VoiceResponse();
         $agent = Agent::findOrFail($agentId);
         $from = $request->get('Caller');
-            \Log::info('Call='.$request->get('number'));
         if (stripos($from, 'client:Anonymous') !== false) {
-            $dial = $response->dial('', [
-                'callerId' => $agent->twilio_mobile_number,
-            ]);
+            \Log::info('Anonym');
+            \Log::info(print_r($request->all(), true));
+            \Log::info('Anonym');
+
+            $lead = Lead::query()
+                ->where('agent_id', $agentId)
+                ->where('phone', 'like', $request->get('number'))
+                ->orderBy('id', 'desc')
+                ->first();
+
+            if ($lead) {
+                $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
+                $dial = $response->dial('', [
+                    'callerId' => $agent->twilio_mobile_number,
+                    'record' => 'record-from-ringing-dual',
+                    'recordingStatusCallbackMethod' => 'POST',
+                    'recordingStatusCallbackEvent' => 'completed',
+                    'recordingStatusCallback' => $recordingStatus,
+                ]);
+                LeadNote::create([
+                    'lead_status_id' => $lead->lead_status_id,
+                    'lead_id' => $lead->id,
+                    'agent_id' => $lead->agent_id,
+                    'message' => "Agent call Lead!",
+                ]);
+            } else {
+                $dial = $response->dial('', [
+                    'callerId' => $agent->twilio_mobile_number,
+                ]);
+            }
             $dial->number($request->get('number'));
         } else if ($request->get('leadId', '')) {
             $dial = $response->dial('');
@@ -75,7 +101,9 @@ class TwilioController extends Controller
         $clientCapability = new ClientToken(
             $twilioSid, $twilioToken
         );
-        $clientCapability->allowClientOutgoing($appSid);
+        $clientCapability->allowClientOutgoing($appSid, [
+            'leadId' => $leadId,
+        ]);
 
         return response()->json([
             'token' => $clientCapability->generateToken(),

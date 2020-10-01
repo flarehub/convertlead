@@ -10,6 +10,14 @@ export const TimeLineRecord = ({ note }) => (
       <label className='creation-date'>{moment.utc(note.created_at).local().format(DATE_FORMAT)}</label>
       <label className='creation-time'>{moment.utc(note.created_at).local().format('LT')}</label>
       <div className='timeline-text'>{note.agent.name}, {note.message}</div>
+      {
+        note.recordingUrl && (
+          <audio controls>
+            <source src={note.recordingUrl} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        )
+      }
     </div>
   </li>
 );
