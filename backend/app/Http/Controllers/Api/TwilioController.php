@@ -7,7 +7,6 @@ use App\Models\Agent;
 use App\Models\Lead;
 use App\Models\LeadNote;
 use Twilio\Jwt\ClientToken;
-use Twilio\Jwt\TaskRouter\CapabilityToken;
 use Twilio\TwiML\VoiceResponse;
 use Illuminate\Http\Request;
 

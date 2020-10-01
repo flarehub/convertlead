@@ -26,6 +26,13 @@ export const loadLeads = () => async (dispatch, getState) => {
     dispatch(hideLoader());
 };
 
+export const loadTwilioToken = (leadId) => async dispatch => {
+    const response = await api.getTwilioTokenBy(leadId);
+
+    const { token } = response.data;
+    dispatch(actions.putTwilioToke(token));
+}
+
 export const deleteLead = (companyId, id) => async (dispatch) => {
     try {
         if (Auth.isAgency) {

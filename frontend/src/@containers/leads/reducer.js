@@ -1,13 +1,14 @@
 import {
     AGENT_LOAD_LEADS, AGENT_LOAD_LEADS_BY_STATUSES, AGENT_NEW_LEADS_COUNT, AGENT_RESET_LEADS, AGENT_SEARCH_LEADS,
     FILTER_LEADS,
-    GOTO_PAGE_LEADS, LOAD_LEADS, OPEN_LEAD_MODAL, SEARCH_LEADS, SHOW_DELETE_LEADS, SORT_LEADS,
+    GOTO_PAGE_LEADS, LOAD_LEADS, OPEN_LEAD_MODAL, PUT_TWILIO_TOKEN, SEARCH_LEADS, SHOW_DELETE_LEADS, SORT_LEADS,
 } from './actions';
 import {LeadStatuses} from "@models/lead-statuses";
 
 const initState = {
     leads: [],
     agentLeads: [],
+    twilioToken: null,
     newLeadsCount: 0,
     agentLeadStatuses: [],
     pagination: {
@@ -82,6 +83,12 @@ const leads = (state = initState, action) => {
                     current_page: action.activePage,
                 },
             };
+        }
+        case PUT_TWILIO_TOKEN: {
+            return  {
+                ...state,
+                twilioToken: action.token,
+            }
         }
         case SEARCH_LEADS: {
             return {

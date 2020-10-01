@@ -10,6 +10,10 @@ export const deleteAgencyCompanyLead = (companyId, id) => {
   return api.delete(`/v1/${Auth.role}/companies/${companyId}/leads/${id}`);
 };
 
+export const getTwilioTokenBy = (leadId) => {
+  return api.get(`/v1/twilio/token/${leadId}`);
+};
+
 
 export const exportTo = (payload) => {
   return api.post(`/v1/reports`, { payload });

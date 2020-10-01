@@ -1,4 +1,14 @@
 .LeadNotesPreview {
+  .endCall {
+    color: white !important;
+    background: crimson !important;
+  }
+
+  .onCall {
+    color: white !important;
+    background: #0ea432 !important;
+  }
+
   position: absolute;
   top: 0;
   right: 0;

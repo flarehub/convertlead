@@ -5,6 +5,7 @@ import {getSelectBoxStatuses} from "./selectors";
 
 const mapStateToProps = state => ({
   leads: state.leads.leads,
+  twilioToken: state.leads.twilioToken,
   newLeadsCount: state.leads.newLeadsCount,
   agentLeads: state.leads.agentLeads,
   pagination: state.leads.pagination,
@@ -18,6 +19,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadLeads: () => dispatch(thunks.loadLeads()),
+  fetchTwilioTokenBy: (id) => dispatch(thunks.loadTwilioToken(id)),
   delete: (companyId, id) => dispatch(thunks.deleteLead(companyId, id)),
   filterLeads: filters => dispatch(thunks.filterLeads(filters)),
   searchLeads: search => dispatch(thunks.searchLeads(search)),

@@ -7,8 +7,13 @@ import Loader from 'components/loader';
 import './index.scss';
 import LeadModal from 'components/@common/modals/lead';
 import {config} from '@services';
+import {Device} from "twilio-client";
 
 class LeadNotes extends Component {
+    state = {
+        onPhone: false,
+        readyToCall: false,
+    }
 
     async componentWillMount() {
         const {companyId, leadId} = this.props.match.params;
@@ -17,6 +22,41 @@ class LeadNotes extends Component {
             name: 'Leads',
             path: '/leads'
         });
+        this.props.fetchTwilioTokenBy(leadId);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.twilioToken !== this.props.twilioToken && this.props.twilioToken) {
+            Device.setup(this.props.twilioToken);
+        }
+    }
+
+
+    componentDidMount() {
+        Device.disconnect(() => {
+            this.setState({
+                onPhone: false,
+            });
+        });
+        Device.ready(() => {
+            this.setState({
+                ...this.state,
+                readyToCall: true,
+            })
+        });
+    }
+
+
+    onCall = () => {
+        const checkIsValidNumber = /^([0-9]|#|\*)+$/.test(this.props.lead.phone.replace(/[\+\-()\s]/g,''))
+        if (this.state.onPhone) {
+            Device.disconnectAll();
+        } else if (this.props.twilioToken && checkIsValidNumber) {
+            Device.connect({ number: this.props.lead.phone });
+            this.setState({
+                onPhone: true,
+            });
+        }
     }
 
     onAddNote = form => {
@@ -31,7 +71,9 @@ class LeadNotes extends Component {
     };
 
     render() {
-        const {lead, leadNotes, leadStatuses} = this.props;
+        const {lead, leadNotes, leadStatuses, twilioToken} = this.props;
+        const { onPhone } = this.state;
+
         return (
             <div className='LeadNotes'>
                 <LeadModal size='small'/>
@@ -54,7 +96,10 @@ class LeadNotes extends Component {
                                         company_id: lead.company.id,
                                         show: true
                                     })}/>
-                                    </div>
+                                    {
+                                        twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='phone'  onClick={this.onCall} />
+                                    }
+                                </div>
                             </Grid.Column>
 
                              <div className='lead-profile-row'>
