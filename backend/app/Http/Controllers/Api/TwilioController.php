@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
+use App\Models\Company;
 use App\Models\Lead;
 use App\Models\LeadNote;
 use Twilio\Jwt\ClientToken;
@@ -15,22 +16,23 @@ class TwilioController extends Controller
     public function conference(Request $request, $companyId, $agentId) {
         $response = new VoiceResponse();
         $agent = Agent::findOrFail($agentId);
-        $from = $request->get('Caller');
-        if (stripos($from, 'client:Anonymous') !== false) {
-            \Log::info('Anonym');
-            \Log::info(print_r($request->all(), true));
-            \Log::info('Anonym');
+        $company = Company::findOrFail($companyId);
+        $from = $request->get('Caller', '');
+        $agentTwilioNumber = ($agent->twilio_mobile_number ? $agent->twilio_mobile_number : $company->twilio_mobile_number);
 
+        // agent Call lead from client
+        if (stripos($from, 'client:Anonymous') !== false) {
             $lead = Lead::query()
                 ->where('agent_id', $agentId)
                 ->where('phone', 'like', $request->get('number'))
                 ->orderBy('id', 'desc')
                 ->first();
+            $agentTwilioNumber = $agentTwilioNumber ?: $lead->company['twilio_mobile_number'];
 
             if ($lead) {
                 $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
                 $dial = $response->dial('', [
-                    'callerId' => $agent->twilio_mobile_number,
+                    'callerId' =>  $agentTwilioNumber,
                     'record' => 'record-from-ringing-dual',
                     'recordingStatusCallbackMethod' => 'POST',
                     'recordingStatusCallbackEvent' => 'completed',
@@ -48,18 +50,17 @@ class TwilioController extends Controller
                 ]);
             }
             $dial->number($request->get('number'));
-        } else if ($request->get('leadId', '')) {
-            $dial = $response->dial('');
+        } // Blind Call Agent call Lead via automation
+        else if ($request->get('leadId', '')) {
             $lead = Lead::findOrFail($request->get('leadId', ''));
-            $dial->number($lead->phone);
-        } elseif (stripos($from, $agent->twilio_mobile_number) !== false && !$request->get('leadId', '')) {
-            $dial = $response->dial('');
-            $dial->conference("conference-{$companyId}-{$agentId}", [
-                'startConferenceOnEnter' => true,
-                'endConferenceOnExit' => true,
-                'maxParticipants' => 2,
-            ]);
-        } else {
+            $response->say(
+                "You have a new lead {$lead->fullname}, lead source {$lead['campaign']['deal']['name']}",
+                ['voice' => 'Man']
+            );
+            $response->dial($lead->phone);
+        }
+        // Lead call agent
+        else {
             $lead = Lead::query()->where('phone', 'like', $from)->orderBy('id', 'desc')->firstOrFail();
             $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
             $dial = $response->dial('', [
@@ -68,7 +69,9 @@ class TwilioController extends Controller
                 'recordingStatusCallbackEvent' => 'completed',
                 'recordingStatusCallback' => $recordingStatus,
             ]);
-            $dial->number($agent->phone);
+            $agentPhone = ($agent->twilio_mobile_number ? $agent->phone : $lead->company['phone']);
+
+            $dial->number($agentPhone);
             LeadNote::create([
                 'lead_status_id' => $lead->lead_status_id,
                 'lead_id' => $lead->id,

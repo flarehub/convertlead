@@ -60,7 +60,7 @@ class ProfileController extends Controller
 
         $user = $request->user()->updateUser($data);
 
-        $request->user()->setupTwilioWebHook(
+        $request->user()->setupTwilioSmsWebHook(
             $request->get('twilio_sid'),
             $request->get('twilio_token'),
             $request->get('twilio_mobile_number')

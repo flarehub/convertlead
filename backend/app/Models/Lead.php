@@ -65,7 +65,17 @@ class Lead extends Model
     public function getCompanyAttribute() {
         $company = $this->company()->selectRaw('users.*')->where('ac.id', $this->agency_company_id)->withTrashed()->first();
         if ($company) {
-            return $company->only(['id', 'name', 'email', 'avatar_path', 'twilio_mobile_number', 'twilio_sid', 'twilio_token', 'twilio_app_sid']);
+            return $company->only([
+                'id',
+                'name',
+                'email',
+                'avatar_path',
+                'twilio_mobile_number',
+                'phone',
+                'twilio_sid',
+                'twilio_token',
+                'twilio_app_sid',
+            ]);
         }
         return null;
     }

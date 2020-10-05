@@ -65,7 +65,7 @@ class ActionConnectAgentLeadViaBlindCall extends Command
             $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
 
             $twilioClient->calls
-                ->create($lead->agent['phone'],
+                ->create($lead->agent['phone'] ?: $lead->company['phone'],
                     $fromNumber,
                     [
                         "url" => $callLead,
