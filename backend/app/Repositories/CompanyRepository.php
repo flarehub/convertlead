@@ -24,6 +24,14 @@ trait CompanyRepository {
         return $this->leads()->where('leads.id', $leadId)->firstOrFail();
     }
 
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param null $companyAgencyId
+     * @param null $agentId
+     * @param string $format
+     * @return array
+     */
     public static function contactedLeadsGraph(
         $startDate,
         $endDate,
@@ -72,7 +80,15 @@ trait CompanyRepository {
         $averageResponseTime = static::getAverageTime($startDate, $endDate, $companyAgencyId, $agentId, $format);
        return static::mapLeadsData($query->get(), $averageResponseTime, $startDate, $endDate, $format);
     }
-    
+
+    /**
+     * @param $startDate
+     * @param $endDate
+     * @param null $companyAgencyId
+     * @param null $agentId
+     * @param string $format
+     * @return mixed
+     */
     static function getAverageTime( $startDate,
                                     $endDate,
                                     $companyAgencyId = null,

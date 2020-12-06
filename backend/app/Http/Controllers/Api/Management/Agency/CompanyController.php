@@ -121,7 +121,7 @@ class CompanyController extends Controller
         $company->handleAvatar($request);
         $company->updateUser($request->except('role'));
 
-        $company->setupTwilioWebHook(
+        $company->setupTwilioSmsWebHook(
             $request->get('twilio_sid'),
             $request->get('twilio_token'),
             $request->get('twilio_mobile_number')

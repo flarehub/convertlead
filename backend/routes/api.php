@@ -70,6 +70,7 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
         Route::group(['namespace' => 'Api\Management\Agency'], function () {
             Route::prefix('agency')->group(function () {
                 Route::get('deals', 'DealController@all');
+                Route::get('deals/leads/statistics', 'DealController@getDealsStatistic');
                 Route::get('leads', 'LeadController@all');
                 Route::apiResource('agents', 'AgentController');
                 Route::get('agents/{agentId}/restore', 'AgentController@restore');
@@ -112,6 +113,7 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
                 Route::get('agents/{agentId}/restore', 'AgentController@restore');
                 Route::get('agents/{agentId}/campaigns', 'AgentController@campaigns');
                 Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_READ')->only(['index', 'show']);
+                Route::get('deals/leads/statistics', 'DealController@getDealsStatistic');
                 Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_WRITE')->only(['store', 'update', 'destroy']);
                 Route::apiResource('deals/{deal}/campaigns', 'CampaignController')->middleware('scope:CAMPAIGN_READ,CAMPAIGN_WRITE');
                 Route::apiResource('leads', 'LeadController')->middleware('scope:LEAD_READ,LEAD_WRITE');

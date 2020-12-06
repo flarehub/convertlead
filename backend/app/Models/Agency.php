@@ -13,15 +13,24 @@ class Agency extends User
     public function agencyCompaniesBy($companyId) {
         return $this->belongsTo('App\Models\AgencyCompanyPivot', 'id')->where('company_id', $companyId)->get();
     }
-    
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function companies() {
         return $this->belongsToMany('App\Models\Company', 'agency_companies', 'agency_id')->withPivot('id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function agents() {
         return $this->hasMany('App\Models\Agent', 'agent_agency_id', 'id');
     }
-    
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function deals() {
         return $this->belongsToMany(
             'App\Models\Deal',
@@ -30,14 +39,6 @@ class Agency extends User
             'id',
             'id',
             'agency_company_id');
-    }
-    
-    public function getCompanyDeals() {
-        return $this
-            ->deals()
-            ->join('users as company', 'company.id', '=', 'company_id')
-            ->whereRaw('company.deleted_at IS NULL')
-            ->withTrashed();
     }
     
     public function getCompanies($queryParams) {
@@ -50,7 +51,11 @@ class Agency extends User
             }
         }
     }
-    
+
+    /**
+     * @param $queryParams
+     * @return Company|\Illuminate\Database\Query\Builder
+     */
     public function getCompaniesWithStats($queryParams) {
         $query = Company::selectRaw('
             users.id,

@@ -101,6 +101,11 @@ class TwilioController extends Controller
         $twilioSid = $lead->company['twilio_sid'];
         $twilioToken = $lead->company['twilio_token'];
         $appSid = $lead->agent['twilio_app_sid'];
+
+        if (!$twilioSid && !$twilioToken) {
+            return;
+        }
+
         $clientCapability = new ClientToken(
             $twilioSid, $twilioToken
         );

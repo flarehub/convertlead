@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Controllers\Api\LeadReplyController;
 use App\Http\Controllers\Api\TwilioController;
+use App\Repositories\UserRepositoryTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -36,7 +37,7 @@ use Twilio\Rest\Client;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, SoftDeletes;
+    use HasApiTokens, Notifiable, SoftDeletes, UserRepositoryTrait;
 
     protected $table = 'users';
     

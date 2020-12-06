@@ -1,7 +1,6 @@
 <?php
 namespace App\Repositories;
 
-use App\Models\Agency;
 use App\Models\Company;
 
 trait AgencyRepository {
