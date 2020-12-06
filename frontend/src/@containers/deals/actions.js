@@ -6,6 +6,7 @@ export const FILTER_DEALS_BY_COMPANY = 'FILTER_DEALS_BY_COMPANY';
 export const FILTER_DEALS_BY_ID = 'FILTER_DEALS_BY_ID';
 export const FILTER_DEAL_CAMPAIGNS_BY_ID = 'FILTER_DEAL_CAMPAIGNS_BY_ID';
 export const SEARCH_DEALS_BY_COMPANY = 'SEARCH_DEALS_BY_COMPANY';
+export const SORT_DEALS_BY = 'SORT_DEALS_BY';
 
 export const addCompanyDeals = deals => ({
   type: ADD_COMPANY_DEALS,
@@ -47,4 +48,9 @@ export const filterDealCampaignsById = id => ({
 export const searchDealCompaniesBy = search => ({
   type: SEARCH_DEALS_BY_COMPANY,
   search,
+});
+
+export const sortBy = sortBy => ({
+  type: SORT_DEALS_BY,
+  sortBy,
 });

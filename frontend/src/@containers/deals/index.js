@@ -25,8 +25,8 @@ const mapDispatchToProps = dispatch => ({
     filterDealsByDealId: id => dispatch(actions.filterDealsById(id)),
     filterDealCampaignsById: id => dispatch(actions.filterDealCampaignsById(id)),
     searchDealCompaniesBy: search => dispatch(actions.searchDealCompaniesBy(search)),
+    sortBy: (key) => dispatch(actions.sortBy(key)),
 });
-
 
 export default connect(
     mapStateToProps,

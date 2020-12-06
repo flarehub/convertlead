@@ -1,72 +1,111 @@
 import {createSelector} from 'reselect';
+import * as R from 'ramda';
 
-const filterDeals = (state) => {
-    const {deals, filters} = state;
-    const dealsRes = deals.filter(deal => (!filters.companyId || deal.company.id === state.filters.companyId) && deal.deleted_at === null);
+const filterDeals = ({deals, filters}) => {
+  const dealsRes = deals.filter(deal => (!filters.companyId || deal.company.id === filters.companyId) && deal.deleted_at === null);
+  const dealsResult = dealsRes.filter(deal => !filters.search || (deal.name.search(new RegExp(filters.search, 'i')) !== -1));
 
-    return dealsRes.filter(deal => !filters.search || (deal.name.search(new RegExp(filters.search, 'i')) !== -1));
+  return {
+    filters,
+    deals: dealsResult,
+  };
+};
+
+const sortDeals = ({deals, filters}) => {
+  const [name, direction] = R.pipe(
+    R.pathOr('name.asc', ['sortBy']),
+    R.split('.')
+  )(filters);
+
+  console.log(name, direction);
+
+  return R.sort((a, b) => {
+    const checkIsDate = new Date(a[name]);
+
+    if (!isNaN(checkIsDate)) {
+      if (direction === 'desc') {
+        return new Date(b[name]).getTime() - new Date(a[name]).getTime();
+      }
+      return new Date(a[name]).getTime() - new Date(b[name]).getTime();
+    }
+
+    if (direction === 'asc') {
+      return a[name].localeCompare(b[name]);
+    }
+    return b[name].localeCompare(a[name]);
+  }, deals);
 };
 
 const filterDeletedDeals = (state) => {
-    const {deals, filters} = state;
-    const dealsRes = deals.filter(deal => (!filters.companyId || deal.company.id === state.filters.companyId) && deal.deleted_at !== null);
+  const {deals, filters} = state;
+  const dealsRes = deals.filter(deal => (!filters.companyId || deal.company.id === state.filters.companyId) && deal.deleted_at !== null);
+  const dealsResult = dealsRes.filter(deal => !filters.search || (deal.name.search(new RegExp(filters.search, 'i')) !== -1));
 
-    return dealsRes.filter(deal => !filters.search || (deal.name.search(new RegExp(filters.search, 'i')) !== -1));
+  return {
+    filters,
+    deals: dealsResult,
+  };
 }
 
 export const getDeals = createSelector(
-    state => state.deals,
+  state => state.deals,
+  R.pipe(
     filterDeals,
+    sortDeals,
+  )
 );
 
 export const getDeletedDeals = createSelector(
-    state => state.deals,
+  state => state.deals,
+  R.pipe(
     filterDeletedDeals,
+    sortDeals,
+  )
 );
 
 
 export const getSelectBoxDeals = createSelector(
-    state => filterDeals(state.deals),
-    deals => deals.map(company => ({
-        key: company.id,
-        value: company.id,
-        text: company.name,
-    })),
+  state => filterDeals(state.deals),
+  ({deals}) => deals.map(company => ({
+    key: company.id,
+    value: company.id,
+    text: company.name,
+  })),
 );
 
 
 export const getSelectBoxDealCampaigns = createSelector(
-    state => state.deals,
-    (state) => {
-        const {deals, filters} = state;
-        const deal = deals.find(deal => deal.id === filters.dealId);
-        if (deal) {
-            return deal.campaigns && deal.campaigns.map(campaign => ({
-                key: campaign.id,
-                value: campaign.id,
-                text: campaign.name,
-            }));
-        }
-        return [];
-    },
+  state => state.deals,
+  (state) => {
+    const {deals, filters} = state;
+    const deal = deals.find(deal => deal.id === filters.dealId);
+    if (deal) {
+      return deal.campaigns && deal.campaigns.map(campaign => ({
+        key: campaign.id,
+        value: campaign.id,
+        text: campaign.name,
+      }));
+    }
+    return [];
+  },
 );
 
 export const getSelectBoxDealCampaignAgents = createSelector(
-    state => state.deals,
-    (state) => {
-        const {deals, filters} = state;
-        const deal = deals.find(deal => deal.id === filters.dealId);
-        if (deal) {
-            const campaign = deal.campaigns && deal.campaigns.find(campaign => campaign.id === filters.campaignId);
-            if (campaign) {
-                return campaign.agents && campaign.agents.map(agent => ({
-                    key: agent.id,
-                    value: agent.id,
-                    text: agent.name,
-                }));
-            }
-        }
+  state => state.deals,
+  (state) => {
+    const {deals, filters} = state;
+    const deal = deals.find(deal => deal.id === filters.dealId);
+    if (deal) {
+      const campaign = deal.campaigns && deal.campaigns.find(campaign => campaign.id === filters.campaignId);
+      if (campaign) {
+        return campaign.agents && campaign.agents.map(agent => ({
+          key: agent.id,
+          value: agent.id,
+          text: agent.name,
+        }));
+      }
+    }
 
-        return [];
-    },
+    return [];
+  },
 );

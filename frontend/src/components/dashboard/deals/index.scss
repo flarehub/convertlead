@@ -53,6 +53,8 @@
 
 .tab {
   padding: 0;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .cards {

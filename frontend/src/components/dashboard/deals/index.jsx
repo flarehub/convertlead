@@ -74,6 +74,10 @@ class Dashboard extends Component {
     this.props.filterDealsByCompany(data.value);
   };
 
+  sortBy = (event, data) => {
+    this.props.sortBy(data.value);
+  };
+
   onSearchChange = event => {
     this.props.loadSelectBoxCompanies(event.target.value);
   };
@@ -98,10 +102,61 @@ class Dashboard extends Component {
   render() {
     const { deals, deleted_deals, filters } = this.props;
     const { companyId, visible } = this.state;
+    const sorByFiled = [
+      {
+        key: 'name.desc',
+        value: 'name.desc',
+        text: 'Name Descending',
+      },
+      {
+        key: 'name.asc',
+        value: 'name.asc',
+        text: 'Name Ascending',
+      },
+      {
+        key: 'created_at.desc',
+        value: 'created_at.desc',
+        text: 'Date Descending',
+      },
+      {
+        key: 'created_at.asc',
+        value: 'created_at.asc',
+        text: 'Date Ascending',
+      }
+    ]
 
     const Filters = () => (
-      <div>
-        Filters
+      <div className="campaignFilters">
+        <div className="filterByCompany">
+          {
+            Auth.isAgency ?
+              <Form.Field
+                control={Select}
+                options={[...companies, ...this.props.selectBoxCompanies]}
+                label={{children: 'Filter', htmlFor: 'form-companies-list'}}
+                placeholder='All companies'
+                search
+                onChange={this.filterDealsByCompany}
+                defaultValue={companyId || null}
+                onSearchChange={this.onSearchChange}
+                searchInput={{id: 'form-companies-list'}}
+              />
+              : null
+          }
+        </div>
+        <div className="campaign-sort">
+          <Form.Field
+            control={Select}
+            options={sorByFiled}
+            label={{children: 'Sort by', htmlFor: 'campaign-sort-by'}}
+            placeholder='Sort by '
+            search
+            onChange={this.sortBy}
+            defaultValue={this.props.filters.sortBy}
+            onSearchChange={this.sortBy}
+            searchInput={{id: 'campaign-sort-by'}}
+          />
+        </div>
       </div>
     );
 
@@ -149,21 +204,6 @@ class Dashboard extends Component {
           <Grid columns={2}>
             <Grid.Column>
               <Header floated='left' as='h1'>Campaigns</Header>
-              {
-                Auth.isAgency ?
-                  <Form.Field
-                    control={Select}
-                    options={[...companies, ...this.props.selectBoxCompanies]}
-                    label={{children: 'Filter', htmlFor: 'form-companies-list'}}
-                    placeholder='All companies'
-                    search
-                    onChange={this.filterDealsByCompany}
-                    defaultValue={companyId || null}
-                    onSearchChange={this.onSearchChange}
-                    searchInput={{id: 'form-companies-list'}}
-                  />
-                  : null
-              }
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>

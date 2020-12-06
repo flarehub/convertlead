@@ -1,7 +1,7 @@
 import {
     ADD_COMPANY_DEALS, CREATE_COMPANY_DEAL, FILTER_DEAL_CAMPAIGNS_BY_ID, FILTER_DEALS_BY_COMPANY,
     FILTER_DEALS_BY_ID,
-    SEARCH_DEALS_BY_COMPANY,
+    SEARCH_DEALS_BY_COMPANY, SORT_DEALS_BY,
     UPDATE_COMPANY_DEAL,
 } from './actions';
 
@@ -10,6 +10,7 @@ const initState = {
     selectBoxDeals: [],
     filters: {
         search: '',
+        sortBy: 'name.asc',
         companyId: '',
         dealId: '',
         campaignId: '',
@@ -69,6 +70,15 @@ function deals(state = initState, action) {
                 filters: {
                     ...state.filters,
                     search: action.search,
+                },
+            };
+        }
+        case SORT_DEALS_BY: {
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    sortBy: action.sortBy,
                 },
             };
         }
