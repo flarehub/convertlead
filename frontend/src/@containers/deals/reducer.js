@@ -7,6 +7,7 @@ import {
 
 const initState = {
     deals: [],
+    dealsStatistics: [],
     selectBoxDeals: [],
     filters: {
         search: '',

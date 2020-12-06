@@ -1,11 +1,11 @@
 import { Auth } from '../../@services';
-import { addCompanyDeals } from './actions';
+import * as actions from './actions';
 import { hideLoader, showLoader } from '../loader/actions';
 import { sendMessage } from '../messages/thunks';
 import { deleteAgencyCompanyDeal,
   deleteCompanyDeal,
   fetchAgencyCompanyDeals,
-  fetchCompanyDeals } from "./api";
+  fetchCompanyDeals, fetchDealsStatistics as fetchDealsStatisticsApi } from "./api";
 
 export const getCompanyDeals = (currentPage = 1, perPage = 10000) => async dispatch => {
   try {
@@ -16,7 +16,7 @@ export const getCompanyDeals = (currentPage = 1, perPage = 10000) => async dispa
         ? fetchAgencyCompanyDeals(params)
         : fetchCompanyDeals(params));
 
-    await dispatch(addCompanyDeals(data.data));
+    await dispatch(actions.addCompanyDeals(data.data));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }
@@ -34,3 +34,12 @@ export const deleteDeal = (companyId, id) => async (dispatch) => {
     dispatch(sendMessage(e.message, true));
   }
 };
+
+export const fetchDealsStatistics = (fromDate, toDate) => async dispatch => {
+  try {
+    const { data } = await fetchDealsStatisticsApi(fromDate, toDate);
+    dispatch(actions.fetchedDealsStatistics(data));
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+}

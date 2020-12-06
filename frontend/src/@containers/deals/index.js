@@ -16,6 +16,7 @@ const mapStateToProps = state => ({
     selectBoxDeals: getSelectBoxDeals(state),
     selectBoxDealCampaigns: getSelectBoxDealCampaigns(state),
     selectBoxDealCampaignAgents: getSelectBoxDealCampaignAgents(state),
+    dealsStatistics: state.deals.dealsStatistics,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -26,6 +27,7 @@ const mapDispatchToProps = dispatch => ({
     filterDealCampaignsById: id => dispatch(actions.filterDealCampaignsById(id)),
     searchDealCompaniesBy: search => dispatch(actions.searchDealCompaniesBy(search)),
     sortBy: (key) => dispatch(actions.sortBy(key)),
+    fetchDealsStatistics: (fromDate, toDate) => dispatch(thunks.fetchDealsStatistics(fromDate, toDate)),
 });
 
 export default connect(
