@@ -4,7 +4,18 @@ import { CompaniesContainer, DealsContainer } from '@containers';
 import DealModal from 'components/@common/modals/deal';
 import Loader from 'components/loader';
 import {
-  Segment, Message, Confirm, Card, Header, Menu, Input, Grid, Button, Checkbox, Form, Select
+  Segment,
+  Message,
+  Confirm,
+  Header,
+  Menu,
+  Input,
+  Grid,
+  Button,
+  Checkbox,
+  Form,
+  Select,
+  Tab
 } from 'semantic-ui-react';
 import Cookies from 'js-cookie';
 
@@ -12,8 +23,8 @@ import './index.scss';
 import { DealFormContainer } from "@containers";
 import * as R from "ramda";
 import {Auth} from "@services";
-import {CardContent} from "./card-content";
 import {disableAutoComplete} from '../../../utils';
+import { DealsComponent } from './DealsComponent';
 
 const companies = [
   {key: null, text: 'All companies', value: null},
@@ -87,6 +98,22 @@ class Dashboard extends Component {
   render() {
     const { deals, deleted_deals, filters } = this.props;
     const { companyId, visible } = this.state;
+
+    const panes = [
+      {
+        menuItem: 'Active',
+        render: () => <Tab.Pane attached={false}><DealsComponent
+          deals={deals}
+          loadForm={this.props.loadForm}
+          openConfirmModal={this.openConfirmModal}
+        /></Tab.Pane>,
+      },
+      {
+        menuItem: 'Archived',
+        render: () => <Tab.Pane attached={false}><DealsComponent deleted deals={deleted_deals} /></Tab.Pane>,
+      },
+    ]
+
     return (
       <div className='Dashboard'>
         {
@@ -145,74 +172,8 @@ class Dashboard extends Component {
             <div className='deals-active-container'>
               <label className='deals-active'>Active <span>{deals.length}</span></label>
             </div>
-            {
-              deals.length === 0 ?
-                <div className="empty-deal-wrapper">
-                  Welcome! Looks like you haven’t created a campaign yet. Once you create one, you’ll see
-                  it here.
-                </div>
-                :
-                <Card.Group>
-                  {
-                    deals.map((deal, key) => (
-                      <Card key={key}>
-                        <Card.Content>
-                          {
-                            Auth.isAgency
-                              ? <CardContent deal={deal} company={deal.company}
-                                             link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
-                              : <CardContent deal={deal} company={deal.agency}
-                                             link={`/deals/${deal.id}/campaigns`}/>
-                          }
-                          <Button.Group basic size='small'>
-                            <Button onClick={this.props.loadForm.bind(this, {
-                              ...deal,
-                              companyId: deal.company.id,
-                              show: true
-                            })}>Edit</Button>
-                            <Button icon='trash alternate outline'
-                                    onClick={this.openConfirmModal.bind(this, true, deal.company.id, deal.id)}/>
-                          </Button.Group>
-                        </Card.Content>
-                      </Card>
-                    ))
-                  }
-                </Card.Group>
-            }
-
+            <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
           </Segment>
-
-          <Segment basic style={{display: this.state.showArchived ? 'block' : 'none'}}>
-            <div className='deals-active-container archieved'>
-              <label className='deals-active'>Archived <span>{deleted_deals.length}</span></label>
-            </div>
-            {
-              deleted_deals.length === 0 ?
-                <div className='deals-active-container'>
-                  <p>When you archieve a campaign, you’ll see it here. <a href="https://convertlead.com/docs-home/">Learn more</a></p>
-                </div>
-                :
-                <Card.Group>
-                  {
-                    deleted_deals.map((deal, key) => (
-                      <Card key={key}>
-                        <Card.Content>
-                          {
-                            Auth.isAgency
-                              ? <CardContent deal={deal} company={deal.company}
-                                             link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
-                              : <CardContent deal={deal} company={deal.agency}
-                                             link={`/deals/${deal.id}/campaigns`}/>
-                          }
-                        </Card.Content>
-                      </Card>
-                    ))
-                  }
-                </Card.Group>
-            }
-
-          </Segment>
-
         </Segment>
       </div>
 
