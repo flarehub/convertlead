@@ -99,20 +99,35 @@ class Dashboard extends Component {
     const { deals, deleted_deals, filters } = this.props;
     const { companyId, visible } = this.state;
 
+    const Filters = () => (
+      <div>
+        Filters
+      </div>
+    );
+
     const panes = [
       {
         menuItem: 'Active',
-        render: () => <Tab.Pane attached={false}><DealsComponent
-          deals={deals}
-          loadForm={this.props.loadForm}
-          openConfirmModal={this.openConfirmModal}
-        /></Tab.Pane>,
+        render: () => (
+          <Tab.Pane attached={false}>
+            <Filters />
+            <DealsComponent
+              deals={deals}
+              loadForm={this.props.loadForm}
+              openConfirmModal={this.openConfirmModal}/>
+          </Tab.Pane>
+        ),
       },
       {
         menuItem: 'Archived',
-        render: () => <Tab.Pane attached={false}><DealsComponent deleted deals={deleted_deals} /></Tab.Pane>,
+        render: () => (
+          <Tab.Pane attached={false}>
+            <Filters />
+            <DealsComponent deleted deals={deleted_deals}/>
+          </Tab.Pane>
+        ),
       },
-    ]
+    ];
 
     return (
       <div className='Dashboard'>
@@ -134,9 +149,6 @@ class Dashboard extends Component {
           <Grid columns={2}>
             <Grid.Column>
               <Header floated='left' as='h1'>Campaigns</Header>
-              <Form.Field>
-                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
-              </Form.Field>
               {
                 Auth.isAgency ?
                   <Form.Field
@@ -169,9 +181,6 @@ class Dashboard extends Component {
           </Grid>
           <Segment basic>
             <Loader/>
-            <div className='deals-active-container'>
-              <label className='deals-active'>Active <span>{deals.length}</span></label>
-            </div>
             <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
           </Segment>
         </Segment>

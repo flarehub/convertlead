@@ -50,3 +50,35 @@
     display: none;
   }
 }
+
+.tab {
+  padding: 0;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important;
+
+  .card {
+    width: 100% !important;
+    & .content {
+      display: flex;
+      flex-direction: row;
+
+      & .dealContainer {
+        text-align: left;
+      }
+
+      & > div {
+        flex: 1;
+        label {
+          justify-content: center;
+          display: flex;
+          flex-basis: 100%;
+        }
+        text-align: center;
+      }
+    }
+  }
+}
