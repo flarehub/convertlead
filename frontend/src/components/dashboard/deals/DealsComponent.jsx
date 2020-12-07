@@ -3,7 +3,7 @@ import {Button, Card} from "semantic-ui-react";
 import {CardContent} from "./card-content";
 import {Auth} from "@services";
 
-export const DealsComponent = ({deals, deleted, loadForm, openConfirmModal}) => (
+export const DealsComponent = ({ onDealSelected, deals, deleted, loadForm, openConfirmModal}) => (
   (!deals && deals.length === 0) && (
     <div className="empty-deal-wrapper">
       Welcome! Looks like you haven’t created a campaign yet. Once you create one, you’ll see
@@ -18,9 +18,9 @@ export const DealsComponent = ({deals, deleted, loadForm, openConfirmModal}) => 
               <Card.Content>
                 {
                   Auth.isAgency
-                    ? <CardContent deal={deal} company={deal.company}
+                    ? <CardContent onSelectedDeal={onDealSelected} deal={deal} company={deal.company}
                                    link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
-                    : <CardContent deal={deal} company={deal.agency}
+                    : <CardContent onSelectedDeal={onDealSelected} deal={deal} company={deal.agency}
                                    link={`/deals/${deal.id}/campaigns`}/>
                 }
               </Card.Content>
@@ -35,9 +35,9 @@ export const DealsComponent = ({deals, deleted, loadForm, openConfirmModal}) => 
             <Card.Content>
               {
                 Auth.isAgency
-                  ? <CardContent deal={deal} company={deal.company}
+                  ? <CardContent onSelectedDeal={onDealSelected} deal={deal} company={deal.company}
                                  link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
-                  : <CardContent deal={deal} company={deal.agency}
+                  : <CardContent onSelectedDeal={onDealSelected} deal={deal} company={deal.agency}
                                  link={`/deals/${deal.id}/campaigns`}/>
               }
               <Button.Group basic size='small'>

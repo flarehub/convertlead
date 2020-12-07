@@ -16,6 +16,7 @@ export const deleteCompanyDeal = id => {
   return api.delete(`/v1/company/deals/${id}`);
 };
 
-export const fetchDealsStatistics = (fromDate, toDate) => {
-  return api.get(`/v1/agency/deals/leads/statistics?fromDate=${fromDate}&toDate=${toDate}`);
+export const fetchDealsStatistics = (dealIds, fromDate, toDate) => {
+  const query = '&dealIds[]=' + dealIds.join('&dealIds[]=')
+  return api.get(`/v1/agency/deals/leads/statistics?fromDate=${fromDate}&toDate=${toDate}${query}`);
 }

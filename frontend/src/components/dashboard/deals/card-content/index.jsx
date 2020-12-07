@@ -7,11 +7,11 @@ import { AvatarImage } from 'components/@common/image';
 import { Link } from 'react-router-dom';
 import { DATE_FORMAT } from "@constants";
 
-export const CardContent = ({ deal, link, company }) => (
+export const CardContent = ({ onSelectedDeal, deal, link, company }) => (
   <React.Fragment>
     <div className="dealContainer">
       <div>
-        <Checkbox />
+        <Checkbox value={deal.id} onChange={(event, value) => onSelectedDeal(value)} />
       </div>
       <Link to={{
         pathname: link,

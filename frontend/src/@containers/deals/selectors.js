@@ -17,8 +17,6 @@ const sortDeals = ({deals, filters}) => {
     R.split('.')
   )(filters);
 
-  console.log(name, direction);
-
   return R.sort((a, b) => {
     const checkIsDate = new Date(a[name]);
 

@@ -25,6 +25,7 @@ import * as R from "ramda";
 import {Auth} from "@services";
 import {disableAutoComplete} from '../../../utils';
 import { DealsComponent } from './DealsComponent';
+import DealsStatistics from "./DealsStatistics";
 
 const companies = [
   {key: null, text: 'All companies', value: null},
@@ -37,6 +38,7 @@ class Dashboard extends Component {
     dealId: '',
     showArchived: false,
     visible: 1,
+    dealIds: [],
   };
 
   componentWillMount() {
@@ -99,9 +101,22 @@ class Dashboard extends Component {
     }));
   }
 
+  onDealSelected(deal) {
+    let dealIds = this.state.dealIds;
+    if (deal.checked) {
+       dealIds.push(deal.value);
+    } else {
+      dealIds = dealIds.filter((id) => id !== deal.value);
+    }
+    this.setState({
+      ...this.state,
+      dealIds: dealIds,
+    });
+  }
+
   render() {
     const { deals, deleted_deals, filters } = this.props;
-    const { companyId, visible } = this.state;
+    const { companyId, visible, dealIds} = this.state;
     const sorByFiled = [
       {
         key: 'name.desc',
@@ -167,6 +182,7 @@ class Dashboard extends Component {
           <Tab.Pane attached={false}>
             <Filters />
             <DealsComponent
+              onDealSelected={this.onDealSelected.bind(this)}
               deals={deals}
               loadForm={this.props.loadForm}
               openConfirmModal={this.openConfirmModal}/>
@@ -178,7 +194,11 @@ class Dashboard extends Component {
         render: () => (
           <Tab.Pane attached={false}>
             <Filters />
-            <DealsComponent deleted deals={deleted_deals}/>
+            <DealsComponent
+              onDealSelected={this.onDealSelected.bind(this)}
+              deleted
+              deals={deleted_deals}
+            />
           </Tab.Pane>
         ),
       },
@@ -186,6 +206,13 @@ class Dashboard extends Component {
 
     return (
       <div className='Dashboard'>
+        {
+          dealIds.length && (
+              <DealsStatistics
+                dealIds={dealIds}
+              />
+            )
+        }
         {
           !visible || <Message className='dash' onDismiss={this.handleDismiss}>
               <Message.Header>

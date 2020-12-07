@@ -35,9 +35,9 @@ export const deleteDeal = (companyId, id) => async (dispatch) => {
   }
 };
 
-export const fetchDealsStatistics = (fromDate, toDate) => async dispatch => {
+export const fetchDealsStatistics = (dealIds, fromDate, toDate) => async dispatch => {
   try {
-    const { data } = await fetchDealsStatisticsApi(fromDate, toDate);
+    const { data } = await fetchDealsStatisticsApi(dealIds, fromDate, toDate);
     dispatch(actions.fetchedDealsStatistics(data));
   } catch (e) {
     dispatch(sendMessage(e.message, true));
