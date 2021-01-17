@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect';
 import * as R from 'ramda';
+import { integrations as selectBoxIntegrations } from "@containers/forms/campaign/integrations";
 
 const filterDeals = ({deals, filters}) => {
   const dealsRes = deals.filter(deal => (!filters.companyId || deal.company.id === filters.companyId) && deal.deleted_at === null);
@@ -107,3 +108,45 @@ export const getSelectBoxDealCampaignAgents = createSelector(
     return [];
   },
 );
+
+export const getGraphicStatistics = createSelector(
+  state => state.dealsStatistics,
+  (dealsStatistics) => {
+    return R.pipe(
+      R.pathOr([], ['records']),
+      R.values,
+      R.reduce(function (acc, records) {
+        return acc.concat(records);
+      }, [])
+    )(dealsStatistics);
+  }
+)
+
+export const getSelectedGraphicCStatistics = createSelector(
+  state => getGraphicStatistics(state),
+  state => state.displayGraphicDate,
+  state => state.dealsStatistics.totalLeadsCount,
+  (dealsGraphic, displayGraphicDate, totalLeadsCount) => R.pipe(
+      R.pluck(['records']),
+      R.flatten,
+      R.filter((record) => {
+        return (displayGraphicDate !== 'all' ? R.propEq('created_date', displayGraphicDate, record) : true);
+      }),
+      R.reduce((acc, record) => {
+        if (!R.hasPath([record.integration], acc)) {
+          acc[record.integration] = {};
+        }
+
+        const leadsCount = R.pathOr(0, [record.integration, 'totalLeadsCount'], acc);
+        const integrationFound = selectBoxIntegrations.find(R.propEq('key', record.integration));
+
+        acc[record.integration].totalLeadsCount = (leadsCount + record.leadsCount);
+        acc[record.integration].integration = record.integration;
+        acc[record.integration].leadsPercentage = +(((leadsCount + record.leadsCount) / totalLeadsCount) * 100).toFixed(0);
+        acc[record.integration].integrationDisplayName = integrationFound.text;
+
+        return acc;
+      }, {}),
+      R.values,
+    )(dealsGraphic)
+)

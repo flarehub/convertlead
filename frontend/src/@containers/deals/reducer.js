@@ -1,7 +1,12 @@
 import {
-    ADD_COMPANY_DEALS, CREATE_COMPANY_DEAL, FILTER_DEAL_CAMPAIGNS_BY_ID, FILTER_DEALS_BY_COMPANY,
+    ADD_COMPANY_DEALS,
+    CREATE_COMPANY_DEAL, DEALS_DISPLAY_GRAPHIC_DATE,
+    FETCHED_DEALS_STATISTICS,
+    FILTER_DEAL_CAMPAIGNS_BY_ID,
+    FILTER_DEALS_BY_COMPANY,
     FILTER_DEALS_BY_ID,
-    SEARCH_DEALS_BY_COMPANY, SORT_DEALS_BY,
+    SEARCH_DEALS_BY_COMPANY,
+    SORT_DEALS_BY,
     UPDATE_COMPANY_DEAL,
 } from './actions';
 
@@ -9,6 +14,7 @@ const initState = {
     deals: [],
     dealsStatistics: [],
     selectBoxDeals: [],
+    displayGraphicDate: 'all',
     filters: {
         search: '',
         sortBy: 'name.asc',
@@ -25,6 +31,18 @@ function deals(state = initState, action) {
                 ...state,
                 deals: [...action.deals],
             };
+        }
+        case FETCHED_DEALS_STATISTICS: {
+            return {
+                ...state,
+                dealsStatistics: action.dealStatistics,
+            }
+        }
+        case DEALS_DISPLAY_GRAPHIC_DATE: {
+            return {
+                ...state,
+                displayGraphicDate: action.date,
+            }
         }
         case CREATE_COMPANY_DEAL: {
             state.deals.push(action.deal);

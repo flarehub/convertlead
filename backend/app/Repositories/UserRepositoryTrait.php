@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\DealCampaign;
 use App\Models\Lead;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 /**
@@ -55,22 +57,64 @@ trait UserRepositoryTrait {
             $query->whereIn('dc.deal_id', $request->get('dealIds'));
         }
 
-        $fromDate = $request->has('fromDate');
-        $toDate = $request->has('toDate');
+        $fromDate = $request->get('fromDate');
+        $toDate = $request->get('toDate');
 
         if ($fromDate && $toDate) {
-            $query->whereBetween('leads.created_at', [$fromDate, $toDate]);
+            $query->whereBetween('leads.created_at', [
+                $fromDate,
+                $toDate
+            ]);
         }
+
+        $datePeriod = CarbonPeriod::create(
+            now()->setTimeFromTimeString($fromDate)->toDateString(),
+            now()->setTimeFromTimeString($toDate)->toDateString()
+        );
 
         $query
             ->selectRaw('
-                DATE(leads.created_at) AS created_date,
+                 DATE_FORMAT(leads.created_at, "%Y/%m/%d") AS created_date,
                  COUNT(DISTINCT leads.id) as leadsCount,
                  COUNT(DISTINCT dc.integration) as integrationCount,
                  dc.integration
             ')
-            ->groupBy(['created_date, dc.integration']);
+            ->groupBy(['created_date', 'dc.integration']);
 
-        return $query->get();
+        $leadsStats = $query->get() ?? [];
+
+        $datePeriod = collect($datePeriod)->map(function ($period) {
+            return $period->format('Y/m/d');
+        })->flip()->map(function ($index, $date) use ($leadsStats) {
+            $records = collect($leadsStats)->filter(function ($record) use ($date) {
+                return $record->created_date === $date;
+            })->map(function ($record) {
+                return $record->only(['leadsCount', 'integrationCount', 'integration', 'created_date']);
+            });
+
+            $totalLeadsCount = collect($records)->reduce(function ($collect, $record) {
+                $collect += $record['leadsCount'];
+                return $collect;
+            }, 0);
+
+            return [
+                'records' => collect($records)->map(function ($record) use ($totalLeadsCount) {
+                    $record['leadsPercentage'] = round((($record['leadsCount'] / $totalLeadsCount) * 100));
+                    return $record;
+                })->values()->toArray(),
+                'totalLeadsCount' => $totalLeadsCount,
+                'name' => Carbon::parse($date)->shortDayName,
+            ];
+        })->values()->toArray();
+
+        $report = [
+            'records' => $datePeriod,
+            'totalLeadsCount' => collect($leadsStats)->reduce(function ($collect, $record) {
+                $collect += $record->leadsCount;
+                return $collect;
+            }, 0)
+        ];
+
+        return $report;
     }
 }

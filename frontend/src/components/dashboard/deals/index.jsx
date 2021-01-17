@@ -108,9 +108,10 @@ class Dashboard extends Component {
     } else {
       dealIds = dealIds.filter((id) => id !== deal.value);
     }
+
     this.setState({
       ...this.state,
-      dealIds: dealIds,
+      dealIds,
     });
   }
 
@@ -185,7 +186,9 @@ class Dashboard extends Component {
               onDealSelected={this.onDealSelected.bind(this)}
               deals={deals}
               loadForm={this.props.loadForm}
-              openConfirmModal={this.openConfirmModal}/>
+              openConfirmModal={this.openConfirmModal}
+              key="deals-live"
+            />
           </Tab.Pane>
         ),
       },
@@ -198,6 +201,7 @@ class Dashboard extends Component {
               onDealSelected={this.onDealSelected.bind(this)}
               deleted
               deals={deleted_deals}
+              key="deals-archived"
             />
           </Tab.Pane>
         ),
@@ -207,9 +211,10 @@ class Dashboard extends Component {
     return (
       <div className='Dashboard'>
         {
-          dealIds.length && (
+          dealIds.length > 0 && (
               <DealsStatistics
                 dealIds={dealIds}
+                key={JSON.stringify(dealIds)}
               />
             )
         }
@@ -248,7 +253,7 @@ class Dashboard extends Component {
           </Grid>
           <Segment basic>
             <Loader/>
-            <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+            <Tab onTabChange={() => (this.setState({ ...this.state, dealIds: [] }))} menu={{ secondary: true, pointing: true }} panes={panes} />
           </Segment>
         </Segment>
       </div>

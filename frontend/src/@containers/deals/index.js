@@ -6,7 +6,7 @@ import {
     getDeletedDeals,
     getSelectBoxDealCampaigns,
     getSelectBoxDealCampaignAgents,
-    getSelectBoxDeals,
+    getSelectBoxDeals, getGraphicStatistics, getSelectedGraphicCStatistics,
 } from './selectors';
 
 const mapStateToProps = state => ({
@@ -17,6 +17,8 @@ const mapStateToProps = state => ({
     selectBoxDealCampaigns: getSelectBoxDealCampaigns(state),
     selectBoxDealCampaignAgents: getSelectBoxDealCampaignAgents(state),
     dealsStatistics: state.deals.dealsStatistics,
+    dealsGraphic: getGraphicStatistics(state.deals),
+    dealsSelectedGraphicStatistics: getSelectedGraphicCStatistics(state.deals),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -28,6 +30,7 @@ const mapDispatchToProps = dispatch => ({
     searchDealCompaniesBy: search => dispatch(actions.searchDealCompaniesBy(search)),
     sortBy: (key) => dispatch(actions.sortBy(key)),
     fetchDealsStatistics: (dealIds, fromDate, toDate) => dispatch(thunks.fetchDealsStatistics(dealIds, fromDate, toDate)),
+    dealDisplayGraphicDate: (date) => dispatch(actions.dealDisplayGraphicDate(date)),
 });
 
 export default connect(

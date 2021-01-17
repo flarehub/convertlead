@@ -14,7 +14,7 @@ export const DealsComponent = ({ onDealSelected, deals, deleted, loadForm, openC
       <Card.Group>
         {
           deals.map((deal, key) => (
-            <Card key={key}>
+            <Card key={`deals-deleted-${String(key)}`}>
               <Card.Content>
                 {
                   Auth.isAgency
@@ -31,7 +31,7 @@ export const DealsComponent = ({ onDealSelected, deals, deleted, loadForm, openC
     ) || <Card.Group>
       {
         deals.map((deal, key) => (
-          <Card key={key}>
+          <Card key={`deals-${String(key)}`}>
             <Card.Content>
               {
                 Auth.isAgency

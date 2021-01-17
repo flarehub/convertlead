@@ -1,4 +1,5 @@
 import {CHANGE_CAMPAIGN, LOAD_CAMPAIGN, SAVED_CAMPAIGN} from './actions';
+import {integrations} from "./integrations";
 
 const initState = {
   form: {
@@ -10,15 +11,7 @@ const initState = {
     integration: '',
     agents: [],
   },
-  integrationTypes: [
-    { key: 'FACEBOOK', value: 'FACEBOOK', text: 'Facebook Lead Ads' },
-    { key: 'ZAPIER', value: 'ZAPIER', text: 'Zapier' },
-    { key: 'OPTIN_FORM', value: 'OPTIN_FORM', text: 'Optin Form' },
-    { key: 'WEBHOOK', value: 'WEBHOOK', text: 'WebHook' },
-    { key: 'UNBOUNCE', value: 'UNBOUNCE', text: 'Unbounce' },
-    { key: 'INSTAPAGE', value: 'INSTAPAGE', text: 'Inastapage' },
-    { key: 'CLICKFUNNELS', value: 'CLICKFUNNELS', text: 'ClickFunnels' },
-  ],
+  integrationTypes: integrations,
   required: {
     name: true,
     integration: true,
