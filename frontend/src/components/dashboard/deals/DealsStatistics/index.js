@@ -69,7 +69,7 @@ class DealsStatistics extends React.PureComponent {
               <div className="deal-source" key={`integration-${record.integration.toLowerCase()}`}>
                <div className="data-source-header">
                  <label className="deal-source-label">{record.integrationDisplayName}</label>
-                 <div className="deal-source-percentage">{record.leadsPercentage}</div>
+                 <div className="deal-source-percentage">{record.leadsPercentage} %</div>
                </div>
                 <Progress percent={record.leadsPercentage} className={`integration-bar-${record.integration.toLowerCase()}`} />
               </div>
