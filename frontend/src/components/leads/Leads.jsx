@@ -10,7 +10,7 @@ import {
   Form,
   Icon,
   Select,
-  Popup, Confirm,
+  Popup, Confirm, Label,
 } from 'semantic-ui-react';
 import './index.scss';
 import {BreadCrumbContainer, DealsContainer, CompaniesContainer, LeadsContainer, LeadFormContainer} from '@containers';
@@ -279,6 +279,9 @@ class Leads extends React.Component {
                     <Table.Cell>
                       <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
                         {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
+                        <Label color='red' floating>
+                          22
+                        </Label>
                       </div>
                     </Table.Cell>
                     <Table.Cell>
