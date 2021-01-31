@@ -54,6 +54,7 @@ class ActionChangeLeadStatus extends Command
             $lead->save();
 
             LeadNote::create([
+                'deal_action_id' => $dealActionId,
                 'lead_status_id' => $leadStatus->id,
                 'lead_id' => $lead->id,
                 'agent_id' => $lead->agent_id,

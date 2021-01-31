@@ -80,6 +80,7 @@ class ActionConnectAgentLeadViaBlindCall extends Command
                 'lead_status_id' => $lead->lead_status_id,
                 'lead_id' => $lead->id,
                 'agent_id' => $lead->agent_id,
+                'deal_action_id' => $dealActionId,
                 'message' => "Automatic Blind call created!",
             ]);
         } catch (\Exception $exception) {

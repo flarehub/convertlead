@@ -58,6 +58,7 @@ class ActionPushAgentDeviceNotification extends Command
                     'lead_status_id' => $lead->lead_status_id,
                     'lead_id' => $lead->id,
                     'agent_id' => $lead->agent_id,
+                    'deal_action_id' => $dealActionId,
                     'message' => "Automatic Push notification sent message: '{$dealAction->object->message}'!",
                 ]);
             } else {
@@ -65,6 +66,7 @@ class ActionPushAgentDeviceNotification extends Command
                     'lead_status_id' => $lead->lead_status_id,
                     'lead_id' => $lead->id,
                     'agent_id' => $lead->agent_id,
+                    'deal_action_id' => $dealActionId,
                     'message' => "No Agent Device to Push notification message: '{$dealAction->object->message}'!",
                 ]);
             }

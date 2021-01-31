@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Models\DealAction;
 use App\Models\Lead;
 use App\Models\LeadNote;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
@@ -56,23 +55,24 @@ class LeadReplyController extends Controller {
             foreach ($keywords as $keyword) {
                 $contains = stripos($messageBody, $keyword) !== -1;
                 if ($contains) {
-                    $this->leadReplyNote($lead, $fromNumber, $messageBody);
+                    $this->leadReplyNote($lead, $dealAction, $fromNumber, $messageBody);
                     $dealAction->scheduleNextLeadAction($lead);
                     break;
                 }
             }
         }
         elseif ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY) {
-            $this->leadReplyNote($lead, $fromNumber, $messageBody);
+            $this->leadReplyNote($lead, $dealAction, $fromNumber, $messageBody);
             $dealAction->scheduleNextLeadAction($lead);
         }
     }
 
-    public function leadReplyNote($lead, $fromNumber, $messageBody) {
+    public function leadReplyNote($lead, $dealAction, $fromNumber, $messageBody) {
         LeadNote::create([
             'lead_status_id' => $lead->lead_status_id,
             'lead_id' => $lead->id,
             'agent_id' => $lead->agent_id,
+            'deal_action_id' => $dealAction->id,
             'message' => "Lead reply: From: {$fromNumber}, message: {$messageBody}",
         ]);
     }
@@ -86,6 +86,7 @@ class LeadReplyController extends Controller {
                 'lead_status_id' => $lead->lead_status_id,
                 'lead_id' => $lead->id,
                 'agent_id' => $lead->agent_id,
+                'deal_action_id' => $dealAction->id,
                 'message' => "Lead mail opened!",
             ]);
             $dealAction->scheduleNextLeadAction($lead);
