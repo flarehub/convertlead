@@ -245,6 +245,7 @@ class Leads extends React.Component {
           <Table singleLine>
             <Table.Header>
               <Table.Row>
+                <Table.HeaderCell>Status</Table.HeaderCell>
                 <Table.HeaderCell>Name
                   <Icon name={this.getSort('name')}
                         onClick={this.props.sort.bind(this, 'name')}/>
@@ -276,12 +277,12 @@ class Leads extends React.Component {
                     onMouseEnter={() => this.onLeadEnterDisplayNotes(lead)}
                     key={index}>
                     <Table.Cell>
-                      <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                        <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
-                          {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
-                        </div>
-                        {lead.fullname}
-                      </Link>
+                      <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
+                        {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {lead.fullname}
                       <div className='date-added'>
                         Added {moment.utc(lead.created_at).local().format(`${DATE_FORMAT} H:mm`)}
                       </div>
@@ -319,6 +320,11 @@ class Leads extends React.Component {
                       ),
                       state: {deal: lead.campaign.deal}
                     }}>{lead.campaign.name}</Link></Table.Cell>
+                    <Table.Cell>
+                      <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
+                        <Icon name='user' />
+                      </Link>
+                    </Table.Cell>
                     <Table.Cell>
                       {
                         !lead.deleted_at
