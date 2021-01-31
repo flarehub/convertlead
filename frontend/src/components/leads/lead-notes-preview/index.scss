@@ -1,3 +1,11 @@
+.Leads {
+  display: flex;
+  flex-direction: row;
+  .leads-container {
+    flex: 1;
+  }
+}
+
 .LeadNotesPreview {
   .endCall {
     color: white !important;
@@ -9,7 +17,7 @@
     background: #0ea432 !important;
   }
 
-  position: absolute;
+  position: relative;
   top: 0;
   right: 0;
   z-index: 19999;

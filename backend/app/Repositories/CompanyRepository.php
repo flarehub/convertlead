@@ -21,7 +21,7 @@ trait CompanyRepository {
     }
 
     public function getLeadBy($leadId) {
-        return $this->leads()->where('leads.id', $leadId)->firstOrFail();
+        return $this->leads()->withTrashed()->where('leads.id', $leadId)->firstOrFail();
     }
 
     /**
@@ -260,7 +260,7 @@ trait CompanyRepository {
             ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')
             ->selectRaw('leads.*, ac.company_id, ac.agency_id, dc.deal_id')
         ;
-        
+
         if (isset($queryParams['search'])) {
             $query->where(function ($query) use ($queryParams) {
                 $query
@@ -295,23 +295,24 @@ trait CompanyRepository {
         
         if ( isset($queryParams['showDeleted']) ) {
             $query->withTrashed();
+            $query->whereRaw('leads.deleted_at IS NOT NULL');
         }
-        
+
         if ( isset($queryParams['name']) ) {
             $query->orderBy('leads.fullname', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
-        
+
         if ( isset($queryParams['email']) ) {
             $query->orderBy('leads.email', ($queryParams['email'] === 'true' ? 'DESC' : 'ASC'));
         }
-        
+
         if ( isset($queryParams['company']) ) {
             $query->orderBy('cp.name', ($queryParams['company'] === 'true' ? 'DESC' : 'ASC'));
         }
         if ( isset($queryParams['campaign']) ) {
             $query->orderBy('dc.name', ($queryParams['campaign'] === 'true' ? 'DESC' : 'ASC'));
         }
-        
+
         return $query;
     }
 }

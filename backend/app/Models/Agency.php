@@ -239,6 +239,7 @@ class Agency extends User
     
         if ( isset($queryParams['showDeleted']) ) {
             $query->withTrashed();
+            $query->whereRaw('leads.deleted_at IS NOT NULL');
         }
     
         if ( isset($queryParams['name']) ) {

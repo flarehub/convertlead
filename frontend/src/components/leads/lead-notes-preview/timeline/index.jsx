@@ -57,23 +57,23 @@ class TimeLine extends Component {
                     }
                 </ul>
                 {
-                    this.state.showAddNote
-                        ? <Form>
-                            <Form.Field>
-                                <TextArea name='message' onChange={this.onChange}/>
-                            </Form.Field>
-                            <Button.Group>
-                                <Button onClick={this.onCancelAddNote}>Cancel</Button>
-                                <Button.Or/>
-                                <Button onClick={this.onAddNote} positive>Submit</Button>
-                                <Dropdown options={leadStatuses} name='status' onChange={this.onChange} floating button
-                                          className='icon' defaultValue={lead.status}/>
-                            </Button.Group>
-                        </Form>
-                        : <Button onClick={this.showAddNote}>
-                            <Icon name='plus'/>
-                            Add note
-                        </Button>
+                    (!lead.deleted_at && (this.state.showAddNote
+                      ? <Form>
+                          <Form.Field>
+                              <TextArea name='message' onChange={this.onChange}/>
+                          </Form.Field>
+                          <Button.Group>
+                              <Button onClick={this.onCancelAddNote}>Cancel</Button>
+                              <Button.Or/>
+                              <Button onClick={this.onAddNote} positive>Submit</Button>
+                              <Dropdown options={leadStatuses} name='status' onChange={this.onChange} floating button
+                                        className='icon' defaultValue={lead.status}/>
+                          </Button.Group>
+                      </Form>
+                      : <Button onClick={this.showAddNote}>
+                          <Icon name='plus'/>
+                          Add note
+                      </Button>))
                 }
             </div>
         )

@@ -182,11 +182,11 @@ class Leads extends Component {
     });
   };
 
-  onLeadEnterDisplayNotes = (leadId) => {
-    console.log('leadId==', leadId);
+  onLeadEnterDisplayNotes = (lead) => {
     this.setState({
       ...this.state,
-      previewLeadId: leadId,
+      previewLeadId: lead.id,
+      companyId: lead.company_id
     });
   }
 
@@ -211,187 +211,189 @@ class Leads extends Component {
     } = this.state;
     return (
       <div className='Leads'>
+        <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
+        <div className="leads-container">
+          <Segment attached='top'>
+            <Grid columns={2}>
+              <Grid.Column>
+                <Header floated='left' as='h1'>Leads</Header>
+                <div className="field">
+                  <label>Filter by: </label>
+                  <Form>
+                    <Form.Group widths='equal'>
+                      {
+                        !campaignId && Auth.isAgency ?
+                          <Form.Field
+                            control={Select}
+                            options={[...companies, ...this.props.selectBoxCompanies]}
+                            placeholder='All companies'
+                            search
+                            onChange={this.filterByCompany}
+                            defaultValue={companyId || null}
+                            searchInput={{id: 'form-companies-list'}}/>
+                          : null
+                      }
+
+                      <Form.Field
+                        control={Select}
+                        options={[defaultStatus, ...getSelectBoxStatuses]}
+                        placeholder='All statuses'
+                        search
+                        onChange={this.filterByStatus}
+                        searchInput={{id: 'form-statuses-list'}}
+                      />
+                    </Form.Group>
+                    <Popup position='bottom left'
+                           trigger={
+                             <Form.Field>
+                               <Button>
+                                 <Icon name='calendar alternate outline'/>
+                                 {startDateDisplay} - {endDateDisplay}
+                               </Button>
+                             </Form.Field>} flowing hoverable>
+
+                      <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
+                                        onChangeDateTo={this.onChangeDateTo}
+                                        onRestDate={this.onRestDate}
+                                        from={new Date(startDate)} to={new Date(endDate)}/>
+                    </Popup>
+                  </Form>
+
+                </div>
+                <Form.Field>
+                  <Checkbox label='Show Archived' checked={this.props.query.showDeleted}  toggle onChange={this.onShowArch}/>
+                </Form.Field>
+
+              </Grid.Column>
+              <Grid.Column>
+                <Menu secondary>
+                  <Menu.Menu position='right'>
+                    <Menu.Item>
+                      <Input icon='search' onChange={this.onSearch} value={query.search} placeholder='Search...'/>
+                    </Menu.Item>
+                    <Button color='teal' onClick={this.props.loadForm.bind(this, {show: true})} content='New Lead'/>
+                  </Menu.Menu>
+                </Menu>
+              </Grid.Column>
+              <div className='exportbox'>Export your data
+                <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
+                <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
+              </div>
+            </Grid>
+            <Segment basic>
+              <Loader/>
+              <Table singleLine>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Name
+                      <Icon name={this.getSort('name')}
+                            onClick={this.props.sort.bind(this, 'name')}/>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>Assigned to</Table.HeaderCell>
+                    <Table.HeaderCell>E-mail Address<Icon name={this.getSort('email')}
+                                                          onClick={this.props.sort.bind(this, 'email')}/>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>Phone Number</Table.HeaderCell>
+                    {
+                      Auth.isAgency
+                        ? <Table.HeaderCell>Company
+                          <Icon name={this.getSort('company')}
+                                onClick={this.props.sort.bind(this, 'company')}/>
+                        </Table.HeaderCell>
+                        : null
+                    }
+                    <Table.HeaderCell>Source
+                      <Icon name={this.getSort('campaign')}
+                            onClick={this.props.sort.bind(this, 'campaign')}/>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell><span className="linearicons-cog"/></Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {
+                    leads.map((lead, index) => (
+                      <Table.Row
+                        onMouseEnter={() => this.onLeadEnterDisplayNotes(lead)}
+                        key={index}>
+                        <Table.Cell>
+                          <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
+                            <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
+                              {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
+                            </div>
+                            {lead.fullname}
+                          </Link>
+                          <div className='date-added'>
+                            Added {moment.utc(lead.created_at).local().format(`${DATE_FORMAT} H:mm`)}
+                          </div>
+                        </Table.Cell>
+                        <Table.Cell>
+                          {
+                            lead.agent && <Link
+                              to={`/agents/${lead.agent.id}/profile`}>{lead.agent.name}</Link>
+                          }
+                        </Table.Cell>
+                        <Table.Cell>{lead.email}</Table.Cell>
+                        <Table.Cell>{lead.phone}</Table.Cell>
+                        {
+                          Auth.isAgency
+                            ? <Table.Cell>
+                              {
+                                lead.company
+                                  ? <div className="comp-logo-box">
+                                    <AvatarImage avatar src={lead.company.avatar_path} rounded
+                                                 size='mini'/>
+                                    <Link to={`/companies/${lead.company.id}/profile`}>
+                                      {lead.company.name}
+                                    </Link>
+                                  </div>
+                                  : null
+                              }
+                            </Table.Cell>
+                            : null
+                        }
+                        <Table.Cell><Link to={{
+                          pathname: (
+                            Auth.isAgency
+                              ? `/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`
+                              : `/deals/${lead.deal_id}/campaigns`
+                          ),
+                          state: {deal: lead.campaign.deal}
+                        }}>{lead.campaign.name}</Link></Table.Cell>
+                        <Table.Cell>
+                          {
+                            !lead.deleted_at
+                              ? <ButtonGroup>
+                                <Button onClick={this.props.loadForm.bind(this, {
+                                  ...lead,
+                                  company_id: lead.company.id,
+                                  show: true
+                                })}>Edit</Button>
+                                <Button
+                                  onClick={this.openConfirmModal.bind(this, true, lead.company_id, lead.id)}>Archive</Button>
+                              </ButtonGroup>
+                              : null
+                          }
+                        </Table.Cell>
+                      </Table.Row>
+                    ))
+                  }
+
+                </Table.Body>
+              </Table>
+            </Segment>
+          </Segment>
+          <Segment textAlign='right' attached='bottom'>
+            <Pagination onPageChange={this.gotoPage}
+                        defaultActivePage={pagination.current_page}
+                        prevItem={null}
+                        nextItem={null}
+                        totalPages={pagination.last_page}/>
+          </Segment>
+        </div>
         <LeadModal size='small'/>
         {
           previewLeadId && <LeadNotesPreview leadId={previewLeadId} companyId={companyId} onClose={this.onLeadLeaveDisplayNotes} />
         }
-        <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
-        <Segment attached='top'>
-          <Grid columns={2}>
-            <Grid.Column>
-              <Header floated='left' as='h1'>Leads</Header>
-              <div className="field">
-                <label>Filter by: </label>
-                <Form>
-                  <Form.Group widths='equal'>
-                    {
-                      !campaignId && Auth.isAgency ?
-                        <Form.Field
-                          control={Select}
-                          options={[...companies, ...this.props.selectBoxCompanies]}
-                          placeholder='All companies'
-                          search
-                          onChange={this.filterByCompany}
-                          defaultValue={companyId || null}
-                          searchInput={{id: 'form-companies-list'}}/>
-                        : null
-                    }
-
-                    <Form.Field
-                      control={Select}
-                      options={[defaultStatus, ...getSelectBoxStatuses]}
-                      placeholder='All statuses'
-                      search
-                      onChange={this.filterByStatus}
-                      searchInput={{id: 'form-statuses-list'}}
-                    />
-                  </Form.Group>
-                  <Popup position='bottom left'
-                         trigger={
-                           <Form.Field>
-                             <Button>
-                               <Icon name='calendar alternate outline'/>
-                               {startDateDisplay} - {endDateDisplay}
-                             </Button>
-                           </Form.Field>} flowing hoverable>
-
-                    <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
-                                      onChangeDateTo={this.onChangeDateTo}
-                                      onRestDate={this.onRestDate}
-                                      from={new Date(startDate)} to={new Date(endDate)}/>
-                  </Popup>
-                </Form>
-
-              </div>
-              <Form.Field>
-                <Checkbox label='Show Archived' checked={this.props.query.showDeleted}  toggle onChange={this.onShowArch}/>
-              </Form.Field>
-
-            </Grid.Column>
-            <Grid.Column>
-              <Menu secondary>
-                <Menu.Menu position='right'>
-                  <Menu.Item>
-                    <Input icon='search' onChange={this.onSearch} value={query.search} placeholder='Search...'/>
-                  </Menu.Item>
-                  <Button color='teal' onClick={this.props.loadForm.bind(this, {show: true})} content='New Lead'/>
-                </Menu.Menu>
-              </Menu>
-            </Grid.Column>
-            <div className='exportbox'>Export your data
-              <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
-              <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
-            </div>
-          </Grid>
-          <Segment basic>
-            <Loader/>
-            <Table singleLine>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Name
-                    <Icon name={this.getSort('name')}
-                          onClick={this.props.sort.bind(this, 'name')}/>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>Assigned to</Table.HeaderCell>
-                  <Table.HeaderCell>E-mail Address<Icon name={this.getSort('email')}
-                                                        onClick={this.props.sort.bind(this, 'email')}/>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>Phone Number</Table.HeaderCell>
-                  {
-                    Auth.isAgency
-                      ? <Table.HeaderCell>Company
-                        <Icon name={this.getSort('company')}
-                              onClick={this.props.sort.bind(this, 'company')}/>
-                      </Table.HeaderCell>
-                      : null
-                  }
-                  <Table.HeaderCell>Source
-                    <Icon name={this.getSort('campaign')}
-                          onClick={this.props.sort.bind(this, 'campaign')}/>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell><span className="linearicons-cog"/></Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {
-                  leads.map((lead, index) => (
-                    <Table.Row
-                      onMouseEnter={() => this.onLeadEnterDisplayNotes(lead.id)}
-                      key={index}>
-                      <Table.Cell>
-                        <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                          <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
-                            {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
-                          </div>
-                          {lead.fullname}
-                        </Link>
-                        <div className='date-added'>
-                          Added {moment.utc(lead.created_at).local().format(`${DATE_FORMAT} H:mm`)}
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell>
-                        {
-                          lead.agent && <Link
-                            to={`/agents/${lead.agent.id}/profile`}>{lead.agent.name}</Link>
-                        }
-                      </Table.Cell>
-                      <Table.Cell>{lead.email}</Table.Cell>
-                      <Table.Cell>{lead.phone}</Table.Cell>
-                      {
-                        Auth.isAgency
-                          ? <Table.Cell>
-                            {
-                              lead.company
-                                ? <div className="comp-logo-box">
-                                  <AvatarImage avatar src={lead.company.avatar_path} rounded
-                                               size='mini'/>
-                                  <Link to={`/companies/${lead.company.id}/profile`}>
-                                    {lead.company.name}
-                                  </Link>
-                                </div>
-                                : null
-                            }
-                          </Table.Cell>
-                          : null
-                      }
-                      <Table.Cell><Link to={{
-                        pathname: (
-                          Auth.isAgency
-                            ? `/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`
-                            : `/deals/${lead.deal_id}/campaigns`
-                        ),
-                        state: {deal: lead.campaign.deal}
-                      }}>{lead.campaign.name}</Link></Table.Cell>
-                      <Table.Cell>
-                        {
-                          !lead.deleted_at
-                            ? <ButtonGroup>
-                              <Button onClick={this.props.loadForm.bind(this, {
-                                ...lead,
-                                company_id: lead.company.id,
-                                show: true
-                              })}>Edit</Button>
-                              <Button
-                                onClick={this.openConfirmModal.bind(this, true, lead.company_id, lead.id)}>Archive</Button>
-                            </ButtonGroup>
-                            : null
-                        }
-                      </Table.Cell>
-                    </Table.Row>
-                  ))
-                }
-
-              </Table.Body>
-            </Table>
-          </Segment>
-        </Segment>
-        <Segment textAlign='right' attached='bottom'>
-          <Pagination onPageChange={this.gotoPage}
-                      defaultActivePage={pagination.current_page}
-                      prevItem={null}
-                      nextItem={null}
-                      totalPages={pagination.last_page}/>
-        </Segment>
       </div>);
   }
 }

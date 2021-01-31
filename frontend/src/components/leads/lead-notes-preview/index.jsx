@@ -80,22 +80,26 @@ class LeadNotes extends Component {
                         <div className='lead-profile-row'>
                             <div className='lead-profile-value fullname'>{lead.fullname}</div>
 
-                            <Grid.Column  style={{textAlign: 'center'}}>
-                                <div className={'ui secondary menu leadnotes'}>
-                                    <Button circular className='email'
-                                            icon='icon-email'   as='a' href={`mailto:${lead.email}`}/>
+                            {
+                                !lead.deleted_at && (
+                                  <Grid.Column  style={{textAlign: 'center'}}>
+                                      <div className={'ui secondary menu leadnotes'}>
+                                          <Button circular className='email'
+                                                  icon='icon-email'   as='a' href={`mailto:${lead.email}`}/>
 
-                                    <Button circular className='editlead'
-                                            icon='icon-pencil'  onClick={this.props.loadForm.bind(this, {
-                                        ...lead,
-                                        company_id: lead.company.id,
-                                        show: true
-                                    })}/>
-                                    {
-                                        twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='phone'  onClick={this.onCall} />
-                                    }
-                                    </div>
-                            </Grid.Column>
+                                          <Button circular className='editlead'
+                                                  icon='icon-pencil'  onClick={this.props.loadForm.bind(this, {
+                                              ...lead,
+                                              company_id: lead.company.id,
+                                              show: true
+                                          })}/>
+                                          {
+                                              twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='phone'  onClick={this.onCall} />
+                                          }
+                                      </div>
+                                  </Grid.Column>
+                                )
+                            }
 
                              <div className='lead-profile-row'>
                             <div className='lead-profile-label'><label>Phone</label></div>
