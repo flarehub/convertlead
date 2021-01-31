@@ -1,11 +1,11 @@
 import {api, Auth} from "../../@services";
 
-export const fetchAgencyCompanyLead = (companyId, id) => {
-  return api.get(`/v1/agency/companies/${companyId}/leads/${id}`);
+export const fetchAgencyCompanyLead = (companyId, id, resetSmsReplayView = 0) => {
+  return api.get(`/v1/agency/companies/${companyId}/leads/${id}?resetIsNew=${resetSmsReplayView}`);
 };
 
-export const fetchCompanyLead = id => {
-  return api.get(`/v1/${Auth.role}/leads/${id}`);
+export const fetchCompanyLead = (id, resetSmsReplayView = 0) => {
+  return api.get(`/v1/${Auth.role}/leads/${id}?resetIsNew=${resetSmsReplayView}`);
 };
 
 export const createAgencyCompanyLeadNote = (companyId, leadId, form) => {

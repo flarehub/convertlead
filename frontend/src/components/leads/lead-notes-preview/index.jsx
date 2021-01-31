@@ -15,14 +15,14 @@ class LeadNotes extends Component {
     }
     async componentWillMount() {
         const {companyId, leadId} = this.props;
-        this.props.loadLead(companyId, leadId, true);
+        this.props.loadLead(companyId, leadId, true, true);
         this.props.fetchTwilioTokenBy(leadId);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.leadId !== this.props.leadId) {
             const {companyId, leadId} = this.props;
-            this.props.loadLead(companyId, leadId, true);
+            this.props.loadLead(companyId, leadId, true, true);
         }
         if (prevProps.twilioToken !== this.props.twilioToken && this.props.twilioToken) {
             Device.setup(this.props.twilioToken);

@@ -57,9 +57,20 @@ class LeadController extends Controller
      */
     public function show(Request $request, $id)
     {
-        return $request->user()->getLeadBy($id)->load(
+        $lead = $request->user()->getLeadBy($id)->load(
             'leadNotes'
         );
+
+        $leadNotes = $lead->leadNotes;
+
+        if ($request->get('resetIsNew') && $leadNotes) {
+            collect($leadNotes)->each(function ($leadNote) {
+                $leadNote->is_new = 0;
+                $leadNote->save();
+            });
+        }
+
+        return $lead;
     }
 
     /**

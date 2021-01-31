@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatcherToProps = disptach => ({
-  loadLead: (companyId, leadId, skip = false) => disptach(thunks.loadLead(companyId, leadId, skip)),
+  loadLead: (companyId, leadId, skip = false, resetSmsReplayView = false) => disptach(thunks.loadLead(companyId, leadId, skip, resetSmsReplayView)),
   createLeadNote: form => disptach(thunks.createLeadNote(form))
 });
 

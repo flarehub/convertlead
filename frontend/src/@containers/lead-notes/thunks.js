@@ -10,13 +10,13 @@ import {
   fetchCompanyLead
 } from "./api";
 
-export const loadLead = (companyId, leadId, skip = false) => async dispatch => {
+export const loadLead = (companyId, leadId, skip = false, resetSmsReplayView = false) => async dispatch => {
   try {
     await dispatch(showLoader());
     const response = await (
       Auth.isAgency
-      ? fetchAgencyCompanyLead(companyId, leadId)
-      : fetchCompanyLead(leadId)
+      ? fetchAgencyCompanyLead(companyId, leadId, +resetSmsReplayView)
+      : fetchCompanyLead(leadId, +resetSmsReplayView)
     );
 
     const { data } = response;
