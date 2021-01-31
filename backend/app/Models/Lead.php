@@ -28,6 +28,7 @@ class Lead extends Model
         'statusInfo',
         'company',
         'agent',
+        'smsReplayCount',
     ];
 
     public function campaign() {
@@ -105,6 +106,22 @@ class Lead extends Model
         $status->name = 'New';
         $status->type = LeadStatus::$STATUS_NEW;
         return $status;
+    }
+
+    public function getSmsReplayCountAttribute() {
+        $notes = $this->leadNotes()
+            ->join('deal_actions', 'deal_actions.id', '=', 'lead_notes.deal_action_id')
+            ->where('lead_notes.is_new', 1)
+            ->where('deal_actions.type', '=', DealAction::TYPE_SMS_MESSAGE)
+            ->where(function($query) {
+                $query->where('deal_actions.lead_reply_type', '=', DealAction::LEAD_REPLY_TYPE_SMS_REPLY)
+                    ->orWhere('deal_actions.lead_reply_type', '=', DealAction::LEAD_REPLY_TYPE_SMS_REPLY);
+            });
+
+        if ($notes) {
+            return $notes->count();
+        }
+        return 0;
     }
 
     public function getLeadNoteBy($id) {

@@ -279,9 +279,13 @@ class Leads extends React.Component {
                     <Table.Cell>
                       <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
                         {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
-                        <Label color='red' floating>
-                          22
-                        </Label>
+                        {
+                          lead.smsReplayCount && (
+                            <Label color='red' floating>
+                              {lead.smsReplayCount}
+                            </Label>
+                          )
+                        }
                       </div>
                     </Table.Cell>
                     <Table.Cell>

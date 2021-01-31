@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\MailService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -32,6 +31,10 @@ class LeadNote extends Model
     
     public function lead() {
         return $this->hasOne('App\Models\Lead', 'id', 'lead_id');
+    }
+
+    public function dealAction() {
+        return $this->hasOne('App\Models\DealAction', 'id', 'deal_action_id');
     }
     
     public function getAgentAttribute() {
