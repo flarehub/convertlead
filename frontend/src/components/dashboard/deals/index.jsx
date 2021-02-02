@@ -209,7 +209,7 @@ class Dashboard extends Component {
     ];
 
     return (
-      <div className='Dashboard'>
+      <div className={'Dashboard ' + (dealIds.length ? 'sidebarOpened' : '')}>
         {
           dealIds.length > 0 && (
               <DealsStatistics
