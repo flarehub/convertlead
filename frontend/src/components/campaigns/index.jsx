@@ -325,9 +325,12 @@ class Campaigns extends Component {
             agentId={this.state.agentId}/>
           <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
                    onConfirm={this.onConfirm}/>
-          <Grid columns={2}>
+            <div className="top note">
+                When you change a campaign's company, your integrations will stop running until you assign them a new agent. <a className="item" href="https://convertlead.com/docs-home/" target="_blank">Learn more</a>
+            </div>
+            <Grid columns={2}>
             <Grid.Column>
-              <Header floated='left' as='h1'>Integrations</Header>
+                <Header floated='left' as='h1'>Integrations</Header>
               <Form.Field>
                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
               </Form.Field>
@@ -346,8 +349,8 @@ class Campaigns extends Component {
               </Menu>
             </Grid.Column>
           </Grid>
-          <Segment basic>
-            <Loader/>
+           <Segment basic>
+              <Loader/>
             <Table singleLine>
               <Table.Header>
                 <Table.Row>

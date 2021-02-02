@@ -9,6 +9,8 @@ import { LoginLayout, OptinFormPage, ResetPassword } from '.';
 
 import './App.scss';
 import './static/linearicons.css';
+import './static/stroke.css';
+import './static/averta.css';
 import './static/style.css';
 import './static/my.custom.css';
 

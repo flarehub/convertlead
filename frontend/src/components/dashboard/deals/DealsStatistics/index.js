@@ -48,8 +48,9 @@ class DealsStatistics extends React.PureComponent {
     const data = this.props.dealsGraphic;
     const chartIntegrations = this.props.dealsSelectedGraphicStatistics;
     return (<div className="DealStatistics">
+          <div className="statswrapper">
       <div className="deal-header">
-        <div>{dealsCount} Campaign's Selected</div>
+        <div>{dealsCount} Campaign/s Selected</div>
         <h2>Weekly Leads</h2>
       </div>
       <div onMouseLeave={() => this.props.dealDisplayGraphicDate('all')} className="deals-chart">
@@ -77,7 +78,7 @@ class DealsStatistics extends React.PureComponent {
           }
         </div>
       </div>
-    </div>)
+    </div></div>)
   }
 }
 

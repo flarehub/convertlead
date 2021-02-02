@@ -143,13 +143,12 @@ class Dashboard extends Component {
 
     const Filters = () => (
       <div className="campaignFilters">
-        <div className="filterByCompany">
+        <div className="filterByCompany filter white">
           {
             Auth.isAgency ?
               <Form.Field
                 control={Select}
                 options={[...companies, ...this.props.selectBoxCompanies]}
-                label={{children: 'Filter', htmlFor: 'form-companies-list'}}
                 placeholder='All companies'
                 search
                 onChange={this.filterDealsByCompany}
@@ -233,25 +232,29 @@ class Dashboard extends Component {
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
                  onConfirm={this.onConfirm}/>
         <Segment attached='top'>
-          <Grid columns={2}>
+            <Grid columns={2}>
             <Grid.Column>
+
               <Header floated='left' as='h1'>Campaigns</Header>
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
                 <Menu.Menu position='right'>
                   <Menu.Item>
-                    <Input icon='search' onChange={this.searchDealsByCompany} value={filters.search}
+                    <Input icon='flaticon stroke zoom-2' onChange={this.searchDealsByCompany} value={filters.search}
                            placeholder='Search...'/>
                   </Menu.Item>
                   <Button color='teal'
-                          content='New Campaign'
+                          content=''
+                          icon='flaticon stroke plus-1 '
+                          className="new-campaign"
                           onClick={this.props.loadForm.bind(this, {show: true})}/>
                 </Menu.Menu>
               </Menu>
             </Grid.Column>
           </Grid>
           <Segment basic>
+
             <Loader/>
             <Tab onTabChange={() => (this.setState({ ...this.state, dealIds: [] }))} menu={{ secondary: true, pointing: true }} panes={panes} />
           </Segment>

@@ -41,12 +41,12 @@ export const DealsComponent = ({ onDealSelected, deals, deleted, loadForm, openC
                                  link={`/deals/${deal.id}/campaigns`}/>
               }
               <Button.Group basic size='small'>
-                <Button onClick={loadForm.bind(this, {
+                <Button icon='flaticon stroke pencil-1' onClick={loadForm.bind(this, {
                   ...deal,
                   companyId: deal.company.id,
                   show: true
-                })}>Edit</Button>
-                <Button icon='trash alternate outline'
+                })}/>
+                <Button icon='flaticon stroke trash-1'
                         onClick={openConfirmModal.bind(this, true, deal.company.id, deal.id)}/>
               </Button.Group>
             </Card.Content>

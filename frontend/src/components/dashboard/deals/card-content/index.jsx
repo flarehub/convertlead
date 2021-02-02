@@ -19,13 +19,13 @@ export const CardContent = ({ onSelectedDeal, deal, link, company }) => (
       }}>
         <div className="companyContainer">
           <AvatarImage src={company.avatar_path} avatar rounded size='medium' />
-          <p>{company.name}</p>
+            <div className="dealName">{deal.name}</div>
         </div>
-        <div className="dealName">{deal.name}</div>
+          <p>{company.name}</p>
       </Link>
     </div>
     <div><label className="started">Started</label> {moment(deal.created_at).format(DATE_FORMAT)}</div>
     <div><label className="totalLeads">Total leads</label> {deal.leadsCount}</div>
-    <div><label className="conversations">Conversations</label> {deal.leadNoteCount}</div>
+    <div><label className="conversations">Conversions</label> {deal.leadNoteCount}</div>
   </React.Fragment>
 );
