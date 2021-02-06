@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\User;
-use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
