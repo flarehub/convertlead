@@ -43,11 +43,16 @@ class DealsStatistics extends React.PureComponent {
     }
   }
 
+  onCloseSidebar () {
+    this.props.onClose();
+  }
+
   render() {
     const dealsCount = +(this.props.dealIds && this.props.dealIds.length);
     const data = this.props.dealsGraphic;
     const chartIntegrations = this.props.dealsSelectedGraphicStatistics;
     return (<div className="DealStatistics">
+      <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}>x</div>
           <div className="statswrapper">
       <div className="deal-header">
         <div>{dealsCount} Campaign/s Selected</div>

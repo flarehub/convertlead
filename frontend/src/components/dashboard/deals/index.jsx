@@ -114,10 +114,16 @@ class Dashboard extends Component {
       dealIds,
     });
   }
+  onClose() {
+    this.setState({
+      ...this.state,
+      dealIds: [],
+    })
+  }
 
   render() {
     const { deals, deleted_deals, filters } = this.props;
-    const { companyId, visible, dealIds} = this.state;
+    const { companyId, visible, dealIds, reset } = this.state;
     const sorByFiled = [
       {
         key: 'name.desc',
@@ -184,9 +190,10 @@ class Dashboard extends Component {
             <DealsComponent
               onDealSelected={this.onDealSelected.bind(this)}
               deals={deals}
+              dealIds={dealIds}
               loadForm={this.props.loadForm}
               openConfirmModal={this.openConfirmModal}
-              key="deals-live"
+              key={`deals-live-${JSON.stringify(dealIds)}`}
             />
           </Tab.Pane>
         ),
@@ -199,8 +206,9 @@ class Dashboard extends Component {
             <DealsComponent
               onDealSelected={this.onDealSelected.bind(this)}
               deleted
+              dealIds={dealIds}
               deals={deleted_deals}
-              key="deals-archived"
+              key={`deals-archived-${JSON.stringify(dealIds)}`}
             />
           </Tab.Pane>
         ),
@@ -213,6 +221,7 @@ class Dashboard extends Component {
           dealIds.length > 0 && (
               <DealsStatistics
                 dealIds={dealIds}
+                onClose={() => this.onClose()}
                 key={JSON.stringify(dealIds)}
               />
             )
