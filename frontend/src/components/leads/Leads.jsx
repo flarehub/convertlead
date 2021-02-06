@@ -274,7 +274,7 @@ class Leads extends React.Component {
               {
                 leads.map((lead, index) => (
                   <Table.Row
-                    onMouseEnter={() => this.onLeadEnterDisplayNotes(lead)}
+                    onClick={() => this.onLeadEnterDisplayNotes(lead)}
                     key={index}>
                     <Table.Cell>
                       <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
