@@ -86,7 +86,7 @@ class Leads extends Component {
                     <Menu.Item>
                       <Input icon='search' onChange={this.onSearch} value={query.search} placeholder='Search...'/>
                     </Menu.Item>
-                    <Button color='teal' onClick={this.props.loadForm.bind(this, {show: true})} content='New Lead'/>
+                      <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, {show: true})} ><i className="flaticon stroke plus-1  icon"></i></Button>
                   </Menu.Menu>
                 </Menu>
               </Grid.Column>

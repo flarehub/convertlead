@@ -194,9 +194,8 @@ class Leads extends React.Component {
         <Segment basic>
           <div className="leadFilters">
             <div className="field">
-              <label>Filter by: </label>
               <Form>
-                <Form.Group widths='equal'>
+                <Form.Group widths='equal' className='filter white'>
                   {
                     !campaignId && Auth.isAgency ?
                       <Form.Field
@@ -245,29 +244,27 @@ class Leads extends React.Component {
           <Table singleLine>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell>Name
+                  <Table.HeaderCell><span className='table-head blue'>Status</span></Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head blue'>Name
                   <Icon name={this.getSort('name')}
-                        onClick={this.props.sort.bind(this, 'name')}/>
+                        onClick={this.props.sort.bind(this, 'name')}/></span>
                 </Table.HeaderCell>
-                <Table.HeaderCell>Assigned to</Table.HeaderCell>
-                <Table.HeaderCell>E-mail Address<Icon name={this.getSort('email')}
-                                                      onClick={this.props.sort.bind(this, 'email')}/>
-                </Table.HeaderCell>
-                <Table.HeaderCell>Phone Number</Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head blue'>Assigned to</span></Table.HeaderCell>
+
+                  <Table.HeaderCell><span className='table-head blue'>Phone Number</span></Table.HeaderCell>
                 {
                   Auth.isAgency
-                    ? <Table.HeaderCell>Company
+                    ? <Table.HeaderCell><span className='table-head blue'>Company
                       <Icon name={this.getSort('company')}
-                            onClick={this.props.sort.bind(this, 'company')}/>
+                            onClick={this.props.sort.bind(this, 'company')}/></span>
                     </Table.HeaderCell>
                     : null
                 }
-                <Table.HeaderCell>Source
+                <Table.HeaderCell><span className='table-head blue'>Source
                   <Icon name={this.getSort('campaign')}
-                        onClick={this.props.sort.bind(this, 'campaign')}/>
+                        onClick={this.props.sort.bind(this, 'campaign')}/></span>
                 </Table.HeaderCell>
-                <Table.HeaderCell><span className="linearicons-cog"/></Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head blue'>Actions</span></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -291,7 +288,7 @@ class Leads extends React.Component {
                     <Table.Cell>
                       {lead.fullname}
                       <div className='date-added'>
-                        Added {moment.utc(lead.created_at).local().format(`${DATE_FORMAT} H:mm`)}
+                        added {moment.utc(lead.created_at).local().format(`${DATE_FORMAT} H:mm`)}
                       </div>
                     </Table.Cell>
                     <Table.Cell>
@@ -300,7 +297,7 @@ class Leads extends React.Component {
                           to={`/agents/${lead.agent.id}/profile`}>{lead.agent.name}</Link>
                       }
                     </Table.Cell>
-                    <Table.Cell>{lead.email}</Table.Cell>
+
                     <Table.Cell>{lead.phone}</Table.Cell>
                     {
                       Auth.isAgency
@@ -327,12 +324,11 @@ class Leads extends React.Component {
                       ),
                       state: {deal: lead.campaign.deal}
                     }}>{lead.campaign.name}</Link></Table.Cell>
+
                     <Table.Cell>
-                      <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                        <Icon name='user' />
-                      </Link>
-                    </Table.Cell>
-                    <Table.Cell>
+                        <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
+                            <i class="flaticon stroke user-1"></i>
+                        </Link>
                       {
                         !lead.deleted_at
                           ? <ButtonGroup>

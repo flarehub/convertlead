@@ -59,12 +59,12 @@ class DealsStatistics extends React.PureComponent {
         <h2>Weekly Leads</h2>
       </div>
       <div onMouseLeave={() => this.props.dealDisplayGraphicDate('all')} className="deals-chart">
-        <BarChart width={250} height={150} data={data}>
+        <BarChart width={310} height={180} data={data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="name" tick={{fontSize: 10}} interval={0} />
           <YAxis onMouseOver={(...args) => console.log('hover', args)} />
           <Tooltip content={<CustomTooltip onDisplay={this.onDisplay.bind(this)} />} />
-          <Bar dataKey="totalLeadsCount" fill="#1e70bf" />
+          <Bar dataKey="totalLeadsCount" fill="#4d77ff" barSize={10} />
         </BarChart>
       </div>
       <div className="deals-chart-description">

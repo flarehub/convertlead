@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
 import './index.scss';
-import {Button, Checkbox, Form, Grid, Header, Menu} from "semantic-ui-react";
+import {Button, Checkbox, Form, Grid, Header, Menu, Segment} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { SVG } from '@svgdotjs/svg.js'
 import * as R from 'ramda';
@@ -90,26 +90,26 @@ class Campaigns extends Component {
   }
 
   drawHorizontalLine(draw) {
-    draw.circle(10, { fill: '#ccc' }).dy(25).dx(80);
-    const line = draw.line(0, 0, 165, 0).move(90, 30)
-    line.stroke({ color: '#ccc', width: 2, linecap: 'round' });
+    draw.circle(10, { fill: '#9d9bb5' }).dy(25).dx(137);
+    const line = draw.line(0, 0, 165, 0).move(147, 30)
+    line.stroke({ color: '#9d9bb5', width: 2, linecap: 'round', dasharray: '4 7' });
   }
 
   drawVerticalLine(draw) {
-    draw.circle(10, { fill: '#ccc' }).dy(120).dx(38);
-    const line = draw.line(0, 0, 0, 50).move(43, 130)
-    line.stroke({ color: '#ccc', width: 2, linecap: 'round' });
+    draw.circle(10, { fill: '#9d9bb5' }).dy(185).dx(91);
+    const line = draw.line(0, 0, 0, 50).move(96, 190)
+    line.stroke({ color: '#9d9bb5', width: 2, linecap: 'round' });
   }
 
   drawSvg() {
     this.draw.clear();
-    this.draw.circle(10, { fill: '#ccc' }).dy(0).dx(140);
-    const line = this.draw.line(0, 0, 0, 50).move(145, 10)
-    line.stroke({ color: '#ccc', width: 2, linecap: 'round' });
+    this.draw.circle(10, { fill: '#9d9bb5' }).dy(0).dx(91);
+    const line = this.draw.line(0, 0, 0, 50).move(96, 10)
+    line.stroke({ color: '#9d9bb5', width: 2, linecap: 'round' });
 
     this.props.actions.forEach(action => {
-      const y = (action.index === 0 ? 50 : action.index * (action.index > 1 ? 200 : 220));
-      this.drawAction(action).dy(y).dx(100);
+      const y = (action.index === 0 ? 50 : action.index * (action.index > 1 ? 265 : 290));
+      this.drawAction(action).dy(y).dx(0);
 
       if (this.checkIsAllowedForHorizontalActions(action) && action.children) {
         this.drawHorizontalActions(action.children, action);
@@ -117,18 +117,18 @@ class Campaigns extends Component {
 
       if (this.checkIsAllowedForHorizontalActions(action) && action.children) {
         const lastAction = R.last(action.children);
-        const x = ((lastAction.index ) * 240) + 340
-        const y = (action.index > 1 ? 200 : 220);
+        const x = ((lastAction.index ) * 240) + 297
+        const y = (action.index > 1 ? 200 : 290);
         this.createButtonAddHorizontalAction(lastAction).dx(x).dy((action.index * y) || 50);
       } else if (action.is_root && this.checkIsAllowedForHorizontalActions(action)) {
         const y = action.index * (action.index > 1 ? 200 : 220);
-        this.createButtonAddHorizontalAction(action).dy(y || 50).dx(340);
+        this.createButtonAddHorizontalAction(action).dy(y || 50).dx(297);
       }
     });
 
     const lastAction = R.last(this.props.actions);
-    const y = (R.path(['index'], lastAction) !== undefined ? (R.path(['index'], lastAction) + 1) * 200 : 50);
-    this.createButtonAddVerticalAction(lastAction).move(115, y);
+    const y = (R.path(['index'], lastAction) !== undefined ? (R.path(['index'], lastAction) + 1) * 257 : 50);
+    this.createButtonAddVerticalAction(lastAction).move(67, y);
   }
 
   checkIsAllowedForHorizontalActions(action) {
@@ -137,9 +137,9 @@ class Campaigns extends Component {
 
   drawHorizontalActions(horizontalActions, parent) {
     const group = this.draw.nested();
-    group.dx(100);
+    group.dx(0);
       horizontalActions.forEach(action => {
-        const offsetOnY =  (parent.index === 0 ? 50 : parent.index * 220);
+        const offsetOnY =  (parent.index === 0 ? 50 : parent.index * 290);
         const y = (parent.index > 1 ? parent.index * 200 : offsetOnY);
         this.drawAction(action, group).dy(y).dx(action.index * 240);
       });
@@ -147,14 +147,14 @@ class Campaigns extends Component {
   }
 
   drawSmsSettingsButton(action, group) {
-    group.text('on sms reply').dy(3).dx(110);
+    group.text('on sms reply').fill({ color: '#666382' }).dy(0).dx(167);
     const onSmsReplySettingsButton = group.image(settingIcon)
-    .width(20)
-    .height(20)
+    .width(34)
+    .height(34)
     .attr('cursor', 'pointer')
     .attr('kid', action.id)
-    .dy(8)
-    .dx(190);
+    .dy(-1)
+    .dx(247);
     onSmsReplySettingsButton.on('click', () => {
       const action = this.props.getActionBy(onSmsReplySettingsButton.attr('kid'));
       this.props.loadAutomationReplyForm({ show: true, ...action });
@@ -162,7 +162,7 @@ class Campaigns extends Component {
   }
 
   drawTextOnEmailOpen(group) {
-    group.text('on email open').dy(3).dx(110);
+    group.text('on email open').fill({ color: '#666382' }).dy(0).dx(167);
   }
 
   drawAction(action, groupParent) {
@@ -170,9 +170,11 @@ class Campaigns extends Component {
     switch (action.type) {
       case TYPE_SMS_MESSAGE: {
         this.drawIcon(group, textIcon, action);
-        group.text('Text message').fill({ color: '#000' }).dy(60).dx(0);
-        const message = (action.object.message || '').slice(0, 8);
-        group.text(`${message}...`).fill({ color: '#bcbcbc' }).center(40, 100);
+        group.text('Text message').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(52);
+        group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
+        group.rect(180,40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20') ;
+        const message = (action.object.message || '').slice(0, 17);
+        group.text(`${message}...`).fill({ color: '#666382' }).center(97, 150);
         if (action.is_root) {
           this.drawSmsSettingsButton(action, group);
           this.drawHorizontalLine(group);
@@ -181,10 +183,11 @@ class Campaigns extends Component {
       }
       case TYPE_EMAIL_MESSAGE: {
         this.drawIcon(group, emailIcon, action);
-        group.text('E-mail').fill({ color: '#000' }).dy(60).dx(20);
-        const message = (action.object.subject || '').slice(0, 8);
-        group.text(`${message}...`).fill({ color: '#bcbcbc' }).center(40, 100);
-
+        group.text('E-mail').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(75);
+        group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
+        group.rect(180,40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20') ;
+        const message = (action.object.subject || '').slice(0, 19);
+        group.text(`${message}...`).fill({ color: '#666382' }).center(97, 150);
         if (action.is_root) {
           this.drawTextOnEmailOpen(group);
           this.drawHorizontalLine(group);
@@ -194,29 +197,34 @@ class Campaigns extends Component {
       case TYPE_LEAD_CHANGE_STATUS: {
         this.drawIcon(group, statusChangeIcon, action);
         group.width(400)
-        group.text('Change status').fill({ color: '#000' }).dy(60).dx(0);
+        group.text('Change status').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(50);
+        group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
+          group.rect(180,40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20') ;
         if (action.object) {
           if (action.object.status === 'VIEWED') {
-            group.text('Follow-up').fill({ color: '#bcbcbc' }).center(40, 100);
+            group.text('Follow-up').fill({ color: '#666382' }).center(97, 151);
           } else {
-            group.text(action.object.status).fill({ color: '#bcbcbc' }).center(40, 100);
+            group.text(action.object.status).fill({ color: '#666382' }).center(97, 151);
           }
         } else {
-          group.text('None').fill({ color: '#bcbcbc' }).center(40, 100);
+          group.text('None').fill({ color: '#666382' }).center(97, 151);
         }
 
         break;
       }
       case TYPE_BLIND_CALL: {
         this.drawIcon(group, blindCall, action);
-        group.text('Blind Call').fill({ color: '#000' }).dy(60).dx(15);
+        group.text('Blind Call').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(63);
+          group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
         break;
       }
       case TYPE_PUSH_NOTIFICATION: {
         this.drawIcon(group, agentPushIcon, action);
-        group.text('Agent Notify').fill({ color: '#000' }).dy(60).dx(5);
-        const message = (action.object.message || '').slice(0, 8);
-        group.text(`${message}...`).fill({ color: '#bcbcbc' }).center(40, 100);
+        group.text('Agent Notify').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(55);
+          group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
+          group.rect(180,40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20') ;
+        const message = (action.object.message || '').slice(0, 18);
+        group.text(`${message}...`).fill({ color: '#666382' }).center(97, 150);
 
       }
       default:
@@ -231,7 +239,7 @@ class Campaigns extends Component {
   }
 
   drawIcon(group, icon, action) {
-    const iconButton = group.image(icon, { kid: action.id, cursor: 'pointer' }).dx(15);
+    const iconButton = group.image(icon, { kid: action.id, cursor: 'pointer' }).dx(67);
     iconButton.on('click', () => {
       const action = this.props.getActionBy(iconButton.attr('kid'));
       this.props.loadForm({ show: true, ...action });
@@ -303,26 +311,30 @@ class Campaigns extends Component {
 
     return (
       <div className='Automations'>
+          <Segment attached='top'>
         <AutomationModal dealId={dealId} />
         <AutomationReplyModal dealId={dealId} />
         <Grid columns={2}>
           <Grid.Column>
             <Header floated='left' as='h1'>Automations</Header>
+              <Header floate='left' as='h3'>Campaign name goes here</Header>
           </Grid.Column>
           <Grid.Column>
-            <div className="buttonsToScale">
-              <Button color="teal" content='Scale Up' onClick={this.scaleUp} labelPosition='left'/>
-              <Button color="teal" content='Scale Down' onClick={this.scaleDown} labelPosition='left'/>
-            </div>
             <Menu secondary>
               <Menu.Menu position='right'>
-                <Link to={`/deals/${dealId}/integrations`} >
+                  <div className="buttonsToScale">
+                      <Button color=""  className="small-transparent" onClick={this.scaleUp} labelPosition='left'><i
+                          aria-hidden="true" className="flaticon stroke zoom-in-1  icon"></i></Button>
+                      <Button color=""  className="small-transparent" onClick={this.scaleDown} labelPosition='left'><i
+                          aria-hidden="true" className="flaticon stroke zoom-2  icon"></i></Button>
+                  </div>
+                  <Link to={`/deals/${dealId}/integrations`} >
                   <Button color='teal' content='Integrations' labelPosition='left'/>
                 </Link>
                 {
                   deal.has_automation !== undefined && (
                     <Checkbox
-                      label="Automation On/Off"
+                      label=""
                       name="has_automation"
                       checked={!!has_automation}
                       toggle
@@ -338,6 +350,7 @@ class Campaigns extends Component {
         <div ref={refSVGContainer} className="automation-container">
           &nbsp;
         </div>
+          </Segment>
       </div>
     );
   }

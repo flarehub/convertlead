@@ -71,12 +71,12 @@ class LeadNotes extends Component {
                 <LeadModal size='small'/>
                 <Grid.Column width={6}>
                     <Segment className='lead-profile'>
-                        <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
+                        <div className="leadprofile-top">Quick Preview <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
                             <Button color="teal">Profile</Button>
                         </Link>
                         <div className="onClosePreview">
-                            <Icon name="close" onClick={() => this.props.onClose()} />
-                        </div>
+                            <Icon className="flaticon stroke x-2" onClick={() => this.props.onClose()} />
+                        </div></div>
                         <div className='lead-profile-row'>
                             <div className='lead-profile-value fullname'>{lead.fullname}</div>
 
