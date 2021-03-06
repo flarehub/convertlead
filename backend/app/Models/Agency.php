@@ -144,6 +144,7 @@ class Agency extends User
         )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
+            ->leftJoin('deal_campaigns as dc', 'dc.agency_company_id', 'ca.company_id')
             ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
             ->leftJoin('leads AS ld', 'ld.agent_id', 'users.id')
             ->leftJoin(\DB::raw("
