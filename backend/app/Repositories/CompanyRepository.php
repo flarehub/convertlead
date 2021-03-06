@@ -190,6 +190,7 @@ trait CompanyRepository {
               users.avatar_id,
                users.deleted_at,
             COUNT(DISTINCT ac.id, dca.id) AS campaigns_count,
+            COUNT(DISTINCT dc.id, dca.id) AS deal_campaigns_count,
             COUNT(DISTINCT ld.id) AS leads_count,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
             users.created_at,

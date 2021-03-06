@@ -1,0 +1,32 @@
+.agentContainer {
+  float: left;
+  margin-right: 5px;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.agentMenu {
+  float: right;
+  position: relative;
+
+  .buttons {
+    display: none !important;
+    position: absolute;
+  }
+
+  &:hover {
+    .buttons {
+      display: block !important;
+    }
+  }
+
+  & > .bullets {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    border: 1px solid;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+  }
+}

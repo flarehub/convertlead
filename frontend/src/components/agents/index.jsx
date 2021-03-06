@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {compose} from 'recompose';
 import {BreadCrumbContainer, AgentsContainer, AgentFormContainer} from '@containers';
 import AgentModal from '../@common/modals/agent';
-import * as moment from 'moment';
 import {
     Button,
     Checkbox,
@@ -11,12 +9,10 @@ import {
     Form,
     Grid,
     Header,
-    Icon,
     Input,
     Menu,
     Pagination,
     Segment,
-    Table,
     Select,
 } from 'semantic-ui-react';
 import './index.scss';
@@ -25,9 +21,9 @@ import * as R from "ramda";
 import {CompaniesContainer} from "@containers";
 import {Auth} from "@services";
 import {AvatarImage} from "../@common/image";
-import {DATE_FORMAT} from '@constants';
 import ButtonGroup from 'components/@common/button-group';
 import {disableAutoComplete} from '../../utils';
+import avatarDemo from "../@common/forms/avatar-demo.png";
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -154,98 +150,67 @@ class Agents extends Component {
                     </Grid>
                     <Segment basic>
                         <Loader/>
-                        <Table singleLine>
-                            <Table.Header>
-                                <Table.Row>
-                                    <Table.HeaderCell>Name
-                                        <Icon name={this.getSort('name')}
-                                              onClick={this.props.sort.bind(this, 'name')}/>
-                                    </Table.HeaderCell>
-                                    {
-                                        Auth.isAgency
-                                            ? <Table.HeaderCell>Companies</Table.HeaderCell>
-                                            : null
-                                    }
-                                    <Table.HeaderCell>Integrations<Icon name={this.getSort('campaigns')}
-                                                                      onClick={this.props.sort.bind(this, 'campaigns')}/>
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell>Leads
-                                        <Icon name={this.getSort('leads')}
-                                              onClick={this.props.sort.bind(this, 'leads')}/>
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell>Avg Response time
-                                        <Icon name={this.getSort('avg_response')}
-                                              onClick={this.props.sort.bind(this, 'avg_response')}/>
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell><span className="linearicons-cog"/></Table.HeaderCell>
-                                </Table.Row>
-                            </Table.Header>
-                            <Table.Body>
-                                {
-                                    agents.map((agent, index) => (
-                                        <Table.Row key={index}>
-                                            <Table.Cell>
-                                                <Link to={`/agents/${agent.id}/profile`}>
-                                                    {agent.name}
-                                                </Link>
-                                                <div>
-                                                     <span
-                                                         className='date-added'>Added {moment.utc(agent.created_at).local().format(DATE_FORMAT)}</span>
-                                                </div>
-                                            </Table.Cell>
+                            {
+                                agents.map((agent, index) => (
+                                    <div className="agentContainer">
+                                        <div className="agentMenu">
+                                            <div className="bullets">...</div>
                                             {
-                                                Auth.isAgency
-                                                    ? <Table.Cell>
-                                                        {
-                                                            agent.companies.map((company, key) => <div key={key}
-                                                                                                       className="comp-logo-box">
-                                                                <AvatarImage avatar src={company.avatar_path} rounded
-                                                                             size='mini'/>
-                                                                <Link to={`/companies/${company.id}/profile`}>
-                                                                    {company.name}
-                                                                </Link>
-                                                            </div>)
-                                                        }
-
-                                                    </Table.Cell>
-                                                    : null
-                                            }
-                                            <Table.Cell>
-                                                {<Link to={{
-                                                    pathname: `/agents/${agent.id}/campaigns`,
-                                                    state: {agent}
-                                                }}>{agent.campaigns_count || 0}</Link>}
-                                            </Table.Cell>
-                                            <Table.Cell>{<Link
-                                                to={`/agents/${agent.id}/leads`}>{agent.leads_count || 0}</Link>}</Table.Cell>
-                                            <Table.Cell>{agent.avg_lead_response || 0}</Table.Cell>
-                                            <Table.Cell>
-                                                {
-                                                    !agent.deleted_at && (
-                                                      <ButtonGroup>
-                                                          <Button onClick={this.props.loadForm.bind(this, {
-                                                              ...agent,
-                                                              show: true
-                                                          })}>Edit</Button>
-                                                          <Button
-                                                            onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
-                                                      </ButtonGroup>
-                                                    ) || (
-                                                      <ButtonGroup>
+                                                !agent.deleted_at && (
+                                                  <ButtonGroup>
                                                       <Button onClick={this.props.loadForm.bind(this, {
                                                           ...agent,
                                                           show: true
                                                       })}>Edit</Button>
-                                                       <Button onClick={() => this.onRestore(agent.id)}>Restore</Button>
-                                                      </ButtonGroup>
-                                                      )
-                                                }
-                                            </Table.Cell>
-                                        </Table.Row>
-                                    ))
-                                }
-                            </Table.Body>
-                        </Table>
+                                                      <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
+                                                  </ButtonGroup>
+                                                ) || (
+                                                  <ButtonGroup>
+                                                      <Button onClick={this.props.loadForm.bind(this, {
+                                                          ...agent,
+                                                          show: true
+                                                      })}>Edit</Button>
+                                                      <Button onClick={() => this.onRestore(agent.id)}>Restore</Button>
+                                                  </ButtonGroup>
+                                                )
+                                            }
+                                        </div>
+                                        <div className="agentDetails">
+                                            <div className="agentAvatar">
+                                                <div className="legend">
+                                                    <span className="legendCount">
+                                                        {agent.leads_count}
+                                                    </span>
+                                                    <span className="legendName">
+                                                        Leads
+                                                    </span>
+                                                </div>
+                                                <AvatarImage size='tiny' circular src={agent.avatar_path || avatarDemo}/>
+                                            </div>
+                                            <div className="integrationCount">
+                                                <span>
+                                                    {agent.integration_count || 0}
+                                                    &nbsp;
+                                                    Integrations
+                                                </span>
+                                            </div>
+                                            <div className="campaignStatus">
+                                                <button>Active</button>
+                                            </div>
+                                            {
+                                                agent.deals && (
+                                                  <div className="campaignNames">
+                                                      <span>assigned to</span>
+                                                      {
+                                                          agent.deals && agent.deals.map(({name}) => <div className="campaignName">{name}</div>)
+                                                      }
+                                                  </div>
+                                                )
+                                            }
+                                        </div>
+                                    </div>
+                                ))
+                            }
                     </Segment>
                 </Segment>
                 <Segment textAlign='right' attached='bottom'>

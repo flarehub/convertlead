@@ -13,7 +13,7 @@ class Agent extends User
 {
     use AgentRepository, SoftDeletes;
     
-    protected $appends = ['avatar_path', 'permissions', 'company', 'companies'];
+    protected $appends = ['avatar_path', 'permissions', 'company', 'companies', 'deals'];
     
     public function companies() {
         return $this->belongsToMany('App\Models\Company', 'company_agents', 'agent_id');
@@ -48,7 +48,17 @@ class Agent extends User
         }
         return null;
     }
-    
+
+    public function getDealsAttribute() {
+        $campaigns = $this->campaigns()->get();
+        if ($campaigns) {
+            return $campaigns->map(function ($campaign)  {
+                return $campaign->deal->only(['id', 'name']);
+            })->keyBy('id')->values();
+        }
+        return null;
+    }
+
     public function getCampaignsBy($queryParams = []) {
         $query = $this->campaigns()
             ->leftJoin('leads', 'leads.deal_campaign_id', 'deal_campaigns.id')

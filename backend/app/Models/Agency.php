@@ -135,6 +135,7 @@ class Agency extends User
              users.twilio_mobile_number,
               users.avatar_id,
             COUNT(DISTINCT dca.id) AS campaigns_count,
+            COUNT(DISTINCT dc.id, dca.id) AS deal_campaigns_count,
              COUNT(DISTINCT ld.id) AS leads_count,
                 SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
             users.created_at,
