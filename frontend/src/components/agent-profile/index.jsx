@@ -23,12 +23,11 @@ class AgentProfile extends Component {
 
     constructor(props) {
         super(props);
-        this.agentId = this.props.match.params.agentId;
         this.canvas = React.createRef();
     }
 
     componentWillMount() {
-        const {agentId} = this.props.match.params;
+        const { agentId } = this.props;
         this.props.getAgent(agentId, true);
     }
 
@@ -117,9 +116,15 @@ class AgentProfile extends Component {
         this.props.loadForm({...this.props.agent, show: true})
     };
 
+    onMouseLeave = () => {
+        if (typeof this.props.onClose !== 'undefined') {
+            this.props.onClose();
+        }
+    }
+
     render() {
         const {startDateDisplay, endDateDisplay, startDate, endDate} = this.state;
-        return (<div className='AgentProfile'>
+        return (<div className='AgentProfile' onMouseLeave={this.onMouseLeave}>
             <AgentModal/>
             <Segment attached='top'>
                 <Grid>

@@ -23,6 +23,7 @@ import {Auth} from "@services";
 import {AvatarImage} from "../@common/image";
 import ButtonGroup from 'components/@common/button-group';
 import {disableAutoComplete} from '../../utils';
+import AgentProfile from "../agent-profile";
 import avatarDemo from "../@common/forms/avatar-demo.png";
 
 const companies = [
@@ -98,6 +99,13 @@ class Agents extends Component {
         });
     };
 
+    onClickViewAgentProfile = (agentId) => {
+        this.setState({
+            ...this.state,
+            agentId,
+        })
+    }
+
     componentDidMount() {
         disableAutoComplete();
     }
@@ -105,10 +113,13 @@ class Agents extends Component {
     render() {
         const agents = this.props.agents || [];
         const {pagination, query} = this.props;
-        const {companyId} = this.state;
+        const {companyId, agentId } = this.state;
         return (
             <div className='Agents'>
                 <AgentModal/>
+                {
+                    agentId && <AgentProfile agentId={agentId} onClose={() => this.onClickViewAgentProfile(null)} />
+                }
                 <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
                          onConfirm={this.onConfirm}/>
                 <Segment attached='top'>
@@ -152,7 +163,7 @@ class Agents extends Component {
                         <Loader/>
                             {
                                 agents.map((agent, index) => (
-                                    <div className="agentContainer">
+                                    <div className="agentContainer" onClick={() => this.onClickViewAgentProfile(agent.id)}>
                                         <div className="agentMenu">
                                             <div className="bullets">...</div>
                                             {
@@ -186,6 +197,9 @@ class Agents extends Component {
                                                     </span>
                                                 </div>
                                                 <AvatarImage size='tiny' circular src={agent.avatar_path || avatarDemo}/>
+                                                <div className="agentName">
+                                                    {agent.name}
+                                                </div>
                                             </div>
                                             <div className="integrationCount">
                                                 <span>
