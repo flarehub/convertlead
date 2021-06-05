@@ -4,6 +4,11 @@ export const agencyLockCompany = form =>  api.patch(`/v1/agency/companies/${form
 export const fetchAgencyCompanies = params =>  api.get(`/v1/${Auth.role}/companies`, {
   params,
 });
+
+export const fetchAgencyCompanyLeadStats = params =>  api.get(`/v1/${Auth.role}/companies/${params.companyId}/lead-stats`, {
+  params,
+});
+
 export const fetchTimezones = params =>  api.get(`/v1/timezones`, {
   params,
 });

@@ -11,7 +11,6 @@ import {
   Segment,
   Pagination,
   Button,
-  Checkbox,
   Header,
   Form,
   Input,
@@ -26,14 +25,14 @@ import * as moment from 'moment';
 import {DATE_FORMAT} from '@constants';
 import ButtonGroup from "components/@common/button-group";
 import {disableAutoComplete} from '../../utils';
-import {CompanyLeadStats} from "./company-lead-stats";
+import CompanyLeadStats from "./company-lead-stats";
 
 class Companies extends Component {
   state = {
     open: false,
     companyId: null,
     ready: false,
-    companyStats: null,
+    companyStats: {},
     activeIndex: 0,
   };
 
@@ -91,6 +90,7 @@ class Companies extends Component {
   };
 
   onShowCompanyStats = (companyStats) => {
+    console.log('onShowCompanyStats', companyStats);
     this.setState({
       ...this.state,
       companyStats,
@@ -233,7 +233,7 @@ class Companies extends Component {
               </Table.Body>
             </Table>
           </Segment>
-          { companyStats && <CompanyLeadStats company={companyStats} onClose={this.onCloseCompanyStats} /> }
+          { companyStats && <CompanyLeadStats companyObject={companyStats} onClose={this.onCloseCompanyStats} /> }
         </Segment>
         <Segment textAlign='right' attached='bottom'>
           <Pagination onPageChange={this.loadCompanies}

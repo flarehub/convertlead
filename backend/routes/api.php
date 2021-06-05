@@ -78,6 +78,7 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
                 Route::get('agents/{agentId}/campaigns', 'AgentController@campaigns');
                 Route::apiResource('companies', 'CompanyController');
                 Route::patch('companies/{company}/lock-status', 'CompanyController@lockStatus');
+                Route::get('companies/{company}/lead-stats', 'CompanyController@companyLeadStats');
                 Route::apiResource('companies/{company}/leads', 'LeadController');
                 Route::get('companies/{companyId}/graph/{graphType}', 'CompanyController@graph');
                 Route::apiResource('companies/{company}/leads/{lead}/notes', 'LeadNotesController');

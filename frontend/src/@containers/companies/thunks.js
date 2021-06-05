@@ -5,7 +5,7 @@ import {addBreadCrumb} from "../breadcrumb/actions";
 import {api, Auth} from "@services";
 import {
   fetchAgencyCompanies, agencyLockCompany, fetchAgencyCompany, fetchAgencyCompanyGraph,
-  fetchCompanyGraph, fetchTimezones
+  fetchCompanyGraph, fetchTimezones, fetchAgencyCompanyLeadStats
 } from "./api";
 
 export const deleteCompany = id => async dispatch => {
@@ -51,6 +51,19 @@ export const getCompanies = () => async (dispatch, getState) => {
   }
   dispatch(hideLoader());
 };
+
+export const getCompanyLeadStats = (companyId, fromDate, toDate) => async (dispatch) => {
+  try {
+    const response = await fetchAgencyCompanyLeadStats({
+      companyId, fromDate, toDate
+    });
+    const { data } = response.data;
+    await dispatch(actions.addCompanyLeadStats(data));
+  } catch (e) {
+    dispatch(sendMessage(e.message, true));
+  }
+};
+
 
 export const gotoCompaniesPage = activePage => async dispatch => {
   await dispatch(actions.gotoCompaniesPage(activePage));

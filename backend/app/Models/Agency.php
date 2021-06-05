@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Repositories\AgencyRepository;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Agency extends User
@@ -50,6 +51,59 @@ class Agency extends User
                 return $this->getCompaniesWithStats($queryParams);
             }
         }
+    }
+
+    /**
+     * Get Company Lead Stats
+     *
+     * @param int $companyId Company Id
+     *
+     * @return mixed
+     */
+    public function getCompanyLeadStatsBy($companyId, $fromDate, $toDate) {
+        $format = 'Y-m-d';
+
+        $query = Lead::query()
+            ->selectRaw('
+                COUNT(leads.id) AS total_leads_count,
+                SUM(IF(ls.type = \'SOLD\', 1, 0)) AS total_leads_converted,
+                DATE_FORMAT(leads.created_at, \'%Y-%m-%d\') AS creation_date,
+                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response
+           ')
+            ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
+            ->join('lead_statuses AS ls', 'ls.id', 'leads.lead_status_id')
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'CONTACTED_SMS' OR
+                              lead_statuses.type = 'CONTACTED_CALL' OR
+                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+                          "), function ($join) {
+                $join->on('leadNotes.lead_id', '=', 'leads.id');
+            })
+        ;
+
+        $query->where('ac.company_id', $companyId);
+
+        $query->whereBetween('leads.created_at', [
+            Carbon::createFromFormat($format, $fromDate)->startOfDay(),
+            Carbon::createFromFormat($format, $toDate)->endOfDay()]);
+
+        $query->groupBy(['ac.company_id', 'creation_date']);
+
+        $leadsStats = $query->get();
+
+        return $leadsStats->reduce(function ($acc, $lead) {
+            $acc[$lead->creation_date] = $lead->only(['total_leads_count', 'total_leads_converted', 'sec_avg_lead_response']);
+            $acc['total_leads_count'] = ($acc['total_leads_count'] ?? 0) + $lead->total_leads_count;
+            $acc['total_leads_converted'] = ($acc['total_leads_converted'] ?? 0) + $lead->total_leads_converted;
+            $acc['sec_avg_lead_response'] = ($acc['sec_avg_lead_response'] ?? 0) + floatval($lead->sec_avg_lead_response);
+            $acc['avg_lead_response_formated'] = CarbonInterval::seconds(
+                $acc['sec_avg_lead_response']
+                )->cascade()->forHumans();
+            return $acc;
+        });
     }
 
     /**

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions from './actions';
 import {selectBoxCompanies, selectBoxDealCampaigns, selectBoxTimezones} from './selectors';
+import {getCompanyLeadStats} from "./thunks";
 
 const mapStateToProps = state => ({
   company: state.companies.company,
@@ -18,6 +19,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadCompanies: () => dispatch(thunks.getCompanies()),
+  getCompanyLeadStats: (companyId, fromDate, toDate) => dispatch(thunks.getCompanyLeadStats(companyId, fromDate, toDate)),
   searchCompanies: search => dispatch(thunks.searchCompanies(search)),
   updateLockStatusCompany: company => dispatch(thunks.updateLockStatusCompany(company)),
   loadSelectBoxCompanies: (search, agentId = null) => dispatch(thunks.loadSelectBoxCompanies(search, agentId)),

@@ -9,12 +9,20 @@ export const ADD_SELECT_BOX_TIMEZONES = 'ADD_SELECT_BOX_TIMEZONES';
 export const LOAD_COMPANY = 'LOAD_COMPANY';
 export const LOAD_COMPANY_CAMPAIGNS = 'LOAD_COMPANY_CAMPAIGNS';
 export const LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE = 'LOAD_COMPANY_GRAPH_CONTACTED_LEADS_AVERAGE';
+export const LOAD_COMPANY_LEAD_STATS = 'LOAD_COMPANY_LEAD_STATS';
+export const ADD_COMPANY_LEAD_STATS = 'LOAD_COMPANY_LEAD_STATS';
 
 export const addCompanies = (companies, pagination) => ({
   type: ADD_COMPANIES,
   companies,
   pagination,
 });
+
+export const addCompanyLeadStats = (companyLeadStats) => ({
+  type: ADD_COMPANY_LEAD_STATS,
+  companyLeadStats,
+});
+
 export const loadCompanyCampaigns = companyId => ({
   type: LOAD_COMPANY_CAMPAIGNS,
   companyId

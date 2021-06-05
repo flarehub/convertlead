@@ -36,6 +36,16 @@ class CompanyController extends Controller
         ]))->paginate($itemsPerPage, ['*'], 'page', $page);
     }
 
+    public function companyLeadStats(Request $request, $companyId) {
+        $companyLeadStats = $request->user()->getCompanyLeadStatsBy(
+            $companyId,
+            $request->get('fromDate'),
+            $request->get('toDate')
+        );
+
+        return response()->json($companyLeadStats);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

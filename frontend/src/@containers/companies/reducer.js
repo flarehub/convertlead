@@ -1,5 +1,5 @@
 import {
-  ADD_COMPANIES,
+  ADD_COMPANIES, ADD_COMPANY_LEAD_STATS,
   ADD_SELECT_BOX_COMPANIES,
   ADD_SELECT_BOX_TIMEZONES,
   GOTO_COMPANIES_PAGE,
@@ -19,6 +19,7 @@ const initState = {
   selectBoxCompanies: [],
   selectBoxTimezones: [],
   averageResponseTime: '',
+  companyLeadStats: {},
   graphContactedLeadsAverage: {
     type: 'line',
     data: {
@@ -181,6 +182,12 @@ const companies = (state = initState, action) => {
       return {
         ...state,
         companyId: action.companyId,
+      }
+    }
+    case ADD_COMPANY_LEAD_STATS: {
+      return {
+        ...state,
+        companyLeadStats: action.companyLeadStats,
       }
     }
     default: {
