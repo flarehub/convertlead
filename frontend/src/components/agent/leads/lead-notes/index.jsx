@@ -7,8 +7,7 @@ import {
 } from "@containers";
 import {compose} from 'recompose';
 import * as R from 'ramda';
-import {Auth} from "@services";
-import {Button, Icon, Form, TextArea, Dropdown, Segment} from 'semantic-ui-react';
+import {Button, Icon, Form, TextArea, Dropdown} from 'semantic-ui-react';
 import {LeadNoteTimeLine} from './timeline';
 import {LeadReminder} from "./reminder";
 import ReminderModal from "../../../@common/modals/reminder";

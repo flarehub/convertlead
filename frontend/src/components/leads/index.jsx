@@ -26,9 +26,19 @@ class Leads extends Component {
     previewLeadId: null,
     companyId: null,
     showDeleted: false,
+    activeIndex: 0,
   }
 
-  onShowArch = () => {
+  onShowArch = (e, tab) => {
+    if (tab.activeIndex === this.state.activeIndex) {
+      return;
+    }
+
+    this.setState({
+      ...this.state,
+      activeIndex: tab.activeIndex,
+    });
+
     this.props.toggleShowDeleted();
   };
 
@@ -92,7 +102,7 @@ class Leads extends Component {
               </Grid.Column>
             </Grid>
           </Segment>
-          <Tab onTabChange={() => this.onShowArch()} menu={{ secondary: true, pointing: true }} panes={tabs} />
+          <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
         </div>
         <LeadModal size='small'/>
         {

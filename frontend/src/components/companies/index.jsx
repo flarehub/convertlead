@@ -18,7 +18,7 @@ import {
   Icon,
   Grid,
   Menu,
-  Confirm,
+  Confirm, Tab,
 } from 'semantic-ui-react';
 import './index.scss';
 import {AvatarImage} from "../@common/image";
@@ -26,12 +26,15 @@ import * as moment from 'moment';
 import {DATE_FORMAT} from '@constants';
 import ButtonGroup from "components/@common/button-group";
 import {disableAutoComplete} from '../../utils';
+import {CompanyLeadStats} from "./company-lead-stats";
 
 class Companies extends Component {
   state = {
     open: false,
     companyId: null,
     ready: false,
+    companyStats: null,
+    activeIndex: 0,
   };
 
   componentWillMount() {
@@ -69,7 +72,16 @@ class Companies extends Component {
     this.props.deleteCompany(this.state.companyId);
   };
 
-  onShowArch = () => {
+  onShowArch = (e, tab) => {
+    if (tab.activeIndex === this.state.activeIndex) {
+      return;
+    }
+
+    this.setState({
+      ...this.state,
+      activeIndex: tab.activeIndex,
+    });
+
     this.props.toggleShowDeleted();
   };
 
@@ -78,6 +90,20 @@ class Companies extends Component {
     this.props.updateLockStatusCompany(company);
   };
 
+  onShowCompanyStats = (companyStats) => {
+    this.setState({
+      ...this.state,
+      companyStats,
+    })
+  }
+
+  onCloseCompanyStats = () => {
+    this.setState({
+      ...this.state,
+      companyStats: null,
+    })
+  }
+
   componentDidMount() {
     disableAutoComplete();
   }
@@ -85,6 +111,19 @@ class Companies extends Component {
   render() {
     const companies = this.props.companies || [];
     const {pagination, query} = this.props;
+    const { companyStats } = this.state;
+
+    const tabs = [
+      {
+        menuItem: 'Active',
+        render: () => <></>
+      },
+      {
+        menuItem: 'Archived',
+        render: () => <></>
+      }
+    ];
+
     return (
       <div className='Companies'>
         <CompanyModal/>
@@ -95,7 +134,7 @@ class Companies extends Component {
             <Grid.Column>
               <Header floated='left' as='h1'>Companies</Header>
               <Form.Field>
-                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
+                <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
               </Form.Field>
             </Grid.Column>
             <Grid.Column>
@@ -146,21 +185,21 @@ class Companies extends Component {
                 {
                   companies.map((company, index) => (
                     <Table.Row key={index}>
-                      <Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
                         <AvatarImage src={company.avatar_path} avatar rounded size='medium'/>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
                         <div>
                           <Link to={`/companies/${company.id}/profile`}>{company.name}</Link>
                         </div>
                         <span
                           className='date-added'>Added {moment.utc(company.created_at).local().format(DATE_FORMAT)}</span>
                       </Table.Cell>
-                      <Table.Cell><Link
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}><Link
                         to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>
-                      <Table.Cell><Link
-                        to={`/companies/${company.id}/leads`}>{company.leads_count}</Link></Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
+                        <Link to={`/companies/${company.id}/leads`}>{company.leads_count}</Link></Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
                         <Link to={`/companies/${company.id}/agents`}>
                           {company.agents && company.agents.map((agent, i) => <>
                             <span className="agent-name">{agent.name}</span>
@@ -168,7 +207,7 @@ class Companies extends Component {
                           </>)}
                         </Link>
                       </Table.Cell>
-                      <Table.Cell>{company.avg_lead_response || 0}</Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>{company.avg_lead_response || 0}</Table.Cell>
                       <Table.Cell>
                         {
                           !company.is_deleted ?
@@ -194,6 +233,7 @@ class Companies extends Component {
               </Table.Body>
             </Table>
           </Segment>
+          { companyStats && <CompanyLeadStats company={companyStats} onClose={this.onCloseCompanyStats} /> }
         </Segment>
         <Segment textAlign='right' attached='bottom'>
           <Pagination onPageChange={this.loadCompanies}

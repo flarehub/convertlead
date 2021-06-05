@@ -11,7 +11,6 @@ import {
     Icon
 } from 'semantic-ui-react';
 import './index.scss';
-import * as moment from "moment";
 import {disableAutoComplete} from '../../../../utils';
 
 class ReminderForm extends Component {
