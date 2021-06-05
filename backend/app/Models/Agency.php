@@ -58,7 +58,7 @@ class Agency extends User
      */
     public function getCompaniesWithStats($queryParams) {
         $query = Company::selectRaw('
-            users.id,
+            DISTINCT users.id,
             users.name,
             users.phone,
             users.email,
@@ -71,11 +71,13 @@ class Agency extends User
             COUNT(DISTINCT users.id, deals.id) as deals_count,
             COUNT(DISTINCT users.id, leads.id) as leads_count,
             COUNT(DISTINCT users.id, company_agents.id) as agents_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_lead_response
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_lead_response,
+            GROUP_CONCAT(DISTINCT ua.name) agents_name
             ')
             ->join('agency_companies', 'agency_companies.company_id', 'users.id')
             ->leftJoin('deals', 'deals.agency_company_id', 'agency_companies.id')
             ->leftJoin('company_agents', 'company_agents.company_id', 'users.id')
+            ->leftJoin('users AS ua', 'ua.id', 'company_agents.agent_id')
             ->leftJoin('leads', 'leads.agency_company_id', 'agency_companies.id')
             ->leftJoin(\DB::raw("
             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
@@ -89,7 +91,9 @@ class Agency extends User
             })
             ->where('agency_companies.agency_id', $this->id)
             ->groupBy('agency_companies.company_id', 'agency_companies.is_locked');
-    
+
+        $query->with('agents');
+
         if ( isset($queryParams['showDeleted']) ) {
             $query->withTrashed();
         } else {
@@ -107,19 +111,19 @@ class Agency extends User
         if ( isset($queryParams['name']) ) {
             $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
-    
-    
+
         if ( isset($queryParams['deals']) ) {
-            $query->orderBy('deals_acount', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
+            $query->orderBy('deals_count', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
         }
-    
+
         if ( isset($queryParams['leads']) ) {
             $query->orderBy('leads_count', $queryParams['leads'] === 'true' ? 'DESC' : 'ASC');
         }
-    
+
         if ( isset($queryParams['agents']) ) {
-            $query->orderBy('agents_count', $queryParams['agents'] === 'true' ? 'DESC' : 'ASC');
+            $query->orderBy('agents_name', $queryParams['agents'] === 'true' ? 'DESC' : 'ASC');
         }
+
         if ( isset($queryParams['avg_response']) ) {
             $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
         }

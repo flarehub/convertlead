@@ -117,6 +117,9 @@ class Companies extends Component {
             <Table singleLine>
               <Table.Header>
                 <Table.Row>
+                  <Table.HeaderCell>
+                    Logo
+                  </Table.HeaderCell>
                   <Table.HeaderCell>Name
                     <Icon name={this.getSort('name')}
                           onClick={this.props.sort.bind(this, 'name')}/>
@@ -143,9 +146,10 @@ class Companies extends Component {
                 {
                   companies.map((company, index) => (
                     <Table.Row key={index}>
-
                       <Table.Cell>
                         <AvatarImage src={company.avatar_path} avatar rounded size='medium'/>
+                      </Table.Cell>
+                      <Table.Cell>
                         <div>
                           <Link to={`/companies/${company.id}/profile`}>{company.name}</Link>
                         </div>
@@ -156,8 +160,14 @@ class Companies extends Component {
                         to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>
                       <Table.Cell><Link
                         to={`/companies/${company.id}/leads`}>{company.leads_count}</Link></Table.Cell>
-                      <Table.Cell><Link
-                        to={`/companies/${company.id}/agents`}>{company.agents_count}</Link></Table.Cell>
+                      <Table.Cell>
+                        <Link to={`/companies/${company.id}/agents`}>
+                          {company.agents && company.agents.map((agent, i) => <>
+                            <span className="agent-name">{agent.name}</span>
+                            {company.agents.length > 1 && i !== company.agents.length - 1 ? ', ' : ''}
+                          </>)}
+                        </Link>
+                      </Table.Cell>
                       <Table.Cell>{company.avg_lead_response || 0}</Table.Cell>
                       <Table.Cell>
                         {
