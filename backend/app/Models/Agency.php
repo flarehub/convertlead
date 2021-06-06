@@ -61,7 +61,7 @@ class Agency extends User
      *
      * @return mixed
      */
-    public function getCompanyLeadStatsBy($companyId, $fromDate, $toDate) {
+    public function getCompanyLeadStatsBy($companyId, $fromDate, $toDate, $agentId = null) {
         $format = 'Y-m-d';
 
         $query = Lead::query()
@@ -92,6 +92,10 @@ class Agency extends User
             Carbon::createFromFormat($format, $toDate)->endOfDay()]);
 
         $query->groupBy(['ac.company_id', 'creation_date']);
+
+        if ($agentId) {
+            $query->where('leads.agent_id', '=', $agentId);
+        }
 
         $leadsStats = $query->get();
 

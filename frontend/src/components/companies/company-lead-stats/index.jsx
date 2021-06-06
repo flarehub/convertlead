@@ -1,64 +1,19 @@
 import React, { Component } from "react";
-import {Button, Form, Icon, Popup} from "semantic-ui-react";
+import {Button, Form, Icon, Popup, Select} from "semantic-ui-react";
 import * as moment from "moment";
 import {compose} from "recompose";
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import DatePickerSelect from "../../@common/datepicker";
-import {CompaniesContainer} from "../../../@containers";
-
+import {AgentsContainer, CompaniesContainer} from "../../../@containers";
 
 import './index.scss';
-
-const data = [
-    {
-        name: 'Page A',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-    },
-    {
-        name: 'Page B',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'Page C',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'Page D',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'Page E',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'Page F',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-    },
-    {
-        name: 'Page G',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-];
 
 class CompanyLeadStats extends Component {
     dateDisplayFormat = 'MM/DD/Y';
 
     state = {
+        agentId: null,
         startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
         endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
         startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
@@ -83,7 +38,8 @@ class CompanyLeadStats extends Component {
         this.props.getCompanyLeadStats(
             this.props.company.id,
             this.state.startDate,
-            moment(date).format('Y-MM-DD')
+            moment(date).format('Y-MM-DD'),
+            this.state.agentId,
         );
     };
 
@@ -100,6 +56,21 @@ class CompanyLeadStats extends Component {
             this.props.company.id,
             moment().startOf('isoWeek').format('Y-MM-DD'),
             moment().endOf('isoWeek').format('Y-MM-DD'),
+            this.state.agentId,
+        );
+    };
+
+    onChangeAgent = (event, data) => {
+        this.setState({
+            ...this.state,
+            agentId: data.value,
+        });
+
+        this.props.getCompanyLeadStats(
+            this.props.companyObject.id,
+            this.state.startDate,
+            this.state.endDate,
+            this.state.agentId,
         );
     };
 
@@ -109,7 +80,12 @@ class CompanyLeadStats extends Component {
                 this.props.companyObject.id,
                 this.state.startDate,
                 this.state.endDate,
+                this.state.agentId,
             );
+
+            this.props.loadSelectBoxAgents({
+                companyId: this.props.companyObject.id
+            });
         }
     }
 
@@ -119,11 +95,16 @@ class CompanyLeadStats extends Component {
             this.props.companyObject.id,
             this.state.startDate,
             this.state.endDate,
+            this.state.agentId,
         );
+
+        this.props.loadSelectBoxAgents({
+            companyId: this.props.companyObject.id
+        });
     }
 
     render() {
-        const { onClose, company, companyLeadStats, companyLeadStatsRecords } = this.props;
+        const { onClose, agents, company, companyLeadStats, companyLeadStatsRecords } = this.props;
         const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
 
         return (
@@ -135,22 +116,34 @@ class CompanyLeadStats extends Component {
                 </div>
                 <div className="company-lead-stats-container">
                     <label>Lead Stats</label>
-                    <Popup position='bottom left'
-                           trigger={
-                               <Form.Field>
-                                   <Button>
-                                       <Icon name='calendar alternate outline'/>
-                                       {startDateDisplay} - {endDateDisplay}
-                                   </Button>
-                               </Form.Field>} flowing hoverable>
+                    <div className="filters">
+                        <Popup position='bottom left'
+                               trigger={
+                                   <Form.Field>
+                                       <Button>
+                                           <Icon name='calendar alternate outline'/>
+                                           {startDateDisplay} - {endDateDisplay}
+                                       </Button>
+                                   </Form.Field>} flowing hoverable>
 
-                        <DatePickerSelect
-                            onChangeDateFrom={this.onChangeDateFrom}
-                            onChangeDateTo={this.onChangeDateTo}
-                            onRestDate={this.onRestDate}
-                            from={new Date(startDate)} to={new Date(endDate)}
+                            <DatePickerSelect
+                                onChangeDateFrom={this.onChangeDateFrom}
+                                onChangeDateTo={this.onChangeDateTo}
+                                onRestDate={this.onRestDate}
+                                from={new Date(startDate)} to={new Date(endDate)}
+                            />
+                        </Popup>
+
+                        <Form.Field
+                            control={Select}
+                            options={[...agents, ...this.props.selectBoxAgents]}
+                            label={{children: '', htmlFor: 'agents-list'}}
+                            placeholder='Company agents'
+                            search
+                            onChange={this.onChangeAgent}
+                            searchInput={{id: 'agents-list'}}
                         />
-                    </Popup>
+                    </div>
 
                     <BarChart
                         width={300}
@@ -198,5 +191,5 @@ class CompanyLeadStats extends Component {
     }
 }
 
-export default compose(CompaniesContainer)(CompanyLeadStats);
+export default compose(CompaniesContainer, AgentsContainer)(CompanyLeadStats);
 

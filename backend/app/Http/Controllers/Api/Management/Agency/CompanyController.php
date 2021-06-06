@@ -40,7 +40,8 @@ class CompanyController extends Controller
         $companyLeadStats = $request->user()->getCompanyLeadStatsBy(
             $companyId,
             $request->get('fromDate'),
-            $request->get('toDate')
+            $request->get('toDate'),
+            $request->get('agentId')
         );
 
         return response()->json($companyLeadStats);

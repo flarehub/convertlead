@@ -52,10 +52,10 @@ export const getCompanies = () => async (dispatch, getState) => {
   dispatch(hideLoader());
 };
 
-export const getCompanyLeadStats = (companyId, fromDate, toDate) => async (dispatch) => {
+export const getCompanyLeadStats = (companyId, fromDate, toDate, agentId = null) => async (dispatch) => {
   try {
     const response = await fetchAgencyCompanyLeadStats({
-      companyId, fromDate, toDate
+      companyId, fromDate, toDate, agentId
     });
 
     await dispatch(actions.addCompanyLeadStats(response.data));

@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadCompanies: () => dispatch(thunks.getCompanies()),
-  getCompanyLeadStats: (companyId, fromDate, toDate) => dispatch(thunks.getCompanyLeadStats(companyId, fromDate, toDate)),
+  getCompanyLeadStats: (companyId, fromDate, toDate, agentId = null) => dispatch(thunks.getCompanyLeadStats(companyId, fromDate, toDate, agentId)),
   searchCompanies: search => dispatch(thunks.searchCompanies(search)),
   updateLockStatusCompany: company => dispatch(thunks.updateLockStatusCompany(company)),
   loadSelectBoxCompanies: (search, agentId = null) => dispatch(thunks.loadSelectBoxCompanies(search, agentId)),
