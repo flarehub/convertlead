@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Repositories\AgencyRepository;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Agency extends User
@@ -94,16 +95,48 @@ class Agency extends User
 
         $leadsStats = $query->get();
 
-        return $leadsStats->reduce(function ($acc, $lead) {
-            $acc[$lead->creation_date] = $lead->only(['total_leads_count', 'total_leads_converted', 'sec_avg_lead_response']);
-            $acc['total_leads_count'] = ($acc['total_leads_count'] ?? 0) + $lead->total_leads_count;
-            $acc['total_leads_converted'] = ($acc['total_leads_converted'] ?? 0) + $lead->total_leads_converted;
-            $acc['sec_avg_lead_response'] = ($acc['sec_avg_lead_response'] ?? 0) + floatval($lead->sec_avg_lead_response);
-            $acc['avg_lead_response_formated'] = CarbonInterval::seconds(
-                $acc['sec_avg_lead_response']
-                )->cascade()->forHumans();
+        $datePeriod = CarbonPeriod::create(
+            now()->setTimeFromTimeString("{$fromDate} 00:00:00")->toDateString(),
+            now()->setTimeFromTimeString("$toDate 23:59:59")->toDateString()
+        );
+
+        $datePeriod = collect($datePeriod)->map(function ($period) {
+            return $period->format('Y/m/d');
+        })->flip()->map(function ($date, $key) {
+            return [
+                'total_leads_count' => 0,
+                'total_leads_converted' => 0,
+                'sec_avg_lead_response' => 0,
+                'creation_date' => $key
+            ];
+        })->toArray();
+
+        $stats = $leadsStats->reduce(function ($acc, $lead) {
+            $acc[$lead->creation_date] = $lead->only(['total_leads_count', 'total_leads_converted', 'sec_avg_lead_response', 'creation_date']);
             return $acc;
         });
+        $records = array_merge($datePeriod, $stats ?? []);
+
+        $totals = collect($records)->reduce(function ($acc, $lead) {
+            $acc['total_leads_count'] = ($acc['total_leads_count'] ?? 0) + $lead['total_leads_count'];
+            $acc['total_leads_converted'] = ($acc['total_leads_converted'] ?? 0) + $lead['total_leads_converted'];
+            $acc['sec_avg_lead_response'] = ($acc['sec_avg_lead_response'] ?? 0) + floatval($lead['sec_avg_lead_response']);
+
+            $acc['avg_lead_response_formatted'] = '';
+            if ($acc['sec_avg_lead_response'] > 0) {
+                $acc['avg_lead_response_formatted'] = CarbonInterval::seconds(
+                    $acc['sec_avg_lead_response']
+                )->cascade()->forHumans();
+            }
+
+            return $acc;
+        });
+
+        return array_merge([
+                'records' => $records,
+            ],
+            $totals ?? []
+        );
     }
 
     /**

@@ -57,8 +57,9 @@ export const getCompanyLeadStats = (companyId, fromDate, toDate) => async (dispa
     const response = await fetchAgencyCompanyLeadStats({
       companyId, fromDate, toDate
     });
-    const { data } = response.data;
-    await dispatch(actions.addCompanyLeadStats(data));
+
+    await dispatch(actions.addCompanyLeadStats(response.data));
+
   } catch (e) {
     dispatch(sendMessage(e.message, true));
   }

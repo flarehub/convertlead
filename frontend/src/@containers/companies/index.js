@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions from './actions';
-import {selectBoxCompanies, selectBoxDealCampaigns, selectBoxTimezones} from './selectors';
-import {getCompanyLeadStats} from "./thunks";
+import {companyLeadStatsRecords, selectBoxCompanies, selectBoxDealCampaigns, selectBoxTimezones} from './selectors';
 
 const mapStateToProps = state => ({
   company: state.companies.company,
+  companyLeadStats: state.companies.companyLeadStats,
+  companyLeadStatsRecords: companyLeadStatsRecords(state),
   companies: state.companies.companies,
   selectBoxCompanies: selectBoxCompanies(state),
   selectBoxDealCampaigns: selectBoxDealCampaigns(state),

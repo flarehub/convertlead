@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import * as R from 'ramda';
 
 export const selectBoxCompanies = createSelector(
   state => state.companies.selectBoxCompanies,
@@ -38,4 +39,19 @@ export const selectBoxTimezones = createSelector(
     }
     return []
   },
+);
+
+export const companyLeadStatsRecords = createSelector(
+    [state => state.companies.companyLeadStats],
+    (companyLeadStats) => {
+        return R.reduce((acc, { creation_date, total_leads_count, total_leads_converted }) => {
+            acc.push({
+                total_leads_count,
+                total_leads_converted,
+                name: creation_date,
+            });
+
+            return acc;
+        }, [], Object.values((companyLeadStats.records || {})))
+    }
 );
