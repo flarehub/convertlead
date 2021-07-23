@@ -106,6 +106,13 @@ class Companies extends Component {
   componentDidMount() {
     disableAutoComplete();
   }
+  
+  componentWillUnmount() {
+    this.setState({
+      ...this.state,
+      companyStats: null,
+    });
+  }
 
   render() {
     const companies = this.props.companies || [];
