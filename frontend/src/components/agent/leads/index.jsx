@@ -11,7 +11,7 @@ let scrollTime;
 class AgentLeads extends Component {
     state = {
         scrollY: window.scrollY,
-        dates: {
+        dates: {    
             'today': {
                 startDate: moment().startOf('day').format('Y-MM-DD'),
                 endDate: moment().endOf('day').format('Y-MM-DD'),

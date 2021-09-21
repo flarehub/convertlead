@@ -195,8 +195,9 @@ class Agents extends Component {
                                                     <span className="legendName">
                                                         Leads
                                                     </span>
+                                                    <AvatarImage size='tiny' circular src={agent.avatar_path || avatarDemo}/>
                                                 </div>
-                                                <AvatarImage size='tiny' circular src={agent.avatar_path || avatarDemo}/>
+                                                
                                                 <div className="agentName">
                                                     {agent.name}
                                                 </div>
@@ -209,7 +210,7 @@ class Agents extends Component {
                                                 </span>
                                             </div>
                                             <div className="campaignStatus">
-                                                <button>Active</button>
+                                                <button class="ui teal button">Active</button>
                                             </div>
                                             {
                                                 agent.deals && (

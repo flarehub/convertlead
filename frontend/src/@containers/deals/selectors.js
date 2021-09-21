@@ -136,7 +136,6 @@ export const getSelectedGraphicCStatistics = createSelector(
         if (!R.hasPath([record.integration], acc)) {
           acc[record.integration] = {};
         }
-
         const leadsCount = R.pathOr(0, [record.integration, 'totalLeadsCount'], acc);
         const integrationFound = selectBoxIntegrations.find(R.propEq('key', record.integration));
 

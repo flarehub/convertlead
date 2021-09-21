@@ -225,32 +225,13 @@ class Agency extends User
     
     public function getAgents($queryParams = []) {
         $query = Agent::selectRaw
-        (
-            'users.agent_agency_id, users.id, users.role, users.name, users.email,
-             users.phone,
-             users.twilio_mobile_number,
-              users.avatar_id,
-            COUNT(DISTINCT dca.id) AS campaigns_count,
-            COUNT(DISTINCT dc.id, dca.id) AS deal_campaigns_count,
-             COUNT(DISTINCT ld.id) AS leads_count,
-                SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
-            users.created_at,
-            users.deleted_at
-            '
-        )
+        ('users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.twilio_mobile_number, users.avatar_id, COUNT(DISTINCT dca.id) AS campaigns_count, COUNT(DISTINCT dc.id, dca.id) AS deal_campaigns_count, COUNT(DISTINCT ld.id) AS leads_count, SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response, users.created_at, users.deleted_at')
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
             ->leftJoin('deal_campaigns as dc', 'dc.agency_company_id', 'ca.company_id')
             ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
             ->leftJoin('leads AS ld', 'ld.agent_id', 'users.id')
-            ->leftJoin(\DB::raw("
-            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
-                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
-                          WHERE
-                              lead_statuses.type = 'CONTACTED_SMS' OR
-                              lead_statuses.type = 'CONTACTED_CALL' OR
-                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
-                          "), function ($join) {
+            ->leftJoin(\DB::raw("(SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id WHERE lead_statuses.type = 'CONTACTED_SMS' OR lead_statuses.type = 'CONTACTED_CALL' OR lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes"), function ($join) {
                 $join->on('leadNotes.lead_id', '=', 'ld.id');
             })
             ->where('agency.id', $this->id)

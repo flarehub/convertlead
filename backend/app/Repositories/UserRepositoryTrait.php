@@ -57,13 +57,17 @@ trait UserRepositoryTrait {
             $query->whereIn('dc.deal_id', $request->get('dealIds'));
         }
 
-        $fromDate = $request->get('fromDate');
-        $toDate = $request->get('toDate');
+        // $fromDate = $request->get('fromDate');
+        // $toDate = $request->get('toDate');
+        $fromDate = '2019-08-06T21:00:00.000Z';
+        $toDate = '2019-08-13T21:00:00.000Z';
 
         if ($fromDate && $toDate) {
             $query->whereBetween('leads.created_at', [
-                $fromDate,
-                $toDate
+                "DATE_FORMAT('$fromDate', '%Y-%m-%d %h:%i:%s')",
+                "DATE_FORMAT('$toDate', '%Y-%m-%d %h:%i:%s')",
+                // "'2001-08-06 00:00:00'",
+                // "'2021-08-13 00:00:00'"
             ]);
         }
 
@@ -74,7 +78,7 @@ trait UserRepositoryTrait {
 
         $query
             ->selectRaw('
-                 DATE_FORMAT(leads.created_at, "%Y/%m/%d") AS created_date,
+                 DATE_FORMAT(leads.created_at, \'%Y/%m/%d\') AS created_date,
                  COUNT(DISTINCT leads.id) as leadsCount,
                  COUNT(DISTINCT dc.integration) as integrationCount,
                  dc.integration
@@ -82,14 +86,13 @@ trait UserRepositoryTrait {
             ->groupBy(['created_date', 'dc.integration']);
 
         $leadsStats = $query->get() ?? [];
-
         $datePeriod = collect($datePeriod)->map(function ($period) {
             return $period->format('Y/m/d');
         })->flip()->map(function ($index, $date) use ($leadsStats) {
             $records = collect($leadsStats)->filter(function ($record) use ($date) {
                 return $record->created_date === $date;
             })->map(function ($record) {
-                return $record->only(['leadsCount', 'integrationCount', 'integration', 'created_date']);
+                return $record(['leadsCount', 'integrationCount', 'integration', 'created_date']);
             });
 
             $totalLeadsCount = collect($records)->reduce(function ($collect, $record) {

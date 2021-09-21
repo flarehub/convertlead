@@ -53,7 +53,8 @@ class Agent extends User
         $campaigns = $this->campaigns()->get();
         if ($campaigns) {
             return $campaigns->map(function ($campaign)  {
-                return $campaign->deal->only(['id', 'name']);
+                //return $campaign->deal->only(['id', 'name']);
+                return $campaign->deal(['id', 'name']);
             })->keyBy('id')->values();
         }
         return null;
