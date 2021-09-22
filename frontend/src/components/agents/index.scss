@@ -99,20 +99,17 @@
   margin-top: 10px;
   margin-bottom: 20px;  
 }
-
 .campaignStatus button, .campaignStatus .ui.teal.button {
-
-height: 30px;
-width: 80px;
-text-align: center;
-padding: 5px 0 8px 0;
-font-size: 12px;
-border-radius: 5px !important;
+  height: 30px;
+  width: 80px;
+  text-align: center;
+  padding: 5px 0 8px 0;
+  font-size: 12px;
+  border-radius: 5px !important;
 }
-
 .campaignNames{
-  background-color: lightgrey;
-  height: 70px;  
+  background-color: #f6f6fa;
+  height: 55px;  
   padding-top: 20px;
 }
 .icon-image-blue {
@@ -141,12 +138,11 @@ border-radius: 5px !important;
   margin-left: auto;
   margin-right: auto;
   border: 2px solid;
-  border-color: #ff2a4c;  
+  border-color: #ff2a4c;
 }
 .ui.teal.button.active-btn{
   height: 30px;
 }
-
 .ui.teal.button.inactive-btn{
   height: 30px;
   background-color: red !important;

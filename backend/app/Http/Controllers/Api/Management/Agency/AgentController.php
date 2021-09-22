@@ -49,6 +49,8 @@ class AgentController extends Controller
     
     public function graph(Request $request, $agentId, $graphType)
     {
+        
+        
         switch ($graphType) {
             case 'contacted': {
                 $companyAgencyIds = null;
@@ -56,14 +58,13 @@ class AgentController extends Controller
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
                 $agent = $request->user()->getAgent($agentId);
-                
                 if ($companyIds) {
                     $companyAgencyIds = collect($companyIds)->map(function ($companyId) use ($request) {
                         return $request->user()->getCompanyBy($companyId)->pivot->id;
                     });
                 }
-                
                 return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
+                //return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, true);
             }
         }
         throw new \Exception('Wrong graph type!');

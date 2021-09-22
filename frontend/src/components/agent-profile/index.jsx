@@ -27,11 +27,12 @@ class AgentProfile extends Component {
     }
 
     componentWillMount() {
-        const { agentId } = this.props;
-        this.props.getAgent(agentId, true);
+        // console.log(this.props);
+        this.props.getAgent(this.props.agentId, true);
     }
 
     componentDidMount() {
+        console.log(this.props);
         let opt = this.props.graphContactedLeadsAverage;
         opt.options.legendCallback = function (chart) {
             let ul = document.createElement('ul');
@@ -42,7 +43,7 @@ class AgentProfile extends Component {
         };
 
         this.Chart = new ChartJs(this.canvas.current.getContext('2d'), opt);
-        this.props.getAgentGraph(this.Chart, this.agentId, {
+        this.props.getAgentGraph(this.Chart, this.props.agentId, {
             companyIds: this.state.companyIds,
             graphType: 'contacted',
             startDate: this.state.startDate,

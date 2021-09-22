@@ -100,10 +100,11 @@ class Agents extends Component {
     };
 
     onClickViewAgentProfile = (agentId) => {
+        console.log(agentId);
         this.setState({
             ...this.state,
             agentId,
-        })
+        });
     }
 
     componentDidMount() {
@@ -114,6 +115,8 @@ class Agents extends Component {
         const agents = this.props.agents || [];
         const {pagination, query} = this.props;
         const {companyId, agentId } = this.state;
+
+        console.log("agentId = ", agentId);
         return (
             <div className='Agents'>
                 <AgentModal/>
@@ -163,7 +166,8 @@ class Agents extends Component {
                         <Loader/>
                             {
                                 agents.map((agent, index) => (
-                                    <div className="agentContainer" onClick={() => this.onClickViewAgentProfile(agent.id)}>
+                                    // console.log("agentID", agent.id),
+                                    <div data-id={agent.id} className="agentContainer" onClick={() => this.onClickViewAgentProfile(agent.id)}>
                                         <div className="agentMenu">
                                             <div className="bullets">...</div>
                                             {
@@ -199,10 +203,9 @@ class Agents extends Component {
                                                             <span className="legendName-red">Leads</span>
                                                         )
                                                     }
-                                                    
                                                     {/* <AvatarImage  circular src={agent.avatar_path || avatarDemo}/> */}
                                                     {   
-                                                        console.log("agent.integration_count", agent.deals.length), 
+                                                        // console.log("agent.integration_count", agent.deals.length), 
                                                         agent.deals && agent.deals.length != 0 && (
                                                             <div className="circular icon-image-blue" style={{ backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
                                                         ) || (

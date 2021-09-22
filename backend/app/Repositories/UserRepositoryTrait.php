@@ -57,10 +57,10 @@ trait UserRepositoryTrait {
             $query->whereIn('dc.deal_id', $request->get('dealIds'));
         }
 
-        // $fromDate = $request->get('fromDate');
-        // $toDate = $request->get('toDate');
-        $fromDate = '2019-08-06T21:00:00.000Z';
-        $toDate = '2019-08-13T21:00:00.000Z';
+        $fromDate = $request->get('fromDate');
+        $toDate = $request->get('toDate');
+        // $fromDate = '2019-08-06T21:00:00.000Z';
+        // $toDate = '2019-08-13T21:00:00.000Z';
 
         if ($fromDate && $toDate) {
             $query->whereBetween('leads.created_at', [
@@ -78,7 +78,7 @@ trait UserRepositoryTrait {
 
         $query
             ->selectRaw('
-                 DATE_FORMAT(leads.created_at, \'%Y/%m/%d\') AS created_date,
+                 DATE_FORMAT(leads.created_at, \'%Y-%m-%d\') AS created_date,
                  COUNT(DISTINCT leads.id) as leadsCount,
                  COUNT(DISTINCT dc.integration) as integrationCount,
                  dc.integration
@@ -87,7 +87,7 @@ trait UserRepositoryTrait {
 
         $leadsStats = $query->get() ?? [];
         $datePeriod = collect($datePeriod)->map(function ($period) {
-            return $period->format('Y/m/d');
+            return $period->format('Y-m-d');
         })->flip()->map(function ($index, $date) use ($leadsStats) {
             $records = collect($leadsStats)->filter(function ($record) use ($date) {
                 return $record->created_date === $date;

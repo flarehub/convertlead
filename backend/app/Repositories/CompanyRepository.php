@@ -168,7 +168,7 @@ trait CompanyRepository {
         $datasets = collect($datasets)->map(function ($dataset) use ($leads, $dateCollection) {
             $fieldName = $dataset['data'];
             $dataset['data'] = collect($dateCollection)->map(function ($date) use ($leads, $fieldName) {
-                return  (int)$leads->where('creation_date', $date)->first()[$fieldName];
+                return  isset($leads->where('creation_date', $date)->first()[$fieldName]) ?(int)$leads->where('creation_date', $date)->first()[$fieldName]:0;
             });
             return $dataset;
         });
