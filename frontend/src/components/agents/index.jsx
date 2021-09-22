@@ -195,7 +195,8 @@ class Agents extends Component {
                                                     <span className="legendName">
                                                         Leads
                                                     </span>
-                                                    <AvatarImage size='tiny' circular src={agent.avatar_path || avatarDemo}/>
+                                                    {/* <AvatarImage  circular src={agent.avatar_path || avatarDemo}/> */}
+                                                    <div className="circular icon-image-agent" style={{backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
                                                 </div>
                                                 
                                                 <div className="agentName">
@@ -210,7 +211,7 @@ class Agents extends Component {
                                                 </span>
                                             </div>
                                             <div className="campaignStatus">
-                                                <button class="ui teal button">Active</button>
+                                                <button class="ui teal button" style={{height: '30px'}}>Active</button>
                                             </div>
                                             {
                                                 agent.deals && (
@@ -238,5 +239,6 @@ class Agents extends Component {
             </div>)
     }
 }
+
 
 export default compose(BreadCrumbContainer, CompaniesContainer, AgentsContainer, AgentFormContainer)(Agents);
