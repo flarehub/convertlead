@@ -192,11 +192,23 @@ class Agents extends Component {
                                                     <span className="legendCount">
                                                         {agent.leads_count}
                                                     </span>
-                                                    <span className="legendName">
-                                                        Leads
-                                                    </span>
+                                                    {
+                                                        agent.deals && agent.deals.length != 0 && (
+                                                            <span className="legendName-blue">Leads</span>
+                                                        ) || (
+                                                            <span className="legendName-red">Leads</span>
+                                                        )
+                                                    }
+                                                    
                                                     {/* <AvatarImage  circular src={agent.avatar_path || avatarDemo}/> */}
-                                                    <div className="circular icon-image-agent" style={{backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
+                                                    {   
+                                                        console.log("agent.integration_count", agent.deals.length), 
+                                                        agent.deals && agent.deals.length != 0 && (
+                                                            <div className="circular icon-image-blue" style={{ backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
+                                                        ) || (
+                                                            <div className="circular icon-image-red" style={{ backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
+                                                        )
+                                                    }
                                                 </div>
                                                 
                                                 <div className="agentName">
@@ -211,7 +223,13 @@ class Agents extends Component {
                                                 </span>
                                             </div>
                                             <div className="campaignStatus">
-                                                <button class="ui teal button" style={{height: '30px'}}>Active</button>
+                                                {
+                                                    agent.deals && agent.deals.length != 0 && (
+                                                        <button class="ui teal button active-btn" >Active</button>
+                                                    ) || (
+                                                        <button class="ui teal button inactive-btn" >Inactive</button>
+                                                    )
+                                                }
                                             </div>
                                             {
                                                 agent.deals && (
