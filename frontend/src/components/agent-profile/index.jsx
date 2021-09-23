@@ -8,10 +8,11 @@ import {AgentsContainer, BreadCrumbContainer, AgentFormContainer} from "@contain
 import ChartJs from 'chart.js';
 import DatePickerSelect from "components/@common/datepicker";
 import * as moment from 'moment';
+import * as R from 'ramda';
 import AgentModal from '../@common/modals/agent';
 import {Auth} from "@services";
 import {disableAutoComplete} from '../../utils';
-// import Chart from 'react-apexcharts'
+
 class AgentProfile extends Component {
     
     state = {
@@ -25,21 +26,6 @@ class AgentProfile extends Component {
     constructor(props) {
         super(props);
         this.canvas = React.createRef();
-        // this.state = {
-        //     options: {
-        //         plotOptions: {
-        //             pie: {
-        //               expandOnClick: false,          
-        //             }
-        //           },   
-        //         legend: {
-        //             display: true,
-        //             position: "top"
-        //         }                               
-        //     },
-        //     series: [44, 55, 41, 17, 15],
-        //     labels: ['A', 'B', 'C', 'D', 'E']
-        //   }
     }
 
     componentWillMount() {
@@ -48,30 +34,31 @@ class AgentProfile extends Component {
     }
 
     componentDidMount() {
-        // let opt = this.props.graphContactedLeadsAverage;
-        // opt.options.legendCallback = function (chart) {
-        //     let ul = document.createElement('ul');
-        //     chart.data.datasets.forEach(function (item) {
-        //         ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="background-color: ${item['backgroundColor']}; border: ${item['borderColor']} solid ${item['borderWidth']}px; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item['label']}</li>`;
-        //     });
-        //     return ul.outerHTML;
-        // };
-          
-        // this.Chart = new ChartJs(this.canvas.current.getContext('2d'), opt);
-        // this.props.getAgentGraph(this.Chart, this.props.agentId, {
-        //     companyIds: this.state.companyIds,
-        //     graphType: 'contacted',
-        //     startDate: this.state.startDate,
-        //     endDate: this.state.endDate,
-        // });
-        // this.Chart.data = this.props.graphContactedLeadsAverage.data;
-        // this.Chart.update();
-        // this.props.addBreadCrumb({
-        //     name: 'Agents',
-        //     path: '/agents',
-        // });
-        // this.refs.legend.innerHTML = this.Chart.generateLegend();
-        // disableAutoComplete();
+        disableAutoComplete();
+
+        let opt = this.props.pieGraphContactedLeadsAverage;
+        opt.options.legendCallback = function (chart) {
+            let ul = document.createElement('ul');
+            let i = 0;
+            chart.data.labels.forEach(function (item) {
+                ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="background-color: ${chart.data.datasets[0].backgroundColor[i]}; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item}</li>`;
+                //ul.innerHTML +=`<div style="background-color: ${chart.data.datasets[0].backgroundColor[i]}; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div><div>${item}</div>`;
+                i++;
+            });
+            return ul.outerHTML;
+        };
+
+        this.Chart = new ChartJs(this.canvas.current.getContext('2d'), this.props.pieGraphContactedLeadsAverage);
+        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
+            companyIds: [],
+            graphType: 'contacted',
+            startDate: moment().startOf('month').format('Y-MM-DD'),
+            endDate: moment().endOf('month').format('Y-MM-DD'),
+        });
+
+        this.Chart.data = this.props.pieGraphContactedLeadsAverage.data;
+        this.Chart.update();
+        this.refs.legend.innerHTML = this.Chart.generateLegend();
     }
 
     onChangeCompany = (event, data) => {
@@ -80,7 +67,7 @@ class AgentProfile extends Component {
             companyIds: data.value,
         });
 
-        this.props.getAgentGraph(this.Chart, this.agentId, {
+        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
             companyIds: data.value,
             graphType: 'contacted',
             startDate: this.state.startDate,
@@ -103,7 +90,7 @@ class AgentProfile extends Component {
             endDateDisplay: moment(date).format('MM/DD/Y'),
         });
 
-        this.props.getAgentGraph(this.Chart, this.agentId, {
+        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
             companyIds: this.state.companyIds,
             graphType: 'contacted',
             startDate: this.state.startDate,
@@ -120,7 +107,7 @@ class AgentProfile extends Component {
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         });
 
-        this.props.getAgentGraph(this.Chart, this.agentId, {
+        this.props.getAgentGraph(this.Chart, this.props.agentId, {
             companyIds: this.state.companyIds,
             graphType: 'contacted',
             startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
@@ -141,70 +128,63 @@ class AgentProfile extends Component {
         this.props.onClose();
     }
     render() {
-
+        const {data} = this.props.pieGraphContactedLeadsAverage.data.datasets[0];
         const {startDateDisplay, endDateDisplay, startDate, endDate} = this.state;
         //return (<div className='AgentProfile' onMouseLeave={this.onMouseLeave}>
         return (<div className='AgentProfile'>
-                <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}>x</div>
-            <AgentModal/>
-            <Segment attached='top'>
-                <Grid columns={2}>
-                    <Grid.Column>
-                        <Header floated='left' as='h1'>Agent profile</Header>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Menu secondary>
-                            <Menu.Menu position='right'>
-                                <Button color='teal' content='Edit Agent' onClick={this.onEditAgent}
-                                        labelPosition='left'/>
-                            </Menu.Menu>
-                        </Menu>
-                    </Grid.Column>                       
-                </Grid>    
-            </Segment>    
-            <Form>
-                            <Form.Group widths='equal'>
-                                <Form.Field
-                                            control={Select}
-                                            options={this.props.selectBoxAgentCompanies}
-                                            label={{children: '', htmlFor: 'agents-list'}}
-                                            placeholder='Select Company'
-                                            search
-                                            onChange={this.onChangeCompany}
-                                            searchInput={{id: 'agents-list'}}
-                                        />
-                                <Popup position='bottom left'
-                                       trigger={
-                                           <Form.Field>
-                                               <Button>
-                                                   <Icon name='calendar alternate outline'/>
-                                                   {startDateDisplay} - {endDateDisplay}
-                                               </Button>
-                                           </Form.Field>} flowing hoverable>
-
-                                    <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
-                                                      onChangeDateTo={this.onChangeDateTo}
-                                                      onRestDate={this.onRestDate}
-                                                      from={new Date(startDate)} to={new Date(endDate)}
-                                    />
-
-                                </Popup>
-                            </Form.Group>
-                         
-                        </Form>               
-
-         {/* <Segment className="pie-graph" >
-            <div className="donut">
-                <Chart options={this.state.options} series={this.state.series} type="donut" width="380" />
-            </div>   
-        </Segment> */}
-        <Segment className='average-response-time' basic>
-                <div ref='legend'/>
-                <canvas ref={this.canvas}/>
-                <label className='average-response-time-label'>Average response
-                time: {this.props.averageResponseTime}</label>                    
-        </Segment>            
-        </div>)
+                    <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}>x</div>
+                    <AgentModal/>
+                    <Segment attached='top'>
+                        <Grid.Column>
+                            <div className="selectedAgent"> selected </div>
+                            <div className="selectedName"> Jone Doe </div>
+                            <div className="selectedContent1">
+                                Inactive agents are not getting leads.
+                            </div>
+                            <div className="selectedContent2">
+                                Assign it to an integration to active.
+                            </div>
+                        </Grid.Column>                                                                                                        
+                    </Segment>    
+                    <Segment>
+                        <Popup position='bottom left'
+                            trigger={
+                                <Form.Field>
+                                    <Button className="dateSelector">
+                                        <Icon name='calendar alternate outline'/>
+                                        {startDateDisplay} - {endDateDisplay}
+                                    </Button>
+                                </Form.Field>} flowing hoverable>
+                            <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
+                                            onChangeDateTo={this.onChangeDateTo}
+                                            onRestDate={this.onRestDate}
+                                            from={new Date(startDate)} to={new Date(endDate)}
+                            />
+                        </Popup>                        
+                        <Form.Field
+                            control={Select}
+                            options={this.props.selectBoxAgentCompanies}
+                            // label={{children: '', htmlFor: ''}}
+                            placeholder='Select Company'
+                            className = "dropdowncompany"
+                            search
+                            onChange={this.onChangeCompany}
+                            // searchInput={{id: 'agents-list'}}
+                        />
+                        
+                        <div className='average-response-time'>
+                            <div className="time-to-contact">
+                                Time to contact
+                            </div>                                                                               
+                            <div ref='legend'/>
+                            <div className="chart-wrapper">
+                                <canvas ref={this.canvas}/>
+                                {R.sum(data) === 0 ? (<div className="empty-wrapper"/>) : null}
+                            </div>
+                            <div className='average-response-time-label'>AVR response time: {R.sum(data)}</div>                    
+                        </div>
+                        </Segment>            
+                    </div>)
     }
 }
 

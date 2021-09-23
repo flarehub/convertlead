@@ -4,7 +4,6 @@ import {BreadCrumbContainer, AgentsContainer, AgentFormContainer} from '@contain
 import AgentModal from '../@common/modals/agent';
 import {
     Button,
-    Checkbox,
     Confirm,
     Form,
     Grid,
@@ -14,6 +13,9 @@ import {
     Pagination,
     Segment,
     Select,
+    Tab,
+    Popup, 
+    Icon    
 } from 'semantic-ui-react';
 import './index.scss';
 import Loader from '../loader';
@@ -25,6 +27,8 @@ import ButtonGroup from 'components/@common/button-group';
 import {disableAutoComplete} from '../../utils';
 import AgentProfile from "../agent-profile";
 import avatarDemo from "../@common/forms/avatar-demo.png";
+import DatePickerSelect from "components/@common/datepicker";
+import * as moment from 'moment';
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -35,6 +39,10 @@ class Agents extends Component {
         open: false,
         agentId: null,
         companyId: null,
+        startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
+        endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),        
+        startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
+        endDate: moment().endOf('isoWeek').format('Y-MM-DD'),                
     };
 
     componentWillMount() {
@@ -114,7 +122,17 @@ class Agents extends Component {
     render() {
         const agents = this.props.agents || [];
         const {pagination, query} = this.props;
-        const {companyId, agentId } = this.state;
+        const {companyId, agentId, startDate, endDate, startDateDisplay, endDateDisplay} = this.state;
+        const tabs = [
+            {
+              menuItem: 'Active',
+              render: () => <></>
+            },
+            {
+              menuItem: 'Archived',
+              render: () => <></>
+            }
+          ];        
         return (
             <div className='Agents'>
                 <AgentModal/>
@@ -128,9 +146,10 @@ class Agents extends Component {
                         <Grid.Column>
                             <Header floated='left' as='h1'>Agents</Header>
                             <Form.Field>
-                                <Checkbox label='Show Archived' checked={this.props.query.showDeleted} toggle onChange={this.onShowArch}/>
+                                <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
                             </Form.Field>
-                            <Form>
+                            <Form>       
+                                <Form.Group widths='equal'> 
                                 {
                                     Auth.isAgency
                                         ? <Form.Field
@@ -144,7 +163,25 @@ class Agents extends Component {
                                             searchInput={{id: 'form-companies-list'}}
                                         />
                                         : null
+                                        
                                 }
+
+                                    <Popup position='bottom left'
+                                       trigger={
+                                           <Form.Field>
+                                               <Button>
+                                                   <Icon name='calendar alternate outline'/>
+                                                   {startDateDisplay} - {endDateDisplay}
+                                               </Button>
+                                           </Form.Field>} flowing hoverable>
+                                        <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
+                                                        onChangeDateTo={this.onChangeDateTo}
+                                                        onRestDate={this.onRestDate}
+                                                        from={new Date(startDate)} to={new Date(endDate)}
+                                        />
+                                    </Popup>                                                                                         
+                                </Form.Group>
+
                             </Form>
                         </Grid.Column>
                         <Grid.Column>
@@ -154,8 +191,9 @@ class Agents extends Component {
                                         <Input icon='search' onChange={this.onSearch} value={query.search || ''}
                                                placeholder='Search...'/>
                                     </Menu.Item>
-                                    <Button color='teal' onClick={this.props.loadForm.bind(this, {show: true})}
-                                            content='New Agent'/>
+                                    {/* <Button circular color='teal' onClick={this.props.loadForm.bind(this, {show: true})}
+                                            content='+'/> */}
+                                    <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, {show: true})} ><i className="flaticon stroke plus-1  icon"></i></Button>                                            
                                 </Menu.Menu>
                             </Menu>
                         </Grid.Column>

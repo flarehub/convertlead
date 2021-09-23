@@ -64,7 +64,8 @@ class AgentController extends Controller
                     });
                 }
                 //return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
-                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, true);
+                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, 'Y-m-d', true);                
+                //return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, [], 'Y-m-d', true);
             }
         }
         throw new \Exception('Wrong graph type!');

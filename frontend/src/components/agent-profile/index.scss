@@ -4,7 +4,7 @@
   position: absolute;
   width: 350px;
   height: 100vh;
-  z-index: 9999;
+  z-index: 3;
   background: white;
   .average-response-time {
     text-align: left;
@@ -14,14 +14,61 @@
   }  
   .btnClose{
     cursor: pointer;
-    cursor: pointer;
     right: 10px;
     position: absolute;
-    top: -4px;
-    width: 30px;
-    height: 30px;
-    border: 1px solid;
-    border-radius: 109px;
-    font-size: 32px;    
+    top: 5px;
+    width: 25px;
+    height: 25px;
+    border: 2px solid;
+    border-radius: 100px;
+    font-size: 24px;
+  }
+  .selectedAgent{
+    margin-left: -190px;
+    text-transform: uppercase;    
+  }
+  .average-response-time-label{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .time-to-contact{
+    margin: 150px 0px 0px 38px;
+    font-size: 18px;
+    font-weight: bold;    
+  }
+  .selectedName{
+    display: flex;
+    margin: 10px 0 0 45px;
+    font-size: 18px;
+    font-weight: bold;    
+  }
+  .selectedContent1{
+    margin: 15px 0 0 -20px;
+  }
+  .selectedContent2{
+    margin: 5px 0 0 -35px;
+  }  
+  .dropdowncompany{
+    border: 1px solid !important;
+    border-radius: 7px !important;
+    border-color: lightgrey !important;
+    width: 222px;
+    margin-top: 10px;
+    height: 45px;    
+  }
+  .dateSelector{
+    border: 1px solid !important;
+    background: white !important;
+    border-color: lightgray !important;    
+  }
+  .field .ui.search.selection.dropdown{
+    width: 100%;
+  }
+  .ring {
+    border: 10vw solid red;
+    border-radius: 50%;
+    height: 100%;
+    position: absolute;
+    width: 100%;
   }
 }

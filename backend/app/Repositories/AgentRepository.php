@@ -44,7 +44,7 @@ trait AgentRepository
             ")
             ->join(DB::raw('(SELECT ln1.lead_id as lead_id, Min(ln1.created_at) as created_at FROM lead_notes as ln1 
                     JOIN lead_statuses as ls ON ln1.lead_status_id=ls.id
-                    WHERE ls.type="CONTACTED_SMS" or ls.type="CONTACTED_CALL" or ls.type="CONTACTED_EMAIL"
+                    WHERE ls.type=\'CONTACTED_SMS\' or ls.type=\'CONTACTED_CALL\' or ls.type=\'CONTACTED_EMAIL\'
                     group by ln1.lead_id) AS ln'),
                 function($join) {
                     $join->on('ln.lead_id', '=', 'leads.id');
@@ -61,8 +61,10 @@ trait AgentRepository
 
             ->groupBy('creation_date')
             ->whereBetween('leads.created_at', [
-                "'".$st_dt."'",
-                "'".$end_dt."'"
+                // "'".$st_dt."'",
+                // "'".$end_dt."'"
+                '2001-09-01 00:00:00',
+                '2021-09-30 23:59:59'
             ]);
 
         $query->where('leads.agent_id', $agentId);
