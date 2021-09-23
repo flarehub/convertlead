@@ -11,7 +11,7 @@ import * as moment from 'moment';
 import AgentModal from '../@common/modals/agent';
 import {Auth} from "@services";
 import {disableAutoComplete} from '../../utils';
-import Chart from 'react-apexcharts'
+// import Chart from 'react-apexcharts'
 class AgentProfile extends Component {
     
     state = {
@@ -25,21 +25,21 @@ class AgentProfile extends Component {
     constructor(props) {
         super(props);
         this.canvas = React.createRef();
-        this.state = {
-            options: {
-                plotOptions: {
-                    pie: {
-                      expandOnClick: false,          
-                    }
-                  },   
-                legend: {
-                    display: true,
-                    position: "top"
-                }                               
-            },
-            series: [44, 55, 41, 17, 15],
-            labels: ['A', 'B', 'C', 'D', 'E']
-          }
+        // this.state = {
+        //     options: {
+        //         plotOptions: {
+        //             pie: {
+        //               expandOnClick: false,          
+        //             }
+        //           },   
+        //         legend: {
+        //             display: true,
+        //             position: "top"
+        //         }                               
+        //     },
+        //     series: [44, 55, 41, 17, 15],
+        //     labels: ['A', 'B', 'C', 'D', 'E']
+        //   }
     }
 
     componentWillMount() {
@@ -193,18 +193,17 @@ class AgentProfile extends Component {
                          
                         </Form>               
 
-         <Segment className="pie-graph" >
-                    <div className="donut">
-                        <Chart options={this.state.options} series={this.state.series} type="donut" width="380" />
-                    </div>   
-                    {/* <div ref='legend'/>
-                <canvas ref={this.canvas}/> */}
+         {/* <Segment className="pie-graph" >
+            <div className="donut">
+                <Chart options={this.state.options} series={this.state.series} type="donut" width="380" />
+            </div>   
+        </Segment> */}
+        <Segment className='average-response-time' basic>
+                <div ref='legend'/>
+                <canvas ref={this.canvas}/>
                 <label className='average-response-time-label'>Average response
-                    time: {this.props.averageResponseTime}</label>                    
-        </Segment>
-        {/* <Segment className='average-response-time' basic>
-
-        </Segment>             */}
+                time: {this.props.averageResponseTime}</label>                    
+        </Segment>            
         </div>)
     }
 }
