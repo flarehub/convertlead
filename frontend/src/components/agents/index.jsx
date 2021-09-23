@@ -115,8 +115,6 @@ class Agents extends Component {
         const agents = this.props.agents || [];
         const {pagination, query} = this.props;
         const {companyId, agentId } = this.state;
-
-        console.log("agentId = ", agentId);
         return (
             <div className='Agents'>
                 <AgentModal/>

@@ -1,10 +1,15 @@
 .AgentProfile {
   right: 0;
+  top: 95px;
   position: absolute;
   width: 350px;
   height: 100vh;
   z-index: 9999;
+  background: white;
   .average-response-time {
     text-align: left;
   }
+  .pie-graph {
+    text-align: center;
+  }  
 }

@@ -63,8 +63,8 @@ class AgentController extends Controller
                         return $request->user()->getCompanyBy($companyId)->pivot->id;
                     });
                 }
-                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
-                //return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, true);
+                //return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
+                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, true);
             }
         }
         throw new \Exception('Wrong graph type!');

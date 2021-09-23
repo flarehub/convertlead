@@ -6,4 +6,4 @@ import AgentForm from "components/@common/forms/agent";
 
 const AgentModal = (props) => (<EntityModal {...{...props, Container: AgentForm}} />);
 
-export default compose(MessagesContainer, AgentFormContainer, CompaniesContainer, ProfileContainer)(AgentModal);
+export default compose(MessagesContainer, AgentFormContainer)(AgentModal);

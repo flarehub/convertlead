@@ -23,6 +23,8 @@ trait AgentRepository
         $companyAgencyIds = null,
         $format = 'Y-m-d', $pieGraph = false)
     {
+        $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
+        $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
         $query = Lead::selectRaw(
             "
           DATE(leads.created_at) as creation_date,
@@ -59,8 +61,8 @@ trait AgentRepository
 
             ->groupBy('creation_date')
             ->whereBetween('leads.created_at', [
-                "'".Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay()."'",
-                "'".Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay()."'"
+                "'".$st_dt."'",
+                "'".$end_dt."'"
             ]);
 
         $query->where('leads.agent_id', $agentId);
@@ -82,6 +84,9 @@ trait AgentRepository
                                    $companyAgencyIds = null,
                                    $agentId = null, $format = 'Y-m-d')
     {
+        $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
+        $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
+
         $query = Lead::selectRaw(
             "sec_to_time(AVG(time_to_sec(timediff(ln.created_at, leads.created_at)))) as avg_time")
             ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
@@ -93,8 +98,8 @@ trait AgentRepository
                     ->orWhere('ls.type', 'CONTACTED_EMAIL');
             })
             ->whereBetween('leads.created_at', [
-                Carbon::createFromFormat($format, $startDate)->startOfDay(),
-                Carbon::createFromFormat($format, $endDate)->endOfDay()
+                "'".$st_dt."'",
+                "'".$end_dt."'"
             ]);
 
         if ($companyAgencyIds) {
