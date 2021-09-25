@@ -185,7 +185,6 @@ const companies = (state = initState, action) => {
       }
     }
     case ADD_COMPANY_LEAD_STATS: {
-      console.log('action.companyLeadStats', action.companyLeadStats);
       return {
         ...state,
         companyLeadStats: action.companyLeadStats,

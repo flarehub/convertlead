@@ -61,10 +61,10 @@ trait AgentRepository
 
             ->groupBy('creation_date')
             ->whereBetween('leads.created_at', [
-                // "'".$st_dt."'",
-                // "'".$end_dt."'"
-                '2001-09-01 00:00:00',
-                '2021-09-30 23:59:59'
+                $st_dt,
+                $end_dt
+                // "2019-08-07 00:00:00",
+                // "2021-08-14 23:59:59"  
             ]);
 
         $query->where('leads.agent_id', $agentId);
@@ -89,19 +89,28 @@ trait AgentRepository
         $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
         $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
 
+        $temp = \DB::select(\DB::raw("
+            select SUBSTRING_INDEX(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at)))), '.', 1) AS avg_response FROM `leads` INNER JOIN `lead_notes` AS `ln` ON `ln`.`lead_id` = `leads`.`id` INNER JOIN `lead_statuses` AS `ls` ON `ls`.`id` = `ln`.`lead_status_id` WHERE (`ls`.`type` = 'CONTACTED_SMS' OR `ls`.`type` = 'CONTACTED_CALL' OR `ls`.`type` = 'CONTACTED_EMAIL') AND `leads`.`created_at` BETWEEN 
+            '".$st_dt."' AND '".$end_dt."' 
+            AND `leads`.`agent_id` = 15 AND `leads`.`deleted_at` IS NULL LIMIT 1"));
+        return $temp[0];
+
+
         $query = Lead::selectRaw(
-            "sec_to_time(AVG(time_to_sec(timediff(ln.created_at, leads.created_at)))) as avg_time")
+            "SUBSTRING_INDEX(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at)))), '.', 1) AS avg_response")
             ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
             ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
             ->where(function ($query) {
                 $query
-                    ->where('ls.type', 'CONTACTED_SMS')
-                    ->orWhere('ls.type', 'CONTACTED_CALL')
-                    ->orWhere('ls.type', 'CONTACTED_EMAIL');
+                    ->where('ls.type', "'CONTACTED_SMS'")
+                    ->orWhere('ls.type', "'CONTACTED_CALL'")
+                    ->orWhere('ls.type', "'CONTACTED_EMAIL'");
             })
             ->whereBetween('leads.created_at', [
                 "'".$st_dt."'",
                 "'".$end_dt."'"
+                // "'2019-08-07 00:00:00'",
+                // "'2019-08-14 23:59:59'"                
             ]);
 
         if ($companyAgencyIds) {
@@ -172,7 +181,7 @@ trait AgentRepository
 
 
         return [
-            'avg_response_time' => ($averageResponseTime->avg_time ? $averageResponseTime->avg_time : '00:00:00'),
+            'avg_response_time' => (isset($averageResponseTime->avg_response) ? $averageResponseTime->avg_response : '00:00:00'),
             'labels' => $dateCollection,
             'datasets' => $datasets
         ];
@@ -211,7 +220,7 @@ trait AgentRepository
 
 
         return [
-            'avg_response_time' => ($averageResponseTime->avg_time ? $averageResponseTime->avg_time : '00:00:00'),
+            'avg_response_time' => ($averageResponseTime->avg_response ? $averageResponseTime->avg_response : '00:00:00'),
             'labels' => $labels,
             'datasets' => [
                 $datasets

@@ -43,7 +43,7 @@ class CompanyController extends Controller
             $request->get('toDate'),
             $request->get('agentId')
         );
-
+        
         return response()->json($companyLeadStats);
     }
 

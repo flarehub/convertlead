@@ -12,6 +12,7 @@ import * as R from 'ramda';
 import AgentModal from '../@common/modals/agent';
 import {Auth} from "@services";
 import {disableAutoComplete} from '../../utils';
+import { actionTypes } from '../../@containers/forms/automation/actionTypes';
 
 class AgentProfile extends Component {
     
@@ -34,15 +35,14 @@ class AgentProfile extends Component {
     }
 
     componentDidMount() {
+        // this.props.resetBreadCrumbToDefault();
         disableAutoComplete();
-
         let opt = this.props.pieGraphContactedLeadsAverage;
         opt.options.legendCallback = function (chart) {
             let ul = document.createElement('ul');
             let i = 0;
             chart.data.labels.forEach(function (item) {
                 ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="background-color: ${chart.data.datasets[0].backgroundColor[i]}; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item}</li>`;
-                //ul.innerHTML +=`<div style="background-color: ${chart.data.datasets[0].backgroundColor[i]}; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div><div>${item}</div>`;
                 i++;
             });
             return ul.outerHTML;
@@ -107,7 +107,7 @@ class AgentProfile extends Component {
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         });
 
-        this.props.getAgentGraph(this.Chart, this.props.agentId, {
+        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
             companyIds: this.state.companyIds,
             graphType: 'contacted',
             startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
@@ -126,10 +126,18 @@ class AgentProfile extends Component {
     // }
     onCloseSidebar () {
         this.props.onClose();
+        this.props.resetBreadCrumbToDefault();
+        this.props.addBreadCrumb({
+            name: 'Agents',
+            path: '',
+            active: true,
+        });
     }
     render() {
+        console.log("props = ", this.props);
         const {data} = this.props.pieGraphContactedLeadsAverage.data.datasets[0];
         const {startDateDisplay, endDateDisplay, startDate, endDate} = this.state;
+        const {avg_response_time} = this.props.pieGraphContactedLeadsAverage.data;
         //return (<div className='AgentProfile' onMouseLeave={this.onMouseLeave}>
         return (<div className='AgentProfile'>
                     <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}>x</div>
@@ -137,7 +145,7 @@ class AgentProfile extends Component {
                     <Segment attached='top'>
                         <Grid.Column>
                             <div className="selectedAgent"> selected </div>
-                            <div className="selectedName"> Jone Doe </div>
+                            <div className="selectedName"> {this.props.agent.name} </div>
                             <div className="selectedContent1">
                                 Inactive agents are not getting leads.
                             </div>
@@ -181,7 +189,7 @@ class AgentProfile extends Component {
                                 <canvas ref={this.canvas}/>
                                 {R.sum(data) === 0 ? (<div className="empty-wrapper"/>) : null}
                             </div>
-                            <div className='average-response-time-label'>AVR response time: {R.sum(data)}</div>                    
+                            <div className='average-response-time-label'>AVR response time: {avg_response_time}</div>                    
                         </div>
                         </Segment>            
                     </div>)

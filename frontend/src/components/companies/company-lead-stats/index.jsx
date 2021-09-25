@@ -165,7 +165,7 @@ class CompanyLeadStats extends Component {
                     </BarChart>
 
                     <div className="averages">
-                        <label>AVR Response Time</label>
+                        <label className="avr_response_time">AVR Response Time</label>
                         <span className="value">
                             {companyLeadStats.avg_lead_response_formatted || ''}
                         </span>

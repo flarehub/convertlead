@@ -69,7 +69,7 @@ class CompanyProfile extends Component {
         };
 
         this.Chart = new ChartJs(this.canvas.current.getContext('2d'), this.props.graphContactedLeadsAverage);
-        this.props.getCompanyGraph(this.Chart, this.companyId, {
+        this.props.getCompanyGraph(this.Chart, this.props.companyId, {
             graphType: 'contacted',
             startDate: this.state.startDate,
             endDate: this.state.endDate,
@@ -86,7 +86,7 @@ class CompanyProfile extends Component {
             agentId: data.value,
         });
 
-        this.props.getCompanyGraph(this.Chart, this.companyId, {
+        this.props.getCompanyGraph(this.Chart, this.props.companyId, {
             agentId: this.state.agentId,
             graphType: 'contacted',
             startDate: this.state.startDate,
@@ -109,7 +109,7 @@ class CompanyProfile extends Component {
             endDateDisplay: moment(date).format('MM/DD/Y'),
         });
 
-        this.props.getCompanyGraph(this.Chart, this.companyId, {
+        this.props.getCompanyGraph(this.Chart, this.props.companyId, {
             agentId: this.state.agentId,
             graphType: 'contacted',
             startDate: this.state.startDate,
@@ -126,7 +126,7 @@ class CompanyProfile extends Component {
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         });
 
-        this.props.getCompanyGraph(this.Chart, this.companyId, {
+        this.props.getCompanyGraph(this.Chart, this.props.companyId, {
             agentId: this.state.agentId,
             graphType: 'contacted',
             startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
@@ -146,17 +146,13 @@ class CompanyProfile extends Component {
                 Auth.isAgency ? <CompanyModal/> : null
             }
             <Segment attached='top'>
-
-
                 <Grid columns={2}>
                     <Grid.Column>
-
                         <Header floated='left' as='h1'>
                             {
                                 Auth.isAgency ? 'Company' : 'Statistic'
                             }
                         </Header>
-
                         <Form>
                             <Form.Group widths='equal'>
                                 <Form.Field
@@ -203,8 +199,9 @@ class CompanyProfile extends Component {
                 <Segment className='average-response-time' basic>
                     <div ref='legend'/>
                     <canvas ref={this.canvas}/>
-                    <label className='average-response-time-label'>Average response
-                        time: {companyAverageResponseTime}</label>
+                    <label className='average-response-time-label'>Average response time: 
+                        {companyAverageResponseTime}
+                    </label>
                 </Segment>
             </Segment>
         </div>)

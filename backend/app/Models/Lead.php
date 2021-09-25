@@ -19,7 +19,7 @@ class Lead extends Model
         'fullname',
         'email',
         'phone',
-        'metadata',
+        'metadata'
     ];
     
     protected $appends = [

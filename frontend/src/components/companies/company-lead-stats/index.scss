@@ -28,14 +28,18 @@
   .averages {
     margin-bottom: 20px;
     margin-top: 20px;
+    .avr_response_time{
+      display: block;
+    }    
   }
+
 
   .totals {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-items: center;
-    background: red;
+    // background: red;
     text-align: center;
 
     .total-leads {

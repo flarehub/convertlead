@@ -12,17 +12,7 @@
   .pie-graph {
     text-align: center;
   }  
-  .btnClose{
-    cursor: pointer;
-    right: 10px;
-    position: absolute;
-    top: 5px;
-    width: 25px;
-    height: 25px;
-    border: 2px solid;
-    border-radius: 100px;
-    font-size: 24px;
-  }
+
   .selectedAgent{
     margin-left: -190px;
     text-transform: uppercase;    
@@ -62,13 +52,6 @@
     border-color: lightgray !important;    
   }
   .field .ui.search.selection.dropdown{
-    width: 100%;
-  }
-  .ring {
-    border: 10vw solid red;
-    border-radius: 50%;
-    height: 100%;
-    position: absolute;
     width: 100%;
   }
 }

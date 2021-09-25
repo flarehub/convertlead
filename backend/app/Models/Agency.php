@@ -64,13 +64,11 @@ class Agency extends User
     public function getCompanyLeadStatsBy($companyId, $fromDate, $toDate, $agentId = null) {
         $format = 'Y-m-d';
 
-        $query = Lead::query()
-            ->selectRaw('
-                COUNT(leads.id) AS total_leads_count,
+
+        $query = Lead::selectRaw('COUNT(leads.id) AS total_leads_count,
                 SUM(IF(ls.type = \'SOLD\', 1, 0)) AS total_leads_converted,
                 DATE_FORMAT(leads.created_at, \'%Y-%m-%d\') AS creation_date,
-                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response
-           ')
+                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response')
             ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
             ->join('lead_statuses AS ls', 'ls.id', 'leads.lead_status_id')
             ->leftJoin(\DB::raw("
@@ -87,21 +85,36 @@ class Agency extends User
 
         $query->where('ac.company_id', $companyId);
 
+        $st_dt = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $end_dt = Carbon::createFromFormat('Y-m-d', $toDate)->endOfDay();
+
         $query->whereBetween('leads.created_at', [
-            Carbon::createFromFormat($format, $fromDate)->startOfDay(),
-            Carbon::createFromFormat($format, $toDate)->endOfDay()]);
+            // $st_dt,
+            // $end_dt
+            "'2019-08-07'",
+            "'2019-08-14'"  
+        ]);
 
         $query->groupBy(['ac.company_id', 'creation_date']);
 
         if ($agentId) {
             $query->where('leads.agent_id', '=', $agentId);
         }
+        //$leadsStats = $query->get();
 
-        $leadsStats = $query->get();
+        // $temp = \DB::select(\DB::raw(" select COUNT(leads.id) AS total_leads_count, SUM(IF(ls.type = 'SOLD', 1, 0)) AS total_leads_converted,                DATE_FORMAT(leads.created_at, '%Y-%m-%d') AS creation_date,                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response            from `leads` inner join `agency_companies` as `ac` on `ac`.`id` = `leads`.`agency_company_id` inner join `lead_statuses` as `ls` on `ls`.`id` = `leads`.`lead_status_id` left join             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id                          WHERE                              lead_statuses.type = 'CONTACTED_SMS' OR                              lead_statuses.type = 'CONTACTED_CALL' OR                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes                           on `leadNotes`.`lead_id` = `leads`.`id` where `ac`.`company_id` = 8 and `leads`.`created_at` between 
+        // '2019-08-07' and '2019-08-14' and `leads`.`deleted_at` is null group by `ac`.`company_id`, `creation_date`"));
+       
+        $temp = \DB::select(\DB::raw(" select COUNT(leads.id) AS total_leads_count, SUM(IF(ls.type = 'SOLD', 1, 0)) AS total_leads_converted,                DATE_FORMAT(leads.created_at, '%Y-%m-%d') AS creation_date,                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response            from `leads` inner join `agency_companies` as `ac` on `ac`.`id` = `leads`.`agency_company_id` inner join `lead_statuses` as `ls` on `ls`.`id` = `leads`.`lead_status_id` left join             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id                          WHERE                              lead_statuses.type = 'CONTACTED_SMS' OR                              lead_statuses.type = 'CONTACTED_CALL' OR                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes                           on `leadNotes`.`lead_id` = `leads`.`id` where `ac`.`company_id` = 8 and `leads`.`created_at` between 
+        '".$st_dt."' and '".$end_dt."' and `leads`.`deleted_at` is null group by `ac`.`company_id`, `creation_date`"));
 
         $datePeriod = CarbonPeriod::create(
-            now()->setTimeFromTimeString("{$fromDate} 00:00:00")->toDateString(),
-            now()->setTimeFromTimeString("$toDate 23:59:59")->toDateString()
+            // now()->setTimeFromTimeString("$fromDate 00:00:00")->toDateString(),
+            // now()->setTimeFromTimeString("$toDate 23:59:59")->toDateString()
+            // "2019-08-07 00:00:00",
+            // "2019-08-14 23:59:59"  
+            $st_dt,
+            $end_dt,
         );
 
         $datePeriod = collect($datePeriod)->map(function ($period) {
@@ -115,32 +128,60 @@ class Agency extends User
             ];
         })->toArray();
 
-        $stats = $leadsStats->reduce(function ($acc, $lead) {
-            $acc[$lead->creation_date] = $lead->only(['total_leads_count', 'total_leads_converted', 'sec_avg_lead_response', 'creation_date']);
-            return $acc;
-        });
-        $records = array_merge($datePeriod, $stats ?? []);
+        $aaa=[];
+        $acc['sec_avg_lead_response'] = 0;
+        for($i=0; $i<count($temp); $i++){
+            $str = $temp[$i]->creation_date;
+            $str = str_replace('-', '/', $str);
+            $temp[$i]->creation_date = $str;
+            $aaa[$str] = $temp[$i];
+            $acc['total_leads_count'] = ($acc['total_leads_count'] ?? 0) + $temp[$i]->total_leads_count;
+            $acc['total_leads_converted'] = ($acc['total_leads_converted'] ?? 0) + $temp[$i]->total_leads_converted;
+            $acc['sec_avg_lead_response'] = ($acc['sec_avg_lead_response'] ?? 0) + $temp[$i]->sec_avg_lead_response;
+        }
+        
+        $acc['avg_lead_response_formatted'] = '';
+        if ($acc['sec_avg_lead_response'] > 0) {
+            $acc['avg_lead_response_formatted'] = CarbonInterval::seconds(
+                $acc['sec_avg_lead_response']
+            )->cascade()->forHumans();
+        }
 
-        $totals = collect($records)->reduce(function ($acc, $lead) {
-            $acc['total_leads_count'] = ($acc['total_leads_count'] ?? 0) + $lead['total_leads_count'];
-            $acc['total_leads_converted'] = ($acc['total_leads_converted'] ?? 0) + $lead['total_leads_converted'];
-            $acc['sec_avg_lead_response'] = ($acc['sec_avg_lead_response'] ?? 0) + floatval($lead['sec_avg_lead_response']);
-
-            $acc['avg_lead_response_formatted'] = '';
-            if ($acc['sec_avg_lead_response'] > 0) {
-                $acc['avg_lead_response_formatted'] = CarbonInterval::seconds(
-                    $acc['sec_avg_lead_response']
-                )->cascade()->forHumans();
-            }
-
-            return $acc;
-        });
+        $records = array_merge($aaa, $acc ?? []);
 
         return array_merge([
-                'records' => $records,
-            ],
-            $totals ?? []
+            'records' => $records,
+        ],
+            $acc ?? []
         );
+
+
+
+        // $stats = $leadsStats->reduce(function ($acc, $lead) {
+        //     $acc[$lead->creation_date] = $lead->only(['total_leads_count', 'total_leads_converted', 'sec_avg_lead_response', 'creation_date']);
+        //     return $acc;
+        // });
+        // $records = array_merge($datePeriod, $stats ?? []);
+        // $totals = collect($records)->reduce(function ($acc, $lead) {
+        //     $acc['total_leads_count'] = ($acc['total_leads_count'] ?? 0) + $lead['total_leads_count'];
+        //     $acc['total_leads_converted'] = ($acc['total_leads_converted'] ?? 0) + $lead['total_leads_converted'];
+        //     $acc['sec_avg_lead_response'] = ($acc['sec_avg_lead_response'] ?? 0) + floatval($lead['sec_avg_lead_response']);
+
+        //     $acc['avg_lead_response_formatted'] = '';
+        //     if ($acc['sec_avg_lead_response'] > 0) {
+        //         $acc['avg_lead_response_formatted'] = CarbonInterval::seconds(
+        //             $acc['sec_avg_lead_response']
+        //         )->cascade()->forHumans();
+        //     }
+
+        //     return $acc;
+        // });
+
+        // return array_merge([
+        //         'records' => $records,
+        //     ],
+        //     $totals ?? []
+        // );
     }
 
     /**

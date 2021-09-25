@@ -90,11 +90,17 @@ class Companies extends Component {
   };
 
   onShowCompanyStats = (companyStats) => {
+    
     this.setState({
       ...this.state,
       companyStats,
-    })
+    });
+    this.setState({
+      companyId: companyStats['id'],
+    });    
+
   }
+  
 
   onCloseCompanyStats = () => {
     this.setState({

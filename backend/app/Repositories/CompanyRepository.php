@@ -58,9 +58,9 @@ trait CompanyRepository {
             ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
             ->where(function ($query) {
                 $query
-                    ->where('ls.type', 'CONTACTED_SMS')
-                    ->orWhere('ls.type', 'CONTACTED_CALL')
-                    ->orWhere('ls.type', 'CONTACTED_EMAIL')
+                    ->where('ls.type', "'CONTACTED_SMS'")
+                    ->orWhere('ls.type', "'CONTACTED_CALL'")
+                    ->orWhere('ls.type', "'CONTACTED_EMAIL'")
                 ;
             })
             ->groupBy('creation_date')

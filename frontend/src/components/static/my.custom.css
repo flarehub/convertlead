@@ -3913,3 +3913,15 @@ and (orientation: portrait) {
     }
 
 }
+
+.btnClose{
+    cursor: pointer;
+    right: 10px;
+    position: absolute;
+    top: 5px;
+    width: 25px;
+    height: 25px;
+    border: 2px solid;
+    border-radius: 100px;
+    font-size: 24px;
+  }

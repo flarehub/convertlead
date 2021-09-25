@@ -108,7 +108,6 @@ class Agents extends Component {
     };
 
     onClickViewAgentProfile = (agentId) => {
-        console.log(agentId);
         this.setState({
             ...this.state,
             agentId,
@@ -122,7 +121,7 @@ class Agents extends Component {
     render() {
         const agents = this.props.agents || [];
         const {pagination, query} = this.props;
-        const {companyId, agentId, startDate, endDate, startDateDisplay, endDateDisplay} = this.state;
+        const {companyId, agentId} = this.state;
         const tabs = [
             {
               menuItem: 'Active',
@@ -148,41 +147,29 @@ class Agents extends Component {
                             <Form.Field>
                                 <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
                             </Form.Field>
+                            <div className="leadFilters">
+                                <div className="field">                            
                             <Form>       
                                 <Form.Group widths='equal'> 
                                 {
                                     Auth.isAgency
-                                        ? <Form.Field
-                                            control={Select}
-                                            options={[...companies, ...this.props.selectBoxCompanies]}
-                                            label={{children: 'Filter', htmlFor: 'form-companies-list'}}
-                                            placeholder='All companies'
-                                            search
-                                            onChange={this.onChangeCompany}
-                                            defaultValue={companyId || null}
-                                            searchInput={{id: 'form-companies-list'}}
-                                        />
+                                        ? 
+                                        <Form.Field
+                                        control={Select}
+                                        options={[...companies, ...this.props.selectBoxCompanies]}
+                                        placeholder='All companies'
+                                        search
+                                        onChange={this.onChangeCompany}
+                                        defaultValue={companyId || null}
+                                        searchInput={{id: 'form-companies-list'}}/>                                        
                                         : null
-                                        
                                 }
-
-                                    <Popup position='bottom left'
-                                       trigger={
-                                           <Form.Field>
-                                               <Button>
-                                                   <Icon name='calendar alternate outline'/>
-                                                   {startDateDisplay} - {endDateDisplay}
-                                               </Button>
-                                           </Form.Field>} flowing hoverable>
-                                        <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
-                                                        onChangeDateTo={this.onChangeDateTo}
-                                                        onRestDate={this.onRestDate}
-                                                        from={new Date(startDate)} to={new Date(endDate)}
-                                        />
-                                    </Popup>                                                                                         
+                                                                                       
                                 </Form.Group>
 
                             </Form>
+                            </div>
+                            </div>
                         </Grid.Column>
                         <Grid.Column>
                             <Menu secondary>
@@ -191,18 +178,17 @@ class Agents extends Component {
                                         <Input icon='search' onChange={this.onSearch} value={query.search || ''}
                                                placeholder='Search...'/>
                                     </Menu.Item>
-                                    {/* <Button circular color='teal' onClick={this.props.loadForm.bind(this, {show: true})}
-                                            content='+'/> */}
-                                    <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, {show: true})} ><i className="flaticon stroke plus-1  icon"></i></Button>                                            
+                                    <Button color='teal' className="new-campaign" 
+                                        onClick={this.props.loadForm.bind(this, {show: true})} ><i className="flaticon stroke plus-1  icon"></i></Button>                                            
                                 </Menu.Menu>
                             </Menu>
                         </Grid.Column>
                     </Grid>
+                    
                     <Segment basic>
                         <Loader/>
                             {
                                 agents.map((agent, index) => (
-                                    // console.log("agentID", agent.id),
                                     <div data-id={agent.id} className="agentContainer" onClick={() => this.onClickViewAgentProfile(agent.id)}>
                                         <div className="agentMenu">
                                             <div className="bullets">...</div>
@@ -286,13 +272,13 @@ class Agents extends Component {
                             }
                     </Segment>
                 </Segment>
-                <Segment textAlign='right' attached='bottom'>
+                {/* <Segment textAlign='right' attached='bottom'>
                     <Pagination onPageChange={this.gotoPage}
                                 defaultActivePage={pagination.current_page}
                                 prevItem={null}
                                 nextItem={null}
                                 totalPages={pagination.last_page}/>
-                </Segment>
+                </Segment> */}
             </div>)
     }
 }
