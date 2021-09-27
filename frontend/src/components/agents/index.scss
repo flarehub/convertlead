@@ -30,7 +30,7 @@
     width: 20px;
     height: 20px;
     font-size: 30px;
-    position: absolute;
+    position: relative;
     right: 20px;    
   }
 }
@@ -110,7 +110,7 @@
 .campaignNames{
   background-color: #f6f6fa;
   height: 55px;  
-  padding-top: 20px;
+  padding-top: 10px;
 }
 .icon-image-blue {
   background-position: center center !important;
@@ -146,4 +146,16 @@
 .ui.teal.button.inactive-btn{
   height: 30px;
   background-color: red !important;
+}
+
+.Leads.sidebarOpened {
+  width: calc(100% - 350px);
+}
+
+.Leads {
+  display: flex;
+  flex-direction: row;
+  .leads-container {
+    flex: 1;
+  }
 }

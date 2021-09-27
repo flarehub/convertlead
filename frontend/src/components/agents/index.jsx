@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
-import {BreadCrumbContainer, AgentsContainer, AgentFormContainer} from '@containers';
+import {BreadCrumbContainer, AgentsContainer, AgentFormContainer, CompaniesContainer, LeadsContainer} from '@containers';
 import AgentModal from '../@common/modals/agent';
 import {
     Button,
@@ -20,7 +20,6 @@ import {
 import './index.scss';
 import Loader from '../loader';
 import * as R from "ramda";
-import {CompaniesContainer} from "@containers";
 import {Auth} from "@services";
 import {AvatarImage} from "../@common/image";
 import ButtonGroup from 'components/@common/button-group';
@@ -29,6 +28,7 @@ import AgentProfile from "../agent-profile";
 import avatarDemo from "../@common/forms/avatar-demo.png";
 import DatePickerSelect from "components/@common/datepicker";
 import * as moment from 'moment';
+//import agentCard from './agentCard'
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -56,7 +56,7 @@ class Agents extends Component {
         });
 
         if (Auth.isAgency) {
-            this.props.loadSelectBoxCompanies();
+            this.props.loadSelectBoxCompanies('');
         }
 
         this.setState({
@@ -64,6 +64,19 @@ class Agents extends Component {
             companyId: companyId
         })
     }
+
+    exportTo = (type) => {
+        this.props.exportTo({
+          type,
+          statusType: this.props.query.filters.statusType,
+          search: this.props.query.search,
+          showDeleted: this.props.query.showDeleted,
+          companyId: this.props.query.filters.companyId,
+          campaignId: this.props.query.filters.campaignId,
+          startDate: this.props.query.filters.startDate,
+          endDate: this.props.query.filters.endDate,
+        });
+      };
 
     getSort = field => {
         const fieldStatus = R.path(['query', 'sort', field], this.props);
@@ -133,60 +146,63 @@ class Agents extends Component {
             }
           ];        
         return (
-            <div className='Agents'>
-                <AgentModal/>
-                {
-                    agentId && <AgentProfile agentId={agentId} onClose={() => this.onClickViewAgentProfile(null)} />
-                }
-                <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
-                         onConfirm={this.onConfirm}/>
-                <Segment attached='top'>
-                    <Grid columns={2}>
-                        <Grid.Column>
-                            <Header floated='left' as='h1'>Agents</Header>
-                            <Form.Field>
-                                <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
-                            </Form.Field>
-                            <div className="leadFilters">
-                                <div className="field">                            
-                            <Form>       
-                                <Form.Group widths='equal'> 
-                                {
-                                    Auth.isAgency
-                                        ? 
-                                        <Form.Field
-                                        control={Select}
-                                        options={[...companies, ...this.props.selectBoxCompanies]}
-                                        placeholder='All companies'
-                                        search
-                                        onChange={this.onChangeCompany}
-                                        defaultValue={companyId || null}
-                                        searchInput={{id: 'form-companies-list'}}/>                                        
-                                        : null
-                                }
-                                                                                       
-                                </Form.Group>
 
-                            </Form>
-                            </div>
-                            </div>
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Menu secondary>
-                                <Menu.Menu position='right'>
-                                    <Menu.Item>
-                                        <Input icon='search' onChange={this.onSearch} value={query.search || ''}
-                                               placeholder='Search...'/>
-                                    </Menu.Item>
-                                    <Button color='teal' className="new-campaign" 
-                                        onClick={this.props.loadForm.bind(this, {show: true})} ><i className="flaticon stroke plus-1  icon"></i></Button>                                            
-                                </Menu.Menu>
-                            </Menu>
-                        </Grid.Column>
-                    </Grid>
-                    
+
+            <div className={'Leads ' + (agentId ? 'sidebarOpened': '')}>
+                <div className="leads-container">
+                    <Segment attached='top'>
+                        <Grid columns={2}>
+                            <Grid.Column>
+                                <Header floated='left' as='h1'>Agents</Header>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Menu secondary>
+                                    <Menu.Menu position='right'>
+                                        <Menu.Item>
+                                            <Input icon='search' onChange={this.onSearch} value={query.search || ''}
+                                                placeholder='Search...'/>
+                                        </Menu.Item>
+                                        <Button color='teal' className="new-campaign" 
+                                            onClick={this.props.loadForm.bind(this, {show: true})} ><i className="flaticon stroke plus-1  icon"></i></Button>                                            
+                                    </Menu.Menu>
+                                </Menu>
+                            </Grid.Column>
+                        </Grid>
+                                                
+                    </Segment>
+                    <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
+                    <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
+                         onConfirm={this.onConfirm}/>
                     <Segment basic>
-                        <Loader/>
+                    <div className="leadFilters">
+                                    <div className="field">                            
+                                <Form>       
+                                    <Form.Group widths='equal'> 
+                                    {
+                                        Auth.isAgency
+                                            ? 
+                                            <Form.Field
+                                            control={Select}
+                                            options={[...companies, ...this.props.selectBoxCompanies]}
+                                            placeholder='All companies'
+                                            search
+                                            onChange={this.onChangeCompany}
+                                            defaultValue={companyId || null}
+                                            searchInput={{id: 'form-companies-list'}}/>                                        
+                                            : null
+                                    }
+                                                                                        
+                                    </Form.Group>
+
+                                </Form>
+                                </div>
+                                <div className='exportbox'>Export your data
+                                    <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
+                                    <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
+                                </div>                            
+                                </div>                    
+
+                                <Loader/>
                             {
                                 agents.map((agent, index) => (
                                     <div data-id={agent.id} className="agentContainer" onClick={() => this.onClickViewAgentProfile(agent.id)}>
@@ -195,7 +211,7 @@ class Agents extends Component {
                                             {
                                                 !agent.deleted_at && (
                                                   <ButtonGroup>
-                                                      <Button onClick={this.props.loadForm.bind(this, {
+                                                      <Button style={{width: '90px'}} onClick={this.props.loadForm.bind(this, {
                                                           ...agent,
                                                           show: true
                                                       })}>Edit</Button>
@@ -227,7 +243,7 @@ class Agents extends Component {
                                                     }
                                                     {/* <AvatarImage  circular src={agent.avatar_path || avatarDemo}/> */}
                                                     {   
-                                                        // console.log("agent.integration_count", agent.deals.length), 
+                                                        console.log("agent.integration_count", agent), 
                                                         agent.deals && agent.deals.length != 0 && (
                                                             <div className="circular icon-image-blue" style={{ backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
                                                         ) || (
@@ -242,7 +258,8 @@ class Agents extends Component {
                                             </div>
                                             <div className="integrationCount">
                                                 <span>
-                                                    {agent.integration_count || 0}
+                                                    {/* {agent.integration_count || 0} */}
+                                                    {agent.campaigns_count || 0}
                                                     &nbsp;
                                                     Integrations
                                                 </span>
@@ -257,11 +274,11 @@ class Agents extends Component {
                                                 }
                                             </div>
                                             {
-                                                agent.deals && (
+                                                agent.companies && (
                                                   <div className="campaignNames">
                                                       <span>assigned to</span>
                                                       {
-                                                          agent.deals && agent.deals.map(({name}) => <div className="campaignName">{name}</div>)
+                                                          agent.companies && agent.companies.map(({name}) => <div className="campaignName">{name}</div>)
                                                       }
                                                   </div>
                                                 )
@@ -270,8 +287,15 @@ class Agents extends Component {
                                     </div>
                                 ))
                             }
+
                     </Segment>
-                </Segment>
+                
+                </div>                
+                <AgentModal/>
+                {
+                    agentId && <AgentProfile agentId={agentId} onClose={() => this.onClickViewAgentProfile(null)} />
+                }
+
                 {/* <Segment textAlign='right' attached='bottom'>
                     <Pagination onPageChange={this.gotoPage}
                                 defaultActivePage={pagination.current_page}
@@ -284,4 +308,4 @@ class Agents extends Component {
 }
 
 
-export default compose(BreadCrumbContainer, CompaniesContainer, AgentsContainer, AgentFormContainer)(Agents);
+export default compose(BreadCrumbContainer, CompaniesContainer, AgentsContainer, AgentFormContainer, LeadsContainer)(Agents);

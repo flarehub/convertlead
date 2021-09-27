@@ -140,7 +140,7 @@ class AgentProfile extends Component {
         const {avg_response_time} = this.props.pieGraphContactedLeadsAverage.data;
         //return (<div className='AgentProfile' onMouseLeave={this.onMouseLeave}>
         return (<div className='AgentProfile'>
-                    <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}>x</div>
+                    <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}><i class="flaticon stroke x-2"></i></div>
                     <AgentModal/>
                     <Segment attached='top'>
                         <Grid.Column>

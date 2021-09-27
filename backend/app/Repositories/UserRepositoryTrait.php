@@ -49,75 +49,119 @@ trait UserRepositoryTrait {
 
     public function getDealsStatistics(Request $request)
     {
-        $query = Lead::query()
-            ->join('deal_campaigns AS dc', 'dc.id', '=', 'leads.deal_campaign_id')
-            ->join('agency_companies AS ac', 'ac.id', '=', 'dc.agency_company_id');
+        // $query = Lead::query()
+        //     ->join('deal_campaigns AS dc', 'dc.id', '=', 'leads.deal_campaign_id')
+        //     ->join('agency_companies AS ac', 'ac.id', '=', 'dc.agency_company_id');
 
+        // if ($request->has('dealIds')) {
+        //     $query->whereIn('dc.deal_id', $request->get('dealIds'));
+        // }
+
+        // // $fromDate = $request->get('fromDate');
+        // // $toDate = $request->get('toDate');
+
+        // if ($fromDate && $toDate) {
+        //     $query->whereBetween('leads.created_at', [
+        //         "DATE_FORMAT('$fromDate', '%Y-%m-%d')",
+        //         "DATE_FORMAT('$toDate', '%Y-%m-%d')",
+        //         // "'2001-08-06 00:00:00'",
+        //         // "'2021-08-13 00:00:00'"
+        //     ]);
+        // }
+
+        // $datePeriod = CarbonPeriod::create(
+        //     now()->setTimeFromTimeString($fromDate)->toDateString(),
+        //     now()->setTimeFromTimeString($toDate)->toDateString()
+        // );
+
+        // $query
+        //     ->selectRaw('
+        //          DATE_FORMAT(leads.created_at, \'%Y-%m-%d\') AS created_date,
+        //          COUNT(DISTINCT leads.id) as leadsCount,
+        //          COUNT(DISTINCT dc.integration) as integrationCount,
+        //          dc.integration
+        //     ')
+        //     ->groupBy(['created_date', 'dc.integration']);
+
+        // $leadsStats = $query->get() ?? [];
+
+        $where_query = "";
         if ($request->has('dealIds')) {
-            $query->whereIn('dc.deal_id', $request->get('dealIds'));
+            $where_query = "dc.deal_id IN (".implode(",", $request->get('dealIds')).") AND ";
         }
 
+        //return $where_query;
         $fromDate = $request->get('fromDate');
         $toDate = $request->get('toDate');
-        // $fromDate = '2019-08-06T21:00:00.000Z';
-        // $toDate = '2019-08-13T21:00:00.000Z';
+        // $fromDate = "2019-08-01";
+        // $toDate = "2021-12-21";
 
-        if ($fromDate && $toDate) {
-            $query->whereBetween('leads.created_at', [
-                "DATE_FORMAT('$fromDate', '%Y-%m-%d %h:%i:%s')",
-                "DATE_FORMAT('$toDate', '%Y-%m-%d %h:%i:%s')",
-                // "'2001-08-06 00:00:00'",
-                // "'2021-08-13 00:00:00'"
-            ]);
+        $query = "SELECT DATE_FORMAT(leads.created_at, '%Y-%m-%d') AS created_date,
+        COUNT(DISTINCT leads.id) AS leadsCount,
+        COUNT(DISTINCT dc.integration) AS integrationCount, 
+        dc.integration 
+        FROM `leads` INNER JOIN `deal_campaigns` AS `dc` ON `dc`.`id` = `leads`.`deal_campaign_id` 
+        INNER JOIN `agency_companies` AS `ac` ON `ac`.`id` = `dc`.`agency_company_id` 
+        WHERE ".$where_query." `leads`.`created_at` BETWEEN 
+        DATE_FORMAT('".$fromDate."', '%Y-%m-%d') AND DATE_FORMAT('".$toDate."', '%Y-%m-%d') 
+        AND `leads`.`deleted_at` IS NULL 
+        GROUP BY `created_date`, `dc`.`integration`";
+
+        $temp = \DB::select(\DB::raw($query));
+
+        $aaa=[];
+        $report = [];
+        $totalLeadsCount = 0;
+        for($i=0; $i<count($temp); $i++){
+            $totalLeadsCount += $temp[$i]->leadsCount;
         }
 
-        $datePeriod = CarbonPeriod::create(
-            now()->setTimeFromTimeString($fromDate)->toDateString(),
-            now()->setTimeFromTimeString($toDate)->toDateString()
-        );
-
-        $query
-            ->selectRaw('
-                 DATE_FORMAT(leads.created_at, \'%Y-%m-%d\') AS created_date,
-                 COUNT(DISTINCT leads.id) as leadsCount,
-                 COUNT(DISTINCT dc.integration) as integrationCount,
-                 dc.integration
-            ')
-            ->groupBy(['created_date', 'dc.integration']);
-
-        $leadsStats = $query->get() ?? [];
-        $datePeriod = collect($datePeriod)->map(function ($period) {
-            return $period->format('Y-m-d');
-        })->flip()->map(function ($index, $date) use ($leadsStats) {
-            $records = collect($leadsStats)->filter(function ($record) use ($date) {
-                return $record->created_date === $date;
-            })->map(function ($record) {
-                return $record(['leadsCount', 'integrationCount', 'integration', 'created_date']);
-            });
-
-            $totalLeadsCount = collect($records)->reduce(function ($collect, $record) {
-                $collect += $record['leadsCount'];
-                return $collect;
-            }, 0);
-
-            return [
-                'records' => collect($records)->map(function ($record) use ($totalLeadsCount) {
-                    $record['leadsPercentage'] = round((($record['leadsCount'] / $totalLeadsCount) * 100));
-                    return $record;
-                })->values()->toArray(),
-                'totalLeadsCount' => $totalLeadsCount,
-                'name' => Carbon::parse($date)->shortDayName,
-            ];
-        })->values()->toArray();
-
+        for($i=0; $i<count($temp); $i++){
+            $temp[$i]->leadsPercentage = round((($temp[$i]->leadsCount / $totalLeadsCount) * 100)); 
+            $aaa[$i]['records'] = $temp[$i];
+            $aaa[$i]['name'] = Carbon::parse($temp[$i]->created_date)->shortDayName;
+            $aaa[$i]['totalLeadsCount'] = $temp[$i]->leadsCount;            
+        }        
+        
         $report = [
-            'records' => $datePeriod,
-            'totalLeadsCount' => collect($leadsStats)->reduce(function ($collect, $record) {
-                $collect += $record->leadsCount;
-                return $collect;
-            }, 0)
+            'records' => $aaa,
+            'totalLeadsCount' => $totalLeadsCount
         ];
 
         return $report;
+
+        // $datePeriod = collect($datePeriod)->map(function ($period) {
+        //     return $period->format('Y-m-d');
+        // })->flip()->map(function ($index, $date) use ($leadsStats) {
+        //     $records = collect($leadsStats)->filter(function ($record) use ($date) {
+        //         return $record->created_date === $date;
+        //     })->map(function ($record) {
+        //         return $record(['leadsCount', 'integrationCount', 'integration', 'created_date']);
+        //     });
+
+        //     $totalLeadsCount = collect($records)->reduce(function ($collect, $record) {
+        //         $collect += $record['leadsCount'];
+        //         return $collect;
+        //     }, 0);
+
+        //     return [
+        //         'records' => collect($records)->map(function ($record) use ($totalLeadsCount) {
+        //             $record['leadsPercentage'] = round((($record['leadsCount'] / $totalLeadsCount) * 100));
+        //             return $record;
+        //         })->values()->toArray(),
+        //         'totalLeadsCount' => $totalLeadsCount,
+        //         'name' => Carbon::parse($date)->shortDayName,
+        //     ];
+        // })->values()->toArray();
+
+        // $report = [
+        //     'records' => $datePeriod,
+        //     'totalLeadsCount' => collect($leadsStats)->reduce(function ($collect, $record) {
+        //         $collect += $record->leadsCount;
+        //         return $collect;
+        //     }, 0)
+        // ];
+
+        // return $report;
     }
 }

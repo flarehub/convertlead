@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
-import { CompaniesContainer, DealsContainer } from '@containers';
+import { CompaniesContainer, DealsContainer} from '@containers';
 import DealModal from 'components/@common/modals/deal';
 import Loader from 'components/loader';
 import {

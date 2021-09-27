@@ -109,7 +109,8 @@ class CompanyLeadStats extends Component {
 
         return (
             <div className="companyLeadStats">
-                <Icon name="close" onClick={(e) => onClose(e)} />
+                {/* <Icon name="close" onClick={(e) => onClose(e)} /> */}
+                <div className="btnClose" onClick={(e) => onClose(e)}><i class="flaticon stroke x-2"></i></div>
                 <div className="company-name-header">
                     <label>Selected</label>
                     <div className="company-name">{company.name}</div>

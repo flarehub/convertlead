@@ -52,7 +52,7 @@ class DealsStatistics extends React.PureComponent {
     const data = this.props.dealsGraphic;
     const chartIntegrations = this.props.dealsSelectedGraphicStatistics;
     return (<div className="DealStatistics">
-      <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}>x</div>
+      <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}><i class="flaticon stroke x-2"></i></div>
           <div className="statswrapper">
       <div className="deal-header">
         <div>{dealsCount} Campaign/s Selected</div>
