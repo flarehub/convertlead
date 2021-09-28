@@ -177,7 +177,7 @@ class Agents extends Component {
                     <div className="leadFilters">
                                     <div className="field">                            
                                 <Form>       
-                                    <Form.Group widths='equal'> 
+                                    <Form.Group widths='equal' className=' white filter'> 
                                     {
                                         Auth.isAgency
                                             ? 
@@ -267,9 +267,9 @@ class Agents extends Component {
                                             <div className="campaignStatus">
                                                 {
                                                     agent.deals && agent.deals.length != 0 && (
-                                                        <button class="ui teal button active-btn" >Active</button>
+                                                        <button className="ui teal button active-btn" >Active</button>
                                                     ) || (
-                                                        <button class="ui teal button inactive-btn" >Inactive</button>
+                                                        <button className="ui teal button inactive-btn" >Inactive</button>
                                                     )
                                                 }
                                             </div>

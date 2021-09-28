@@ -42,7 +42,7 @@ class AgentProfile extends Component {
             let ul = document.createElement('ul');
             let i = 0;
             chart.data.labels.forEach(function (item) {
-                ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="background-color: ${chart.data.datasets[0].backgroundColor[i]}; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item}</li>`;
+                ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="border-color: ${chart.data.datasets[0].backgroundColor[i]} !important; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item}</li>`;
                 i++;
             });
             return ul.outerHTML;
@@ -140,7 +140,7 @@ class AgentProfile extends Component {
         const {avg_response_time} = this.props.pieGraphContactedLeadsAverage.data;
         //return (<div className='AgentProfile' onMouseLeave={this.onMouseLeave}>
         return (<div className='AgentProfile'>
-                    <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}><i class="flaticon stroke x-2"></i></div>
+                    <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}><i className="flaticon stroke x-2"></i></div>
                     <AgentModal/>
                     <Segment attached='top'>
                         <Grid.Column>
@@ -150,16 +150,16 @@ class AgentProfile extends Component {
                                 Inactive agents are not getting leads.
                             </div>
                             <div className="selectedContent2">
-                                Assign it to an integration to active.
+                                Assign them to an integration to activate.
                             </div>
                         </Grid.Column>                                                                                                        
                     </Segment>    
-                    <Segment>
+                    <Segment className='stats'>
                         <Popup position='bottom left'
                             trigger={
                                 <Form.Field>
                                     <Button className="dateSelector">
-                                        <Icon name='calendar alternate outline'/>
+                                        <i className="flaticon stroke calendar-3"></i>
                                         {startDateDisplay} - {endDateDisplay}
                                     </Button>
                                 </Form.Field>} flowing hoverable>
@@ -189,7 +189,7 @@ class AgentProfile extends Component {
                                 <canvas ref={this.canvas}/>
                                 {R.sum(data) === 0 ? (<div className="empty-wrapper"/>) : null}
                             </div>
-                            <div className='average-response-time-label'>AVR response time: {avg_response_time}</div>                    
+                            <div className='average-response-time-label'><p>AVR response time</p> {avg_response_time}</div>                    
                         </div>
                         </Segment>            
                     </div>)
