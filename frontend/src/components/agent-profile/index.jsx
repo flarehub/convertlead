@@ -17,6 +17,7 @@ import { actionTypes } from '../../@containers/forms/automation/actionTypes';
 class AgentProfile extends Component {
     
     state = {
+        agent: {},
         companyIds: [],
         startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
         endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
@@ -119,12 +120,8 @@ class AgentProfile extends Component {
         this.props.loadForm({...this.props.agent, show: true})
     };
 
-    // onMouseLeave = () => {
-    //     if (typeof this.props.onClose !== 'undefined') {
-    //         this.props.onClose();
-    //     }
-    // }
     onCloseSidebar () {
+        document.getElementsByClassName('Leads sidebarOpened')[0].className = 'Leads';
         this.props.onClose();
         this.props.resetBreadCrumbToDefault();
         this.props.addBreadCrumb({
@@ -133,19 +130,46 @@ class AgentProfile extends Component {
             active: true,
         });
     }
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        // console.log('next', nextProps.s_agent.id);
+        this.setState({agent: nextProps.s_agent});
+
+        if(this.props.agentId !== nextProps.agentId) {
+            let opt = this.props.pieGraphContactedLeadsAverage;
+            opt.options.legendCallback = function (chart) {
+                let ul = document.createElement('ul');
+                let i = 0;
+                chart.data.labels.forEach(function (item) {
+                    ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="background-color: ${chart.data.datasets[0].backgroundColor[i]}; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item}</li>`;
+                    i++;
+                });
+                return ul.outerHTML;
+            };
+
+            // this.Chart = new ChartJs(this.canvas.current.getContext('2d'), this.props.pieGraphContactedLeadsAverage);
+            this.props.getAgentGraphPie(this.Chart, nextProps.agentId, {
+                companyIds: [],
+                graphType: 'contacted',
+                startDate: this.state.startDate,
+                endDate: this.state.endDate              
+            });
+
+            this.Chart.data = this.props.pieGraphContactedLeadsAverage.data;
+            this.Chart.update();
+            this.refs.legend.innerHTML = this.Chart.generateLegend();
+        }
+    }
     render() {
-        console.log("props = ", this.props);
         const {data} = this.props.pieGraphContactedLeadsAverage.data.datasets[0];
         const {startDateDisplay, endDateDisplay, startDate, endDate} = this.state;
         const {avg_response_time} = this.props.pieGraphContactedLeadsAverage.data;
-        //return (<div className='AgentProfile' onMouseLeave={this.onMouseLeave}>
         return (<div className='AgentProfile'>
-                    <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}><i class="flaticon stroke x-2"></i></div>
+                    <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}><i className="flaticon stroke x-2"></i></div>
                     <AgentModal/>
                     <Segment attached='top'>
                         <Grid.Column>
                             <div className="selectedAgent"> selected </div>
-                            <div className="selectedName"> {this.props.agent.name} </div>
+                            <div className="selectedName"> {this.state.agent.name} </div>
                             <div className="selectedContent1">
                                 Inactive agents are not getting leads.
                             </div>
@@ -191,8 +215,8 @@ class AgentProfile extends Component {
                             </div>
                             <div className='average-response-time-label'>AVR response time: {avg_response_time}</div>                    
                         </div>
-                        </Segment>            
-                    </div>)
+                    </Segment>            
+                </div>)
     }
 }
 

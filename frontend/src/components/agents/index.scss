@@ -1,13 +1,33 @@
 .agentContainer {
   float: left;
   margin-right: 15px;
-  margin-top: 50px;
+  // margin-top: 50px;
   border: 1px solid #dfdff0;
   border-radius: 3px;
   width: 240px;
-  height: 300px;
+  min-height: 300px;
   border-radius: 7px;
   background: #fff;
+}
+
+.Leads.sidebarOpened {
+  width: calc(100% - 266px);
+}
+
+.Agentpage {
+  display: flex;
+  flex-direction: row;
+  .agentpage-container {
+    flex: 1;
+  }
+}
+
+.Leads {
+  display: flex;
+  flex-direction: row;
+  .leads-container {
+    flex: 1;
+  }
 }
 
 .agentMenu {
@@ -108,9 +128,10 @@
   border-radius: 5px !important;
 }
 .campaignNames{
-  background-color: #f6f6fa;
-  height: 55px;  
+  background-color: #f6f6fa;  
   padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 54px;
 }
 .icon-image-blue {
   background-position: center center !important;
@@ -146,16 +167,4 @@
 .ui.teal.button.inactive-btn{
   height: 30px;
   background-color: red !important;
-}
-
-.Leads.sidebarOpened {
-  width: calc(100% - 350px);
-}
-
-.Leads {
-  display: flex;
-  flex-direction: row;
-  .leads-container {
-    flex: 1;
-  }
 }
