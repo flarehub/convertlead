@@ -10,7 +10,6 @@ import {
     Header,
     Input,
     Menu,
-    Pagination,
     Segment,
     Select,
     Tab,
@@ -61,7 +60,14 @@ class Agents extends Component {
             ...this.state,
             companyId: companyId
         })
+        this.props.loadAgents();
     }
+
+    onChangeCompany = (event, data) => {
+        this.props.filterAgents({
+            companyId: data.value
+        });
+      };
 
     onClickViewAgentProfile = (agent) => {
         document.getElementsByClassName('Leads')[0].className = 'Leads sidebarOpened';
@@ -96,8 +102,8 @@ class Agents extends Component {
           ...this.state,
           activeIndex: tab.activeIndex,
         });
-    
-        this.props.toggleShowDeleted();
+
+        this.props.toggleAgentsShowDeleted();
     };
 
     onPreviewAgentChange = (agent) => {
@@ -125,7 +131,7 @@ class Agents extends Component {
       onRestore = (agentId) => {
           this.props.restore(agentId);
       };
-          
+
     exportTo = (type) => {
         this.props.exportTo({
           type,

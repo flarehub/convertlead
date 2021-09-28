@@ -59,7 +59,7 @@ export const openAgentModal = open => ({
   open,
 });
 
-export const toggleShowDeleted = () => ({
+export const toggleAgentsShowDeleted = () => ({
   type: SHOW_DELETED_AGENTS,
 });
 

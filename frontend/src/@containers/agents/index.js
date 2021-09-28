@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
   edit: (id, agent) => dispatch(thunks.editAgent(id, agent)),
   create: agent => dispatch(thunks.createAgent(agent)),
   openModal: open => dispatch(actions.openAgentModal(open)),
-  toggleShowDeleted: open => dispatch(thunks.toggleShowDeleted(open)),
+  toggleAgentsShowDeleted: open => dispatch(thunks.toggleAgentsShowDeleted(open)),
   loadSelectBoxAgents: filters => dispatch(thunks.loadSelectBoxAgents(filters)),
   getAgentGraph: (graphContext, agentId, filters) => dispatch(thunks.getAgentGraph(graphContext, agentId, filters)),
   getAgentGraphPie: (graphContext, agentId, filters) => dispatch(thunks.getAgentGraphPie(graphContext, agentId, filters)),

@@ -13,7 +13,7 @@ export const loadAgents = () => async (dispath, getState) => {
       params: {
         ...query.filters,
         ...query.sort,
-        showDeleted: (query.showDeleted ? true : null),
+        showDeleted: (query.showDeleted ? 1 : null),
         search: query.search,
         current_page: pagination.current_page,
         per_page: pagination.per_page,
@@ -93,8 +93,8 @@ export const gotoPage = activePage => async (dispath, getState) => {
   await dispath(loadAgents());
 };
 
-export const toggleShowDeleted = () => async (dispath, getState) => {
-  await dispath(actions.toggleShowDeleted());
+export const toggleAgentsShowDeleted = () => async (dispath, getState) => {
+  await dispath(actions.toggleAgentsShowDeleted());
   await dispath(loadAgents());
 };
 
