@@ -1,13 +1,19 @@
 .agentContainer {
   float: left;
   margin-right: 15px;
-  // margin-top: 50px;
+  margin-top: 15px;
   border: 1px solid #dfdff0;
-  border-radius: 3px;
-  width: 240px;
-  min-height: 300px;
-  border-radius: 7px;
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
   background: #fff;
+  box-shadow:0px 0px 1px rgb(224, 225, 234);
+  transition: box-shadow 0.5s ease;
+  cursor:pointer;
+}
+
+.agentContainer:hover {
+  box-shadow:0px 0px 55px rgb(224, 225, 234);
 }
 
 .Leads.sidebarOpened {
@@ -51,7 +57,8 @@
     height: 20px;
     font-size: 30px;
     position: relative;
-    right: 20px;    
+    right: 20px;
+	color:#8d96b5;
   }
 }
 
@@ -108,12 +115,12 @@
 }
 
 .agentName{
-  font-weight: bold;
+  font-weight: 600;
   color:#3c3a4e;
   margin-top:15px;
 }
 .integrationCount{
-  color: grey;
+  color: #9d9bb5;
 }
 .campaignStatus{
   margin-top: 10px;
@@ -128,10 +135,30 @@
   border-radius: 5px !important;
 }
 .campaignNames{
-  background-color: #f6f6fa;  
-  padding-top: 10px;
-  padding-bottom: 10px;
-  min-height: 54px;
+  background-color: #f6f6fa;
+  height: 67px;
+  color: #9d9bb5;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  border-top: 1px solid #dfdff0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: 5px;
+}
+
+.campaignNames .campaignName {
+
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #747c9b;
+
 }
 .icon-image-blue {
   background-position: center center !important;
@@ -163,8 +190,54 @@
 }
 .ui.teal.button.active-btn{
   height: 30px;
+  box-shadow:none !important;
 }
 .ui.teal.button.inactive-btn{
   height: 30px;
-  background-color: red !important;
+  background-color: #ff2a4c !important;
+  box-shadow: none !important;
 }
+
+.Leads.sidebarOpened {
+  width: calc(100% - 350px);
+}
+
+.Leads {
+  display: flex;
+  flex-direction: row;
+  .leads-container {
+    flex: 1;
+  }
+}
+
+.Leads.sidebarOpened .AgentProfile {
+
+  position: absolute;
+  top: 97px;
+  right: 0;
+  width: 350px;
+  background: white;
+  height: 100%;
+  box-shadow: -1px 1px 2px rgba(225, 225, 240, 0.9);
+  border-radius: 0px;
+  border: none;
+}
+
+.AgentProfile .ui.segment.stats {
+
+  border:none;
+  border-radius:none;
+  padding:35px;
+  margin:0 auto;
+  
+  }
+  
+.AgentProfile .ui.top.attached.segment {
+  
+  border-bottom:1px solid #dfdff0 !important;
+  color:#9d9bb5;
+  border-bottom: 1px solid #dfdff0 !important;
+  color: #9d9bb5;
+  margin: 0 !important;
+  padding: 35px !important;
+  }

@@ -139,6 +139,125 @@ class Agents extends Component {
                         </Grid>         
                     </Segment>
                     <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
+                    <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
+                         onConfirm={this.onConfirm}/>
+                    <Segment basic>
+                    <div className="leadFilters">
+                                    <div className="field">                            
+                                <Form>       
+                                    <Form.Group widths='equal' className=' white filter'> 
+                                    {
+                                        Auth.isAgency
+                                            ? 
+                                            <Form.Field
+                                            control={Select}
+                                            options={[...companies, ...this.props.selectBoxCompanies]}
+                                            placeholder='All companies'
+                                            search
+                                            onChange={this.onChangeCompany}
+                                            defaultValue={companyId || null}
+                                            searchInput={{id: 'form-companies-list'}}/>                                        
+                                            : null
+                                    }
+                                                                                        
+                                    </Form.Group>
+
+                                </Form>
+                                </div>
+                                <div className='exportbox'>Export your data
+                                    <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
+                                    <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
+                                </div>                            
+                                </div>                    
+
+                                <Loader/>
+                            {
+                                agents.map((agent, index) => (
+                                    <div data-id={agent.id} className="agentContainer" onClick={() => this.onClickViewAgentProfile(agent.id)}>
+                                        <div className="agentMenu">
+                                            <div className="bullets">...</div>
+                                            {
+                                                !agent.deleted_at && (
+                                                  <ButtonGroup>
+                                                      <Button style={{width: '90px'}} onClick={this.props.loadForm.bind(this, {
+                                                          ...agent,
+                                                          show: true
+                                                      })}>Edit</Button>
+                                                      <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
+                                                  </ButtonGroup>
+                                                ) || (
+                                                  <ButtonGroup>
+                                                      <Button onClick={this.props.loadForm.bind(this, {
+                                                          ...agent,
+                                                          show: true
+                                                      })}>Edit</Button>
+                                                      <Button onClick={() => this.onRestore(agent.id)}>Restore</Button>
+                                                  </ButtonGroup>
+                                                )
+                                            }
+                                        </div>
+                                        <div className="agentDetails">
+                                            <div className="agentAvatar">
+                                                <div className="legend">
+                                                    <span className="legendCount">
+                                                        {agent.leads_count}
+                                                    </span>
+                                                    {
+                                                        agent.deals && agent.deals.length != 0 && (
+                                                            <span className="legendName-blue">Leads</span>
+                                                        ) || (
+                                                            <span className="legendName-red">Leads</span>
+                                                        )
+                                                    }
+                                                    {/* <AvatarImage  circular src={agent.avatar_path || avatarDemo}/> */}
+                                                    {   
+                                                        console.log("agent.integration_count", agent), 
+                                                        agent.deals && agent.deals.length != 0 && (
+                                                            <div className="circular icon-image-blue" style={{ backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
+                                                        ) || (
+                                                            <div className="circular icon-image-red" style={{ backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
+                                                        )
+                                                    }
+                                                </div>
+                                                
+                                                <div className="agentName">
+                                                    {agent.name}
+                                                </div>
+                                            </div>
+                                            <div className="integrationCount">
+                                                <span>
+                                                    {/* {agent.integration_count || 0} */}
+                                                    {agent.campaigns_count || 0}
+                                                    &nbsp;
+                                                    Integrations
+                                                </span>
+                                            </div>
+                                            <div className="campaignStatus">
+                                                {
+                                                    agent.deals && agent.deals.length != 0 && (
+                                                        <button className="ui teal button active-btn" >Active</button>
+                                                    ) || (
+                                                        <button className="ui teal button inactive-btn" >Inactive</button>
+                                                    )
+                                                }
+                                            </div>
+                                            {
+                                                agent.companies && (
+                                                  <div className="campaignNames">
+                                                      <span>assigned to</span>
+                                                      {
+                                                          agent.companies && agent.companies.map(({name}) => <div className="campaignName">{name}</div>)
+                                                      }
+                                                  </div>
+                                                )
+                                            }
+                                        </div>
+                                    </div>
+                                ))
+                            }
+
+                    </Segment>
+                
                 </div>                
             </div>)
     }
