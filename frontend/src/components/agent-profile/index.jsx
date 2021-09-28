@@ -13,6 +13,7 @@ import AgentModal from '../@common/modals/agent';
 import {Auth} from "@services";
 import {disableAutoComplete} from '../../utils';
 import { actionTypes } from '../../@containers/forms/automation/actionTypes';
+import Loader from '../loader';
 
 class AgentProfile extends Component {
     
