@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
   getAgent: (id, addBreadCrumb = false) => dispatch(thunks.getAgent(id, addBreadCrumb)),
   filterAgents: filters => dispatch(thunks.filterAgents(filters)),
   search: search => dispatch(thunks.searchAgents(search)),
-  sort: sort => dispatch(thunks.sortAgents(sort)),
+  sortAgentsBy: sort => dispatch(thunks.sortAgents(sort)),
   gotoPage: activePage => dispatch(thunks.gotoPage(activePage)),
   delete: (agentId) => dispatch(thunks.deleteAgent(agentId)),
   restore: (agentId) => dispatch(thunks.restoreAgent(agentId)),

@@ -96,16 +96,15 @@ class Companies extends Component {
       companyStats,
     });
     this.setState({
-      companyId: companyStats['id'],
+      companyId: companyStats.id,
     });    
 
   }
-  
 
   onCloseCompanyStats = () => {
     this.setState({
       ...this.state,
-      companyStats: null,
+      companyStats: {},
     })
   }
 
@@ -123,7 +122,7 @@ class Companies extends Component {
   render() {
     const companies = this.props.companies || [];
     const {pagination, query} = this.props;
-    const { companyStats } = this.state;
+    const { companyStats} = this.state;
 
     const tabs = [
       {
@@ -138,9 +137,9 @@ class Companies extends Component {
 
     return (
       // <div className='Companies'>
-      <div className='Leads'>
+      <div className={'Leads ' +(companyStats.id ? 'sidebarOpened': '')}>
         <div className="leads-container">
-          {/* <CompanyModal/> */}
+          <CompanyModal/>
           <Segment attached='top'>
             <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
                     onConfirm={this.onConfirm}/>
@@ -252,7 +251,7 @@ class Companies extends Component {
                       nextItem={null}
                       totalPages={pagination.last_page}/>
           </Segment>          
-            { companyStats && <CompanyLeadStats companyObject={companyStats} onClose={this.onCloseCompanyStats} /> }          
+            { companyStats && companyStats.id && (<CompanyLeadStats companyObject={companyStats} onClose={this.onCloseCompanyStats} />) }          
         </div>  
 
       </div>

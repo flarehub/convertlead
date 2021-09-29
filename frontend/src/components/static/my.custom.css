@@ -1183,11 +1183,12 @@ input:focus {
 }
 
 .ui.table tr td:last-child .ui.buttons {
+    z-index: 1;
     width: 180px;
     display: block;
     position: absolute;
     right: 0px;
-    top: 5px;
+    top: -2px;
     padding-top:5px;
 }
 

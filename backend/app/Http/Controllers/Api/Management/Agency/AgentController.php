@@ -20,7 +20,6 @@ class AgentController extends Controller
     {
         $itemsPerPage = (int)$request->get('per_page', 10);
         $page = (int)$request->get('current_page', 1);
-    
         return $request->user()->getAgents($request->only([
             'search',
             'companyId',

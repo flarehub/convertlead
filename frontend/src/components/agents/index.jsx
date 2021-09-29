@@ -24,6 +24,8 @@ import AgentProfile from "../agent-profile";
 import * as moment from 'moment';
 import ButtonGroup from '../@common/button-group';
 import Loader from '../loader';
+import { AvatarImage } from '../@common/image';
+import { avatarDemo } from '../@common/forms/avatar-demo.png';
 
 const companies = [
     {key: null, text: 'All companies', value: null},
@@ -89,6 +91,10 @@ class Agents extends Component {
         return 'sort';
     };
 
+    sortBy = (event, data) => {
+        this.props.sortAgentsBy(data.value);
+    };
+
     onSearch = (event, data) => {
         this.props.search(data.value);
     };
@@ -143,7 +149,7 @@ class Agents extends Component {
           startDate: this.props.query.filters.startDate,
           endDate: this.props.query.filters.endDate,
         });
-      };
+    };
 
     render() {
         const agents = this.props.agents || [];
@@ -159,7 +165,19 @@ class Agents extends Component {
               menuItem: 'Archived',
               render: () => <></>
             }
-          ];    
+        ];    
+        const sorByFiled = [
+            {
+              key: 'name.desc',
+              value: 'name',
+              text: 'Name Descending',
+            },
+            {
+              key: 'name.asc',
+              value: 'name',
+              text: 'Name Ascending',
+            }
+        ]        
         return (
             <div className='Leads'>
                 <div className="leads-container">
@@ -201,10 +219,31 @@ class Agents extends Component {
                                 defaultValue={companyId || null}
                                 searchInput={{id: 'form-companies-list'}}/>                                        
                                 : null
-                            }                                                              
+                            }                                                                                         
                             </Form.Group>
+                            {/* <div className="campaign-sort"> */}
+                            {/* </div>                               */}
                         </Form>
+                        {/* <Form>
+                            <Form.Group>
+                                <div className="campaign-sort">
+                                <Form.Field
+                                    control={Select}
+                                    options={sorByFiled}
+                                    label={{children: 'Sort by', htmlFor: 'campaign-sort-by'}}
+                                    placeholder='Sort by '
+                                    search
+                                    onChange={this.sortBy}
+                                    // defaultValue={this.props.filters.sortBy}
+                                    onSearchChange={this.sortBy}
+                                    searchInput={{id: 'campaign-sort-by'}}
+                                /> 
+                                </div>
+                            </Form.Group>
+                        </Form> */}
                         </div>
+                          
+
                         <div className='exportbox'>Export your data
                             <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
                             <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
@@ -249,12 +288,11 @@ class Agents extends Component {
                                                         <span className="legendName-red">Leads</span>
                                                     )
                                                 }
-                                                {/* <AvatarImage  circular src={agent.avatar_path || avatarDemo}/> */}
                                                 {   
                                                     agent.campaigns_count != 0 && (
-                                                        <div className="circular icon-image-blue" style={{ backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
+                                                        <div className="circular icon-image-blue" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
                                                     ) || (
-                                                        <div className="circular icon-image-red" style={{ backgroundImage: 'url(http://localhost:8000/images/user.png)'}}></div>                                                    
+                                                        <div className="circular icon-image-red" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
                                                     )
                                                 }
                                             </div>
