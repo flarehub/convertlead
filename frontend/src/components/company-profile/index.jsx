@@ -143,7 +143,6 @@ class CompanyProfile extends Component {
         const {startDateDisplay, endDateDisplay} = this.state;
         const {companyAverageResponseTime} = this.props;
         return (
-            
             // <div className='CompanyProfile'>
             <div className='Leads'>
             {
@@ -151,7 +150,6 @@ class CompanyProfile extends Component {
             }
             <div className="leads-container">
             <Segment attached='top'>
-            
                 <Grid columns={2}>
                     <Grid.Column>
                         <Header floated='left' as='h1'>
@@ -160,8 +158,8 @@ class CompanyProfile extends Component {
                             }
                         </Header>
                         <div className="leadFilters">
-                        <div className="field">    
-                        <Form>
+                            <div className="field">    
+                                <Form>
                             <Form.Group >
                                 <Form.Field
                                     control={Select}
@@ -190,7 +188,7 @@ class CompanyProfile extends Component {
                                 </Popup>
                             </Form.Group>
                         </Form>
-                        </div>
+                            </div>
                         </div>                        
                     </Grid.Column>
                     <Grid.Column>
@@ -206,11 +204,7 @@ class CompanyProfile extends Component {
                         </Menu>
                     </Grid.Column>
                 </Grid>
-
             </Segment>
-            {/* <Segment basic>
-
-            </Segment> */}
             <Segment className='average-response-time' basic>
                     <div ref='legend'/>
                     <canvas ref={this.canvas}/>

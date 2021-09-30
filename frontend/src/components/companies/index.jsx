@@ -167,26 +167,27 @@ class Companies extends Component {
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell>
-                      Logo
+                        <span className='table-head blue'>Logo</span>
                     </Table.HeaderCell>
-                    <Table.HeaderCell>Name
-                      <Icon name={this.getSort('name')}
-                            onClick={this.props.sort.bind(this, 'name')}/>
+                    <Table.HeaderCell><span className='table-head blue'>Name</span>
+                      {/* <Icon name={this.getSort('name')}
+                            onClick={this.props.sort.bind(this, 'name')}/> */}
                     </Table.HeaderCell>
-                    <Table.HeaderCell>Campaigns
-                      <Icon name={this.getSort('deals')}
-                            onClick={this.props.sort.bind(this, 'deals')}/>
+                    <Table.HeaderCell><span className='table-head blue'>Campaigns</span>
+                      {/* <Icon name={this.getSort('deals')}
+                            onClick={this.props.sort.bind(this, 'deals')}/> */}
                     </Table.HeaderCell>
-                    <Table.HeaderCell>Leads <Icon name={this.getSort('leads')}
-                                                  onClick={this.props.sort.bind(this, 'leads')}/>
+                    <Table.HeaderCell><span className='table-head blue'>Leads</span>
+                      {/* <Icon name={this.getSort('leads')}
+                                                  onClick={this.props.sort.bind(this, 'leads')}/> */}
                     </Table.HeaderCell>
-                    <Table.HeaderCell>Agents
-                      <Icon name={this.getSort('agents')}
-                            onClick={this.props.sort.bind(this, 'agents')}/>
+                    <Table.HeaderCell><span className='table-head blue'>Agents</span>
+                      {/* <Icon name={this.getSort('agents')}
+                            onClick={this.props.sort.bind(this, 'agents')}/> */}
                     </Table.HeaderCell>
-                    <Table.HeaderCell>Avg Response time
-                      <Icon name={this.getSort('avg_response')}
-                            onClick={this.props.sort.bind(this, 'avg_response')}/>
+                    <Table.HeaderCell><span className='table-head blue'>Avg Response time</span>
+                      {/* <Icon name={this.getSort('avg_response')}
+                            onClick={this.props.sort.bind(this, 'avg_response')}/> */}
                     </Table.HeaderCell>
                     <Table.HeaderCell><span className="linearicons-cog"/></Table.HeaderCell>
                   </Table.Row>
