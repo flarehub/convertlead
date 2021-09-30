@@ -58,6 +58,7 @@ class CompanyProfile extends Component {
     }
 
     componentDidMount() {
+        console.log("company-profile: ", this.props);
         disableAutoComplete();
         let opt = this.props.graphContactedLeadsAverage;
         opt.options.legendCallback = function (chart) {
@@ -69,7 +70,7 @@ class CompanyProfile extends Component {
         };
 
         this.Chart = new ChartJs(this.canvas.current.getContext('2d'), this.props.graphContactedLeadsAverage);
-        this.props.getCompanyGraph(this.Chart, this.props.companyId, {
+        this.props.getCompanyGraph(this.Chart, this.props.match.params.companyId, {
             graphType: 'contacted',
             startDate: this.state.startDate,
             endDate: this.state.endDate,
@@ -86,7 +87,7 @@ class CompanyProfile extends Component {
             agentId: data.value,
         });
 
-        this.props.getCompanyGraph(this.Chart, this.props.companyId, {
+        this.props.getCompanyGraph(this.Chart, this.props.match.params.companyId, {
             agentId: this.state.agentId,
             graphType: 'contacted',
             startDate: this.state.startDate,
@@ -109,7 +110,7 @@ class CompanyProfile extends Component {
             endDateDisplay: moment(date).format('MM/DD/Y'),
         });
 
-        this.props.getCompanyGraph(this.Chart, this.props.companyId, {
+        this.props.getCompanyGraph(this.Chart, this.props.match.params.companyId, {
             agentId: this.state.agentId,
             graphType: 'contacted',
             startDate: this.state.startDate,
@@ -126,7 +127,7 @@ class CompanyProfile extends Component {
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         });
 
-        this.props.getCompanyGraph(this.Chart, this.props.companyId, {
+        this.props.getCompanyGraph(this.Chart, this.props.match.params.companyId, {
             agentId: this.state.agentId,
             graphType: 'contacted',
             startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
@@ -141,11 +142,16 @@ class CompanyProfile extends Component {
     render() {
         const {startDateDisplay, endDateDisplay} = this.state;
         const {companyAverageResponseTime} = this.props;
-        return (<div className='CompanyProfile'>
+        return (
+            
+            // <div className='CompanyProfile'>
+            <div className='Leads'>
             {
                 Auth.isAgency ? <CompanyModal/> : null
             }
+            <div className="leads-container">
             <Segment attached='top'>
+            
                 <Grid columns={2}>
                     <Grid.Column>
                         <Header floated='left' as='h1'>
@@ -153,8 +159,10 @@ class CompanyProfile extends Component {
                                 Auth.isAgency ? 'Company' : 'Statistic'
                             }
                         </Header>
+                        <div className="leadFilters">
+                        <div className="field">    
                         <Form>
-                            <Form.Group widths='equal'>
+                            <Form.Group >
                                 <Form.Field
                                     control={Select}
                                     options={[...agents, ...this.props.selectBoxAgents]}
@@ -182,6 +190,8 @@ class CompanyProfile extends Component {
                                 </Popup>
                             </Form.Group>
                         </Form>
+                        </div>
+                        </div>                        
                     </Grid.Column>
                     <Grid.Column>
                         <Menu secondary>
@@ -196,15 +206,21 @@ class CompanyProfile extends Component {
                         </Menu>
                     </Grid.Column>
                 </Grid>
-                <Segment className='average-response-time' basic>
+
+            </Segment>
+            {/* <Segment basic>
+
+            </Segment> */}
+            <Segment className='average-response-time' basic>
                     <div ref='legend'/>
                     <canvas ref={this.canvas}/>
                     <label className='average-response-time-label'>Average response time: 
                         {companyAverageResponseTime}
                     </label>
-                </Segment>
-            </Segment>
-        </div>)
+            </Segment>            
+        </div>
+        </div>
+        )
     }
 }
 
