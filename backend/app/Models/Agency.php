@@ -102,9 +102,9 @@ class Agency extends User
         }
         //$leadsStats = $query->get();
 
-        // $temp = \DB::select(\DB::raw(" select COUNT(leads.id) AS total_leads_count, SUM(IF(ls.type = 'SOLD', 1, 0)) AS total_leads_converted,                DATE_FORMAT(leads.created_at, '%Y-%m-%d') AS creation_date,                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response            from `leads` inner join `agency_companies` as `ac` on `ac`.`id` = `leads`.`agency_company_id` inner join `lead_statuses` as `ls` on `ls`.`id` = `leads`.`lead_status_id` left join             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id                          WHERE                              lead_statuses.type = 'CONTACTED_SMS' OR                              lead_statuses.type = 'CONTACTED_CALL' OR                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes                           on `leadNotes`.`lead_id` = `leads`.`id` where `ac`.`company_id` = 8 and `leads`.`created_at` between 
-        // '2019-08-07' and '2019-08-14' and `leads`.`deleted_at` is null group by `ac`.`company_id`, `creation_date`"));
-       
+        // $st_dt = "2019-08-07";
+        // $end_dt = "2019-08-14";
+
         $temp = \DB::select(\DB::raw(" select COUNT(leads.id) AS total_leads_count, SUM(IF(ls.type = 'SOLD', 1, 0)) AS total_leads_converted,                DATE_FORMAT(leads.created_at, '%Y-%m-%d') AS creation_date,                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response            from `leads` inner join `agency_companies` as `ac` on `ac`.`id` = `leads`.`agency_company_id` inner join `lead_statuses` as `ls` on `ls`.`id` = `leads`.`lead_status_id` left join             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id                          WHERE                              lead_statuses.type = 'CONTACTED_SMS' OR                              lead_statuses.type = 'CONTACTED_CALL' OR                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes                           on `leadNotes`.`lead_id` = `leads`.`id` where `ac`.`company_id` = 8 and `leads`.`created_at` between 
         '".$st_dt."' and '".$end_dt."' and `leads`.`deleted_at` is null group by `ac`.`company_id`, `creation_date`"));
 
@@ -116,6 +116,8 @@ class Agency extends User
             $st_dt,
             $end_dt,
         );
+        
+        //Carbon::parse($temp[$i]->created_date)->shortDayName;
 
         $datePeriod = collect($datePeriod)->map(function ($period) {
             return $period->format('Y/m/d');
@@ -133,7 +135,8 @@ class Agency extends User
         for($i=0; $i<count($temp); $i++){
             $str = $temp[$i]->creation_date;
             $str = str_replace('-', '/', $str);
-            $temp[$i]->creation_date = $str;
+            //Carbon::parse($str)->shortDayName;
+            $temp[$i]->creation_date = Carbon::parse($temp[$i]->creation_date)->shortDayName;
             $aaa[$str] = $temp[$i];
             $acc['total_leads_count'] = ($acc['total_leads_count'] ?? 0) + $temp[$i]->total_leads_count;
             $acc['total_leads_converted'] = ($acc['total_leads_converted'] ?? 0) + $temp[$i]->total_leads_converted;

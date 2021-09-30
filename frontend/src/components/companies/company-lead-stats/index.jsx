@@ -104,7 +104,7 @@ class CompanyLeadStats extends Component {
     }
 
     render() {
-        const { onClose, agents, company, companyLeadStats, companyLeadStatsRecords } = this.props;
+        const { onClose, agents, company, companyLeadStats, companyLeadStatsRecords, companyObject } = this.props;
         const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
 
         return (
@@ -112,7 +112,7 @@ class CompanyLeadStats extends Component {
                 <div className="btnClose" onClick={(e) => onClose(e)}><i className="flaticon stroke x-2"></i></div>
                 <div className="company-name-header">
                     <label>Selected</label>
-                    <div className="company-name">{company.name}</div>
+                    <div className="company-name">{companyObject.name}</div>
                 </div>
                 <div className="company-lead-stats-container">
                     <label>Lead Stats</label>

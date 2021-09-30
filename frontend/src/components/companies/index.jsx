@@ -136,7 +136,6 @@ class Companies extends Component {
     ];
 
     return (
-      // <div className='Companies'>
       <div className={'Leads ' +(companyStats.id ? 'sidebarOpened': '')}>
         <div className="leads-container">
           <CompanyModal/>
