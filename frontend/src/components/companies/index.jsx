@@ -162,7 +162,7 @@ class Companies extends Component {
           </Segment>
           <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
           <Loader/>
-          <Segment basic>   
+          <Segment basic className="top-space">   
               <Table singleLine>
                 <Table.Header>
                   <Table.Row>
@@ -185,11 +185,11 @@ class Companies extends Component {
                       {/* <Icon name={this.getSort('agents')}
                             onClick={this.props.sort.bind(this, 'agents')}/> */}
                     </Table.HeaderCell>
-                    <Table.HeaderCell><span className='table-head blue'>Avg Response time</span>
+                    <Table.HeaderCell><span className='table-head yellow'>Response time</span>
                       {/* <Icon name={this.getSort('avg_response')}
                             onClick={this.props.sort.bind(this, 'avg_response')}/> */}
                     </Table.HeaderCell>
-                    <Table.HeaderCell><span className="linearicons-cog"/></Table.HeaderCell>
+                    <Table.HeaderCell><span className='table-head blue'>Actions</span></Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>

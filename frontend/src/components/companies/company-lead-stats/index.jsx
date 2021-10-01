@@ -111,16 +111,16 @@ class CompanyLeadStats extends Component {
             <div className="companyLeadStats">
                 <div className="btnClose" onClick={(e) => onClose(e)}><i className="flaticon stroke x-2"></i></div>
                 <div className="company-name-header">
-                    <label>Selected</label>
-                    <div className="company-name">{companyObject.name}</div>
+                    <div className="selectedAgent">Selected</div>
+                    <div className="selectedName">{companyObject.name}</div>
                 </div>
                 <div className="company-lead-stats-container">
-                    <label>Lead Stats</label>
+                    <div className="lead-stats-head">Lead Stats</div>
                     <div className="filters">
                         <Popup position='bottom left'
                                trigger={
                                    <Form.Field>
-                                       <Button>
+                                       <Button className="dateSelector">
                                            <Icon name='calendar alternate outline'/>
                                            {startDateDisplay} - {endDateDisplay}
                                        </Button>
@@ -135,9 +135,9 @@ class CompanyLeadStats extends Component {
                         </Popup>
 
                         <Form.Field
+                            className="dropdowncompany"
                             control={Select}
                             options={[...agents, ...this.props.selectBoxAgents]}
-                            label={{children: '', htmlFor: 'agents-list'}}
                             placeholder='Company agents'
                             search
                             onChange={this.onChangeAgent}
@@ -146,22 +146,22 @@ class CompanyLeadStats extends Component {
                     </div>
 
                     <BarChart
-                        width={300}
-                        height={250}
+                        width={280}
+                        height={200}
                         data={companyLeadStatsRecords}
                         margin={{
                             top: 5,
                             right: 30,
-                            left: 20,
+                            left: 0,
                             bottom: 5,
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
-                        <YAxis />
+                        <YAxis width={40} />
                         <Tooltip />
-                        <Bar dataKey="total_leads_count" name="Total Leads" fill="#8884d8" />
-                        <Bar dataKey="total_leads_converted" name="Converted Leads" fill="#82ca9d" />
+                        <Bar dataKey="total_leads_count" name="Total Leads" fill="#4d77ff"  barSize={5}/>
+                        <Bar dataKey="total_leads_converted" name="Converted Leads" fill="#65a126"  barSize={5}/>
                     </BarChart>
 
                     <div className="averages">
