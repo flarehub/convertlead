@@ -14,7 +14,7 @@ import {
 import Loader from '../loader';
 import {
   Segment, Confirm, Checkbox, Header, Menu, Form,
-  Grid, Button, Table, Icon, Pagination,
+  Grid, Button, Table, Icon, Pagination, Tab
 } from 'semantic-ui-react';
 import * as R from "ramda";
 import CampaignModal from 'components/@common/modals/campaign';
@@ -28,7 +28,7 @@ import FacebookIntegrationModal from "../@common/modals/integrations/facebook";
 import {Auth, config, Facebook} from "@services";
 import ButtonGroup from "components/@common/button-group";
 import {disableAutoComplete} from '../../utils';
-
+import CampaignsModal from "./campaigns-modal";
 class Campaigns extends Component {
   state = {
     open: false,
@@ -281,8 +281,18 @@ class Campaigns extends Component {
   render() {
     const {campaigns, pagination} = this.props;
     const { dealId } = this.state;
+    const tabs = [
+      {
+        menuItem: 'Active',
+        render: () => <></>
+      },
+      {
+        menuItem: 'Archived',
+        render: () => <></>
+      }
+    ];    
     return (
-      <div className='Campaigns'>
+      <div className='Campaigns sidebarOpened'>
         <Segment attached='top'>
 
           <ZapierIntegrationModal open={this.state.openApiIntegration}
@@ -331,9 +341,9 @@ class Campaigns extends Component {
             <Grid columns={2}>
             <Grid.Column>
                 <Header floated='left' as='h1'>Integrations</Header>
-              <Form.Field>
+              {/* <Form.Field>
                 <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
-              </Form.Field>
+              </Form.Field> */}
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
@@ -341,17 +351,23 @@ class Campaigns extends Component {
                   <Link to={`/deals/${dealId}/automations`} >
                     <Button color='teal' content='Automations' labelPosition='left'/>
                   </Link>
-                  <Button color='teal' content='New Integration' onClick={this.props.loadForm.bind(this, {
+                  {/* <Button color='teal' content='New Integration' onClick={this.props.loadForm.bind(this, {
                     agentId: this.state.agentId,
                     show: true
-                  })}  labelPosition='left'/>
+                  })}  labelPosition='left'/> */}
+                  <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, {
+                    agentId: this.state.agentId,
+                    show: true})} content='New Company'><i className="flaticon stroke plus-1  icon"></i></Button>                            
                 </Menu.Menu>
               </Menu>
             </Grid.Column>
           </Grid>
-           <Segment basic>
-              <Loader/>
-            <Table singleLine>
+        </Segment>
+        <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
+        <Loader />
+        <Segment basic>
+            <Loader/>
+            <Table>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>#</Table.HeaderCell>
@@ -481,7 +497,7 @@ class Campaigns extends Component {
               </Table.Body>
             </Table>
           </Segment>
-        </Segment>
+
         <Segment textAlign='right' attached='bottom'>
           <Pagination onPageChange={this.gotoPage}
                       defaultActivePage={pagination.current_page}
@@ -489,7 +505,8 @@ class Campaigns extends Component {
                       nextItem={null}
                       totalPages={pagination.last_page}/>
         </Segment>
-
+        {/* { companyStats && companyStats.id && (<CompanyLeadStats companyObject={companyStats} onClose={this.onCloseCompanyStats} />) }                 */}
+        <CampaignsModal />
       </div>
     );
   }

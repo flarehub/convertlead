@@ -25,7 +25,7 @@ import * as moment from 'moment';
 import {DATE_FORMAT} from '@constants';
 import ButtonGroup from "components/@common/button-group";
 import {disableAutoComplete} from '../../utils';
-import CompanyLeadStats from "./company-lead-stats";
+import CompanyLeadStats from './company-lead-stats';
 
 class Companies extends Component {
   state = {
