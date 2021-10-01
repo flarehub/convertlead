@@ -6,10 +6,9 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Resp
 
 import DatePickerSelect from "../../@common/datepicker";
 import {AgentsContainer, CompaniesContainer} from "../../../@containers";
-
 import './index.scss';
 
-class CompanyLeadStats extends Component {
+class CompaignsModal extends Component {
     dateDisplayFormat = 'MM/DD/Y';
 
     state = {
@@ -35,12 +34,12 @@ class CompanyLeadStats extends Component {
             endDateDisplay: moment(date).format(this.dateDisplayFormat),
         });
 
-        this.props.getCompanyLeadStats(
-            this.props.company.id,
-            this.state.startDate,
-            moment(date).format('Y-MM-DD'),
-            this.state.agentId,
-        );
+        // this.props.getCompanyLeadStats(
+        //     this.props.company.id,
+        //     this.state.startDate,
+        //     moment(date).format('Y-MM-DD'),
+        //     this.state.agentId,
+        // );
     };
 
     onRestDate = () => {
@@ -91,97 +90,47 @@ class CompanyLeadStats extends Component {
 
 
     componentDidMount() {
+        // this.props.getCompanyLeadStats(
+        //     this.props.companyObject.id,
+        //     this.state.startDate,
+        //     this.state.endDate,
+        //     this.state.agentId,
+        // );
 
-        this.props.getCompanyLeadStats(
-            this.props.companyObject.id,
-            this.state.startDate,
-            this.state.endDate,
-            this.state.agentId,
-        );
-
-        this.props.loadSelectBoxAgents({
-            companyId: this.props.companyObject.id
-        });
+        // this.props.loadSelectBoxAgents({
+        //     companyId: this.props.companyObject.id
+        // });
     }
 
     render() {
-        const { onClose, agents, company, companyLeadStats, companyLeadStatsRecords, companyObject } = this.props;
+        const { onClose, agents, company, companyLeadStatsRecords, companyObject } = this.props;
         const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
 
         return (
             <div className="companyLeadStats">
                 <div className="btnClose" onClick={(e) => onClose(e)}><i className="flaticon stroke x-2"></i></div>
                 <div className="company-name-header">
-                    <label>Selected</label>
-                    <div className="company-name">{companyObject.name}</div>
+                    <label>OVERALL</label>
+                    <div className="company-name">
+                        Conversion Rate
+                    </div>
+                    <div className="pie-chart"></div>
                 </div>
                 <div className="company-lead-stats-container">
                     <label>Lead Stats</label>
-                    <div className="filters">
-                        <Popup position='bottom left'
-                               trigger={
-                                   <Form.Field>
-                                       <Button>
-                                           <Icon name='calendar alternate outline'/>
-                                           {startDateDisplay} - {endDateDisplay}
-                                       </Button>
-                                   </Form.Field>} flowing hoverable>
-
-                            <DatePickerSelect
-                                onChangeDateFrom={this.onChangeDateFrom}
-                                onChangeDateTo={this.onChangeDateTo}
-                                onRestDate={this.onRestDate}
-                                from={new Date(startDate)} to={new Date(endDate)}
-                            />
-                        </Popup>
-
-                        <Form.Field
-                            control={Select}
-                            options={[...agents, ...this.props.selectBoxAgents]}
-                            label={{children: '', htmlFor: 'agents-list'}}
-                            placeholder='Company agents'
-                            search
-                            onChange={this.onChangeAgent}
-                            searchInput={{id: 'agents-list'}}
-                        />
-                    </div>
-
-                    <BarChart
-                        width={300}
-                        height={250}
-                        data={companyLeadStatsRecords}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Bar dataKey="total_leads_count" name="Total Leads" fill="#8884d8" />
-                        <Bar dataKey="total_leads_converted" name="Converted Leads" fill="#82ca9d" />
-                    </BarChart>
-
-                    <div className="averages">
-                        <label className="avr_response_time">AVR Response Time</label>
-                        <span className="value">
-                            {companyLeadStats.avg_lead_response_formatted || ''}
-                        </span>
-                    </div>
 
                     <div className="totals">
                         <div className="total-leads">
                             <span className="value">
-                                {companyLeadStats.total_leads_count || 0}
+                                100
+                                {/* {companyLeadStats.total_leads_count || 0} */}
                             </span>
                             <label>Total Leads</label>
                         </div>
                         <div className="total-leads-converted">
                             <span className="value">
-                                {companyLeadStats.total_leads_converted || 0}
+                                95
+                                {/* {companyLeadStats.total_leads_converted || 0} */}
                             </span>
                             <label>Conversions</label>
                         </div>
@@ -192,5 +141,5 @@ class CompanyLeadStats extends Component {
     }
 }
 
-export default compose(CompaniesContainer, AgentsContainer)(CompanyLeadStats);
+export default compose(CompaniesContainer, AgentsContainer)(CompaignsModal);
 
