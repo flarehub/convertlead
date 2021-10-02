@@ -278,6 +278,12 @@ class Campaigns extends Component {
     });
   };
 
+  onCloseCampaigns = () => {
+    this.setState({
+
+    })
+  }
+
   render() {
     const {campaigns, pagination} = this.props;
     const { dealId } = this.state;
@@ -292,6 +298,7 @@ class Campaigns extends Component {
       }
     ];    
     return (
+      // console.log("props", this.props.match.params),
       <div className='Campaigns sidebarOpened'>
         <Segment attached='top'>
 
@@ -341,9 +348,6 @@ class Campaigns extends Component {
             <Grid columns={2}>
             <Grid.Column>
                 <Header floated='left' as='h1'>Integrations</Header>
-              {/* <Form.Field>
-                <Checkbox label='Show Archived' toggle onChange={this.onShowArch}/>
-              </Form.Field> */}
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
@@ -351,10 +355,6 @@ class Campaigns extends Component {
                   <Link to={`/deals/${dealId}/automations`} >
                     <Button color='teal' content='Automations' labelPosition='left'/>
                   </Link>
-                  {/* <Button color='teal' content='New Integration' onClick={this.props.loadForm.bind(this, {
-                    agentId: this.state.agentId,
-                    show: true
-                  })}  labelPosition='left'/> */}
                   <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, {
                     agentId: this.state.agentId,
                     show: true})} content='New Company'><i className="flaticon stroke plus-1  icon"></i></Button>                            
@@ -368,7 +368,7 @@ class Campaigns extends Component {
         <Segment basic>
             <Loader/>
             <Table>
-              <Table.Header>
+              {/* <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>#</Table.HeaderCell>
                   <Table.HeaderCell>Name
@@ -393,10 +393,11 @@ class Campaigns extends Component {
                   </Table.HeaderCell>
                   <Table.HeaderCell>Edit/Access/Archive</Table.HeaderCell>
                 </Table.Row>
-              </Table.Header>
+              </Table.Header> */}
               <Table.Body>
                 {
                   campaigns.map((campaign, index) => (
+                    console.log("campaign", campaign),
                     <Table.Row key={index}>
                       <Table.Cell>
                         {
@@ -442,15 +443,34 @@ class Campaigns extends Component {
                             : null
                         }
                       </Table.Cell>
-                      <Table.Cell>{campaign.name}</Table.Cell>
-                      <Table.Cell>{campaign.integration}</Table.Cell>
                       <Table.Cell>
-                        <Link to={`/companies/${campaign.company.id}/campaigns/${campaign.id}/leads`}>{campaign.leads_count || 0}</Link>
+                        <div className="campain-name">
+                          {campaign.name}
+                        </div>
+                        <div className="integration-name">
+                          {campaign.integration}
+                        </div>
+                      </Table.Cell>
+
+                      <Table.Cell>
+                        <div className="table-head blue" style={{width: '87px'}}>
+                          TOTAL LEADS
+                        </div>
+                        <div className="table-cell-value">
+                          <Link to={`/companies/${campaign.company.id}/campaigns/${campaign.id}/leads`}>
+                            {campaign.leads_count || 0}
+                          </Link>
+                        </div>
                       </Table.Cell>
                       <Table.Cell>
                         {
                           campaign.agents && campaign.agents.map((agent, key) =>
-                            <div key={key}><Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link></div>
+                            <div key={key}>
+                              <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
+                              <div className="table-cell-value">
+                                <Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>
+                              </div>
+                            </div>
                           )
                         }
                       </Table.Cell>
@@ -460,7 +480,15 @@ class Campaigns extends Component {
                             to={`/companies/${campaign.company.id}/profile`}>{campaign.company.name}</Link>
                         </Table.Cell> : null
                       }
-                      <Table.Cell>{campaign.avg_time_response || 0}</Table.Cell>
+                      <Table.Cell>
+                        <div className='table-head yellow' style={{width: '100px'}}>
+                          RESPONSE TIME
+                        </div>
+                        <div className="table-cell-value">
+                          {/* {campaign.avg_time_response || 0} */}
+                          {campaign.avg_min_response || 0} min
+                        </div>
+                      </Table.Cell>
                       <Table.Cell>
                         {
                           !campaign.deleted_at ?
@@ -506,7 +534,7 @@ class Campaigns extends Component {
                       totalPages={pagination.last_page}/>
         </Segment>
         {/* { companyStats && companyStats.id && (<CompanyLeadStats companyObject={companyStats} onClose={this.onCloseCompanyStats} />) }                 */}
-        <CampaignsModal />
+        <CampaignsModal campaigns={campaigns} onClose = {this.onCloseCampaigns} />
       </div>
     );
   }

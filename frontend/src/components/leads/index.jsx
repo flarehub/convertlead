@@ -83,7 +83,8 @@ class Leads extends Component {
     ];
 
     return (
-      <div className='Leads'>
+      console.log("previewLeadId", previewLeadId),
+      <div className={previewLeadId ? 'Leads sidebarOpened' : 'Leads'}>
         <div className="leads-container">
           <Segment attached='top'>
             <Grid columns={2}>
