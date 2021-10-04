@@ -365,7 +365,7 @@ class Campaigns extends Component {
         </Segment>
         <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
         <Loader />
-        <Segment basic>
+        <Segment basic className="integrations">
             <Loader/>
             <Table>
               {/* <Table.Header>
@@ -453,7 +453,7 @@ class Campaigns extends Component {
                       </Table.Cell>
 
                       <Table.Cell>
-                        <div className="table-head blue" style={{width: '87px'}}>
+                        <div className="table-head blue">
                           TOTAL LEADS
                         </div>
                         <div className="table-cell-value">
@@ -466,7 +466,7 @@ class Campaigns extends Component {
                         {
                           campaign.agents && campaign.agents.map((agent, key) =>
                             <div key={key}>
-                              <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
+                              <div className='table-head blue'>ASSIGNED TO</div>
                               <div className="table-cell-value">
                                 <Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>
                               </div>
@@ -481,7 +481,7 @@ class Campaigns extends Component {
                         </Table.Cell> : null
                       }
                       <Table.Cell>
-                        <div className='table-head yellow' style={{width: '100px'}}>
+                        <div className='table-head yellow'>
                           RESPONSE TIME
                         </div>
                         <div className="table-cell-value">

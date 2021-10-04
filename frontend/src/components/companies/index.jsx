@@ -224,7 +224,7 @@ class Companies extends Component {
                             !company.is_deleted ?
                               <div>
                                 <Button id="company-lock" onClick={this.onLockCompany.bind(this, company)}>
-                                  <Icon className={company.is_locked ? 'linearicons-lock' : 'linearicons-shield-check'}/>
+                                  <Icon className={company.is_locked ? 'flaticon stroke lock-2' : 'flaticon stroke up-circle-3'}/>
                                 </Button>
                                 <ButtonGroup>
                                   <Button onClick={this.props.loadForm.bind(this, {
