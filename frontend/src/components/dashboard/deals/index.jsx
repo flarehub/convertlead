@@ -51,7 +51,6 @@ class Dashboard extends Component {
       this.props.loadSelectBoxCompanies();
       this.props.filterDealsByCompany(companyId);
       this.setState({
-        ...this.state,
         companyId,
       });
     }
@@ -109,13 +108,11 @@ class Dashboard extends Component {
     }
 
     this.setState({
-      ...this.state,
       dealIds,
     });
   }
   onClose() {
     this.setState({
-      ...this.state,
       dealIds: [],
     })
   }
@@ -264,7 +261,7 @@ class Dashboard extends Component {
           <Segment basic>
 
             <Loader/>
-            <Tab onTabChange={() => (this.setState({ ...this.state, dealIds: [] }))} menu={{ secondary: true, pointing: true }} panes={panes} />
+            <Tab onTabChange={() => (this.setState({ dealIds: [] }))} menu={{ secondary: true, pointing: true }} panes={panes} />
           </Segment>
         </Segment>
       </div>

@@ -34,7 +34,6 @@ class AutomationReplyForm extends Component {
 
 
         this.setState({
-            ...this.state,
             values,
             options
         })
@@ -45,17 +44,16 @@ class AutomationReplyForm extends Component {
     };
 
     handleChange = (e, { value: values }) => {
-        this.setState({ ...this.state, values });
+        this.setState({ values });
         this.props.changeForm({ lead_reply_contains: values.join(',') });
     }
     handleSearchChange = (e, { searchQuery }) => {
-        this.setState({ ...this.state, searchQuery });
+        this.setState({ searchQuery });
     }
 
     onAddItem = (e) => {
         if (e.keyCode === 13) {
             this.setState({
-                ...this.state,
                 options: [...this.state.options, {
                     value: this.state.searchQuery,
                     key: this.state.searchQuery,

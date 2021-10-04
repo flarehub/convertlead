@@ -32,7 +32,6 @@ class AgentLeadNotes extends Component {
     componentWillMount() {
         const lead = R.path(['history', 'location', 'state', 'lead'], this.props);
         this.setState({
-            ...this.state,
             lead,
         });
 
@@ -72,27 +71,23 @@ class AgentLeadNotes extends Component {
 
     toggleTimeline = () => {
         this.setState({
-            ...this.state,
             showTimeline: !this.state.showTimeline
         })
     };
     toggleAdditionalInfo = () => {
         this.setState({
-            ...this.state,
             showAdditionalInfo: !this.state.showAdditionalInfo
         })
     };
 
     toggleReminder = () => {
         this.setState({
-            ...this.state,
             showReminder: !this.state.showReminder
         })
     };
 
     onChange = (event, data) => {
         this.setState({
-            ...this.state,
             form: {
                 ...this.state.form,
                 [data.name]: data.value

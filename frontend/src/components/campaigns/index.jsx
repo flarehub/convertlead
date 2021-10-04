@@ -45,6 +45,14 @@ class Campaigns extends Component {
     companyId: '',
     dealId: '',
     fbIntegrations: [],
+    lead_statics:{
+      total_leads: 0,
+      conversion_leads: 0,
+      contacted_leads: 0,
+      missed_leads: 0,
+    },
+    openOverall: true
+
   };
 
   constructor(props) {
@@ -60,7 +68,6 @@ class Campaigns extends Component {
   componentWillMount() {
     const {companyId, agentId, dealId} = this.props.match.params;
     this.setState({
-      ...this.state,
       companyId: +companyId || (Auth.isCompany ? this.props.profile.id : null),
       agentId: +agentId,
       dealId: +dealId,
@@ -115,6 +122,16 @@ class Campaigns extends Component {
         path: '',
       }, false);
     }
+
+    // this.setState({
+    //   ...this.state,
+    //   lead_statics:{
+    //     total_leads: 0,
+    //     conversion_leads: 0,
+    //     contacted_leads: 0,
+    //     missed_leads: 0,
+    //   }      
+    // });
     disableAutoComplete();
   }
 
@@ -161,7 +178,6 @@ class Campaigns extends Component {
 
     if (campaign.integration === 'ZAPIER') {
       this.setState({
-        ...this.state,
         campaignLink: copyLink,
         openApiIntegration: true,
       });
@@ -169,7 +185,6 @@ class Campaigns extends Component {
 
     if (campaign.integration === 'WEBHOOK') {
       this.setState({
-        ...this.state,
         campaignLink: copyLink,
         openWebhookIntegration: true,
       });
@@ -177,7 +192,6 @@ class Campaigns extends Component {
 
     if (campaign.integration === 'UNBOUNCE') {
       this.setState({
-        ...this.state,
         campaignLink: copyLink,
         openUnbounceIntegration: true,
       });
@@ -185,7 +199,6 @@ class Campaigns extends Component {
 
     if (campaign.integration === 'INSTAPAGE') {
       this.setState({
-        ...this.state,
         campaignLink: copyLink,
         openInstapageIntegration: true,
       });
@@ -193,7 +206,6 @@ class Campaigns extends Component {
 
     if (campaign.integration === 'CLICKFUNNELS') {
       this.setState({
-        ...this.state,
         campaignLink: copyLink,
         openClickFunnelsIntegration: true,
       });
@@ -202,7 +214,6 @@ class Campaigns extends Component {
     if (campaign.integration === 'FACEBOOK') {
       await this.checkLoginState();
       this.setState({
-        ...this.state,
         campaign,
         fbIntegrations: campaign.fbIntegrations,
       });
@@ -215,9 +226,8 @@ class Campaigns extends Component {
       if (campaign && campaign.fbIntegrations && prevState.fbIntegrations &&
         (campaign.fbIntegrations.length !== prevState.fbIntegrations.length))
       this.setState({
-        ...this.state,
         fbIntegrations: campaign.fbIntegrations,
-      });
+      });      
     }
   }
 
@@ -247,7 +257,6 @@ class Campaigns extends Component {
       const fbPages = await Facebook.getAccountPages();
 
       this.setState({
-        ...this.state,
         openFBIntegration: true,
         fbPages: fbPages.map(
           page => ({ key: page.name, text: page.name, value: page })),
@@ -268,7 +277,6 @@ class Campaigns extends Component {
 
   onCloseApiIntegration = () => {
     this.setState({
-      ...this.state,
       openApiIntegration: false,
       openFBIntegration: false,
       openInstapageIntegration: false,
@@ -280,13 +288,35 @@ class Campaigns extends Component {
 
   onCloseCampaigns = () => {
     this.setState({
+      openOverall: false,
+      lead_statics:{
+        total_leads: 0,
+        conversion_leads: 0,
+        contacted_leads: 0,
+        missed_leads: 0,
+      },      
+    });
+  }
 
-    })
+  onOpenCampaigns = () => {
+    this.setState({
+      openOverall: true,
+      lead_statics:{
+        total_leads: 0,
+        conversion_leads: 0,
+        contacted_leads: 0,
+        missed_leads: 0,
+      },   
+    })    
   }
 
   render() {
     const {campaigns, pagination} = this.props;
-    const { dealId } = this.state;
+    const { 
+      dealId,
+      lead_statics,
+      openOverall
+    } = this.state;
     const tabs = [
       {
         menuItem: 'Active',
@@ -298,8 +328,7 @@ class Campaigns extends Component {
       }
     ];    
     return (
-      // console.log("props", this.props.match.params),
-      <div className='Campaigns sidebarOpened'>
+      <div className={openOverall ? 'Campaigns sidebarOpened':'Campaigns'}>
         <Segment attached='top'>
 
           <ZapierIntegrationModal open={this.state.openApiIntegration}
@@ -364,41 +393,51 @@ class Campaigns extends Component {
           </Grid>
         </Segment>
         <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
-        <Loader />
-        <Segment basic className="integrations">
+        <Segment basic>
             <Loader/>
             <Table>
-              {/* <Table.Header>
+              { campaigns.length == 0 && (
+               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>#</Table.HeaderCell>
-                  <Table.HeaderCell>Name
-                    <Icon name={this.getSort('name')}
-                          onClick={this.props.sort.bind(this, 'name')}/>
+                  <Table.HeaderCell>
+                    <div className="table-head blue" style={{width: '87px'}}>
+                      Name
+                    </div>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>Type
-                    <Icon name={this.getSort('type')}
-                          onClick={this.props.sort.bind(this, 'type')}/>
+                  <Table.HeaderCell>
+                    <div className="table-head blue" style={{width: '87px'}}>
+                      Leads 
+                    </div>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>Leads <Icon name={this.getSort('leads')}
-                                                onClick={this.props.sort.bind(this, 'leads')}/>
+                  <Table.HeaderCell>
+                    <div className="table-head blue" style={{width: '87px'}}>
+                      Assigned to
+                    </div>  
                   </Table.HeaderCell>
-                  <Table.HeaderCell>Assigned to</Table.HeaderCell>
-                  {
-                    this.state.agentId && Auth.isAgency ?
-                      <Table.HeaderCell>Company</Table.HeaderCell> : null
-                  }
-                  <Table.HeaderCell> Avg Response time
-                    <Icon name={this.getSort('avg_time_response')}
-                          onClick={this.props.sort.bind(this, 'avg_time_response')}/>
+                  <Table.HeaderCell> 
+                    <div className='table-head yellow' style={{width: '123px'}}>
+                      RESPONSE TIME
+                    </div>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>Edit/Access/Archive</Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <div className="table-head blue" style={{width: '87px'}}>
+                      integration
+                    </div>
+                  </Table.HeaderCell>
                 </Table.Row>
-              </Table.Header> */}
+              </Table.Header>
+              )
+              }
+
               <Table.Body>
-                {
-                  campaigns.map((campaign, index) => (
-                    console.log("campaign", campaign),
-                    <Table.Row key={index}>
+                {       
+                  campaigns.length != 0 && campaigns.map((campaign, index) => (
+                    lead_statics.total_leads = lead_statics.total_leads + campaign.leads_count_all,
+                    lead_statics.conversion_leads = lead_statics.conversion_leads + campaign.leads_count_s,
+                    lead_statics.contacted_leads = lead_statics.contacted_leads + campaign.leads_count_c,
+                    lead_statics.missed_leads = lead_statics.missed_leads + campaign.leads_count_m,
+                    
+                    <Table.Row key={index} onClick = {this.onOpenCampaigns}>
                       <Table.Cell>
                         {
                           campaign.integration === 'FACEBOOK'
@@ -453,20 +492,21 @@ class Campaigns extends Component {
                       </Table.Cell>
 
                       <Table.Cell>
-                        <div className="table-head blue">
+                        <div className="table-head blue" style={{width: '87px'}}>
                           TOTAL LEADS
                         </div>
                         <div className="table-cell-value">
                           <Link to={`/companies/${campaign.company.id}/campaigns/${campaign.id}/leads`}>
-                            {campaign.leads_count || 0}
+                            {campaign.leads_count_all || 0}
                           </Link>
                         </div>
                       </Table.Cell>
+
                       <Table.Cell>
                         {
                           campaign.agents && campaign.agents.map((agent, key) =>
                             <div key={key}>
-                              <div className='table-head blue'>ASSIGNED TO</div>
+                              <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
                               <div className="table-cell-value">
                                 <Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>
                               </div>
@@ -481,7 +521,7 @@ class Campaigns extends Component {
                         </Table.Cell> : null
                       }
                       <Table.Cell>
-                        <div className='table-head yellow'>
+                        <div className='table-head yellow' style={{width: '100px'}}>
                           RESPONSE TIME
                         </div>
                         <div className="table-cell-value">
@@ -534,7 +574,7 @@ class Campaigns extends Component {
                       totalPages={pagination.last_page}/>
         </Segment>
         {/* { companyStats && companyStats.id && (<CompanyLeadStats companyObject={companyStats} onClose={this.onCloseCompanyStats} />) }                 */}
-        <CampaignsModal campaigns={campaigns} onClose = {this.onCloseCampaigns} />
+        {campaigns.length!=0 && openOverall && (<CampaignsModal lead_statics={lead_statics}  onClose = {this.onCloseCampaigns} />)} 
       </div>
     );
   }

@@ -77,7 +77,6 @@ class Companies extends Component {
     }
 
     this.setState({
-      ...this.state,
       activeIndex: tab.activeIndex,
     });
 
@@ -92,7 +91,6 @@ class Companies extends Component {
   onShowCompanyStats = (companyStats) => {
     
     this.setState({
-      ...this.state,
       companyStats,
     });
     this.setState({
@@ -103,7 +101,6 @@ class Companies extends Component {
 
   onCloseCompanyStats = () => {
     this.setState({
-      ...this.state,
       companyStats: {},
     })
   }
@@ -114,7 +111,6 @@ class Companies extends Component {
   
   componentWillUnmount() {
     this.setState({
-      ...this.state,
       companyStats: null,
     });
   }

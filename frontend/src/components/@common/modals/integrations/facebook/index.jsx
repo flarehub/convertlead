@@ -25,7 +25,6 @@ class FacebookIntegrationModal extends Component {
     const pageAccessToken = page.access_token;
     const pageForms = await Facebook.getPageFormsBy(pageId, pageAccessToken) || [];
     this.setState({
-      ...this.state,
       page,
       pageForms,
       displaySubscribeButton: false,
@@ -58,7 +57,6 @@ class FacebookIntegrationModal extends Component {
 
   onPageFormSelected = (event, data) => {
     this.setState({
-      ...this.state,
       pageForm: data.value,
       displaySubscribeButton: true,
     });

@@ -1,5 +1,15 @@
 import { createSelector } from 'reselect';
 
+export const agentProfile = createSelector(
+  state => state.agents.agentProfile,
+  agentProfile => {
+    console.log(agentProfile)
+    return (
+      agentProfile
+    )
+  },
+);
+
 export const selectBoxAgents = createSelector(
   state => state.agents.selectBoxAgents,
   selectBoxAgents => selectBoxAgents.map(agent => ({
@@ -28,4 +38,3 @@ export const agentCompaniesIds = createSelector(
     return (agent.companies && agent.companies.map(company => Number(company.id))) || []
   },
 );
-

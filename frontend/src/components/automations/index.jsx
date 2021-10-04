@@ -249,7 +249,6 @@ class Campaigns extends Component {
   scaleUp = () => {
     const scale = this.state.scale + 0.1;
     this.setState({
-      ...this.state,
       scale,
     })
     this.draw.attr({
@@ -260,7 +259,6 @@ class Campaigns extends Component {
   scaleDown = () => {
     const scale = this.state.scale - 0.1;
     this.setState({
-      ...this.state,
       scale,
     })
     this.draw.attr({
@@ -298,7 +296,6 @@ class Campaigns extends Component {
   onChangeAutomation = (e, checkbox) => {
     const { deal } = this.props;
     this.setState({
-      ...this.state,
       has_automation: checkbox.checked,
     });
     this.props.saveFormDeal({ ...deal, has_automation: +checkbox.checked });

@@ -58,7 +58,6 @@ class AgentForm extends Component {
 
     componentDidMount() {
         this.setState({
-            ...this.state,
             hasTwilio: this.props.profile.twilio_token && this.props.profile.twilio_sid
         });
 

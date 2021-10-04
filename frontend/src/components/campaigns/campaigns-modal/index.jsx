@@ -27,7 +27,8 @@ class CompaignsModal extends Component {
         // }
     }
 
-    componentDidMount() {
+    componentDidMount() {     
+        console.log("this.props.lead_statics", this.props.lead_statics);   
         // this.props.getCompanyLeadStats(
         //     this.props.companyObject.id,
         //     this.state.startDate,
@@ -41,17 +42,11 @@ class CompaignsModal extends Component {
     }
 
     render() {
-        console.log("compaigns: ", this.props);
-        const { onClose, agents, company, companyLeadStatsRecords, companyObject } = this.props;
-        const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
-        // const config = {
-        //     percentage: 12,
-        //     title: "test"
-        // };
-        const percentage = 12;
+        const { onClose, lead_statics } = this.props;
+        const percentage = Math.round(lead_statics.conversion_leads/lead_statics.total_leads*100)
         return (
             <div className="companyLeadStats">
-                <div className="btnClose" onClick={(e) => onClose(e)}><i className="flaticon stroke x-2"></i></div>
+                <div className="btnClose" onClick={() => onClose()}><i className="flaticon stroke x-2"></i></div>
                 <div className="company-name-header">
                     <label>OVERALL</label>
                     <div className="company-name">
@@ -67,17 +62,8 @@ class CompaignsModal extends Component {
                             // Rotation of path and trail, in number of turns (0-1)
                             rotation: 0,
                             textSize: '16px',
-                        
-                            // How long animation takes to go from one percentage to another, in seconds
-                            //pathTransitionDuration: 0.5,
-                        
-                            // Can specify path transition in more detail, or remove it entirely
-                            // pathTransition: 'none',
-                            // Colors
                             pathColor: `#4a74ff, ${percentage / 100})`,
                             textColor: 'black',
-                            trailColor: '#d6d6d6',
-                            backgroundColor: '#3e98c7',
                           })}                        
                     />
                     <div className="ring-chart-percent"> % </div>
@@ -91,15 +77,13 @@ class CompaignsModal extends Component {
                     <div className="totals">
                         <div className="total-leads">
                             <span className="value">
-                                100
-                                {/* {companyLeadStats.total_leads_count || 0} */}
+                                {lead_statics.total_leads || 0}
                             </span>
                             <label>TOTAL LEADS</label>
                         </div>
                         <div className="total-leads-converted">
                             <span className="value">
-                                95
-                                {/* {companyLeadStats.total_leads_converted || 0} */}
+                                {lead_statics.conversion_leads || 0}
                             </span>
                             <label>CONVERSIONS</label>
                         </div>                        
@@ -108,15 +92,13 @@ class CompaignsModal extends Component {
                     <div className="totals">
                         <div className="total-leads">
                             <span className="value">
-                                100
-                                {/* {companyLeadStats.total_leads_count || 0} */}
+                                {lead_statics.contacted_leads || 0}
                             </span>
                             <label>CONTACTED</label>
                         </div>
                         <div className="total-leads-converted">
                             <span className="value">
-                                95
-                                {/* {companyLeadStats.total_leads_converted || 0} */}
+                                {lead_statics.missed_leads || 0}
                             </span>
                             <label>MISSED LEADS</label>
                         </div>                        

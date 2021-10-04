@@ -19,7 +19,6 @@ class Dashboard extends Component {
     this.props.resetBreadCrumbToDefault();
     const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
     this.setState({
-      ...this.state,
       companyId,
     });
   }

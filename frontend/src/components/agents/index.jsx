@@ -44,7 +44,16 @@ class Agents extends Component {
         endDate: moment().endOf('isoWeek').format('Y-MM-DD'),                
     };
 
-    componentWillMount() {
+    async componentWillMount() {
+
+        // console.log(this.props.agentId, ", ", this.props.match.params.agentId);
+        if (this.props.agentId != undefined) {
+            await this.props.getAgent(this.props.agentId, true);
+        }
+        else {
+            await this.props.getAgent(this.props.match.params.agentId, true);
+        }
+
         const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
         this.props.addBreadCrumb({
             name: 'Agents',
@@ -59,10 +68,18 @@ class Agents extends Component {
         }
 
         this.setState({
-            ...this.state,
             companyId: companyId
         })
         this.props.loadAgents();
+
+    }
+
+    componentWillReceiveProps () {
+        // console.log("agentPage props", this.props.agentProfile)
+        // this.setState({
+        //     agent: this.props.agentProfile
+        // })
+        // document.getElementsByClassName('Leads')[0].className = 'Leads sidebarOpened';
     }
 
     onChangeCompany = (event, data) => {
@@ -74,7 +91,6 @@ class Agents extends Component {
     onClickViewAgentProfile = (agent) => {
         document.getElementsByClassName('Leads')[0].className = 'Leads sidebarOpened';
         this.setState({
-            ...this.state,
             agent,
         });
     
@@ -105,7 +121,6 @@ class Agents extends Component {
         }
     
         this.setState({
-          ...this.state,
           activeIndex: tab.activeIndex,
         });
 

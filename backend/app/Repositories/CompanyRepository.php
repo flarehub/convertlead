@@ -17,7 +17,8 @@ trait CompanyRepository {
     }
     
     public function getDealBy($dealId) {
-        return $this->deals()->where('deals.id', $dealId)->firstOrFail();
+        //return $this->deals()->where('deals.id', $dealId)->firstOrFail();
+        return $this->deals()->where('deals.id', $dealId)->first();
     }
 
     public function getLeadBy($leadId) {

@@ -7,6 +7,7 @@ import {
 } from './actions';
 
 const initState = {
+  agentProfile: {},
   agents: [],
   agent: {
     id: '',
@@ -204,7 +205,7 @@ const agents = (state = initState, action) => {
     case LOAD_SELECTBOX_AGENTS: {
       return {
         ...state,
-        selectBoxAgents: [ ...action.agents ]
+        selectBoxAgents: [...action.agents]
       }
     }
     case FILTER_AGENTS: {
@@ -222,7 +223,9 @@ const agents = (state = initState, action) => {
     case LOAD_AGENT_DATA: {
       return {
         ...state,
-        agent: action.agent,
+        agentProfile: {
+            ...action.agent
+        },
       }
     }
     case LOAD_AGENT_LEADS_GRAPH: {
