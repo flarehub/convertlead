@@ -11,7 +11,6 @@ class CampaignForm extends Component {
   componentWillMount() {
     const { companyId, dealId, agentId } = this.props;
     this.setState({
-      ...this.state,
       agentId: +agentId
     });
 

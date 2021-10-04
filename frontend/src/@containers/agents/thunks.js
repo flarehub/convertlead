@@ -101,6 +101,7 @@ export const toggleAgentsShowDeleted = () => async (dispath, getState) => {
 export const getAgent = (id, addBreadCrumbOn = false) => async dispatch => {
   try {
     const response = await api.get(`/v1/${Auth.role}/agents/${id}`);
+    console.log("getAgentById", response.data);
     await dispatch(actions.loadAgent(response.data));
     if (addBreadCrumbOn) {
       await dispatch(addBreadCrumb({

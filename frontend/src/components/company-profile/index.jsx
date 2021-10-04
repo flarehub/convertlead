@@ -83,7 +83,6 @@ class CompanyProfile extends Component {
 
     onChangeAgent = (event, data) => {
         this.setState({
-            ...this.state,
             agentId: data.value,
         });
 
@@ -97,7 +96,6 @@ class CompanyProfile extends Component {
 
     onChangeDateFrom = (date) => {
         this.setState({
-            ...this.state,
             startDate: moment(date).format('Y-MM-DD'),
             startDateDisplay: moment(date).format('MM/DD/Y'),
         });
@@ -105,7 +103,6 @@ class CompanyProfile extends Component {
 
     onChangeDateTo = (date) => {
         this.setState({
-            ...this.state,
             endDate: moment(date).format('Y-MM-DD'),
             endDateDisplay: moment(date).format('MM/DD/Y'),
         });
@@ -120,7 +117,6 @@ class CompanyProfile extends Component {
 
     onRestDate = () => {
         this.setState({
-            ...this.state,
             startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
             endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
             startDate: moment().startOf('isoWeek').format('Y-MM-DD'),

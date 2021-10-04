@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as thunks from './thunks';
 import * as actions from './actions';
-import { agentCompaniesIds, selectBoxAgents, selectBoxCompanies } from "./selectors";
+import { agentCompaniesIds, selectBoxAgents, selectBoxCompanies, agentProfile } from "./selectors";
 
 const mapStateToProps = state => ({
   agents: state.agents.agents,
@@ -16,6 +16,7 @@ const mapStateToProps = state => ({
   graphContactedLeadsAverage: state.agents.graphContactedLeadsAverage,
   pieGraphContactedLeadsAverage: state.agents.pieGraphContactedLeadsAverage,
   averageResponseTime: state.agents.averageResponseTime,
+  agentProfile: agentProfile(state),
 });
 
 const mapDispatchToProps = dispatch => ({

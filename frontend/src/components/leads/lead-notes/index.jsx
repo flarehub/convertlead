@@ -40,7 +40,6 @@ class LeadNotes extends Component {
         });
         Device.ready(() => {
             this.setState({
-                ...this.state,
                 readyToCall: true,
             })
         });

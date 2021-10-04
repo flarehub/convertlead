@@ -80,7 +80,6 @@ class Leads extends React.Component {
 
   filterByStatus = (event, data) => {
     this.setState({
-      ...this.state,
       status: data.value,
     });
     this.props.filterLeads({
@@ -90,7 +89,6 @@ class Leads extends React.Component {
 
   onChangeDateFrom = (date) => {
     this.setState({
-      ...this.state,
       startDate: moment(date).format('Y-MM-DD'),
       startDateDisplay: moment(date).format(this.dateDisplayFormat),
     });
@@ -98,7 +96,6 @@ class Leads extends React.Component {
 
   onChangeDateTo = (date) => {
     this.setState({
-      ...this.state,
       endDate: moment(date).format('Y-MM-DD'),
       endDateDisplay: moment(date).format(this.dateDisplayFormat),
     });
@@ -111,7 +108,6 @@ class Leads extends React.Component {
 
   onRestDate = () => {
     this.setState({
-      ...this.state,
       startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
       endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
       startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
@@ -129,7 +125,6 @@ class Leads extends React.Component {
     const campaignId = +R.pathOr('', ['match', 'params', 'campaignId'], this.props);
     const agentId = +R.pathOr('', ['match', 'params', 'agentId'], this.props);
     this.setState({
-      ...this.state,
       companyId,
       campaignId,
     });
@@ -171,7 +166,6 @@ class Leads extends React.Component {
   onLeadEnterDisplayNotes = (lead) => {
     this.props.onPreviewLeadChange(lead)
     this.setState({
-      ...this.state,
       companyId: lead.company_id
     });
   }
@@ -270,6 +264,7 @@ class Leads extends React.Component {
             <Table.Body>
               {
                 leads.map((lead, index) => (
+                  console.log("lead", lead),
                   <Table.Row
                     onClick={() => this.onLeadEnterDisplayNotes(lead)}
                     key={index}>
@@ -296,6 +291,10 @@ class Leads extends React.Component {
                         lead.agent && <Link
                           to={`/agents/${lead.agent.id}/profile`}>{lead.agent.name}</Link>
                       }
+                      {/* {
+                        lead.agent && <Link
+                          to={`/agents`}>{lead.agent.name}</Link>
+                      }                       */}
                     </Table.Cell>
 
                     <Table.Cell>{lead.phone}</Table.Cell>

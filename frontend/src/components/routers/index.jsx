@@ -38,7 +38,8 @@ export default () => (<div className='freshappRoutes'>
 
   {/* only AGENCY AND COMPANY ROUTS */}
   <PrivateRoute exact path='/agents' component={Agents} />
-  <PrivateRoute exact path='/agents/:agentId/profile' component={AgentProfile} />
+  {/* <PrivateRoute exact path='/agents/:agentId/profile' component={AgentProfile} /> */}
+  <PrivateRoute exact path='/agents/:agentId/profile' component={Agents} />
   <PrivateRoute exact path='/agents/:agentId/campaigns' component={Campaigns} />
   <PrivateRoute exact path='/profile' component={Profile} />
   <PrivateRoute exact path='/leads' component={Leads} />

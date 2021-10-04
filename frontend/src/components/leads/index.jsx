@@ -35,7 +35,6 @@ class Leads extends Component {
     }
 
     this.setState({
-      ...this.state,
       activeIndex: tab.activeIndex,
     });
 
@@ -44,14 +43,12 @@ class Leads extends Component {
 
   onCompanyChange = (companyId) => {
     this.setState({
-      ...this.state,
       companyId,
     })
   }
 
   onPreviewLeadChange = (lead) => {
     this.setState({
-      ...this.state,
       previewLeadId: lead.id,
       companyId: lead.company_id
     })
@@ -59,7 +56,6 @@ class Leads extends Component {
 
   onLeadLeaveDisplayNotes = () => {
     this.setState({
-      ...this.state,
       previewLeadId: null,
     })
   }
@@ -83,7 +79,6 @@ class Leads extends Component {
     ];
 
     return (
-      console.log("previewLeadId", previewLeadId),
       <div className={previewLeadId ? 'Leads sidebarOpened' : 'Leads'}>
         <div className="leads-container">
           <Segment attached='top'>

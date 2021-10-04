@@ -66,7 +66,6 @@ class EntityModal extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.error !== this.props.error) {
             this.setState({
-                ...this.state,
                 formSaved: false,
             })
         }

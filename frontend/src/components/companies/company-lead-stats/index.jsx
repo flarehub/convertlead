@@ -22,7 +22,6 @@ class CompanyLeadStats extends Component {
 
     onChangeDateFrom = (date) => {
         this.setState({
-            ...this.state,
             startDate: moment(date).format('Y-MM-DD'),
             startDateDisplay: moment(date).format(this.dateDisplayFormat),
         });
@@ -30,7 +29,6 @@ class CompanyLeadStats extends Component {
 
     onChangeDateTo = (date) => {
         this.setState({
-            ...this.state,
             endDate: moment(date).format('Y-MM-DD'),
             endDateDisplay: moment(date).format(this.dateDisplayFormat),
         });
@@ -45,7 +43,6 @@ class CompanyLeadStats extends Component {
 
     onRestDate = () => {
         this.setState({
-            ...this.state,
             startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
             endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
             startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
@@ -62,7 +59,6 @@ class CompanyLeadStats extends Component {
 
     onChangeAgent = (event, data) => {
         this.setState({
-            ...this.state,
             agentId: data.value,
         });
 

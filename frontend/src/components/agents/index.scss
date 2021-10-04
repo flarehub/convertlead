@@ -39,7 +39,7 @@
 .agentMenu {
   float: right;
   position: relative;
-
+  z-index: 999;
   .buttons {
     display: none !important;
     position: absolute;
@@ -58,7 +58,7 @@
     font-size: 30px;
     position: relative;
     right: 20px;
-	color:#8d96b5;
+	  color:#8d96b5;
   }
 }
 

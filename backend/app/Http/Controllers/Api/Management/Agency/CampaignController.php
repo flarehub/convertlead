@@ -20,7 +20,24 @@ class CampaignController extends Controller
         $itemsPerPage = (int)$request->get('per_page', 10);
         $page = (int)$request->get('current_page', 1);
 
-        return $request
+        $deallist = $request->user()->getCompanyBy($company)->getDealBy($deal);
+        if($deallist =='' || $deallist == null)
+            return $request->merge([
+                'current_page' => 1,
+                'data' => '',
+                'first_page_url' => '',
+                'from'=> 1,
+                'last_page'=> 1,
+                'last_page_url'=> "",
+                'next_page_url'=> null,
+                'path'=> "",
+                'per_page'=> 10,
+                'prev_page_url'=> null,
+                'to'=> 10,
+                'total'=> 10
+            ]);
+        else
+            return $request
             ->user()
             ->getCompanyBy($company)
             ->getDealBy($deal)

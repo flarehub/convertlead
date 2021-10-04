@@ -45,7 +45,6 @@ class AutomationForm extends Component {
     componentDidMount() {
         this.props.changeForm({ deal_id: this.props.dealId });
         this.setState({
-            ...this.state,
             content: R.pathOr('', [
               'form',
               'object',
@@ -87,7 +86,6 @@ class AutomationForm extends Component {
     onChangeTimeHours = (event) => {
         const hours = event.target.value;
         this.setState({
-            ...this.state,
             hours
         });
         this.props.changeForm({ delay_time: timeToSeconds(hours, this.state.minutes) });
@@ -96,7 +94,6 @@ class AutomationForm extends Component {
     onChangeTimeMinutes = (event) => {
         const minutes = event.target.value;
         this.setState({
-            ...this.state,
             minutes
         })
         this.props.changeForm({ delay_time: timeToSeconds(this.state.hours, minutes) });

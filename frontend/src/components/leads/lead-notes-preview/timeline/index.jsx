@@ -31,7 +31,6 @@ class TimeLine extends Component {
 
     onChange = (event, data) => {
         this.setState({
-            ...this.state,
             form: {
                 ...this.state.form,
                 [data.name]: data.value

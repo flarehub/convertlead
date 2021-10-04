@@ -69,21 +69,52 @@ class Deal extends Model
             ->leftJoin(\DB::raw("
             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
                           FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          GROUP BY lead_notes.lead_id) AS leadNotes
+                          "), function ($join) {
+            $join->on('leadNotes.lead_id', '=', 'leads.id');})            
+            
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
                           WHERE
                               lead_statuses.type = 'CONTACTED_SMS' OR
                               lead_statuses.type = 'CONTACTED_CALL' OR
-                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+                              lead_statuses.type = 'CONTACTED_EMAIL' 
+                          GROUP BY lead_notes.lead_id) AS leadNotes_c
                           "), function ($join) {
-            $join->on('leadNotes.lead_id', '=', 'leads.id');
-        })->leftJoin('agency_companies as ac', 'ac.id', 'deal_campaigns.agency_company_id')
-        ;
+            $join->on('leadNotes_c.lead_id', '=', 'leads.id');})
+            
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'SOLD'
+                          GROUP BY lead_notes.lead_id) AS leadNotes_s
+                          "), function ($join) {
+            $join->on('leadNotes_s.lead_id', '=', 'leads.id');})   
+
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'MISSED'
+                          GROUP BY lead_notes.lead_id) AS leadNotes_m
+                          "), function ($join) {
+            $join->on('leadNotes_m.lead_id', '=', 'leads.id');})  
+
+            ->leftJoin('agency_companies as ac', 'ac.id', 'deal_campaigns.agency_company_id');
 
         $query->selectRaw('
             deal_campaigns.*,
             ac.company_id,
             COUNT(DISTINCT leads.id) as leads_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_time_response,
-            ROUND(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))/60, 0) AS avg_min_response
+            COUNT(leadNotes.lead_id) AS leads_count_all,
+            COUNT(leadNotes_c.lead_id) AS leads_count_c,           
+            COUNT(leadNotes_s.lead_id) AS leads_count_s,
+            COUNT(leadNotes_m.lead_id) AS leads_count_m,
+
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes_c.created_at, leads.created_at)))) AS avg_time_response,
+            ROUND(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes_c.created_at, leads.created_at)))/60, 0) AS avg_min_response
         ');
         $query->groupBy('deal_campaigns.id');
         
