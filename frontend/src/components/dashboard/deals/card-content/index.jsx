@@ -35,7 +35,7 @@ export const CardContent = ({ onSelectedDeal,  dealIds = [], deal, link, company
       </div>
       <div><label className="started">Started</label> {moment(deal.created_at).format(DATE_FORMAT)}</div>
       <div><label className="totalLeads">Total leads</label> {deal.leadsCount}</div>
-      <div><label className="conversations">Conversions</label> {deal.leadNoteCount}</div>
+      <div><label className="conversations">Conversions</label> {deal.leads_conversion}</div>
     </React.Fragment>
   );
 }

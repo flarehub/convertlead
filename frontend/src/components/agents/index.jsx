@@ -47,12 +47,12 @@ class Agents extends Component {
     async componentWillMount() {
 
         // console.log(this.props.agentId, ", ", this.props.match.params.agentId);
-        if (this.props.agentId != undefined) {
-            await this.props.getAgent(this.props.agentId, true);
-        }
-        else {
-            await this.props.getAgent(this.props.match.params.agentId, true);
-        }
+        // if (this.props.agentId != undefined) {
+        //     await this.props.getAgent(this.props.agentId, true);
+        // }
+        // else {
+        //     await this.props.getAgent(this.props.match.params.agentId, true);
+        // }
 
         const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
         this.props.addBreadCrumb({

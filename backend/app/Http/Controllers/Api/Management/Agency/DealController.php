@@ -11,7 +11,8 @@ class DealController extends Controller
     public function all(Request $request) {
         $itemsPerPage = (int)$request->get('per_page', 100);
         $page = (int)$request->get('current_page', 1);
-        return $request->user()->getCompanyDeals($request)->paginate($itemsPerPage, ['*'], 'deals', $page);
+        return $request->user()->getCompanyDeals($request)
+                ->paginate($itemsPerPage, ['*'], 'deals', $page);
     }
 
     /**

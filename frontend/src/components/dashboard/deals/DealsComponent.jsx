@@ -18,8 +18,8 @@ export const DealsComponent = ({ onDealSelected, dealIds, deals, deleted, loadFo
               <Card.Content>
                 {
                   Auth.isAgency
-                    ? <CardContent               dealIds={dealIds}
-                                                 onSelectedDeal={onDealSelected} deal={deal} company={deal.company}
+                    ? <CardContent  dealIds={dealIds}
+                                    onSelectedDeal={onDealSelected} deal={deal} company={deal.company}
                                    link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
                     : <CardContent  dealIds={dealIds} onSelectedDeal={onDealSelected} deal={deal} company={deal.agency}
                                    link={`/deals/${deal.id}/campaigns`}/>

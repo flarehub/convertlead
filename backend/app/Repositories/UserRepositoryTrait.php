@@ -7,7 +7,7 @@ use App\Models\Lead;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
-
+use DB;
 /**
  * Trait UserRepositoryTrait
  * @package App\Repositories
@@ -24,7 +24,22 @@ trait UserRepositoryTrait {
             ->join('users AS company', 'company.id', '=', 'company_id')
             ->leftJoin('deal_campaigns AS dc', 'dc.deal_id', '=', 'deals.id')
             ->leftJoin('leads', 'leads.deal_campaign_id', '=', 'dc.id')
-            ->leftJoin('lead_notes AS ln', 'ln.lead_id', '=', 'leads.id')
+
+            ->leftjoin(DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 9) AS sold_c'),
+                function($join) {
+                    $join->on('sold_c.id', '=', 'leads.id');
+                })
+
+            ->leftjoin(DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 7) AS missed_c'),
+            function($join) {
+                $join->on('missed_c.id', '=', 'leads.id');
+            })
+
+            ->leftjoin(DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 4 OR lead_status_id = 5 OR lead_status_id = 6) AS contacted_s'),
+            function($join) {
+                $join->on('contacted_s.id', '=', 'leads.id');
+            })                            
+
             ->whereRaw('company.deleted_at IS NULL');
 
         if ($request->has('search')) {
@@ -41,10 +56,16 @@ trait UserRepositoryTrait {
         }
 
         $query->groupBy('deals.id')
-            ->selectRaw('count(DISTINCT leads.id) AS leadsCount, count(DISTINCT ln.id) as leadNoteCount')
+            ->selectRaw('count(DISTINCT leads.id) AS leadsCount, 
+                         COUNT(sold_c.id) leads_conversion,
+                         COUNT(missed_c.id) leads_missed,
+                         COUNT(contacted_s.id) leads_contacted
+                         ')
             ->withTrashed();
 
         return $query;
+
+
     }
 
     public function getDealsStatistics(Request $request)

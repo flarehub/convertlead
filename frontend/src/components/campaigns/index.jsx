@@ -66,6 +66,7 @@ class Campaigns extends Component {
   }
 
   componentWillMount() {
+    console.log("campaigns props: ", this.props);
     const {companyId, agentId, dealId} = this.props.match.params;
     this.setState({
       companyId: +companyId || (Auth.isCompany ? this.props.profile.id : null),
@@ -158,6 +159,15 @@ class Campaigns extends Component {
 
   onShowArch = () => {
     this.props.toggleShowDeleted();
+    this.setState({
+      openOverall: true,
+      lead_statics:{
+        total_leads: 0,
+        conversion_leads: 0,
+        contacted_leads: 0,
+        missed_leads: 0,
+      },   
+    })    
   };
 
   gotoPage = (event, data) => {
