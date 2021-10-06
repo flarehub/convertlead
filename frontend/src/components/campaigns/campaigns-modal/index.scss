@@ -1,4 +1,4 @@
-.companyLeadStats {
+.companyLeadStats.campaigns {
   width: 331px;
   position: absolute;
   background: white;
@@ -12,11 +12,6 @@
     text-align: left;
     border-bottom: 1px solid #e2e2e2;
 
-    .company-name {
-      font-size: 24px;
-      color: black;
-      margin-top: 10px;      
-    }
   }
 
   .company-lead-stats-container {
@@ -135,7 +130,7 @@
   color: #a6a4bc;
 }
 
-.Campaigns .companyLeadStats {
+.Campaigns .companyLeadStats.campaigns {
   
   background: #f0f0f7;
 }
@@ -150,7 +145,7 @@
 
 }
 
-.Campaigns .company-name-header .company-name, .company-lead-stats-container label  {
+.Campaigns .company-name-header .company-name  {
   font-size: 17px;
   font-family: 'averta', sans-serif !important;
   font-weight: 500 !important;
@@ -160,7 +155,36 @@
   margin: 10px 0 0 0;
   text-align: left;
   text-transform: capitalize;
+  
 
 
+}
+
+.companyLeadStats.campaigns .company-lead-stats-container label {
+font-weight:600!important;
+}
+
+.ring-chart .ring-chart-text {
+
+  font-size:10px;
+  font-weight:600;
+  border: 3px solid  #f0f0f7;
+}
+
+.CircularProgressbar-text {
+
+  fill: #3c3a4e !important;
+  font-size: 16px;
+  font-weight: 700;
+ 
+}
+
+.ring-chart .ring-chart-percent {
+  position: absolute;
+  top: 60px;
+  right: 73px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #3c3a4e;
 }
 

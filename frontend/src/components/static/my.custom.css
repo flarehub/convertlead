@@ -2414,6 +2414,10 @@ input:focus {
 
 }
 
+.Leads.sidebarOpened .empty-wrapper {
+    margin-top:-165px !important;
+}
+
 .empty-wrapper:before{
     content:url('./assets/nostatsicon.svg');
     display: flex;

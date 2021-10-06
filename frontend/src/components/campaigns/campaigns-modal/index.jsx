@@ -45,15 +45,15 @@ class CompaignsModal extends Component {
         const { onClose, lead_statics } = this.props;
         const percentage = Math.round(lead_statics.conversion_leads/lead_statics.total_leads*100)
         return (
-            <div className="companyLeadStats">
+            <div className="companyLeadStats campaigns">
                 <div className="btnClose" onClick={() => onClose()}><i className="flaticon stroke x-2"></i></div>
                 <div className="company-name-header">
                     <label>OVERALL</label>
-                    <div className="company-name">
+                    <div className="company-name selectedname">
                         Conversion Rate
                     </div>
                     <div className="ring-chart">
-                    <div className="ring-chart-text"> CONVERSION RATE </div>
+                    <div className="ring-chart-text "> CONVERSION RATE </div>
                     
                     <CircularProgressbar 
                         value={percentage} 
@@ -71,7 +71,7 @@ class CompaignsModal extends Component {
                     <div className="ring-chart-percent"> % </div>
                 </div>   
                 </div>
-                <div className="company-lead-stats-container">
+                <div className="company-lead-stats-container selectedname">
                     <label>Lead Stats</label>
                  
                 
