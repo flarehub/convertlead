@@ -57,6 +57,7 @@ class CompaignsModal extends Component {
                     
                     <CircularProgressbar 
                         value={percentage} 
+                        strokeWidth={10}
                         text={`${percentage}`} 
                         styles={buildStyles({
                             // Rotation of path and trail, in number of turns (0-1)
@@ -64,6 +65,7 @@ class CompaignsModal extends Component {
                             textSize: '16px',
                             pathColor: `#4a74ff, ${percentage / 100})`,
                             textColor: 'black',
+                            
                           })}                        
                     />
                     <div className="ring-chart-percent"> % </div>
@@ -74,7 +76,7 @@ class CompaignsModal extends Component {
                  
                 
 
-                    <div className="totals">
+                    <div className="totals top-margin">
                         <div className="total-leads">
                             <span className="value">
                                 {lead_statics.total_leads || 0}
@@ -90,13 +92,13 @@ class CompaignsModal extends Component {
                     </div>
                     <br />
                     <div className="totals">
-                        <div className="total-leads">
+                        <div className="leads-contacted">
                             <span className="value">
                                 {lead_statics.contacted_leads || 0}
                             </span>
                             <label>CONTACTED</label>
                         </div>
-                        <div className="total-leads-converted">
+                        <div className="leads-missed">
                             <span className="value">
                                 {lead_statics.missed_leads || 0}
                             </span>

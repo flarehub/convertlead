@@ -456,8 +456,8 @@ class Campaigns extends Component {
                         }
                         {
                           campaign.integration === 'ZAPIER'
-                            ? <Button circular className='zapierbut'
-                                      icon='icon-zapier'/>
+                            ? <Button circular className='icon zapierbut'
+                          ><i className="icon-zapier"></i></Button>
                             : null
                         }
                         {
@@ -488,7 +488,7 @@ class Campaigns extends Component {
                         }
                         {
                           campaign.integration === 'OPTIN_FORM'
-                            ? <Button circular color='purplegray' icon='file alternate outline'/>
+                            ? <Button circular color='purple' icon='file alternate outline'/>
                             : null
                         }
                       </Table.Cell>

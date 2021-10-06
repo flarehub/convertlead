@@ -60,6 +60,10 @@
       text-align: center;
       width:125px;
       height:125px;
+      text-transform: uppercase;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
 
     }
     
@@ -88,7 +92,36 @@
       .value:after {
         background:#65a126;
       }
+    }
+
+    .leads-contacted {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      text-transform: uppercase;
+      background:#f6f6fa !important;
     
+
+      .value:after {
+        background:#4d77ff;
+      }
+    
+    }
+
+    .leads-missed {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      text-transform: uppercase;
+      background:#f6f6fa !important;
+    
+
+      .value:after {
+        background:#d40055;
+      }
+  
     }
 
     
@@ -107,7 +140,7 @@
         width:35px;
         height:5px;
         border-radius:55px;
-        background:#4d77ff;
+        background:#ffcc00;
         
       }
      

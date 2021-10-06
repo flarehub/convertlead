@@ -35,6 +35,9 @@
     }    
   }
 
+  .totals.top-margin {
+    margin-top:25px;
+  }
 
   .totals {
     display: flex;
@@ -46,12 +49,16 @@
 
     .total-leads {
       display: flex;
+      -webkit-flex-direction: column;
       flex-direction: column;
       text-align: center;
       padding: 20px;
-      background: gray;
-      margin-right: 20px;
+      background: #e6e6f2 !important;
       text-transform: uppercase;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      margin-right:20px;
     }
 
     .total-leads-converted {
@@ -59,8 +66,31 @@
       flex-direction: column;
       text-align: center;
       padding: 20px;
-      background: gray;
+      background: #e6e6f2 !important;
       text-transform: uppercase;
+       text-transform: uppercase;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+     
+    }
+
+    .leads-contacted {
+      background: #e6e6f2 !important;
+      display: flex;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      background: #e6e6f2 !important;
+      text-transform: uppercase;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      margin-right:20px;
+    }
+    .leads-missed {
+      background: #e6e6f2 !important;
     }
   }  
 }
@@ -104,3 +134,33 @@
 .integration-name {
   color: #a6a4bc;
 }
+
+.Campaigns .companyLeadStats {
+  
+  background: #f0f0f7;
+}
+
+.Campaigns .company-name-header label {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: 'Averta',sans-serif;
+  font-weight: 800;
+  color: #9d9bb5;
+  text-align: left;
+
+}
+
+.Campaigns .company-name-header .company-name, .company-lead-stats-container label  {
+  font-size: 17px;
+  font-family: 'averta', sans-serif !important;
+  font-weight: 500 !important;
+  text-transform: none;
+  text-transform: initial;
+  color: #3c3a4e;
+  margin: 10px 0 0 0;
+  text-align: left;
+  text-transform: capitalize;
+
+
+}
+
