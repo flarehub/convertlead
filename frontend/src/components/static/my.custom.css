@@ -1548,7 +1548,7 @@ input:focus {
     right: 65px;
     text-align: center !important;
     box-shadow: none;
-    background:#fff;
+    background:transparent;
     font-weight:bold;
 }
 
@@ -1629,12 +1629,12 @@ input:focus {
     background:#fff;
 }
 
-.ui.table tr:hover #company-lock, .ui.table tr:hover .ui.button.integration-but {
+.ui.table tr:hover .ui.button.integration-but {
     border: 1px solid #949bb5;
 }
 
 #company-lock:hover {
-    border:1px solid #5998ff !important;
+    background:transparent !important;
     color:#005ff8;
 }
 
@@ -3843,9 +3843,10 @@ fill:#8d96b5
     }
     #company-lock {
         top:17px;
+        background:transparent !important;
     }
 
-    .ui.table tr td:last-child .ui.buttons:before {
+   .ui.table tr td:last-child .ui.buttons:before {
 
         top:12px;
     }
