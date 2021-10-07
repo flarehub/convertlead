@@ -58,7 +58,6 @@ class CompanyProfile extends Component {
     }
 
     componentDidMount() {
-        console.log("company-profile: ", this.props);
         disableAutoComplete();
         let opt = this.props.graphContactedLeadsAverage;
         opt.options.legendCallback = function (chart) {
@@ -136,6 +135,7 @@ class CompanyProfile extends Component {
     };
 
     render() {
+        const company_name = this.props.company.name;
         const {startDateDisplay, endDateDisplay} = this.state;
         const {companyAverageResponseTime} = this.props;
         return (
@@ -150,7 +150,8 @@ class CompanyProfile extends Component {
                     <Grid.Column>
                         <Header floated='left' as='h1'>
                             {
-                                Auth.isAgency ? 'Company' : 'Statistic'
+                                Auth.isAgency ? company_name
+                                : 'Statistic'
                             }
                         </Header>
                         <div className="leadFilters">

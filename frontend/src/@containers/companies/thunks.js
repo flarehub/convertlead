@@ -134,7 +134,7 @@ export const getCompanyGraph = (graphContext, companyId, filters) => async dispa
       await (Auth.isAgency
         ? fetchAgencyCompanyGraph(companyId, filters)
         : fetchCompanyGraph(filters));
-
+    console.log("fetchAgencyCompanyGraph response.data: ", response.data);
     await dispatch(actions.loadCompanyLeadContactedLeadsAverage(response.data));
     if (graphContext) {
       graphContext.data = response.data;

@@ -66,7 +66,6 @@ class Campaigns extends Component {
   }
 
   componentWillMount() {
-    console.log("campaigns props: ", this.props);
     const {companyId, agentId, dealId} = this.props.match.params;
     this.setState({
       companyId: +companyId || (Auth.isCompany ? this.props.profile.id : null),
@@ -321,6 +320,7 @@ class Campaigns extends Component {
   }
 
   render() {
+    const company_name = this.props.location.state.deal.name;
     const {campaigns, pagination} = this.props;
     const { 
       dealId,
@@ -387,6 +387,8 @@ class Campaigns extends Component {
             <Grid columns={2}>
             <Grid.Column>
                 <Header floated='left' as='h1'>Integrations</Header>
+                <br />
+                <span>{company_name}</span>
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
@@ -518,7 +520,13 @@ class Campaigns extends Component {
                             <div key={key}>
                               <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
                               <div className="table-cell-value">
-                                <Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>
+                                {agent.name 
+                                && (<Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>)
+                                ||
+                                  <span className="NoAgentName"> NO AGENT ASSIGNED </span>  
+                                } 
+                                
+                                
                               </div>
                             </div>
                           )

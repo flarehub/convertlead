@@ -35,7 +35,11 @@
         font-size: 15px;
         font-family: 'Averta', sans-serif;
         font-weight: 500;
-    
+        .NoAgentName{
+            font-size: 12px;
+            letter-spacing: -0.9px;
+            color: darkgray;        
+        }    
     }
   
 }
@@ -84,4 +88,3 @@ margin-top:50px !important;
 .Campaigns .ui.table tbody tr td:first-child {
     width:50px !important;
 }
-

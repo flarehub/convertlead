@@ -113,6 +113,8 @@ class CompanyController extends Controller
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
                 $company = $request->user()->getCompanyBy($companyId);
+
+                //throw new \Exception(Company::contactedLeadsGraph($startDate, $endDate, $company->pivot->id, $request->get('agentId')));
                 return Company::contactedLeadsGraph($startDate, $endDate, $company->pivot->id, $request->get('agentId'));
             }
         }

@@ -5,7 +5,7 @@ use App\Models\Agent;
 use App\Models\Company;
 use App\Models\Lead;
 use Carbon\Carbon;
-
+use DB;
 trait CompanyRepository {
     public function createCompany($data) {
         $data['role'] = Company::$ROLE_COMPANY;
@@ -38,22 +38,20 @@ trait CompanyRepository {
         $endDate,
         $companyAgencyId = null,
         $agentId = null, $format = 'Y-m-d') {
+
+        // $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
+        // $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();  
+        $st_dt = '2001-10-04 00:00:00';
+        $end_dt = '2021-10-10 23:59:59';
+
         $query = Lead::selectRaw(
             "
-          DATE(leads.created_at) as creation_date,
-	   SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
-             SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)
-       ) as up30Mintes,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)
-       ) as up2Hours,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)
-       ) as up12Hours,
-            SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
-     
+            DATE(leads.created_at) as creation_date,
+            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
+            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)) as up30Mintes,
+            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)) as up2Hours,
+            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)) as up12Hours,
+            SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
             ")
             ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
             ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
@@ -66,8 +64,9 @@ trait CompanyRepository {
             })
             ->groupBy('creation_date')
             ->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay(),
-                Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay()]);
+                "'".$st_dt."'",
+                "'".$end_dt."'"
+            ]);
         
         if (is_array($companyAgencyId)) {
             $query->whereIn('leads.agency_company_id', $companyAgencyId);
@@ -79,7 +78,9 @@ trait CompanyRepository {
             $query->where('leads.agent_id', $agentId);
         }
         $averageResponseTime = static::getAverageTime($startDate, $endDate, $companyAgencyId, $agentId, $format);
-       return static::mapLeadsData($query->get(), $averageResponseTime, $startDate, $endDate, $format);
+        //return $averageResponseTime;
+        //return $query->get();
+        return static::mapLeadsData($query->get(), $averageResponseTime, $startDate, $endDate, $format);
     }
 
     /**
@@ -90,25 +91,66 @@ trait CompanyRepository {
      * @param string $format
      * @return mixed
      */
+    // static function getAverageTime( $startDate,
     static function getAverageTime( $startDate,
                                     $endDate,
                                     $companyAgencyId = null,
                                     $agentId = null, $format = 'Y-m-d') {
+        $s_dt = Carbon::createFromFormat('Y-m-d', $startDate);
+        $e_dt = Carbon::createFromFormat('Y-m-d', $endDate);
+
+        // $s_dt = '2001-10-04 00:00:00';
+        // $e_dt = '2021-10-10 23:59:59';
+
+        // $temp = \DB::select(\DB::raw("
+        //         select 
+        //         sec_to_time(AVG(time_to_sec(timediff(ln.created_at, leads.created_at)))) as avg_time 
+        //         from leads inner join lead_notes as ln on ln.lead_id = leads.id inner join lead_statuses as ls on ls.id = ln.lead_status_id 
+        //         where (ls.type = 'CONTACTED_SMS' or ls.type = 'CONTACTED_CALL' or ls.type = 'CONTACTED_EMAIL') and 
+        //         leads.created_at between '2001-10-04 00:00:00' and '2021-10-10 23:59:59' and leads.agency_company_id = 2 and leads.deleted_at is null        
+        //         "));
+        
+        // return $temp[0];
+        
+       
+
         $query = Lead::selectRaw(
-          "sec_to_time(AVG(time_to_sec(timediff(ln.created_at, leads.created_at)))) as avg_time")
-            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-            ->where(function ($query) {
-                $query
-                    ->where('ls.type', 'CONTACTED_SMS')
-                    ->orWhere('ls.type', 'CONTACTED_CALL')
-                    ->orWhere('ls.type', 'CONTACTED_EMAIL')
-                ;
+            "sec_to_time(AVG(time_to_sec(timediff(ln.created_at, leads.created_at)))) as avg_time")
+            ->join(\DB::raw('(SELECT ln1.lead_id as lead_id, Min(ln1.created_at) as created_at FROM lead_notes as ln1 
+            JOIN lead_statuses as ls ON ln1.lead_status_id=ls.id
+            WHERE ls.type=\'CONTACTED_SMS\' or ls.type=\'CONTACTED_CALL\' or ls.type=\'CONTACTED_EMAIL\'
+            group by ln1.lead_id) AS ln'),
+            function($join) {
+                $join->on('ln.lead_id', '=', 'leads.id');
             })
-            ->whereBetween('leads.created_at', [
-                Carbon::createFromFormat('Y-m-d', $startDate),
-                Carbon::createFromFormat('Y-m-d', $endDate)]);
-    
+
+            // ->join('lead_notes123 AS ln', 'ln.lead_id', 'leads.id')
+            // ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
+            // ->where(function ($query) {
+            //     $query
+            //         ->where('ls.type', "'CONTACTED_SMS'")
+            //         ->orWhere('ls.type', "'CONTACTED_CALL'")
+            //         ->orWhere('ls.type', "'CONTACTED_EMAIL'")                    
+            //         ;
+            // })
+
+        // $query = $this->leads()->leftJoin(\DB::raw("
+        //     (SELECT ln1.lead_id as lead_id, Min(ln1.created_at) as created_at FROM lead_notes as ln1 
+        //     JOIN lead_statuses as ls ON ln1.lead_status_id=ls.id
+        //     WHERE ls.type='CONTACTED_SMS' or ls.type='CONTACTED_CALL' or ls.type='CONTACTED_EMAIL'
+        //     group by ln1.lead_id) AS ln
+        // "), function ($join) {
+        //     $join->on('ln.lead_id', '=', 'leads.id');
+        // })              
+        ->whereBetween('leads.created_at', [
+            // Carbon::createFromFormat('Y-m-d', $startDate),
+            // Carbon::createFromFormat('Y-m-d', $endDate)
+            "'".$s_dt."'",
+            "'".$e_dt."'"
+        ]);
+
+        //$query->selectRaw("sec_to_time(AVG(time_to_sec(timediff(ln.created_at, leads.created_at)))) as avg_time");
+
         if ($companyAgencyId) {
             $query->where('leads.agency_company_id', $companyAgencyId);
         }
@@ -117,6 +159,14 @@ trait CompanyRepository {
             $query->where('leads.agent_id', $agentId);
         }
         return $query->first();
+
+        // agent: null
+        // avg_time: null
+        // campaign: null
+        // company: null
+        // smsReplayCount: 0
+        // status: "NEW"
+        // statusInfo: {name: "New", type: "NEW"}        
     }
     
     static public function mapLeadsData($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d') {
@@ -169,7 +219,7 @@ trait CompanyRepository {
         $datasets = collect($datasets)->map(function ($dataset) use ($leads, $dateCollection) {
             $fieldName = $dataset['data'];
             $dataset['data'] = collect($dateCollection)->map(function ($date) use ($leads, $fieldName) {
-                return  isset($leads->where('creation_date', $date)->first()[$fieldName]) ?(int)$leads->where('creation_date', $date)->first()[$fieldName]:0;
+                return  isset($leads->where('creation_date', $date)->first()[$fieldName]) ? (int)$leads->where('creation_date', $date)->first()[$fieldName] : 0;
             });
             return $dataset;
         });
