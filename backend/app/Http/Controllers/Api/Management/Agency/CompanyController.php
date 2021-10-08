@@ -113,8 +113,6 @@ class CompanyController extends Controller
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
                 $company = $request->user()->getCompanyBy($companyId);
-
-                //throw new \Exception(Company::contactedLeadsGraph($startDate, $endDate, $company->pivot->id, $request->get('agentId')));
                 return Company::contactedLeadsGraph($startDate, $endDate, $company->pivot->id, $request->get('agentId'));
             }
         }
@@ -134,7 +132,7 @@ class CompanyController extends Controller
         $company->handleAvatar($request);
         $company->updateUser($request->except('role'));
 
-        $company->setupTwilioSmsWebHook(
+        $company->setupTwilioWebHook(
             $request->get('twilio_sid'),
             $request->get('twilio_token'),
             $request->get('twilio_mobile_number')

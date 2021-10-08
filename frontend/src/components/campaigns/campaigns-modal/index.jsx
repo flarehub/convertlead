@@ -43,7 +43,10 @@ class CompaignsModal extends Component {
 
     render() {
         const { onClose, lead_statics } = this.props;
-        const percentage = Math.round(lead_statics.conversion_leads/lead_statics.total_leads*100)
+        let percentage = 0;
+        if(!isNaN(lead_statics.conversion_leads) && !isNaN(lead_statics.total_leads))
+            percentage = Math.round(lead_statics.conversion_leads/lead_statics.total_leads*100);
+
         return (
             <div className="companyLeadStats campaigns">
                 <div className="btnClose" onClick={() => onClose()}><i className="flaticon stroke x-2"></i></div>

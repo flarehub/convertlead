@@ -114,7 +114,7 @@ class Agency extends User
             // "2019-08-07 00:00:00",
             // "2019-08-14 23:59:59"  
             $st_dt,
-            $end_dt,
+            $end_dt
         );
         
         //Carbon::parse($temp[$i]->created_date)->shortDayName;
@@ -193,7 +193,7 @@ class Agency extends User
      */
     public function getCompaniesWithStats($queryParams) {
         $query = Company::selectRaw('
-            DISTINCT users.id,
+            users.id,
             users.name,
             users.phone,
             users.email,
@@ -206,13 +206,11 @@ class Agency extends User
             COUNT(DISTINCT users.id, deals.id) as deals_count,
             COUNT(DISTINCT users.id, leads.id) as leads_count,
             COUNT(DISTINCT users.id, company_agents.id) as agents_count,
-            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_lead_response,
-            GROUP_CONCAT(DISTINCT ua.name) agents_name
+            SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at)))) AS avg_lead_response
             ')
             ->join('agency_companies', 'agency_companies.company_id', 'users.id')
             ->leftJoin('deals', 'deals.agency_company_id', 'agency_companies.id')
             ->leftJoin('company_agents', 'company_agents.company_id', 'users.id')
-            ->leftJoin('users AS ua', 'ua.id', 'company_agents.agent_id')
             ->leftJoin('leads', 'leads.agency_company_id', 'agency_companies.id')
             ->leftJoin(\DB::raw("
             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
@@ -226,12 +224,9 @@ class Agency extends User
             })
             ->where('agency_companies.agency_id', $this->id)
             ->groupBy('agency_companies.company_id', 'agency_companies.is_locked');
-
-        $query->with('agents');
-
+    
         if ( isset($queryParams['showDeleted']) ) {
             $query->withTrashed();
-            $query->whereNotNull('users.deleted_at');
         } else {
             $query->whereRaw('users.deleted_at IS NULL');
         }
@@ -247,19 +242,19 @@ class Agency extends User
         if ( isset($queryParams['name']) ) {
             $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
-
+    
+    
         if ( isset($queryParams['deals']) ) {
-            $query->orderBy('deals_count', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
+            $query->orderBy('deals_acount', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
         }
-
+    
         if ( isset($queryParams['leads']) ) {
             $query->orderBy('leads_count', $queryParams['leads'] === 'true' ? 'DESC' : 'ASC');
         }
-
+    
         if ( isset($queryParams['agents']) ) {
-            $query->orderBy('agents_name', $queryParams['agents'] === 'true' ? 'DESC' : 'ASC');
+            $query->orderBy('agents_count', $queryParams['agents'] === 'true' ? 'DESC' : 'ASC');
         }
-
         if ( isset($queryParams['avg_response']) ) {
             $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
         }
@@ -269,13 +264,30 @@ class Agency extends User
     
     public function getAgents($queryParams = []) {
         $query = Agent::selectRaw
-        ('users.agent_agency_id, users.id, users.role, users.name, users.email, users.phone, users.twilio_mobile_number, users.avatar_id, COUNT(DISTINCT dca.id) AS campaigns_count, COUNT(DISTINCT dc.id, dca.id) AS deal_campaigns_count, COUNT(DISTINCT ld.id) AS leads_count, SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response, users.created_at, users.deleted_at')
+        (
+            'users.agent_agency_id, users.id, users.role, users.name, users.email,
+             users.phone,
+             users.twilio_mobile_number,
+              users.avatar_id,
+            COUNT(DISTINCT dca.id) AS campaigns_count,
+             COUNT(DISTINCT ld.id) AS leads_count,
+                SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
+            users.created_at,
+            users.deleted_at
+            '
+        )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
-            ->leftJoin('deal_campaigns as dc', 'dc.agency_company_id', 'ca.company_id')
             ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
             ->leftJoin('leads AS ld', 'ld.agent_id', 'users.id')
-            ->leftJoin(\DB::raw("(SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id WHERE lead_statuses.type = 'CONTACTED_SMS' OR lead_statuses.type = 'CONTACTED_CALL' OR lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes"), function ($join) {
+            ->leftJoin(\DB::raw("
+            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+                          WHERE
+                              lead_statuses.type = 'CONTACTED_SMS' OR
+                              lead_statuses.type = 'CONTACTED_CALL' OR
+                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+                          "), function ($join) {
                 $join->on('leadNotes.lead_id', '=', 'ld.id');
             })
             ->where('agency.id', $this->id)

@@ -22,7 +22,6 @@ class DealController extends Controller
     public function getDealsStatistic(Request $request) {
         return $request->user()->getDealsStatistics($request);
     }
-
     /**
      * Display a listing of the resource.
      *

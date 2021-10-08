@@ -20,6 +20,7 @@ class AgentController extends Controller
     {
         $itemsPerPage = (int)$request->get('per_page', 10);
         $page = (int)$request->get('current_page', 1);
+    
         return $request->user()->getAgents($request->only([
             'search',
             'companyId',
@@ -48,8 +49,6 @@ class AgentController extends Controller
     
     public function graph(Request $request, $agentId, $graphType)
     {
-        
-        
         switch ($graphType) {
             case 'contacted': {
                 $companyAgencyIds = null;
@@ -57,13 +56,14 @@ class AgentController extends Controller
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
                 $agent = $request->user()->getAgent($agentId);
+                
                 if ($companyIds) {
                     $companyAgencyIds = collect($companyIds)->map(function ($companyId) use ($request) {
                         return $request->user()->getCompanyBy($companyId)->pivot->id;
                     });
                 }
-                //throw new \Exception(Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, 'Y-m-d', true));            
-                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, 'Y-m-d', true);                
+                
+                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
             }
         }
         throw new \Exception('Wrong graph type!');

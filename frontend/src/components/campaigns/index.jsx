@@ -444,6 +444,7 @@ class Campaigns extends Component {
               <Table.Body>
                 {       
                   campaigns.length != 0 && campaigns.map((campaign, index) => (
+                    console.log("campaigns"+index, campaign.agents.length),
                     lead_statics.total_leads = lead_statics.total_leads + campaign.leads_count_all,
                     lead_statics.conversion_leads = lead_statics.conversion_leads + campaign.leads_count_s,
                     lead_statics.contacted_leads = lead_statics.contacted_leads + campaign.leads_count_c,
@@ -517,20 +518,26 @@ class Campaigns extends Component {
                       <Table.Cell>
                         {
                           campaign.agents && campaign.agents.map((agent, key) =>
+                            
                             <div key={key}>
                               <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
                               <div className="table-cell-value">
-                                {agent.name 
-                                && (<Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>)
-                                ||
-                                  <span className="NoAgentName"> NO AGENT ASSIGNED </span>  
+                                {agent.name !='' 
+                                  && (<Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>)  
                                 } 
-                                
-                                
                               </div>
                             </div>
                           )
                         }
+                        {
+                          campaign.agents.length ==0 && (
+                            <div>
+                              <div className="table-cell-value">
+                                  <span className="NoAgentName"> NO AGENT ASSIGNED </span>  
+                              </div>
+                            </div>
+                          )
+                        }                        
                       </Table.Cell>
                       {
                         this.state.agentId && Auth.isAgency ? <Table.Cell>

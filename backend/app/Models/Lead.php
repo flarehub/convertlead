@@ -28,7 +28,7 @@ class Lead extends Model
         'statusInfo',
         'company',
         'agent',
-        'smsReplayCount',
+        'smsReplayCount'
     ];
 
     public function campaign() {

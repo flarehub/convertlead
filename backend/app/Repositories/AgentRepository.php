@@ -89,11 +89,7 @@ trait AgentRepository
         $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
         $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
 
-        $temp = \DB::select(\DB::raw("
-            select SUBSTRING_INDEX(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at)))), '.', 1) AS avg_response FROM `leads` INNER JOIN `lead_notes` AS `ln` ON `ln`.`lead_id` = `leads`.`id` INNER JOIN `lead_statuses` AS `ls` ON `ls`.`id` = `ln`.`lead_status_id` WHERE (`ls`.`type` = 'CONTACTED_SMS' OR `ls`.`type` = 'CONTACTED_CALL' OR `ls`.`type` = 'CONTACTED_EMAIL') AND `leads`.`created_at` BETWEEN 
-            '".$st_dt."' AND '".$end_dt."' 
-            AND `leads`.`agent_id` = 15 AND `leads`.`deleted_at` IS NULL LIMIT 1"));
-        return $temp[0];
+
 
 
         $query = Lead::selectRaw(
