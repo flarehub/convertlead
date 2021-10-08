@@ -388,7 +388,7 @@ class Campaigns extends Component {
             <Grid.Column>
                 <Header floated='left' as='h1'>Integrations</Header>
                 <br />
-                <span>{company_name}</span>
+                <span className="subhead company">{company_name}</span>
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
