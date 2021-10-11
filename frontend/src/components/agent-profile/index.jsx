@@ -60,7 +60,7 @@ class AgentProfile extends Component {
         this.Chart = new ChartJs(this.canvas.current.getContext('2d'), this.props.pieGraphContactedLeadsAverage);
         this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
             companyIds: [],
-            graphType: 'contacted',
+            graphType: 'pie',
             startDate: moment().startOf('month').format('Y-MM-DD'),
             endDate: moment().endOf('month').format('Y-MM-DD'),
         });
@@ -84,7 +84,7 @@ class AgentProfile extends Component {
 
         this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
             companyIds: data.value,
-            graphType: 'contacted',
+            graphType: 'pie',
             startDate: this.state.startDate,
             endDate: this.state.endDate,
         });
@@ -105,7 +105,7 @@ class AgentProfile extends Component {
 
         this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
             companyIds: this.state.companyIds,
-            graphType: 'contacted',
+            graphType: 'pie',
             startDate: this.state.startDate,
             endDate: moment(date).format('Y-MM-DD'),
         });
@@ -121,7 +121,7 @@ class AgentProfile extends Component {
 
         this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
             companyIds: this.state.companyIds,
-            graphType: 'contacted',
+            graphType: 'pie',
             startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         });
@@ -160,7 +160,7 @@ class AgentProfile extends Component {
             // this.Chart = new ChartJs(this.canvas.current.getContext('2d'), this.props.pieGraphContactedLeadsAverage);
             this.props.getAgentGraphPie(this.Chart, nextProps.agentId, {
                 companyIds: [],
-                graphType: 'contacted',
+                graphType: 'pie',
                 startDate: this.state.startDate,
                 endDate: this.state.endDate
             });

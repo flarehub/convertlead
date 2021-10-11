@@ -63,8 +63,6 @@ trait AgentRepository
             ->whereBetween('leads.created_at', [
                 $st_dt,
                 $end_dt
-                // "2019-08-07 00:00:00",
-                // "2021-08-14 23:59:59"  
             ]);
 
         $query->where('leads.agent_id', $agentId);

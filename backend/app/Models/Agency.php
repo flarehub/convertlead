@@ -268,12 +268,12 @@ class Agency extends User
             'users.agent_agency_id, users.id, users.role, users.name, users.email,
              users.phone,
              users.twilio_mobile_number,
-              users.avatar_id,
-            COUNT(DISTINCT dca.id) AS campaigns_count,
+             users.avatar_id,
+             COUNT(DISTINCT dca.id) AS campaigns_count,
              COUNT(DISTINCT ld.id) AS leads_count,
-                SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
-            users.created_at,
-            users.deleted_at
+             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, ld.created_at)))) AS avg_lead_response,
+             users.created_at,
+             users.deleted_at
             '
         )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
@@ -292,11 +292,15 @@ class Agency extends User
             })
             ->where('agency.id', $this->id)
             ->groupBy('users.id');
-    
-        if ( isset($queryParams['showDeleted']) ) {
-            $query->withTrashed();
-        }
         
+        if ( isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == 1) {
+            $query->withTrashed();
+            $query->whereRaw('users.deleted_at IS NOT NULL');            
+        }else{
+            $query->withTrashed();
+            $query->whereRaw('users.deleted_at IS NULL');            
+        }
+
         if (isset($queryParams['companyId']) && $queryParams['companyId']) {
             $query->where('ca.company_id', $queryParams['companyId']);
         }

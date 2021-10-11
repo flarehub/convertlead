@@ -83,6 +83,11 @@ class Agent extends User
         ');
         $query->groupBy('deal_campaigns.id', 'deal_campaign_agents.agent_id');
 
+        if (!isset($queryParams['showDeleted']) && $queryParams['showDeleted'] === 'true') {
+            $query->withTrashed();
+            
+        }
+
         if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] === 'true') {
             $query->withTrashed();
         }

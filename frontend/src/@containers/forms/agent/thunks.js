@@ -19,6 +19,7 @@ export const saveAgent = form => (dispatch) => {
 export const updateAgent = form => {
   return async dispatch => {
     try {
+      console.log("updateAgent: ", form);
       await api.patch(`/v1/${Auth.role}/agents/${form.id}`, form);
       await dispatch(actions.savedAgent());
       await dispatch(loadAgents());

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
-import {BreadCrumbContainer, AgentsContainer, AgentFormContainer, CompaniesContainer, LeadsContainer} from '@containers';
+import {BreadCrumbContainer, AgentsContainer, AgentFormContainer, CompaniesContainer } from '@containers';
+// LeadsContainer
 import AgentModal from '../@common/modals/agent';
 import {
     Button,
@@ -267,7 +268,7 @@ class Agents extends Component {
                         <Loader/>
                         {
                             agents.map((agent, index) => (
-                                <div data-id={agent.id} className="agentContainer" onClick={() => this.onClickViewAgentProfile(agent)}>
+                                <div data-id={agent.id} className="agentContainer" >
                                     <div className="agentMenu">
                                         <div className="bullets">...</div>
                                         {
@@ -290,7 +291,7 @@ class Agents extends Component {
                                             )
                                         }
                                     </div>
-                                    <div className="agentDetails">
+                                    <div className="agentDetails" onClick={() => this.onClickViewAgentProfile(agent)}>
                                         <div className="agentAvatar">
                                             <div className="legend">
                                                 <span className="legendCount">
@@ -358,4 +359,5 @@ class Agents extends Component {
     }
 }
 
-export default compose(BreadCrumbContainer, CompaniesContainer, AgentsContainer, AgentFormContainer, LeadsContainer)(Agents);
+export default compose(BreadCrumbContainer, CompaniesContainer, AgentsContainer, AgentFormContainer)(Agents);
+// LeadsContainer|

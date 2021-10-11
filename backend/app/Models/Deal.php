@@ -93,7 +93,7 @@ class Deal extends Model
                           WHERE
                               lead_statuses.type = 'CONTACTED_SMS' OR
                               lead_statuses.type = 'CONTACTED_CALL' OR
-                              lead_statuses.type = 'CONTACTED_EMAIL' 
+                              lead_statuses.type = 'CONTACTED_EMAIL'
                           GROUP BY lead_notes.lead_id) AS leadNotes_c
                           "), function ($join) {
             $join->on('leadNotes_c.lead_id', '=', 'leads.id');})
@@ -105,7 +105,6 @@ class Deal extends Model
             ac.company_id,
 
             COUNT(all_c.id) as leads_count_all,
-            COUNT(sold_c.id) leads_count_s,
             COUNT(missed_c.id) leads_count_m,
             COUNT(contacted_c.id) leads_count_c,
 
@@ -114,10 +113,14 @@ class Deal extends Model
         ');
         $query->groupBy('deal_campaigns.id');
         
-        if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] === 'true') {
+        if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == true) {
             $query->withTrashed();
+            $query->whereRaw('deal_campaigns.deleted_at IS NULL');            
+        }else{
+            $query->withTrashed();
+            $query->whereRaw('deal_campaigns.deleted_at IS NOT NULL');            
         }
-        
+
         if ( isset($queryParams['name']) ) {
             $query->orderBy('name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }

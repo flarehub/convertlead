@@ -65,6 +65,21 @@ class AgentController extends Controller
                 
                 return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds);
             }
+            case 'pie': {
+                $companyAgencyIds = null;
+                $companyIds = $request->get('companyIds');
+                $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
+                $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
+                $agent = $request->user()->getAgent($agentId);
+                
+                if ($companyIds) {
+                    $companyAgencyIds = collect($companyIds)->map(function ($companyId) use ($request) {
+                        return $request->user()->getCompanyBy($companyId)->pivot->id;
+                    });
+                }
+                
+                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, null, true);
+            }            
         }
         throw new \Exception('Wrong graph type!');
     }
@@ -142,20 +157,25 @@ class AgentController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            
             \DB::beginTransaction();
             $request->merge(['agent_agency_id' => $request->user()->id]);
             $agent = $request->user()->getAgent($id);
-            
             $oldCompanies = $request->get('companies');
             $newCompanies = $request->get('new_companies');
-
-            foreach ($oldCompanies AS $company) {
-                $company = $request->user()->getCompanyBy($company);
-                $company->agents()->detach($agent);
-                $campaigns = $company->campaigns()->get();
-                foreach ($campaigns as $campaign) {
-                 $campaign->agents()->detach($agent);
+            if ($oldCompanies) {
+                foreach ($oldCompanies AS $companyId) {
+                    $company = $request->user()->getCompanyBy($companyId);
+                    $company->agents()->detach($agent);                    
+                    $campaigns = $company->campaigns()->get();
+                    foreach ($campaigns as $campaign) {
+                        $campaign->agents()->detach($agent);
+                    }
                 }
+                foreach ($oldCompanies AS $oldCompany) {
+                    $oldCompany = $request->user()->getCompanyBy($oldCompany);
+                    $oldCompany->agents()->attach($agent);
+                }                
             }
             if ($newCompanies) {
                 foreach ($newCompanies AS $newCompany) {
@@ -163,7 +183,6 @@ class AgentController extends Controller
                     $newCompany->agents()->attach($agent);
                 }
             }
-
             $agent->handleAvatar($request);
             $agent->updateUser($request->except('role'));
             \DB::commit();

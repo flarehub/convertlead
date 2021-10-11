@@ -15,7 +15,7 @@ const mapDispatcheToProps = dispatch => ({
   deleteCampaign: (companyId, dealId, campaignId) => dispatch(thunks.deleteCampaign(companyId, dealId, campaignId)),
   gotoPage: page => dispatch(thunks.gotoPage(page)),
   sort: field => dispatch(thunks.sortCampaigns(field)),
-  toggleShowDeleted: () => dispatch(thunks.toggleShowDeletedCampaigns()),
+  toggleShowDeletedCampaigns: () => dispatch(thunks.toggleShowDeletedCampaigns()),
   subscribeCampaignToFbIntegration: (campaignId, integration) =>
     dispatch(thunks.subscribeToFbIntegration(campaignId, integration)),
   unsubscribeCampaignToFbIntegration: (campaignId, integrationId) =>
