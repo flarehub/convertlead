@@ -163,6 +163,7 @@ class AgentController extends Controller
             $agent = $request->user()->getAgent($id);
             $oldCompanies = $request->get('companies');
             $newCompanies = $request->get('new_companies');
+
             if ($oldCompanies) {
                 foreach ($oldCompanies AS $companyId) {
                     $company = $request->user()->getCompanyBy($companyId);
@@ -171,18 +172,20 @@ class AgentController extends Controller
                     foreach ($campaigns as $campaign) {
                         $campaign->agents()->detach($agent);
                     }
-                }
-                foreach ($oldCompanies AS $oldCompany) {
-                    $oldCompany = $request->user()->getCompanyBy($oldCompany);
-                    $oldCompany->agents()->attach($agent);
-                }                
-            }
+                }         
+            }            
             if ($newCompanies) {
                 foreach ($newCompanies AS $newCompany) {
                     $newCompany = $request->user()->getCompanyBy($newCompany);
                     $newCompany->agents()->attach($agent);
                 }
+            }else if(count($newCompanies) !=0){
+                foreach ($oldCompanies AS $oldCompany) {
+                    $oldCompany = $request->user()->getCompanyBy($oldCompany);
+                    $oldCompany->agents()->attach($agent);
+                }
             }
+
             $agent->handleAvatar($request);
             $agent->updateUser($request->except('role'));
             \DB::commit();

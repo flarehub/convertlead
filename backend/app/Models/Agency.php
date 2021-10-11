@@ -225,12 +225,19 @@ class Agency extends User
             ->where('agency_companies.agency_id', $this->id)
             ->groupBy('agency_companies.company_id', 'agency_companies.is_locked');
     
-        if ( isset($queryParams['showDeleted']) ) {
+        // if ( isset($queryParams['showDeleted']) ) {
+        //     $query->withTrashed();
+        // } else {
+        //     $query->whereRaw('users.deleted_at IS NULL');
+        // }
+        if ( isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == true) {
             $query->withTrashed();
-        } else {
-            $query->whereRaw('users.deleted_at IS NULL');
+            $query->whereRaw('users.deleted_at IS NOT NULL');            
+        }else{
+            $query->withTrashed();
+            $query->whereRaw('users.deleted_at IS NULL');            
         }
-    
+
         if ( isset($queryParams['search']) && $queryParams['search'] ) {
             $query->where(function ($query) use ($queryParams) {
                 $query
