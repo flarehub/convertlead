@@ -516,19 +516,21 @@ class Campaigns extends Component {
                       </Table.Cell>
 
                       <Table.Cell>
+                      <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
+                      <div>
                         {
                           campaign.agents && campaign.agents.map((agent, key) =>
                             
-                            <div key={key}>
-                              <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
-                              <div className="table-cell-value">
+                            <div key={key} style={{display:'inline-block'}}>
+                              
+                              <div className='table-cell-value' style={{marginRight: '5px', marginLeft:'5px'}}>
                                 {agent.name !='' 
                                   && (<Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>)  
                                 } 
                               </div>
                             </div>
                           )
-                        }
+                        }</div>
                         {
                           campaign.agents.length ==0 && (
                             <div>
