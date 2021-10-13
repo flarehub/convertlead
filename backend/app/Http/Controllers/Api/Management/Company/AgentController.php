@@ -55,8 +55,6 @@ class AgentController extends Controller
             case 'contacted': {
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
-                //$agent = $request->user()->getAgentBy($agentId);
-    
                 $companyAgencyIds = $request->user()->agencies->map(function ($agency) use ($request) {
                     return $agency->pivot->id;
                 });

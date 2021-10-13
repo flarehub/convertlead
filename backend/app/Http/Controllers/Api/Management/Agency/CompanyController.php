@@ -113,7 +113,11 @@ class CompanyController extends Controller
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
                 $company = $request->user()->getCompanyBy($companyId);
-                return Company::contactedLeadsGraph($startDate, $endDate, $company->pivot->id, $request->get('agentId'));
+                if(isset($company->pivot))
+                    $c_p_id = $company->pivot->id; 
+                else
+                    $c_p_id = null; 
+                return Company::contactedLeadsGraph($startDate, $endDate, $c_p_id, $request->get('agentId'));
             }
         }
         throw new \Exception('Wrong graph type!');

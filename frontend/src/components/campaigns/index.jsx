@@ -157,7 +157,6 @@ class Campaigns extends Component {
   };
 
   onShowArch = () => {
-    this.props.toggleShowDeletedCampaigns();
     this.setState({
       openOverall: true,
       lead_statics:{
@@ -167,6 +166,8 @@ class Campaigns extends Component {
         missed_leads: 0,
       },   
     })    
+    this.props.toggleShowDeletedCampaigns();
+
   };
 
   gotoPage = (event, data) => {
@@ -515,29 +516,33 @@ class Campaigns extends Component {
                         </div>
                       </Table.Cell>
 
-                      <Table.Cell>
+                      <Table.Cell> 
+                        {campaign.agents.length != 0 && (<div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>)}
+                        <div className="assignedName">
                         {
-                          campaign.agents && campaign.agents.map((agent, key) =>
-                            
+                          campaign.agents.length != 0 && 
+                          campaign.agents.map((agent, key) =>
+
                             <div key={key}>
-                              <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
+                               
                               <div className="table-cell-value">
                                 {agent.name !='' 
                                   && (<Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>)  
-                                } 
+                                } ,   
                               </div>
                             </div>
                           )
-                        }
-                        {
-                          campaign.agents.length ==0 && (
-                            <div>
+                          ||
+                          (
+                            
                               <div className="table-cell-value">
                                   <span className="NoAgentName"> NO AGENT ASSIGNED </span>  
                               </div>
-                            </div>
+                            
                           )
-                        }                        
+                          
+                        } 
+                        </div>                       
                       </Table.Cell>
                       {
                         this.state.agentId && Auth.isAgency ? <Table.Cell>
@@ -555,33 +560,57 @@ class Campaigns extends Component {
                         </div>
                       </Table.Cell>
                       <Table.Cell>
-                        {
-                          !campaign.deleted_at ?
-                            (<div className="action-button">
-                              <Button
-                                className={"integration-but"}
-                                onClick={this.loadIntegrationForm.bind(this, campaign)}>
-                                Integration
+                        
+                            <div className="action-button">
+                            <Button
+                              className={"integration-but"}
+                              onClick={this.loadIntegrationForm.bind(this, campaign)}>
+                              Integration
+                            </Button>
+                            <ButtonGroup>
+                              <Button onClick={this.props.loadForm.bind(this, {
+                                ...campaign,
+                                companyId: campaign.company_id,
+                                dealId: campaign.deal_id,
+                                agentId: this.state.agentId,
+                                agents: campaign.agents && campaign.agents.map(agent => agent.id),
+                                show: true
+                              })}>
+                                Edit
                               </Button>
-                              <ButtonGroup>
-                                <Button onClick={this.props.loadForm.bind(this, {
-                                  ...campaign,
-                                  companyId: campaign.company_id,
-                                  dealId: campaign.deal_id,
-                                  agentId: this.state.agentId,
-                                  agents: campaign.agents && campaign.agents.map(agent => agent.id),
-                                  show: true
-                                })}>
-                                  Edit
-                                </Button>
-                                <Button
-                                  onClick={this.openConfirmModal.bind(this, true, campaign.id)}>
-                                  Archive
-                                </Button>
-                              </ButtonGroup>
-                            </div>)
-                            : null
-                        }
+                              <Button
+                                onClick={this.openConfirmModal.bind(this, true, campaign.id)}>
+                                Archive
+                              </Button>
+                            </ButtonGroup>
+                          </div>
+                          {
+                            // !campaign.deleted_at ?
+                            // (<div className="action-button">
+                            //   <Button
+                            //     className={"integration-but"}
+                            //     onClick={this.loadIntegrationForm.bind(this, campaign)}>
+                            //     Integration
+                            //   </Button>
+                            //   <ButtonGroup>
+                            //     <Button onClick={this.props.loadForm.bind(this, {
+                            //       ...campaign,
+                            //       companyId: campaign.company_id,
+                            //       dealId: campaign.deal_id,
+                            //       agentId: this.state.agentId,
+                            //       agents: campaign.agents && campaign.agents.map(agent => agent.id),
+                            //       show: true
+                            //     })}>
+                            //       Edit
+                            //     </Button>
+                            //     <Button
+                            //       onClick={this.openConfirmModal.bind(this, true, campaign.id)}>
+                            //       Archive
+                            //     </Button>
+                            //   </ButtonGroup>
+                            // </div>)
+                            // : null
+                          }
                       </Table.Cell>
                     </Table.Row>
                   ))

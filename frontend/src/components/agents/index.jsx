@@ -268,6 +268,7 @@ class Agents extends Component {
                         <Loader/>
                         {
                             agents.map((agent, index) => (
+                                console.log("agent", agent),
                                 <div data-id={agent.id} className="agentContainer" >
                                     <div className="agentMenu">
                                         <div className="bullets">...</div>
@@ -282,7 +283,7 @@ class Agents extends Component {
                                                 </ButtonGroup>
                                             ) || (
                                                 <ButtonGroup>
-                                                    <Button onClick={this.props.loadForm.bind(this, {
+                                                    <Button style={{width: '90px'}} onClick={this.props.loadForm.bind(this, {
                                                         ...agent,
                                                         show: true
                                                     })}>Edit</Button>
@@ -298,14 +299,14 @@ class Agents extends Component {
                                                     {agent.leads_count}
                                                 </span>
                                                 {
-                                                    agent.campaigns_count != 0 && (
+                                                    agent.companies.length != 0 && (
                                                         <span className="legendName-blue">Leads</span>
                                                     ) || (
                                                         <span className="legendName-red">Leads</span>
                                                     )
                                                 }
                                                 {   
-                                                    agent.campaigns_count != 0 && (
+                                                    agent.companies.length != 0 && (
                                                         <div className="circular icon-image-blue" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
                                                     ) || (
                                                         <div className="circular icon-image-red" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
@@ -328,7 +329,7 @@ class Agents extends Component {
                                         </div>
                                         <div className="campaignStatus">
                                             {
-                                                agent.campaigns_count != 0 && (
+                                                agent.companies.length != 0 && (
                                                     <button className="ui teal button active-btn" >Active</button>
                                                 ) || (
                                                     <button className="ui teal button inactive-btn" >Inactive</button>

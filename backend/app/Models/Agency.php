@@ -285,7 +285,20 @@ class Agency extends User
         )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
-            ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
+            
+            // ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
+
+            ->leftJoin(\DB::raw("
+                            (SELECT           
+                            dca.*
+                            FROM `deal_campaigns` 
+                            LEFT JOIN deal_campaign_agents AS dca ON dca.deal_campaign_id = deal_campaigns.id
+                            WHERE deal_campaigns.deleted_at IS NULL) AS dca
+                            "), 
+                function ($join) {
+                $join->on('dca.agent_id', '=', 'users.id');
+            })
+
             ->leftJoin('leads AS ld', 'ld.agent_id', 'users.id')
             ->leftJoin(\DB::raw("
             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at

@@ -91,7 +91,6 @@ class CampaignController extends Controller
     {
         $campaign = $request->user()->getCompanyBy($company)->getDealBy($deal)->getCampaignBy($id);
         $campaign->updateCampaign($request);
-    
         return $campaign;
     }
     

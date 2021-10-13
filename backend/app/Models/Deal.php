@@ -98,27 +98,25 @@ class Deal extends Model
                           "), function ($join) {
             $join->on('leadNotes_c.lead_id', '=', 'leads.id');})
 
-            ->leftJoin('agency_companies as ac', 'ac.id', 'deal_campaigns.agency_company_id');
+            ->leftJoin('agency_companies as ac', 'ac.id', 'deal_campaigns.agency_company_id')
+            ->leftJoin('deal_campaign_agents as dca', 'dca.deal_campaign_id', 'deal_campaigns.id');
 
         $query->selectRaw('
             deal_campaigns.*,
             ac.company_id,
-
             COUNT(all_c.id) as leads_count_all,
             COUNT(missed_c.id) leads_count_m,
             COUNT(contacted_c.id) leads_count_c,
-
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes_c.created_at, leads.created_at)))) AS avg_time_response,
             ROUND(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes_c.created_at, leads.created_at)))/60, 0) AS avg_min_response
         ');
         $query->groupBy('deal_campaigns.id');
         
+        $query->whereRaw('deal_campaigns.deleted_at IS NULL');
         if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == true) {
-            $query->withTrashed();
-            $query->whereRaw('deal_campaigns.deleted_at IS NULL');            
+            $query->whereRaw('dca.id IS NULL');            
         }else{
-            $query->withTrashed();
-            $query->whereRaw('deal_campaigns.deleted_at IS NOT NULL');            
+            $query->whereRaw('dca.id IS NOT NULL');            
         }
 
         if ( isset($queryParams['name']) ) {

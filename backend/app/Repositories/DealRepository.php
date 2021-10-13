@@ -7,7 +7,7 @@ use App\Models\DealAction;
 
 trait DealRepository {
     public function getCampaignBy($id) {
-        return $this->campaigns()->where('id', $id)->firstOrFail();
+        return $this->campaigns()->where('id', $id)->first();
     }
 
     public function getActionsBy($dealId) {

@@ -9,7 +9,6 @@ export const fetchCampaigns = () => async (dispatch, getState) => {
     await dispatch(showLoader());
     const { pagination, companyId, dealId, agentId, query } = getState().campaigns;
     let response;
-    console.log("pagenation: ", pagination);
     if (Auth.isAgency && companyId && dealId) {
       response = await fetchAgencyDealCampaigns(companyId, dealId, {
         current_page: pagination.current_page,

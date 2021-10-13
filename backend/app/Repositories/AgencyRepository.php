@@ -7,13 +7,13 @@ trait AgencyRepository {
 
     public function getCompanyBy($id, $withTrashed = false) {
         if ($withTrashed) {
-            return $this->companies()->where('company_id', $id)->withTrashed()->firstOrFail();
+            return $this->companies()->where('company_id', $id)->withTrashed()->first();
         }
-        return $this->companies()->where('company_id', $id)->firstOrFail();
+        return $this->companies()->where('company_id', $id)->first();
     }
 
     public function getAgent($id) {
-        return $this->agents()->withTrashed()->where('id', $id)->firstOrFail();
+        return $this->agents()->withTrashed()->where('id', $id)->first();
     }
 
     public function createAgency($data) {

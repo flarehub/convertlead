@@ -86,10 +86,6 @@ trait AgentRepository
     {
         $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
         $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
-
-
-
-
         $query = Lead::selectRaw(
             "SUBSTRING_INDEX(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at)))), '.', 1) AS avg_response")
             ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
