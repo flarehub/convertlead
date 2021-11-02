@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
   agents: state.agents.agents,
   agent: state.agents.agent,
   agentCompaniesIds: agentCompaniesIds(state),
-  selectBoxAgentCompanies: selectBoxCompanies(state),
+  selectBoxAgentCompanies: selectBoxCompanies(state), 
   selectBoxAgents: selectBoxAgents(state),
   selectBoxDates: state.agents.selectBoxDates,
   pagination: state.agents.pagination,
@@ -33,6 +33,7 @@ const mapDispatchToProps = dispatch => ({
   openModal: open => dispatch(actions.openAgentModal(open)),
   toggleAgentsShowDeleted: open => dispatch(thunks.toggleAgentsShowDeleted(open)),
   loadSelectBoxAgents: filters => dispatch(thunks.loadSelectBoxAgents(filters)),
+  loadSelectBoxCompanies: (search, agentId = null) => dispatch(thunks.loadSelectBoxCompanies(search, agentId)),
   getAgentGraph: (graphContext, agentId, filters) => dispatch(thunks.getAgentGraph(graphContext, agentId, filters)),
   getAgentGraphPie: (graphContext, agentId, filters) => dispatch(thunks.getAgentGraphPie(graphContext, agentId, filters)),
 });

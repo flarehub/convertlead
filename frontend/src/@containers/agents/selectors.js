@@ -18,17 +18,15 @@ export const selectBoxAgents = createSelector(
     text: agent.name,
     image: { avatar: true, src: agent.avatar_path },
   })),
-);
+); 
 
 export const selectBoxCompanies = createSelector(
-  state => state.agents.agent,
-  agent => {
-    return (agent.companies && agent.companies.map(company => ({
-      key: company.id,
-      value: company.id,
-      text: company.name,
-    }))) || []
-  },
+  state => state.companies.selectBoxCompanies,
+  selectBoxCompanies => selectBoxCompanies.map(company => ({
+    key: company.id,
+    value: company.id,
+    text: company.name,
+  })),
 );
 
 

@@ -376,36 +376,49 @@ class Campaigns extends Component {
                                     unsubscribe={this.props.unsubscribeCampaignToFbIntegration}
           />
           <ModalOptinFormIntegration/>
+
           <CampaignModal
             companyId={this.state.companyId}
             dealId={this.state.dealId}
             agentId={this.state.agentId}/>
-          <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
+
+          <Confirm open={this.state.open} 
+                   onCancel={this.openConfirmModal.bind(this, false)}
                    onConfirm={this.onConfirm}/>
+
             <div className="top note">
                 When you change a campaign's company, your integrations will stop running until you assign them a new agent. <a className="item" href="https://convertlead.com/docs-home/" target="_blank">Learn more</a>
             </div>
+
             <Grid columns={2}>
             <Grid.Column>
                 <Header floated='left' as='h1'>Integrations</Header>
                 <br />
                 <span className="subhead company">{company_name}</span>
             </Grid.Column>
+
             <Grid.Column>
               <Menu secondary>
                 <Menu.Menu position='right'>
                   <Link to={`/deals/${dealId}/automations`} >
                     <Button color='teal' content='Automations' labelPosition='left'/>
                   </Link>
-                  <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, {
+                  <Button 
+                    color='teal' 
+                    className="new-campaign" 
+                    onClick={this.props.loadForm.bind(this, {
                     agentId: this.state.agentId,
-                    show: true})} content='New Company'><i className="flaticon stroke plus-1  icon"></i></Button>                            
+                    show: true})} content='New Company'>
+                    <i className="flaticon stroke plus-1  icon"></i>
+                  </Button>                            
                 </Menu.Menu>
               </Menu>
             </Grid.Column>
           </Grid>
         </Segment>
+
         <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
+
         <Segment basic>
             <Loader/>
             <Table>
@@ -446,10 +459,10 @@ class Campaigns extends Component {
                 {       
                   campaigns.length != 0 && campaigns.map((campaign, index) => (
                     // console.log("campaigns"+index, campaign.agents.length),
-                    lead_statics.total_leads = lead_statics.total_leads + campaign.leads_count_all,
+                    lead_statics.total_leads      = lead_statics.total_leads + campaign.leads_count_all,
                     lead_statics.conversion_leads = lead_statics.conversion_leads + campaign.leads_count_s,
-                    lead_statics.contacted_leads = lead_statics.contacted_leads + campaign.leads_count_c,
-                    lead_statics.missed_leads = lead_statics.missed_leads + campaign.leads_count_m,
+                    lead_statics.contacted_leads  = lead_statics.contacted_leads + campaign.leads_count_c,
+                    lead_statics.missed_leads     = lead_statics.missed_leads + campaign.leads_count_m,
                     
                     <Table.Row key={index} onClick = {this.onOpenCampaigns}>
                       <Table.Cell>
@@ -517,30 +530,31 @@ class Campaigns extends Component {
                       </Table.Cell>
 
                       <Table.Cell> 
-                        {campaign.agents.length != 0 && (<div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>)}
+                        {
+                            campaign.agents.length != 0 && (
+                                <div className='table-head blue' style={{width: '87px'}}>ASSIGNED TO</div>
+                            )
+                        }
                         <div className="assignedName">
                         {
-                          campaign.agents.length != 0 && 
-                          campaign.agents.map((agent, key) =>
+                            campaign.agents.length != 0 && 
+                            campaign.agents.map(
+                              (agent, key) =>
 
-                            <div key={key}>
-                               
-                              <div className="table-cell-value">
-                                {agent.name !='' 
-                                  && (<Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>)  
-                                } ,   
-                              </div>
-                            </div>
-                          )
-                          ||
-                          (
-                            
-                              <div className="table-cell-value">
-                                  <span className="NoAgentName"> NO AGENT ASSIGNED </span>  
-                              </div>
-                            
-                          )
-                          
+                                <div key={key}>
+                                    <div className="table-cell-value">
+                                    {   
+                                        agent.name !='' && (
+                                            <Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>
+                                        )  
+                                    } ,   
+                                    </div>
+                                </div>
+                            ) || (
+                                <div className="table-cell-value">
+                                    <span className="NoAgentName"> NO AGENT ASSIGNED </span>  
+                                </div>
+                            )
                         } 
                         </div>                       
                       </Table.Cell>

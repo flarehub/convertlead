@@ -64,9 +64,9 @@ class Agents extends Component {
             companyId
         });
 
-        if (Auth.isAgency) {
+        if ( Auth.isAgency ) { 
             this.props.loadSelectBoxCompanies('');
-        }
+        } 
 
         this.setState({
             companyId: companyId
@@ -87,15 +87,14 @@ class Agents extends Component {
         this.props.filterAgents({
             companyId: data.value
         });
-      };
+    };
 
     onClickViewAgentProfile = (agent) => {
         document.getElementsByClassName('Leads')[0].className = 'Leads sidebarOpened';
         this.setState({
             agent,
         });
-    
-      }
+    }
 
     getSort = field => {
         const fieldStatus = R.path(['query', 'sort', field], this.props);
@@ -143,16 +142,16 @@ class Agents extends Component {
 
     openConfirmModal = (open = true, agentId = null) => {
         this.setState({open, agentId});
-      };
+    };
     
-      onConfirm = () => {
-          this.setState({open: false});
-          this.props.delete(this.state.agentId);
-      };
-    
-      onRestore = (agentId) => {
-          this.props.restore(agentId);
-      };
+    onConfirm = () => {
+        this.setState({open: false});
+        this.props.delete(this.state.agentId);
+    };
+
+    onRestore = (agentId) => {
+        this.props.restore(agentId);
+    };
 
     exportTo = (type) => {
         this.props.exportTo({
@@ -166,6 +165,19 @@ class Agents extends Component {
           endDate: this.props.query.filters.endDate,
         });
     };
+
+    /**
+     * Set Companies of selected agent.
+     */
+     onSetCompaniesOfAgent = (companies) =>{  
+        return companies.map((company) => {
+            return {
+                key: company.id,
+                value: company.id,
+                text: company.name
+            }
+        }); 
+    }
 
     render() {
         const agents = this.props.agents || [];
@@ -181,7 +193,8 @@ class Agents extends Component {
               menuItem: 'Archived',
               render: () => <></>
             }
-        ];    
+        ]; 
+
         const sorByFiled = [
             {
               key: 'name.desc',
@@ -193,7 +206,8 @@ class Agents extends Component {
               value: 'name',
               text: 'Name Ascending',
             }
-        ]        
+        ];   
+
         return (
             <div className='Leads'>
                 <div className="leads-container">
@@ -226,40 +240,43 @@ class Agents extends Component {
                             {
                                 Auth.isAgency
                                 ? 
-                                <Form.Field
-                                control={Select}
-                                options={[...companies, ...this.props.selectBoxCompanies]}
-                                placeholder='All companies'
-                                search
-                                onChange={this.onChangeCompany}
-                                defaultValue={companyId || null}
-                                searchInput={{id: 'form-companies-list'}}/>                                        
+                                    <Form.Field
+                                    control={Select}
+                                    options={[...companies, ...this.props.selectBoxCompanies]}
+                                    placeholder='All companies'
+                                    search
+                                    onChange={this.onChangeCompany}
+                                    defaultValue={companyId || null}
+                                    searchInput={{id: 'form-companies-list'}}/>                                        
                                 : null
                             }                                                                                         
                             </Form.Group>
                             {/* <div className="campaign-sort"> */}
-                            {/* </div>                               */}
+                            {/* </div>*/}
                         </Form>
-                        {/* <Form>
-                            <Form.Group>
-                                <div className="campaign-sort">
-                                <Form.Field
-                                    control={Select}
-                                    options={sorByFiled}
-                                    label={{children: 'Sort by', htmlFor: 'campaign-sort-by'}}
-                                    placeholder='Sort by '
-                                    search
-                                    onChange={this.sortBy}
-                                    // defaultValue={this.props.filters.sortBy}
-                                    onSearchChange={this.sortBy}
-                                    searchInput={{id: 'campaign-sort-by'}}
+                        {
+                            /* <Form>
+                                <Form.Group>
+                                    <div className="campaign-sort">
+                                    <Form.Field
+                                        control={Select}
+                                        options={sorByFiled}
+                                        label={{children: 'Sort by', htmlFor: 'campaign-sort-by'}}
+                                        placeholder='Sort by '
+                                        search
+                                        onChange={this.sortBy}
+                                        // defaultValue={this.props.filters.sortBy}
+                                        onSearchChange={this.sortBy}
+                                        searchInput={{id: 'campaign-sort-by'}}
+                                    /> 
                                 /> 
-                                </div>
-                            </Form.Group>
-                        </Form> */}
+                                    /> 
+                                    </div>
+                                </Form.Group>
+                            </Form> */
+                        }
                         </div>
-                          
-
+                        
                         <div className='exportbox'>Export your data
                             <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
                             <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
@@ -267,29 +284,28 @@ class Agents extends Component {
                     </div>                    
                         <Loader/>
                         {
-                            agents.map((agent, index) => (
-                                console.log("agent", agent),
+                            agents.map((agent, index) => ( 
                                 <div data-id={agent.id} className="agentContainer" >
                                     <div className="agentMenu">
                                         <div className="bullets">...</div>
                                         {
-                                            !agent.deleted_at && (
-                                                <ButtonGroup>
-                                                    <Button style={{width: '90px'}} onClick={this.props.loadForm.bind(this, {
-                                                        ...agent,
-                                                        show: true
-                                                    })}>Edit</Button>
+                                            <ButtonGroup>
+                                                    
+                                                    <Button 
+                                                        id={agent.agent_agency_id} 
+                                                        style={{width: '90px'}} 
+                                                        onClick={this.props.loadForm.bind(this, {...agent, show: true})}>
+                                                        Edit
+                                                    </Button>
+                                            {
+                                                !agent.deleted_at && (
                                                     <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
-                                                </ButtonGroup>
-                                            ) || (
-                                                <ButtonGroup>
-                                                    <Button style={{width: '90px'}} onClick={this.props.loadForm.bind(this, {
-                                                        ...agent,
-                                                        show: true
-                                                    })}>Edit</Button>
+                                                ) || (
                                                     <Button onClick={() => this.onRestore(agent.id)}>Restore</Button>
-                                                </ButtonGroup>
-                                            )
+                                                ) 
+                                            } 
+
+                                            </ButtonGroup>
                                         }
                                     </div>
                                     <div className="agentDetails" onClick={() => this.onClickViewAgentProfile(agent)}>
@@ -299,14 +315,14 @@ class Agents extends Component {
                                                     {agent.leads_count}
                                                 </span>
                                                 {
-                                                    agent.companies.length != 0 && (
+                                                    agent.campaigns_count != 0 && (
                                                         <span className="legendName-blue">Leads</span>
                                                     ) || (
                                                         <span className="legendName-red">Leads</span>
                                                     )
                                                 }
                                                 {   
-                                                    agent.companies.length != 0 && (
+                                                    agent.campaigns_count != 0 && (
                                                         <div className="circular icon-image-blue" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
                                                     ) || (
                                                         <div className="circular icon-image-red" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
@@ -329,7 +345,7 @@ class Agents extends Component {
                                         </div>
                                         <div className="campaignStatus">
                                             {
-                                                agent.companies.length != 0 && (
+                                                agent.campaigns_count != 0 && (
                                                     <button className="ui teal button active-btn" >Active</button>
                                                 ) || (
                                                     <button className="ui teal button inactive-btn" >Inactive</button>
@@ -353,7 +369,7 @@ class Agents extends Component {
                     </Segment>
                     <AgentModal/>
                         {
-                            agent.id && <AgentProfile s_agent={agent} agentId={agent.id} onClose={() => this.setState({agent: {}})} />
+                            agent.id && <AgentProfile s_agent={agent} agentId={agent.id} companiesOfAgent={this.onSetCompaniesOfAgent(agent.companies)} onClose={() => this.setState({agent: {}})} />
                         }                       
                 </div>                
             </div>)

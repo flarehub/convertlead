@@ -5,7 +5,7 @@ import {addBreadCrumb} from "../breadcrumb/actions";
 import {api, Auth} from "@services";
 import {
   fetchAgencyCompanies, agencyLockCompany, fetchAgencyCompany, fetchAgencyCompanyGraph,
-  fetchCompanyGraph, fetchTimezones, fetchAgencyCompanyLeadStats
+  fetchCompanyGraph, fetchTimezones, fetchAgencyCompanyLeadStats, fetchAgencyCompaniesOfAgent
 } from "./api";
 
 export const deleteCompany = id => async dispatch => {

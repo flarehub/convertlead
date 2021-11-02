@@ -12,6 +12,7 @@ export const LOAD_SELECTBOX_AGENTS = 'LOAD_SELECTBOX_AGENTS';
 export const LOAD_AGENT_LEADS_GRAPH = 'LOAD_AGENT_LEADS_GRAPH';
 export const LOAD_AGENT_LEADS_GRAPH_PIE = 'LOAD_AGENT_LEADS_GRAPH_PIE';
 export const LOAD_AGENT_DATA = 'LOAD_AGENT_DATA';
+export const ADD_SELECT_BOX_COMPANIES = 'ADD_SELECT_BOX_COMPANIES';
 
 export const addAgents = (agents, pagination) => ({
   type: ADD_AGENTS,
@@ -81,4 +82,9 @@ export const loadAgentLeadsGraph = graphData => ({
 export const loadAgentLeadsGraphPie = graphData => ({
   type: LOAD_AGENT_LEADS_GRAPH_PIE,
   graphData,
+});
+
+export const addSelectBoxCompanies = companies => ({
+  type: ADD_SELECT_BOX_COMPANIES,
+  companies,
 });
