@@ -33,6 +33,7 @@ const companies = [
 ];
 
 class Agents extends Component {
+
     state = {
         open: false,
         agentId: null,
@@ -71,16 +72,15 @@ class Agents extends Component {
         this.setState({
             companyId: companyId
         })
-        this.props.loadAgents();
 
-    }
-
-    componentWillReceiveProps () {
-        // console.log("agentPage props", this.props.agentProfile)
-        // this.setState({
-        //     agent: this.props.agentProfile
-        // })
-        // document.getElementsByClassName('Leads')[0].className = 'Leads sidebarOpened';
+        /**
+         * @func: Load Agents Data
+         */
+        if (this.props.query.showDeleted) {
+            this.props.toggleAgentsShowDeleted();
+        } else {
+            this.props.loadAgents();
+        }
     }
 
     onChangeCompany = (event, data) => {
@@ -116,6 +116,7 @@ class Agents extends Component {
     };
 
     onShowArch = (e, tab) => {
+        console.log("------------active index-----------", this.state.activeIndex);
         if (tab.activeIndex === this.state.activeIndex) {
           return;
         }
@@ -310,22 +311,21 @@ class Agents extends Component {
                                     </div>
                                     <div className="agentDetails" onClick={() => this.onClickViewAgentProfile(agent)}>
                                         <div className="agentAvatar">
-                                            <div className="legend">
-                                                <span className="legendCount">
-                                                    {agent.leads_count}
-                                                </span>
+                                            <div className="legend">  
                                                 {
-                                                    agent.campaigns_count != 0 && (
+                                                    
+                                                    (this.state.activeIndex == 0 && agent.campaigns_count != 0) && (
+                                                        <>
+                                                        <span className="legendCount">{agent.leads_count}</span>
                                                         <span className="legendName-blue">Leads</span>
-                                                    ) || (
-                                                        <span className="legendName-red">Leads</span>
-                                                    )
-                                                }
-                                                {   
-                                                    agent.campaigns_count != 0 && (
                                                         <div className="circular icon-image-blue" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
+                                                        </>
                                                     ) || (
+                                                        <>
+                                                        <span className="legendCount">0</span>
+                                                        <span className="legendName-red">Leads</span>
                                                         <div className="circular icon-image-red" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
+                                                        </>
                                                     )
                                                 }
                                             </div>
@@ -337,15 +337,14 @@ class Agents extends Component {
                                         <div className="integrationCount">
                                             <span>
                                                 {/* {agent.integration_count || 0} */}
-                                                {agent.campaigns_count || 0}
-                                                
+                                                { (this.state.activeIndex == 0 && agent.campaigns_count != 0) ? agent.campaigns_count : 0 }
                                                 &nbsp;
                                                 Integrations
                                             </span>
                                         </div>
                                         <div className="campaignStatus">
                                             {
-                                                agent.campaigns_count != 0 && (
+                                                (this.state.activeIndex == 0 && agent.campaigns_count != 0) && (
                                                     <button className="ui teal button active-btn" >Active</button>
                                                 ) || (
                                                     <button className="ui teal button inactive-btn" >Inactive</button>
@@ -357,7 +356,7 @@ class Agents extends Component {
                                                 <div className="campaignNames">
                                                     <span>assigned to</span>
                                                     {
-                                                        agent.companies && agent.companies.map(({name}) => <div className="campaignName">{name}</div>)
+                                                        agent.companies && (this.state.activeIndex == 0 && agent.campaigns_count != 0) && agent.companies.map(({name}) => <div className="campaignName">{name}</div>)
                                                     }
                                                 </div>
                                             )
@@ -369,7 +368,12 @@ class Agents extends Component {
                     </Segment>
                     <AgentModal/>
                         {
-                            agent.id && <AgentProfile s_agent={agent} agentId={agent.id} companiesOfAgent={this.onSetCompaniesOfAgent(agent.companies)} onClose={() => this.setState({agent: {}})} />
+                            agent.id && 
+                            <AgentProfile 
+                                s_agent={agent} 
+                                agentId={agent.id} 
+                                companiesOfAgent={this.onSetCompaniesOfAgent(agent.companies)} 
+                                onClose={() => this.setState({agent: {}})} />
                         }                       
                 </div>                
             </div>)
