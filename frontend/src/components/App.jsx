@@ -13,6 +13,7 @@ import './static/stroke.css';
 import './static/averta.css';
 import './static/style.css';
 import './static/my.custom.css';
+import './static/tabler-icons.css';
 
 const App = () => (
   <div className="App">

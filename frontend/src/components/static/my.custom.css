@@ -213,7 +213,7 @@ i.icon.sidebar:before {
     height: 95px;
     padding: 28px 95px !important;
     background: #fff;
-    box-shadow:0 1px 2px rgb(225, 225, 240,0.9) !important;
+    box-shadow:0 1px 0 rgb(225, 225, 240,0.9);
 
 }
 
@@ -555,9 +555,11 @@ i.icon.sidebar:before {
 }
 
 
-.vertical > a:nth-child(2) > div:nth-child(1) {
+.AppSidebar.menu a:nth-child(3) > div i {
 
-    border-right:3px solid #005ff8 !important;
+    color: #fff !important;
+	background: #48475A !important;
+	border: 1px solid #525263 !important;
 }
 
 .Dashboard .ui.cards .ui.card:hover {
@@ -794,7 +796,6 @@ color: #005ff8;
 .ui.icon.menu a .item, .sidebar-bootom a {
     text-align: center;
     color: #637282;
-    height: 80px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -804,9 +805,12 @@ color: #005ff8;
     font-size: 12px;
     font-weight: 800;
     margin-top: 2px;
+	border:none ;
+	padding:0 !important;
 }
 
 .ui.icon.menu a .item div {
+	display:none;
     font-weight: 700;
     font-family: 'Averta', sans-serif;
     font-size: 11px;
@@ -816,13 +820,11 @@ color: #005ff8;
 
 }
 
-.ui.icon.menu a:hover .item {
-    background: #f2f6f7;
-}
 
 
-.ui.icon.menu a:hover .item i:before, .ui.icon.menu a:hover .item {
-    color: #005ff8;
+
+.ui.icon.menu a:hover .item i {
+    color: #fff;
 }
 
 .item.app-logo {
@@ -834,31 +836,51 @@ color: #005ff8;
     margin-top: 20px;
 }
 
-.item.app-logo img {
-    margin: 0 auto;
-    width:43px;
+.item.app-logo span {
+   font-size:35px;
+   color:#fff;
 }
 
 .ui.icon.left.AppSidebar.menu {
     width: 120px;
-    background:#fff;
+    background:#313040;
     border: none;
     display: flex;
     flex-direction: column;
     height: 100% !important;
     flex-wrap: wrap;
-   box-shadow:1px 0 2px rgba(225, 225, 240, 0.9) !important
+   box-shadow:1px 0 0 3px rgba(187, 187, 187, 0.26) !important;
 }
 
+.AppSidebar.menu .sidebar-title {
+	color:#4D77FF;
+	font-weight:500;
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:'Averta',sans-serif;
+	margin:30px auto;
+}
+
+
+
 .ui.icon.menu .item i:before {
-    color: #84819e;
+
 }
 
 .ui.icon.menu .item i {
 
-    font-size: 21px;
-    margin-bottom: 13px !important;
-    color: #84819e;
+    font-size: 25px;
+	color: #9696AB;
+	width: 45px;
+	height: 45px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	border-radius: 10px;
+	border: none;
+	background: transparent;
+	margin: 5px auto;
 }
 
 .ui.active.selection.dropdown {
@@ -982,17 +1004,14 @@ input:focus {
 .sidebar-bootom {
 
     width: 100%;
-    margin-top: auto;
-    margin-bottom: 20px;
+    
 }
 
-.sidebar-bootom a .icon-support {
-    font-size:18px;
+.sidebar-bootom a .ti-brand-hipchat {
+    font-size:25px;
+	color:#9696AB;
 }
 
-.sidebar-bootom a:hover i:before{
-    color:#005ff8!important;
-}
 
 .sidebar-bootom a:hover {
     background:transparent !important;
@@ -1150,13 +1169,19 @@ input:focus {
 
 
 
-.ui.table tr td:last-child {
+.ui.table tr:last-child td:last-child {
 
-    border-radius:0!important;
+    border-radius:0 0 .58571429rem 0;
     max-width: 250px;
     width:100px !important;
 
 }
+
+.ui.table tr:last-child td:first-child {
+	border-radius:0  0 0 .58571429rem;
+}
+
+
 
 .ui.table tr td:last-child a {
 

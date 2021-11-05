@@ -30,8 +30,9 @@ class AppSidebar extends Component {
         return (
             <Menu className='AppSidebar' fixed='left' vertical={true} icon={true}>
                 <Menu.Item className='app-logo' onClick={this.onItemClick}>
-                    <Image src={logo}/>
+                     <span className='ti ti-copyright logo'/>
                 </Menu.Item>
+				<p className='sidebar-title'>Menu</p>
                 {
                     visibleMenus.map((menu, i) => (
                         <Link to={menu.path} key={i} onClick={this.onItemClick}>
@@ -42,12 +43,14 @@ class AppSidebar extends Component {
                         </Link>
                     ))
                 }
+				
                 <div className='sidebar-bootom'>
+				<p className='sidebar-title'>Links</p>
                     <a href='http://support.convertlead.com' target='_blank' onClick={this.onItemClick}>
-                        <i className='icon-support'/>
+                        <i className='ti ti-brand-hipchat'/>
                     </a>
                     <Menu.Item onClick={this.logout}>
-                        <i className='icon-logoff'/>
+                        <i className='ti ti-power'/>
                     </Menu.Item>
                     <Link to='/profile' onClick={this.onItemClick}>
                         <AvatarImage src={profile.avatar_path} sidebar-avatar rounded size='tiny'/>

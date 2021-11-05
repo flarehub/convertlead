@@ -8,9 +8,9 @@ import { GET_USER_MENU } from './actions';
 const initialState = {
   sideBarMenu: [
     {
-      icon: 'flaticon stroke grid-2',
+      icon: 'ti ti-layout-cards',
       name: 'Campaigns',
-      path: '/dashboard',
+	  path: '/dashboard',
       component: Dashboard,
       role: ['agency', 'company', 'agent'],
     },
@@ -22,35 +22,35 @@ const initialState = {
       role: ['admin'],
     },
     {
-      icon: 'flaticon stroke shop-2',
+      icon: 'ti ti-folders',
       name: 'Companies',
       path: '/companies',
       component: Companies,
       role: ['agency'],
     },
     {
-      icon: 'flaticon stroke contacts-1',
+      icon: 'ti ti-box-multiple',
       name: 'Leads',
       path: '/leads',
       component: Leads,
       role: ['agency', 'company'],
     },
     {
-      icon: 'flaticon stroke contacts-1',
+      icon: 'ti ti-box-multiple',
       name: 'Leads',
       path: '/companies/leads/all',
       component: Leads,
       role: ['agent'],
     },
     {
-      icon: 'flaticon stroke suitcase-1',
+      icon: 'ti ti-user',
       name: 'Agents',
       path: '/agents',
       component: Agents,
       role: ['agency', 'company'],
     },
     {
-      icon: 'flaticon stroke activity-1',
+      icon: 'ti ti-report-analytics',
       name: 'Stats',
       path: '/stats',
       component: Agents,

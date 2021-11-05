@@ -7,22 +7,21 @@
     }
   
     .sidebarOpened {
-        width: calc(100% - 400px);
+        width: calc(100% - 350px);
     } 
         
     .lead-notes-profile-container{  
         z-index: 19999;    
         position: absolute;
-        top: 97px;
+        top: 96px;
         right: 0;
-        width: 400px;
-        height: auto;
+        width: 350px;
         background: white;
         height: 100%;
         border-radius: 0px;
         overflow: auto;
         // border-left: 1px solid #e1e1f0;
-        box-shadow: 0 1px 2px #e1e1f0 !important;
+        box-shadow: -1px 0 0 rgba(225, 225, 240,0.9) !important;
   
         .ui.segment {
             padding: 0px;
@@ -54,25 +53,35 @@
                     border-radius: 50%; 
                     color: #FFFFFF; 
                     text-align: center; 
-                    font-size: 40px;
+                    font-size: 25px;
                     padding: 35px 20px;
                     width: 90px;
                     height: 90px;  
                     margin-bottom: 10px;     
                     position: relative;
-                    border: 1px solid #ddd;
+                    border: none;
+					font-family:'Averta',sans-serif;
                 } 
+				
+				.freshAppTimeLine ul .timeline-record {
+				min-width:unset !important;
+				
+				}
+				.freshAppTimeLine ul .timeline-record .timeline-text {
+				font-weight:400;
+				color:#666382;
+				}
 
                 .ui.label{
                     border-radius: 50%;
                 }
 
                 .l-full-name{
-                    margin-bottom: 10px;
-                    font-size: 16px;
+                    margin-bottom: 5px;
+                    font-size: 17px;
                     color: #3c3a4e;
                     font-family: 'Averta', sans-serif;
-                    font-weight: bold;
+                    font-weight: 500;
                 }
 
                 .l-email{
@@ -87,8 +96,7 @@
             .lead-n-p-row-top{ 
                 justify-content:space-between;  
                 border-bottom: 1px solid #e1e1f0;
-                margin-top: 45px;
-                padding-bottom: 45px;
+                padding:35px;
                 flex-direction: row;
                 margin-bottom: 50px;
                 display: flex;
@@ -96,7 +104,7 @@
   
                 .title{
                     color: #3c3a4e;
-                    font-size: 16px;
+                    font-size: 17px;
                     font-weight: 500;
                 }
                 .link-profile{
@@ -107,7 +115,8 @@
 
                     a {
                         color: #fff;
-                        font-size: 16px;
+                        font-size: 1rem;
+						font-weight:500;
                     }
                 }
 
