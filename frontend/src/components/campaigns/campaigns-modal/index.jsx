@@ -28,7 +28,6 @@ class CompaignsModal extends Component {
     }
 
     componentDidMount() {     
-        console.log("this.props.lead_statics", this.props.lead_statics);   
         // this.props.getCompanyLeadStats(
         //     this.props.companyObject.id,
         //     this.state.startDate,

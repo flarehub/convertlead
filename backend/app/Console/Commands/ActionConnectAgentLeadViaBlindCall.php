@@ -59,8 +59,8 @@ class ActionConnectAgentLeadViaBlindCall extends Command
 
             $callLead = action([TwilioController::class, 'conference'], [
                 'companyId' => $lead->company['id'],
-                'agentId' => $lead->agent_id,
-                'leadId' => $lead->id
+                'agentId'   => $lead->agent_id,
+                'leadId'    => $lead->id
             ]);
             $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
 

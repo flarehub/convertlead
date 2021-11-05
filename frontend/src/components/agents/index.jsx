@@ -47,8 +47,7 @@ class Agents extends Component {
     };
 
     async componentWillMount() {
-
-        // console.log(this.props.agentId, ", ", this.props.match.params.agentId);
+        
         // if (this.props.agentId != undefined) {
         //     await this.props.getAgent(this.props.agentId, true);
         // }
@@ -115,8 +114,7 @@ class Agents extends Component {
         this.props.search(data.value);
     };
 
-    onShowArch = (e, tab) => {
-        console.log("------------active index-----------", this.state.activeIndex);
+    onShowArch = (e, tab) => { 
         if (tab.activeIndex === this.state.activeIndex) {
           return;
         }

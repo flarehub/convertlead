@@ -53,7 +53,7 @@ class LeadNote extends Model
             $request->merge([
                 'agent_id' => $request->user()->id,
                 'lead_status_id' => $leadStatus->id,
-                'lead_id' => $lead->id,
+                'lead_id' => $lead->id
             ]);
     
             \Validator::validate($request->all(), [
@@ -65,6 +65,7 @@ class LeadNote extends Model
             ]);
         
             $lead->lead_status_id = $leadStatus->id;
+            
             $lead->save();
         
             $leadNote = new LeadNote();
@@ -74,7 +75,8 @@ class LeadNote extends Model
                 'lead_id',
                 'message',
             ]));
-            $leadNote->save();
+            $leadNote->is_status_event = 1;
+            $leadNote->save(); 
             \DB::commit();
 
             return $leadNote;

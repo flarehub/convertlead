@@ -231,7 +231,6 @@ class AgentProfile extends Component {
 
     render() {
         
-        // console.log("agent profile state: ", this.state.agentProfile)
         const { data } = this.props.pieGraphContactedLeadsAverage.data.datasets[0];
         const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
         const { avg_response_time } = this.props.pieGraphContactedLeadsAverage.data;

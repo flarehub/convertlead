@@ -1,53 +1,145 @@
 .Leads {
-  display: flex;
-  flex-direction: row;
-  .leads-container {
-    flex: 1;
-  }
-}
+    display: flex;
+    flex-direction: row;
+  
+    .leads-container {
+        flex: 1;
+    }
+  
+    .sidebarOpened {
+        width: calc(100% - 400px);
+    } 
+        
+    .lead-notes-profile-container{  
+        z-index: 19999;    
+        position: absolute;
+        top: 97px;
+        right: 0;
+        width: 400px;
+        height: auto;
+        background: white;
+        height: 100%;
+        border-radius: 0px;
+        overflow: auto;
+        // border-left: 1px solid #e1e1f0;
+        box-shadow: 0 1px 2px #e1e1f0 !important;
+  
+        .ui.segment {
+            padding: 0px;
+            border: none;
+            margin: 0px;
+        }
+  
+        .lead-n-p-content{ 
+            
+            display: flex;
+            flex-direction: column; 
+            padding: 0px;
 
-.LeadNotesPreview {
-  .endCall {
-    color: white !important;
-    background: crimson !important;
-  }
+            .align-center{
+                align-items: center;
+            }
 
-  .onCall {
-    color: white !important;
-    background: #0ea432 !important;
-  }
+            .align-stretch{
+                align-items: stretch;
+            }
+  
+            .lead-n-p-row{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 0px 45px;
+  
+                .circle-label{ 
+                    border-radius: 50%; 
+                    color: #FFFFFF; 
+                    text-align: center; 
+                    font-size: 40px;
+                    padding: 35px 20px;
+                    width: 90px;
+                    height: 90px;  
+                    margin-bottom: 10px;     
+                    position: relative;
+                    border: 1px solid #ddd;
+                } 
 
-  position: relative;
-  top: 0;
-  right: 0;
-  z-index: 19999;
-  height: 100vh;
+                .ui.label{
+                    border-radius: 50%;
+                }
 
-  .lead-profile {
-    .lead-profile-row {
-      padding: 5px;
+                .l-full-name{
+                    margin-bottom: 10px;
+                    font-size: 16px;
+                    color: #3c3a4e;
+                    font-family: 'Averta', sans-serif;
+                    font-weight: bold;
+                }
 
-      .lead-profile-label {
-        width: 40%;
-        display: inline-flex;
-        text-align: left;
-        color: gray;
-      }
+                .l-email{
+                    margin-bottom: 10px;
+                    font-size: 15px;
+                    color: #b7bdd1;
+                    font-family: 'Averta', sans-serif;
+                    font-weight: 400;
+                } 
+            }
+  
+            .lead-n-p-row-top{ 
+                justify-content:space-between;  
+                border-bottom: 1px solid #e1e1f0;
+                margin-top: 45px;
+                padding-bottom: 45px;
+                flex-direction: row;
+                margin-bottom: 50px;
+                display: flex;
+                align-items: baseline;
+  
+                .title{
+                    color: #3c3a4e;
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+                .link-profile{
+                    background-color: #4d77ff; 
+                    box-shadow: 0 3px 8px #0058ff66 !important;
+                    padding: 15px 25px;
+                    border-radius: 8px;
 
-      .lead-profile-value {
-        width: 60%;
-        display: inline-flex;
-        text-align: left;
-      }
+                    a {
+                        color: #fff;
+                        font-size: 16px;
+                    }
+                }
 
-      p {
-        text-align: left;
-      }
+                .link-profile:hover{
+                    background-color: #4e3fdb;
+                    cursor: pointer;
+                }
+            }
+        } 
     }
   }
+
+.endCall {
+    color: white !important;
+    background: crimson !important;
 }
 
-.onClosePreview {
-  float: right;
-  cursor: pointer;
+.onCall {
+    color: white !important;
+    background: #0ea432 !important;
 }
+
+.email:hover {
+    border: 1px dash #3c3a4e;
+}
+
+.editlead:hover{
+    border: 1px dash #3c3a4e;
+}
+  
+  .freshAppContainer {
+    padding: 0px;
+  }
+  
+  

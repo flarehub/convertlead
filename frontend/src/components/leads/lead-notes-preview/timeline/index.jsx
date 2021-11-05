@@ -40,19 +40,12 @@ class TimeLine extends Component {
 
     render() {
         const {lead, notes, leadStatuses} = this.props;
+        
         return (
             <div className='freshAppTimeLine'>
                 <ul>
-                    <li className='timeline-record'>
-                        <div className='timeline-record-text-preview-preview'>
-                            <label>{lead.fullname}</label>
-                            <div className='timeline-current-status'>Current Status: <span
-                                className={`status timeline-color-${lead.status.charAt(0).toLowerCase()}`}>{LeadStatuses[lead.status].name || lead.status}</span>
-                            </div>
-                        </div>
-                    </li>
-                    {
-                        notes && notes.map((note, key) => <TimeLineRecord key={key} note={note}/>)
+                    { 
+                        notes && notes.map((note, key) => <TimeLineRecord key={key} note={note} agency_id={lead.agency_company_id}/>)
                     }
                 </ul>
                 {

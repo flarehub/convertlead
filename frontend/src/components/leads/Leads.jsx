@@ -263,11 +263,9 @@ class Leads extends React.Component {
             </Table.Header>
             <Table.Body>
               {
-                leads.map((lead, index) => (
-                  console.log("lead", lead),
-                  <Table.Row
-                    onClick={() => this.onLeadEnterDisplayNotes(lead)}
-                    key={index}>
+                leads.map((lead, index) => ( 
+
+                  <Table.Row onClick={() => this.onLeadEnterDisplayNotes(lead)} key={index}>
                     <Table.Cell>
                       <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
                         {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
@@ -276,7 +274,7 @@ class Leads extends React.Component {
                             <Label color='red' floating>
                               {lead.smsReplayCount}
                             </Label>
-                          )
+                          ) ||( '' )
                         }
                       </div>
                     </Table.Cell>

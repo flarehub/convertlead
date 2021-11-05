@@ -4,7 +4,9 @@ import { DATE_FORMAT } from '@constants';
 
 export const TimeLineRecord = ({ note }) => (
   <li className='timeline-record'>
-    <div className={`timeline-status timeline-bg-color-${note.status.type[0].toLowerCase()}`}/>
+    <div className={`timeline-status timeline-bg-color-${note.status.type[0].toLowerCase()}`}>
+      <span>{(note.status.name && note.status.name.charAt(0)) || note.status.name.charAt(0)}</span>
+    </div>
     <div className='timeline-vertical-line'/>
     <div className='timeline-record-text'>
       <label className='creation-date'>{moment.utc(note.created_at).local().format(DATE_FORMAT)}</label>

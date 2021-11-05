@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {compose} from 'recompose';
-import {Segment, Button, Grid, Icon} from 'semantic-ui-react';
+import {Segment, Button, Grid, Icon, Label} from 'semantic-ui-react';
 import { BreadCrumbContainer, LeadNotesContainer, LeadFormContainer, LeadsContainer } from "@containers";
 import TimeLine from "./timeline";
 import './index.scss';
@@ -66,69 +66,60 @@ class LeadNotes extends Component {
         const {lead, leadNotes, leadStatuses, twilioToken} = this.props;
         const { onPhone } = this.state;
         return (
-            <div className='LeadNotesPreview'>
-                <LeadModal size='small'/>
-                <Grid.Column width={6}>
-                    <Segment className='lead-profile'>
-                        <div className="leadprofile-top">Quick Preview <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                            <Button color="teal">Profile</Button>
-                        </Link>
-                        <div className="onClosePreview">
-                            <Icon className="flaticon stroke x-2" onClick={() => this.props.onClose()} />
-                        </div></div>
-                        <div className='lead-profile-row'>
-                            <div className='lead-profile-value fullname'>{lead.fullname}</div>
-
+            <div className='lead-notes-profile-container'>
+                <LeadModal size='small'/> 
+                    <Segment className='lead-n-p-content'>
+                        <div className="lead-n-p-row lead-n-p-row-top align-stretch">  
+                            {/* <div className="btnClose" onClick={() => this.props.onClose()}><i className="flaticon stroke x-2"></i></div> */} 
+                            <div className="title">Quick Preview</div> 
+                            <div className="link-profile">
+                                <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`} className="btn">
+                                    Profile
+                                </Link>
+                            </div>
+                              
+                        </div> 
+                        <div className='lead-n-p-row align-center'>
+                            <div className={`circle-label lead-status-${lead.status[0].toLowerCase()}`}>{lead.status[0]}
+                                {
+                                    lead.smsReplayCount && (
+                                        <Label color='red' floating>
+                                        {lead.smsReplayCount}
+                                        </Label>
+                                    ) || ( '' )
+                                }
+                            </div>
+                            <div className='l-full-name'>{lead.fullname}</div>
+                            <div className='l-email'>{lead.email}</div>
                             {
                                 !lead.deleted_at && (
-                                  <Grid.Column  style={{textAlign: 'center'}}>
-                                      <div className={'ui secondary menu leadnotes'}>
-                                          <Button circular className='email'
-                                                  icon='icon-email'   as='a' href={`mailto:${lead.email}`}/>
+                                    <Grid.Column className="circle-button-groups">
+                                        <div className={'ui secondary menu leadnotes'}>
+                                            <Button circular className='email'
+                                                    icon='icon-email'   as='a' href={`mailto:${lead.email}`}/>
+                                            {
+                                                twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='phone'  onClick={this.onCall} />
+                                            }
 
-                                          <Button circular className='editlead'
-                                                  icon='icon-pencil'  onClick={this.props.loadForm.bind(this, {
-                                              ...lead,
-                                              company_id: lead.company.id,
-                                              show: true
-                                          })}/>
-                                          {
-                                              twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='phone'  onClick={this.onCall} />
-                                          }
-                                      </div>
-                                  </Grid.Column>
+                                            <Button circular className={(onPhone ? 'editlead' : 'editlead')} icon='copy outline'  onClick={this.onCall} />
+{/*                                             
+                                            <Button circular className='editlead'
+                                                    icon='icon-pencil'  onClick={this.props.loadForm.bind(this, {
+                                                ...lead,
+                                                company_id: lead.company.id,
+                                                show: true
+                                            })}/> */}
+                                            
+                                        </div>
+                                    </Grid.Column>
                                 )
-                            }
-
-                             <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Phone</label></div>
-                            <div className='lead-profile-value'>{lead.phone}</div>
+                            } 
+                            
+                            <TimeLine notes={leadNotes} lead={lead} 
+                                      onAddNote={this.onAddNote}
+                                      leadStatuses={leadStatuses}/>
                         </div>
-                        <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Email</label></div>
-                            <div className='lead-profile-value'>{lead.email}</div>
-                        </div>
-                         <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Integration</label></div>
-                            <div className='lead-profile-value'>{lead.campaign.name}</div>
-                        </div>
-                        <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Assigned to</label></div>
-                            <div className='lead-profile-value'>{lead.agent.name}</div>
-                        </div>
-                        <div className='lead-profile-row'>
-                            <div className='lead-profile-label'><label>Company</label></div>
-                            <div className='lead-profile-value'>{lead.company.name}</div>
-                        </div>
-                        <div className='lead-profile-row additionalinfo'>
-                            <div className='lead-profile-label-additional '><label>Additional information:</label></div>
-
-                        </div>
-                        <TimeLine notes={leadNotes} lead={lead} onAddNote={this.onAddNote}
-                                  leadStatuses={leadStatuses}/>
-                        </div>
-                    </Segment>
-                </Grid.Column>
+                    </Segment> 
             </div>
         )
     }
