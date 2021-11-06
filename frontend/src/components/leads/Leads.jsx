@@ -324,7 +324,7 @@ class Leads extends React.Component {
 
                     <Table.Cell>
                         <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                            <i class="flaticon stroke user-1"></i>
+                            <i class="ti ti-user"></i>
                         </Link>
                       {
                         !lead.deleted_at

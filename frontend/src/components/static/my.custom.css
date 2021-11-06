@@ -704,16 +704,17 @@ color:#4d77ff !important;
 
 }
 .ui.card .avatar.icon-image, .ui.single.line.table .avatar.icon-image {
-    margin-right: 10px;
+    
     background-repeat: no-repeat !important;
     background-position: center center !important;
     background-size: cover !important;
-    border-radius: 50px !important;
+    border-radius: 50% !important;
     display: inline-block;
     vertical-align: middle;
-    float: left;
+    filter: saturate(10%);
     width:3em ;
     height:3em;
+	float:left;
 }
 
 
@@ -1088,6 +1089,7 @@ input:focus {
     margin: 0 !important;
     padding:0px;
     background: #fff;
+	border-radius: 10px !important;
 
 
 
@@ -1107,7 +1109,7 @@ input:focus {
     top:-8px;
     height:8px;
     background:#fff;
-    border-radius:3px;
+    border-radius:10px;
     border:1px solid #dfdff0;
     border-bottom:none;
     border-bottom-left-radius:0;
@@ -1171,14 +1173,14 @@ input:focus {
 
 .ui.table tr:last-child td:last-child {
 
-    border-radius:0 0 .58571429rem 0;
+    border-radius:0 0 10px 0;
     max-width: 250px;
     width:100px !important;
 
 }
 
 .ui.table tr:last-child td:first-child {
-	border-radius:0  0 0 .58571429rem;
+	border-radius:0  0 0 10px;
 }
 
 
@@ -1192,13 +1194,30 @@ input:focus {
     -webkit-align-content: center;
     -webkit-align-items: center;
     -webkit-justify-content: center;
-    background:#e8edff;
-    border-radius:50px;
+    background:none;
+	border:none;
     width:35px;
     height:35px;
-    color:#949bb5;
+    color:#666382;
     text-decoration:none;
+	font-size:20px;
 
+}
+
+.ui.table tr:hover td:last-child a  {
+	
+	border:none !important;
+	color:#666382 !important ;
+	opacity:0.5;
+	
+}
+
+.ui.table tr td:last-child a:hover  {
+	
+	border:none !important;
+	color:#4d77ff !important ;
+	opacity:1;
+	
 }
 .ui.table tr td:last-child a i {
     margin:0;
@@ -1215,49 +1234,45 @@ input:focus {
 }
 
 .ui.table tr td:last-child .ui.buttons:before {
-    content: '\ece9';
-    display: block;
-    border: none;
-    border-radius: 5px;
+    content: '\EA95';
+    display: flex;
+    border: none !important;
     width: 35px;
     height: 35px;
-    background: #e8edff;
+    background:transparent;
     position: absolute;
     top: 22px;
     z-index: 0;
-    font-family: 'Linearicons', serif !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
+    font-family: "tabler-icons" !important;
     text-transform: none;
     line-height: 1;
     font-size: 14px;
     text-align: center;
     vertical-align: middle;
-    padding-top: 9px;
     cursor: pointer;
     right: 25px;
-    border-radius:50px;
-    color:#949bb5;
+    color:#666382;
+	font-size:20px;
+	align-items:center;
+	
 }
 
 
 .ui.table tr td:last-child .ui.buttons:hover:before {
-    border:1px solid #5998ff !important;
+    border:none;
     color:#005ff8;
 }
 
 
-.ui.table tr:hover td .ui.buttons:before {
-    border: 1px solid #949bb5;
+.ui.table tr:hover td .ui.buttons:before, .ui.table tr:hover td #company-lock .icon {
+    border:none;
     color:#949bb5;
     opacity:1 ;
 }
 
 
 .ui.table tr td:last-child .ui.buttons .ui.button:first-child, .Companies .ui.table tr td:last-child .ui.buttons .ui.button:first-child {
-    border-top: 1px solid #dfdff0;
+    border-top: none;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     border-bottom-left-radius: 0 !important;
@@ -1326,9 +1341,14 @@ input:focus {
 }
 
 .ui.table tbody tr:hover td {
-    background: #ebf4fd;
+    background:#f6f6fa;
     cursor: pointer;
 }
+
+.ui.table tbody tr:hover td .avatar {
+    filter:saturate(100%) !important;	
+}
+
 
 .ui.table tbody tr:hover td a {
     color: #005ff8 !important;
@@ -1455,6 +1475,46 @@ input:focus {
 
 }
 
+.ui.pagination.menu {
+	
+	border-radius: 10px;
+	border: 1px solid #dfdff0 !important;
+	color:#666382 !important;
+	min-height:3.5em;
+}
+
+.ui.pagination.menu .item:first-child {
+	border-radius:10px 0 0 10px;
+	font-family: 'averta',sans-serif;
+	font-size: 16px;
+	color:#666382 !important;
+	min-width: 2em;
+	width:2.8em;
+}
+
+.ui.pagination.menu .item:last-child {
+	border-radius:0 10px 10px 0;
+	font-family: 'averta',sans-serif;
+	font-size: 16px;
+	color:#666382 !important;
+	min-width: 2em;
+	width:2.8em;
+	
+}
+
+.ui.pagination.menu .active.item{
+	font-family: 'averta',sans-serif;
+	font-size: 13px;
+	color: #666382 !important;
+	font-weight: 500;
+	background: #f6f6fa !important;
+	
+}
+
+.ui.pagination.menu .item {
+	width:3em;
+}
+
 .ui.bottom.attached.right.aligned.segment {
     padding-right: 0 !important;
 }
@@ -1538,19 +1598,18 @@ input:focus {
     align-items: center;
 }
 
-#company-lock .linearicons-lock {
-    font-size:16px;
-    color:#949bb5;
-    line-height: 12px;
+#company-lock .icon {
+    font-size:20px;
+    color:#666382;
+   
 }
 
-#company-lock:hover .linearicons-lock {
-    color:#005ff8;
+#company-lock:hover .icon {
+    color:#4d77ff !important;
 }
 
-#company-lock .linearicons-shield-check {
-    color: #005ff8;
-    font-size: 18px;
+#company-lock .icon.ti.ti-lock-open {
+	color:#4d77ff;
 }
 
 #company-lock i {
@@ -1778,7 +1837,7 @@ input:focus {
     padding: 5px 15px;
     border-radius: 2px;
     color: #637282 !important;
-    display: inline-block !important;
+    display: inline-block;
     float: left;
     text-align: center;
     font-weight: 600;
@@ -2863,10 +2922,10 @@ font-family: 'Roboto Condensed', sans-serif;
 
 .ui.secondary.menu.leadnotes button , .ui.secondary.menu.leadnotes a {
 
-    color: #637282 !important;
-    font-size: 14px !important;
-    margin: 10px;
-    background: #f1f5f9;
+    color: #666382 !important ;
+    font-size: 20px !important;
+    margin: 10px 5px;
+    background: #f6f6fa;
     display:flex;
     align-content:center;
     justify-content:center;
@@ -2888,12 +2947,6 @@ font-family: 'Roboto Condensed', sans-serif;
     width: 100% !important;
     font-weight:900;
 
-}
-
-
-.ui.secondary.menu.leadnotes button i , .ui.secondary.menu.leadnotes a i {
-
-    font-weight:900;
 }
 
 
@@ -3216,7 +3269,7 @@ label.conversations {
     background: #fff;
     border-radius: 8px;
     border: 1px solid #dfdff0 !important;
-    box-shadow: 1px 3px 2px rgba(223,223,240,0.5) !important;
+    box-shadow: 1px 2px 0 1px rgba(225, 225, 240, 0.33) !important;
     margin-right:10px !important;
     padding:0 !important;
 }
@@ -3253,12 +3306,12 @@ label.conversations {
 .DealStatistics, .LeadNotesPreview, .companyLeadStats {
 
     position: absolute;
-    top: 97px;
+    top: 96px;
     right: 0;
     width: 350px;
     background: white;
     height: 100%;
-    box-shadow: -1px 1px 2px rgba(225, 225, 240, 0.9);
+    box-shadow: -1px 1px 0px rgba(225, 225, 240, 0.9);
     border-radius: 0px;
     border:none;
 }

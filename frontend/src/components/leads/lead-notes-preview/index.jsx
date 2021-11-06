@@ -96,12 +96,12 @@ class LeadNotes extends Component {
                                     <Grid.Column className="circle-button-groups">
                                         <div className={'ui secondary menu leadnotes'}>
                                             <Button circular className='email'
-                                                    icon='icon-email'   as='a' href={`mailto:${lead.email}`}/>
+                                                    icon='ti-mail-forward ti'   as='a' href={`mailto:${lead.email}`}/>
                                             {
-                                                twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='phone'  onClick={this.onCall} />
+                                                twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='ti-phone ti'  onClick={this.onCall} />
                                             }
 
-                                            <Button circular className={(onPhone ? 'editlead' : 'editlead')} icon='copy outline'  onClick={this.onCall} />
+                                            <Button circular className={(onPhone ? 'editlead' : 'editlead')} icon='ti-pencil ti'  onClick={this.onCall} />
 {/*                                             
                                             <Button circular className='editlead'
                                                     icon='icon-pencil'  onClick={this.props.loadForm.bind(this, {
