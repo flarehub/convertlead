@@ -144,8 +144,16 @@ header {
     border-radius: 7px !important;
 
 }
-.Loader {
-    background:transparent !important;
+.ui.dimmer .ui.loader:before {
+   
+
+ border-width: 10px;
+}
+
+.ui.dimmer .ui.loader::after {
+	
+	 border-color:#4d77ff transparent transparent !important;
+	 border-width: 10px;
 }
 
 a.ui.button {
@@ -1230,7 +1238,7 @@ input:focus {
     position: absolute;
     right: 0px;
     top: 5px;
-    padding-top:5px;
+    padding-top:17px;
 }
 
 .ui.table tr td:last-child .ui.buttons:before {
@@ -1273,36 +1281,42 @@ input:focus {
 
 .ui.table tr td:last-child .ui.buttons .ui.button:first-child, .Companies .ui.table tr td:last-child .ui.buttons .ui.button:first-child {
     border-top: none;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     background:#fff !important;
+	border-top: 1px solid #dfdff0;
+	padding-top:1.2em ;
     }
 
 .ui.table tr td:last-child .ui.buttons .ui.button:first-child:after {
-
-    content: '';
-    width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-left: 5px solid #fff;
-    position: absolute;
-    z-index:99999;
-    right: 60px;
-    top: 35px;
+	content:'';
+	position: absolute;
+	z-index: 9999;
+	right: 71px;
+	top: 35px;
+	color: #dfdff0;
+	transform: rotate(-45deg);
+	stroke-width: 0.1 !important;
+	font-weight: 300;
+	border: solid #dfdff0;
+	border-width: 0 1px 1px 0;
+	background: #fff;
+	padding: 4px;
+	box-shadow:0 11px 16px 0 rgba(27, 39, 51, 0.08);
     }
 
 
 .ui.table tr td:last-child .ui.buttons .ui.button:last-child {
     border-bottom: 1px solid #dfdff0;
     padding-top: 0;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
     background:#fff !important;
+	padding-bottom:1.2em ;
 
 }
 
@@ -1311,7 +1325,7 @@ input:focus {
     display: none;
     z-index: 9999;
     float: left;
-    width: 115px;
+    width: 105px;
     background: #fff;
     border-right: 1px solid #dfdff0;
     border-left: 1px solid #dfdff0;
@@ -2511,6 +2525,9 @@ input:focus {
     justify-content: center;
 }
 
+.ui.inverted.dimmer .ui.loader {
+	color: rgb(77, 119, 255) !important;
+}
 
 .empty-deal-wrapper {
     text-align:left;

@@ -9,8 +9,8 @@ import './index.scss';
 
 const Loader = (props) => (
     <div className='Loader'>
-        <Dimmer active={!props.loadReady} inverted>
-            <SemanticLoader size='medium'>Loading</SemanticLoader>
+        <Dimmer className="ui page dimmer" active={!props.loadReady} inverted>
+            <SemanticLoader size='large'></SemanticLoader>
         </Dimmer>
     </div>
 );
