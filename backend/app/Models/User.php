@@ -283,8 +283,10 @@ class User extends Authenticatable
         if (!trim($twilioSid) || !trim($twilioToken) || !trim($twilioNumber)) {
             return;
         }
+        
+        // PN54b75d243356513ec9811b4e3992cf17
+        $twilioClient = new Client($twilioSid, $twilioToken); 
 
-        $twilioClient = new Client($twilioSid, $twilioToken);
         $result = $twilioClient->incomingPhoneNumbers->read([
             'phoneNumber' => $twilioNumber,
         ], 1);
@@ -311,8 +313,11 @@ class User extends Authenticatable
                     "friendlyName" => $this->name,
                 ]
             );
-
+        
         $this->twilio_app_sid = $application->sid;
+
+        // echo "--------------------".$this->twilio_app_sid."<br/>";
+        // dd($application);
         $this->save();
     }
 }

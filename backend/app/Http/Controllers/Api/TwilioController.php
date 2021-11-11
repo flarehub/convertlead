@@ -40,9 +40,9 @@ class TwilioController extends Controller
                 ]);
                 LeadNote::create([
                     'lead_status_id' => $lead->lead_status_id,
-                    'lead_id' => $lead->id,
+                    'lead_id'        => $lead->id,
                     'agent_id' => $lead->agent_id,
-                    'message' => "Agent call Lead!",
+                    'message'  => "Agent call Lead!",
                 ]);
             } else {
                 $dial = $response->dial('', [
@@ -98,9 +98,9 @@ class TwilioController extends Controller
 
     public function token($leadId) {
         $lead = Lead::query()->withTrashed()->findOrFail($leadId);
-        $twilioSid = $lead->company['twilio_sid'];
+        $twilioSid   = $lead->company['twilio_sid'];
         $twilioToken = $lead->company['twilio_token'];
-        $appSid = $lead->agent['twilio_app_sid'];
+        $appSid      = $lead->company['twilio_app_sid'];
 
         if (!$twilioSid && !$twilioToken) {
             return;

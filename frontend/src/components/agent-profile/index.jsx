@@ -267,7 +267,6 @@ class AgentProfile extends Component {
                             from={new Date(startDate)} to={new Date(endDate)}
                         />
                     </Popup>
-                    
                     <Form.Field
                         control={Select}
                         options={this.props.companiesOfAgent} 
@@ -275,8 +274,8 @@ class AgentProfile extends Component {
                         placeholder='Select Company'
                         className="dropdowncompany"
                         search
-                        onChange={this.onChangeCompany}
-                        // searchInput={{id: 'agents-list'}}
+                        select={this.props.companiesOfAgent[0].key || null}
+                        onChange={this.onChangeCompany} 
                     /> 
 
                     <div className='average-response-time'>

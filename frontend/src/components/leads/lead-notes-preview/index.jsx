@@ -54,6 +54,8 @@ class LeadNotes extends Component {
         const checkIsValidNumber = /^([0-9]|#|\*)+$/.test(this.props.lead.phone.replace(/[\+\-()\s]/g,''))
         if (this.state.onPhone) {
             Device.disconnectAll();
+            // console.log(Device);
+            // this.onAddNote();
         } else if (this.props.twilioToken && checkIsValidNumber) {
             Device.connect({ number: this.props.lead.phone });
             this.setState({
@@ -80,7 +82,8 @@ class LeadNotes extends Component {
                               
                         </div> 
                         <div className='lead-n-p-row align-center'>
-                            <div className={`circle-label lead-status-${lead.status[0].toLowerCase()}`}>{lead.status[0]}
+                            <div className={`circle-label lead-status-${lead.status[0].toLowerCase()}`}>
+                                {(lead.fullname && lead.fullname.charAt(0).toUpperCase()) || lead.status.charAt(0).toUpperCase()}
                                 {
                                     lead.smsReplayCount && (
                                         <Label color='red' floating>
@@ -100,15 +103,13 @@ class LeadNotes extends Component {
                                             {
                                                 twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='ti-phone ti'  onClick={this.onCall} />
                                             }
-
-                                            <Button circular className={(onPhone ? 'editlead' : 'editlead')} icon='ti-pencil ti'  onClick={this.onCall} />
-{/*                                             
+                                            
                                             <Button circular className='editlead'
-                                                    icon='icon-pencil'  onClick={this.props.loadForm.bind(this, {
+                                                    icon='ti-pencil ti'  onClick={this.props.loadForm.bind(this, {
                                                 ...lead,
                                                 company_id: lead.company.id,
                                                 show: true
-                                            })}/> */}
+                                            })}/>
                                             
                                         </div>
                                     </Grid.Column>

@@ -103,6 +103,10 @@ class AgentController extends Controller
                 'agent_agency_id',
                 'phone',
                 'email',
+                'twilio_sid',
+                'twilio_token',
+                'twilio_mobile_number',
+                'twilio_app_sid',
                 'password',
                 'password_confirmation'
             ]));

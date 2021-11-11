@@ -354,7 +354,8 @@ class Agents extends Component {
                                                 <div className="campaignNames">
                                                     <span>assigned to</span>
                                                     {
-                                                        agent.companies && (this.state.activeIndex == 0 && agent.campaigns_count != 0) && agent.companies.map(({name}) => <div className="campaignName">{name}</div>)
+                                                        (this.state.activeIndex == 0) &&
+                                                        agent.companies && agent.companies.map(({name}) => <div className="campaignName">{name}</div>)
                                                     }
                                                 </div>
                                             )
