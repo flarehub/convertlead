@@ -25,6 +25,35 @@ a {
     border-color:rgba(34,36,38,.15) !important;
 }
 
+.Toastify__toast {
+	
+	border-radius:10px;
+	font-family:'Averta',sans-serif;
+	padding: 25px;
+}
+
+.Toastify__toast--success {
+	background:#7cbf36;
+}
+
+.Toastify__close-button {
+	
+	color:transparent !important;
+}
+
+.Toastify__close-button:after {
+	content:"\EA6A";
+	font-family:"tabler-icons" !important;
+	font-size: 26px;
+	color: #fff;
+	font-weight: 300 !important;
+	
+}
+
+.Toastify__progress-bar {
+	background-color:rgba(255, 255, 255, 0.3);
+}
+
 input {
     filter: none;
 }
