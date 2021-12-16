@@ -27,6 +27,11 @@ class TimeLine extends Component {
 
     onAddNote = () => {
         this.props.onAddNote(this.state.form)
+        if(this.state.form.message){
+            this.setState({
+                showAddNote: false
+            });
+        }
     };
 
     onChange = (event, data) => {

@@ -75,7 +75,7 @@ class LeadNote extends Model
                 'lead_id',
                 'message',
             ]));
-            $leadNote->is_status_event = 1;
+            // $leadNote->is_status_event = 1;
             $leadNote->save(); 
             \DB::commit();
 
