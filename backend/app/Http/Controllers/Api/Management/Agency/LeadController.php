@@ -27,6 +27,7 @@ class LeadController extends Controller
                 'email',
                 'company',
                 'campaign',
+                'sort_by'
             ]))
             ->paginate($itemsPerPage, ['*'], 'page', $page);
     }

@@ -359,7 +359,28 @@ class Agency extends User
             ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')
             ->where('ac.agency_id', $this->id)
         ;
-
+        if(isset($queryParams['sort_by']) && $queryParams['sort_by']){
+            
+            if($queryParams['sort_by'] == 'name.asc')
+                $query->orderBy('fullname','asc');
+            if($queryParams['sort_by'] == 'name.desc')
+                $query->orderBy('fullname','desc');
+            
+            if($queryParams['sort_by'] == 'created_at.asc')
+                $query->orderBy('created_at','asc');
+            if($queryParams['sort_by'] == 'created_at.desc')
+                $query->orderBy('created_at','desc');
+            
+            if($queryParams['sort_by'] == 'company.asc')
+                $query->orderBy('company_id','asc');
+            if($queryParams['sort_by'] == 'company.desc')
+                $query->orderBy('ac.company_id','desc');
+            
+            if($queryParams['sort_by'] == 'source.asc')
+                $query->orderBy('deal_campaign_id','asc');
+            if($queryParams['sort_by'] == 'source.desc')
+                $query->orderBy('deal_campaign_id','desc');
+        }
         if (isset($queryParams['search'])) {
             $query->where(function ($query) use ($queryParams) {
                 $query

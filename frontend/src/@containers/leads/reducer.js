@@ -56,6 +56,7 @@ const initState = {
         filters: {
             statusType: '',
             companyId: '',
+            sort_by:'',
         },
         sort: {
             status: true,

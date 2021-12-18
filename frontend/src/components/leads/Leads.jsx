@@ -27,7 +27,48 @@ const defaultStatus = {key: '', text: 'All statuses', value: ''};
 const companies = [
   {key: '', text: 'All companies', value: ''},
 ];
-
+const sorByFiled = [
+  {
+    key: 'name.desc',
+    value: 'name.desc',
+    text: 'Name Descending',
+  },
+  {
+    key: 'name.asc',
+    value: 'name.asc',
+    text: 'Name Ascending',
+  },
+  {
+    key: 'company.desc',
+    value: 'company.desc',
+    text: 'Company Descending',
+  },
+  {
+    key: 'company.asc',
+    value: 'company.asc',
+    text: 'Company Ascending',
+  },
+  {
+    key: 'source.desc',
+    value: 'source.desc',
+    text: 'Source Descending',
+  },
+  {
+    key: 'source.asc',
+    value: 'source.asc',
+    text: 'Source Ascending',
+  },
+  {
+    key: 'created_at.desc',
+    value: 'created_at.desc',
+    text: 'Date Descending',
+  },
+  {
+    key: 'created_at.asc',
+    value: 'created_at.asc',
+    text: 'Date Ascending',
+  }
+]
 class Leads extends React.Component {
   dateDisplayFormat = 'MM/DD/Y';
 
@@ -124,6 +165,7 @@ class Leads extends React.Component {
     const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
     const campaignId = +R.pathOr('', ['match', 'params', 'campaignId'], this.props);
     const agentId = +R.pathOr('', ['match', 'params', 'agentId'], this.props);
+    const sort_by = +R.pathOr('', ['match', 'params', 'sort_by'], this.props);
     this.setState({
       companyId,
       campaignId,
@@ -135,6 +177,7 @@ class Leads extends React.Component {
       agentId,
       startDate: this.state.startDate,
       endDate: this.state.endDate,
+      sort_by
     });
 
     this.props.addBreadCrumb({
@@ -169,6 +212,12 @@ class Leads extends React.Component {
       companyId: lead.company_id
     });
   }
+
+  sortBy = (event, data) => {
+    this.props.filterLeads({
+      sort_by: data.value,
+    });
+  };
 
   render () {
     const leads = this.props.leads || [];
@@ -226,6 +275,17 @@ class Leads extends React.Component {
                                     onRestDate={this.onRestDate}
                                     from={new Date(startDate)} to={new Date(endDate)}/>
                 </Popup>
+                <Form.Field
+                  control={Select}
+                  options={sorByFiled}
+                  label={{children: 'Sort by', htmlFor: 'leads-sort-by'}}
+                  placeholder='Sort by '
+                  search
+                  onChange={this.sortBy}
+                  defaultValue={this.props.filters.sortBy}
+                  onSearchChange={this.sortBy}
+                  searchInput={{id: 'campaign-sort-by'}}
+                />
               </Form>
 
             </div>

@@ -44,6 +44,7 @@ class LeadNotes extends Component {
     }
 
     onAddNote = form => {
+        console.log("adding to notes mdeia");
         this.props.createLeadNote({
             ...form,
             status: form.status ? form.status : this.props.lead.status
@@ -53,10 +54,11 @@ class LeadNotes extends Component {
     onCall = () => {
         const checkIsValidNumber = /^([0-9]|#|\*)+$/.test(this.props.lead.phone.replace(/[\+\-()\s]/g,''))
         if (this.state.onPhone) {
+            console.log("call_disconnected");
             Device.disconnectAll();
-            // console.log(Device);
-            // this.onAddNote();
+            this.onAddNote();
         } else if (this.props.twilioToken && checkIsValidNumber) {
+            console.log("on_call");
             Device.connect({ number: this.props.lead.phone });
             this.setState({
                 onPhone: true,
