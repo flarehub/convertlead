@@ -448,6 +448,33 @@ i.icon.sidebar:before {
 
 }
 
+.Leads .leadFilters .field .ui.search.selection.dropdown {
+	
+	width:unset !important;
+}
+
+.Leads .leadFilters .ui.form .field {
+	margin-bottom:0 !important;
+}
+
+.Leads .leadFilters .ui.form .field.sortby {
+	
+	margin:0 0 0 auto ;
+	
+}
+
+.field.sortby  label {
+	
+	padding: 5px 15px !important;
+border-radius: 25px !important;
+font-weight: 500 !important;
+color: #adaabd !important;
+border: none !important;
+font-family: 'Averta',sans-serif !important;
+font-size: 15px !important;
+display:inline-block !important;
+}
+
 .dealContainer a p {
 
     color:#adaabd;
@@ -1875,7 +1902,7 @@ input:focus {
     margin:3px 0 !important;
 }
 
-.Leads .field label, .Agents .field label {
+.Agents .field label {
     background: #f7f9fa;
     padding: 5px 15px;
     border-radius: 2px;

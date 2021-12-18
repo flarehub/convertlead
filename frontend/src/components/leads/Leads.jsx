@@ -277,6 +277,7 @@ class Leads extends React.Component {
                 </Popup>
                 <Form.Field
                   control={Select}
+				  className="sortby"
                   options={sorByFiled}
                   label={{children: 'Sort by', htmlFor: 'leads-sort-by'}}
                   placeholder='Sort by '
