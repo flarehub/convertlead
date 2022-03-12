@@ -64,7 +64,7 @@ class LeadNotes extends Component {
         if (this.state.onPhone) {
             console.log("call_disconnected");
             Device.disconnectAll();
-            this.onAddNote();
+            // this.onAddNote();
         } else if (this.props.twilioToken && checkIsValidNumber) {
             console.log("on_call");
             Device.connect({ number: this.props.lead.phone });
