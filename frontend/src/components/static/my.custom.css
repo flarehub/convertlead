@@ -14,7 +14,7 @@
       ==============================================*/
 
 a {
-    color: #005ff8;
+    color: #4d77ff;
 }
 
 .ui.form .field.field input:-webkit-autofill,
@@ -136,7 +136,7 @@ input {
 
 
 .LeadNotes a {
-    color: #005ff8 !important;
+    color: #4d77ff !important;
 }
 body {
     font-family: 'Averta', sans-serif !important;
@@ -205,6 +205,7 @@ div[id^=__lpform_] {
 
     width: 30px;
     height: 30px;
+	background-size:cover !important;
 
 }
 
@@ -639,7 +640,7 @@ display:inline-block !important;
     margin-right:unset !important;
 }
 .ui.secondary.menu .icon.left.button {
-    background-color: #005ff8;
+    background-color: #4d77ff;
 }
 
 .ui.secondary.menu .buttonsToScale .small-transparent {
@@ -691,7 +692,7 @@ color:#4d77ff !important;
 }
 
 .Dashboard .ui.cards .ui.card:hover .header {
-    color: #005ff8 !important;
+    color: #4d77ff !important;
 }
 
 .Dashboard .ui.cards .ui.card:hover .meta {
@@ -779,7 +780,15 @@ color:#4d77ff !important;
     width:3em ;
     height:3em;
 	float:left;
+		  margin-right:10px;
 }
+
+.ui.single.line.table tr td:first-child .avatar.icon-image  {
+	
+	margin-right:0px !important;
+}
+
+
 
 
 .ui.card > .content > a > .header {
@@ -800,6 +809,7 @@ color:#4d77ff !important;
     border-bottom: 1px dotted #fff;
     font-family:'Quicksand', sans-serif;
 }
+
 
 
 .ui.secondary.menu .right.menu input {
@@ -833,7 +843,7 @@ color:#4d77ff !important;
 
 text-decoration: underline;
 font-weight: 500;
-color: #005ff8;
+color: #4d77ff;
 
 }
 
@@ -963,7 +973,7 @@ color: #005ff8;
 }
 
 .ui.selection.dropdown .item:hover {
-    background: #005ff8;
+    background: #4d77ff;
     color: #fff;
 }
 
@@ -1000,32 +1010,32 @@ color: #005ff8;
 
 
 ::-webkit-selection {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
     color: #637282 !important;
 }
 
 ::-moz-selection {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
     color: #637282 !important;
 }
 
 ::selection {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
     color: #637282 !important;
 }
 
 input::-webkit-selection, textarea::-webkit-selection {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
     color: #637282 !important;
 }
 
 input::-moz-selection, textarea::-moz-selection {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
     color: #637282 !important;
 }
 
 input::selection, textarea::selection {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
     color: #637282 !important;
 }
 
@@ -1184,6 +1194,7 @@ input:focus {
 }
 
 
+
 .ui.table td {
     font-size: 15px;
     font-family: 'Averta', sans-serif;
@@ -1324,7 +1335,7 @@ input:focus {
 
 .ui.table tr td:last-child .ui.buttons:hover:before {
     border:none;
-    color:#005ff8;
+    color:#4d77ff;
 }
 
 
@@ -1395,7 +1406,7 @@ input:focus {
 }
 
 .ui.table tr td:last-child .ui.buttons .ui.button:hover {
-    color: #005ff8 !important;
+    color: #4d77ff !important;
 }
 
 
@@ -1421,8 +1432,8 @@ input:focus {
 
 
 .ui.table tbody tr:hover td a {
-    color: #005ff8 !important;
-    border-bottom: 1px dotted #005ff8
+    color: #4d77ff !important;
+    border-bottom: 1px dotted #4d77ff
 }
 
 .freshAppLayout > .two.column.grid > .one.wide.column {
@@ -1460,8 +1471,8 @@ input:focus {
 }
 
 .ui.table tbody tr td a:hover {
-    color: #005ff8 !important;
-    border-bottom: 1px dotted #005ff8
+    color: #4d77ff !important;
+    border-bottom: 1px dotted #4d77ff
 }
 
 .ui.top.attached.segment .checkbox {
@@ -1508,13 +1519,13 @@ input:focus {
 .Leads .ui.toggle.checkbox input:checked ~ .box:before, .Leads .ui.toggle.checkbox input:checked ~ label:before, .Companies .ui.toggle.checkbox input:checked ~ .box:before,
 .Companies .ui.toggle.checkbox input:checked ~ label:before, .Agents .ui.toggle.checkbox input:checked ~ .box:before , .Agents .ui.toggle.checkbox input:checked ~ label:before,
 .Dashboard .Dashboard  .ui.toggle.checkbox input:checked ~ label:before , .Dashboard .Dashboard .ui.toggle.checkbox input:checked ~ .box:before, .Campaigns .ui.toggle.checkbox input:checked ~ label:before, .Campaigns .ui.toggle.checkbox input:checked ~ .box:before{
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
 }
 
 .Leads .ui.toggle.checkbox input:focus:checked ~ .box::before, .Leads .ui.toggle.checkbox input:focus:checked ~ label::before, .Companies .ui.toggle.checkbox input:focus:checked ~ .box::before,
 .Companies .ui.toggle.checkbox input:focus:checked ~ label::before, .Agents .ui.toggle.checkbox input:focus:checked ~ .box::before, .Agents .ui.toggle.checkbox input:focus:checked ~ label::before,
 .Dashboard .Dashboard  .ui.toggle.checkbox input:focus:checked ~ label::before, .Dashboard .Dashboard  .ui.toggle.checkbox input:focus:checked ~ .box::before, .Campaigns  .ui.toggle.checkbox input:focus:checked~.box:before, .Campaigns .ui.toggle.checkbox input:focus:checked ~ label::before {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
 }
 .ui.message.dash {
     z-index:9999;
@@ -1778,7 +1789,7 @@ input:focus {
 
 .ui.button.integration-but:hover {
     border:1px solid #5998ff !important;
-    color:#005ff8;
+    color:#4d77ff;
     font-weight:400;
     background:#fff;
 }
@@ -1789,7 +1800,7 @@ input:focus {
 
 #company-lock:hover {
     background:transparent !important;
-    color:#005ff8;
+    color:#4d77ff;
 }
 
 .Agents .avatar.icon-image, .Companies .avatar.icon-image {
@@ -1967,9 +1978,9 @@ input:focus {
 }
 
 .Leads .export-data a {
-    color: #005ff8 !important;
+    color: #4d77ff !important;
     margin-left: 10px;
-    border-bottom: 1px dotted #005ff8 !important;
+    border-bottom: 1px dotted #4d77ff !important;
 }
 
 .lead-status-n {
@@ -1978,7 +1989,7 @@ input:focus {
 }
 
 .lead-status-c {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
 }
 
 .lead-status-s {
@@ -1992,12 +2003,12 @@ input:focus {
 
 .lead-status-m, .lead-status-b {
 
-    background-color:#f41e32;
+    background-color:#ff3649;
 }
 
 .freshAppTimeLine ul .timeline-record .timeline-bg-color-m, .freshAppTimeLine ul .timeline-record .timeline-bg-color-b, .timeline-status.timeline-bg-color-m {
 
-    background-color:#f41e32;
+    background-color:#ff3649;
     color:#fff;
 }
 
@@ -2038,7 +2049,7 @@ input:focus {
 }
 
 .help-note a {
-    color: #005ff8 !important;
+    color: #4d77ff !important;
 }
 
 .dimmable.dimmed .App {
@@ -2089,7 +2100,7 @@ input:focus {
 }
 
 .subscribe-fb-but {
-    background-color: #005ff8!important;
+    background-color: #4d77ff!important;
     color:#fff !important;
 }
 
@@ -2202,7 +2213,7 @@ input:focus {
 }
 
 .ui.small.modal .button.positive, .ui.tiny.modal .button.positive {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
 }
 
 .ui.small.modal .button.black, .ui.tiny.modal .button.black {
@@ -2403,7 +2414,7 @@ input:focus {
 
 .AgentLeads .ui.secondary.menu .active.item {
     background: #fff;
-    color: #005ff8;
+    color: #4d77ff;
     font-weight: 600;
 }
 
@@ -2412,7 +2423,7 @@ input:focus {
     width: 7px;
     height: 7px;
     position: absolute;
-    background: #005ff8;
+    background: #4d77ff;
     bottom: -5px;
     left: 50%;
     margin-left: -5px;
@@ -2432,7 +2443,7 @@ input:focus {
 
 .AgentLeads .ui.secondary.menu .item:hover, .AgentLeads .ui.secondary.menu .active.item:hover{
     background: #fff;
-    color: #005ff8;
+    color: #4d77ff;
     font-weight: 600;
 }
 
@@ -2522,7 +2533,7 @@ input:focus {
 
 .agent-welcome a .button, .AgentLeads .massive.circular{
     border-radius: 25px;
-    background: #005ff8 !important;
+    background: #4d77ff !important;
     box-shadow: 5px 5px 14px 5px rgba(0, 12, 255, 0.2)!important;
     padding: 15px 35px;
     font-weight:600;
@@ -2718,13 +2729,13 @@ input:focus {
 }
 
 .ui.primary.button {
-    background:#005ff8 !important;
+    background:#4d77ff !important;
 }
 
 .AgentLeadNotes .lead-profile-row > .call-lead-but {
     width: 55px;
     height: 55px;
-    background: #005ff8 !important;
+    background: #4d77ff !important;
     color: #fff !important;
     border-radius: 45px;
     display: -webkit-inline-flex;
@@ -2832,7 +2843,7 @@ font-family: 'Roboto Condensed', sans-serif;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.positive {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.floating.dropdown.icon {
@@ -2860,7 +2871,7 @@ font-family: 'Roboto Condensed', sans-serif;
 }
 
 .ui.form textarea:focus {
-    border-color: #005ff8 !important ;
+    border-color: #4d77ff !important ;
 }
 
 .create-lead-header {
@@ -2945,7 +2956,7 @@ font-family: 'Roboto Condensed', sans-serif;
 
 .create-lead-form > div:nth-child(2) .button,  .AccountProfile .ui.big.form.profileForm .primary.button {
 
-    background: #005ff8;
+    background: #4d77ff;
     color: #fff;
     font-family: Lato, sans-serif !important;
     padding: 15px;
@@ -3123,7 +3134,7 @@ margin-top:0px;
 
 
 .LeadNotes .timeline-bg-color-c {
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
     color: #fff;
 
 }
@@ -3203,6 +3214,16 @@ margin-top:0px;
     color: #f2711c !important ;
 }
 
+.timeline-record audio {
+	max-width:100% !important;
+	display:block !important;
+	margin-top:5px;
+	background: #3800ff !important;
+	opacity: 0.4 !important;
+	border-radius: 7px;
+	
+}
+
 .timeline-record .timeline-status span {
     font-size: 14px;
     margin-top: 0px !important;
@@ -3217,7 +3238,7 @@ margin-top:0px;
     margin-left:50px;
     border-radius: 25px;
     color: #fff;
-    background: #005ff8 ;
+    background: #4d77ff ;
 }
 
 .ui.dimmer {
@@ -3274,7 +3295,7 @@ margin-top:0px;
 
 .ui.positive.button, .ui.positive.buttons .button, .ui.positive.button:hover, .ui.positive.buttons .button:hover {
 
-    background-color: #005ff8 !important;
+    background-color: #4d77ff !important;
 }
 
 .Leads .ui.table thead tr:first-child > th:first-child {
@@ -3367,6 +3388,12 @@ label.conversations {
     font-size: 20px;
     margin-top: -2px;
 
+}
+
+.ui.secondary.menu.leadnotes  .onCall, .ui.secondary.menu.leadnotes  .onCall, .onCall {
+	
+	background-color: #4d77ff !important;
+	color:#fff !important;
 }
 
 
@@ -3735,7 +3762,7 @@ fill:#8d96b5
 
     .create-lead-form > div:nth-child(2) .button,  .AccountProfile .ui.big.form.profileForm .primary.button {
         width: 100%;
-        background: #005ff8;
+        background: #4d77ff;
         color: #fff;
         font-family: Lato, sans-serif !important;
         padding: 15px;
@@ -4090,7 +4117,7 @@ and (orientation: portrait) {
 
 .ui.custom-buttons.active:before {
     border:1px solid #5998ff !important;
-    color:#005ff8 !important;
+    color:#4d77ff !important;
 }
 
 @media only screen and (max-width: 767px) {
@@ -4124,3 +4151,4 @@ and (orientation: portrait) {
 	z-index:9999;
 	color:#3c3a4e;
   }
+  
