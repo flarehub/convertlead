@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import LeadModal from '../@common/modals/lead';
-import {compose} from 'recompose';
+import { compose } from 'recompose';
 import {
   Segment,
   Button,
@@ -28,6 +28,10 @@ class Leads extends Component {
     showDeleted: false,
     activeIndex: 0,
   }
+
+  onSearch = (event, data) => {
+    this.props.searchLeads(data.value);
+  };
 
   onShowArch = (e, tab) => {
     if (tab.activeIndex === this.state.activeIndex) {
@@ -90,9 +94,9 @@ class Leads extends Component {
                 <Menu secondary>
                   <Menu.Menu position='right'>
                     <Menu.Item>
-                      <Input icon='search' onChange={this.onSearch} value={query.search} placeholder='Search...'/>
+                      <Input icon='search' onChange={this.onSearch} placeholder='Search...' />
                     </Menu.Item>
-                      <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, {show: true})} ><i className="flaticon stroke plus-1  icon"></i></Button>
+                    <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, { show: true })} ><i className="flaticon stroke plus-1  icon"></i></Button>
                   </Menu.Menu>
                 </Menu>
               </Grid.Column>
@@ -100,7 +104,7 @@ class Leads extends Component {
           </Segment>
           <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
         </div>
-        <LeadModal size='small'/>
+        <LeadModal size='small' />
         {
           previewLeadId && <LeadNotesPreview leadId={previewLeadId} companyId={companyId} onClose={this.onLeadLeaveDisplayNotes} />
         }

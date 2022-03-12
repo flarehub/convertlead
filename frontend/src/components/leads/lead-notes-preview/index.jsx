@@ -27,6 +27,14 @@ class LeadNotes extends Component {
         if (prevProps.twilioToken !== this.props.twilioToken && this.props.twilioToken) {
             Device.setup(this.props.twilioToken);
         }
+
+        if (prevState.onPhone && !this.state.onPhone) {
+            let { companyId, leadId } = this.props; 
+            setTimeout(() => {
+                this.props.loadLead(companyId, leadId, true, true);
+                console.log('loadLead is accessed3', companyId, leadId)
+            }, 5000)
+        }
     }
 
     componentDidMount() {

@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 
 class TwilioController extends Controller
 {
-    public function conference(Request $request, $companyId, $agentId) {
+    public function conference(Request $request, $companyId, $agentId)
+    {
         $response = new VoiceResponse();
         $agent = Agent::findOrFail($agentId);
         $company = Company::findOrFail($companyId);
@@ -22,11 +23,12 @@ class TwilioController extends Controller
 
         // agent Call lead from client
         if (stripos($from, 'client:Anonymous') !== false) {
-            $lead = Lead::query()
-                ->where('agent_id', $agentId)
-                ->where('phone', 'like', $request->get('number'))
-                ->orderBy('id', 'desc')
-                ->first();
+            // $lead = Lead::query()
+            //     ->where('agent_id', $agentId)
+            //     ->where('phone', 'like', $request->get('number'))
+            //     ->orderBy('id', 'desc')
+            //     ->first();
+            $lead = Lead::where('phone', 'like', $request->get('number'))->orderBy('id', 'desc')->firstOrFail();
             $agentTwilioNumber = $agentTwilioNumber ?: $lead->company['twilio_mobile_number'];
 
             if ($lead) {
@@ -38,15 +40,24 @@ class TwilioController extends Controller
                     'recordingStatusCallbackEvent' => 'completed',
                     'recordingStatusCallback' => $recordingStatus,
                 ]);
-                LeadNote::create([
-                    'lead_status_id' => $lead->lead_status_id,
-                    'lead_id'        => $lead->id,
-                    'agent_id' => $lead->agent_id,
-                    'message'  => "Agent call Lead!",
-                ]);
+                // LeadNote::create([
+                //     'lead_status_id' => $lead->lead_status_id,
+                //     'lead_id' => $lead->id,
+                //     'agent_id' => $lead->agent_id,
+                //     'message' => "Agent call Lead!",
+                // ]);
             } else {
+                // $dial = $response->dial('', [
+                //     'callerId' => $agent->twilio_mobile_number,
+                // ]);
+                
+                $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
                 $dial = $response->dial('', [
-                    'callerId' => $agent->twilio_mobile_number,
+                    'callerId' =>  $agentTwilioNumber,
+                    'record' => 'record-from-ringing-dual',
+                    'recordingStatusCallbackMethod' => 'POST',
+                    'recordingStatusCallbackEvent' => 'completed',
+                    'recordingStatusCallback' => $recordingStatus,
                 ]);
             }
             $dial->number($request->get('number'));
@@ -83,7 +94,8 @@ class TwilioController extends Controller
         return \response($response, 200, ['Content-Type' => 'text/xml']);
     }
 
-    public function recording(Request $request, $leadId) {
+    public function recording(Request $request, $leadId)
+    {
         $recordingUrl = $request->get('RecordingUrl');
         $lead = Lead::findOrFail($leadId);
 
@@ -96,18 +108,20 @@ class TwilioController extends Controller
         ]);
     }
 
-    public function token($leadId) {
-        $lead = Lead::query()->withTrashed()->findOrFail($leadId);
-        $twilioSid   = $lead->company['twilio_sid'];
+    public function token($leadId)
+    {
+        $lead = Lead::findOrFail($leadId);
+        $twilioSid = $lead->company['twilio_sid'];
         $twilioToken = $lead->company['twilio_token'];
-        $appSid      = $lead->company['twilio_app_sid'];
+        $appSid = $lead->company['twilio_app_sid'];
 
-        if (!$twilioSid && !$twilioToken) {
+        if (!$twilioSid || !$twilioToken || !$appSid) {
             return;
         }
 
         $clientCapability = new ClientToken(
-            $twilioSid, $twilioToken
+            $twilioSid,
+            $twilioToken
         );
         $clientCapability->allowClientOutgoing($appSid, [
             'leadId' => $leadId,

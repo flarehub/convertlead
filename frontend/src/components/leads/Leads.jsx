@@ -78,10 +78,10 @@ class Leads extends React.Component {
     status: null,
     leadId: null,
     companyId: null,
-    campaignId: null,
-    startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
+    campaignId: null, 
+    startDateDisplay: moment('2000-01-01').format(this.dateDisplayFormat),
     endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
-    startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
+    startDate: moment('2000-01-01').format('Y-MM-DD'),
     endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
   };
 
