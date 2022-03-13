@@ -13,6 +13,20 @@
     border-bottom: 1px solid #e2e2e2;
 
   }
+  
+     .company-lead-stats-container .company-name {
+
+   font-size: 17px;
+   font-family: 'averta', sans-serif !important;
+   font-weight: 500 !important;
+   text-transform: none;
+   text-transform: initial;
+   color: #3c3a4e;
+   margin: 10px 0 0 0;
+   text-align: left;
+   text-transform: capitalize;
+  
+  }
 
   .company-lead-stats-container {
     padding: 20px;
@@ -128,6 +142,7 @@
 }
 .integration-name {
   color: #a6a4bc;
+  font-size:13px;
 }
 
 .Campaigns .companyLeadStats.campaigns {

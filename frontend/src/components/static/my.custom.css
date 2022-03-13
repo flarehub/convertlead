@@ -133,7 +133,10 @@ input {
     justify-content: center;
 }
 
-
+.ui.circular.icon.button {
+	
+	padding: .98571429em .98571429em .98571429em;
+}
 
 .LeadNotes a {
     color: #4d77ff !important;
@@ -827,18 +830,17 @@ color:#4d77ff !important;
 
 .top.note{
 
-    padding: 8px 15px;
+    padding: 12px 22px;
     margin-bottom: 30px;
     background: #ced9ff;
-    border-left: 3px solid #4d77ff;
     margin-right: 1em;
     text-align:left;
     color: #4d77ff;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
     font-size: 13px;
     display:table;
+	border-radius:7px;
 }
+
 .top.note a{
 
 text-decoration: underline;
@@ -1316,12 +1318,11 @@ input:focus {
     height: 35px;
     background:transparent;
     position: absolute;
-    top: 22px;
+    top: 27px;
     z-index: 0;
     font-family: "tabler-icons" !important;
     text-transform: none;
     line-height: 1;
-    font-size: 14px;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
@@ -1329,6 +1330,11 @@ input:focus {
     color:#666382;
 	font-size:20px;
 	align-items:center;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	font-weight: 400;
+	font-size: 22px;
 	
 }
 
@@ -1720,16 +1726,19 @@ input:focus {
 .ui.button.integration-but {
     display: block;
     padding: 0 !important;
-    margin-right: 50px;
+    margin-right: 55px;
     text-align: center;
     box-shadow: none;
-    background: #fff;
+    background: transparent;
    height: 37px;
     align-self: center;
     vertical-align: middle;
     float: right;
     width: 90px;
     font-weight:400;
+	color:#9d9bb5;
+	font-weight: 500;
+	font-size: 15px;
 }
 
 .clickfunnelsbut {
@@ -1794,9 +1803,6 @@ input:focus {
     background:#fff;
 }
 
-.ui.table tr:hover .ui.button.integration-but {
-    border: 1px solid #949bb5;
-}
 
 #company-lock:hover {
     background:transparent !important;
@@ -3215,12 +3221,15 @@ margin-top:0px;
 }
 
 .timeline-record audio {
-	max-width:100% !important;
-	display:block !important;
-	margin-top:5px;
-	background: #3800ff !important;
-	opacity: 0.4 !important;
-	border-radius: 7px;
+	max-width: 100% !important;
+display: block !important;
+margin-top: 5px;
+background: #4d77ff !important;
+opacity: 0.4 !important;
+border-radius: 33px;
+height: 30px;
+font-size: 10px !important;
+color: #ccc;
 	
 }
 
@@ -3394,6 +3403,12 @@ label.conversations {
 	
 	background-color: #4d77ff !important;
 	color:#fff !important;
+}
+
+.ui.secondary.menu.leadnotes  .endCall, .ui.secondary.menu.leadnotes  .endCall, .endCall {
+	
+	color:#fff !important;
+	background:#ff3649 !important;
 }
 
 

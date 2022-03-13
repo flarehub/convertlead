@@ -6,7 +6,14 @@
 
     padding: 1.9em .78571429em ;
 }
+.Campaigns .ui.table tbody tr:hover td {
 
+ background-image: linear-gradient(to right, #c4c4ef 47%, rgba(255,255,255,0) 0%);
+    background-position: bottom;
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+
+}
 .Campaigns .ui.table tbody tr td {
 
     background:#f6f6fa ;
@@ -28,6 +35,8 @@
 
     .ui.button.integration-but:hover {
         color:#4d77ff !important;
+		font-weight:500 !important;
+		
     }
 
     .table-cell-value {
@@ -44,21 +53,42 @@
   
 }
 
-.Campaigns .right.menu .ui.button.left {
-    background-color: transparent !important;
-    border: 2px solid #4d77ff !important;
-    color: #4d77ff !important;
-    box-shadow: none !important;
-    padding: 13px 25px !important;
-    margin-right: 15px;
-    line-height: 1.5;
-    margin-top: -5px;
+.Automations .right.menu .ui.button.left.teal {
 
+    color: #fff !important;
+    background:#4d77ff !important;
+	line-height: 1.5;
+	margin-top: -2px;
+	border-radius: 10px;
+	height: 45px !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 25px !important;
 }
+
+.Campaigns .right.menu .ui.button.left {
+      background-color: transparent !important;
+	  border: 2px solid #4d77ff !important;
+	  color: #4d77ff !important;
+	  box-shadow: none !important;
+	  margin-right: 15px;
+	  line-height: 1.5;
+	  margin-top: -1px;
+	  border-radius: 10px;
+	  height: 45px;
+	  display: flex;
+	  justify-content: center;
+	  n-items: center;
+	  padding: 10px 20px !important;
+}
+
+
 .Campaigns .right.menu a:hover .ui.button.left {
 
     color: #fff !important;
     background:#4d77ff !important;
+
 }
 
 
@@ -68,8 +98,10 @@
 
 .Campaigns  .ui.table tr td:last-child .ui.buttons::before {
 
-    top:31px !important;
+    top:27px !important;
     background:transparent !important;
+	color:#9d9bb5;
+	font-size:20px;
 }
 
 .Campaigns .ui.table tbody tr td:nth-child(3), .Campaigns .ui.table tbody tr td:nth-child(4), .Campaigns .ui.table tbody tr td:nth-child(5) {
@@ -95,4 +127,11 @@ margin-top:50px !important;
     font-size: 15px;
     font-weight: 400;
     margin-top: 5px;
+}
+
+.CircularProgressbar .CircularProgressbar-trail {
+
+ stroke: #e6e6f2 !important;
+
+
 }

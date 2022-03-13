@@ -170,7 +170,7 @@
 .icon-image-blue {
   background-position: center center !important;
   background-repeat: no-repeat !important;
-  background-size: 93% !important;
+  background-size: cover !important;
   width: 2em;
   height: 2em;
   border-radius: 500rem;
@@ -178,13 +178,16 @@
   height: 90px;
   margin-left: auto;
   margin-right: auto;
-  border: 2px solid;
+  border: 3px solid;
   border-color: #4D77FF;  
+  outline: 4px solid white;
+  outline-offset: -6px;
+  
 }
 .icon-image-red {
   background-position: center center !important;
   background-repeat: no-repeat !important;
-  background-size: 93% !important;
+  background-size: cover !important;
   width: 2em;
   height: 2em;
   border-radius: 500rem;
@@ -192,8 +195,10 @@
   height: 90px;
   margin-left: auto;
   margin-right: auto;
-  border: 2px solid;
+  border: 3px solid;
   border-color: #ff2a4c;
+  outline: 4px solid white;
+  outline-offset: -6px;
 }
 .ui.teal.button.active-btn{
   height: 30px;
