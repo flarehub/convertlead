@@ -1,17 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     BreadCrumbContainer,
     LeadsContainer,
     LeadNotesContainer,
     ReminderFormContainer
 } from "@containers";
-import {compose} from 'recompose';
+import { compose } from 'recompose';
 import * as R from 'ramda';
-import {Button, Icon, Form, TextArea, Dropdown} from 'semantic-ui-react';
-import {LeadNoteTimeLine} from './timeline';
-import {LeadReminder} from "./reminder";
+import { Button, Icon, Form, TextArea, Dropdown } from 'semantic-ui-react';
+import { LeadNoteTimeLine } from './timeline';
+import { LeadReminder } from "./reminder";
 import ReminderModal from "../../../@common/modals/reminder";
 import ButtonGroup from "components/@common/button-group";
+import { Device } from 'twilio-client';
 
 
 class AgentLeadNotes extends Component {
@@ -20,13 +21,17 @@ class AgentLeadNotes extends Component {
         showAdditionalInfo: false,
         showReminder: true,
         lead: {
+            id: '',
             email: '',
             phone: '',
+            company: []
         },
         form: {
             status: '',
             message: ''
-        }
+        },
+        onPhone: false,
+        readyToCall: false,
     };
 
     componentWillMount() {
@@ -46,14 +51,56 @@ class AgentLeadNotes extends Component {
         }, false);
 
         this.props.loadLead(lead.company.id, lead.id, true);
+        this.props.fetchTwilioTokenBy(lead.id);
     }
 
-    onCall = () => {
-        this.props.createLeadNote({
-            message: 'initiated a call',
-            status: 'CONTACTED_CALL'
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.twilioToken !== this.props.twilioToken && this.props.twilioToken) {
+            Device.setup(this.props.twilioToken);
+        }
+
+        if (prevState.onPhone && !this.state.onPhone) {
+            setTimeout(() => {
+                this.props.loadLead(this.state.lead.company.id, this.state.lead.id, true, true);
+            }, 5000)
+        }
+    }
+
+    componentDidMount() {
+        Device.disconnect(() => {
+            this.setState({
+                onPhone: false,
+            });
         });
-    };
+        Device.ready(() => {
+            console.log('Redy to call');
+            this.setState({
+                readyToCall: true,
+            })
+        });
+    }
+
+
+    onCall = () => {
+        const checkIsValidNumber = /^([0-9]|#|\*)+$/.test(this.props.lead.phone.replace(/[\+\-()\s]/g,''))
+        if (this.state.onPhone) {
+            console.log("call_disconnected");
+            Device.disconnectAll();
+        } else if (this.props.twilioToken && checkIsValidNumber) {
+            console.log("on_call");
+            Device.connect({ number: this.props.lead.phone });
+            this.setState({
+                onPhone: true,
+            });
+        }
+    }
+
+    // onCall = () => {
+    //     this.props.createLeadNote({
+    //         message: 'initiated a call',
+    //         status: 'CONTACTED_CALL'
+    //     });
+    // };
 
     onEmail = () => {
         this.props.createLeadNote({
@@ -132,27 +179,27 @@ class AgentLeadNotes extends Component {
     }
 
     render() {
-        const {lead, showTimeline, showAdditionalInfo, showReminder} = this.state;
-        const {leadNotes, leadStatuses, reminders} = this.props;
+        const { lead, showTimeline, showAdditionalInfo, showReminder } = this.state;
+        const { leadNotes, leadStatuses, reminders } = this.props;
         return (
             <div className='AgentLeadNotes'>
-                <ReminderModal/>
+                <ReminderModal />
                 <div className="column">
                     <h1 className="ui left floated header mobile-app-menu">{lead.fullname}</h1>
                 </div>
                 <div className='lead-profile-row buttons'>
-                    <Button className='remindernew-but' circular onClick={this.onNewReminder}> <Icon name='plus'/> Add reminder </Button>
+                    <Button className='remindernew-but' circular onClick={this.onNewReminder}> <Icon name='plus' /> Add reminder </Button>
                 </div>
                 <div className='lead-profile-row buttons'>
                     <Button as='a' href={`mailto:${lead.email}`} onClick={this.onEmail} circular>
-                        <Icon name='mail'/>
+                        <Icon name='mail' />
                         E-mail
                     </Button>
-                    <Button className='call-lead-but' as='a' href={`tel:${lead.phone}`} onClick={this.onCall} circular>
-                        <Icon name='call'/>
+                    <Button className='call-lead-but' as='a' href={this.readyToCall ? `tel:${lead.phone}` : '#'} onClick={this.onCall} circular>
+                        <Icon name='call' />
                     </Button>
                     <Button as='a' href={`sms:${lead.phone}`} onClick={this.onText} circular>
-                        <Icon name='pencil alternate'/>
+                        <Icon name='pencil alternate' />
                         Text
                     </Button>
                 </div>
@@ -162,7 +209,7 @@ class AgentLeadNotes extends Component {
                 </div>
                 <div className='lead-meta'>
                     <div className='meta-header' onClick={this.toggleAdditionalInfo}>Additional info:
-                        <Icon name={(showAdditionalInfo ? 'angle down' : 'angle up')}/>
+                        <Icon name={(showAdditionalInfo ? 'angle down' : 'angle up')} />
                     </div>
                     {
                         showAdditionalInfo && <p>{lead.metadata}</p>
@@ -171,34 +218,34 @@ class AgentLeadNotes extends Component {
                 <div className='lead-timeline'>
                     <div className='timeline-header' onClick={this.toggleTimeline}>
                         Lead Timeline
-                        <Icon name={(showTimeline ? 'angle down' : 'angle up')}/>
+                        <Icon name={(showTimeline ? 'angle down' : 'angle up')} />
                     </div>
                     {
-                        showTimeline ? <LeadNoteTimeLine notes={leadNotes}/> : null
+                        showTimeline ? <LeadNoteTimeLine notes={leadNotes} /> : null
                     }
                 </div>
                 <div className='lead-reminder'>
                     <div className='timeline-header' onClick={this.toggleReminder}>
                         Lead Reminder
-                        <Icon name={(showReminder ? 'angle down' : 'angle up')}/>
+                        <Icon name={(showReminder ? 'angle down' : 'angle up')} />
                     </div>
                     {
                         showReminder ?
                             <LeadReminder reminders={reminders} lead={lead}
-                                 onEdit={(reminder) => this.onEditReminder(reminder)}
-                                 onDelete={(reminder) => this.onDeleteReminder(reminder)}/> : null
+                                onEdit={(reminder) => this.onEditReminder(reminder)}
+                                onDelete={(reminder) => this.onDeleteReminder(reminder)} /> : null
                     }
                 </div>
                 <div className='addLeadNote'>
                     <Form>
                         <Form.Field>
-                            <TextArea name='message' placeholder={"+ add note"} onChange={this.onChange}/>
+                            <TextArea name='message' placeholder={"+ add note"} onChange={this.onChange} />
                         </Form.Field>
                         <ButtonGroup>
                             <Button onClick={this.onAddNote} positive>Submit</Button>
-                            <Button.Or/>
+                            <Button.Or />
                             <Dropdown options={leadStatuses} name='status' onChange={this.onChange} floating button
-                                      className='icon' defaultValue={lead.status}/>
+                                className='icon' defaultValue={lead.status} />
                         </ButtonGroup>
                     </Form>
                 </div>
