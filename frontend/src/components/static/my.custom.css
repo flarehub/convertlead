@@ -2878,6 +2878,32 @@ font-family: 'Roboto Condensed', sans-serif;
     cursor: pointer;
 }
 
+.AgentLeadNotes .lead-profile-row > .endCall {
+    width: 55px;
+    height: 55px;
+    background: #ff3649 !important;
+    color: #fff !important;
+    border-radius: 45px;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    -webkit-align-content: center;
+    align-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    font-size: 19px;
+    margin:20px;
+    box-shadow: 3px 3px 14px 2px rgba(0,12,255,.2) ;
+}
+
+.AgentLeadNotes .lead-profile-row > .endCall i {
+    margin:0 !important;
+}
+
+
+
+
 .ui.form textarea:focus {
     border-color: #4d77ff !important ;
 }
