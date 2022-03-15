@@ -9,13 +9,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 
-class LeadReplyController extends Controller {
+use Twilio\TwiML\VoiceResponse;
 
-    public function onSMSReply(Request $request) {
+class LeadReplyController extends Controller
+{
+
+    public function onSMSReply(Request $request)
+    {
         $fromNumber = ltrim(str_replace('+', '',  $request->get('From', '')), '00');
         $messageBody = $request->get('Body');
         \Log::critical('Sms reply');
-        \Log::critical('number='.$fromNumber.'message='.$messageBody);
+        \Log::critical('number=' . $fromNumber . 'message=' . $messageBody);
 
         $lead = Lead::query()
             ->where('phone', 'like', $fromNumber)
@@ -39,8 +43,7 @@ class LeadReplyController extends Controller {
             ->where(function ($query) {
                 $query
                     ->where('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY)
-                    ->orWhere('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN)
-                ;
+                    ->orWhere('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN);
             })
             ->orderBy('deal_actions.id', 'desc')
             ->first();
@@ -60,14 +63,14 @@ class LeadReplyController extends Controller {
                     break;
                 }
             }
-        }
-        elseif ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY) {
+        } elseif ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY) {
             $this->leadReplyNote($lead, $dealAction, $fromNumber, $messageBody);
             $dealAction->scheduleNextLeadAction($lead);
         }
     }
 
-    public function leadReplyNote($lead, $dealAction, $fromNumber, $messageBody) {
+    public function leadReplyNote($lead, $dealAction, $fromNumber, $messageBody)
+    {
         LeadNote::create([
             'lead_status_id' => $lead->lead_status_id,
             'lead_id' => $lead->id,
@@ -77,7 +80,8 @@ class LeadReplyController extends Controller {
         ]);
     }
 
-    public function onMailReply(Request $request, $leadId, $dealActionId) {
+    public function onMailReply(Request $request, $leadId, $dealActionId)
+    {
         $lead = Lead::query()->where('id', $leadId)->firstOrFail();
         $dealAction = DealAction::findOrFail($dealActionId);
 
@@ -94,5 +98,33 @@ class LeadReplyController extends Controller {
 
         $img = Image::make(public_path('images/pixel.png'))->resize(1, 1);
         return $img->response('jpg');
+    }
+
+    public function onVoiceReply(Request $request)
+    {
+        \Log::critical('========================================');
+        $response = new VoiceResponse();
+        $from = $request->get('Caller', '');
+
+        \Log::critical('client:Anonymous is false:::' . $from . ";;" . $request->get('number'));
+
+        // $lead = Lead::query()->where('phone', 'like', $from)->orderBy('id', 'desc')->firstOrFail();
+        // $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
+        // $dial = $response->dial('', [
+        //     'record' => 'record-from-ringing-dual',
+        //     'recordingStatusCallbackMethod' => 'POST',
+        //     'recordingStatusCallbackEvent' => 'completed',
+        //     'recordingStatusCallback' => $recordingStatus,
+        // ]);
+        // $agentPhone = ($agent->twilio_mobile_number ? $agent->phone : $lead->company['phone']);
+
+        // $dial->number($agentPhone);
+        // LeadNote::create([
+        //     'lead_status_id' => $lead->lead_status_id,
+        //     'lead_id' => $lead->id,
+        //     'agent_id' => $lead->agent_id,
+        //     'message' => "Lead Call back Agent!",
+        // ]);
+        // \Log::critical('other case::::::::: ' . $agentPhone);
     }
 }

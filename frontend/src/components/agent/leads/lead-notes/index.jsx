@@ -195,7 +195,7 @@ class AgentLeadNotes extends Component {
                         <Icon name='mail' />
                         E-mail
                     </Button>
-                    <Button className='call-lead-but' as='a' href={this.readyToCall ? `tel:${lead.phone}` : '#'} onClick={this.onCall} circular>
+                    <Button  className={(this.state.onPhone ? 'endCall' : 'call-lead-but')} as='a' href={this.readyToCall ? `tel:${lead.phone}` : '#'} onClick={this.onCall} circular>
                         <Icon name='call' />
                     </Button>
                     <Button as='a' href={`sms:${lead.phone}`} onClick={this.onText} circular>
