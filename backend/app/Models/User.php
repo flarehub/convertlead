@@ -299,7 +299,8 @@ class User extends Authenticatable
         if ($number->sid) {
             $twilioClient->incomingPhoneNumbers($number->sid)->update([
                 'smsMethod' => 'POST',
-                'smsUrl' => action([LeadReplyController::class, 'onSMSReply'])
+                'smsUrl' => action([LeadReplyController::class, 'onSMSReply']),
+                'voiceUrl' => action([LeadReplyController::class, 'onVoiceReply']),
             ]);
         }
 
