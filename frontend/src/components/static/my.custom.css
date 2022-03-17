@@ -243,9 +243,9 @@ div[id^=__lpform_] {
 }
 
 i.icon.sidebar:before {
-    content: "\EC2B" !important;
-    font-size: 20px;
-    font-family: Linearicons,serif !important;
+    content: "\EC42" !important;
+    font-size: 25px;
+    font-family: tabler-icons,serif !important;
 }
 
 .freshAppHeader {
@@ -1043,7 +1043,7 @@ input::selection, textarea::selection {
 
 
 .ui.input {
-    color: #637282 !important;
+    color: #7f7c9d !important;
     font-family:'Averta', sans-serif
 }
 
@@ -2340,15 +2340,23 @@ input:focus {
 
 .average-response-time ul li div {
 
-    width:10px !important;
-    height:10px;
-    border-radius: 25px;
-    display: block;
+  
 
 }
 
 .LeadsStats .average-response-time div{
     margin-bottom:35px;
+}
+
+.Leadsstats .chart-wrapper {
+	
+	min-height:280px;
+	
+}
+
+.LeadsStats .chart-wrapper .empty-wrapper {
+	
+	top:15px;
 }
 
 
@@ -2360,25 +2368,30 @@ input:focus {
 
 .LeadsStats .average-response-time ul li div {
 
-    width:10px !important;
+    width:12px !important;
     border-radius: 25px;
     display: block;
     margin-bottom: 15px;
+	height:12px !important;
+    
 
 }
 
 .LeadsStats .average-response-time ul li {
     display: inline-flex!important;
     margin-right: 5px !important;
-    width: 50px;
+    width: 52px;
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
     text-align: center;
-    font-weight: 600;
-    font-family: Lato,sans-serif;
-    color: #637282 !important;
-    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Averta',sans-serif;
+    color: #9d9bb5;
+	font-weight: 600;
+	font-size: 13px;
+	line-height: 1.2;
+	text-transform: uppercase;
 }
 
 .LeadsStats .average-response-time ul li:nth-child(5) {
@@ -2396,6 +2409,10 @@ input:focus {
 
 .AgentLeads .tab-panel .ui.icon.input input{
     border-radius:25px;
+	background: #ecedf6;
+	border: 1px solid #d7daeb;
+	color: #7f7c9d !important;
+	font-family: 'averta', sans-serif;
 }
 
 .ui.segment.active.tab {
@@ -2415,15 +2432,17 @@ input:focus {
 .AgentLeads .header.mobile-app-menu, .LeadsStats .header.mobile-app-menu {
 
     font-size: 30px !important;
-    font-weight: 400 !important;
-    font-family: 'Dosis', sans-serif !important;
-    color: #1B2733 !important;
+    font-weight: 600 !important;
+    font-family: 'Averta', sans-serif !important;
+    color: #3c3a4e !important;
+	line-height:41px;
 }
 
 .AgentLeads .ui.secondary.menu .active.item {
-    background: #fff;
-    color: #4d77ff;
+    background: transparent;
+    color: #3c3a4e ;
     font-weight: 600;
+	
 }
 
 .AgentLeads .ui.secondary.menu .active.item:after {
@@ -2440,17 +2459,17 @@ input:focus {
 
 .AgentLeads .ui.secondary.menu .item {
     text-transform: uppercase;
-    font-weight: 600;
-    color: #b3b3b3;
-    font-size: 1rem;
-    font-family: 'Cabin Condensed', sans-serif;
+    font-weight: 500;
+    color: #c0bed0;
+    font-size:13px;
+    font-family:'Averta',sans-serif;
     margin:0;
     padding: .78571429em .62857143em;
     letter-spacing:-0.3px !important;
 }
 
 .AgentLeads .ui.secondary.menu .item:hover, .AgentLeads .ui.secondary.menu .active.item:hover{
-    background: #fff;
+    background: transparent;
     color: #4d77ff;
     font-weight: 600;
 }
@@ -2478,17 +2497,23 @@ input:focus {
 }
 
 .ui.very.relaxed.list.AgentLeadsList .item .content a.header{
-    color: #1b2733 !important ;
+    color: #3c3a4e !important;
     font-size: 17px;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Averta', sans-serif;
     font-weight: 400;
     margin-bottom:5px;
 }
 
+.ui.very.relaxed.list.AgentLeadsList .item .content a.header .lead-name {
+	
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
 .AgentLeadsList .item .content .deal-name{
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Averta', sans-serif;
     font-weight: 400;
-    color: #637282;
+    color: #7f7c9d;
     font-size: 14px;
     width: 120px;
     display: inline-block;
@@ -2497,9 +2522,9 @@ input:focus {
 }
 
 .AgentLeadsList .item .content .listItemTime{
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Averta', sans-serif;
     font-weight: 400;
-    color: #637282;
+    color: #7f7c9d;
     font-size: 14px;
 }
 
@@ -2514,6 +2539,8 @@ input:focus {
     width: 45px !important;
     height: 45px !important;
     padding-top: 14px;
+	font-family: 'Averta',sans-serif;
+	margin-right:15px;
 }
 
 .AgentLeads .ui.secondary.menu {
@@ -2524,7 +2551,7 @@ input:focus {
 
 .agent-welcome p {
 
-    font-weight: 500;
+    font-weight: 400;
     color: #637282 !important;
     padding-bottom: 16px;
     display: block;
@@ -2532,11 +2559,11 @@ input:focus {
 }
 
 .agent-welcome h3 {
-    font-size: 30px !important;
-    font-weight: 400 !important;
-    font-family: 'Dosis', sans-serif !important;
+    font-size: 25px !important;
+    font-weight: 600 !important;
+    font-family: 'Averta', sans-serif !important;
     margin-top:40px;
-    color: #1B2733 !important;
+    color: #3c3a4e !important;
 }
 
 .agent-welcome a .button, .AgentLeads .massive.circular{
@@ -2563,16 +2590,26 @@ input:focus {
 }
 
 .LeadsStats .required.field .selection.dropdown, .AgentLeads .required.field .selection.dropdown {
-    border: 1px solid #c0c0c0;
-    border-radius: 25px !important;
-    display: inline;
-    padding: 7px 35px 7px 15px !important;
-    color: #4d4d4d;
+    border: 1px solid #dfdff0;
+	border-radius: 75px !important;
+	border-top-left-radius: 75px;
+	border-top-right-radius: 75px;
+	border-bottom-right-radius: 75px;
+	border-bottom-left-radius: 75px;
+	display: inline;
+	padding: 10px 35px 11px 15px !important;
+	color: #7f7c9d;
+	font-size: 14px !important;
+	font-weight: 500;
+	box-shadow: 1px 2px 0 1px rgba(225, 225, 240, 0.33) !important;
+	margin-right:-15px;
 }
 
-.LeadsStats .required.field .selection.dropdown i {
-    top:.5571429em;
+.LeadsStats .required.field .selection.dropdown i, .LeadsStats .ui.selection.dropdown i.dropdown {
+    top:.9371429em !important;
 }
+
+
 
 .LeadsStats .required.field .selection.dropdown .visible.menu.transition, .AgentLeads .required.field .selection.dropdown .visible.menu.transition {
     width: 140px;
@@ -3831,7 +3868,7 @@ fill:#8d96b5
         vertical-align: middle;
         cursor: pointer;
         padding-bottom: 7px;
-        width:20px;
+        width:10px;
 
     }
 

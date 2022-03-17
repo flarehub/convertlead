@@ -20,7 +20,7 @@ class LeadsList extends Component {
                                     <div className={`lead-status-icon lead-status-${lead.status[0].toLowerCase()}`}>
                                         {(lead.fullname && lead.fullname[0]) || statuses[lead.status].icon}
                                     </div>
-                                    {lead.fullname}
+                                    <p className='lead-name'> {lead.fullname}</p>
                                 </List.Header>
                                 <List.Description>
                                     <span className='company-name'>{lead.company.name}, </span>

@@ -55,7 +55,7 @@ class LeadStats extends Component {
             let ul = document.createElement('ul');
             let i = 0;
             chart.data.labels.forEach(function (item) {
-                ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="background-color: ${chart.data.datasets[0].backgroundColor[i]}; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item}</li>`;
+                ul.innerHTML += `<li style="display: inline; margin-right: 10px"><div style="border:4px solid; border-color: ${chart.data.datasets[0].backgroundColor[i]}; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>${item}</li>`;
                 i++;
             });
             return ul.outerHTML;

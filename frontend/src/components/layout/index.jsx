@@ -59,7 +59,7 @@ class MobileContainer extends Component {
                         style={{padding:0}}>
                         {/*<Container>*/}
                         <Menu pointing secondary size='large' style={{margin:0, display:"unset"}}>
-                            <Menu.Item style={{ zIndex:9999, position:"absolute", top:"40px", left:"10px"}} onClick={this.handleToggle}>
+                            <Menu.Item style={{ zIndex:9999,color:"#3c3a4e", position:"absolute", top:"30px", left:"10px"}} onClick={this.handleToggle}>
                                 <Icon name='sidebar'/>
                             </Menu.Item>
                         </Menu>
