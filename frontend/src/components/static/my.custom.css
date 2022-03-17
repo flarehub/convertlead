@@ -2347,19 +2347,6 @@ input:focus {
 .LeadsStats .average-response-time div{
     margin-bottom:35px;
 }
-
-.Leadsstats .chart-wrapper {
-	
-	min-height:280px;
-	
-}
-
-.LeadsStats .chart-wrapper .empty-wrapper {
-	
-	top:15px;
-}
-
-
 .LeadsStats .average-response-time ul {
     padding-left:0;
     text-align:center;
@@ -2375,6 +2362,22 @@ input:focus {
 	height:12px !important;
     
 
+}
+
+
+.LeadsStats .average-response-time div{
+    margin-bottom:35px;
+}
+
+.LeadsStats .average-response-time .chart-wrapper {
+	
+	min-height: 280px !important;
+	
+}
+
+.LeadsStats .average-response-time .chart-wrapper .empty-wrapper {
+	
+	top:15px;
 }
 
 .LeadsStats .average-response-time ul li {
