@@ -8,37 +8,46 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use DB;
+
 /**
  * Trait UserRepositoryTrait
  * @package App\Repositories
  */
-trait UserRepositoryTrait {
+trait UserRepositoryTrait
+{
 
     /**
      * @param \Request $request
      * @return mixed
      */
-    public function getCompanyDeals(Request $request) {
+    public function getCompanyDeals(Request $request)
+    {
         $query =  $this
             ->deals()
             ->join('users AS company', 'company.id', '=', 'company_id')
             ->leftJoin('deal_campaigns AS dc', 'dc.deal_id', '=', 'deals.id')
             ->leftJoin('leads', 'leads.deal_campaign_id', '=', 'dc.id')
 
-            ->leftjoin(DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 9) AS sold_c'),
-                function($join) {
+            ->leftjoin(
+                DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 9) AS sold_c'),
+                function ($join) {
                     $join->on('sold_c.id', '=', 'leads.id');
-                })
+                }
+            )
 
-            ->leftjoin(DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 7) AS missed_c'),
-            function($join) {
-                $join->on('missed_c.id', '=', 'leads.id');
-            })
+            ->leftjoin(
+                DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 7) AS missed_c'),
+                function ($join) {
+                    $join->on('missed_c.id', '=', 'leads.id');
+                }
+            )
 
-            ->leftjoin(DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 4 OR lead_status_id = 5 OR lead_status_id = 6) AS contacted_s'),
-            function($join) {
-                $join->on('contacted_s.id', '=', 'leads.id');
-            })                            
+            ->leftjoin(
+                DB::raw('(SELECT * FROM `leads` WHERE lead_status_id = 4 OR lead_status_id = 5 OR lead_status_id = 6) AS contacted_s'),
+                function ($join) {
+                    $join->on('contacted_s.id', '=', 'leads.id');
+                }
+            )
 
             ->whereRaw('company.deleted_at IS NULL');
 
@@ -64,8 +73,6 @@ trait UserRepositoryTrait {
             ->withTrashed();
 
         return $query;
-
-
     }
 
     public function getDealsStatistics(Request $request)
@@ -108,14 +115,12 @@ trait UserRepositoryTrait {
 
         $where_query = "";
         if ($request->has('dealIds')) {
-            $where_query = "dc.deal_id IN (".implode(",", $request->get('dealIds')).") AND ";
+            $where_query = "dc.deal_id IN (" . implode(",", $request->get('dealIds')) . ") AND ";
         }
 
-        //return $where_query;
         $fromDate = $request->get('fromDate');
+        if (!$fromDate || $fromDate == 'null') $fromDate = "2000-01-01";
         $toDate = $request->get('toDate');
-        // $fromDate = "2019-08-01";
-        // $toDate = "2021-12-21";
 
         $query = "SELECT DATE_FORMAT(leads.created_at, '%Y-%m-%d') AS created_date,
         COUNT(DISTINCT leads.id) AS leadsCount,
@@ -123,27 +128,27 @@ trait UserRepositoryTrait {
         dc.integration 
         FROM `leads` INNER JOIN `deal_campaigns` AS `dc` ON `dc`.`id` = `leads`.`deal_campaign_id` 
         INNER JOIN `agency_companies` AS `ac` ON `ac`.`id` = `dc`.`agency_company_id` 
-        WHERE ".$where_query." `leads`.`created_at` BETWEEN 
-        DATE_FORMAT('".$fromDate."', '%Y-%m-%d') AND DATE_FORMAT('".$toDate."', '%Y-%m-%d') 
+        WHERE " . $where_query . " `leads`.`created_at` BETWEEN 
+        DATE_FORMAT('" . $fromDate . "', '%Y-%m-%d') AND DATE_FORMAT('" . $toDate . "', '%Y-%m-%d') 
         AND `leads`.`deleted_at` IS NULL 
         GROUP BY `created_date`, `dc`.`integration`";
 
         $temp = \DB::select(\DB::raw($query));
 
-        $aaa=[];
+        $aaa = [];
         $report = [];
         $totalLeadsCount = 0;
-        for($i=0; $i<count($temp); $i++){
+        for ($i = 0; $i < count($temp); $i++) {
             $totalLeadsCount += $temp[$i]->leadsCount;
         }
 
-        for($i=0; $i<count($temp); $i++){
-            $temp[$i]->leadsPercentage = round((($temp[$i]->leadsCount / $totalLeadsCount) * 100)); 
+        for ($i = 0; $i < count($temp); $i++) {
+            $temp[$i]->leadsPercentage = round((($temp[$i]->leadsCount / $totalLeadsCount) * 100));
             $aaa[$i]['records'] = $temp[$i];
             $aaa[$i]['name'] = Carbon::parse($temp[$i]->created_date)->shortDayName;
-            $aaa[$i]['totalLeadsCount'] = $temp[$i]->leadsCount;            
-        }        
-        
+            $aaa[$i]['totalLeadsCount'] = $temp[$i]->leadsCount;
+        }
+
         $report = [
             'records' => $aaa,
             'totalLeadsCount' => $totalLeadsCount

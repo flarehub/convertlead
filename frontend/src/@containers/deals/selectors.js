@@ -123,9 +123,9 @@ export const getGraphicStatistics = createSelector(
 )
 
 export const getSelectedGraphicCStatistics = createSelector(
-  state => getGraphicStatistics(state),
-  state => state.displayGraphicDate,
-  state => state.dealsStatistics.totalLeadsCount,
+  deals => getGraphicStatistics(deals),
+  deals => deals.displayGraphicDate,
+  deals => deals.dealsStatistics.totalLeadsCount,
   (dealsGraphic, displayGraphicDate, totalLeadsCount) => R.pipe(
       R.pluck(['records']),
       R.flatten,
