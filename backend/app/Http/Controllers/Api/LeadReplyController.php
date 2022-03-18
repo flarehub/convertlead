@@ -123,12 +123,12 @@ class LeadReplyController extends Controller
 
             $dial->number($agentPhone);
 
-            LeadNote::create([
-                'lead_status_id' => $lead->lead_status_id,
-                'lead_id' => $lead->id,
-                'agent_id' => $lead->agent_id,
-                'message' => "Lead Call back Agent!",
-            ]);
+            // LeadNote::create([
+            //     'lead_status_id' => $lead->lead_status_id,
+            //     'lead_id' => $lead->id,
+            //     'agent_id' => $lead->agent_id,
+            //     'message' => "Lead Call back Agent!",
+            // ]);
         } catch (\Throwable $th) {
             //throw $th;
         }
