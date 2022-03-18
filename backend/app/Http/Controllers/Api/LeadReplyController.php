@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\DealAction;
 use App\Models\Lead;
+use App\Models\Agent;
 use App\Models\LeadNote;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -102,29 +103,37 @@ class LeadReplyController extends Controller
 
     public function onVoiceReply(Request $request)
     {
-        \Log::critical('========================================');
         $response = new VoiceResponse();
         $from = $request->get('Caller', '');
+        $to = $request->get('To', '');
 
-        \Log::critical('client:Anonymous is false:::' . $from . ";;" . $request->get('number'));
+        try {
+            $agent = Agent::query()->where('twilio_mobile_number', 'like', $to)->orderBy('id', 'desc')->firstOrFail();
+            $lead = Lead::where('phone', 'like', $agent->phone)->orderBy('id', 'desc')->firstOrFail();
 
-        // $lead = Lead::query()->where('phone', 'like', $from)->orderBy('id', 'desc')->firstOrFail();
-        // $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
-        // $dial = $response->dial('', [
-        //     'record' => 'record-from-ringing-dual',
-        //     'recordingStatusCallbackMethod' => 'POST',
-        //     'recordingStatusCallbackEvent' => 'completed',
-        //     'recordingStatusCallback' => $recordingStatus,
-        // ]);
-        // $agentPhone = ($agent->twilio_mobile_number ? $agent->phone : $lead->company['phone']);
+            $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
+            $dial = $response->dial('', [
+                'callerId' =>  $to,
+                'record' => 'record-from-ringing-dual',
+                'recordingStatusCallbackMethod' => 'POST',
+                'recordingStatusCallbackEvent' => 'completed',
+                'recordingStatusCallback' => $recordingStatus,
+            ]);
+            $agentPhone = ($agent->twilio_mobile_number ? $agent->phone : $lead->company['phone']);
 
-        // $dial->number($agentPhone);
-        // LeadNote::create([
-        //     'lead_status_id' => $lead->lead_status_id,
-        //     'lead_id' => $lead->id,
-        //     'agent_id' => $lead->agent_id,
-        //     'message' => "Lead Call back Agent!",
-        // ]);
-        // \Log::critical('other case::::::::: ' . $agentPhone);
+            $dial->number($agentPhone);
+
+            LeadNote::create([
+                'lead_status_id' => $lead->lead_status_id,
+                'lead_id' => $lead->id,
+                'agent_id' => $lead->agent_id,
+                'message' => "Lead Call back Agent!",
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        // \Log::critical('onVoiceReply end:::::::::agent=>' . $agent->id . "lead=>" . $lead->id . "agentPhone=>" . $agentPhone);
+
+        return (string)$response;
     }
 }
