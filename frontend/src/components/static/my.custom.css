@@ -2340,7 +2340,7 @@ input:focus {
 
 .average-response-time ul li div {
 
-  
+  border-radius:25px;
 
 }
 
@@ -2371,7 +2371,7 @@ input:focus {
 
 .LeadsStats .average-response-time .chart-wrapper {
 	
-	min-height: 280px !important;
+	min-height: 240px !important;
 	
 }
 
@@ -2413,9 +2413,15 @@ input:focus {
 .AgentLeads .tab-panel .ui.icon.input input{
     border-radius:25px;
 	background: #ecedf6;
-	border: 1px solid #d7daeb;
+	border: 1px solid #bfc5d2;
 	color: #7f7c9d !important;
 	font-family: 'averta', sans-serif;
+}
+
+.AgentLeads .tab-panel .ui.icon.input input::placeholder {
+	opacity:0.8;
+	color:#7f7c9d;
+	font-weight:500;
 }
 
 .ui.segment.active.tab {
@@ -2563,7 +2569,7 @@ input:focus {
 
 .agent-welcome h3 {
     font-size: 25px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     font-family: 'Averta', sans-serif !important;
     margin-top:40px;
     color: #3c3a4e !important;
@@ -2675,13 +2681,20 @@ input:focus {
     text-align:left;
 }
 
+.AgentLeadNotes textarea {
+	
+	border:1px solid rgb(200, 201, 210) !important ;
+	
+}
+
 .info-header, .meta-header, .timeline-header {
-    text-transform: uppercase;
+   
     font-weight: 400;
     font-size: 15px;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Averta', sans-serif;
     margin: 0;
-    color: #637282;
+    color: #9d9bb5;
+	margin-bottom: 5px;
 }
 
 .lead-info, .lead-meta {
@@ -2708,12 +2721,18 @@ input:focus {
 
 .ui.circular.button.remindernew-but {
 
-    font-family: Roboto Condensed !important;
-    background: #f7f7f7;
-    margin: 15px auto;
-    color: #637282;
-    font-weight: 500;
-    border: 1px dashed #929fac;
+    font-family: 'Averta', sans-serif !important;
+	background: #f6f6fa;
+	margin: 15px auto;
+	color: #9d9bb5;
+	font-weight: 500;
+	border: 1px dashed #9d9bb5;
+	padding-bottom:12px;
+}
+
+.ui.circular.button.remindernew-but:hover {
+	border:1px dashed #4d77ff;
+	color: #4d77ff;
 }
 
 .ui.circular.button.remindernew-but i {
@@ -2726,9 +2745,12 @@ input:focus {
 
 .AgentLeadNotes .lead-note {
     margin:10px 0;
-    background: #fff;
-    border-radius: 3px;
-    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+	transition: border-color 0.5s ease;
+	box-shadow: 0px 0px 1px rgb(224, 225, 234);
+	border: 1px solid #dfdff0;
+	background:#fff;
+	padding: 20px;
 }
 
 .AgentLeadNotes .column {
@@ -2739,33 +2761,50 @@ input:focus {
 }
 
 .AgentLeadNotes h1 {
-    margin-top: 23px !important;
-    font-size: 30px !important;
-    font-weight: 400 !important;
-    font-family: Dosis,sans-serif !important;
-    color: #1b2733 !important;
+    margin-top: 24px !important;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 300px;
     white-space: nowrap;
+	font-size: 30px !important;
+	font-weight: 600 !important;
+	font-family: 'Averta', sans-serif !important;
+	color: #3c3a4e !important;
+	line-height: 41px;
 }
 
 .AgentLeadNotes .lead-profile-row > a {
-    background:transparent;
-    padding:0 !important;
-    font-family: Dosis, sans-serif !important;
-    font-weight: 500;
-    text-align: center;
+    color: #666382 !important;
+font-size: 29px;
+margin: 10px 5px;
+background: #f6f6fa;
+display: -webkit-flex;
+display: flex;
+-webkit-align-content: center;
+align-content: center;
+-webkit-justify-content: center;
+justify-content: center;
+-webkit-align-items: center;
+align-items: center;
+width: 45px;
+height: 45px;
+padding:0;
+}
+
+.AgentLeadNotes .lead-profile-row > a i {
+	
+	margin: 0 !important;
 }
 
 .AgentLeadNotes .lead-profile-row > a:hover {
     background:transparent;
+	color:#4d77ff !important;;
 
 }
 
 .AgentLeadNotes .lead-profile-row > a > i{
     width:100% !important;
-    margin-bottom:10px !important;
+    
 
 }
 
@@ -2794,9 +2833,16 @@ input:focus {
     align-items: center;
     -webkit-justify-content: center;
     justify-content: center;
-    font-size: 19px;
+    font-size: 20px !important;
     margin:20px;
     box-shadow: 3px 3px 14px 2px rgba(0,12,255,.2) ;
+	
+}
+
+.AgentLeadNotes .lead-profile-row > .call-lead-but:hover {
+	
+	color:#fff !important;
+	
 }
 
 
@@ -2870,13 +2916,14 @@ input:focus {
 
 .AgentLeadNotes .lead-note-datetime {
      font-weight: 600;
-     color: #637282;
+     color: #9d9bb5;
      font-size: 12px;
  }
 
 .AgentLeadNotes .lead-note-content, .AgentLeadNotes .lead-info, .AgentLeadNotes .lead-meta {
-color: #1b2733 !important;
-font-family: 'Roboto Condensed', sans-serif;
+	
+	color: #3c3a4e !important;
+	font-family: 'Averta', sans-serif;
 }
 
 .AgentLeadNotes .addLeadNote {
@@ -2892,27 +2939,27 @@ font-family: 'Roboto Condensed', sans-serif;
     border-bottom: 0!important;
     border-left:0!important;
     border-right:0!important;
-    border-top: 1px solid #bababa !important;
-    height: 65px;
-    font-family: Lato, sans-serif;
+    border-top: 1px solid #cccbd0 !important;
+    height: 75px;
+    font-family: 'Averta', sans-serif;
     font-weight: 400;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .field {
     margin-bottom:0;
-    box-shadow: 0 -5px 7px rgba(0,0,0,0.1);
+    box-shadow: none;
 }
 
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons{
     width: 100%;
-    border-top: 1px dashed #ccc;
-    height: 50px;
+   height: 50px;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button {
     border-radius:0;
-    font-family: Lato, sans-serif !important;
+    font-family: 'Averta', sans-serif !important;
+	font-weight:500;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.positive {
@@ -2924,15 +2971,19 @@ font-family: 'Roboto Condensed', sans-serif;
     width: 60%;
     line-height: 25px;
     padding-left:20px;
+	align-items: center;
+	display: flex;
+	color: #828099;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .button.floating.dropdown.icon i {
     float:right;
+	margin: 0 15px 0 auto !important;
 }
 
 .AgentLeadNotes .addLeadNote .ui.form .ui.buttons .or::before {
-    content:'\e999  ';
-    font-family: 'Linearicons', serif !important;
+    content:"\EEAC";
+    font-family:"tabler-icons" !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -2941,6 +2992,9 @@ font-family: 'Roboto Condensed', sans-serif;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
+	font-size: 18px;
+	color: #828099;
+	left:-1px;
 }
 
 
@@ -4312,3 +4366,15 @@ and (orientation: portrait) {
 	color:#3c3a4e;
   }
   
+
+  .btnCloseLead{
+      cursor: pointer;
+      right: 10px;
+      position: absolute;
+      top: 8px;
+      width: 25px;
+      height: 25px;
+      font-size: 24px;
+      z-index:9999;
+      color:#3c3a4e;
+    }
