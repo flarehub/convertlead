@@ -4365,18 +4365,6 @@ and (orientation: portrait) {
 	z-index:9999;
 	color:#3c3a4e;
   }
-
-  .btnCloseLead{
-      cursor: pointer;
-      right: 10px;
-      position: absolute;
-      top: 8px;
-      width: 25px;
-      height: 25px;
-      font-size: 24px;
-      z-index:9999;
-      color:#3c3a4e;
-    }
   
 
   .btnCloseLead{
