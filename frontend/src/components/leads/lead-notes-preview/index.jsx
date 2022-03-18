@@ -80,57 +80,56 @@ class LeadNotes extends Component {
         return (
             <div className='lead-notes-profile-container'>
                 <LeadModal size='small'/> 
-                    <Segment className='lead-n-p-content'>
-                        <div className="lead-n-p-row lead-n-p-row-top align-stretch">  
-                            {/* <div className="btnClose" onClick={() => this.props.onClose()}><i className="flaticon stroke x-2"></i></div> */} 
-                            <div className="title">Quick Preview</div> 
-                            <div className="link-profile">
-                                <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`} className="btn">
-                                    Profile
-                                </Link>
-                            </div>
-                              
-                        </div> 
-                        <div className='lead-n-p-row align-center'>
-                            <div className={`circle-label lead-status-${lead.status[0].toLowerCase()}`}>
-                                {(lead.fullname && lead.fullname.charAt(0).toUpperCase()) || lead.status.charAt(0).toUpperCase()}
-                                {
-                                    lead.smsReplayCount && (
-                                        <Label color='red' floating>
-                                        {lead.smsReplayCount}
-                                        </Label>
-                                    ) || ( '' )
-                                }
-                            </div>
-                            <div className='l-full-name'>{lead.fullname}</div>
-                            <div className='l-email'>{lead.email}</div>
-                            {
-                                !lead.deleted_at && (
-                                    <Grid.Column className="circle-button-groups">
-                                        <div className={'ui secondary menu leadnotes'}>
-                                            <Button circular className='email'
-                                                    icon='ti-mail-forward ti'   as='a' href={`mailto:${lead.email}`}/>
-                                            {
-                                                twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='ti-phone ti'  onClick={this.onCall} />
-                                            }
-                                            
-                                            <Button circular className='editlead'
-                                                    icon='ti-pencil ti'  onClick={this.props.loadForm.bind(this, {
-                                                ...lead,
-                                                company_id: lead.company.id,
-                                                show: true
-                                            })}/>
-                                            
-                                        </div>
-                                    </Grid.Column>
-                                )
-                            } 
-                            
-                            <TimeLine notes={leadNotes} lead={lead} 
-                                      onAddNote={this.onAddNote}
-                                      leadStatuses={leadStatuses}/>
+                <Segment className='lead-n-p-content'>
+                    <div className="lead-n-p-row lead-n-p-row-top align-stretch">  
+                        <div className="btnCloseLead" onClick={() => this.props.onClose()}><i className="flaticon stroke x-2"></i></div> 
+                        <div className="title">Quick Preview</div> 
+                        <div className="link-profile">
+                            <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`} className="btn">
+                                Profile
+                            </Link>
                         </div>
-                    </Segment> 
+                    </div> 
+                    <div className='lead-n-p-row align-center'>
+                        <div className={`circle-label lead-status-${lead.status[0].toLowerCase()}`}>
+                            {(lead.fullname && lead.fullname.charAt(0).toUpperCase()) || lead.status.charAt(0).toUpperCase()}
+                            {
+                                lead.smsReplayCount && (
+                                    <Label color='red' floating>
+                                    {lead.smsReplayCount}
+                                    </Label>
+                                ) || ( '' )
+                            }
+                        </div>
+                        <div className='l-full-name'>{lead.fullname}</div>
+                        <div className='l-email'>{lead.email}</div>
+                        {
+                            !lead.deleted_at && (
+                                <Grid.Column className="circle-button-groups">
+                                    <div className={'ui secondary menu leadnotes'}>
+                                        <Button circular className='email'
+                                                icon='ti-mail-forward ti'   as='a' href={`mailto:${lead.email}`}/>
+                                        {
+                                            twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='ti-phone ti'  onClick={this.onCall} />
+                                        }
+                                        
+                                        <Button circular className='editlead'
+                                                icon='ti-pencil ti'  onClick={this.props.loadForm.bind(this, {
+                                            ...lead,
+                                            company_id: lead.company.id,
+                                            show: true
+                                        })}/>
+                                        
+                                    </div>
+                                </Grid.Column>
+                            )
+                        } 
+                        
+                        <TimeLine notes={leadNotes} lead={lead} 
+                                    onAddNote={this.onAddNote}
+                                    leadStatuses={leadStatuses}/>
+                    </div>
+                </Segment> 
             </div>
         )
     }
