@@ -89,10 +89,10 @@ class Agency extends User
         $end_dt = Carbon::createFromFormat('Y-m-d', $toDate)->endOfDay();
 
         $query->whereBetween('leads.created_at', [
-            // $st_dt,
-            // $end_dt
-            "'2019-08-07'",
-            "'2019-08-14'"  
+            $st_dt,
+            $end_dt
+            // "'2019-08-07'",
+            // "'2019-08-14'"  
         ]);
 
         $query->groupBy(['ac.company_id', 'creation_date']);

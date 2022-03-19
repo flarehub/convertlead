@@ -192,15 +192,15 @@ class AgentLeadNotes extends Component {
                 </div>
                 <div className='lead-profile-row buttons'>
                     <Button as='a' href={`mailto:${lead.email}`} onClick={this.onEmail} circular>
-                        <Icon name='mail' />
-                        E-mail
+                        <Icon className='ti-mail-forward ti' />
+                       
                     </Button>
                     <Button  className={(this.state.onPhone ? 'endCall' : 'call-lead-but')} as='a' href={this.readyToCall ? `tel:${lead.phone}` : '#'} onClick={this.onCall} circular>
                         <Icon name='call' />
                     </Button>
                     <Button as='a' href={`sms:${lead.phone}`} onClick={this.onText} circular>
-                        <Icon name='pencil alternate' />
-                        Text
+                        <Icon className='ti ti-device-mobile-message' />
+                        
                     </Button>
                 </div>
                 <div className='lead-info'>
