@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import {Button, Form, Icon, Popup, Select} from "semantic-ui-react";
+import { Button, Form, Icon, Popup, Select } from "semantic-ui-react";
 import * as moment from "moment";
-import {compose} from "recompose";
+import { compose } from "recompose";
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import DatePickerSelect from "../../@common/datepicker";
-import {AgentsContainer, CompaniesContainer} from "../../../@containers";
+import { AgentsContainer, CompaniesContainer } from "../../../@containers";
 
 import './index.scss';
 
@@ -103,6 +103,7 @@ class CompanyLeadStats extends Component {
     render() {
         const { onClose, agents, company, companyLeadStats, companyLeadStatsRecords, companyObject } = this.props;
         const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
+        console.log(companyLeadStatsRecords)
 
         return (
             <div className="companyLeadStats">
@@ -115,13 +116,13 @@ class CompanyLeadStats extends Component {
                     <div className="lead-stats-head">Lead Stats</div>
                     <div className="filters">
                         <Popup position='bottom left'
-                               trigger={
-                                   <Form.Field>
-                                       <Button className="dateSelector">
-                                           <Icon name='calendar alternate outline'/>
-                                           {startDateDisplay} - {endDateDisplay}
-                                       </Button>
-                                   </Form.Field>} flowing hoverable>
+                            trigger={
+                                <Form.Field>
+                                    <Button className="dateSelector">
+                                        <Icon name='calendar alternate outline' />
+                                        {startDateDisplay} - {endDateDisplay}
+                                    </Button>
+                                </Form.Field>} flowing hoverable>
 
                             <DatePickerSelect
                                 onChangeDateFrom={this.onChangeDateFrom}
@@ -138,28 +139,34 @@ class CompanyLeadStats extends Component {
                             placeholder='Company agents'
                             search
                             onChange={this.onChangeAgent}
-                            searchInput={{id: 'agents-list'}}
+                            searchInput={{ id: 'agents-list' }}
                         />
                     </div>
 
-                    <BarChart
-                        width={280}
-                        height={200}
-                        data={companyLeadStatsRecords}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 0,
-                            bottom: 5,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis width={40} />
-                        <Tooltip />
-                        <Bar dataKey="total_leads_count" name="Total Leads" fill="#4d77ff"  barSize={5}/>
-                        <Bar dataKey="total_leads_converted" name="Converted Leads" fill="#65a126"  barSize={5}/>
-                    </BarChart>
+                    {companyLeadStatsRecords.length ?
+                        <BarChart
+                            width={280}
+                            height={200}
+                            data={companyLeadStatsRecords}
+                            margin={{
+                                top: 5,
+                                right: 30,
+                                left: 0,
+                                bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis width={40} />
+                            <Tooltip />
+                            <Bar dataKey="total_leads_count" name="Total Leads" fill="#4d77ff" barSize={5} />
+                            <Bar dataKey="total_leads_converted" name="Converted Leads" fill="#65a126" barSize={5} />
+                        </BarChart>
+                        :
+                        <div className="p-25">
+                            <img src="img/no-data.png" />
+                        </div>
+                    }
 
                     <div className="averages">
                         <label className="avr_response_time">AVR Response Time</label>

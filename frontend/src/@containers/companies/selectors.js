@@ -42,16 +42,17 @@ export const selectBoxTimezones = createSelector(
 );
 
 export const companyLeadStatsRecords = createSelector(
-    [state => state.companies.companyLeadStats],
-    (companyLeadStats) => {
-        return R.reduce((acc, { creation_date, total_leads_count, total_leads_converted }) => {
-            acc.push({
-                total_leads_count,
-                total_leads_converted,
-                name: creation_date,
-            });
+  [state => state.companies.companyLeadStats],
+  (companyLeadStats) => {
+    return R.reduce((acc, { creation_date, total_leads_count, total_leads_converted }) => {
+      if (total_leads_count != undefined && creation_date != undefined)
+        acc.push({
+          total_leads_count,
+          total_leads_converted,
+          name: creation_date,
+        });
 
-            return acc;
-        }, [], Object.values((companyLeadStats.records || {})))
-    }
+      return acc;
+    }, [], Object.values((companyLeadStats.records || {})))
+  }
 );

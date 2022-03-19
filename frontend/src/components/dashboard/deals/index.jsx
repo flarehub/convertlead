@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
-import { CompaniesContainer, DealsContainer} from '@containers';
+import { CompaniesContainer, DealsContainer } from '@containers';
 import DealModal from 'components/@common/modals/deal';
 import Loader from 'components/loader';
 import {
@@ -21,13 +21,13 @@ import Cookies from 'js-cookie';
 import './index.scss';
 import { DealFormContainer } from "@containers";
 import * as R from "ramda";
-import {Auth} from "@services";
-import {disableAutoComplete} from '../../../utils';
+import { Auth } from "@services";
+import { disableAutoComplete } from '../../../utils';
 import { DealsComponent } from './DealsComponent';
 import DealsStatistics from "./DealsStatistics";
 
 const companies = [
-  {key: null, text: 'All companies', value: null},
+  { key: null, text: 'All companies', value: null },
 ];
 
 class Dashboard extends Component {
@@ -56,12 +56,25 @@ class Dashboard extends Component {
     }
   }
 
+  exportTo = (type) => {
+    this.props.exportTo({
+      type,
+      statusType: this.props.query.filters.statusType,
+      search: this.props.query.search,
+      showDeleted: this.props.query.showDeleted,
+      companyId: this.props.query.filters.companyId,
+      campaignId: this.props.query.filters.campaignId,
+      startDate: this.props.query.filters.startDate,
+      endDate: this.props.query.filters.endDate,
+    });
+  };
+
   openConfirmModal = (open = true, companyId = '', dealId = '') => {
-    this.setState({open, companyId, dealId});
+    this.setState({ open, companyId, dealId });
   };
 
   onConfirm = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
     this.props.deleteDeal(this.state.companyId, this.state.dealId);
   };
 
@@ -102,7 +115,7 @@ class Dashboard extends Component {
   onDealSelected(deal) {
     let dealIds = this.state.dealIds;
     if (deal.checked) {
-       dealIds.push(deal.value);
+      dealIds.push(deal.value);
     } else {
       dealIds = dealIds.filter((id) => id !== deal.value);
     }
@@ -156,7 +169,7 @@ class Dashboard extends Component {
                 onChange={this.filterDealsByCompany}
                 defaultValue={companyId || null}
                 onSearchChange={this.onSearchChange}
-                searchInput={{id: 'form-companies-list'}}
+                searchInput={{ id: 'form-companies-list' }}
               />
               : null
           }
@@ -165,13 +178,13 @@ class Dashboard extends Component {
           <Form.Field
             control={Select}
             options={sorByFiled}
-            label={{children: 'Sort by', htmlFor: 'campaign-sort-by'}}
+            label={{ children: 'Sort by', htmlFor: 'campaign-sort-by' }}
             placeholder='Sort by '
             search
             onChange={this.sortBy}
             defaultValue={this.props.filters.sortBy}
             onSearchChange={this.sortBy}
-            searchInput={{id: 'campaign-sort-by'}}
+            searchInput={{ id: 'campaign-sort-by' }}
           />
         </div>
       </div>
@@ -215,29 +228,29 @@ class Dashboard extends Component {
       <div className={'Dashboard ' + (dealIds.length ? 'sidebarOpened' : '')}>
         {
           dealIds.length > 0 && (
-              <DealsStatistics
-                dealIds={dealIds}
-                onClose={() => this.onClose()}
-                key={JSON.stringify(dealIds)}
-              />
-            )
+            <DealsStatistics
+              dealIds={dealIds}
+              onClose={() => this.onClose()}
+              key={JSON.stringify(dealIds)}
+            />
+          )
         }
         {
           !visible || <Message className='dash' onDismiss={this.handleDismiss}>
-              <Message.Header>
-                Need Help?
-              </Message.Header>
-              <Message.Content>
-                <p>Click the button below to watch our video tutorials.</p>
-                <a className="item" href="https://convertlead.com/docs-home/" target="_blank">Take me there</a>
-              </Message.Content>
-            </Message>
+            <Message.Header>
+              Need Help?
+            </Message.Header>
+            <Message.Content>
+              <p>Click the button below to watch our video tutorials.</p>
+              <a className="item" href="https://convertlead.com/docs-home/" target="_blank">Take me there</a>
+            </Message.Content>
+          </Message>
         }
-        <DealModal/>
+        <DealModal />
         <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
-                 onConfirm={this.onConfirm}/>
+          onConfirm={this.onConfirm} />
         <Segment attached='top'>
-            <Grid columns={2}>
+          <Grid columns={2}>
             <Grid.Column>
 
               <Header floated='left' as='h1'>Campaigns</Header>
@@ -247,20 +260,25 @@ class Dashboard extends Component {
                 <Menu.Menu position='right'>
                   <Menu.Item>
                     <Input icon='flaticon stroke zoom-2' onChange={this.searchDealsByCompany} value={filters.search}
-                           placeholder='Search...'/>
+                      placeholder='Search...' />
                   </Menu.Item>
                   <Button color='teal'
-                          content=''
-                          icon='flaticon stroke plus-1 '
-                          className="new-campaign"
-                          onClick={this.props.loadForm.bind(this, {show: true})}/>
+                    content=''
+                    icon='flaticon stroke plus-1 '
+                    className="new-campaign"
+                    onClick={this.props.loadForm.bind(this, { show: true })} />
                 </Menu.Menu>
               </Menu>
             </Grid.Column>
           </Grid>
           <Segment basic>
-
-            <Loader/>
+            {/* <div className="leadFilters">
+              <div className='exportbox'>Export your data
+                <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
+                <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
+              </div>
+            </div> */}
+            <Loader />
             <Tab onTabChange={() => (this.setState({ dealIds: [] }))} menu={{ secondary: true, pointing: true }} panes={panes} />
           </Segment>
         </Segment>
