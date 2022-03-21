@@ -1,11 +1,11 @@
-import {Grid, Icon, Responsive, Segment, Sidebar, Menu} from 'semantic-ui-react'
-import React, {Component} from 'react'
+import { Grid, Icon, Responsive, Segment, Sidebar, Menu } from 'semantic-ui-react'
+import React, { Component } from 'react'
 import AppSidebar from '../sidebar'
 import Container from './container'
 import Header from './header'
 import Footer from './footer'
 import './index.scss'
-import {Auth} from "@services";
+import { Auth } from "@services";
 
 const getWidth = () => {
     const isSSR = typeof window === 'undefined'
@@ -24,10 +24,10 @@ class DesktopContainer extends Component {
                         </Grid.Column>
                         <Grid.Column width={15}>
                             {
-                                !Auth.isAgent ? <Header/> : null
+                                !Auth.isAgent ? <Header /> : null
                             }
-                            <Container/>
-                            <Footer/>
+                            <Container />
+                            <Footer />
                         </Grid.Column>
                     </Grid>
                 </div>
@@ -39,10 +39,12 @@ class DesktopContainer extends Component {
 class MobileContainer extends Component {
     state = {}
 
-    handleSidebarHide = () => this.setState({sidebarOpened: false})
-    handleToggle = () => this.setState({sidebarOpened: true})
+    handleSidebarHide = () => { 
+        this.setState({ sidebarOpened: false }) 
+    }
+    handleToggle = () => this.setState({ sidebarOpened: true })
     render() {
-        const {sidebarOpened} = this.state
+        const { sidebarOpened } = this.state
 
         return (
             <Responsive as={Sidebar.Pushable} getWidth={getWidth} maxWidth={Responsive.onlyMobile.maxWidth}>
@@ -50,27 +52,27 @@ class MobileContainer extends Component {
                     animation='push'
                     onHide={this.handleSidebarHide}
                     visible={sidebarOpened}>
-                    <AppSidebar onClickMenuItem={this.handleSidebarHide}/>
+                    <AppSidebar onClickMenuItem={this.handleSidebarHide} />
                 </Sidebar>
 
                 <Sidebar.Pusher dimmed={sidebarOpened}>
                     <Segment
                         textAlign='center'
-                        style={{padding:0}}>
+                        style={{ padding: 0 }}>
                         {/*<Container>*/}
-                        <Menu pointing secondary size='large' style={{margin:0, display:"unset"}}>
-                            <Menu.Item style={{ zIndex:9999,color:"#3c3a4e", position:"absolute", top:"30px", left:"10px"}} onClick={this.handleToggle}>
-                                <Icon name='sidebar'/>
+                        <Menu pointing secondary size='large' style={{ margin: 0, display: "unset" }}>
+                            <Menu.Item style={{ zIndex: 9999, color: "#3c3a4e", position: "absolute", top: "30px", left: "10px" }} onClick={this.handleToggle}>
+                                <Icon name='sidebar' />
                             </Menu.Item>
                         </Menu>
                         {/*</Container>*/}
                         <Grid padded='horizontally'>
                             <Grid.Column>
                                 {
-                                    !Auth.isAgent ? <Header/> : null
+                                    !Auth.isAgent ? <Header /> : null
                                 }
-                                <Container/>
-                                <Footer/>
+                                <Container />
+                                <Footer />
                             </Grid.Column>
                         </Grid>
                     </Segment>
@@ -82,8 +84,8 @@ class MobileContainer extends Component {
 
 const Layout = () => (
     <div>
-        <DesktopContainer/>
-        <MobileContainer/>
+        <DesktopContainer />
+        <MobileContainer />
     </div>
 )
 

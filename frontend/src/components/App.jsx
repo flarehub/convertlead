@@ -31,5 +31,6 @@ const App = () => (
 export default withRouter(compose(AuthContainer, ProfileContainer, lifecycle({
   componentWillMount() {
     this.props.autoLogin();
+    if (!localStorage.getItem('active-item')) localStorage.setItem('active-item', 0);
   },
 }))(App));

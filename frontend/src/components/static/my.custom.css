@@ -579,7 +579,14 @@ i.icon.sidebar:before {
     width: calc(100% - 95px);
 }
 
-.AppSidebar.menu a:nth-child(3)>div i {
+
+/* .AppSidebar.menu a:nth-child(3)>div i {
+    color: #fff !important;
+    background: #48475A !important;
+    border: 1px solid #525263 !important;
+} */
+
+.AppSidebar.menu .item .active {
     color: #fff !important;
     background: #48475A !important;
     border: 1px solid #525263 !important;
