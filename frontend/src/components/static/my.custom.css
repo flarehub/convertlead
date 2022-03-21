@@ -452,6 +452,10 @@ i.icon.sidebar:before {
     font-family: 'Averta', sans-serif;
     font-weight: 700;
     font-size: 12px;
+	max-width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .companyContainer .dealName {
@@ -460,7 +464,7 @@ i.icon.sidebar:before {
     font-weight: 500;
     font-size: 15px;
     margin-bottom: 3px;
-    max-width: 370px;
+    max-width: 160px;
     text-overflow: ellipsis !important;
     overflow: hidden;
     white-space: nowrap;
@@ -3881,13 +3885,19 @@ label.conversations {
     .Dashboard .ui.card .ui.small.basic.buttons button:hover .icon {
         color: #4d77ff !important;
     }
-    .Dashboard.sidebarOpened .DealStatistics,
-    .Leads.sidebarOpened .companyLeadStats {
-        left: 0;
-        width: 100%;
-        top: 0;
-        z-index: 999999;
-    }
+    	 
+	 .Dashboard.sidebarOpened .DealStatistics, 
+	 .Leads.sidebarOpened .companyLeadStats, 
+	 .Leads.sidebarOpened .AgentProfile, 
+	 .Leads.sidebarOpened .lead-notes-profile-container {
+		 left: 0;
+		 width: 100%;
+		 top: 0;
+		 z-index: 999999;
+		 margin-top: 1em;
+		 height:calc(100% - 2em);
+	 }
+	
     .Companies .ui.table tbody tr td:nth-child(4),
     .Companies .ui.table thead th:nth-child(4) {
         display: none !Important;
@@ -4005,19 +4015,7 @@ label.conversations {
     cursor: pointer;
     right: 10px;
     position: absolute;
-    top: 8px;
-    width: 25px;
-    height: 25px;
-    font-size: 24px;
-    z-index: 9999;
-    color: #3c3a4e;
-}
-
-.btnCloseLead {
-    cursor: pointer;
-    right: 10px;
-    position: absolute;
-    top: 8px;
+    top: 45px;
     width: 25px;
     height: 25px;
     font-size: 24px;
