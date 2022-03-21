@@ -30,13 +30,17 @@ class AgentProfile extends Component {
     constructor(props) {
         super(props);
         this.canvas = React.createRef();
+        
+        // if (this.props.companiesOfAgent && this.props.companiesOfAgent[0]) {
+        //     this.setState({ companyIds: this.props.companiesOfAgent[0].key })
+        // }
     }
 
-/**
- * **************************************************************************
- * React Lifecycle Functions
- * **************************************************************************
- */
+    /**
+     * **************************************************************************
+     * React Lifecycle Functions
+     * **************************************************************************
+     */
 
     /**
      * Called immediately before mounting occurs before rendering
@@ -49,7 +53,7 @@ class AgentProfile extends Component {
         }
         else {
             await this.props.getAgent(this.props.match.params.agentId, true);
-        } 
+        }
     }
 
     /**
@@ -66,7 +70,7 @@ class AgentProfile extends Component {
          * Form, Input : autocomplete false
          */
         disableAutoComplete();
-        
+
         /**
          * Time To Contact 
          * Reducer.js ; pieGraphContactedLeadsAverage
@@ -76,7 +80,7 @@ class AgentProfile extends Component {
             let ul = document.createElement('ul');
             let i = 0;
             chart.data.labels.forEach(function (item) {
-                ul.innerHTML += 
+                ul.innerHTML +=
                     `<li style="display: inline; margin-right: 10px">
                         <div style="border-color: ${chart.data.datasets[0].backgroundColor[i]} !important; width: 40px; height: 10px; display: inline-block; margin-right: 5px"></div>
                         ${item}
@@ -90,12 +94,8 @@ class AgentProfile extends Component {
          * Drawing Pie Chart
          */
         this.Chart = new ChartJs(this.canvas.current.getContext('2d'), this.props.pieGraphContactedLeadsAverage);
-        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
-            companyIds: [],
-            graphType: 'pie',
-            startDate: moment().startOf('month').format('Y-MM-DD'),
-            endDate: moment().endOf('month').format('Y-MM-DD'),
-        });
+
+        this.onGetAgentGraphPie();
 
         this.Chart.data = this.props.pieGraphContactedLeadsAverage.data;
         this.Chart.update();
@@ -107,14 +107,14 @@ class AgentProfile extends Component {
      * @Func:
      *      -Setting Agent Profile 
      */
-    componentWillReceiveProps () {
+    componentWillReceiveProps() {
         this.setState({
             agentProfile: this.props.agentProfile
         })
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        
+
         this.setState({ agent: nextProps.s_agent });
 
         if (this.props.agentId !== nextProps.agentId) {
@@ -135,7 +135,7 @@ class AgentProfile extends Component {
 
             // this.Chart = new ChartJs(this.canvas.current.getContext('2d'), this.props.pieGraphContactedLeadsAverage);
             this.props.getAgentGraphPie(this.Chart, nextProps.agentId, {
-                companyIds: [],
+                companyIds: this.state.companyIds,
                 graphType: 'pie',
                 startDate: this.state.startDate,
                 endDate: this.state.endDate
@@ -147,7 +147,7 @@ class AgentProfile extends Component {
         }
     }
 
-    
+
 
     /**
      * 
@@ -161,12 +161,7 @@ class AgentProfile extends Component {
             companyIds: data.value,
         });
 
-        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
-            companyIds: data.value,
-            graphType: 'pie',
-            startDate: this.state.startDate,
-            endDate: this.state.endDate,
-        });
+        this.onGetAgentGraphPie();
     };
 
     /**
@@ -187,12 +182,7 @@ class AgentProfile extends Component {
             endDateDisplay: moment(date).format('MM/DD/Y'),
         });
 
-        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
-            companyIds: this.state.companyIds,
-            graphType: 'pie',
-            startDate: this.state.startDate,
-            endDate: moment(date).format('Y-MM-DD'),
-        });
+        this.onGetAgentGraphPie();
     };
 
     onRestDate = () => {
@@ -203,19 +193,14 @@ class AgentProfile extends Component {
             // startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
             endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
-        });
+        }); 
 
-        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
-            companyIds: this.state.companyIds,
-            graphType: 'pie',
-            startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
-            endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
-        });
+        this.onGetAgentGraphPie();
     };
 
     /**
      * 
-     */ 
+     */
     onEditAgent = () => {
         this.props.loadForm({ ...this.props.agent, show: true })
     };
@@ -229,10 +214,19 @@ class AgentProfile extends Component {
             path: '',
             active: true,
         });
-    } 
+    }
+
+    onGetAgentGraphPie = () => {
+        this.props.getAgentGraphPie(this.Chart, this.props.agentId, {
+            companyIds: this.state.companyIds,
+            graphType: 'pie',
+            startDate: this.state.startDate,
+            endDate: this.state.endDate,
+        });
+    }
 
     render() {
-        
+
         const { data } = this.props.pieGraphContactedLeadsAverage.data.datasets[0];
         const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
         const { avg_response_time } = this.props.pieGraphContactedLeadsAverage.data;
@@ -240,7 +234,7 @@ class AgentProfile extends Component {
         return (
             <div className='AgentProfile'>
                 <div className="btnClose" onClick={this.onCloseSidebar.bind(this)}><i className="flaticon stroke x-2"></i></div>
-                
+
                 <AgentModal />
                 <Segment attached='top'>
                     <Grid.Column>
@@ -257,12 +251,12 @@ class AgentProfile extends Component {
                 <Segment className='stats'>
                     <Popup position='bottom left'
                         trigger={
-                        <Form.Field>
-                            <Button className="dateSelector">
-                                <i className="flaticon stroke calendar-3"></i>
-                                {startDateDisplay} - {endDateDisplay}
-                            </Button>
-                        </Form.Field>} flowing hoverable>
+                            <Form.Field>
+                                <Button className="dateSelector">
+                                    <i className="flaticon stroke calendar-3"></i>
+                                    {startDateDisplay} - {endDateDisplay}
+                                </Button>
+                            </Form.Field>} flowing hoverable>
                         <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
                             onChangeDateTo={this.onChangeDateTo}
                             onRestDate={this.onRestDate}
@@ -271,14 +265,14 @@ class AgentProfile extends Component {
                     </Popup>
                     <Form.Field
                         control={Select}
-                        options={this.props.companiesOfAgent} 
-                        label={{children: '', htmlFor: ''}}
+                        options={this.props.companiesOfAgent}
+                        label={{ children: '', htmlFor: '' }}
                         placeholder='Select Company'
                         className="dropdowncompany"
                         search
                         select={this.props.companiesOfAgent[0].key || null}
-                        onChange={this.onChangeCompany} 
-                    /> 
+                        onChange={this.onChangeCompany}
+                    />
 
                     <div className='average-response-time'>
                         <div className="time-to-contact">
