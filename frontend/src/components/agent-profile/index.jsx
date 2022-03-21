@@ -20,9 +20,9 @@ class AgentProfile extends Component {
     state = {
         agent: {},
         companyIds: [],
-        startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
+        startDateDisplay: '01/01/2000',
         endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-        startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
+        startDate: '2000-01-01',
         endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         agentProfile: {}
     };
@@ -197,9 +197,11 @@ class AgentProfile extends Component {
 
     onRestDate = () => {
         this.setState({
-            startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
+            startDateDisplay: '01/01/2000',
+            startDate: '2000-01-01',
+            // startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
+            // startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
             endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-            startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         });
 
