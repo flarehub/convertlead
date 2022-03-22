@@ -61,6 +61,14 @@ class LeadController extends Controller
                 
                 return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, [], 'Y-m-d', true);
             }
+            case 'pie': {
+                $companyAgencyIds = null; 
+                $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
+                $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
+                $agent = $request->user();  
+                
+                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, null, true);
+            }   
         }
         throw new \Exception('Wrong graph type!');
     }
