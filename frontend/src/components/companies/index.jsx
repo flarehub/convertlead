@@ -17,14 +17,16 @@ import {
   Icon,
   Grid,
   Menu,
-  Confirm, Tab,
+  Select,
+  Confirm,
+  Tab,
 } from 'semantic-ui-react';
 import './index.scss';
-import {AvatarImage} from "../@common/image";
+import { AvatarImage } from "../@common/image";
 import * as moment from 'moment';
-import {DATE_FORMAT} from '@constants';
+import { DATE_FORMAT } from '@constants';
 import ButtonGroup from "components/@common/button-group";
-import {disableAutoComplete} from '../../utils';
+import { disableAutoComplete } from '../../utils';
 import CompanyLeadStats from './company-lead-stats';
 
 class Companies extends Component {
@@ -34,6 +36,7 @@ class Companies extends Component {
     ready: false,
     companyStats: {},
     activeIndex: 0,
+    sortByValue: 'name.desc'
   };
 
   componentWillMount() {
@@ -42,7 +45,7 @@ class Companies extends Component {
       path: '/companies',
       active: true,
     }, true);
-    this.props.loadCompanies();
+    this.props.loadCompanies(); 
   }
 
   getSort = field => {
@@ -56,6 +59,11 @@ class Companies extends Component {
     return 'sort';
   };
 
+  sortBy = (event, data) => {
+      this.setState({ sortByValue: data.value })
+      this.props.sort(data.value);
+  };
+
   onSearch = event => this.props.searchCompanies(event.target.value);
 
   loadCompanies = (event, data) => {
@@ -63,11 +71,11 @@ class Companies extends Component {
   };
 
   openConfirmModal = (open = true, companyId = null) => {
-    this.setState({open, companyId});
+    this.setState({ open, companyId });
   };
 
   onConfirm = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
     this.props.deleteCompany(this.state.companyId);
   };
 
@@ -89,13 +97,13 @@ class Companies extends Component {
   };
 
   onShowCompanyStats = (companyStats) => {
-    
+
     this.setState({
       companyStats,
     });
     this.setState({
       companyId: companyStats.id,
-    });    
+    });
 
   }
 
@@ -108,7 +116,7 @@ class Companies extends Component {
   componentDidMount() {
     disableAutoComplete();
   }
-  
+
   componentWillUnmount() {
     this.setState({
       companyStats: null,
@@ -117,8 +125,8 @@ class Companies extends Component {
 
   render() {
     const companies = this.props.companies || [];
-    const {pagination, query} = this.props;
-    const { companyStats} = this.state;
+    const { pagination, query } = this.props;
+    const { companyStats } = this.state;
 
     const tabs = [
       {
@@ -131,13 +139,26 @@ class Companies extends Component {
       }
     ];
 
+    const sorByFiled = [
+      {
+        key: 'name.desc',
+        value: 'name.desc',
+        text: 'Name Descending',
+      },
+      {
+        key: 'name.asc',
+        value: 'name.asc',
+        text: 'Name Ascending',
+      }
+    ];
+
     return (
-      <div className={'Leads ' +(companyStats.id ? 'sidebarOpened': '')}>
+      <div className={'Leads ' + (companyStats.id ? 'sidebarOpened' : '')}>
         <div className="leads-container">
-          <CompanyModal/>
+          <CompanyModal />
           <Segment attached='top'>
             <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)}
-                    onConfirm={this.onConfirm}/>
+              onConfirm={this.onConfirm} />
             <Grid columns={2}>
               <Grid.Column>
                 <Header floated='left' as='h1'>Companies</Header>
@@ -147,108 +168,128 @@ class Companies extends Component {
                   <Menu.Menu position='right'>
                     <Menu.Item>
                       <Input icon='search'
-                            onChange={this.onSearch}
-                            value={query.search} placeholder='Search...'/>
+                        onChange={this.onSearch}
+                        value={query.search} placeholder='Search...' />
                     </Menu.Item>
-                    <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, {show: true})} content='New Company'><i className="flaticon stroke plus-1  icon"></i></Button>                            
+                    <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, { show: true })} content='New Company'><i className="flaticon stroke plus-1  icon"></i></Button>
                   </Menu.Menu>
                 </Menu>
               </Grid.Column>
             </Grid>
           </Segment>
           <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
-          <Loader/>
-          <Segment basic className="top-space">   
-              <Table singleLine>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>
-                        <span className='table-head blue'>Logo</span>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell><span className='table-head blue'>Name</span>
-                      {/* <Icon name={this.getSort('name')}
-                            onClick={this.props.sort.bind(this, 'name')}/> */}
-                    </Table.HeaderCell>
-                    <Table.HeaderCell><span className='table-head blue'>Campaigns</span>
-                      {/* <Icon name={this.getSort('deals')}
-                            onClick={this.props.sort.bind(this, 'deals')}/> */}
-                    </Table.HeaderCell>
-                    <Table.HeaderCell><span className='table-head blue'>Leads</span>
-                      {/* <Icon name={this.getSort('leads')}
-                                                  onClick={this.props.sort.bind(this, 'leads')}/> */}
-                    </Table.HeaderCell>
-                    <Table.HeaderCell><span className='table-head blue'>Agents</span>
-                      {/* <Icon name={this.getSort('agents')}
-                            onClick={this.props.sort.bind(this, 'agents')}/> */}
-                    </Table.HeaderCell>
-                    <Table.HeaderCell><span className='table-head yellow'>Response time</span>
-                      {/* <Icon name={this.getSort('avg_response')}
-                            onClick={this.props.sort.bind(this, 'avg_response')}/> */}
-                    </Table.HeaderCell>
-                    <Table.HeaderCell><span className='table-head blue'>Actions</span></Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {
-                    companies.map((company, index) => (
-                      <Table.Row key={index}>
-                        <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
-                          <AvatarImage src={company.avatar_path} avatar rounded size='medium'/>
-                        </Table.Cell>
-                        <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
-                          <div>
-                            <Link to={`/companies/${company.id}/profile`}>{company.name}</Link>
-                          </div>
-                          <span
-                            className='date-added'>Added {moment.utc(company.created_at).local().format(DATE_FORMAT)}</span>
-                        </Table.Cell>
-                        <Table.Cell onClick={() => this.onShowCompanyStats(company)}><Link
-                          to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>
-                        <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
-                          <Link to={`/companies/${company.id}/leads`}>{company.leads_count}</Link></Table.Cell>
-                        <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
-                          <Link to={`/companies/${company.id}/agents`}>
-                            {company.agents && company.agents.map((agent, i) => <>
-                              <span className="agent-name">{agent.name}</span>
-                              {company.agents.length > 1 && i !== company.agents.length - 1 ? ', ' : ''}
-                            </>)}
-                          </Link>
-                        </Table.Cell>
-                        <Table.Cell onClick={() => this.onShowCompanyStats(company)}>{company.avg_lead_response || 0}</Table.Cell>
-                        <Table.Cell>
-                          {
-                            !company.is_deleted ?
-                              <div>
-                                <Button id="company-lock" onClick={this.onLockCompany.bind(this, company)}>
-                                  <Icon className={company.is_locked ? 'ti ti-lock' : 'ti ti-lock-open'}/>
-                                </Button>
-                                <ButtonGroup>
-                                  <Button onClick={this.props.loadForm.bind(this, {
-                                    ...company,
-                                    show: true,
-                                  })}>Edit</Button>
-                                  <Button onClick={this.openConfirmModal.bind(this, true, company.id)}>Archive</Button>
-                                </ButtonGroup>
-                              </div>
-                              : null
-                          }
-                        </Table.Cell>
-                      </Table.Row>
-                    ))
-                  }
 
-                </Table.Body>
-              </Table>              
+          <div className="leadFilters">
+            <div className="field">
+              <Form>
+                <Form.Field
+                  control={Select}
+                  className="sortby"
+                  options={sorByFiled}
+                  label={{ children: 'Sort by', htmlFor: 'leads-sort-by' }}
+                  placeholder='Sort by '
+                  search
+                  onChange={this.sortBy}
+                  defaultValue={this.state.sortByValue}
+                  onSearchChange={this.sortBy}
+                  searchInput={{ id: 'campaign-sort-by' }}
+                />
+              </Form>
+            </div> 
+          </div>
+
+          <Loader />
+          <Segment basic className="top-space">
+            <Table singleLine>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>
+                    <span className='table-head blue'>Logo</span>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head blue'>Name</span>
+                    {/* <Icon name={this.getSort('name')}
+                            onClick={this.props.sort.bind(this, 'name')}/> */}
+                  </Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head blue'>Campaigns</span>
+                    {/* <Icon name={this.getSort('deals')}
+                            onClick={this.props.sort.bind(this, 'deals')}/> */}
+                  </Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head blue'>Leads</span>
+                    {/* <Icon name={this.getSort('leads')}
+                                                  onClick={this.props.sort.bind(this, 'leads')}/> */}
+                  </Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head blue'>Agents</span>
+                    {/* <Icon name={this.getSort('agents')}
+                            onClick={this.props.sort.bind(this, 'agents')}/> */}
+                  </Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head yellow'>Response time</span>
+                    {/* <Icon name={this.getSort('avg_response')}
+                            onClick={this.props.sort.bind(this, 'avg_response')}/> */}
+                  </Table.HeaderCell>
+                  <Table.HeaderCell><span className='table-head blue'>Actions</span></Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {
+                  companies.map((company, index) => (
+                    <Table.Row key={index}>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
+                        <AvatarImage src={company.avatar_path} avatar rounded size='medium' />
+                      </Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
+                        <div>
+                          <Link to={`/companies/${company.id}/profile`}>{company.name}</Link>
+                        </div>
+                        <span
+                          className='date-added'>Added {moment.utc(company.created_at).local().format(DATE_FORMAT)}</span>
+                      </Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}><Link
+                        to={`/companies/${company.id}/deals`}>{company.deals_count}</Link></Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
+                        <Link to={`/companies/${company.id}/leads`}>{company.leads_count}</Link></Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>
+                        <Link to={`/companies/${company.id}/agents`}>
+                          {company.agents && company.agents.map((agent, i) => <>
+                            <span className="agent-name">{agent.name}</span>
+                            {company.agents.length > 1 && i !== company.agents.length - 1 ? ', ' : ''}
+                          </>)}
+                        </Link>
+                      </Table.Cell>
+                      <Table.Cell onClick={() => this.onShowCompanyStats(company)}>{company.avg_lead_response || 0}</Table.Cell>
+                      <Table.Cell>
+                        {
+                          !company.is_deleted ?
+                            <div>
+                              <Button id="company-lock" onClick={this.onLockCompany.bind(this, company)}>
+                                <Icon className={company.is_locked ? 'ti ti-lock' : 'ti ti-lock-open'} />
+                              </Button>
+                              <ButtonGroup>
+                                <Button onClick={this.props.loadForm.bind(this, {
+                                  ...company,
+                                  show: true,
+                                })}>Edit</Button>
+                                <Button onClick={this.openConfirmModal.bind(this, true, company.id)}>Archive</Button>
+                              </ButtonGroup>
+                            </div>
+                            : null
+                        }
+                      </Table.Cell>
+                    </Table.Row>
+                  ))
+                }
+
+              </Table.Body>
+            </Table>
           </Segment>
           <Segment textAlign='right' attached='bottom'>
-          <Pagination onPageChange={this.loadCompanies}
-                      defaultActivePage={pagination.current_page}
-                      prevItem={null}
-                      nextItem={null}
-                      totalPages={pagination.last_page}/>
-          </Segment>          
-            { companyStats && companyStats.id && (<CompanyLeadStats companyObject={companyStats} onClose={this.onCloseCompanyStats} />) }          
-        </div>  
+            <Pagination onPageChange={this.loadCompanies}
+              defaultActivePage={pagination.current_page}
+              prevItem={null}
+              nextItem={null}
+              totalPages={pagination.last_page} />
+          </Segment>
+          {companyStats && companyStats.id && (<CompanyLeadStats companyObject={companyStats} onClose={this.onCloseCompanyStats} />)}
+        </div>
 
       </div>
     );
