@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {compose} from 'recompose';
-import {BreadCrumbContainer, AgentsContainer, AgentFormContainer, CompaniesContainer } from '@containers';
+import React, { Component } from 'react';
+import { compose } from 'recompose';
+import { BreadCrumbContainer, AgentsContainer, AgentFormContainer, CompaniesContainer } from '@containers';
 // LeadsContainer
 import AgentModal from '../@common/modals/agent';
 import {
@@ -14,13 +14,13 @@ import {
     Segment,
     Select,
     Tab,
-    Popup, 
-    Icon    
+    Popup,
+    Icon
 } from 'semantic-ui-react';
 import './index.scss';
 import * as R from "ramda";
-import {Auth} from "@services";
-import {disableAutoComplete} from '../../utils';
+import { Auth } from "@services";
+import { disableAutoComplete } from '../../utils';
 import AgentProfile from "../agent-profile";
 import * as moment from 'moment';
 import ButtonGroup from '../@common/button-group';
@@ -29,7 +29,7 @@ import { AvatarImage } from '../@common/image';
 import { avatarDemo } from '../@common/forms/avatar-demo.png';
 
 const companies = [
-    {key: null, text: 'All companies', value: null},
+    { key: null, text: 'All companies', value: null },
 ];
 
 class Agents extends Component {
@@ -41,13 +41,14 @@ class Agents extends Component {
         companyId: null,
         activeIndex: 0,
         startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
-        endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),        
+        endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
         startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
-        endDate: moment().endOf('isoWeek').format('Y-MM-DD'),                
+        endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
+        sortByValue: 'name.asc'
     };
 
     async componentWillMount() {
-        
+
         // if (this.props.agentId != undefined) {
         //     await this.props.getAgent(this.props.agentId, true);
         // }
@@ -64,9 +65,9 @@ class Agents extends Component {
             companyId
         });
 
-        if ( Auth.isAgency ) { 
+        if (Auth.isAgency) {
             this.props.loadSelectBoxCompanies('');
-        } 
+        }
 
         this.setState({
             companyId: companyId
@@ -80,6 +81,7 @@ class Agents extends Component {
         } else {
             this.props.loadAgents();
         }
+
     }
 
     onChangeCompany = (event, data) => {
@@ -107,6 +109,7 @@ class Agents extends Component {
     };
 
     sortBy = (event, data) => {
+        this.setState({ sortByValue: data.value })
         this.props.sortAgentsBy(data.value);
     };
 
@@ -114,13 +117,13 @@ class Agents extends Component {
         this.props.search(data.value);
     };
 
-    onShowArch = (e, tab) => { 
+    onShowArch = (e, tab) => {
         if (tab.activeIndex === this.state.activeIndex) {
-          return;
+            return;
         }
-    
+
         this.setState({
-          activeIndex: tab.activeIndex,
+            activeIndex: tab.activeIndex,
         });
 
         this.props.toggleAgentsShowDeleted();
@@ -140,11 +143,11 @@ class Agents extends Component {
     }
 
     openConfirmModal = (open = true, agentId = null) => {
-        this.setState({open, agentId});
+        this.setState({ open, agentId });
     };
-    
+
     onConfirm = () => {
-        this.setState({open: false});
+        this.setState({ open: false });
         this.props.delete(this.state.agentId);
     };
 
@@ -154,58 +157,70 @@ class Agents extends Component {
 
     exportTo = (type) => {
         this.props.exportTo({
-          type,
-          statusType: this.props.query.filters.statusType,
-          search: this.props.query.search,
-          showDeleted: this.props.query.showDeleted,
-          companyId: this.props.query.filters.companyId,
-          campaignId: this.props.query.filters.campaignId,
-          startDate: this.props.query.filters.startDate,
-          endDate: this.props.query.filters.endDate,
+            type,
+            statusType: this.props.query.filters.statusType,
+            search: this.props.query.search,
+            showDeleted: this.props.query.showDeleted,
+            companyId: this.props.query.filters.companyId,
+            campaignId: this.props.query.filters.campaignId,
+            startDate: this.props.query.filters.startDate,
+            endDate: this.props.query.filters.endDate,
         });
     };
 
     /**
      * Set Companies of selected agent.
      */
-     onSetCompaniesOfAgent = (companies) =>{  
+    onSetCompaniesOfAgent = (companies) => {
         return companies.map((company) => {
             return {
                 key: company.id,
                 value: company.id,
                 text: company.name
             }
-        }); 
+        });
     }
 
     render() {
         const agents = this.props.agents || [];
-        const {pagination, query} = this.props;
-        const {companyId, agentId, agent} = this.state;
+        const { pagination, query } = this.props;
+        const { companyId, agentId, agent } = this.state;
 
         const tabs = [
             {
-              menuItem: 'Active',
-              render: () => <></>
+                menuItem: 'Active',
+                render: () => <></>
             },
             {
-              menuItem: 'Archived',
-              render: () => <></>
+                menuItem: 'Archived',
+                render: () => <></>
             }
-        ]; 
+        ];
 
         const sorByFiled = [
             {
-              key: 'name.desc',
-              value: 'name',
-              text: 'Name Descending',
+                key: 'name.desc',
+                value: 'name.desc',
+                text: 'Name Descending',
             },
             {
-              key: 'name.asc',
-              value: 'name',
-              text: 'Name Ascending',
+                key: 'name.asc',
+                value: 'name.asc',
+                text: 'Name Ascending',
             }
-        ];   
+        ];
+        // const sorByFiled = [
+        //     {
+        //         key: 'name.desc',
+        //         value: 'name',
+        //         text: 'Name Descending',
+        //     },
+        //     {
+        //         key: 'name.asc',
+        //         value: 'name',
+        //         text: 'Name Ascending',
+        //     }
+        // ];
 
         return (
             <div className='Leads'>
@@ -220,114 +235,105 @@ class Agents extends Component {
                                     <Menu.Menu position='right'>
                                         <Menu.Item>
                                             <Input icon='search' onChange={this.onSearch} value={query.search || ''}
-                                                placeholder='Search...'/>
+                                                placeholder='Search...' />
                                         </Menu.Item>
-                                        <Button color='teal' className="new-campaign" 
-                                            onClick={this.props.loadForm.bind(this, {show: true})} ><i className="flaticon stroke plus-1  icon"></i></Button>                                            
+                                        <Button color='teal' className="new-campaign"
+                                            onClick={this.props.loadForm.bind(this, { show: true })} ><i className="flaticon stroke plus-1  icon"></i></Button>
                                     </Menu.Menu>
                                 </Menu>
-                            </Grid.Column>                      
-                        </Grid>         
+                            </Grid.Column>
+                        </Grid>
                     </Segment>
                     <Tab onTabChange={this.onShowArch} menu={{ secondary: true, pointing: true }} panes={tabs} />
-                    <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
+                    <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
                     <Segment basic>
-                    <div className="leadFilters">
-                        <div className="field">                            
-                        <Form>       
-                            <Form.Group widths='equal' className='filter white'>
-                            {
-                                Auth.isAgency
-                                ? 
-                                    <Form.Field
-                                    control={Select}
-                                    options={[...companies, ...this.props.selectBoxCompanies]}
-                                    placeholder='All companies'
-                                    search
-                                    onChange={this.onChangeCompany}
-                                    defaultValue={companyId || null}
-                                    searchInput={{id: 'form-companies-list'}}/>                                        
-                                : null
-                            }                                                                                         
-                            </Form.Group>
-                            {/* <div className="campaign-sort"> */}
-                            {/* </div>*/}
-                        </Form>
-                        {
-                            /* <Form>
-                                <Form.Group>
-                                    <div className="campaign-sort">
+                        <div className="leadFilters">
+                            <div className="field">
+                                <Form>
+                                    <Form.Group widths='equal' className='filter white'>
+                                        {
+                                            Auth.isAgency
+                                                ?
+                                                <Form.Field
+                                                    control={Select}
+                                                    options={[...companies, ...this.props.selectBoxCompanies]}
+                                                    placeholder='All companies'
+                                                    search
+                                                    onChange={this.onChangeCompany}
+                                                    defaultValue={companyId || null}
+                                                    searchInput={{ id: 'form-companies-list' }} />
+                                                : null
+                                        }
+                                    </Form.Group>
+
                                     <Form.Field
                                         control={Select}
+                                        className="sortby"
                                         options={sorByFiled}
-                                        label={{children: 'Sort by', htmlFor: 'campaign-sort-by'}}
+                                        label={{ children: 'Sort by', htmlFor: 'leads-sort-by' }}
                                         placeholder='Sort by '
                                         search
                                         onChange={this.sortBy}
-                                        // defaultValue={this.props.filters.sortBy}
+                                        defaultValue={this.state.sortByValue}
                                         onSearchChange={this.sortBy}
-                                        searchInput={{id: 'campaign-sort-by'}}
-                                    /> 
-                                /> 
-                                    /> 
-                                    </div>
-                                </Form.Group>
-                            </Form> */
-                        }
+                                        searchInput={{ id: 'campaign-sort-by' }}
+                                    />
+                                </Form>
+
+                            </div>
+
+                            <div className='exportbox'>Export your data
+                                <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
+                                <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
+                            </div>
                         </div>
-                        
-                        <div className='exportbox'>Export your data
-                            <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
-                            <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
-                        </div>                            
-                    </div>                    
-                        <Loader/>
+                        <Loader />
                         {
-                            agents.map((agent, index) => ( 
+                            agents.map((agent, index) => (
                                 <div data-id={agent.id} className="agentContainer" >
                                     <div className="agentMenu">
                                         <div className="bullets">...</div>
                                         {
                                             <ButtonGroup>
-                                                    
-                                                    <Button 
-                                                        id={agent.agent_agency_id} 
-                                                        style={{width: '90px'}} 
-                                                        onClick={this.props.loadForm.bind(this, {...agent, show: true})}>
-                                                        Edit
-                                                    </Button>
-                                            {
-                                                !agent.deleted_at && (
-                                                    <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
-                                                ) || (
-                                                    <Button onClick={() => this.onRestore(agent.id)}>Restore</Button>
-                                                ) 
-                                            } 
+
+                                                <Button
+                                                    id={agent.agent_agency_id}
+                                                    style={{ width: '90px' }}
+                                                    onClick={this.props.loadForm.bind(this, { ...agent, show: true })}>
+                                                    Edit
+                                                </Button>
+                                                {
+                                                    !agent.deleted_at && (
+                                                        <Button onClick={this.openConfirmModal.bind(this, true, agent.id)}>Archive</Button>
+                                                    ) || (
+                                                        <Button onClick={() => this.onRestore(agent.id)}>Restore</Button>
+                                                    )
+                                                }
 
                                             </ButtonGroup>
                                         }
                                     </div>
                                     <div className="agentDetails" onClick={() => this.onClickViewAgentProfile(agent)}>
                                         <div className="agentAvatar">
-                                            <div className="legend">  
+                                            <div className="legend">
                                                 {
-                                                    
+
                                                     (this.state.activeIndex == 0 && agent.campaigns_count != 0) && (
                                                         <>
-                                                        <span className="legendCount">{agent.leads_count}</span>
-                                                        <span className="legendName-blue">Leads</span>
-                                                        <div className="circular icon-image-blue" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
+                                                            <span className="legendCount">{agent.leads_count}</span>
+                                                            <span className="legendName-blue">Leads</span>
+                                                            <div className="circular icon-image-blue" style={{ backgroundImage: "url('" + (agent.avatar_path || avatarDemo) + "')" }}></div>
                                                         </>
                                                     ) || (
                                                         <>
-                                                        <span className="legendCount">0</span>
-                                                        <span className="legendName-red">Leads</span>
-                                                        <div className="circular icon-image-red" style={{ backgroundImage: "url('"+(agent.avatar_path || avatarDemo)+"')"}}></div>
+                                                            <span className="legendCount">0</span>
+                                                            <span className="legendName-red">Leads</span>
+                                                            <div className="circular icon-image-red" style={{ backgroundImage: "url('" + (agent.avatar_path || avatarDemo) + "')" }}></div>
                                                         </>
                                                     )
                                                 }
                                             </div>
-                                            
+
                                             <div className="agentName">
                                                 {agent.name}
                                             </div>
@@ -335,7 +341,7 @@ class Agents extends Component {
                                         <div className="integrationCount">
                                             <span>
                                                 {/* {agent.integration_count || 0} */}
-                                                { (this.state.activeIndex == 0 && agent.campaigns_count != 0) ? agent.campaigns_count : 0 }
+                                                {(this.state.activeIndex == 0 && agent.campaigns_count != 0) ? agent.campaigns_count : 0}
                                                 &nbsp;
                                                 Integrations
                                             </span>
@@ -355,7 +361,7 @@ class Agents extends Component {
                                                     <span>assigned to</span>
                                                     {
                                                         (this.state.activeIndex == 0) &&
-                                                        agent.companies && agent.companies.map(({name}) => <div className="campaignName">{name}</div>)
+                                                        agent.companies && agent.companies.map(({ name }) => <div className="campaignName">{name}</div>)
                                                     }
                                                 </div>
                                             )
@@ -365,16 +371,16 @@ class Agents extends Component {
                             ))
                         }
                     </Segment>
-                    <AgentModal/>
-                        {
-                            agent.id && 
-                            <AgentProfile 
-                                s_agent={agent} 
-                                agentId={agent.id} 
-                                companiesOfAgent={this.onSetCompaniesOfAgent(agent.companies)} 
-                                onClose={() => this.setState({agent: {}})} />
-                        }                       
-                </div>                
+                    <AgentModal />
+                    {
+                        agent.id &&
+                        <AgentProfile
+                            s_agent={agent}
+                            agentId={agent.id}
+                            companiesOfAgent={this.onSetCompaniesOfAgent(agent.companies)}
+                            onClose={() => this.setState({ agent: {} })} />
+                    }
+                </div>
             </div>)
     }
 }
