@@ -12,111 +12,103 @@ class Agency extends User
 {
     use AgencyRepository, SoftDeletes;
 
-    public function agencyCompaniesBy($companyId) {
+    public function agencyCompaniesBy($companyId)
+    {
         return $this->belongsTo('App\Models\AgencyCompanyPivot', 'id')->where('company_id', $companyId)->get();
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function companies() {
+    public function companies()
+    {
         return $this->belongsToMany('App\Models\Company', 'agency_companies', 'agency_id')->withPivot('id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function agents() {
+    public function agents()
+    {
         return $this->hasMany('App\Models\Agent', 'agent_agency_id', 'id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function deals() {
+    public function deals()
+    {
         return $this->belongsToMany(
             'App\Models\Deal',
             'agency_companies',
             'agency_id',
             'id',
             'id',
-            'agency_company_id');
+            'agency_company_id'
+        );
     }
-    
-    public function getCompanies($queryParams) {
+
+    public function getCompanies($queryParams)
+    {
         switch (isset($queryParams['reduced']) && $queryParams['reduced']) {
             case true: {
-                return $this->getReducedCompaniesDetails($queryParams);
-            }
+                    return $this->getReducedCompaniesDetails($queryParams);
+                }
             default: {
-                return $this->getCompaniesWithStats($queryParams);
-            }
+                    return $this->getCompaniesWithStats($queryParams);
+                }
         }
-    }
+    } 
+    
+    public function getCompanyLeadStatsBy($companyId, $fromDate, $toDate, $agentId = null)
+    {
+        // $format = 'Y-m-d';
+        // $query = Lead::selectRaw('COUNT(leads.id) AS total_leads_count,
+        //         SUM(IF(ls.type = \'SOLD\', 1, 0)) AS total_leads_converted,
+        //         DATE_FORMAT(leads.created_at, \'%Y-%m-%d\') AS creation_date,
+        //         AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response')
+        //     ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
+        //     ->join('lead_statuses AS ls', 'ls.id', 'leads.lead_status_id')
+        //     ->leftJoin(\DB::raw("
+        //     (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
+        //                   FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
+        //                   WHERE
+        //                       lead_statuses.type = 'CONTACTED_SMS' OR
+        //                       lead_statuses.type = 'CONTACTED_CALL' OR
+        //                       lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
+        //                   "), function ($join) {
+        //         $join->on('leadNotes.lead_id', '=', 'leads.id');
+        //     });
 
-    /**
-     * Get Company Lead Stats
-     *
-     * @param int $companyId Company Id
-     *
-     * @return mixed
-     */
-    public function getCompanyLeadStatsBy($companyId, $fromDate, $toDate, $agentId = null) {
-        $format = 'Y-m-d';
-
-
-        $query = Lead::selectRaw('COUNT(leads.id) AS total_leads_count,
-                SUM(IF(ls.type = \'SOLD\', 1, 0)) AS total_leads_converted,
-                DATE_FORMAT(leads.created_at, \'%Y-%m-%d\') AS creation_date,
-                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response')
-            ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
-            ->join('lead_statuses AS ls', 'ls.id', 'leads.lead_status_id')
-            ->leftJoin(\DB::raw("
-            (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at
-                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id
-                          WHERE
-                              lead_statuses.type = 'CONTACTED_SMS' OR
-                              lead_statuses.type = 'CONTACTED_CALL' OR
-                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes
-                          "), function ($join) {
-                $join->on('leadNotes.lead_id', '=', 'leads.id');
-            })
-        ;
-
-        $query->where('ac.company_id', $companyId);
+        // $query->where('ac.company_id', $companyId);
 
         $st_dt = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
         $end_dt = Carbon::createFromFormat('Y-m-d', $toDate)->endOfDay();
 
-        $query->whereBetween('leads.created_at', [
-            $st_dt,
-            $end_dt
-            // "'2019-08-07'",
-            // "'2019-08-14'"  
-        ]);
+        // $query->whereBetween('leads.created_at', [
+        //     $st_dt,
+        //     $end_dt 
+        // ]);
 
-        $query->groupBy(['ac.company_id', 'creation_date']);
+        // $query->groupBy(['ac.company_id', 'creation_date']);
 
+        // if ($agentId) {
+        //     $query->where('leads.agent_id', '=', $agentId);
+        // }
+ 
+        $sql = "select COUNT(leads.id) AS total_leads_count, SUM(IF(ls.type = 'SOLD', 1, 0)) AS total_leads_converted,                DATE_FORMAT(leads.created_at, '%Y-%m-%d') AS creation_date,                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response            from `leads` inner join `agency_companies` as `ac` on `ac`.`id` = `leads`.`agency_company_id` inner join `lead_statuses` as `ls` on `ls`.`id` = `leads`.`lead_status_id` left join             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id                          WHERE                              lead_statuses.type = 'CONTACTED_SMS' OR                              lead_statuses.type = 'CONTACTED_CALL' OR                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes                           on `leadNotes`.`lead_id` = `leads`.`id` where `ac`.`company_id` = $companyId and `leads`.`created_at` between 
+        '" . $st_dt . "' and '" . $end_dt . "' and `leads`.`deleted_at` is null ";
         if ($agentId) {
-            $query->where('leads.agent_id', '=', $agentId);
+            $sql .= " and `leads`.`agent_id` = $agentId ";
         }
-        //$leadsStats = $query->get();
 
-        // $st_dt = "2019-08-07";
-        // $end_dt = "2019-08-14";
+        $temp = \DB::select(\DB::raw($sql . " group by `ac`.`company_id`, `creation_date`"));
 
-        $temp = \DB::select(\DB::raw(" select COUNT(leads.id) AS total_leads_count, SUM(IF(ls.type = 'SOLD', 1, 0)) AS total_leads_converted,                DATE_FORMAT(leads.created_at, '%Y-%m-%d') AS creation_date,                AVG(TIME_TO_SEC(TIMEDIFF(leadNotes.created_at, leads.created_at))) AS sec_avg_lead_response            from `leads` inner join `agency_companies` as `ac` on `ac`.`id` = `leads`.`agency_company_id` inner join `lead_statuses` as `ls` on `ls`.`id` = `leads`.`lead_status_id` left join             (SELECT lead_notes.lead_id, MIN(lead_notes.created_at) AS created_at                          FROM lead_notes JOIN lead_statuses ON lead_statuses.id = lead_notes.lead_status_id                          WHERE                              lead_statuses.type = 'CONTACTED_SMS' OR                              lead_statuses.type = 'CONTACTED_CALL' OR                              lead_statuses.type = 'CONTACTED_EMAIL' GROUP BY lead_notes.lead_id) AS leadNotes                           on `leadNotes`.`lead_id` = `leads`.`id` where `ac`.`company_id` = 8 and `leads`.`created_at` between 
-        '".$st_dt."' and '".$end_dt."' and `leads`.`deleted_at` is null group by `ac`.`company_id`, `creation_date`"));
-
-        $datePeriod = CarbonPeriod::create(
-            // now()->setTimeFromTimeString("$fromDate 00:00:00")->toDateString(),
-            // now()->setTimeFromTimeString("$toDate 23:59:59")->toDateString()
-            // "2019-08-07 00:00:00",
-            // "2019-08-14 23:59:59"  
+        $datePeriod = CarbonPeriod::create( 
             $st_dt,
             $end_dt
         );
-        
+
         //Carbon::parse($temp[$i]->created_date)->shortDayName;
 
         $datePeriod = collect($datePeriod)->map(function ($period) {
@@ -130,9 +122,9 @@ class Agency extends User
             ];
         })->toArray();
 
-        $aaa=[];
+        $aaa = [];
         $acc['sec_avg_lead_response'] = 0;
-        for($i=0; $i<count($temp); $i++){
+        for ($i = 0; $i < count($temp); $i++) {
             $str = $temp[$i]->creation_date;
             $str = str_replace('-', '/', $str);
             //Carbon::parse($str)->shortDayName;
@@ -142,7 +134,7 @@ class Agency extends User
             $acc['total_leads_converted'] = ($acc['total_leads_converted'] ?? 0) + $temp[$i]->total_leads_converted;
             $acc['sec_avg_lead_response'] = ($acc['sec_avg_lead_response'] ?? 0) + $temp[$i]->sec_avg_lead_response;
         }
-        
+
         $acc['avg_lead_response_formatted'] = '';
         if ($acc['sec_avg_lead_response'] > 0) {
             $acc['avg_lead_response_formatted'] = CarbonInterval::seconds(
@@ -152,9 +144,10 @@ class Agency extends User
 
         $records = array_merge($aaa, $acc ?? []);
 
-        return array_merge([
-            'records' => $records,
-        ],
+        return array_merge(
+            [
+                'records' => $records,
+            ],
             $acc ?? []
         );
 
@@ -191,7 +184,8 @@ class Agency extends User
      * @param $queryParams
      * @return Company|\Illuminate\Database\Query\Builder
      */
-    public function getCompaniesWithStats($queryParams) {
+    public function getCompaniesWithStats($queryParams)
+    {
         $query = Company::selectRaw('
             users.id,
             users.name,
@@ -224,55 +218,55 @@ class Agency extends User
             })
             ->where('agency_companies.agency_id', $this->id)
             ->groupBy('agency_companies.company_id', 'agency_companies.is_locked');
-    
+
         // if ( isset($queryParams['showDeleted']) ) {
         //     $query->withTrashed();
         // } else {
         //     $query->whereRaw('users.deleted_at IS NULL');
         // }
-        if ( isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == true) {
+        if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == true) {
             $query->withTrashed();
-            $query->whereRaw('users.deleted_at IS NOT NULL');            
-        }else{
+            $query->whereRaw('users.deleted_at IS NOT NULL');
+        } else {
             $query->withTrashed();
-            $query->whereRaw('users.deleted_at IS NULL');            
+            $query->whereRaw('users.deleted_at IS NULL');
         }
 
-        if ( isset($queryParams['search']) && $queryParams['search'] ) {
+        if (isset($queryParams['search']) && $queryParams['search']) {
             $query->where(function ($query) use ($queryParams) {
                 $query
                     ->where('users.name', 'like', "%{$queryParams['search']}%")
                     ->orWhere('users.email', 'like', "%{$queryParams['search']}%");
             });
         }
-    
-        if ( isset($queryParams['name']) ) {
+
+        if (isset($queryParams['name'])) {
             $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
-    
-    
-        if ( isset($queryParams['deals']) ) {
+
+
+        if (isset($queryParams['deals'])) {
             $query->orderBy('deals_acount', $queryParams['deals'] === 'true' ? 'DESC' : 'ASC');
         }
-    
-        if ( isset($queryParams['leads']) ) {
+
+        if (isset($queryParams['leads'])) {
             $query->orderBy('leads_count', $queryParams['leads'] === 'true' ? 'DESC' : 'ASC');
         }
-    
-        if ( isset($queryParams['agents']) ) {
+
+        if (isset($queryParams['agents'])) {
             $query->orderBy('agents_count', $queryParams['agents'] === 'true' ? 'DESC' : 'ASC');
         }
-        if ( isset($queryParams['avg_response']) ) {
+        if (isset($queryParams['avg_response'])) {
             $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
         }
 
         return $query;
     }
-    
-    public function getAgents($queryParams = []) {
-        $query = Agent::selectRaw
-        (
-            'users.agent_agency_id, users.id, users.role, users.name, users.email,
+
+    public function getAgents($queryParams = [])
+    {
+        $query = Agent::selectRaw(
+                'users.agent_agency_id, users.id, users.role, users.name, users.email,
              users.phone,
              users.twilio_mobile_number,
              users.avatar_id,
@@ -282,22 +276,24 @@ class Agency extends User
              users.created_at,
              users.deleted_at
             '
-        )
+            )
             ->join('users as agency', 'agency.id', 'users.agent_agency_id')
             ->leftJoin('company_agents AS ca', 'ca.agent_id', 'users.id')
-            
+
             // ->leftJoin('deal_campaign_agents as dca', 'dca.agent_id', 'users.id')
 
-            ->leftJoin(\DB::raw("
+            ->leftJoin(
+                \DB::raw("
                             (SELECT           
                             dca.*
                             FROM `deal_campaigns` 
                             LEFT JOIN deal_campaign_agents AS dca ON dca.deal_campaign_id = deal_campaigns.id
                             WHERE deal_campaigns.deleted_at IS NULL) AS dca
-                            "), 
+                            "),
                 function ($join) {
-                $join->on('dca.agent_id', '=', 'users.id');
-            })
+                    $join->on('dca.agent_id', '=', 'users.id');
+                }
+            )
 
             ->leftJoin('leads AS ld', 'ld.agent_id', 'users.id')
             ->leftJoin(\DB::raw("
@@ -312,13 +308,13 @@ class Agency extends User
             })
             ->where('agency.id', $this->id)
             ->groupBy('users.id');
-        
-        if ( isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == 1) {
+
+        if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == 1) {
             $query->withTrashed();
-            $query->whereRaw('users.deleted_at IS NOT NULL');            
-        }else{
+            $query->whereRaw('users.deleted_at IS NOT NULL');
+        } else {
             $query->withTrashed();
-            $query->whereRaw('users.deleted_at IS NULL');            
+            $query->whereRaw('users.deleted_at IS NULL');
         }
 
         if (isset($queryParams['companyId']) && $queryParams['companyId']) {
@@ -333,77 +329,77 @@ class Agency extends User
             });
         }
 
-        if ( isset($queryParams['name']) ) {
+        if (isset($queryParams['name'])) {
             $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
 
-        if ( isset($queryParams['campaigns']) ) {
+        if (isset($queryParams['campaigns'])) {
             $query->orderBy('campaigns_count', $queryParams['campaigns'] === 'true' ? 'DESC' : 'ASC');
         }
 
-        if ( isset($queryParams['leads']) ) {
+        if (isset($queryParams['leads'])) {
             $query->orderBy('leads_count', $queryParams['leads'] === 'true' ? 'DESC' : 'ASC');
         }
 
-        if ( isset($queryParams['avg_response']) ) {
+        if (isset($queryParams['avg_response'])) {
             $query->orderBy('avg_lead_response', $queryParams['avg_response'] === 'true' ? 'DESC' : 'ASC');
         }
         return $query;
     }
-    
-    public function getLeads($queryParams = [], $format = 'Y-m-d') {
+
+    public function getLeads($queryParams = [], $format = 'Y-m-d')
+    {
         $query = Lead::selectRaw('leads.*, ac.company_id, ac.agency_id, dc.deal_id')
             ->join('agency_companies AS ac', 'ac.id', 'leads.agency_company_id')
             ->join('users as cp', 'cp.id', 'ac.company_id')
             ->join('lead_statuses as ls', 'ls.id', 'leads.lead_status_id')
             ->join('deal_campaigns as dc', 'dc.id', 'leads.deal_campaign_id')
-            ->where('ac.agency_id', $this->id)
-        ;
-        if(isset($queryParams['sort_by']) && $queryParams['sort_by']){
-            
-            if($queryParams['sort_by'] == 'name.asc')
-                $query->orderBy('fullname','asc');
-            if($queryParams['sort_by'] == 'name.desc')
-                $query->orderBy('fullname','desc');
-            
-            if($queryParams['sort_by'] == 'created_at.asc')
-                $query->orderBy('created_at','asc');
-            if($queryParams['sort_by'] == 'created_at.desc')
-                $query->orderBy('created_at','desc');
-            
-            if($queryParams['sort_by'] == 'company.asc')
-                $query->orderBy('company_id','asc');
-            if($queryParams['sort_by'] == 'company.desc')
-                $query->orderBy('ac.company_id','desc');
-            
-            if($queryParams['sort_by'] == 'source.asc')
-                $query->orderBy('deal_campaign_id','asc');
-            if($queryParams['sort_by'] == 'source.desc')
-                $query->orderBy('deal_campaign_id','desc');
+            ->where('ac.agency_id', $this->id);
+        if (isset($queryParams['sort_by']) && $queryParams['sort_by']) {
+
+            if ($queryParams['sort_by'] == 'name.asc')
+                $query->orderBy('fullname', 'asc');
+            if ($queryParams['sort_by'] == 'name.desc')
+                $query->orderBy('fullname', 'desc');
+
+            if ($queryParams['sort_by'] == 'created_at.asc')
+                $query->orderBy('created_at', 'asc');
+            if ($queryParams['sort_by'] == 'created_at.desc')
+                $query->orderBy('created_at', 'desc');
+
+            if ($queryParams['sort_by'] == 'company.asc')
+                $query->orderBy('company_id', 'asc');
+            if ($queryParams['sort_by'] == 'company.desc')
+                $query->orderBy('ac.company_id', 'desc');
+
+            if ($queryParams['sort_by'] == 'source.asc')
+                $query->orderBy('deal_campaign_id', 'asc');
+            if ($queryParams['sort_by'] == 'source.desc')
+                $query->orderBy('deal_campaign_id', 'desc');
         }
         if (isset($queryParams['search'])) {
             $query->where(function ($query) use ($queryParams) {
                 $query
                     ->where('leads.fullname', 'like', "%{$queryParams['search']}%")
                     ->orWhere('leads.email', 'like', "%{$queryParams['search']}%")
-                    ->orWhere('leads.phone', 'like', "%{$queryParams['search']}%")
-                ;
+                    ->orWhere('leads.phone', 'like', "%{$queryParams['search']}%");
             });
         }
-        
+
         if (isset($queryParams['companyId']) && $queryParams['companyId']) {
             $query->where('ac.company_id', $queryParams['companyId']);
         }
 
         if (
-        (isset($queryParams['startDate']) && $queryParams['startDate']) &&
-        (isset($queryParams['endDate']) && $queryParams['endDate'])
+            (isset($queryParams['startDate']) && $queryParams['startDate']) &&
+            (isset($queryParams['endDate']) && $queryParams['endDate'])
         ) {
             $query->whereBetween('leads.created_at', [
                 Carbon::createFromFormat($format, $queryParams['startDate'])->startOfDay(),
-                Carbon::createFromFormat($format, $queryParams['endDate'])->endOfDay()]);
+                Carbon::createFromFormat($format, $queryParams['endDate'])->endOfDay()
+            ]);
         }
-        
+
 
         if (isset($queryParams['agentId']) && $queryParams['agentId']) {
             $query->where('leads.agent_id', $queryParams['agentId']);
@@ -416,31 +412,31 @@ class Agency extends User
         if (isset($queryParams['statusType']) && $queryParams['statusType']) {
             $query->where('ls.type', $queryParams['statusType']);
         }
-    
-        if ( isset($queryParams['showDeleted']) &&  $queryParams['showDeleted']) { 
+
+        if (isset($queryParams['showDeleted']) &&  $queryParams['showDeleted']) {
             // if ( isset($queryParams['showDeleted'])) { old code
             $query->withTrashed();
             $query->whereRaw('leads.deleted_at IS NOT NULL');
         }
-    
-        if ( isset($queryParams['name']) ) {
+
+        if (isset($queryParams['name'])) {
             $query->orderBy('leads.fullname', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
-    
-        if ( isset($queryParams['email']) ) {
+
+        if (isset($queryParams['email'])) {
             $query->orderBy('leads.email', ($queryParams['email'] === 'true' ? 'DESC' : 'ASC'));
         }
 
-        if ( isset($queryParams['company']) ) {
+        if (isset($queryParams['company'])) {
             $query->orderBy('cp.name', ($queryParams['company'] === 'true' ? 'DESC' : 'ASC'));
         }
-        if ( isset($queryParams['campaign']) ) {
+        if (isset($queryParams['campaign'])) {
             $query->orderBy('dc.name', ($queryParams['campaign'] === 'true' ? 'DESC' : 'ASC'));
         }
-    
+
         return $query;
     }
-    
+
     /**
      * @param $queryParams
      * @return mixed
@@ -449,9 +445,8 @@ class Agency extends User
     {
         $query =
             $this->companies()
-            ->leftJoin('company_agents', 'company_agents.company_id', 'users.id')
-        ;
-        
+            ->leftJoin('company_agents', 'company_agents.company_id', 'users.id');
+
         if (isset($queryParams['search']) && $queryParams['search']) {
             $query->where(function ($query) use ($queryParams) {
                 $query
@@ -459,7 +454,7 @@ class Agency extends User
                     ->orWhere('users.email', 'like', "%{$queryParams['search']}%");
             });
         }
-        
+
         if (isset($queryParams['name'])) {
             $query->orderBy('users.name', ($queryParams['name'] === 'true' ? 'DESC' : 'ASC'));
         }
@@ -471,7 +466,8 @@ class Agency extends User
         return $query;
     }
 
-    public static function getMaxCompaniesCanCreateBy($subscriptionType) {
+    public static function getMaxCompaniesCanCreateBy($subscriptionType)
+    {
         $subscriptions = [
             static::$SUBSCRIPTION_TYPE_BASE => env('APP_BASE_AGENCY_MAX_COMPANIES', 5),
             static::$SUBSCRIPTION_TYPE_PREMIUM => env('APP_PREMIUM_AGENCY_MAX_COMPANIES', 10),

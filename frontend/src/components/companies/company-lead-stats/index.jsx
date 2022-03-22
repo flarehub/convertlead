@@ -14,9 +14,9 @@ class CompanyLeadStats extends Component {
 
     state = {
         agentId: null,
-        startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
+        startDateDisplay: '01/01/2000',
         endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
-        startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
+        startDate: '2000-01-01',
         endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
     };
 
@@ -34,7 +34,7 @@ class CompanyLeadStats extends Component {
         });
 
         this.props.getCompanyLeadStats(
-            this.props.company.id,
+            this.props.companyObject.id,
             this.state.startDate,
             moment(date).format('Y-MM-DD'),
             this.state.agentId,
@@ -43,15 +43,15 @@ class CompanyLeadStats extends Component {
 
     onRestDate = () => {
         this.setState({
-            startDateDisplay: moment().startOf('isoWeek').format(this.dateDisplayFormat),
+            startDateDisplay: '01/01/2000',
             endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
-            startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
+            startDate: '2000-01-01',
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         });
 
         this.props.getCompanyLeadStats(
-            this.props.company.id,
-            moment().startOf('isoWeek').format('Y-MM-DD'),
+            this.props.companyObject.id,
+            '2000-01-01',
             moment().endOf('isoWeek').format('Y-MM-DD'),
             this.state.agentId,
         );
@@ -66,17 +66,19 @@ class CompanyLeadStats extends Component {
             this.props.companyObject.id,
             this.state.startDate,
             this.state.endDate,
-            this.state.agentId,
+            data.value,
         );
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+
         if (this.props.companyObject.id !== prevProps.companyObject.id) {
+            this.setState({ agentId: null })
             this.props.getCompanyLeadStats(
                 this.props.companyObject.id,
                 this.state.startDate,
                 this.state.endDate,
-                this.state.agentId,
+                null,
             );
 
             this.props.loadSelectBoxAgents({
@@ -103,7 +105,6 @@ class CompanyLeadStats extends Component {
     render() {
         const { onClose, agents, company, companyLeadStats, companyLeadStatsRecords, companyObject } = this.props;
         const { startDateDisplay, endDateDisplay, startDate, endDate } = this.state;
-        console.log(companyLeadStatsRecords)
 
         return (
             <div className="companyLeadStats">

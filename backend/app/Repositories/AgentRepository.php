@@ -187,7 +187,7 @@ trait AgentRepository
         });
         $dateCollection[] = $endDate;
         $labels = ['15 min (0-15)', '30 min (15-30)', '2 hrs (30-2)', '12 hrs (2-12)', '12 hrs + Missed'];
-        $backGroundColors = ['#21ba45', '#f2711c', '#2cb3c8', '#6435c9', '#db2828'];
+        $backGroundColors = ['#7ebf3a', '#ffb500', '#4d77ff', '#6c40be', '#ff3649'];
 
         $datasets = [
             'backgroundColor' => $backGroundColors,

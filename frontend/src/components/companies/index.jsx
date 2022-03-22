@@ -97,7 +97,6 @@ class Companies extends Component {
   };
 
   onShowCompanyStats = (companyStats) => {
-
     this.setState({
       companyStats,
     });
