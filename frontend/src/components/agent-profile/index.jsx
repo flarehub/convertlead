@@ -30,7 +30,7 @@ class AgentProfile extends Component {
     constructor(props) {
         super(props);
         this.canvas = React.createRef();
-        
+
         // if (this.props.companiesOfAgent && this.props.companiesOfAgent[0]) {
         //     this.setState({ companyIds: this.props.companiesOfAgent[0].key })
         // }

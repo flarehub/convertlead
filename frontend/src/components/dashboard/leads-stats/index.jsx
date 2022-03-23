@@ -51,6 +51,7 @@ class LeadStats extends Component {
         disableAutoComplete();
 
         let opt = this.props.pieGraphContactedLeadsAverage;
+        console.log(opt)
         opt.options.legendCallback = function (chart) {
             let ul = document.createElement('ul');
             let i = 0;
