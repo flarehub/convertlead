@@ -124,6 +124,7 @@ class Companies extends Component {
 
   render() {
     const companies = this.props.companies || [];
+    console.log(companies)
     const { pagination, query } = this.props;
     const { companyStats } = this.state;
 
