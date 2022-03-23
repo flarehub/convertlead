@@ -101,7 +101,9 @@ class DealsStatistics extends React.PureComponent {
             </BarChart>
             :
             <>
-              <img src="img/no-data.png" />
+			<p className="p-25">
+              <img src="img/nodata2.svg" />
+			  </p>
             </>
           }
         </div>
