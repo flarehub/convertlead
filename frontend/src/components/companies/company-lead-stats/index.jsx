@@ -165,7 +165,7 @@ class CompanyLeadStats extends Component {
                         </BarChart>
                         :
                         <div className="p-25">
-                            <img src="img/no-data.png" />
+                            <img src="img/nodata2.svg" />
                         </div>
                     }
 

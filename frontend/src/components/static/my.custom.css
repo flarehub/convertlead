@@ -4046,3 +4046,30 @@ label.conversations {
 .deals-chart .p-25 {
     padding:0 50px;
 }
+
+.custom-modal {
+    text-align: center;
+    width: 500px;
+    padding: 40px;
+    background: #28bae6;
+    box-shadow: 0 20px 75px rgb(0 0 0 / 23%);
+    color: #fff;
+}
+
+.custom-modal>button {
+    width: 160px;
+    padding: 10px;
+    border: 1px solid #fff;
+    margin: 10px;
+    cursor: pointer;
+    background: none;
+    color: #fff;
+    font-size: 14px;
+}
+
+.react-confirm-alert-overlay {
+    z-index: 9999;
+    background: #ffffff5e;
+}
+
+
