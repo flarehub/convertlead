@@ -10,12 +10,38 @@ import {
 import './index.scss';
 import { MessagesContainer } from '@containers';
 
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 class EntityModal extends Component {
     state = {
         formSaved: false,
     };
 
     onSave = () => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='custom-modal'>
+                        <h1>Are you sure?</h1>
+                        <p>You want to save the chage?</p>
+                        <button onClick={onClose}>No</button>
+                        <button
+                            onClick={() => {
+                                this.handleSave();
+                                onClose()
+                            }}
+                        >
+                            Yes
+                        </button>
+                    </div>
+                );
+            }
+        });
+    };
+
+    handleSave = () => {
+        console.log('handlesave')
         if (this.state.formSaved && !this.props.error) {
             return;
         }

@@ -218,7 +218,8 @@ class Agency extends User
             })
             ->where('agency_companies.agency_id', $this->id)
             ->groupBy('agency_companies.company_id', 'agency_companies.is_locked');
-
+        $query->with('agents');
+        
         // if ( isset($queryParams['showDeleted']) ) {
         //     $query->withTrashed();
         // } else {
