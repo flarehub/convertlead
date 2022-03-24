@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import * as moment from 'moment';
 import './index.scss';
 import { DATE_FORMAT } from '@constants';
 
 export class LeadNoteTimeLine extends Component {
-    componentWillMount() {}
+    componentWillMount() { }
 
     render() {
-        const {notes} = this.props;
+        const { notes } = this.props;
         return (
             <div>
                 {
@@ -20,6 +20,16 @@ export class LeadNoteTimeLine extends Component {
                             <div className='lead-note-content'>
                                 <span className='agent-name'>{note.agent.name}, </span> {note.message}
                             </div>
+                            {
+                                note.recordingUrl && (
+                                    <div className='lead-note-audio'>
+                                        <audio controls>
+                                            <source src={note.recordingUrl} type="audio/mpeg" />
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </div>
+                                )
+                            }
                         </div>
                     )
                 }
