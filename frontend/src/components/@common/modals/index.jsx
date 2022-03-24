@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { compose } from 'recompose'
 import * as R from 'ramda';
 
@@ -19,25 +19,29 @@ class EntityModal extends Component {
     };
 
     onSave = () => {
-        confirmAlert({
-            customUI: ({ onClose }) => {
-                return (
-                    <div className='custom-modal'>
-                        <h1>Are you sure?</h1>
-                        <p>Editing a campaign's company will unassign all the agents from its integrations.</p>
-                        <button onClick={onClose}>No</button>
-                        <button
-                            onClick={() => {
-                                this.handleSave();
-                                onClose()
-                            }}
-                        >
-                            Yes
-                        </button>
-                    </div>
-                );
-            }
-        });
+        this.props.noteText ?
+            confirmAlert({
+                customUI: ({ onClose }) => {
+                    return (
+                        <div className='custom-modal'>
+                            <h1>Are you sure?</h1>
+                            <p>{this.props.noteText}</p>
+                            <button onClick={onClose}>No</button>
+                            <button
+                                onClick={() => {
+                                    this.handleSave();
+                                    onClose()
+                                }}
+                            >
+                                Yes
+                            </button>
+                        </div>
+                    );
+                }
+            })
+            :
+            this.handleSave();
+
     };
 
     handleSave = () => {
@@ -61,7 +65,7 @@ class EntityModal extends Component {
     };
 
     onCancel = () => {
-        this.props.loadForm({show: false});
+        this.props.loadForm({ show: false });
     };
 
     validate = () => {
@@ -101,6 +105,8 @@ class EntityModal extends Component {
         const { Container, displayDeleteButton, ...rest } = this.props;
         const { formSaved } = this.state;
 
+        console.log(this.props)
+
         if (!this.props.form.show && formSaved) {
             this.setState({
                 formSaved: false,
@@ -109,10 +115,10 @@ class EntityModal extends Component {
 
         return (
             <Modal className='freshAppEntityModal'
-                   open={this.props.form.show}
-                   centered={false}
-                   size={rest.size || 'tiny'}
-                   onClose={this.props.loadForm.bind(this, {show: false})}>
+                open={this.props.form.show}
+                centered={false}
+                size={rest.size || 'tiny'}
+                onClose={this.props.loadForm.bind(this, { show: false })}>
                 <Modal.Header>{this.props.form.title}</Modal.Header>
                 <Modal.Content>
                     <Container {...rest} />
@@ -129,12 +135,12 @@ class EntityModal extends Component {
                     />
                     {
                         displayDeleteButton && (
-                          <a
-                            className="deleteButton"
-                            onClick={this.onDelete}
-                          >
-                              <Icon name="trash alternate" />
-                          </a>
+                            <a
+                                className="deleteButton"
+                                onClick={this.onDelete}
+                            >
+                                <Icon name="trash alternate" />
+                            </a>
                         )
                     }
                 </Modal.Actions>
