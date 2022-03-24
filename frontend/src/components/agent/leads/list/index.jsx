@@ -7,6 +7,7 @@ import './index.scss';
 class LeadsList extends Component {
     render() {
         const {leads, statuses} = this.props;
+        console.log(leads)
         return (
             <Tab.Pane attached={false}>
                 <List className='AgentLeadsList' relaxed='very'>
