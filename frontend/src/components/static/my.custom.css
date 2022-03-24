@@ -99,6 +99,12 @@ input {
     left: 5px;
 }
 
+.Automations {
+  margin: -25px -95px;
+  padding: 25px 95px;
+  background-image:url('../static/assets/autbg.png');
+}
+
 .ui.checked.toggle.checkbox input:checked~.box::before,
 .ui.checked.toggle.checkbox input:checked~label::before,
 .ui.checked.toggle.checkbox input:focus:checked~label::before,
