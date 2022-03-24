@@ -24,7 +24,7 @@ class EntityModal extends Component {
                 return (
                     <div className='custom-modal'>
                         <h1>Are you sure?</h1>
-                        <p>You want to save the chage?</p>
+                        <p>Editing a campaign's company will unassign all the agents from its integrations.</p>
                         <button onClick={onClose}>No</button>
                         <button
                             onClick={() => {

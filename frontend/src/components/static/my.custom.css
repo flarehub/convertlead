@@ -3161,6 +3161,19 @@ i.icon.pencil {
     color: #ccc;
 }
 
+
+.lead-note audio {
+    max-width: 100% !important;
+    display: block !important;
+    margin-top: 10px;
+    background: #3e6bff !important;
+    opacity: 0.4 !important;
+    border-radius: 5px;
+    height: 30px;
+    font-size: 10px !important;
+    color: #ccc;
+}
+
 .timeline-record .timeline-status span {
     font-size: 14px;
     margin-top: 0px !important;
@@ -4051,13 +4064,15 @@ label.conversations {
     text-align: center;
     width: 500px;
     padding: 40px;
-    background: #28bae6;
+    background: #4d77ff;
     box-shadow: 0 20px 75px rgb(0 0 0 / 23%);
     color: #fff;
+    font-family: 'Averta',sans-serif;
+    border-radius: 10px;
 }
 
 .custom-modal>button {
-    width: 160px;
+    width: 100px;
     padding: 10px;
     border: 1px solid #fff;
     margin: 10px;
@@ -4065,6 +4080,18 @@ label.conversations {
     background: none;
     color: #fff;
     font-size: 14px;
+    border-radius: 5px;
+    font-family: 'Averta';
+    font-weight: 500;
+}
+
+.custom-modal h1 {
+    font-family: 'Averta';
+}
+
+.custom-modal p {
+    width: 80%;
+    margin: 10px auto;
 }
 
 .react-confirm-alert-overlay {
