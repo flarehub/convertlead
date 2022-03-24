@@ -276,7 +276,7 @@ class AgentProfile extends Component {
 
                     <div className='average-response-time'>
                         <div className="time-to-contact">
-                            Time to contact
+                            Response Time
                         </div>
                         <div ref='legend' />
                         <div className="chart-wrapper">
