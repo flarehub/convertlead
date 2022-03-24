@@ -20,4 +20,8 @@ trait AgencyRepository {
         $data['role'] = Company::$ROLE_AGENCY;
         return $this->createUser($data);
     }
+    
+    public function getDealBy($dealId) {
+        return $this->deals()->where('deals.id', $dealId)->firstOrFail();
+    }
 }
