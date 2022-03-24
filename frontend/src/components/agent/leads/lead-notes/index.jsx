@@ -87,10 +87,14 @@ class AgentLeadNotes extends Component {
             console.log("call_disconnected");
             Device.disconnectAll();
         } else if (this.props.twilioToken && checkIsValidNumber) {
-            console.log("on_call");
             Device.connect({ number: this.props.lead.phone });
             this.setState({
                 onPhone: true,
+            });
+
+            this.props.createLeadNote({
+                message: 'initiated agent call',
+                status: 'CONTACTED_CALL'
             });
         }
     }

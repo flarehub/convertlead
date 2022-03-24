@@ -71,6 +71,11 @@ class LeadNotes extends Component {
             this.setState({
                 onPhone: true,
             });
+
+            this.props.createLeadNote({
+                message: 'initiated agency call',
+                status: 'CONTACTED_CALL'
+            });
         }
     }
 
