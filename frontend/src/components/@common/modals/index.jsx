@@ -105,8 +105,6 @@ class EntityModal extends Component {
         const { Container, displayDeleteButton, ...rest } = this.props;
         const { formSaved } = this.state;
 
-        console.log(this.props)
-
         if (!this.props.form.show && formSaved) {
             this.setState({
                 formSaved: false,
