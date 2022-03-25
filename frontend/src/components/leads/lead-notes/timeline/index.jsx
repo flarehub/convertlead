@@ -79,7 +79,7 @@ class TimeLine extends Component {
                             </Button.Group>
                         </Form>
                         : <Button onClick={this.showAddNote}>
-                            <Icon name='plus'/>
+                            <Icon className='flaticon stroke plus-1'/>
                             Add note
                         </Button>
                 }

@@ -441,6 +441,13 @@ i.icon.sidebar:before {
     margin: 0 0 0 auto;
 }
 
+.Dashboard.sidebarOpened .DealStatistics,
+.Leads.sidebarOpened .companyLeadStats,
+.Leads.sidebarOpened .AgentProfile,
+.Leads.sidebarOpened .lead-notes-profile-container {
+    scrollbar-width: thin;
+    }
+
 .field.sortby label {
     padding: 5px 15px !important;
     border-radius: 25px !important;
@@ -3213,6 +3220,28 @@ i.icon.pencil {
     background: #4d77ff;
 }
 
+.Leads.sidebarOpened .freshAppTimeLine>button:nth-child(2) {
+    margin-left: 0px !important;
+    background-color: #4d77ff;
+    box-shadow: 0 3px 8px #0058ff66 !important;
+    padding: 13px 25px;
+    border-radius: 8px;
+} 
+
+.Leads.sidebarOpened .freshAppTimeLine>button:nth-child(2):hover {
+
+    color: #fff;
+    background-color: #4a71f0;
+}
+
+
+.sidebar-bootom a {
+    margin-top: 12px;
+}
+.sidebar-bootom a.item:hover i, .sidebar-bootom a:hover .ti-brand-hipchat {
+    color: #fff !important;
+}
+
 .ui.dimmer {
     background-color: hsla(0, 0%, 100%, .85) !important;
 }
@@ -3939,6 +3968,7 @@ label.conversations {
         z-index: 999999;
         margin-top: 1em;
         height: calc(100% - 2em);
+
     }
     .Companies .ui.table tbody tr td:nth-child(4),
     .Companies .ui.table thead th:nth-child(4) {
@@ -4119,6 +4149,6 @@ label.conversations {
     background: #ffffff5e;
 }
 
-.leads-container .leadFilters {
+.Leads.companies .leadFilters {
     position: relative;
 }
