@@ -75,8 +75,6 @@ class CompaignsModal extends Component {
                 </div>
                 <div className="company-lead-stats-container selectedname">
                     <label className="company-name">Lead Stats</label>
-                 
-                
 
                     <div className="totals top-margin">
                         <div className="total-leads">
