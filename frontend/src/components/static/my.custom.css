@@ -1464,39 +1464,58 @@ input:focus {
 
 .ui.pagination.menu {
     border-radius: 10px;
-    border: 1px solid #dfdff0 !important;
+    border: none;
+    background: transparent;
     color: #666382 !important;
     min-height: 3.5em;
 }
 
 .ui.pagination.menu .item:first-child {
-    border-radius: 10px 0 0 10px;
     font-family: 'averta', sans-serif;
     font-size: 16px;
-    color: #666382 !important;
-    min-width: 2em;
-    width: 2.8em;
+    color: #a2a0b9 !important;
+    border-radius: 55px;
 }
 
 .ui.pagination.menu .item:last-child {
-    border-radius: 0 10px 10px 0;
     font-family: 'averta', sans-serif;
     font-size: 16px;
-    color: #666382 !important;
-    min-width: 2em;
-    width: 2.8em;
+    color: #a2a0b9 !important;
+    border-radius: 55px !important;
 }
-
+    
 .ui.pagination.menu .active.item {
     font-family: 'averta', sans-serif;
     font-size: 13px;
-    color: #666382 !important;
+    color: #7f7c9d !important;
     font-weight: 500;
-    background: #f6f6fa !important;
+    background: #fff !important;
+
 }
 
 .ui.pagination.menu .item {
-    width: 3em;
+    width: 45px;
+    height: 45px;
+    border-radius: 55px;
+    margin: 0 2px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background: #ecedf6 !important;
+    border: 1px solid #d7daeb !important;
+    color: #a2a0b9 !important;
+    min-width: unset !important;
+    font-weight: 500 !important;
+    font-family: 'Averta',sans-serif;
+}
+
+.ui.pagination.menu .item:before{
+    display: none !important;
+}
+
+.ui.pagination.menu .item:hover {
+    background: #fff !important;
 }
 
 .ui.bottom.attached.right.aligned.segment {
@@ -3170,7 +3189,7 @@ i.icon.pencil {
     max-width: 100% !important;
     display: block !important;
     margin-top: 10px;
-    background: #3e6bff !important;
+    background: #fff !important;
     opacity: 0.4 !important;
     border-radius: 5px;
     height: 30px;
