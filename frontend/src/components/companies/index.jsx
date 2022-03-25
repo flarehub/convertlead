@@ -114,6 +114,7 @@ class Companies extends Component {
 
   componentDidMount() {
     disableAutoComplete();
+    console.log(this.props)
   }
 
   componentWillUnmount() {
@@ -121,6 +122,14 @@ class Companies extends Component {
       companyStats: null,
     });
   }
+
+  exportTo = (type) => {
+    this.props.exportTo({
+      type,
+      search: this.props.query.search,
+      showDeleted: this.props.query.showDeleted,
+    });
+  };
 
   render() {
     const companies = this.props.companies || [];
@@ -195,6 +204,11 @@ class Companies extends Component {
                 />
               </Form>
             </div> 
+
+            <div className='exportbox'>Export your data
+              <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_COMPANY_CSV')}>.csv export</a>
+              <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_COMPANY_PDF')}>.pdf export</a>
+            </div>
           </div>
 
           <Loader />

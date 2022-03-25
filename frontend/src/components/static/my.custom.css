@@ -100,9 +100,9 @@ input {
 }
 
 .Automations {
-  margin: -25px -95px;
-  padding: 25px 95px;
-  background-image:url('../static/assets/autbg.png');
+    margin: -25px -95px;
+    padding: 25px 95px;
+    background-image: url('../static/assets/autbg.png');
 }
 
 .ui.checked.toggle.checkbox input:checked~.box::before,
@@ -1148,7 +1148,6 @@ input:focus {
 .ui.table thead tr>th:last-child {
     text-align: center;
     position: relative;
-    
 }
 
 .ui.table tr td:nth-child(2) {
@@ -3167,7 +3166,6 @@ i.icon.pencil {
     color: #ccc;
 }
 
-
 .lead-note audio {
     max-width: 100% !important;
     display: block !important;
@@ -3870,12 +3868,12 @@ label.conversations {
     }
     #company-lock {
         top: 25px;
-        right:45px;
+        right: 45px;
         background: transparent !important;
     }
     .ui.table tr td:last-child .ui.buttons:before {
         top: 22px;
-        right:20px;
+        right: 20px;
     }
     .top.note {
         display: none;
@@ -3912,19 +3910,17 @@ label.conversations {
     .Dashboard .ui.card .ui.small.basic.buttons button:hover .icon {
         color: #4d77ff !important;
     }
-         
-     .Dashboard.sidebarOpened .DealStatistics, 
-     .Leads.sidebarOpened .companyLeadStats, 
-     .Leads.sidebarOpened .AgentProfile, 
-     .Leads.sidebarOpened .lead-notes-profile-container {
-         left: 0;
-         width: 100%;
-         top: 0;
-         z-index: 999999;
-         margin-top: 1em;
-         height:calc(100% - 2em);
-     }
-    
+    .Dashboard.sidebarOpened .DealStatistics,
+    .Leads.sidebarOpened .companyLeadStats,
+    .Leads.sidebarOpened .AgentProfile,
+    .Leads.sidebarOpened .lead-notes-profile-container {
+        left: 0;
+        width: 100%;
+        top: 0;
+        z-index: 999999;
+        margin-top: 1em;
+        height: calc(100% - 2em);
+    }
     .Companies .ui.table tbody tr td:nth-child(4),
     .Companies .ui.table thead th:nth-child(4) {
         display: none !Important;
@@ -3971,9 +3967,8 @@ label.conversations {
     .agentContainer {
         width: 100%;
     }
-
     .LeadsStats .average-response-time .chart-wrapper {
-    margin: 0 -4em ;
+        margin: 0 -4em;
     }
 }
 
@@ -4063,7 +4058,7 @@ label.conversations {
 }
 
 .deals-chart .p-25 {
-    padding:0 50px;
+    padding: 0 50px;
 }
 
 .custom-modal {
@@ -4073,7 +4068,7 @@ label.conversations {
     background: #4d77ff;
     box-shadow: 0 20px 75px rgb(0 0 0 / 23%);
     color: #fff;
-    font-family: 'Averta',sans-serif;
+    font-family: 'Averta', sans-serif;
     border-radius: 10px;
 }
 
@@ -4105,4 +4100,6 @@ label.conversations {
     background: #ffffff5e;
 }
 
-
+.leads-container .leadFilters {
+    position: relative;
+}
