@@ -150,6 +150,7 @@ class Campaigns extends Component {
       lead_statics.missed_leads = lead_statics.missed_leads + campaign.leads_count_m));
 
     this.setState({ lead_statics: lead_statics });
+    console.log(this.props.campaigns, this.state.lead_statics)
   }
 
   getSort = field => {

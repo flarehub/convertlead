@@ -33,8 +33,8 @@ const mapDispatchToProps = dispatch => ({
     getCompanyBy: (id, breadCrumb) => dispatch(thunks.getCompanyBy(id, breadCrumb)),
     getCompanyGraph: (graphContext, companyId, filters) => dispatch(thunks.getCompanyGraph(graphContext, companyId, filters)),
     loadCompanyCampaigns: (companyId) => dispatch(actions.loadCompanyCampaigns(companyId)),
-    exportTo: (payload) => dispatch(thunks.exportTo(payload)),
-    reportPoll: uuid => dispatch(thunks.reportPoll(uuid)),
+    exportTo: (payload) => dispatch(thunks._exportTo(payload)),
+    reportPoll: uuid => dispatch(thunks._reportPoll(uuid)),
 });
 
 

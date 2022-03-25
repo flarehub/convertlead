@@ -17,6 +17,10 @@ class Reports extends Model
 
     public static $TYPE_LEADS_PDF = 'TYPE_LEADS_PDF';
     public static $TYPE_LEADS_CSV = 'TYPE_LEADS_CSV';
+    public static $TYPE_COMPANY_CSV = 'TYPE_COMPANY_CSV';
+    public static $TYPE_COMPANY_PDF = 'TYPE_COMPANY_PDF';
+    public static $TYPE_CAMPAIGN_CSV = 'TYPE_CAMPAIGN_CSV';
+    public static $TYPE_CAMPAIGN_PDF = 'TYPE_CAMPAIGN_PDF';
 
     protected $fillable = [
         'user_id',

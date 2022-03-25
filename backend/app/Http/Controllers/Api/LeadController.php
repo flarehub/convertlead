@@ -61,6 +61,58 @@ class LeadController extends Controller
                 "{$fileName}.csv", $headers)
                 ->sendHeaders();
         }
+
+        elseif ($report->type === Reports::$TYPE_COMPANY_PDF) {
+            $headers = [
+                'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+                'Content-type'        => 'application/pdf',
+                'Content-Disposition' => "attachment; filename={$fileName}.pdf",
+                'Expires'             => '0',
+                'Pragma'              => 'public'
+            ];
+            return \Storage::download(
+                "reports/{$report->user_id}/companies/pdf/{$report->uuid}.pdf",
+                "{$fileName}.pdf", $headers)->sendHeaders();
+        }
+        elseif ($report->type === Reports::$TYPE_COMPANY_CSV) {
+            $headers = [
+                'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+                'Content-type'        => 'text/csv',
+                'Content-Disposition' => "attachment; filename=$fileName.csv",
+                'Expires'             => '0',
+                'Pragma'              => 'public'
+            ];
+            return \Storage::download(
+                "reports/{$report->user_id}/companies/csv/{$report->uuid}.csv",
+                "{$fileName}.csv", $headers)
+                ->sendHeaders();
+        }
+
+        elseif ($report->type === Reports::$TYPE_CAMPAIGN_PDF) {
+            $headers = [
+                'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+                'Content-type'        => 'application/pdf',
+                'Content-Disposition' => "attachment; filename={$fileName}.pdf",
+                'Expires'             => '0',
+                'Pragma'              => 'public'
+            ];
+            return \Storage::download(
+                "reports/{$report->user_id}/campaigns/pdf/{$report->uuid}.pdf",
+                "{$fileName}.pdf", $headers)->sendHeaders();
+        }
+        elseif ($report->type === Reports::$TYPE_CAMPAIGN_CSV) {
+            $headers = [
+                'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+                'Content-type'        => 'text/csv',
+                'Content-Disposition' => "attachment; filename=$fileName.csv",
+                'Expires'             => '0',
+                'Pragma'              => 'public'
+            ];
+            return \Storage::download(
+                "reports/{$report->user_id}/campaigns/csv/{$report->uuid}.csv",
+                "{$fileName}.csv", $headers)
+                ->sendHeaders();
+        }
         throw new \Exception('Report not found');
     }
 }

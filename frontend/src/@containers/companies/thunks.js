@@ -12,7 +12,8 @@ import {
     fetchTimezones,
     fetchAgencyCompanyLeadStats,
     fetchAgencyCompaniesOfAgent,
-    exportTo as exportTos
+    exportTo,
+    reportPoll
 } from "./api";
 // import * as api from './api';
 
@@ -156,18 +157,18 @@ export const getCompanyGraph = (graphContext, companyId, filters) => async dispa
     }
 };
 
-export const exportTo = (payload) => async dispatch => {
+export const _exportTo = (payload) => async dispatch => {
     try {
-        const report = await api.exportTo(payload);
-        dispatch(reportPoll(report.data.uuid))
+        const report = await exportTo(payload);
+        dispatch(_reportPoll(report.data.uuid))
     } catch (e) {
         console.log(e.message);
     }
 };
 
-export const reportPoll = uuid => async dispatch => {
+export const _reportPoll = uuid => async dispatch => {
     try {
-        const report = await api.reportPoll(uuid);
+        const report = await reportPoll(uuid);
         if (['NONE', 'IN_PROGRESS'].includes(report.data.status)) {
             setTimeout(() => dispatch(reportPoll(uuid)), 1000);
         } else {
