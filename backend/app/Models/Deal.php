@@ -107,6 +107,7 @@ class Deal extends Model
             COUNT(all_c.id) as leads_count_all,
             COUNT(missed_c.id) leads_count_m,
             COUNT(contacted_c.id) leads_count_c,
+            COUNT(sold_c.id) leads_count_s,
             SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes_c.created_at, leads.created_at)))) AS avg_time_response,
             ROUND(AVG(TIME_TO_SEC(TIMEDIFF(leadNotes_c.created_at, leads.created_at)))/60, 0) AS avg_min_response
         ');
