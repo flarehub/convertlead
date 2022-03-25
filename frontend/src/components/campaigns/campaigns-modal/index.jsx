@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import {compose} from "recompose";
+import { compose } from "recompose";
 
-import {AgentsContainer, CompaniesContainer} from "../../../@containers";
+import { AgentsContainer, CompaniesContainer } from "../../../@containers";
 import './index.scss';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -11,7 +11,7 @@ class CompaignsModal extends Component {
     state = {
         agentId: null,
     };
-    
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         // if (this.props.companyObject.id !== prevProps.companyObject.id) {
         //     this.props.getCompanyLeadStats(
@@ -27,7 +27,7 @@ class CompaignsModal extends Component {
         // }
     }
 
-    componentDidMount() {     
+    componentDidMount() {
         // this.props.getCompanyLeadStats(
         //     this.props.companyObject.id,
         //     this.state.startDate,
@@ -43,8 +43,9 @@ class CompaignsModal extends Component {
     render() {
         const { onClose, lead_statics } = this.props;
         let percentage = 0;
-        if(!isNaN(lead_statics.conversion_leads) && !isNaN(lead_statics.total_leads))
-            percentage = Math.round(lead_statics.conversion_leads/lead_statics.total_leads*100);
+        if (!isNaN(lead_statics.conversion_leads) && !isNaN(lead_statics.total_leads)) {
+            percentage = lead_statics.total_leads ? Math.round(lead_statics.conversion_leads / lead_statics.total_leads * 100) : 0;
+        }
 
         return (
             <div className="companyLeadStats campaigns">
@@ -55,23 +56,23 @@ class CompaignsModal extends Component {
                         Conversion Rate
                     </div>
                     <div className="ring-chart">
-                    <div className="ring-chart-text "> CONVERSION RATE </div>
-                    
-                    <CircularProgressbar 
-                        value={percentage} 
-                        strokeWidth={10}
-                        text={`${percentage}`} 
-                        styles={buildStyles({
-                            // Rotation of path and trail, in number of turns (0-1)
-                            rotation: 0,
-                            textSize: '16px',
-                            pathColor: `#4a74ff, ${percentage / 100})`,
-                            textColor: 'black',
-                            
-                          })}                        
-                    />
-                    <div className="ring-chart-percent"> % </div>
-                </div>   
+                        <div className="ring-chart-text "> CONVERSION RATE </div>
+
+                        <CircularProgressbar
+                            value={percentage}
+                            strokeWidth={10}
+                            text={`${percentage}`}
+                            styles={buildStyles({
+                                // Rotation of path and trail, in number of turns (0-1)
+                                rotation: 0,
+                                textSize: '16px',
+                                pathColor: `#4a74ff, ${percentage / 100})`,
+                                textColor: 'black',
+
+                            })}
+                        />
+                        <div className="ring-chart-percent"> % </div>
+                    </div>
                 </div>
                 <div className="company-lead-stats-container selectedname">
                     <label className="company-name">Lead Stats</label>
@@ -88,7 +89,7 @@ class CompaignsModal extends Component {
                                 {lead_statics.conversion_leads || 0}
                             </span>
                             <label>CONVERSIONS</label>
-                        </div>                        
+                        </div>
                     </div>
                     <br />
                     <div className="totals">
@@ -103,8 +104,8 @@ class CompaignsModal extends Component {
                                 {lead_statics.missed_leads || 0}
                             </span>
                             <label>MISSED LEADS</label>
-                        </div>                        
-                    </div>                    
+                        </div>
+                    </div>
                 </div>
             </div>
         );
