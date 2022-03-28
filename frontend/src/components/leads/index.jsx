@@ -20,6 +20,7 @@ import {
 } from '@containers';
 import LeadNotesPreview from './lead-notes-preview';
 import LeadsTable from './Leads'
+import * as moment from 'moment';
 
 class Leads extends Component {
   state = {
@@ -27,6 +28,21 @@ class Leads extends Component {
     companyId: null,
     showDeleted: false,
     activeIndex: 0,
+    startDate: moment('2000-01-01').format('Y-MM-DD'),
+    endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
+  }
+
+  componentWillMount() {
+    this.props.filterLeads({
+      campaignId: null,
+      companyId: "",
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      search: "",
+      statusType: "",
+      sortBy: "name.asc"
+    });
+    this.props.searchLeads('');
   }
 
   onSearch = (event, data) => {
@@ -94,7 +110,7 @@ class Leads extends Component {
                 <Menu secondary>
                   <Menu.Menu position='right'>
                     <Menu.Item>
-                      <Input icon='search' onChange={this.onSearch} placeholder='Search...' />
+                      <Input icon='search' onChange={this.onSearch.bind(this)} placeholder='Search...' />
                     </Menu.Item>
                     <Button color='teal' className="new-campaign" onClick={this.props.loadForm.bind(this, { show: true })} ><i className="flaticon stroke plus-1  icon"></i></Button>
                   </Menu.Menu>

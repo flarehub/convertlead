@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {compose} from 'recompose';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { compose } from 'recompose';
 import * as moment from 'moment';
 import {
   Table,
@@ -13,19 +13,19 @@ import {
   Popup, Confirm, Label,
 } from 'semantic-ui-react';
 import './index.scss';
-import {BreadCrumbContainer, DealsContainer, CompaniesContainer, LeadsContainer, LeadFormContainer} from '@containers';
+import { BreadCrumbContainer, DealsContainer, CompaniesContainer, LeadsContainer, LeadFormContainer } from '@containers';
 import Loader from '../loader';
 import * as R from "ramda";
 import { getSelectBoxStatuses } from "@models/lead-statuses";
-import {Auth} from "@services";
+import { Auth } from "@services";
 import DatePickerSelect from "../@common/datepicker";
 import { AvatarImage } from '../@common/image';
-import {DATE_FORMAT} from '@constants';
+import { DATE_FORMAT } from '@constants';
 import ButtonGroup from '../@common/button-group';
 
-const defaultStatus = {key: '', text: 'All statuses', value: ''};
+const defaultStatus = { key: '', text: 'All statuses', value: '' };
 const companies = [
-  {key: '', text: 'All companies', value: ''},
+  { key: '', text: 'All companies', value: '' },
 ];
 const sorByFiled = [
   {
@@ -78,7 +78,7 @@ class Leads extends React.Component {
     status: null,
     leadId: null,
     companyId: null,
-    campaignId: null, 
+    campaignId: null,
     startDateDisplay: moment('2000-01-01').format(this.dateDisplayFormat),
     endDateDisplay: moment().endOf('isoWeek').format(this.dateDisplayFormat),
     startDate: moment('2000-01-01').format('Y-MM-DD'),
@@ -105,11 +105,11 @@ class Leads extends React.Component {
   };
 
   openConfirmModal = (open = true, companyId, leadId = null) => {
-    this.setState({open, companyId, leadId});
+    this.setState({ open, companyId, leadId });
   };
 
   onConfirm = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
     this.props.delete(this.state.companyId, this.state.leadId);
   };
 
@@ -171,14 +171,15 @@ class Leads extends React.Component {
       campaignId,
     });
 
-    this.props.filterLeads({
-      companyId,
-      campaignId,
-      agentId,
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
-      sort_by
-    });
+    // this.props.filterLeads({
+    //   companyId,
+    //   campaignId,
+    //   agentId,
+    //   startDate: this.state.startDate,
+    //   endDate: this.state.endDate,
+    //   sort_by
+    // });
+    
 
     this.props.addBreadCrumb({
       name: 'Leads',
@@ -219,9 +220,9 @@ class Leads extends React.Component {
     });
   };
 
-  render () {
+  render() {
     const leads = this.props.leads || [];
-    const {pagination, statuses, query} = this.props;
+    const { pagination, statuses, query } = this.props;
     const {
       companyId,
       campaignId,
@@ -233,7 +234,7 @@ class Leads extends React.Component {
 
     return (
       <div>
-        <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm}/>
+        <Confirm open={this.state.open} onCancel={this.openConfirmModal.bind(this, false)} onConfirm={this.onConfirm} />
         <Segment basic>
           <div className="leadFilters">
             <div className="field">
@@ -248,7 +249,7 @@ class Leads extends React.Component {
                         search
                         onChange={this.filterByCompany}
                         defaultValue={companyId || null}
-                        searchInput={{id: 'form-companies-list'}}/>
+                        searchInput={{ id: 'form-companies-list' }} />
                       : null
                   }
 
@@ -258,34 +259,34 @@ class Leads extends React.Component {
                     placeholder='All statuses'
                     search
                     onChange={this.filterByStatus}
-                    searchInput={{id: 'form-statuses-list'}}
+                    searchInput={{ id: 'form-statuses-list' }}
                   />
                 </Form.Group>
                 <Popup position='bottom left'
-                       trigger={
-                         <Form.Field>
-                           <Button>
-                             <Icon name='calendar alternate outline'/>
-                             {startDateDisplay} - {endDateDisplay}
-                           </Button>
-                         </Form.Field>} flowing hoverable>
+                  trigger={
+                    <Form.Field>
+                      <Button>
+                        <Icon name='calendar alternate outline' />
+                        {startDateDisplay} - {endDateDisplay}
+                      </Button>
+                    </Form.Field>} flowing hoverable>
 
                   <DatePickerSelect onChangeDateFrom={this.onChangeDateFrom}
-                                    onChangeDateTo={this.onChangeDateTo}
-                                    onRestDate={this.onRestDate}
-                                    from={new Date(startDate)} to={new Date(endDate)}/>
+                    onChangeDateTo={this.onChangeDateTo}
+                    onRestDate={this.onRestDate}
+                    from={new Date(startDate)} to={new Date(endDate)} />
                 </Popup>
                 <Form.Field
                   control={Select}
-				  className="sortby"
+                  className="sortby"
                   options={sorByFiled}
-                  label={{children: 'Sort by', htmlFor: 'leads-sort-by'}}
+                  label={{ children: 'Sort by', htmlFor: 'leads-sort-by' }}
                   placeholder='Sort by '
                   search
                   onChange={this.sortBy}
                   defaultValue={this.props.filters.sortBy}
                   onSearchChange={this.sortBy}
-                  searchInput={{id: 'campaign-sort-by'}}
+                  searchInput={{ id: 'campaign-sort-by' }}
                 />
               </Form>
 
@@ -295,36 +296,36 @@ class Leads extends React.Component {
               <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
             </div>
           </div>
-          <Loader/>
+          <Loader />
           <Table singleLine>
             <Table.Header>
               <Table.Row>
-                  <Table.HeaderCell><span className='table-head blue'>Status</span></Table.HeaderCell>
-                  <Table.HeaderCell><span className='table-head blue'>Name
+                <Table.HeaderCell><span className='table-head blue'>Status</span></Table.HeaderCell>
+                <Table.HeaderCell><span className='table-head blue'>Name
                   <Icon name={this.getSort('name')}
-                        onClick={this.props.sort.bind(this, 'name')}/></span>
+                    onClick={this.props.sort.bind(this, 'name')} /></span>
                 </Table.HeaderCell>
-                  <Table.HeaderCell><span className='table-head blue'>Assigned to</span></Table.HeaderCell>
+                <Table.HeaderCell><span className='table-head blue'>Assigned to</span></Table.HeaderCell>
 
-                  <Table.HeaderCell><span className='table-head blue'>Phone Number</span></Table.HeaderCell>
+                <Table.HeaderCell><span className='table-head blue'>Phone Number</span></Table.HeaderCell>
                 {
                   Auth.isAgency
                     ? <Table.HeaderCell><span className='table-head blue'>Company
                       <Icon name={this.getSort('company')}
-                            onClick={this.props.sort.bind(this, 'company')}/></span>
+                        onClick={this.props.sort.bind(this, 'company')} /></span>
                     </Table.HeaderCell>
                     : null
                 }
                 <Table.HeaderCell><span className='table-head blue'>Source
                   <Icon name={this.getSort('campaign')}
-                        onClick={this.props.sort.bind(this, 'campaign')}/></span>
+                    onClick={this.props.sort.bind(this, 'campaign')} /></span>
                 </Table.HeaderCell>
-                  <Table.HeaderCell><span className='table-head blue'>Actions</span></Table.HeaderCell>
+                <Table.HeaderCell><span className='table-head blue'>Actions</span></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {
-                leads.map((lead, index) => ( 
+                leads.map((lead, index) => (
 
                   <Table.Row onClick={() => this.onLeadEnterDisplayNotes(lead)} key={index}>
                     <Table.Cell>
@@ -335,7 +336,7 @@ class Leads extends React.Component {
                             <Label color='red' floating>
                               {lead.smsReplayCount}
                             </Label>
-                          ) ||( '' )
+                          ) || ('')
                         }
                       </div>
                     </Table.Cell>
@@ -364,7 +365,7 @@ class Leads extends React.Component {
                             lead.company
                               ? <div className="comp-logo-box">
                                 <AvatarImage avatar src={lead.company.avatar_path} rounded
-                                             size='mini'/>
+                                  size='mini' />
                                 <Link to={`/companies/${lead.company.id}/profile`}>
                                   {lead.company.name}
                                 </Link>
@@ -380,13 +381,13 @@ class Leads extends React.Component {
                           ? `/companies/${lead.company.id}/deals/${lead.deal_id}/campaigns`
                           : `/deals/${lead.deal_id}/campaigns`
                       ),
-                      state: {deal: lead.campaign.deal}
+                      state: { deal: lead.campaign.deal }
                     }}>{lead.campaign.name}</Link></Table.Cell>
 
                     <Table.Cell>
-                        <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                            <i class="ti ti-user"></i>
-                        </Link>
+                      <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
+                        <i class="ti ti-user"></i>
+                      </Link>
                       {
                         !lead.deleted_at
                           ? <ButtonGroup>
@@ -410,10 +411,10 @@ class Leads extends React.Component {
         </Segment>
         <Segment textAlign='right' attached='bottom'>
           <Pagination onPageChange={this.gotoPage}
-                      defaultActivePage={pagination.current_page}
-                      prevItem={null}
-                      nextItem={null}
-                      totalPages={pagination.last_page}/>
+            defaultActivePage={pagination.current_page}
+            prevItem={null}
+            nextItem={null}
+            totalPages={pagination.last_page} />
         </Segment>
       </div>
     )

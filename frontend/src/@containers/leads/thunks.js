@@ -1,13 +1,13 @@
 import * as actions from './actions';
-import {hideLoader, showLoader} from '../loader/actions';
-import {sendMessage} from '../messages/thunks';
-import {Auth, config} from '@services';
+import { hideLoader, showLoader } from '../loader/actions';
+import { sendMessage } from '../messages/thunks';
+import { Auth, config } from '@services';
 import * as api from './api';
 
-export const loadLeads = () => async (dispatch, getState) => {
+export const loadLeads = () => async(dispatch, getState) => {
     dispatch(showLoader());
     try {
-        const {query, pagination} = getState().leads;
+        const { query, pagination } = getState().leads;
 
         const response = await api.fetchLeads({
             ...query.filters,
@@ -18,7 +18,7 @@ export const loadLeads = () => async (dispatch, getState) => {
             current_page: pagination.current_page,
         });
 
-        const {data, ...rest} = response.data;
+        const { data, ...rest } = response.data;
         dispatch(actions.loadLeads(data, rest));
     } catch (e) {
         dispatch(sendMessage(e.message, true));
@@ -33,7 +33,7 @@ export const loadTwilioToken = (leadId) => async dispatch => {
     dispatch(actions.putTwilioToke(token));
 }
 
-export const deleteLead = (companyId, id) => async (dispatch) => {
+export const deleteLead = (companyId, id) => async(dispatch) => {
     try {
         if (Auth.isAgency) {
             await api.deleteAgencyCompanyLead(companyId, id);
@@ -47,36 +47,36 @@ export const deleteLead = (companyId, id) => async (dispatch) => {
     }
 };
 
-export const filterLeads = filters => async (dispatch) => {
+export const filterLeads = filters => async(dispatch) => {
     await dispatch(actions.filterLeads(filters));
     await dispatch(loadLeads());
 };
 
-export const searchLeads = search => async (dispatch) => {
+export const searchLeads = search => async(dispatch) => {
     await dispatch(actions.searchLeads(search));
     await dispatch(loadLeads());
 };
 
-export const gotoPage = activePage => async (dispatch) => {
+export const gotoPage = activePage => async(dispatch) => {
     await dispatch(actions.gotoPage(activePage));
     await dispatch(loadLeads());
 };
 
-export const toggleShowDeleted = () => async (dispatch) => {
+export const toggleShowDeleted = () => async(dispatch) => {
     await dispatch(actions.toggleShowDeleted());
     await dispatch(loadLeads());
 };
 
-export const sortLeads = field => async (dispatch) => {
+export const sortLeads = field => async(dispatch) => {
     await dispatch(actions.sortLeads(field));
     await dispatch(loadLeads());
 };
 
 
-export const loadAgentLeads = () => async (dispatch, getState) => {
+export const loadAgentLeads = () => async(dispatch, getState) => {
     dispatch(showLoader());
     try {
-        const {query, pagination, agentLeadStatuses} = getState().leads;
+        const { query, pagination, agentLeadStatuses } = getState().leads;
 
         const response = await api.fetchLeads({
             statuses: agentLeadStatuses.join(','),
@@ -87,8 +87,8 @@ export const loadAgentLeads = () => async (dispatch, getState) => {
             endDate: query.filters.endDate
         });
 
-        const {data, ...rest} = response.data.leads;
-        const {new_leads_count} = response.data;
+        const { data, ...rest } = response.data.leads;
+        const { new_leads_count } = response.data;
 
         dispatch(actions.agentLoadLeads(data, rest));
         dispatch(actions.agentNewLeadsCount(new_leads_count));
@@ -115,7 +115,7 @@ export const agentLeadsByStatuses = (statuses) => async dispatch => {
     await dispatch(loadAgentLeads());
 };
 
-export const scrollToPage = page => async (dispatch) => {
+export const scrollToPage = page => async(dispatch) => {
     await dispatch(actions.gotoPage(page));
     await dispatch(loadAgentLeads());
 };
