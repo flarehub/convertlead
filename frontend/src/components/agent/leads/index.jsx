@@ -12,6 +12,10 @@ class AgentLeads extends Component {
     state = {
         scrollY: window.scrollY,
         dates: {    
+            'all': {
+                startDate: null,
+                endDate: null,
+            },   
             'today': {
                 startDate: moment().startOf('day').format('Y-MM-DD'),
                 endDate: moment().endOf('day').format('Y-MM-DD'),
@@ -36,7 +40,8 @@ class AgentLeads extends Component {
                 startDate: moment().subtract(1, 'month').startOf('month').format('Y-MM-DD'),
                 endDate: moment().subtract(1, 'month').endOf('month').format('Y-MM-DD'),
             },
-        }
+        },
+        statues: []
     };
 
     componentWillMount() {
@@ -67,14 +72,15 @@ class AgentLeads extends Component {
     handleScroll = () => {
         const {pagination} = this.props;
         clearInterval(scrollTime);
-        scrollTime = setTimeout( () => {
-            this.props.scrollToPage(pagination.current_page + 1);
-        }, 1000);
+        // scrollTime = setTimeout( () => {
+        //     this.props.scrollToPage(pagination.current_page + 1);
+        // }, 1000);
     };
 
     showAllLeads = () => {
         this.setState({
             pageStart: 0,
+            statues: []
         });
         this.props.agentLeadsByStatuses([]);
     };
@@ -82,6 +88,7 @@ class AgentLeads extends Component {
     showFreshLeads = () => {
         this.setState({
             pageStart: 0,
+            statues: ['NEW']
         });
         this.props.agentLeadsByStatuses(['NEW']);
     };
@@ -89,6 +96,7 @@ class AgentLeads extends Component {
     showContactedLeads = () => {
         this.setState({
             pageStart: 0,
+            statues: ['CONTACTED_SMS', 'CONTACTED_CALL', 'CONTACTED_EMAIL']
         });
         this.props.agentLeadsByStatuses(['CONTACTED_SMS', 'CONTACTED_CALL', 'CONTACTED_EMAIL']);
     };
@@ -96,6 +104,7 @@ class AgentLeads extends Component {
     showViewedLeads = () => {
         this.setState({
             pageStart: 0,
+            statues: ['VIEWED']
         });
         this.props.agentLeadsByStatuses(['VIEWED']);
     };
@@ -103,6 +112,7 @@ class AgentLeads extends Component {
     showSoldLeads = () => {
         this.setState({
             pageStart: 0,
+            statues: ['SOLD']
         });
         this.props.agentLeadsByStatuses(['SOLD']);
     };
@@ -116,10 +126,12 @@ class AgentLeads extends Component {
             startDate: this.state.dates[data.value].startDate,
             endDate: this.state.dates[data.value].endDate,
         });
+        this.props.agentLeadsByStatuses(this.state.statues);
     };
 
     render() {
         const {agentLeads, statuses, newLeadsCount, query} = this.props;
+
         const panes = [
             {
                 menuItem: (
@@ -200,7 +212,7 @@ class AgentLeads extends Component {
                                         control={Select}
                                         options={this.props.selectBoxDates || []}
                                         placeholder="Select Date"
-                                        defaultValue='today'
+                                        defaultValue='all'
                                         onChange={this.onChangeDate}
                                         searchInput={{id: 'leads-date'}}
                                     />

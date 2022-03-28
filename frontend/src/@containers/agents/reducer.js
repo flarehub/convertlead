@@ -98,6 +98,10 @@ const initState = {
         }
     },
     selectBoxDates: [{
+            key: 'all',
+            value: 'all',
+            text: 'All',
+        }, {
             key: 'today',
             value: 'today',
             text: 'Today',
