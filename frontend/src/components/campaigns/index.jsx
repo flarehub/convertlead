@@ -529,8 +529,8 @@ class Campaigns extends Component {
                                   {
                                     agent.name != '' && (
                                       <Link to={`/agents/${agent.id}/profile`}>{agent.name}</Link>
-                                    )
-                                  } ,
+                                    ) 
+                                  }{campaign.agents[campaign.agents.length-1].id === agent.id ? '' : ', '}
                                 </div>
                               </div>
                           ) || (
