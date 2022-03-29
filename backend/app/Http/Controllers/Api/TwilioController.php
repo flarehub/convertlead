@@ -23,13 +23,12 @@ class TwilioController extends Controller
         $agentTwilioNumber = ($agent->twilio_mobile_number ? $agent->twilio_mobile_number : $company->twilio_mobile_number);
 
         // agent Call lead from client
-        if (stripos($from, 'client:Anonymous') !== false) {
-            // $lead = Lead::query()
-            //     ->where('agent_id', $agentId)
-            //     ->where('phone', 'like', $request->get('number'))
-            //     ->orderBy('id', 'desc')
-            //     ->first();
-            $lead = Lead::where('phone', 'like', $request->get('number'))->orderBy('id', 'desc')->firstOrFail();
+        if (stripos($from, 'client:Anonymous') !== false) { 
+
+            if ($request->get('leadId'))
+                $lead = Lead::findOrFail($request->get('leadId'));
+            else
+                $lead = Lead::where('phone', 'like', $request->get('number'))->orderBy('id', 'desc')->firstOrFail();
             $agentTwilioNumber = $agentTwilioNumber ?: $lead->company['twilio_mobile_number'];
 
             if ($lead) {
@@ -41,24 +40,8 @@ class TwilioController extends Controller
                     'recordingStatusCallbackEvent' => 'completed',
                     'recordingStatusCallback' => $recordingStatus,
                 ]);
-                // LeadNote::create([
-                //     'lead_status_id' => $lead->lead_status_id,
-                //     'lead_id' => $lead->id,
-                //     'agent_id' => $lead->agent_id,
-                //     'message' => "Agent call Lead!",
-                // ]);
-            } else {
-
-                $recordingStatus = action([TwilioController::class, 'recording'], ['leadId' => $lead->id]);
-                $dial = $response->dial('', [
-                    'callerId' =>  $agentTwilioNumber,
-                    'record' => 'record-from-ringing-dual',
-                    'recordingStatusCallbackMethod' => 'POST',
-                    'recordingStatusCallbackEvent' => 'completed',
-                    'recordingStatusCallback' => $recordingStatus,
-                ]);
+                $dial->number($request->get('number'));
             }
-            $dial->number($request->get('number'));
         } // Blind Call Agent call Lead via automation
         else if ($request->get('leadId', '')) {
             $lead = Lead::findOrFail($request->get('leadId', ''));
@@ -81,12 +64,6 @@ class TwilioController extends Controller
             $agentPhone = ($agent->twilio_mobile_number ? $agent->phone : $lead->company['phone']);
 
             $dial->number($agentPhone);
-            // LeadNote::create([
-            //     'lead_status_id' => $lead->lead_status_id,
-            //     'lead_id' => $lead->id,
-            //     'agent_id' => $lead->agent_id,
-            //     'message' => "Lead Call back Agent!",
-            // ]);
         }
 
         return \response($response, 200, ['Content-Type' => 'text/xml']);

@@ -73,6 +73,7 @@ class LeadForm extends Component {
 
     componentDidMount() {
         disableAutoComplete();
+        console.log(this.props)
     }
 
 
