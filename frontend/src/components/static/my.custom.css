@@ -855,10 +855,9 @@ i.icon.sidebar:before {
 .item.app-logo {
     display: block !important;
     text-align: center;
-    width: 100%;
-    height: 70px;
-    margin-bottom: 30px;
-    margin-top: 20px;
+    width: 80px;
+    margin: 25px auto;
+   
 }
 
 .item.app-logo span {

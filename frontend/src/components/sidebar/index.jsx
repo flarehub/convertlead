@@ -47,7 +47,7 @@ class AppSidebar extends Component {
         return (
             <Menu className='AppSidebar' fixed='left' vertical={true} icon={true}>
                 <Menu.Item className='app-logo' onClick={this.onItemClick}>
-                    <span className='ti ti-copyright logo' />
+                    <img src="img/logo.png" className='top logo' />
                 </Menu.Item>
                 <p className='sidebar-title'>Menu</p>
                 {
