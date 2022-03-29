@@ -3575,6 +3575,17 @@ label.conversations {
     .Leads .ui.table tbody tr td:nth-child(5) {
         display: none !important;
     }
+
+    .companyLeadStats {
+        display: none;
+    }
+    .Campaigns.sidebarOpened {
+        width: 100%;
+    }
+
+    .Campaigns .ui.table tbody tr td:nth-child(3), .Campaigns .ui.table tbody tr td:nth-child(4) {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 1170px) {
@@ -3634,6 +3645,16 @@ label.conversations {
     }
     .ui.secondary.menu .right.menu .ui.teal.button {
         font-size: 25px;
+    }
+
+    .ui.secondary.menu .right.menu .ui.teal.button:nth-child(1) {
+        position: static;
+        right: 0px;
+        width: unset;
+        font-size: 14px;
+        height: unset;
+        box-shadow: none !important;
+        margin-right: -14px !important;
     }
 }
 
@@ -3838,6 +3859,8 @@ label.conversations {
     .LeadNotes .freshAppTimeLine {
         padding-left: 0px;
     }
+
+
 }
 
 @media only screen and (max-width: 828px) {
@@ -3904,6 +3927,24 @@ label.conversations {
         color: transparent;
         top: 35px;
     }
+
+    .ui.secondary.menu .right.menu .ui.teal.button:nth-child(1) {
+        position: relative;
+        right: 0px;
+        width: unset;
+        font-size: 14px;
+        height: unset;
+        box-shadow: none !important;
+        margin-right: -14px !important;
+        display:none;
+    }
+
+    .Campaigns .ui.table {
+        background: transparent;
+    }
+
+    
+
     .Leads .ui.two.column.grid .column:nth-child(1)>.field:nth-child(2),
     .CompanyProfile .ui.form,
     .Agents .ui.form {
@@ -3987,6 +4028,63 @@ label.conversations {
     .Agents .ui.table tbody tr td:nth-child(5) {
         display: none !important;
     }
+
+    .Campaigns .ui.table tbody tr {
+        overflow: hidden;
+        white-space: nowrap;
+
+    }
+     .Campaigns .ui.table tbody tr td {
+        background: transparent;
+     }
+
+      .Campaigns .ui.table tbody tr:hover td {
+        background: transparent;
+     }
+
+    .Campaigns .ui.table tbody tr td:nth-child(3),
+    .Campaigns .ui.table tbody tr td:nth-child(4),
+    .Campaigns .ui.table tbody tr td:nth-child(5) {
+        display: none !important;
+    }
+    .Campaigns .ui.table tbody tr td:nth-child(6){
+        float: right;
+    }
+
+    .Campaigns .ui.table tr td:last-child .ui.buttons:before{
+        top: 0px !important;
+    }
+     .Campaigns .ui.table tbody tr td:nth-child(2) {
+        max-width: 150px ;
+        float: left;
+    }
+
+    .Campaigns .ui.table tbody tr td:nth-child(2) .campain-name{
+        max-width: 100% !important;
+        text-overflow: ellipsis !important;
+        overflow: hidden;
+    }
+
+    .Campaigns .ui.table tbody tr td:first-child {
+        width: 43px !important;
+        padding: .25em 0 !important;
+        background: transparent;
+        float: left;
+    }
+
+    .Campaigns .ui.table tr td:last-child .ui.buttons .ui.button {
+        margin-top: -35px;
+    }
+
+      .Campaigns .ui.table tr td:last-child .ui.buttons .ui.button:nth-child(2) {
+        margin-top: -5px;
+    }
+
+    .modals.dimmer .ui.scrolling.modal.ApiIntegration {
+        margin: -4em;
+    }
+
+
     .ui.message.dash {
         display: none;
     }
