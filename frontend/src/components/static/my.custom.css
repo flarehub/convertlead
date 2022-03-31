@@ -673,6 +673,10 @@ i.icon.sidebar:before {
     border-bottom: 1px dotted #637282 !important;
 }
 
+.Dashboard .ui.cards .ui.card:hover .avatar.icon-image {
+    filter: saturate(100%);
+}
+
 .ui.card>.content,
 .ui.cards>.card>.content {
     padding: 0 !important;
@@ -4054,6 +4058,10 @@ label.conversations {
     .Campaigns .ui.table tr td:last-child .ui.buttons:before{
         top: 0px !important;
     }
+
+    .Campaigns .ui.table tr td:last-child .ui.buttons.custom-buttons {
+        top: unset !important;
+    }
      .Campaigns .ui.table tbody tr td:nth-child(2) {
         max-width: 150px ;
         float: left;
@@ -4066,10 +4074,10 @@ label.conversations {
     }
 
     .Campaigns .ui.table tbody tr td:first-child {
-        width: 43px !important;
-        padding: .25em 0 !important;
         background: transparent;
         float: left;
+        margin-right: 10px;
+        width: 43px !important;
     }
 
     .Campaigns .ui.table tr td:last-child .ui.buttons .ui.button {
