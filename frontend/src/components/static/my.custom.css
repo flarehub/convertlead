@@ -912,7 +912,7 @@ i.icon.sidebar:before {
 
 .ui.selection.dropdown,
 .ui.selection.dropdown .menu>.item {
-    border: none;
+    
     padding: 15px 15px 17px 15px !important;
     font-size: 15px !important;
 }
