@@ -3589,6 +3589,10 @@ label.conversations {
     z-index: -1;
 }
 
+.ui.progress .bar {
+    height: 5px !important;
+}
+
 
 /* Mobile view / Media queries */
 
