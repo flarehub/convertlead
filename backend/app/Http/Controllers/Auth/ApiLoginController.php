@@ -18,8 +18,8 @@ class ApiLoginController extends Controller {
         $email = $request->get('email');
         $request->request->add([
             'grant_type' => 'password',
-            'client_id' => 4,
-            'client_secret' => 'l9foRSrUkfiepNcnqeqxTpwq84ccatXGrvulP1hD',
+            'client_id' => 2,
+            'client_secret' => 'gjlU21LYRB64wXHTdM8WZ8BFaqEB3hHzBs5KvYCp',
             'username' => $email,
         ]);
 
