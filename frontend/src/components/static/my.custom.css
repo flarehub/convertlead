@@ -487,8 +487,8 @@ i.icon.sidebar:before {
 .field .ui.toggle.checkbox input:checked~label {
     color: #637282 !important;
     background: #edf0f4;
-    padding: 5px 15px;
-    border-radius: 25px;
+    padding: 10px 15px;
+    border-radius: 7px;
     font-weight: 600;
     margin-right: 10px;
     border: 1px solid #d4dbe6;
@@ -671,6 +671,10 @@ i.icon.sidebar:before {
 
 .Dashboard .ui.cards .ui.card:hover .meta {
     border-bottom: 1px dotted #637282 !important;
+}
+
+.Dashboard .ui.cards .ui.card:hover .avatar.icon-image {
+    filter: saturate(100%);
 }
 
 .ui.card>.content,
@@ -908,7 +912,7 @@ i.icon.sidebar:before {
 
 .ui.selection.dropdown,
 .ui.selection.dropdown .menu>.item {
-    border: none;
+    
     padding: 15px 15px 17px 15px !important;
     font-size: 15px !important;
 }
@@ -1390,11 +1394,29 @@ input:focus {
 
 .ui.toggle.checkbox .box::before,
 .ui.toggle.checkbox label:before {
-    top: 6px !important;
-    width: 2rem !important;
-    height: 1.16rem !important;
-    border: 1px solid #637282 !important;
-    left: 1rem;
+    display: block;
+    position: absolute;
+    content: "OFF";
+    z-index: 1;
+    -webkit-transform: none;
+    transform: none;
+    border: none;
+    top: 0 !important;
+    background: #e6e6f0;
+    box-shadow: none;
+    width: 79px !important;
+    height: 1.5rem;
+    border-radius: 8px;
+    height: 100% !important;
+    text-align: right;
+    padding: 10px;
+    font-family: Averta,sans-serif;
+    color: #8d96b5;
+    font-weight: 500;
+    font-size: 13px;
+    border: 1px solid #c6c6e4 !important;
+    left: 5px;
+
 }
 
 .ui.toggle.checkbox .box::after,
@@ -1448,12 +1470,12 @@ input:focus {
 .ui.toggle.checkbox .box,
 .ui.toggle.checkbox label {
     background: #e6eaf2;
-    padding: 5px 15px;
-    border-radius: 25px;
+    padding: 10px 15px;
+    border-radius: 7px;
     font-weight: 600;
     margin-right: 10px;
     color: #637282 !important;
-    padding-left: 3.8rem !important;
+    padding-left: 6.2rem !important;
 }
 
 .ui.checkbox input.hidden+label {
@@ -2360,12 +2382,12 @@ input:focus {
 
 .AgentLeads .ui.secondary.menu .item {
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
     color: #c0bed0;
     font-size: 13px;
     font-family: 'Averta', sans-serif;
     margin: 0;
-    padding: .78571429em .62857143em;
+    padding: .78571429em .52857143em;
     letter-spacing: -0.3px !important;
 }
 
@@ -3567,6 +3589,10 @@ label.conversations {
     z-index: -1;
 }
 
+.ui.progress .bar {
+    height: 5px !important;
+}
+
 
 /* Mobile view / Media queries */
 
@@ -4054,6 +4080,10 @@ label.conversations {
     .Campaigns .ui.table tr td:last-child .ui.buttons:before{
         top: 0px !important;
     }
+
+    .Campaigns .ui.table tr td:last-child .ui.buttons.custom-buttons {
+        top: unset !important;
+    }
      .Campaigns .ui.table tbody tr td:nth-child(2) {
         max-width: 150px ;
         float: left;
@@ -4066,10 +4096,10 @@ label.conversations {
     }
 
     .Campaigns .ui.table tbody tr td:first-child {
-        width: 43px !important;
-        padding: .25em 0 !important;
         background: transparent;
         float: left;
+        margin-right: 10px;
+        width: 43px !important;
     }
 
     .Campaigns .ui.table tr td:last-child .ui.buttons .ui.button {

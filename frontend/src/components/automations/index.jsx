@@ -147,7 +147,7 @@ class Campaigns extends Component {
   }
 
   drawSmsSettingsButton(action, group) {
-    group.text('on sms reply').fill({ color: '#666382' }).dy(0).dx(167);
+    group.text('on sms reply').fill({ color: '#666382' }).dy(18).dx(167);
     const onSmsReplySettingsButton = group.image(settingIcon)
     .width(34)
     .height(34)
@@ -162,7 +162,7 @@ class Campaigns extends Component {
   }
 
   drawTextOnEmailOpen(group) {
-    group.text('on email open').fill({ color: '#666382' }).dy(0).dx(167);
+    group.text('on email open').fill({ color: '#666382' }).dy(18).dx(167);
   }
 
   drawAction(action, groupParent) {
