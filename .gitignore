@@ -10,3 +10,4 @@ frontend/.env.development
 frontend/.env.production
 frontend/package-lock.json
 mobileApp/node_modules
+backend/app/Http/Controllers/Auth/ApiLoginController.php
