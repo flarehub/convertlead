@@ -2364,12 +2364,12 @@ input:focus {
 
 .AgentLeads .ui.secondary.menu .item {
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
     color: #c0bed0;
     font-size: 13px;
     font-family: 'Averta', sans-serif;
     margin: 0;
-    padding: .78571429em .62857143em;
+    padding: .78571429em .52857143em;
     letter-spacing: -0.3px !important;
 }
 
