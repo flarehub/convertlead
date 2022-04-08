@@ -487,8 +487,8 @@ i.icon.sidebar:before {
 .field .ui.toggle.checkbox input:checked~label {
     color: #637282 !important;
     background: #edf0f4;
-    padding: 5px 15px;
-    border-radius: 25px;
+    padding: 10px 15px;
+    border-radius: 7px;
     font-weight: 600;
     margin-right: 10px;
     border: 1px solid #d4dbe6;
@@ -1394,11 +1394,29 @@ input:focus {
 
 .ui.toggle.checkbox .box::before,
 .ui.toggle.checkbox label:before {
-    top: 6px !important;
-    width: 2rem !important;
-    height: 1.16rem !important;
-    border: 1px solid #637282 !important;
-    left: 1rem;
+    display: block;
+    position: absolute;
+    content: "OFF";
+    z-index: 1;
+    -webkit-transform: none;
+    transform: none;
+    border: none;
+    top: 0 !important;
+    background: #e6e6f0;
+    box-shadow: none;
+    width: 79px !important;
+    height: 1.5rem;
+    border-radius: 8px;
+    height: 100% !important;
+    text-align: right;
+    padding: 10px;
+    font-family: Averta,sans-serif;
+    color: #8d96b5;
+    font-weight: 500;
+    font-size: 13px;
+    border: 1px solid #c6c6e4 !important;
+    left: 5px;
+
 }
 
 .ui.toggle.checkbox .box::after,
@@ -1452,12 +1470,12 @@ input:focus {
 .ui.toggle.checkbox .box,
 .ui.toggle.checkbox label {
     background: #e6eaf2;
-    padding: 5px 15px;
-    border-radius: 25px;
+    padding: 10px 15px;
+    border-radius: 7px;
     font-weight: 600;
     margin-right: 10px;
     color: #637282 !important;
-    padding-left: 3.8rem !important;
+    padding-left: 6.2rem !important;
 }
 
 .ui.checkbox input.hidden+label {
