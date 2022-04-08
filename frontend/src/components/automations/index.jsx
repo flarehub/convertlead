@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {compose} from 'recompose';
+import React, { Component } from 'react';
+import { compose } from 'recompose';
 import './index.scss';
-import {Button, Checkbox, Form, Grid, Header, Menu, Segment} from "semantic-ui-react";
+import { Button, Checkbox, Form, Grid, Header, Menu, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { SVG } from '@svgdotjs/svg.js'
 import * as R from 'ramda';
@@ -28,8 +28,8 @@ import {
   TYPE_LEAD_CHANGE_STATUS, TYPE_PUSH_NOTIFICATION,
   TYPE_SMS_MESSAGE
 } from "../../@containers/forms/automation/actionTypes";
-import {DealFormContainer} from "../../@containers";
-import {ifElse} from "ramda";
+import { DealFormContainer } from "../../@containers";
+import { ifElse } from "ramda";
 
 const refSVGContainer = React.createRef();
 
@@ -49,7 +49,7 @@ class Campaigns extends Component {
 
   createButtonAddVerticalAction(parent) {
     const addVerticalButtonContainer = this.draw.nested().width(60).height(60);
-    const addButtonVertical = addVerticalButtonContainer.image(addNew, {cursor: 'pointer'}).dx(0).dy(0);
+    const addButtonVertical = addVerticalButtonContainer.image(addNew, { cursor: 'pointer' }).dx(0).dy(0);
 
     addButtonVertical.on('mouseover', () => {
       addButtonVertical.dx(-62);
@@ -73,7 +73,7 @@ class Campaigns extends Component {
 
   createButtonAddHorizontalAction(parent) {
     const addHorizontalButtonContainer = this.draw.nested().width(60).height(60);
-    const addButtonHorizontal = addHorizontalButtonContainer.image(addNew, {cursor: 'pointer' }).dx(0).dy(0);
+    const addButtonHorizontal = addHorizontalButtonContainer.image(addNew, { cursor: 'pointer' }).dx(0).dy(0);
 
     addButtonHorizontal.on('mouseover', () => {
       addButtonHorizontal.dx(-62);
@@ -117,7 +117,7 @@ class Campaigns extends Component {
 
       if (this.checkIsAllowedForHorizontalActions(action) && action.children) {
         const lastAction = R.last(action.children);
-        const x = ((lastAction.index ) * 240) + 297
+        const x = ((lastAction.index) * 240) + 297
         const y = (action.index > 1 ? 200 : 290);
         this.createButtonAddHorizontalAction(lastAction).dx(x).dy((action.index * y) || 50);
       } else if (action.is_root && this.checkIsAllowedForHorizontalActions(action)) {
@@ -138,23 +138,23 @@ class Campaigns extends Component {
   drawHorizontalActions(horizontalActions, parent) {
     const group = this.draw.nested();
     group.dx(0);
-      horizontalActions.forEach(action => {
-        const offsetOnY =  (parent.index === 0 ? 50 : parent.index * 290);
-        const y = (parent.index > 1 ? parent.index * 200 : offsetOnY);
-        this.drawAction(action, group).dy(y).dx(action.index * 240);
-      });
-      return group;
+    horizontalActions.forEach(action => {
+      const offsetOnY = (parent.index === 0 ? 50 : parent.index * 290);
+      const y = (parent.index > 1 ? parent.index * 200 : offsetOnY);
+      this.drawAction(action, group).dy(y).dx(action.index * 240);
+    });
+    return group;
   }
 
   drawSmsSettingsButton(action, group) {
     group.text('on sms reply').fill({ color: '#666382' }).dy(18).dx(167);
     const onSmsReplySettingsButton = group.image(settingIcon)
-    .width(34)
-    .height(34)
-    .attr('cursor', 'pointer')
-    .attr('kid', action.id)
-    .dy(-1)
-    .dx(247);
+      .width(34)
+      .height(34)
+      .attr('cursor', 'pointer')
+      .attr('kid', action.id)
+      .dy(-1)
+      .dx(247);
     onSmsReplySettingsButton.on('click', () => {
       const action = this.props.getActionBy(onSmsReplySettingsButton.attr('kid'));
       this.props.loadAutomationReplyForm({ show: true, ...action });
@@ -165,14 +165,33 @@ class Campaigns extends Component {
     group.text('on email open').fill({ color: '#666382' }).dy(18).dx(167);
   }
 
+  getHourMins(seconds) {
+    let sec = Number(seconds);
+    var h = Math.floor(sec / 3600);
+    var m = Math.floor(sec % 3600 / 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hr " : " hrs ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
+
+    if (hDisplay != "" && mDisplay == "") {
+      return 'Wait ' + hDisplay
+    } else if (hDisplay == "" && mDisplay != "") {
+      return 'Wait ' + mDisplay
+    } else if (hDisplay != "" && mDisplay != "") {
+      return 'Wait ' + hDisplay + 'and' + mDisplay
+    }
+    return "";
+  }
+
   drawAction(action, groupParent) {
     const group = (groupParent ? groupParent.nested() : this.draw.nested());
     switch (action.type) {
       case TYPE_SMS_MESSAGE: {
+        console.log(action)
         this.drawIcon(group, textIcon, action);
-        group.text('Text message').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(52);
-        group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
-        group.rect(180,40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20') ;
+        group.text('Text message').fill({ color: '#3c3a4e' }).font({ weight: '500' }).dy(80).dx(52);
+        group.text(this.getHourMins(action.delay_time)).fill({ color: '#9d9bb5' }).font({ weight: '500' }).center(97, 113);
+        group.rect(180, 40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20');
         const message = (action.object.message || '').slice(0, 17);
         group.text(`${message}...`).fill({ color: '#666382' }).center(97, 150);
         if (action.is_root) {
@@ -183,9 +202,9 @@ class Campaigns extends Component {
       }
       case TYPE_EMAIL_MESSAGE: {
         this.drawIcon(group, emailIcon, action);
-        group.text('E-mail').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(75);
-        group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
-        group.rect(180,40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20') ;
+        group.text('E-mail').fill({ color: '#3c3a4e' }).font({ weight: '500' }).dy(80).dx(75);
+        group.text(this.getHourMins(action.delay_time)).fill({ color: '#9d9bb5' }).font({ weight: '500' }).center(97, 113);
+        group.rect(180, 40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20');
         const message = (action.object.subject || '').slice(0, 19);
         group.text(`${message}...`).fill({ color: '#666382' }).center(97, 150);
         if (action.is_root) {
@@ -197,9 +216,9 @@ class Campaigns extends Component {
       case TYPE_LEAD_CHANGE_STATUS: {
         this.drawIcon(group, statusChangeIcon, action);
         group.width(400)
-        group.text('Change status').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(50);
-        group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
-          group.rect(180,40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20') ;
+        group.text('Change status').fill({ color: '#3c3a4e' }).font({ weight: '500' }).dy(80).dx(50);
+        group.text(this.getHourMins(action.delay_time)).fill({ color: '#9d9bb5' }).font({ weight: '500' }).center(97, 113);
+        group.rect(180, 40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20');
         if (action.object) {
           if (action.object.status === 'VIEWED') {
             group.text('Follow-up').fill({ color: '#666382' }).center(97, 151);
@@ -214,15 +233,15 @@ class Campaigns extends Component {
       }
       case TYPE_BLIND_CALL: {
         this.drawIcon(group, blindCall, action);
-        group.text('Blind Call').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(63);
-          group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
+        group.text('Blind Call').fill({ color: '#3c3a4e' }).font({ weight: '500' }).dy(80).dx(63);
+        group.text(this.getHourMins(action.delay_time)).fill({ color: '#9d9bb5' }).font({ weight: '500' }).center(97, 113);
         break;
       }
       case TYPE_PUSH_NOTIFICATION: {
         this.drawIcon(group, agentPushIcon, action);
-        group.text('Agent Notify').fill({ color: '#3c3a4e' }).font({weight:'500'}).dy(80).dx(55);
-          group.text('Wait 2 hrs and 30 mins').fill({ color: '#9d9bb5' }).font({weight:'500'}).center(97, 113);
-          group.rect(180,40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20') ;
+        group.text('Agent Notify').fill({ color: '#3c3a4e' }).font({ weight: '500' }).dy(80).dx(55);
+        group.text(this.getHourMins(action.delay_time)).fill({ color: '#9d9bb5' }).font({ weight: '500' }).center(97, 113);
+        group.rect(180, 40).fill('#fff').stroke('#dfdff0').center(97, 151).rx('20');
         const message = (action.object.message || '').slice(0, 18);
         group.text(`${message}...`).fill({ color: '#666382' }).center(97, 150);
 
@@ -267,7 +286,7 @@ class Campaigns extends Component {
   }
 
   componentDidMount() {
-    const {companyId, dealId} = this.props.match.params;
+    const { companyId, dealId } = this.props.match.params;
     this.setState({
       companyId,
       dealId,
@@ -276,7 +295,7 @@ class Campaigns extends Component {
     this.props.fetchDealActions(dealId);
     this.props.fetchDeal(dealId);
 
-    this.draw = SVG().addTo(refSVGContainer.current).size('100%' , '100%');
+    this.draw = SVG().addTo(refSVGContainer.current).size('100%', '100%');
     this.draw = this.draw.group();
     this.drawSvg();
   }
@@ -308,46 +327,46 @@ class Campaigns extends Component {
 
     return (
       <div className='Automations'>
-          <Segment attached='top'>
-        <AutomationModal dealId={dealId} />
-        <AutomationReplyModal dealId={dealId} />
-        <Grid columns={2}>
-          <Grid.Column>
-            <Header floated='left' as='h1'>Automations</Header>
+        <Segment attached='top'>
+          <AutomationModal dealId={dealId} />
+          <AutomationReplyModal dealId={dealId} />
+          <Grid columns={2}>
+            <Grid.Column>
+              <Header floated='left' as='h1'>Automations</Header>
               <Header floate='left' as='h3'>Campaign name goes here</Header>
-          </Grid.Column>
-          <Grid.Column>
-            <Menu secondary>
-              <Menu.Menu position='right'>
+            </Grid.Column>
+            <Grid.Column>
+              <Menu secondary>
+                <Menu.Menu position='right'>
                   <div className="buttonsToScale">
-                      <Button color=""  className="small-transparent" onClick={this.scaleUp} labelPosition='left'><i
-                          aria-hidden="true" className="flaticon stroke zoom-in-1  icon"></i></Button>
-                      <Button color=""  className="small-transparent" onClick={this.scaleDown} labelPosition='left'><i
-                          aria-hidden="true" className="flaticon stroke zoom-2  icon"></i></Button>
+                    <Button color="" className="small-transparent" onClick={this.scaleUp} labelPosition='left'><i
+                      aria-hidden="true" className="flaticon stroke zoom-in-1  icon"></i></Button>
+                    <Button color="" className="small-transparent" onClick={this.scaleDown} labelPosition='left'><i
+                      aria-hidden="true" className="flaticon stroke zoom-2  icon"></i></Button>
                   </div>
                   <Link to={`/deals/${dealId}/integrations`} >
-                  <Button color='teal' content='Integrations' labelPosition='left'/>
-                </Link>
-                {
-                  deal.has_automation !== undefined && (
-                    <Checkbox
-                      label=""
-                      name="has_automation"
-                      checked={!!has_automation}
-                      toggle
-                      onChange={this.onChangeAutomation}
-                    />
-                  )
-                }
+                    <Button color='teal' content='Integrations' labelPosition='left' />
+                  </Link>
+                  {
+                    deal.has_automation !== undefined && (
+                      <Checkbox
+                        label=""
+                        name="has_automation"
+                        checked={!!has_automation}
+                        toggle
+                        onChange={this.onChangeAutomation}
+                      />
+                    )
+                  }
 
-              </Menu.Menu>
-            </Menu>
-          </Grid.Column>
-        </Grid>
-        <div ref={refSVGContainer} className="automation-container">
-          &nbsp;
-        </div>
-          </Segment>
+                </Menu.Menu>
+              </Menu>
+            </Grid.Column>
+          </Grid>
+          <div ref={refSVGContainer} className="automation-container">
+            &nbsp;
+          </div>
+        </Segment>
       </div>
     );
   }
