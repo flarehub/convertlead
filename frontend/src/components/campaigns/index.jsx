@@ -46,6 +46,7 @@ class Campaigns extends Component {
       fbPages: [],
       companyId: '',
       dealId: '',
+      deal: null,
       fbIntegrations: [],
       lead_statics: {
         total_leads: 0,
@@ -79,6 +80,7 @@ class Campaigns extends Component {
         name: 'Company',
       }
     }, ['history', 'location', 'state', 'deal'], this.props);
+    this.setState({deal:deal})
 
     if (this.state.companyId) {
       this.props.addBreadCrumb({
@@ -150,7 +152,6 @@ class Campaigns extends Component {
       lead_statics.missed_leads = lead_statics.missed_leads + campaign.leads_count_m));
 
     this.setState({ lead_statics: lead_statics });
-    console.log(this.props.campaigns, this.state.lead_statics)
   }
 
   getSort = field => {
@@ -313,6 +314,7 @@ class Campaigns extends Component {
     const { campaigns, pagination } = this.props;
     const {
       dealId,
+      deal,
       lead_statics,
       openOverall
     } = this.state;
@@ -388,7 +390,7 @@ class Campaigns extends Component {
             <Grid.Column>
               <Menu secondary>
                 <Menu.Menu position='right'>
-                  <Link to={`/deals/${dealId}/automations`} >
+                  <Link to={{pathname:`/deals/${dealId}/automations`, state: { deal }}} >
                     <Button color='teal' content='Automations' labelPosition='left' />
                   </Link>
                   <Button

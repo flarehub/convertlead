@@ -187,7 +187,6 @@ class Campaigns extends Component {
     const group = (groupParent ? groupParent.nested() : this.draw.nested());
     switch (action.type) {
       case TYPE_SMS_MESSAGE: {
-        console.log(action)
         this.drawIcon(group, textIcon, action);
         group.text('Text message').fill({ color: '#3c3a4e' }).font({ weight: '500' }).dy(80).dx(52);
         group.text(this.getHourMins(action.delay_time)).fill({ color: '#9d9bb5' }).font({ weight: '500' }).center(97, 113);
@@ -287,6 +286,7 @@ class Campaigns extends Component {
 
   componentDidMount() {
     const { companyId, dealId } = this.props.match.params;
+
     this.setState({
       companyId,
       dealId,
@@ -333,7 +333,7 @@ class Campaigns extends Component {
           <Grid columns={2}>
             <Grid.Column>
               <Header floated='left' as='h1'>Automations</Header>
-              <Header floate='left' as='h3'>Campaign name goes here</Header>
+              <Header floate='left' as='h3'>{this.props.location.state.deal ? this.props.location.state.deal.name : ''}</Header>
             </Grid.Column>
             <Grid.Column>
               <Menu secondary>
