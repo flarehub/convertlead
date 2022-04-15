@@ -81,7 +81,7 @@ class ActionConnectAgentLeadViaBlindCall extends Command
                 'lead_id' => $lead->id,
                 'agent_id' => $lead->agent_id,
                 'deal_action_id' => $dealActionId,
-                'message' => "Automatic Blind call created!",
+                'message' => "<div class='automatic-call'>Automatic Blind call created!</div>",
             ]);
         } catch (\Exception $exception) {
             \Log::critical("ActionConnectAgentLeadViaBlindCall:lead:{$leadId},dealAction:{$dealActionId}, line: {$exception->getLine()} - {$exception->getMessage()}");

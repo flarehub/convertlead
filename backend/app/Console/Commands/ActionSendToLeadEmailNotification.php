@@ -54,14 +54,16 @@ class ActionSendToLeadEmailNotification extends Command
                 'lead_id' => $lead->id,
                 'agent_id' => $lead->agent_id,
                 'deal_action_id' => $dealActionId,
-                'message' => "Automatic Email notification sent message: '{$dealAction->object->message}'!",
+                'message' => "Automatic Email notification sent messages:<br/><div class='automatic-email'>" . $dealAction->object->message . "</div>",
             ]);
 
-            MailService::sendMail('emails.lead-notification', [
-                'body' => $dealAction->object->message,
-                'leadId' => $lead->id,
-                'dealActionId' => $dealAction->id,
-            ],
+            MailService::sendMail(
+                'emails.lead-notification',
+                [
+                    'body' => $dealAction->object->message,
+                    'leadId' => $lead->id,
+                    'dealActionId' => $dealAction->id,
+                ],
                 $lead->email,
                 $dealAction->object->subject
             );

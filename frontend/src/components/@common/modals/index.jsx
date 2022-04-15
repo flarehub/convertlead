@@ -45,7 +45,6 @@ class EntityModal extends Component {
     };
 
     handleSave = () => {
-        console.log('handlesave')
         if (this.state.formSaved && !this.props.error) {
             return;
         }

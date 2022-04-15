@@ -59,7 +59,7 @@ class ActionPushAgentDeviceNotification extends Command
                     'lead_id' => $lead->id,
                     'agent_id' => $lead->agent_id,
                     'deal_action_id' => $dealActionId,
-                    'message' => "Automatic Push notification sent message: '{$dealAction->object->message}'!",
+                    'message' => "Automatic Push notification sent messages:<br/><div class='automatic-push'>" . $dealAction->object->message . "</div>",
                 ]);
             } else {
                 LeadNote::create([
@@ -67,7 +67,7 @@ class ActionPushAgentDeviceNotification extends Command
                     'lead_id' => $lead->id,
                     'agent_id' => $lead->agent_id,
                     'deal_action_id' => $dealActionId,
-                    'message' => "No Agent Device to Push notification message: '{$dealAction->object->message}'!",
+                    'message' => "No Agent Device to Push notification messages:<br/><div class='automatic-push-no-device'>" . $dealAction->object->message . "</div>",
                 ]);
             }
         } catch (\Exception $exception) {

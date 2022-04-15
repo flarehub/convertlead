@@ -58,7 +58,7 @@ class ActionChangeLeadStatus extends Command
                 'lead_status_id' => $leadStatus->id,
                 'lead_id' => $lead->id,
                 'agent_id' => $lead->agent_id,
-                'message' => "Automatic Lead status changed from \"{$oldLeadStatus->name}\" to \"{$leadStatus->name}\" ",
+                'message' => "<div class='automatic-status'>Automatic Lead status changed from \"{$oldLeadStatus->name}\" to \"{$leadStatus->name}\" </div>",
             ]);
 
         } catch (\Exception $exception) {

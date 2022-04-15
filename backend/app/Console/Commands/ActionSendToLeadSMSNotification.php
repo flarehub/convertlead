@@ -77,7 +77,7 @@ class ActionSendToLeadSMSNotification extends Command
                 'lead_id' => $lead->id,
                 'agent_id' => $lead->agent_id,
                 'deal_action_id' => $dealActionId,
-                'message' => "Automatic SMS notification sent message: '{$dealAction->object->message}'!",
+                'message' => "Automatic SMS notification sent messages:<br/><div class='automatic-sms'>" . $dealAction->object->message . "</div>",
             ]);
         } catch (\Exception $exception) {
             \Log::critical("ActionSendToLeadSMSNotification:lead:{$leadId},dealAction:{$dealActionId}, {$exception->getMessage()}");
