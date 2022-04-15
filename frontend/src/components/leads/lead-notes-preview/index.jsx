@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
-import { Segment, Button, Grid, Icon, Label } from 'semantic-ui-react';
+import { Segment, Button, Grid, Icon, Label, Form, TextArea } from 'semantic-ui-react';
 import { BreadCrumbContainer, LeadNotesContainer, LeadFormContainer, LeadsContainer } from "@containers";
 import TimeLine from "./timeline";
 import './index.scss';
@@ -12,6 +12,8 @@ class LeadNotes extends Component {
     state = {
         onPhone: false,
         readyToCall: false,
+        showSMSModal: false,
+        sms_message: '',
     }
     async componentWillMount() {
         const { companyId, leadId } = this.props;
@@ -22,13 +24,13 @@ class LeadNotes extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.leadId !== this.props.leadId) {
             const { companyId, leadId } = this.props;
-            
+
             this.props.fetchTwilioTokenBy(leadId);
             this.props.loadLead(companyId, leadId, true, true);
         }
         if (prevProps.twilioToken !== this.props.twilioToken && this.props.twilioToken) {
             Device.setup(this.props.twilioToken);
-        } 
+        }
 
         if (prevState.onPhone && !this.state.onPhone) {
             let { companyId, leadId } = this.props;
@@ -74,7 +76,38 @@ class LeadNotes extends Component {
                 status: 'CONTACTED_CALL'
             });
         }
+    };
+
+    setSMSModal = () => {
+        this.setState({ showSMSModal: !this.state.showSMSModal, sms_message: '' })
+    };
+
+    onCancelSendSMS = () => {
+        this.setState({ showSMSModal: false, sms_message: '' })
     }
+
+    onSendSMS = () => {
+        console.log(this.state.sms_message);
+
+        if(this.state.sms_message == ''){
+            return;
+        }
+
+        this.props.createLeadNote({
+            message: 'sms message sent',
+            status: 'CONTACTED_SMS'
+        });
+
+        this.setState({ showSMSModal: false, sms_message: '' })
+    }
+
+    onChangeSMSMessage = (event, data) => {
+        this.setState({
+            sms_message: data.value
+        })
+        console.log(this.state.sms_message)
+    };
+
 
     render() {
         const { lead, leadNotes, leadStatuses, twilioToken } = this.props;
@@ -107,23 +140,40 @@ class LeadNotes extends Component {
                         <div className='l-email'>{lead.email}</div>
                         {
                             !lead.deleted_at && (
-                                <Grid.Column className="circle-button-groups">
-                                    <div className={'ui secondary menu leadnotes'}>
-                                        <Button circular className='email'
-                                            icon='ti-mail-forward ti' as='a' href={`mailto:${lead.email}`} />
-                                        {
-                                            twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='ti-phone ti' onClick={this.onCall} />
-                                        }
+                                <>
+                                    <Grid.Column className="circle-button-groups">
+                                        <div className={'ui secondary menu leadnotes'}>
+                                            <Button circular className='email'
+                                                icon='ti-mail-forward ti' as='a' href={`mailto:${lead.email}`} />
+                                            {
+                                                twilioToken && <Button circular className={(onPhone ? 'endCall' : 'onCall')} icon='ti-phone ti' onClick={this.onCall} />
+                                            }
 
-                                        <Button circular className='editlead'
-                                            icon='ti-pencil ti' onClick={this.props.loadForm.bind(this, {
-                                                ...lead,
-                                                company_id: lead.company.id,
-                                                show: true
-                                            })} />
+                                            <Button circular className='sms'
+                                                icon='ti-mail ti' onClick={this.setSMSModal} />
 
-                                    </div>
-                                </Grid.Column>
+                                            {/* <Button circular className='editlead'
+                                                icon='ti-pencil ti' onClick={this.props.loadForm.bind(this, {
+                                                    ...lead,
+                                                    company_id: lead.company.id,
+                                                    show: true
+                                                })} /> */}
+
+                                        </div>
+                                    </Grid.Column>
+                                    {this.state.showSMSModal &&
+                                        <Form>
+                                            <Form.Field>
+                                                <TextArea className="text-sms" name='message' onChange={this.onChangeSMSMessage} />
+                                            </Form.Field>
+                                            <Button.Group>
+                                                <Button onClick={this.onCancelSendSMS}>Cancel</Button>
+                                                <Button.Or />
+                                                <Button onClick={this.onSendSMS} positive>Send</Button>
+                                            </Button.Group>
+                                        </Form>
+                                    }
+                                </>
                             )
                         }
 
