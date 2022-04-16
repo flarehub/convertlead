@@ -158,12 +158,12 @@ class LeadNotes extends Component {
                                             <Button circular className='sms'
                                                 icon='ti-device-mobile-message ti' onClick={this.setSMSModal} />
 
-                                            {/* <Button circular className='editlead'
+                                            <Button circular className='editlead'
                                                 icon='ti-pencil ti' onClick={this.props.loadForm.bind(this, {
                                                     ...lead,
                                                     company_id: lead.company.id,
                                                     show: true
-                                                })} /> */}
+                                                })} />
 
                                         </div>
                                     </Grid.Column>
