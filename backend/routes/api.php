@@ -45,6 +45,9 @@ Route::group(['namespace' => 'Api'], function () {
         Route::get('leads/{lead}/actions/{dealAction}/mail-open', 'LeadReplyController@onMailReply');
 
         Route::get('reports/{uuid}/download', 'LeadController@download');
+
+        Route::post('leads/{lead}/send-sms', 'TwilioController@sendSMS');
+
     });
 });
 
@@ -93,7 +96,8 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
 
                 Route::delete(
                     'campaigns/{campaign}/fb-integrations/{integration}',
-                    'CampaignFacebookIntegrationController@unsubscribe');
+                    'CampaignFacebookIntegrationController@unsubscribe'); 
+
             });
         });
 

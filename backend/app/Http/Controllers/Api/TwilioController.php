@@ -11,6 +11,7 @@ use App\Models\LeadStatus;
 use Twilio\Jwt\ClientToken;
 use Twilio\TwiML\VoiceResponse;
 use Illuminate\Http\Request;
+use Twilio\Rest\Client;
 
 class TwilioController extends Controller
 {
@@ -23,7 +24,7 @@ class TwilioController extends Controller
         $agentTwilioNumber = ($agent->twilio_mobile_number ? $agent->twilio_mobile_number : $company->twilio_mobile_number);
 
         // agent Call lead from client
-        if (stripos($from, 'client:Anonymous') !== false) { 
+        if (stripos($from, 'client:Anonymous') !== false) {
 
             if ($request->get('leadId'))
                 $lead = Lead::findOrFail($request->get('leadId'));
@@ -105,5 +106,43 @@ class TwilioController extends Controller
         return response()->json([
             'token' => $clientCapability->generateToken(),
         ]);
+    }
+
+    public function sendSMS(Request $request, $leadId)
+    {
+        $this->validate($request, [
+            'message' => 'required'
+        ]);
+        try {
+            $message = $request->message;
+            $lead = Lead::findOrFail($leadId);
+            $twilioSid = $lead->company['twilio_sid'];
+            $twilioToken = $lead->company['twilio_token'];
+
+            if (empty(trim($twilioSid)) || empty(trim($twilioToken))) {
+                throw new \Exception('Missing required twilio api credentials');
+            }
+
+            $twilioClient = new Client($twilioSid, $twilioToken);
+            $twilioClient->messages->create(
+                $lead->phone,
+                [
+                    'from' => $lead->company['twilio_mobile_number'],
+                    'body' => $message
+                ]
+            );
+
+            LeadNote::create([
+                'lead_status_id' => $lead->lead_status_id,
+                'lead_id' => $lead->id,
+                'agent_id' => $lead->agent_id,
+                'message' => "SMS message sent!",
+            ]);
+            echo "Message sent successfully";
+        } catch (\Exception $exception) {
+            \Log::critical("sendSMS:{$leadId},message:{$message}, {$exception->getMessage()}");
+            echo $exception->getMessage();
+        }
+        return;
     }
 }

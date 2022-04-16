@@ -13,7 +13,9 @@ class LeadNotes extends Component {
         onPhone: false,
         readyToCall: false,
         showSMSModal: false,
-        sms_message: '',
+        form: {
+            message: ''
+        }
     }
     async componentWillMount() {
         const { companyId, leadId } = this.props;
@@ -79,33 +81,31 @@ class LeadNotes extends Component {
     };
 
     setSMSModal = () => {
-        this.setState({ showSMSModal: !this.state.showSMSModal, sms_message: '' })
+        this.setState({ showSMSModal: !this.state.showSMSModal, form: { message: '' } })
     };
 
     onCancelSendSMS = () => {
-        this.setState({ showSMSModal: false, sms_message: '' })
+        this.setState({ showSMSModal: false, form: { message: '' } })
     }
 
     onSendSMS = () => {
-        console.log(this.state.sms_message);
-
-        if(this.state.sms_message == ''){
+        if (this.state.form.message == '') {
             return;
         }
 
-        this.props.createLeadNote({
-            message: 'sms message sent',
-            status: 'CONTACTED_SMS'
-        });
+        this.props.sendSMSMessage(this.state.form)
+        // this.props.createLeadNote({
+        //     message: 'sms message sent',
+        //     status: 'CONTACTED_SMS'
+        // });
 
-        this.setState({ showSMSModal: false, sms_message: '' })
+        this.setState({ showSMSModal: false, form: { message: '' } })
     }
 
     onChangeSMSMessage = (event, data) => {
         this.setState({
-            sms_message: data.value
+            form: { message: data.value }
         })
-        console.log(this.state.sms_message)
     };
 
 
@@ -169,7 +169,7 @@ class LeadNotes extends Component {
                                             <Button.Group>
                                                 <Button onClick={this.onCancelSendSMS}>Cancel</Button>
                                                 <Button.Or />
-                                                <Button onClick={this.onSendSMS} positive>Send</Button>
+                                                <Button  type="button" onClick={this.onSendSMS} positive>Send</Button>
                                             </Button.Group>
                                         </Form>
                                     }
