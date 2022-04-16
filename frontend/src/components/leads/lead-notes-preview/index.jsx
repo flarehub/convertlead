@@ -94,12 +94,18 @@ class LeadNotes extends Component {
         }
 
         this.props.sendSMSMessage(this.state.form)
+        // this can add note immediatly but cant confirm delivery
         // this.props.createLeadNote({
         //     message: 'sms message sent',
         //     status: 'CONTACTED_SMS'
         // });
 
         this.setState({ showSMSModal: false, form: { message: '' } })
+
+        let { companyId, leadId } = this.props;
+        setTimeout(() => {
+            this.props.loadLead(companyId, leadId, true, true);
+        }, 5000)
     }
 
     onChangeSMSMessage = (event, data) => {
@@ -150,7 +156,7 @@ class LeadNotes extends Component {
                                             }
 
                                             <Button circular className='sms'
-                                                icon='ti-mail ti' onClick={this.setSMSModal} />
+                                                icon='ti-device-mobile-message ti' onClick={this.setSMSModal} />
 
                                             {/* <Button circular className='editlead'
                                                 icon='ti-pencil ti' onClick={this.props.loadForm.bind(this, {
@@ -169,7 +175,7 @@ class LeadNotes extends Component {
                                             <Button.Group>
                                                 <Button onClick={this.onCancelSendSMS}>Cancel</Button>
                                                 <Button.Or />
-                                                <Button  type="button" onClick={this.onSendSMS} positive>Send</Button>
+                                                <Button type="button" onClick={this.onSendSMS} positive>Send</Button>
                                             </Button.Group>
                                         </Form>
                                     }

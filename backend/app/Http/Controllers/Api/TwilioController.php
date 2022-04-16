@@ -132,11 +132,13 @@ class TwilioController extends Controller
                 ]
             );
 
+            $msg = "<div class='sms-message'>" . substr($message, 0, 35) . "...</div>";
+
             LeadNote::create([
                 'lead_status_id' => $lead->lead_status_id,
                 'lead_id' => $lead->id,
                 'agent_id' => $lead->agent_id,
-                'message' => "SMS message sent!",
+                'message' => "sent SMS.<br/>" . $msg,
             ]);
             echo "Message sent successfully";
         } catch (\Exception $exception) {

@@ -82,7 +82,7 @@ class AgentLeadNotes extends Component {
 
 
     onCall = () => {
-        const checkIsValidNumber = /^([0-9]|#|\*)+$/.test(this.props.lead.phone.replace(/[\+\-()\s]/g,''))
+        const checkIsValidNumber = /^([0-9]|#|\*)+$/.test(this.props.lead.phone.replace(/[\+\-()\s]/g, ''))
         if (this.state.onPhone) {
             console.log("call_disconnected");
             Device.disconnectAll();
@@ -114,10 +114,22 @@ class AgentLeadNotes extends Component {
     };
 
     onText = () => {
-        this.props.createLeadNote({
-            message: 'initiated a text message',
-            status: 'CONTACTED_SMS'
-        });
+        // this.props.createLeadNote({
+        //     message: 'initiated a text message',
+        //     status: 'CONTACTED_SMS'
+        // });
+
+        console.log(this.state.form)
+        if (this.state.form.message == '') {
+            return;
+        }
+        this.props.sendSMSMessage(this.state.form);
+        this.setState({
+            form: {
+                ...this.state.form,
+                message: ''
+            }
+        })
     };
 
     toggleTimeline = () => {
@@ -197,14 +209,12 @@ class AgentLeadNotes extends Component {
                 <div className='lead-profile-row buttons'>
                     <Button as='a' href={`mailto:${lead.email}`} onClick={this.onEmail} circular>
                         <Icon className='ti-mail-forward ti' />
-                       
                     </Button>
-                    <Button  className={(this.state.onPhone ? 'endCall' : 'call-lead-but')} as='a' href={this.readyToCall ? `tel:${lead.phone}` : '#'} onClick={this.onCall} circular>
+                    <Button className={(this.state.onPhone ? 'endCall' : 'call-lead-but')} as='a' href={this.readyToCall ? `tel:${lead.phone}` : '#'} onClick={this.onCall} circular>
                         <Icon name='call' />
                     </Button>
-                    <Button as='a' href={`sms:${lead.phone}`} onClick={this.onText} circular>
+                    <Button as='a' href='#' onClick={this.onText} circular>
                         <Icon className='ti ti-device-mobile-message' />
-                        
                     </Button>
                 </div>
                 <div className='lead-info'>
