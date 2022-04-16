@@ -163,6 +163,13 @@ class AgentLeadNotes extends Component {
             ...this.state.form,
             status: this.state.form.status ? this.state.form.status : this.props.lead.status
         });
+
+        this.setState({
+            form: {
+                status: '',
+                message: ''
+            }
+        })
     };
 
     onNewReminder = () => {
