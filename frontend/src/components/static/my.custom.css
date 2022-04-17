@@ -9,7 +9,7 @@
 @import url('https://fonts.googleapis.com/css?family=Abel&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Averta:wght@400;500;600;700&display=swap');
 
 /*==============================================
       ================= Header Style ===============
@@ -56,6 +56,41 @@ a {
 input {
     filter: none;
 }
+
+
+.OptionForm .loader {
+    display: none;
+}
+
+.OptionForm {
+    font-family: 'Averta',sans-serif !important;
+    font-weight: 400 !important;
+    color: #3c3a4e;
+}
+
+.OptionForm form h1 {
+    font-family: 'Averta',sans-serif;
+    font-weight: 600;
+}
+
+.OptionForm .ui.form .field > label {
+    font-family: 'Averta',sans-serif;
+    text-align: left;
+    margin-left: 20px;
+    color: #7f7c9d !important;
+    font-size: 15px;
+}
+
+.OptionForm .ui.form .field > input {
+    display: block;
+    padding: 15px;
+    color: #908f9d;
+    border: 1px solid #dee0f0 !important;
+    border-radius: 7px;
+    font-family: 'Averta',sans-serif;
+}
+
+
 
 .ui.toggle.checkbox .box::after,
 .ui.toggle.checkbox label::after {}
@@ -491,8 +526,8 @@ i.icon.sidebar:before {
     border-radius: 7px;
     font-weight: 600;
     margin-right: 10px;
-    border: 1px solid #d4dbe6;
-    font-family: Quicksand;
+    border: none;
+    font-family: 'Averta';
     font-size: 13px;
 }
 
@@ -734,7 +769,7 @@ i.icon.sidebar:before {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 13px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
 }
 
 .ui.card .avatar.icon-image,
@@ -763,7 +798,7 @@ i.icon.sidebar:before {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
 }
 
 .ui.card .meta,
@@ -773,7 +808,7 @@ i.icon.sidebar:before {
     font-size: 12px !important;
     display: inline-block;
     border-bottom: 1px dotted #fff;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
 }
 
 .ui.secondary.menu .right.menu input {
@@ -931,7 +966,7 @@ i.icon.sidebar:before {
 .ui.dropdown .menu .selected.item,
 .ui.dropdown.selected,
 .ui.dropdown .item {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
     font-size: 14px !important;
     color: #1b2733 !important;
     font-weight: 400 !important;
@@ -1042,7 +1077,7 @@ input:focus {
     display: block;
     margin-bottom: 25px;
     padding-left: 10px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
     margin-top: 15px;
 }
 
@@ -1057,7 +1092,7 @@ input:focus {
 .deals-active-container .deals-active span {
     vertical-align: super;
     font-size: 11px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
 }
 
 .ui.vertical.menu .item:before {
@@ -1145,7 +1180,7 @@ input:focus {
     background: transparent !important;
     font-size: 11px;
     color: #637282 !important;
-    font-family: 'Quicksand', sans-serif !important;
+    font-family: 'Averta', sans-serif !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
     border-bottom: 1px solid #dfdff0;
@@ -2064,7 +2099,7 @@ input:focus {
     font-weight: 400;
     font-size: 13px;
     color: #637282 !important;
-    font-family: 'Quicksand', sans-serif !important;
+    font-family: 'Averta', sans-serif !important;
 }
 
 .ui.small.modal .ui.form input,
@@ -2076,7 +2111,7 @@ input:focus {
     padding: 16px !important;
     font-size: 14px !important;
     color: #3d464d !important;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
 }
 
 .ui.tiny.modal .ui.form .search {
@@ -2095,13 +2130,13 @@ input:focus {
     padding: 16px;
     font-size: 13px;
     color: #3d464d !important;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
 }
 
 .ui.small.modal .header,
 .ui.tiny.modal .header {
     font-size: 16px !important;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
     padding: 25px;
     font-weight: 600 !important;
     border-bottom: none;
@@ -2159,7 +2194,7 @@ input:focus {
     position: relative;
     left: 1px;
     z-index: 3;
-    font-family: 'Quicksand', sans-serif !important;
+    font-family: 'Averta', sans-serif !important;
     font-size: 14px;
     padding: 0;
     margin: 0;
@@ -2168,7 +2203,7 @@ input:focus {
 .ui.small.modal .ui.selection.dropdown .item .text,
 .ui.tiny.modal .ui.selection.dropdown .item .text {
     font-size: 13px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
 }
 
 .ui.small.modal .ui.form .multiple.search,
@@ -3040,7 +3075,7 @@ i.icon.pencil {
 .LeadNotes .lead-profile .lead-profile-row .lead-profile-value.fullname {
     text-align: center !important;
     font-size: 25px !important;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Averta', sans-serif;
     display: block !important;
     margin: 40px 0 30px 0 !important;
     line-height: 1.2;
@@ -3072,7 +3107,7 @@ i.icon.pencil {
 .ui.top.attached.segment.pagehead .ui.header {
     font-size: 16px !important;
     font-weight: 600 !important;
-    font-family: Quicksand, sans-serif !important;
+    font-family: Averta, sans-serif !important;
     margin: 0 !important;
     color: #243546 !important;
 }
