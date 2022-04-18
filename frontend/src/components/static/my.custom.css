@@ -57,40 +57,37 @@ input {
     filter: none;
 }
 
-
 .OptionForm .loader {
     display: none;
 }
 
 .OptionForm {
-    font-family: 'Averta',sans-serif !important;
+    font-family: 'Averta', sans-serif !important;
     font-weight: 400 !important;
     color: #3c3a4e;
 }
 
 .OptionForm form h1 {
-    font-family: 'Averta',sans-serif;
+    font-family: 'Averta', sans-serif;
     font-weight: 600;
 }
 
-.OptionForm .ui.form .field > label {
-    font-family: 'Averta',sans-serif;
+.OptionForm .ui.form .field>label {
+    font-family: 'Averta', sans-serif;
     text-align: left;
     margin-left: 20px;
     color: #7f7c9d !important;
     font-size: 15px;
 }
 
-.OptionForm .ui.form .field > input {
+.OptionForm .ui.form .field>input {
     display: block;
     padding: 15px;
     color: #908f9d;
     border: 1px solid #dee0f0 !important;
     border-radius: 7px;
-    font-family: 'Averta',sans-serif;
+    font-family: 'Averta', sans-serif;
 }
-
-
 
 .ui.toggle.checkbox .box::after,
 .ui.toggle.checkbox label::after {}
@@ -4290,4 +4287,10 @@ label.conversations {
 
 .text-sms {
     width: 250px !important;
+}
+
+.sms-container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
