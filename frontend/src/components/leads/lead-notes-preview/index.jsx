@@ -170,6 +170,7 @@ class LeadNotes extends Component {
                                     {this.state.showSMSModal &&
                                         <Form>
                                             <Form.Field>
+                                                <label>Send a text message</label>
                                                 <TextArea className="text-sms" name='message' onChange={this.onChangeSMSMessage} />
                                             </Form.Field>
                                             <Button.Group>

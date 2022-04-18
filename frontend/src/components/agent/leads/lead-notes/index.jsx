@@ -20,6 +20,7 @@ class AgentLeadNotes extends Component {
         showTimeline: true,
         showAdditionalInfo: false,
         showReminder: true,
+        showSMSModal: false,
         lead: {
             id: '',
             email: '',
@@ -111,26 +112,7 @@ class AgentLeadNotes extends Component {
             message: 'started an email conversation',
             status: 'CONTACTED_EMAIL'
         });
-    };
-
-    onText = () => {
-        // this.props.createLeadNote({
-        //     message: 'initiated a text message',
-        //     status: 'CONTACTED_SMS'
-        // });
-
-        console.log(this.state.form)
-        if (this.state.form.message == '') {
-            return;
-        }
-        this.props.sendSMSMessage(this.state.form);
-        this.setState({
-            form: {
-                ...this.state.form,
-                message: ''
-            }
-        })
-    };
+    }; 
 
     toggleTimeline = () => {
         this.setState({
@@ -201,6 +183,36 @@ class AgentLeadNotes extends Component {
         this.props.deleteForm(data);
     }
 
+    setSMSModal = () => {
+        this.setState({ showSMSModal: !this.state.showSMSModal, form: { message: '' } })
+    };
+
+    onCancelSendSMS = () => {
+        this.setState({ showSMSModal: false, form: { message: '' } })
+    }
+
+    onSendSMS = () => {
+        if (this.state.form.message == '') {
+            return;
+        }
+
+        this.props.sendSMSMessage(this.state.form)
+
+        this.setState({ showSMSModal: false, form: { message: '' } })
+
+        let leadId = this.state.lead.id;
+        let companyId = this.state.lead.company.id;
+        setTimeout(() => {
+            this.props.loadLead(companyId, leadId, true, true);
+        }, 5000)
+    }
+
+    onChangeSMSMessage = (event, data) => {
+        this.setState({
+            form: { message: data.value }
+        })
+    };
+
     render() {
         const { lead, showTimeline, showAdditionalInfo, showReminder } = this.state;
         const { leadNotes, leadStatuses, reminders } = this.props;
@@ -220,10 +232,27 @@ class AgentLeadNotes extends Component {
                     <Button className={(this.state.onPhone ? 'endCall' : 'call-lead-but')} as='a' href={this.readyToCall ? `tel:${lead.phone}` : '#'} onClick={this.onCall} circular>
                         <Icon name='call' />
                     </Button>
-                    <Button as='a' href='#' onClick={this.onText} circular>
+                    <Button as='a' href='#' onClick={this.setSMSModal} circular>
                         <Icon className='ti ti-device-mobile-message' />
                     </Button>
                 </div>
+
+                {this.state.showSMSModal &&
+                    <div className="lead-profile-row sms-container">
+                        <Form>
+                            <Form.Field>
+                                <label>Send a text message</label>
+                                <TextArea className="text-sms" name='message' onChange={this.onChangeSMSMessage} />
+                            </Form.Field>
+                            <Button.Group>
+                                <Button onClick={this.onCancelSendSMS}>Cancel</Button>
+                                <Button.Or />
+                                <Button type="button" onClick={this.onSendSMS} positive>Send</Button>
+                            </Button.Group>
+                        </Form>
+                    </div>
+                }
+
                 <div className='lead-info'>
                     <div className='info-header'>Subscribed for:</div>
                     <label>{lead.campaign.name}</label>
