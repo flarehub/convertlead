@@ -122,6 +122,9 @@ class TwilioController extends Controller
             if (empty(trim($twilioSid)) || empty(trim($twilioToken))) {
                 throw new \Exception('Missing required twilio api credentials');
             }
+            $fromNumber = ($lead->company['twilio_mobile_number']);
+            // \Log::critical('===============================================to=>' . $lead->phone . " :from=>" . $fromNumber . ' message=' . $message);
+
 
             $twilioClient = new Client($twilioSid, $twilioToken);
             $twilioClient->messages->create(
@@ -131,6 +134,7 @@ class TwilioController extends Controller
                     'body' => $message
                 ]
             );
+
 
             $msg = "<div class='sms-message'>" . substr($message, 0, 35) . "...</div>";
 

@@ -17,61 +17,82 @@ class LeadReplyController extends Controller
 
     public function onSMSReply(Request $request)
     {
-        $fromNumber = ltrim(str_replace('+', '',  $request->get('From', '')), '00');
-        $messageBody = $request->get('Body');
-        \Log::critical('Sms reply');
-        \Log::critical('number=' . $fromNumber . 'message=' . $messageBody);
+        try {
+            $fromNumber = ltrim(str_replace('+', '',  $request->get('From', '')), '00');
+            $messageBody = $request->get('Body');
 
-        $lead = Lead::query()
-            ->where('phone', 'like', $fromNumber)
-            ->orderBy('id', 'desc')
-            ->firstOrFail();
+            \Log::critical('Sms reply');
+            \Log::critical('number=' . $fromNumber . 'message=' . $messageBody);
 
-        if (empty($lead)) {
-            abort(400, 'Lead not found!');
-        }
+            $lead = Lead::query()
+                ->where('phone', 'like', '%' . $fromNumber . '%')
+                ->orderBy('id', 'desc')
+                ->first();
 
-        $dealAction = DealAction::query()
-            ->select('deal_actions.*')
-            ->join('lead_action_histories as lah', 'lah.deal_action_id', '=', 'deal_actions.id')
-            ->join('leads', 'leads.id', '=', 'lah.lead_id')
-            ->where('deal_actions.deal_id', $lead->campaign['deal']['id'])
-            ->where('deal_actions.is_root', 1)
-            ->where('leads.id', $lead->id)
-            ->where('lah.is_completed', 1)
-            ->whereRaw('lah.deleted_at IS NULL')
-            ->whereRaw('deal_actions.deleted_at IS NULL')
-            ->where(function ($query) {
-                $query
-                    ->where('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY)
-                    ->orWhere('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN);
-            })
-            ->orderBy('deal_actions.id', 'desc')
-            ->first();
+            if (empty($lead)) {
+                abort(400, 'Lead not found!');
+            }
 
-        if (empty($dealAction)) {
-            \Log::critical('Action not found forNumber' . $fromNumber);
-            abort(400, 'Deal action not found!');
-        }
+            \Log::critical('lead=' . $lead->id);
 
-        if ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN) {
-            $keywords = explode(',', $dealAction->lead_reply_contains);
-            foreach ($keywords as $keyword) {
-                $contains = stripos($messageBody, $keyword) !== -1;
-                if ($contains) {
+
+            $dealAction = DealAction::query()
+                ->select('deal_actions.*')
+                ->join('lead_action_histories as lah', 'lah.deal_action_id', '=', 'deal_actions.id')
+                ->join('leads', 'leads.id', '=', 'lah.lead_id')
+                ->where('deal_actions.deal_id', $lead->campaign['deal']['id'])
+                ->where('deal_actions.is_root', 1)
+                ->where('leads.id', $lead->id)
+                ->where('lah.is_completed', 1)
+                ->whereRaw('lah.deleted_at IS NULL')
+                ->whereRaw('deal_actions.deleted_at IS NULL')
+                ->where(function ($query) {
+                    $query
+                        ->where('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY)
+                        ->orWhere('deal_actions.lead_reply_type', DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN);
+                })
+                ->orderBy('deal_actions.id', 'desc')
+                ->first();
+
+
+            if (empty($dealAction)) {
+                \Log::critical('Action not found forNumber' . $fromNumber);
+                // abort(400, 'Deal action not found!');
+                LeadNote::create([
+                    'lead_status_id' => $lead->lead_status_id,
+                    'lead_id' => $lead->id,
+                    'agent_id' => $lead->agent_id,
+                    'message' => "Lead reply: From: {$fromNumber}, message: {$messageBody}",
+                ]);
+            } else {
+                \Log::critical('dealAction=' . $dealAction->id . " lead_reply_type=>" . $dealAction->lead_reply_type);
+
+                if ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY_CONTAIN) {
+                    $keywords = explode(',', $dealAction->lead_reply_contains);
+                    foreach ($keywords as $keyword) {
+                        $contains = stripos($messageBody, $keyword) !== -1;
+                        if ($contains) {
+                            $this->leadReplyNote($lead, $dealAction, $fromNumber, $messageBody);
+                            $dealAction->scheduleNextLeadAction($lead);
+                            break;
+                        }
+                    }
+                } elseif ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY) {
                     $this->leadReplyNote($lead, $dealAction, $fromNumber, $messageBody);
                     $dealAction->scheduleNextLeadAction($lead);
-                    break;
                 }
             }
-        } elseif ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY) {
-            $this->leadReplyNote($lead, $dealAction, $fromNumber, $messageBody);
-            $dealAction->scheduleNextLeadAction($lead);
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+            \Log::critical('------------------------------' . $th);
         }
     }
 
     public function leadReplyNote($lead, $dealAction, $fromNumber, $messageBody)
     {
+        \Log::critical('leadReplyNote===========>' . $lead->id . "==>" . $dealAction->id . "=>" . $fromNumber . "==>" . $messageBody);
+
         LeadNote::create([
             'lead_status_id' => $lead->lead_status_id,
             'lead_id' => $lead->id,
