@@ -131,7 +131,7 @@ class TwilioController extends Controller
                 $lead->phone,
                 [
                     'from' => $lead->company['twilio_mobile_number'],
-                    'body' => $message . "<br>Message sent from " . $lead->company['twilio_mobile_number']
+                    'body' => $message . "\n\nMessage sent from " . $lead->company['twilio_mobile_number']
                 ]
             );
 
