@@ -62,7 +62,7 @@ class LeadReplyController extends Controller
                     'lead_status_id' => $lead->lead_status_id,
                     'lead_id' => $lead->id,
                     'agent_id' => $lead->agent_id,
-                    'message' => "Lead reply: From: {$fromNumber}, message: {$messageBody}",
+                    'message' => $messageBody,
                 ]);
             } else {
                 \Log::critical('dealAction=' . $dealAction->id . " lead_reply_type=>" . $dealAction->lead_reply_type);
