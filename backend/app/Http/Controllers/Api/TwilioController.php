@@ -136,7 +136,7 @@ class TwilioController extends Controller
             );
 
 
-            $msg = "<div class='sms-message'>" . substr($message, 0, 35) . "...</div>";
+            $msg = "<div class='sms-message'>" . substr($message, 0, 70) . "...</div>";
 
             LeadNote::create([
                 'lead_status_id' => $lead->lead_status_id,

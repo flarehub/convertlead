@@ -54,21 +54,21 @@ class ActionPushAgentDeviceNotification extends Command
 
             if ($agentDeviceTokens) {
                 Lead::notification($agentDeviceTokens);
-                LeadNote::create([
-                    'lead_status_id' => $lead->lead_status_id,
-                    'lead_id' => $lead->id,
-                    'agent_id' => $lead->agent_id,
-                    'deal_action_id' => $dealActionId,
-                    'message' => "Automatic Push notification sent messages:<br/><div class='automatic-push'>" . $dealAction->object->message . "</div>",
-                ]);
+                // LeadNote::create([
+                //     'lead_status_id' => $lead->lead_status_id,
+                //     'lead_id' => $lead->id,
+                //     'agent_id' => $lead->agent_id,
+                //     'deal_action_id' => $dealActionId,
+                //     'message' => "Automatic Push notification sent messages:<br/><div class='automatic-push'>" . $dealAction->object->message . "</div>",
+                // ]);
             } else {
-                LeadNote::create([
-                    'lead_status_id' => $lead->lead_status_id,
-                    'lead_id' => $lead->id,
-                    'agent_id' => $lead->agent_id,
-                    'deal_action_id' => $dealActionId,
-                    'message' => "No Agent Device to Push notification messages:<br/><div class='automatic-push-no-device'>" . $dealAction->object->message . "</div>",
-                ]);
+                // LeadNote::create([
+                //     'lead_status_id' => $lead->lead_status_id,
+                //     'lead_id' => $lead->id,
+                //     'agent_id' => $lead->agent_id,
+                //     'deal_action_id' => $dealActionId,
+                //     'message' => "No Agent Device to Push notification messages:<br/><div class='automatic-push-no-device'>" . $dealAction->object->message . "</div>",
+                // ]);
             }
         } catch (\Exception $exception) {
             \Log::critical("ActionSendToLeadEmailNotification:lead:{$leadId},dealAction:{$dealActionId}, {$exception->getMessage()}");

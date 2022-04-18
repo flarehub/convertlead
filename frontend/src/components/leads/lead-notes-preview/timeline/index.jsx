@@ -50,7 +50,7 @@ class TimeLine extends Component {
             <div className='freshAppTimeLine'>
                 <ul>
                     { 
-                        notes && notes.map((note, key) => <TimeLineRecord key={key} note={note} agency_id={lead.agency_company_id}/>)
+                        notes && notes.map((note, key) => <TimeLineRecord key={key} note={note} agency_id={lead.agency_company_id} fullname={lead.fullname}/>)
                     }
                 </ul>
                 {

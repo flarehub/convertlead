@@ -4,16 +4,16 @@ import { DATE_FORMAT } from '@constants';
 import { Button } from 'semantic-ui-react';
 import ReactHtmlParser from 'react-html-parser';
 
-export const TimeLineRecord = ({ note, agency_id }) => (
+export const TimeLineRecord = ({ note, agency_id, fullname }) => (
   <li className='timeline-record'>
     <div className={`timeline-record-text-preview back-${(note.agent.agent_agency_id == agency_id ? `right` : `left`)}`}>
       <div className="display-date-time">
         <div className='creation-date'>{moment.utc(note.created_at).local().format(DATE_FORMAT)}</div>
         <div className='creation-time'>{moment.utc(note.created_at).local().format('LT')}</div>
       </div>
-      <div className='timeline-text'>
+      <div className='timeline-text'> 
         {
-          note.is_status_event == 1 ? '' : note.agent.name + ', '
+          note.is_status_event == 1 ? '' : fullname + ', '
         }
         {ReactHtmlParser(note.message)}
       </div>
