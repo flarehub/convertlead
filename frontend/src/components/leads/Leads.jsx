@@ -221,7 +221,11 @@ class Leads extends React.Component {
   };
 
   render() {
-    const leads = this.props.leads || [];
+    let leads = this.props.leads || [];
+    leads = leads.sort(function(a, b){
+      return b.smsReplayCount - a.smsReplayCount
+    }); 
+
     const { pagination, statuses, query } = this.props;
     const {
       companyId,
