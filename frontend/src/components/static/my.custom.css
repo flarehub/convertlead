@@ -1648,6 +1648,14 @@ input:focus {
     text-transform: uppercase;
 }
 
+.lead-status-icon .ui.red.label {
+
+    background-color: #ff3649 !important;
+    border-color: #ff3649 !important;
+    color: #fff !important;
+    border-radius: 55px !important;
+}
+
 .comp-logo-box {
     height: 100%;
     display: flex;
