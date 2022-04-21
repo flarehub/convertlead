@@ -56,8 +56,9 @@ class LeadReplyController extends Controller
                 if (empty($dealAction)) {
                     \Log::critical('Action not found forNumber' . $fromNumber);
                     // abort(400, 'Deal action not found!');
+                    // tempcode for sms reply
                     LeadNote::create([
-                        'lead_status_id' => $lead->lead_status_id,
+                        'lead_status_id' => 10,
                         'lead_id' => $lead->id,
                         'agent_id' => $lead->agent_id,
                         'message' => $messageBody,

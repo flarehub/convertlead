@@ -17,6 +17,7 @@ class LeadStatus extends Model
     public static $STATUS_MISSED = 'MISSED';
     public static $STATUS_BAD = 'BAD';
     public static $STATUS_SOLD = 'SOLD';
+    public static $SMS_REPLY = 'SMS_REPLY';
 
     protected $fillable = [
         'name',

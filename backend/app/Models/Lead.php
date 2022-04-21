@@ -132,7 +132,7 @@ class Lead extends Model
 
         $notes = $this->leadNotes()
             ->where('lead_notes.is_new', 1)
-            ->where('lead_notes.lead_status_id', 4); // tempcode
+            ->where('lead_notes.lead_status_id', 10); // tempcode
 
         if ($notes) {
             return $notes->count();
