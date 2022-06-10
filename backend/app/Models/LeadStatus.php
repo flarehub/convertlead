@@ -9,7 +9,8 @@ class LeadStatus extends Model
 {
     use SoftDeletes;
 
-    public static $STATUS_NEW= 'NEW';
+    public static $STATUS_NONE = 'NONE';
+    public static $STATUS_NEW = 'NEW';
     public static $STATUS_VIEWED = 'VIEWED';
     public static $STATUS_CONTACTED_SMS = 'CONTACTED_SMS';
     public static $STATUS_CONTACTED_CALL = 'CONTACTED_CALL';

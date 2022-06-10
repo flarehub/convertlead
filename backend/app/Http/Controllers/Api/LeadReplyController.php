@@ -6,6 +6,7 @@ use App\Models\DealAction;
 use App\Models\Lead;
 use App\Models\Agent;
 use App\Models\LeadNote;
+use App\Models\LeadStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
@@ -58,7 +59,7 @@ class LeadReplyController extends Controller
                     // abort(400, 'Deal action not found!');
                     // tempcode for sms reply
                     LeadNote::create([
-                        'lead_status_id' => 10,
+                        'lead_status_id' => LeadStatus::query()->where('type', LeadStatus::$SMS_REPLY)->first()->id,
                         'lead_id' => $lead->id,
                         'agent_id' => $lead->agent_id,
                         'message' => $messageBody,
