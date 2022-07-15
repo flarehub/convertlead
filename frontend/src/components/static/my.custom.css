@@ -2391,6 +2391,7 @@ input:focus {
     border: none;
     box-shadow: none;
     padding: 2px;
+    min-height:50vh;
 }
 
 .AgentLeads .ui.basic.segment {
