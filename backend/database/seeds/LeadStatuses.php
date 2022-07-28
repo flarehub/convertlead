@@ -14,7 +14,6 @@ class LeadStatuses extends Seeder
         'MISSED',
         'BAD',
         'SOLD',
-        'SMS_REPLY'
     ];
     
     /**

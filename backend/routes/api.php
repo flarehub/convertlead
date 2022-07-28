@@ -23,7 +23,7 @@ Route::group([
     Route::post('reset', 'PasswordResetController@reset');
 });
 
-Route::group(['namespace' => 'Api', 'middleware' => 'cors'], function () {
+Route::group(['namespace' => 'Api'], function () {
     Route::prefix('v1')->group(function () {
         Route::post('agencies', 'AgencyController@store');
 

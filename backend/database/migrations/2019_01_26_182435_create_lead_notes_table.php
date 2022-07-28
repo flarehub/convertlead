@@ -18,7 +18,6 @@ class CreateLeadNotesTable extends Migration
   `lead_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   `company_agent_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   `lead_status_id` INT(11) NULL DEFAULT NULL,
-  `deal_action_id` INT(11) NULL DEFAULT NULL,
   `message` VARCHAR(245) NULL DEFAULT NULL,
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NULL DEFAULT NULL,
