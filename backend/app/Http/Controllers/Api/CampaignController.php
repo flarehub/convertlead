@@ -14,6 +14,8 @@ use App\Http\Controllers\Controller;
 use Mockery\Exception;
 use Twilio\Rest\Client;
 
+use function GuzzleHttp\json_encode;
+
 class CampaignController extends Controller
 {
     public function twilioWebHook(Request $request) {
@@ -98,6 +100,7 @@ class CampaignController extends Controller
 
            if ($campaign->deal->has_automation) {
                $action = $campaign->deal->getFirstRootAction();
+                \Log::critical(json_encode($action));
                if ($action) {
                    $action->scheduleLeadAction($lead);
                }
