@@ -2,5 +2,5 @@
   "name": "mobileApp",
   "displayName": "Convert Lead",
   "senderID": "170482632377",
-  "serverURL": "https://c87e-2a02-a58-855c-c700-79e8-8dbb-890b-a7ed.eu.ngrok.io/api"
+  "serverURL": "https://api.convertlead.com/api"
 }
