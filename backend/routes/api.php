@@ -12,12 +12,12 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['namespace' => 'Auth', 'middleware' => 'cors'], function () {
+Route::group(['namespace' => 'Auth'], function () {
     Route::post('login', 'ApiLoginController@login');
 });
 Route::group([
     'namespace' => 'Auth',
-    'middleware' => ['api', 'cors'],
+    'middleware' => 'api',
     'prefix' => 'password'
 ], function () {
     Route::post('reset', 'PasswordResetController@reset');
