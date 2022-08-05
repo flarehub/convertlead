@@ -180,7 +180,8 @@ class Campaigns extends Component {
     } else if (hDisplay != "" && mDisplay != "") {
       return 'Wait ' + hDisplay + 'and' + mDisplay
     }
-    return "";
+
+    return "Instant";
   }
 
   drawAction(action, groupParent) {
