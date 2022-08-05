@@ -23,8 +23,8 @@ Class MailService {
         try {
             $mail = Mail::send($template, $params, function (Message $m) use ($email, $subject, $cc, $attachment, $params) {
                 if (isset($params['from_address'])) {
-                    $m->sender(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME', 'No Reply'));
-                    $m->from($params['from_address'], $params['from_address_name'] ?? '');
+                    $m->from(env('MAIL_FROM_ADDRESS'), $params['from_address_name'] ?? '');
+                    $m->replyTo($params['from_address'], $params['from_address_name'] ?? '');
                 }
 
                 if ($cc) {
