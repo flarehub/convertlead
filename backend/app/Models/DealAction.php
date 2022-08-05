@@ -77,14 +77,30 @@ class DealAction extends Model {
             if ($nextRootVerticalAction) {
                 $nextRootVerticalAction->moveToCompleted();
             } else {
-                \Log::info('Next-vertical=>'.$nextActionVertical->id);
-                return $nextActionVertical->scheduleLeadAction($lead);
+                // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
+                $bufferTime = 20;
+
+                if ($nextRootVerticalAction->created_at >= now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)) {
+                    \Log::info('Next-vertical=>'.$nextActionVertical->id);
+                    return $nextActionVertical->scheduleLeadAction($lead);
+                }
             }
         }
 
         if ($nextActionHorizontal) {
-            \Log::info('Next-horizontal=>'.$nextActionHorizontal->id);
-            return $nextActionHorizontal->scheduleLeadAction($lead);
+            $actionHistory = LeadActionHistory::query()
+                ->where('lead_id', $lead->id)
+                ->where('deal_action_id', $this->id)
+                ->first();
+
+            // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
+            $bufferTime = 20;
+
+            if ($actionHistory->created_at >= now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)) {
+                \Log::info('Next-horizontal=>' . $nextActionHorizontal->id);
+
+                return $nextActionHorizontal->scheduleLeadAction($lead);
+            }
         }
 
         \Log::info('None for parent=>' . $this->id);
