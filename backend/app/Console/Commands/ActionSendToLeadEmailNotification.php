@@ -58,8 +58,8 @@ class ActionSendToLeadEmailNotification extends Command
                 'message' => "Email message sent <div class='automatic-email'>" . $dealAction->object->subject . "</div>",
             ]);
 
-            $agentEmail = optional($lead->agent)->email;
-            $agentName = optional($lead->agent)->name;
+            $agentEmail = $lead->agent->email;
+            $agentName = $lead->agent->name;
 
             \Log::info('Agent email: ' . $agentEmail . 'Agent name: ' . $agentName);
 
