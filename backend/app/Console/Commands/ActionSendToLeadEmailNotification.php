@@ -61,6 +61,8 @@ class ActionSendToLeadEmailNotification extends Command
             $agentEmail = optional($lead->agent)->email;
             $agentName = optional($lead->agent)->name;
 
+            \Log::info('Agent email: ' . $agentEmail, 'Agent name: ' . $agentName);
+
             MailService::sendMail(
                 'emails.lead-notification',
                 [

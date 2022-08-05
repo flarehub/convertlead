@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,9 +22,8 @@ Class MailService {
         }
         try {
             $mail = Mail::send($template, $params, function (Message $m) use ($email, $subject, $cc, $attachment, $params) {
-                if ($params['from_address'] ?? false) {
+                if (isset($params['from_address'])) {
                     $m->from($params['from_address'], $params['from_address_name'] ?? '');
-                    $m->sender($params['from_address'], $params['from_address_name'] ?? '');
                 }
 
                 if ($cc) {
@@ -35,7 +35,6 @@ Class MailService {
                 if($attachment) {
                     $m->attach($attachment);
                 }
-
             });
 
             if ($mail) {
