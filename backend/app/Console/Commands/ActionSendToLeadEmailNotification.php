@@ -45,6 +45,7 @@ class ActionSendToLeadEmailNotification extends Command
         $dealActionId = $this->argument('dealActionId');
 
         try {
+            /** @var Lead $lead */
             $lead = Lead::findOrFail($leadId);
             $dealAction = DealAction::findOrFail($dealActionId);
 
@@ -57,9 +58,14 @@ class ActionSendToLeadEmailNotification extends Command
                 'message' => "Email message sent <div class='automatic-email'>" . $dealAction->object->subject . "</div>",
             ]);
 
+            $agentEmail = optional($lead->agent)->email;
+            $agentName = optional($lead->agent)->name;
+
             MailService::sendMail(
                 'emails.lead-notification',
                 [
+                    'from_address' => $agentEmail,
+                    'from_address_name' => $agentName,
                     'body' => $dealAction->object->message,
                     'leadId' => $lead->id,
                     'dealActionId' => $dealAction->id,
