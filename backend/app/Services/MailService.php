@@ -20,10 +20,9 @@ Class MailService {
             $email = env('APP_MAIL_TEST_ADDRESS', 'dmitri.russu@gmail.com');
         }
         try {
-            Mail::alwaysFrom($params['from_address'], $params['from_address_name'] ?? '');
             $mail = Mail::send($template, $params, function (Message $m) use ($email, $subject, $cc, $attachment, $params) {
                 if ($params['from_address'] ?? false) {
-                    $m->from($params['from_address'], $params['from_address_name'] ?? '');
+                    $m->sender($params['from_address'], $params['from_address_name'] ?? '');
                 }
 
                 if ($cc) {
