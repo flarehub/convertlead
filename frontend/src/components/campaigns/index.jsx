@@ -377,7 +377,7 @@ class Campaigns extends Component {
             onConfirm={this.onConfirm} />
 
           <div className="top note">
-            When you change a campaign's company, your integrations will stop running until you assign them a new agent. <a className="item" href="https://convertlead.com/docs-home/" target="_blank">Learn more</a>
+            When you change a campaign's company, your integrations will stop running until you assign them a new agent. <a className="item" href="https://convertlead.ladesk.com" target="_blank">Learn more</a>
           </div>
 
           <Grid columns={2}>

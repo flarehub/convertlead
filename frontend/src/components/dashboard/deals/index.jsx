@@ -242,7 +242,7 @@ class Dashboard extends Component {
             </Message.Header>
             <Message.Content>
               <p>Click the button below to watch our video tutorials.</p>
-              <a className="item" href="https://convertlead.com/docs-home/" target="_blank">Take me there</a>
+              <a className="item" href="https://convertlead.ladesk.com" target="_blank">Take me there</a>
             </Message.Content>
           </Message>
         }
