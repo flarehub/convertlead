@@ -319,7 +319,7 @@ class Campaigns extends Component {
       has_automation: checkbox.checked,
     });
     this.props.saveFormDeal({ ...deal, has_automation: +checkbox.checked });
-    this.props.fetchDeal(deal.dealId || deal.id);
+    this.props.fetchDeal(deal.id);
   };
 
   render() {
