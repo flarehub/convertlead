@@ -67,6 +67,10 @@ class DealAction extends Model {
     public function scheduleNextLeadAction(Lead $lead) {
         $nextActionHorizontal = $this->getNextHorizontalAction();
         $nextActionVertical = $this->getNextVerticalAction();
+        $actionHistory = optional(LeadActionHistory::query()
+            ->where('lead_id', $lead->id)
+            ->where('deal_action_id', $this->id)
+            ->first());
 
         if ($nextActionVertical) {
             $nextRootVerticalAction = LeadActionHistory::query()
@@ -80,7 +84,7 @@ class DealAction extends Model {
                 // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
                 $bufferTime = 20;
 
-                if ($nextRootVerticalAction->created_at >= now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)) {
+                if (!$actionHistory->created_at || $actionHistory->created_at >= now()->subSeconds($nextActionVertical->delay_time + $bufferTime)) {
                     \Log::info('Next-vertical=>'.$nextActionVertical->id);
                     return $nextActionVertical->scheduleLeadAction($lead);
                 }
@@ -88,15 +92,10 @@ class DealAction extends Model {
         }
 
         if ($nextActionHorizontal) {
-            $actionHistory = LeadActionHistory::query()
-                ->where('lead_id', $lead->id)
-                ->where('deal_action_id', $this->id)
-                ->first();
-
             // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
             $bufferTime = 20;
 
-            if ($actionHistory->created_at >= now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)) {
+            if (!$actionHistory->created_at || $actionHistory->created_at >= now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)) {
                 \Log::info('Next-horizontal=>' . $nextActionHorizontal->id);
 
                 return $nextActionHorizontal->scheduleLeadAction($lead);
