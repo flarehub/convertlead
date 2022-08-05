@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Mail\Mailer;
+use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 
 Class MailService {
@@ -20,9 +20,9 @@ Class MailService {
             $email = env('APP_MAIL_TEST_ADDRESS', 'dmitri.russu@gmail.com');
         }
         try {
-            $mail = Mail::send($template, $params, function (Mailer $m) use ($email, $subject, $cc, $attachment, $params) {
+            $mail = Mail::send($template, $params, function (Message $m) use ($email, $subject, $cc, $attachment, $params) {
                 if ($params['from_address'] ?? false) {
-                    $m->alwaysFrom($params['from_address'], $params['from_address_name'] ?? '');
+                    $m->from($params['from_address'], $params['from_address_name'] ?? '');
                 }
 
                 if ($cc) {
