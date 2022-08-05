@@ -46,9 +46,12 @@ class ActionSendToLeadEmailNotification extends Command
 
         try {
             /** @var Lead $lead */
-            $lead = Lead::findOrFail($leadId);
+            $lead = Lead::where('id', $leadId)->first();
             $dealAction = DealAction::findOrFail($dealActionId);
 
+            $agent = $lead->agent()->first();
+            $agentEmail = $agent->email;
+            $agentName = $agent->name;
 
             LeadNote::create([
                 'lead_status_id' => $lead->lead_status_id,
@@ -57,11 +60,6 @@ class ActionSendToLeadEmailNotification extends Command
                 'deal_action_id' => $dealActionId,
                 'message' => "Email message sent <div class='automatic-email'>" . $dealAction->object->subject . "</div>",
             ]);
-
-            $agentEmail = $lead->agent->email;
-            $agentName = $lead->agent->name;
-
-            \Log::info('Agent email: ' . $agentEmail . 'Agent name: ' . $agentName);
 
             MailService::sendMail(
                 'emails.lead-notification',
