@@ -17,9 +17,6 @@ Class MailService {
      * @return boolean
      */
     public static function sendMail($template, $params, $email, $subject, $cc = null, $attachment = null) {
-        if(env('testing', false)) {
-            $email = env('APP_MAIL_TEST_ADDRESS', 'dmitri.russu@gmail.com');
-        }
         try {
             $mail = Mail::send($template, $params, function (Message $m) use ($email, $subject, $cc, $attachment, $params) {
                 if (isset($params['from_address'])) {
