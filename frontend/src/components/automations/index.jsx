@@ -127,7 +127,7 @@ class Campaigns extends Component {
     });
 
     const lastAction = R.last(this.props.actions);
-    const y = (R.path(['index'], lastAction) !== undefined ? (R.path(['index'], lastAction) + 1) * 290 : 50);
+    const y = (R.path(['index'], lastAction) !== undefined ? (R.path(['index'], lastAction) + 1) * 257 : 50);
     this.createButtonAddVerticalAction(lastAction).move(67, y);
   }
 
