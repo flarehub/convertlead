@@ -58,6 +58,16 @@ class DealAction extends Model {
             ->first();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null|DealAction
+     */
+    public function getPrevVerticalAction() {
+        return $this->newQuery()
+            ->where('id', $this->parent_id)
+            ->where('is_root', 1)
+            ->first();
+    }
+
     public function getNextVerticalAction() {
         return $this->newQuery()
             ->where('parent_id', $this->id)
@@ -66,58 +76,118 @@ class DealAction extends Model {
     }
 
     /**
+     * Schedule next horizontal action for lead
+     *
      * @param Lead $lead
-     * @return void
+     * @return bool
      */
-    public function scheduleNextLeadAction(Lead $lead) {
-        $nextActionHorizontal = $this->getNextHorizontalAction();
-        $nextActionVertical = $this->getNextVerticalAction();
+    public function scheduleNextHorizontalAction(Lead $lead) {
+        $nextAction = $this->getNextHorizontalAction();
+        if ($nextAction) {
+            $nextActionVertical = $this->getNextVerticalAction();
 
-        if ($nextActionVertical) {
-            $nextRootVerticalAction = LeadActionHistory::query()
+            /** @var LeadActionHistory $leadActionHistory */
+            $leadActionHistory = LeadActionHistory::query()
                 ->where('lead_id', $lead->id)
                 ->where('deal_action_id', $nextActionVertical->id)
                 ->first();
 
-            if ($nextRootVerticalAction) {
-                $nextRootVerticalAction->moveToCompleted();
-            } else {
-                \Log::info('Next-vertical=>'.$nextActionVertical->id);
-                return $nextActionVertical->scheduleLeadAction($lead);
+            if (\optional($leadActionHistory)->is_completed) {
+                \Log::info('Exclude next horizontal action because it is completed on vertical before it', $leadActionHistory->toArray());
+                return false;
             }
+
+            if ($leadActionHistory && ! \optional($leadActionHistory)->is_completed) {
+                $leadActionHistory->moveToCompleted();
+            }
+
+            \Log::info('scheduleNextOrizontalAction===========>' . $nextAction->id);
+
+            $nextAction->scheduleAction($lead);
+            return true;
+
+        } else {
+            \Log::info('No next action found for action ' . $this->id . ' and lead ' . $lead->id);
         }
 
-        if ($nextActionHorizontal) {
-            /** @var LeadActionHistory|Optional $actionHistory */
-            $actionHistory = optional(LeadActionHistory::query()
-                ->where('lead_id', $lead->id)
-                ->where('deal_action_id', $this->id)
-                ->first());
-
-            // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
-            $bufferTime = 20;
-
-            if (empty($actionHistory->created_at) ||
-                (
-                    now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)->lessThanOrEqualTo($actionHistory->created_at)
-                    ||
-                    $nextActionHorizontal->delay_time <= 0 && empty($nextActionVertical)
-                )) {
-                \Log::info('Next-horizontal=>' . $nextActionHorizontal->id);
-
-                return $nextActionHorizontal->scheduleLeadAction($lead);
-            }
-        }
-
-        \Log::info('None for parent=>' . $this->id);
+        return false;
     }
 
+    /**
+     * Schedule next vertical action for lead
+     *
+     * @param Lead $lead
+     * @return bool
+     */
+    public function scheduleNextVerticalAction(Lead $lead) {
+        $nextHorizontal = $this->getNextHorizontalAction();
 
-    public function scheduleLeadAction(Lead $lead) {
+        if ($nextHorizontal) {
+            /** @var LeadActionHistory $leadActionHistory */
+            $leadActionHistory = LeadActionHistory::query()
+                ->where('lead_id', $lead->id)
+                ->where('deal_action_id', $nextHorizontal->id)
+                ->first();
+
+            if ($leadActionHistory) {
+                return false;
+            }
+        }
+
+        $prevVertical = $this->getPrevVerticalAction();
+
+        if ($prevVertical) {
+            $nextHorizontal = $prevVertical->getNextHorizontalAction();
+
+            if ($nextHorizontal) {
+                /** @var LeadActionHistory $leadActionHistory */
+                $leadActionHistory = LeadActionHistory::query()
+                    ->where('lead_id', $lead->id)
+                    ->where('deal_action_id', $nextHorizontal->id)
+                    ->first();
+                if ($leadActionHistory) {
+                    return false;
+                }
+            }
+        }
+
+        $nextAction = $this->getNextVerticalAction();
+        if ($nextAction) {
+            $nextAction->scheduleAction($lead);
+            return true;
+        } else {
+            \Log::info('No next action found for action ' . $this->id . ' and lead ' . $lead->id);
+        }
+
+        return  false;
+    }
+
+    /**
+     * @param Lead $lead
+     * @return bool
+     */
+    public function scheduleNextAction(Lead $lead) {
+        if ($this->isHorizontal()) {
+            return $this->scheduleNextHorizontalAction($lead);
+        }
+
+        if ($this->isVertical()) {
+            return $this->scheduleNextVerticalAction($lead);
+        }
+
+        return false;
+    }
+
+    public function scheduleAction(Lead $lead) {
         $leadActionHistory = LeadActionHistory::query()
             ->where('lead_id', $lead->id)
             ->where('deal_action_id', $this->id)
             ->where('is_completed', 1)->first();
+
+        if ($leadActionHistory) {
+            \Log::info('Action already completed for lead ' . $lead->id . ' and action ' . $this->id);
+            return;
+        }
 
         if (!$leadActionHistory) {
             $leadActionHistory = new LeadActionHistory();
@@ -146,5 +216,24 @@ class DealAction extends Model {
                 ->first();
         }
         return false;
+    }
+
+    /**
+     * Is this action horizontal
+     *
+     * @param Lead $lead
+     * @return void
+     */
+    public function isHorizontal() {
+        return $this->is_root < 1;
+    }
+
+    /**
+     * Is this action a vertical action
+     *
+     * @return bool
+     */
+    public function isVertical() {
+        return $this->is_root > 0;
     }
 }

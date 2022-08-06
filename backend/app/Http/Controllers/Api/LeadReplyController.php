@@ -73,13 +73,13 @@ class LeadReplyController extends Controller
                             $contains = stripos($messageBody, $keyword) !== -1;
                             if ($contains) {
                                 $this->leadReplyNote($lead, $dealAction, $fromNumber, $messageBody);
-                                $dealAction->scheduleNextLeadAction($lead);
+                                $dealAction->scheduleNextHorizontalAction($lead);
                                 break;
                             }
                         }
                     } elseif ($dealAction->lead_reply_type === DealAction::LEAD_REPLY_TYPE_SMS_REPLY) {
                         $this->leadReplyNote($lead, $dealAction, $fromNumber, $messageBody);
-                        $dealAction->scheduleNextLeadAction($lead);
+                        $dealAction->scheduleNextHorizontalAction($lead);
                     }
                 }
             }
@@ -118,7 +118,7 @@ class LeadReplyController extends Controller
                 'deal_action_id' => $dealAction->id,
                 'message' => "Lead mail opened!",
             ]);
-            $dealAction->scheduleNextLeadAction($lead);
+            $dealAction->scheduleNextHorizontalAction($lead);
         }
 
         $img = Image::make(public_path('images/pixel.png'))->resize(1, 1);
