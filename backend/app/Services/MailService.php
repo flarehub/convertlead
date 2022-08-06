@@ -20,7 +20,7 @@ Class MailService {
         try {
             $mail = Mail::send($template, $params, function (Message $m) use ($email, $subject, $cc, $attachment, $params) {
                 if (isset($params['from_address'])) {
-                    $m->from(env('MAIL_FROM_ADDRESS'), $params['from_address_name'] ?? '');
+                    $m->from(config('mail.from.address'), $params['from_address_name'] ?? '');
                     $m->replyTo($params['from_address'], $params['from_address_name'] ?? '');
                 }
 
