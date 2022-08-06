@@ -86,19 +86,21 @@ class DealAction extends Model {
         if ($nextAction) {
             $nextActionVertical = $this->getNextVerticalAction();
 
-            /** @var LeadActionHistory $leadActionHistory */
-            $leadActionHistory = LeadActionHistory::query()
-                ->where('lead_id', $lead->id)
-                ->where('deal_action_id', $nextActionVertical->id)
-                ->first();
+            if ($nextActionVertical) {
+                /** @var LeadActionHistory $leadActionHistory */
+                $leadActionHistory = LeadActionHistory::query()
+                    ->where('lead_id', $lead->id)
+                    ->where('deal_action_id', $nextActionVertical->id)
+                    ->first();
 
-            if (\optional($leadActionHistory)->is_completed) {
-                \Log::info('Exclude next horizontal action because it is completed on vertical before it', $leadActionHistory->toArray());
-                return false;
-            }
+                if (\optional($leadActionHistory)->is_completed) {
+                    \Log::info('Exclude next horizontal action because it is completed on vertical before it', $leadActionHistory->toArray());
+                    return false;
+                }
 
-            if ($leadActionHistory && ! \optional($leadActionHistory)->is_completed) {
-                $leadActionHistory->moveToCompleted();
+                if ($leadActionHistory && ! \optional($leadActionHistory)->is_completed) {
+                    $leadActionHistory->moveToCompleted();
+                }
             }
 
             \Log::info('scheduleNextOrizontalAction===========>' . $nextAction->id);
