@@ -105,7 +105,9 @@ class LeadReplyController extends Controller
 
     public function onMailReply(Request $request, $leadId, $dealActionId)
     {
+        /** @var Lead $lead */
         $lead = Lead::query()->where('id', $leadId)->firstOrFail();
+        /** @var DealAction $dealAction */
         $dealAction = DealAction::findOrFail($dealActionId);
 
         if ($dealAction) {

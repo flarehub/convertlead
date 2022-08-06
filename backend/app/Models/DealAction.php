@@ -65,14 +65,13 @@ class DealAction extends Model {
             ->first();
     }
 
+    /**
+     * @param Lead $lead
+     * @return void
+     */
     public function scheduleNextLeadAction(Lead $lead) {
         $nextActionHorizontal = $this->getNextHorizontalAction();
         $nextActionVertical = $this->getNextVerticalAction();
-        /** @var LeadActionHistory|Optional $actionHistory */
-        $actionHistory = optional(LeadActionHistory::query()
-            ->where('lead_id', $lead->id)
-            ->where('deal_action_id', $this->id)
-            ->first());
 
         if ($nextActionVertical) {
             $nextRootVerticalAction = LeadActionHistory::query()
@@ -83,21 +82,27 @@ class DealAction extends Model {
             if ($nextRootVerticalAction) {
                 $nextRootVerticalAction->moveToCompleted();
             } else {
-                // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
-                $bufferTime = 20;
-
-                if (empty($actionHistory->created_at) || now()->subSeconds($nextActionVertical->delay_time + $bufferTime)->lessThanOrEqualTo($actionHistory->created_at)) {
-                    \Log::info('Next-vertical=>'.$nextActionVertical->id);
-                    return $nextActionVertical->scheduleLeadAction($lead);
-                }
+                \Log::info('Next-vertical=>'.$nextActionVertical->id);
+                return $nextActionVertical->scheduleLeadAction($lead);
             }
         }
 
         if ($nextActionHorizontal) {
+            /** @var LeadActionHistory|Optional $actionHistory */
+            $actionHistory = optional(LeadActionHistory::query()
+                ->where('lead_id', $lead->id)
+                ->where('deal_action_id', $this->id)
+                ->first());
+
             // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
             $bufferTime = 20;
 
-            if (empty($actionHistory->created_at) || now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)->lessThanOrEqualTo($actionHistory->created_at)) {
+            if (empty($actionHistory->created_at) ||
+                (
+                    now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)->lessThanOrEqualTo($actionHistory->created_at)
+                    ||
+                    $nextActionHorizontal->delay_time <= 0 && empty($nextActionVertical)
+                )) {
                 \Log::info('Next-horizontal=>' . $nextActionHorizontal->id);
 
                 return $nextActionHorizontal->scheduleLeadAction($lead);
