@@ -1254,6 +1254,10 @@ input:focus {
     top: -5px !important;
 }
 
+.Campaigns .ui.table thead {
+    display:none;
+}
+
 .ui.table tr td:last-child .ui.buttons:before {
     content: '\EA95';
     display: flex;
@@ -1442,7 +1446,7 @@ input:focus {
     box-shadow: none;
     width: 79px !important;
     height: 1.5rem;
-    border-radius: 8px;
+    border-radius: 8px !important;
     height: 100% !important;
     text-align: right;
     padding: 10px;
