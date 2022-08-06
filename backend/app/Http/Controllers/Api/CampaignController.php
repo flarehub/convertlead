@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\DealAction;
 use App\Models\DealCampaign;
 use App\Models\DealCampaignFacebookIntegration;
 use App\Models\Device;
@@ -97,9 +98,10 @@ class CampaignController extends Controller
            Lead::notification($tokenList, $notification);
 
            if ($campaign->deal->has_automation) {
+               /** @var DealAction $action */
                $action = $campaign->deal->getFirstRootAction();
                if ($action) {
-                   $action->scheduleLeadAction($lead);
+                   $action->scheduleAction($lead);
                }
            }
 
