@@ -38,5 +38,6 @@ $ php artisan help
 ````
 #### Daemon run
 ````bash
+$ cd backend
 $ php artisan queue:work --queue=actions --tries=3 --memory=128 --timeout=300 >> storage/logs/queue_log.log &
 ````
