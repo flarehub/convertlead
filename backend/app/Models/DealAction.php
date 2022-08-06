@@ -4,6 +4,7 @@ namespace App\Models;
 use App\Jobs\DealActionJob;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Optional;
 
 class DealAction extends Model {
     use SoftDeletes;
@@ -67,6 +68,7 @@ class DealAction extends Model {
     public function scheduleNextLeadAction(Lead $lead) {
         $nextActionHorizontal = $this->getNextHorizontalAction();
         $nextActionVertical = $this->getNextVerticalAction();
+        /** @var LeadActionHistory|Optional $actionHistory */
         $actionHistory = optional(LeadActionHistory::query()
             ->where('lead_id', $lead->id)
             ->where('deal_action_id', $this->id)
@@ -84,7 +86,7 @@ class DealAction extends Model {
                 // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
                 $bufferTime = 20;
 
-                if (!$actionHistory->created_at || $actionHistory->created_at >= now()->subSeconds($nextActionVertical->delay_time + $bufferTime)) {
+                if (empty($actionHistory->created_at) || now()->subSeconds($nextActionVertical->delay_time + $bufferTime)->lessThanOrEqualTo($actionHistory->created_at)) {
                     \Log::info('Next-vertical=>'.$nextActionVertical->id);
                     return $nextActionVertical->scheduleLeadAction($lead);
                 }
@@ -95,7 +97,7 @@ class DealAction extends Model {
             // have added a buffer time of 20 seconds to make sure the action is completed in case of system delay
             $bufferTime = 20;
 
-            if (!$actionHistory->created_at || $actionHistory->created_at >= now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)) {
+            if (empty($actionHistory->created_at) || now()->subSeconds($nextActionHorizontal->delay_time + $bufferTime)->lessThanOrEqualTo($actionHistory->created_at)) {
                 \Log::info('Next-horizontal=>' . $nextActionHorizontal->id);
 
                 return $nextActionHorizontal->scheduleLeadAction($lead);
