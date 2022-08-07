@@ -121,13 +121,13 @@ class Campaigns extends Component {
         const y = (action.index > 1 ? 200 : 290);
         this.createButtonAddHorizontalAction(lastAction).dx(x).dy((action.index * y) || 50);
       } else if (action.is_root && this.checkIsAllowedForHorizontalActions(action)) {
-        const y = action.index * (action.index > 1 ? 200 : 290);
+        const y = action.index * (action.index > 1 ? 265 : 290);
         this.createButtonAddHorizontalAction(action).dy(y || 50).dx(297);
       }
     });
 
     const lastAction = R.last(this.props.actions);
-    const y = (R.path(['index'], lastAction) !== undefined ? (R.path(['index'], lastAction) + 1) * 290 : 50);
+    const y = (R.path(['index'], lastAction) !== undefined ? (R.path(['index'], lastAction) + 1) * 257 : 50);
     this.createButtonAddVerticalAction(lastAction).move(67, y);
   }
 
