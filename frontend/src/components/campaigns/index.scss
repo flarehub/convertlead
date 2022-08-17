@@ -96,12 +96,25 @@
     border:none !important;
 }
 
+. Campaigns .ui.table tr td:last-child .action-button {
+    
+    display: flex;
+    height: 100%;
+    align-items: center;
+    position: relative;
+}
+
 .Campaigns  .ui.table tr td:last-child .ui.buttons::before {
 
-    top:36px !important;
     background:transparent !important;
 	color:#9d9bb5;
 	font-size:20px;
+    top: calc(50% - 2px);
+    background: transparent !important;
+    color: #9d9bb5;
+    font-size: 20px;
+    right: 10px;
+
 }
 
 .Campaigns .ui.table tbody tr td:nth-child(3), .Campaigns .ui.table tbody tr td:nth-child(4), .Campaigns .ui.table tbody tr td:nth-child(5) {
