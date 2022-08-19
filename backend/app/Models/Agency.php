@@ -471,7 +471,7 @@ class Agency extends User
     {
         $subscriptions = [
             static::$SUBSCRIPTION_TYPE_BASE => env('APP_BASE_AGENCY_MAX_COMPANIES', 5),
-            static::$SUBSCRIPTION_TYPE_PREMIUM => env('APP_PREMIUM_AGENCY_MAX_COMPANIES', 10),
+            static::$SUBSCRIPTION_TYPE_PREMIUM => env('APP_PREMIUM_AGENCY_MAX_COMPANIES', 100),
         ];
         return isset($subscriptions[$subscriptionType]) ? $subscriptions[$subscriptionType] : 0;
     }
