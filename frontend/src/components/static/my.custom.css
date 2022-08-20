@@ -1313,8 +1313,8 @@ input:focus {
     content: '';
     position: absolute;
     z-index: 9999;
-    right: 66px;
-    top: 35px;
+    right: 56px;
+    top: 55px;
     color: #dfdff0;
     transform: rotate(-45deg);
     stroke-width: 0.1 !important;
@@ -1341,7 +1341,7 @@ input:focus {
     display: none;
     z-index: 9999;
     float: left;
-    width: 105px;
+    width: 115px;
     background: #fff;
     border-right: 1px solid #dfdff0;
     border-left: 1px solid #dfdff0;
@@ -1514,7 +1514,7 @@ input:focus {
     font-weight: 600;
     margin-right: 10px;
     color: #637282 !important;
-    padding-left: 6.2rem !important;
+    padding-left: 7rem !important;
 }
 
 .ui.checkbox input.hidden+label {
@@ -4213,6 +4213,10 @@ label.conversations {
 
 .ui.custom-buttons.active button {
     display: none;
+}
+
+.ui.custom-buttons.active:hover {
+    margin-top: -37px;
 }
 
 .ui.custom-buttons.active:hover button {
