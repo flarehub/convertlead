@@ -21,7 +21,7 @@ export const DealsComponent = ({ onDealSelected, dealIds, deals, deleted, loadFo
                     ? <CardContent  dealIds={dealIds}
                                     onSelectedDeal={onDealSelected} deal={deal} company={deal.company}
                                    link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
-                    : <CardContent  dealIds={dealIds} onSelectedDeal={onDealSelected} deal={deal} company={deal.company}
+                    : <CardContent  dealIds={dealIds} onSelectedDeal={onDealSelected} deal={deal} company={deal.agency}
                                    link={`/deals/${deal.id}/campaigns`}/>
                 }
               </Card.Content>
@@ -38,7 +38,7 @@ export const DealsComponent = ({ onDealSelected, dealIds, deals, deleted, loadFo
                 Auth.isAgency
                   ? <CardContent  dealIds={dealIds} onSelectedDeal={onDealSelected} deal={deal} company={deal.company}
                                  link={`/companies/${deal.company.id}/deals/${deal.id}/campaigns`}/>
-                  : <CardContent  dealIds={dealIds} onSelectedDeal={onDealSelected} deal={deal} company={deal.company}
+                  : <CardContent  dealIds={dealIds} onSelectedDeal={onDealSelected} deal={deal} company={deal.agency}
                                  link={`/deals/${deal.id}/campaigns`}/>
               }
               <Button.Group basic size='small'>

@@ -30,7 +30,7 @@ class Deal extends Model
     }
     
     public function campaigns() {
-        return $this->hasMany('App\Models\DealCampaign', 'deal_id', 'id')->withTrashed();
+        return $this->hasMany('App\Models\DealCampaign', 'deal_id', 'id');
     }
 
     public function actions() {
@@ -113,10 +113,11 @@ class Deal extends Model
         ');
         $query->groupBy('deal_campaigns.id');
         
-        if(!isset($queryParams['showDeleted'])) {
-            $query->whereRaw('deal_campaigns.deleted_at IS NULL');
-        } else {
-            $query->whereRaw('deal_campaigns.deleted_at IS NOT NULL');
+        $query->whereRaw('deal_campaigns.deleted_at IS NULL');
+        if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == true) {
+            $query->whereRaw('dca.id IS NULL');            
+        }else{
+            $query->whereRaw('dca.id IS NOT NULL');            
         }
 
         if ( isset($queryParams['name']) ) {

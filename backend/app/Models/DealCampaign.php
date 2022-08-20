@@ -153,8 +153,8 @@ class DealCampaign extends Model
             ]));
 
             $this->save();
-            $this->agents()->detach($this->agents()->get());
             if ($request->get('agents')) {
+                $this->agents()->detach($this->agents()->get());
                 $this->agents()->attach($request->get('agents'));
             }
 

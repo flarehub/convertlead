@@ -106,13 +106,9 @@ class CampaignController extends Controller
             ->user()
             ->getCompanyBy($company)
             ->getDealBy($deal)
-            ->campaigns()->withTrashed()->where('id', $id)->first();
+            ->getCampaignBy($id);
 
-        if($campaign->trashed()) {
-            $campaign->restore();
-        } else {
-            $campaign->delete();
-        }
+        $campaign->delete();
 
         return $campaign;
     }
