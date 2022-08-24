@@ -944,7 +944,7 @@ i.icon.sidebar:before {
 
 .ui.selection.dropdown,
 .ui.selection.dropdown .menu>.item {
-    padding: 15px 15px 17px 15px !important;
+    padding: 15px 15px 15px 15px !important;
     font-size: 15px !important;
 }
 
@@ -958,7 +958,13 @@ i.icon.sidebar:before {
 }
 
 .ui.selection.dropdown {
-    min-width: 12em !important;
+    min-width: 11em !important;
+}
+
+.ui.selection.dropdown>.delete.icon, .ui.selection.dropdown>.dropdown.icon, .ui.selection.dropdown>.search.icon {
+
+    top: 1.2em;
+    color: #8481a0;
 }
 
 .ui.dropdown .menu .selected.item,
@@ -1156,6 +1162,8 @@ input:focus {
     border-bottom-right-radius: 0;
     position: absolute;
 }
+
+
 
 .ui.table td {
     font-size: 15px;
@@ -3761,9 +3769,27 @@ label.conversations {
     .Agents .ui.table tbody tr td:nth-child(5) {
         display: none !important;
     }
+
+    .ui.small.modal .two.column.grid, .ui.tiny.modal .two.column.grid {
+
+        padding: 0 !important;
+    }
+
+    .ui.modal {
+        top:0 ;
+    }
+
+
 }
 
 @media only screen and (max-width: 828px) {
+
+
+    .Leads .leads-container .ui.search.selection.dropdown > .dropdown.icon {
+
+        right: 2.2em !important !important;
+    }
+
     .ui[class*="left fixed"].menu {
         height: unset !important;
     }
