@@ -17,7 +17,7 @@ class LeadNotes extends Component {
 
     async componentWillMount() {
         const {companyId, leadId} = this.props.match.params;
-        this.props.loadLead(lead.company_id, leadId);
+        this.props.loadLead(companyId, leadId);
         this.props.addBreadCrumb({
             name: 'Leads',
             path: '/leads'

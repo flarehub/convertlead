@@ -126,7 +126,7 @@ class LeadNotes extends Component {
                         <div className="btnCloseLead" onClick={() => this.props.onClose()}><i className="flaticon stroke x-2"></i></div>
                         <div className="title">Quick Preview</div>
                         <div className="link-profile">
-                            <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`} className="btn">
+                            <Link to={`/companies/${lead.company.id}/leads/${lead.id}/notes`} className="btn">
                                 Profile
                             </Link>
                         </div>
