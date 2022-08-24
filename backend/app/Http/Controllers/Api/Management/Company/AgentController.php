@@ -52,7 +52,7 @@ class AgentController extends Controller
     public function graph(Request $request, $agentId, $graphType)
     {
         switch ($graphType) {
-            case 'contacted': {
+            case 'pie': {
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
                 $companyAgencyIds = $request->user()->agencies->map(function ($agency) use ($request) {
@@ -136,12 +136,13 @@ class AgentController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $agent = $request->user()->getAgentBy($id);
-        if (!$agent->agent_agency_id) {
-            $agent->delete();
+        $agent = Agent::withTrashed()->findOrFail($id);
+        if($agent->trashed()) {
+            $agent->restore();
         } else {
-            $request->user()->agents()->detach($agent);
+            $agent->delete();
         }
+
         return $agent;
     }
 
@@ -153,9 +154,11 @@ class AgentController extends Controller
      */
     public function restore(Request $request, $id)
     {
-        $agent = $request->user()->getAgentBy($id);
-        if (!$agent->agent_agency_id) {
+        $agent = Agent::withTrashed()->findOrFail($id);
+        if($agent->trashed()) {
             $agent->restore();
+        } else {
+            $agent->delete();
         }
 
         return $agent;

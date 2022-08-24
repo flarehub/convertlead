@@ -17,7 +17,7 @@ trait CompanyRepository {
     }
     
     public function getDealBy($dealId) {
-        return $this->deals()->where('deals.id', $dealId)->firstOrFail();
+        return $this->deals()->withTrashed()->where('deals.id', $dealId)->firstOrFail();
     }
 
     public function getLeadBy($leadId) {
@@ -206,8 +206,12 @@ trait CompanyRepository {
             ->where('ac.company_id', $this->id)
             ->groupBy('users.id');
         
-        if ( isset($queryParams['showDeleted']) ) {
+        if (isset($queryParams['showDeleted']) && $queryParams['showDeleted'] == 1) {
             $query->withTrashed();
+            $query->whereRaw('users.deleted_at IS NOT NULL');
+        } else {
+            $query->withTrashed();
+            $query->whereRaw('users.deleted_at IS NULL');
         }
         
         if (isset($queryParams['search'])) {

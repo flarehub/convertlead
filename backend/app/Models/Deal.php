@@ -64,7 +64,7 @@ class Deal extends Model
     }
     
     public function getCampaignsBy($queryParams = []) {
-        $query = $this->campaigns()
+        $query = $this->campaigns()->withTrashed()
             ->leftJoin('leads', 'leads.deal_campaign_id', 'deal_campaigns.id')
 
             ->leftJoin(\DB::raw("
@@ -113,7 +113,7 @@ class Deal extends Model
         ');
         $query->groupBy('deal_campaigns.id');
         
-        $query->whereRaw('deal_campaigns.deleted_at IS NULL');
+        // $query->whereRaw('deal_campaigns.deleted_at IS NULL');
         if(!isset($queryParams['showDeleted'])) {
             $query->whereRaw('deal_campaigns.deleted_at IS NULL');          
         } else {
