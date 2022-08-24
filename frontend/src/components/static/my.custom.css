@@ -3779,6 +3779,10 @@ label.conversations {
         top:0 ;
     }
 
+    .LeadNotes .six.wide.column {
+        background:transparent !important;
+    }
+
 
 }
 
