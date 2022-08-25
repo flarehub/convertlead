@@ -118,9 +118,9 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
                 Route::apiResource('agents', 'AgentController')->middleware('scope:AGENT_WRITE,AGENT_READ')->only(['store', 'update', 'destroy']);
                 Route::get('agents/{agentId}/restore', 'AgentController@restore');
                 Route::get('agents/{agentId}/campaigns', 'AgentController@campaigns');
-                Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_READ')->only(['index', 'show']);
+                Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_READ,DEAL_WRITE')->only(['index', 'show']);
                 Route::get('deals/leads/statistics', 'DealController@getDealsStatistic');
-                Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_WRITE')->only(['store', 'update', 'destroy']);
+                Route::apiResource('deals', 'DealController')->middleware('scope:DEAL_WRITE,DEAL_READ')->only(['store', 'update', 'destroy']);
                 Route::apiResource('deals/{deal}/campaigns', 'CampaignController')->middleware('scope:CAMPAIGN_READ,CAMPAIGN_WRITE');
                 Route::delete('/companies/{id}/deals/{deal}/campaigns/{campaign_id}', 'CampaignController@destroy')->middleware('scope:CAMPAIGN_READ,CAMPAIGN_WRITE');
                 Route::apiResource('leads', 'LeadController')->middleware('scope:LEAD_READ,LEAD_WRITE');
