@@ -152,10 +152,35 @@ trait CompanyRepository {
         ];
     
     
+        $leads = Lead::selectRaw(
+            "
+          DATE(leads.created_at) as creation_date,
+       SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
+             SUM(
+       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)
+       ) as up30Mintes,
+       SUM(
+       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)
+       ) as up2Hours,
+       SUM(
+       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)
+       ) as up12Hours,
+            SUM(
+       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
+            ")
+            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
+            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')->get();
+
         $datasets = collect($datasets)->map(function ($dataset) use ($leads, $dateCollection) {
             $fieldName = $dataset['data'];
             $dataset['data'] = collect($dateCollection)->map(function ($date) use ($leads, $fieldName) {
-                return  (int) count($leads->where('creation_date', $fieldName));
+                $counter = 0;
+                foreach($leads as $lead) {
+                    if($lead->creation_date == $date) {
+                        $counter++;
+                    }
+                }
+                return $counter;
             });
             return $dataset;
         });
