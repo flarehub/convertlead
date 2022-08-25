@@ -132,6 +132,7 @@ export const getAgentGraphPie = (graphContext, agentId, filters) => async dispat
     try {
         const response = await (Auth.isCompany || Auth.isAgency ? companyAgentLeadGraph(agentId, filters) : agentLeadGraph(filters));
         await dispatch(actions.loadAgentLeadsGraphPie(response.data));
+        console.log(response.data);
         if (graphContext) {
             graphContext.data = response.data;
             await graphContext.update();
