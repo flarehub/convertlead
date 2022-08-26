@@ -57,7 +57,7 @@ class LeadController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $lead = $request->user()->leads()->withTrashed()->where('leads.id', $id)->firstOrFail()->load(
+        $lead = $request->user()->getLeadBy($id)->load(
             'leadNotes'
         );
 

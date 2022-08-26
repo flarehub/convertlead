@@ -86,8 +86,7 @@ class TwilioController extends Controller
 
     public function token($leadId)
     {
-        // return $leadId;
-        $lead = Lead::withTrashed()->findOrFail($leadId);
+        $lead = Lead::findOrFail($leadId);
         $twilioSid = $lead->company['twilio_sid'];
         $twilioToken = $lead->company['twilio_token'];
         $appSid = $lead->company['twilio_app_sid'];

@@ -5,7 +5,6 @@ use App\Models\Agent;
 use App\Models\Company;
 use App\Models\Lead;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 trait CompanyRepository {
     public function createCompany($data) {
@@ -60,6 +59,7 @@ trait CompanyRepository {
             ->whereBetween('leads.created_at', [
                 Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay(),
                 Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay()]);
+        
         if (is_array($companyAgencyId)) {
             $query->whereIn('leads.agency_company_id', $companyAgencyId);
         } elseif ($companyAgencyId) {
@@ -69,9 +69,8 @@ trait CompanyRepository {
         if ($agentId) {
             $query->where('leads.agent_id', $agentId);
         }
-
         $averageResponseTime = static::getAverageTime($startDate, $endDate, $companyAgencyId, $agentId, $format);
-        return static::mapLeadsData($query->get(), $averageResponseTime, $startDate, $endDate, $format);
+       return static::mapLeadsData($query->get(), $averageResponseTime, $startDate, $endDate, $format);
     }
     
     static function getAverageTime( $startDate,
@@ -92,10 +91,8 @@ trait CompanyRepository {
             ->whereBetween('leads.created_at', [
                 Carbon::createFromFormat('Y-m-d', $startDate),
                 Carbon::createFromFormat('Y-m-d', $endDate)]);
-
-        if (is_array($companyAgencyId)) {
-            $query->whereIn('leads.agency_company_id', $companyAgencyId);
-        } elseif ($companyAgencyId) {
+    
+        if ($companyAgencyId) {
             $query->where('leads.agency_company_id', $companyAgencyId);
         }
     
@@ -155,7 +152,7 @@ trait CompanyRepository {
         $datasets = collect($datasets)->map(function ($dataset) use ($leads, $dateCollection) {
             $fieldName = $dataset['data'];
             $dataset['data'] = collect($dateCollection)->map(function ($date) use ($leads, $fieldName) {
-                return  (int) count($leads->where('creation_date', $fieldName));
+                return  (int)$leads->where('creation_date', $date)->first()[$fieldName];
             });
             return $dataset;
         });
