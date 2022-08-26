@@ -6,7 +6,6 @@ use App\Models\Agency;
 use App\Models\Company;
 use App\Models\Lead;
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
 use DB;
 
 trait AgentRepository
@@ -22,11 +21,11 @@ trait AgentRepository
         $endDate,
         $agentId,
         $companyAgencyIds = null,
-        $format = 'Y-m-d', $pieGraph = true)
+        $format = 'Y-m-d', $pieGraph = false)
     {
         $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
         $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
-        $query = Lead::withTrashed()->selectRaw(
+        $query = Lead::selectRaw(
             "
           DATE(leads.created_at) as creation_date,
 	   SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
@@ -87,46 +86,30 @@ trait AgentRepository
     {
         $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
         $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
-        // $query = Lead::selectRaw(
-        //     "SUBSTRING_INDEX(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at)))), '.', 1) AS avg_response")
-        //     ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-        //     ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-        //     ->where(function ($query) {
-        //         $query
-        //             ->where('ls.type', "'CONTACTED_SMS'")
-        //             ->orWhere('ls.type', "'CONTACTED_CALL'")
-        //             ->orWhere('ls.type', "'CONTACTED_EMAIL'");
-        //     })
-        //     ->whereBetween('leads.created_at', [
-        //         "'".$st_dt."'",
-        //         "'".$end_dt."'"
-        //         // "'2019-08-07 00:00:00'",
-        //         // "'2019-08-14 23:59:59'"                
-        //     ]);
+        $query = Lead::selectRaw(
+            "SUBSTRING_INDEX(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at)))), '.', 1) AS avg_response")
+            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
+            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
+            ->where(function ($query) {
+                $query
+                    ->where('ls.type', "'CONTACTED_SMS'")
+                    ->orWhere('ls.type', "'CONTACTED_CALL'")
+                    ->orWhere('ls.type', "'CONTACTED_EMAIL'");
+            })
+            ->whereBetween('leads.created_at', [
+                "'".$st_dt."'",
+                "'".$end_dt."'"
+                // "'2019-08-07 00:00:00'",
+                // "'2019-08-14 23:59:59'"                
+            ]);
 
-        $leads = Lead::withTrashed()->get();
-        // if ($companyAgencyIds) {
-        //     $query->whereIn('leads.agency_company_id', $companyAgencyIds);
-        // }
-
-        // $query->where('leads.agent_id', $agentId);
-
-        $totalSecs = 0;
-        foreach($leads as $lead) {
-            if(Carbon::parse($lead->created_at) < $st_dt || Carbon::parse($lead->created_at) > $end_dt) {
-                continue;
-            }
-            $time = 0;
-            foreach($lead->leadNotes as $note) {
-                $time = Carbon::parse($lead->created_at)->diffInSeconds(Carbon::parse($note->updated_at));
-            }
-            $totalSecs += $time;
+        if ($companyAgencyIds) {
+            $query->whereIn('leads.agency_company_id', $companyAgencyIds);
         }
 
-        if($totalSecs > 0) {
-            return CarbonInterval::seconds(intval($totalSecs / count($leads)))->cascade()->forHumans();
-        }
-        return "No Data available";
+        $query->where('leads.agent_id', $agentId);
+
+        return $query->first();
     }
 
     static public function mapLeadsToLineGraph($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d')
@@ -217,41 +200,17 @@ trait AgentRepository
             ]
         ];
 
-        $leads = Lead::selectRaw(
-            "
-          DATE(leads.created_at) as creation_date,
-       SUM(time_to_sec(timediff(ln.created_at, leads.created_at)) <= (15*60)) as up15Minutes,
-             SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (15*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (30*60)
-       ) as up30Mintes,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (30*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (2*60*60)
-       ) as up2Hours,
-       SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (2*60*60) AND time_to_sec(timediff(ln.created_at, leads.created_at)) <= (12*60*60)
-       ) as up12Hours,
-            SUM(
-       time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
-            ")
-            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')->get();
 
-        $datasets['data'] = collect($datasets['data'])->map(function ($fieldName) use ($leads, $dateCollection, $startDate, $endDate) {
-            $counter = 0;
-            foreach($leads as $lead) {
-                if(Carbon::parse($lead->created_at) < $startDate || Carbon::parse($lead->created_at) > $endDate) {
-                    continue;
-                }
-                if($lead[$fieldName] != 0) {
-                    $counter++;
-                }
-            }
-            return $counter;
+        $datasets['data'] = collect($datasets['data'])->map(function ($fieldName) use ($leads, $dateCollection) {
+            return collect($leads)->reduce(function ($acc, $lead) use ($leads, $fieldName) {
+                $temp = isset($lead[$fieldName]) ? (int)$lead[$fieldName]: 0;
+                return $acc + $temp;
+            });
         });
 
 
         return [
-            'avg_response_time' => (isset($averageResponseTime) ? $averageResponseTime : '00:00:00'),
+            'avg_response_time' => ($averageResponseTime->avg_response ? $averageResponseTime->avg_response : '00:00:00'),
             'labels' => $labels,
             'datasets' => [
                 $datasets
