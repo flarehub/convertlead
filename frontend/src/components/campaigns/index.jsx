@@ -171,8 +171,7 @@ class Campaigns extends Component {
 
   onConfirm = () => {
     this.setState({ open: false });
-    var { companyId, dealId } = this.props.match.params;
-    companyId = Auth.isCompany ? this.props.profile.id : companyId;
+    const { companyId, dealId } = this.props.match.params;
     this.props.deleteCampaign(companyId, dealId, this.state.campaignId);
   };
 
