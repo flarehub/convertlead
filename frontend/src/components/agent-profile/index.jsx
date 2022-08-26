@@ -14,7 +14,6 @@ import AgentModal from '../@common/modals/agent';
 import { disableAutoComplete } from '../../utils';
 // import { actionTypes } from '../../@containers/forms/automation/actionTypes';
 // import Loader from '../loader';
-import { api, Auth } from '@services';
 
 class AgentProfile extends Component {
 
@@ -264,7 +263,7 @@ class AgentProfile extends Component {
                             from={new Date(startDate)} to={new Date(endDate)}
                         />
                     </Popup>
-                    {Auth.isAgent || Auth.isCompany ? "" : <Form.Field
+                    <Form.Field
                         control={Select}
                         options={this.props.companiesOfAgent}
                         label={{ children: '', htmlFor: '' }}
@@ -274,7 +273,7 @@ class AgentProfile extends Component {
                         select={this.props.companiesOfAgent[0].key || null}
                         onChange={this.onChangeCompany}
                     />
-                    }
+
                     <div className='average-response-time'>
                         <div className="time-to-contact">
                             Response Time

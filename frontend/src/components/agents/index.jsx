@@ -326,7 +326,7 @@ class Agents extends Component {
                                                         </>
                                                     ) || (
                                                         <>
-                                                            <span className="legendCount">{agent.leads_count}</span>
+                                                            <span className="legendCount">0</span>
                                                             <span className="legendName-red">Leads</span>
                                                             <div className="circular icon-image-red" style={{ backgroundImage: "url('" + (agent.avatar_path || avatarDemo) + "')" }}></div>
                                                         </>

@@ -22,7 +22,6 @@ import DatePickerSelect from "../@common/datepicker";
 import { AvatarImage } from '../@common/image';
 import { DATE_FORMAT } from '@constants';
 import ButtonGroup from '../@common/button-group';
-import { exportTo, reportPoll } from '../../@containers/leads/api';
 
 const defaultStatus = { key: '', text: 'All statuses', value: '' };
 const companies = [
@@ -195,9 +194,8 @@ class Leads extends React.Component {
     this.props.filterDealCampaignsById(null);
   }
 
-  exportToAction = (type) => {
-    console.log(Auth);
-    exportTo({
+  exportTo = (type) => {
+    this.props.exportTo({
       type,
       statusType: this.props.query.filters.statusType,
       search: this.props.query.search,
@@ -298,8 +296,8 @@ class Leads extends React.Component {
 
             </div>
             <div className='exportbox'>Export your data
-              <a href='#export-csv' onClick={this.exportToAction.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
-              <a href='#export-pdf' onClick={this.exportToAction.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
+              <a href='#export-csv' onClick={this.exportTo.bind(this, 'TYPE_LEADS_CSV')}>.csv export</a>
+              <a href='#export-pdf' onClick={this.exportTo.bind(this, 'TYPE_LEADS_PDF')}>.pdf export</a>
             </div>
           </div>
           <Loader />
