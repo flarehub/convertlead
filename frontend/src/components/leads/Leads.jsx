@@ -390,7 +390,7 @@ class Leads extends React.Component {
 
                     <Table.Cell>
                       <Link to={`/companies/${lead.company_id}/leads/${lead.id}/notes`}>
-                        <i class="ti ti-user"></i>
+                        <i className="ti ti-user"></i>
                       </Link>
                       {
                         !lead.deleted_at

@@ -14,6 +14,10 @@ import {disableAutoComplete} from '../../../utils';
 class LeadStats extends Component {
     state = {
         dates: {
+            'all': {
+                startDate: moment('2000-01-01').format('Y-MM-DD'),
+                endDate: moment().endOf('day').format('Y-MM-DD'),
+            },  
             'today': {
                 startDate: moment().startOf('day').format('Y-MM-DD'),
                 endDate: moment().endOf('day').format('Y-MM-DD'),
@@ -102,7 +106,7 @@ class LeadStats extends Component {
                                         control={Select}
                                         options={this.props.selectBoxDates || []}
                                         placeholder="Select Date"
-                                        defaultValue='this-month'
+                                        defaultValue='all'
                                         onChange={this.onChangeDate}
                                         searchInput={{id: 'graph-date'}}
                                     />
@@ -121,9 +125,8 @@ class LeadStats extends Component {
                         <div className='agent-welcome'>
                             <h3>Hi, {this.props.profile.name}</h3>
                             <p>
-                                Welcome to your dashboard! <br></br> When you start calling your leads, your stats will
-                                show up in the chart above
-                                for easy access. Follow the link below to check your fresh leads.
+                                Welcome to your dashboard! <br></br><br></br> When you start calling your leads, your stats will
+                                show up in the chart above.
 
                             </p>
                             <Link to='/companies/leads/all'>

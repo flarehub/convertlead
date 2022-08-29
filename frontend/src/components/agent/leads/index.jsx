@@ -13,8 +13,8 @@ class AgentLeads extends Component {
         scrollY: window.scrollY,
         dates: {    
             'all': {
-                startDate: null,
-                endDate: null,
+                startDate: moment('2000-01-01').format('Y-MM-DD'),
+                endDate: moment().endOf('day').format('Y-MM-DD'),
             },   
             'today': {
                 startDate: moment().startOf('day').format('Y-MM-DD'),

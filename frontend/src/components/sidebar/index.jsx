@@ -52,8 +52,8 @@ class AppSidebar extends Component {
                 <p className='sidebar-title'>Menu</p>
                 {
                     visibleMenus.map((menu, i) => (
-                        <Link to={menu.path} key={i}>
-                            <Menu.Item index={i} onClick={this.onMenuItemClick.bind(this, i)}>
+                        <Link to={menu.path} key={i}  index={i} onClick={this.onMenuItemClick.bind(this, i)}>
+                            <Menu.Item>
                                 <i className={this.state.activeIndex == i ? menu.icon + ' active' : menu.icon} />
                                 <div>{menu.name}</div>
                             </Menu.Item>
