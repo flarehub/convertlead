@@ -12,7 +12,7 @@ trait CompanyRepository {
         return $this->createUser($data);
     }
 
-    public function getAgentBy($agentId) {
+    public function getAgent($agentId) {
         return $this->agents()->withTrashed()->where('agent_id', $agentId)->firstOrFail();
     }
     
