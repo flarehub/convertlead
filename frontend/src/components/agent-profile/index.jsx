@@ -113,6 +113,12 @@ class AgentProfile extends Component {
         })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.startDate !== this.state.startDate || prevState.endDate !== this.state.endDate) {
+            this.props.onDateChange(prevState.startDate, prevState.endDate);
+        }
+    }
+
     UNSAFE_componentWillReceiveProps(nextProps) {
 
         this.setState({ agent: nextProps.s_agent });
@@ -189,8 +195,6 @@ class AgentProfile extends Component {
         this.setState({
             startDateDisplay: '01/01/2000',
             startDate: '2000-01-01',
-            // startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
-            // startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
             endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
             endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         }); 

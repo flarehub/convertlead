@@ -40,7 +40,7 @@ class LeadExportJob implements ShouldQueue
     public function handle()
     {
         try {
-            $payload = json_decode($this->report->payload);
+            $payload = json_decode($this->report->payload, true);
             $user = $this->report->user;
             $isAgency = $user->role === User::$ROLE_AGENCY;
             $isCompany = $user->role === User::$ROLE_COMPANY;
@@ -53,24 +53,24 @@ class LeadExportJob implements ShouldQueue
 
 
             if ($this->report->type === Reports::$TYPE_LEADS_PDF) {
-                $leads = $user->getLeads((array)$payload)->get();
+                $leads = $user->getLeads($payload)->get();
                 $this->exportLeadsToPDF($leads, $this->report);
             } elseif ($this->report->type === Reports::$TYPE_LEADS_CSV) {
-                $leads = $user->getLeads((array)$payload)->get();
+                $leads = $user->getLeads($payload)->get();
                 $this->exportLeadsToCSV($leads, $this->report);
             } 
             elseif ($this->report->type === Reports::$TYPE_COMPANY_PDF) {
-                $companies = $user->getCompanies((array)$payload)->get();
+                $companies = $user->getCompanies($payload)->get();
                 $this->exportCompaniesToPDF($companies, $this->report);
             } elseif ($this->report->type === Reports::$TYPE_COMPANY_CSV) {
-                $companies = $user->getCompanies((array)$payload)->get();
+                $companies = $user->getCompanies($payload)->get();
                 $this->exportCompaniesToCSV($companies, $this->report);
             } 
             elseif ($this->report->type === Reports::$TYPE_CAMPAIGN_PDF) {
-                $leads = $user->getLeads((array)$payload)->get();
+                $leads = $user->getLeads($payload)->get();
                 $this->exportCampaignsToPDF($leads, $this->report);
             } elseif ($this->report->type === Reports::$TYPE_CAMPAIGN_CSV) {
-                $leads = $user->getLeads((array)$payload)->get();
+                $leads = $user->getLeads($payload)->get();
                 $this->exportCampaignsToCSV($leads, $this->report);
             }
 
@@ -98,7 +98,7 @@ class LeadExportJob implements ShouldQueue
                 [
                     'report' => $this->report,
                     'user' => $user,
-                    'query' => $payload,
+                    'query' => (object) $payload,
                     'file' => url("/api/v1/reports/{$this->report->uuid}/download"),
                 ],
                 $this->report->user->email,

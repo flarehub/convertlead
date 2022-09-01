@@ -42,20 +42,12 @@ class Agents extends Component {
         activeIndex: 0,
         startDateDisplay: moment().startOf('isoWeek').format('MM/DD/Y'),
         endDateDisplay: moment().endOf('isoWeek').format('MM/DD/Y'),
-        startDate: moment().startOf('isoWeek').format('Y-MM-DD'),
+        startDate:'2000-01-01',
         endDate: moment().endOf('isoWeek').format('Y-MM-DD'),
         sortByValue: 'name.asc'
     };
 
     async componentWillMount() {
-
-        // if (this.props.agentId != undefined) {
-        //     await this.props.getAgent(this.props.agentId, true);
-        // }
-        // else {
-        //     await this.props.getAgent(this.props.match.params.agentId, true);
-        // }
-
         const companyId = +R.pathOr('', ['match', 'params', 'companyId'], this.props);
         this.props.addBreadCrumb({
             name: 'Agents',
@@ -155,7 +147,19 @@ class Agents extends Component {
         this.props.restore(agentId);
     };
 
+    onDateChange = (startDate, endDate) => {
+        this.setState({
+            ...this.state,
+            startDate,
+            endDate
+        });
+    }
+
     exportTo = (type) => {
+        console.log('test-report', this.props.query.filters, {
+            startDate: this.props.query.filters.startDate,
+            endDate: this.props.query.filters.endDate,
+        });
         this.props.exportTo({
             type,
             statusType: this.props.query.filters.statusType,
@@ -163,8 +167,8 @@ class Agents extends Component {
             showDeleted: this.props.query.showDeleted,
             companyId: this.props.query.filters.companyId,
             campaignId: this.props.query.filters.campaignId,
-            startDate: this.props.query.filters.startDate,
-            endDate: this.props.query.filters.endDate,
+            startDate: this.props.query.filters.startDate || this.state.startDate,
+            endDate: this.props.query.filters.endDate || this.state.endDate,
         });
     };
 
@@ -209,18 +213,6 @@ class Agents extends Component {
                 text: 'Name Ascending',
             }
         ];
-        // const sorByFiled = [
-        //     {
-        //         key: 'name.desc',
-        //         value: 'name',
-        //         text: 'Name Descending',
-        //     },
-        //     {
-        //         key: 'name.asc',
-        //         value: 'name',
-        //         text: 'Name Ascending',
-        //     }
-        // ];
 
         return (
             <div className='Leads'>
@@ -377,6 +369,7 @@ class Agents extends Component {
                         <AgentProfile
                             s_agent={agent}
                             agentId={agent.id}
+                            onDateChange={this.onDateChange}
                             companiesOfAgent={this.onSetCompaniesOfAgent(agent.companies)}
                             onClose={() => this.setState({ agent: {} })} />
                     }
