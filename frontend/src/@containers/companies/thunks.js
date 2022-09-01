@@ -170,7 +170,7 @@ export const _reportPoll = uuid => async dispatch => {
     try {
         const report = await reportPoll(uuid);
         if (['NONE', 'IN_PROGRESS'].includes(report.data.status)) {
-            setTimeout(() => dispatch(reportPoll(uuid)), 1000);
+            setTimeout(() => dispatch(_reportPoll(uuid)), 3000);
         } else {
             window.location = `${config.get('REACT_APP_API_SERVER')}/v1/reports/${report.data.uuid}/download`;
         }
