@@ -12,6 +12,7 @@ import * as R from 'ramda';
 import AgentModal from '../@common/modals/agent';
 // import { Auth } from "@services";
 import { disableAutoComplete } from '../../utils';
+import {Auth} from "../../@services";
 // import { actionTypes } from '../../@containers/forms/automation/actionTypes';
 // import Loader from '../loader';
 
@@ -267,16 +268,20 @@ class AgentProfile extends Component {
                             from={new Date(startDate)} to={new Date(endDate)}
                         />
                     </Popup>
-                    <Form.Field
-                        control={Select}
-                        options={this.props.companiesOfAgent}
-                        label={{ children: '', htmlFor: '' }}
-                        placeholder='Select Company'
-                        className="dropdowncompany"
-                        search
-                        select={this.props.companiesOfAgent[0].key || null}
-                        onChange={this.onChangeCompany}
-                    />
+
+                    {
+                        !Auth.isCompany && (<Form.Field
+                            control={Select}
+                            options={this.props.companiesOfAgent}
+                            label={{ children: '', htmlFor: '' }}
+                            placeholder='Select Company'
+                            className="dropdowncompany"
+                            search
+                            select={this.props.companiesOfAgent[0].key || null}
+                            onChange={this.onChangeCompany}
+                        />)
+                    }
+
 
                     <div className='average-response-time'>
                         <div className="time-to-contact">
