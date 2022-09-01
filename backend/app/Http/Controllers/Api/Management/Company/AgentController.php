@@ -61,6 +61,21 @@ class AgentController extends Controller
                 
                 return Agent::contactedLeadsGraph($startDate, $endDate, $agentId, $companyAgencyIds);
             }
+            case 'pie': {
+                $companyAgencyIds = null;
+                $companyIds = $request->get('companyIds');
+                $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
+                $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
+                $agent = $request->user()->getAgent($agentId);
+
+                if ($companyIds) {
+                    $companyAgencyIds = collect($companyIds)->map(function ($companyId) use ($request) {
+                        return $request->user()->getCompanyBy($companyId)->pivot->id;
+                    });
+                }
+
+                return Agent::contactedLeadsGraph($startDate, $endDate, $agent->id, $companyAgencyIds, null, true);
+            }
         }
         throw new \Exception('Wrong graph type!');
     }
