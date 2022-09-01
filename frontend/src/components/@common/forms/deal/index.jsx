@@ -19,6 +19,7 @@ class DealForm extends Component {
 
   componentDidMount() {
     this.props.loadSelectBoxTimezones();
+    console.log('this.props', this.props);
   }
 
   onChangeCompany = (event, data) => {
@@ -50,7 +51,7 @@ class DealForm extends Component {
         <Form.Field control={Input} placeholder='Campaign name' value={name} onChange={this.onChangeName} />
       </Form.Field>
       {
-        Auth.isAgency ?
+        Auth.isAgency && !this.props.form.id ?
           <Form.Field
             control={Select}
             options={this.props.selectBoxCompanies || []}
