@@ -24,7 +24,7 @@ class ReportController extends Controller
         ]);
         $report->user_id = $request->user()->id;
         $report->save();
-        $this->dispatch((new LeadExportJob($report)))->onQueue('exports');
+        dispatch((new LeadExportJob($report)))->onQueue('exports');
 
         return $report;
     }

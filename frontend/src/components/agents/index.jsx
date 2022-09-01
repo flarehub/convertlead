@@ -156,10 +156,6 @@ class Agents extends Component {
     }
 
     exportTo = (type) => {
-        console.log('test-report', this.props.query.filters, {
-            startDate: this.props.query.filters.startDate,
-            endDate: this.props.query.filters.endDate,
-        });
         this.props.exportTo({
             type,
             statusType: this.props.query.filters.statusType,
