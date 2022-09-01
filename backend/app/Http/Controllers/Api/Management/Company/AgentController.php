@@ -66,7 +66,7 @@ class AgentController extends Controller
                 $companyIds = $request->get('companyIds');
                 $startDate = $request->get('startDate', Carbon::now()->startOfWeek());
                 $endDate = $request->get('endDate', Carbon::now()->endOfWeek());
-                $agent = $request->user()->getAgent($agentId);
+                $agent = $request->user()->getAgentBy($agentId);
 
                 if ($companyIds) {
                     $companyAgencyIds = collect($companyIds)->map(function ($companyId) use ($request) {
