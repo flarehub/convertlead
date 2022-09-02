@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Agency;
 use App\Models\Company;
 use App\Models\Lead;
 use Carbon\Carbon;
@@ -21,8 +20,7 @@ trait AgentRepository
         $endDate,
         $agentId,
         $companyAgencyIds = null,
-        $format = 'Y-m-d', $pieGraph = false)
-    {
+        $format = 'Y-m-d', $pieGraph = false) {
         $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
         $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
         $query = Lead::selectRaw(
@@ -40,13 +38,13 @@ trait AgentRepository
        ) as up12Hours,
             SUM(
        time_to_sec(timediff(ln.created_at, leads.created_at)) >= (12*60*60)) as 12plus
-     
+
             ")
-            ->join(DB::raw('(SELECT ln1.lead_id as lead_id, Min(ln1.created_at) as created_at FROM lead_notes as ln1 
+            ->join(DB::raw('(SELECT ln1.lead_id as lead_id, Min(ln1.created_at) as created_at FROM lead_notes as ln1
                     JOIN lead_statuses as ls ON ln1.lead_status_id=ls.id
                     WHERE ls.type=\'CONTACTED_SMS\' or ls.type=\'CONTACTED_CALL\' or ls.type=\'CONTACTED_EMAIL\'
                     group by ln1.lead_id) AS ln'),
-                function($join) {
+                function ($join) {
                     $join->on('ln.lead_id', '=', 'leads.id');
                 })
 
@@ -62,11 +60,10 @@ trait AgentRepository
             ->groupBy('creation_date')
             ->whereBetween('leads.created_at', [
                 $st_dt,
-                $end_dt
+                $end_dt,
             ]);
 
         $query->where('leads.agent_id', $agentId);
-
 
         if ($companyAgencyIds) {
             $query->whereIn('leads.agency_company_id', $companyAgencyIds);
@@ -79,40 +76,71 @@ trait AgentRepository
         return static::mapLeadsToLineGraph($query->get(), $averageResponseTime, $startDate, $endDate, $format);
     }
 
-    static function getAverageTime($startDate,
-                                   $endDate,
-                                   $companyAgencyIds = null,
-                                   $agentId = null, $format = 'Y-m-d')
-    {
+    public static function getAverageTime($startDate,
+        $endDate,
+        $companyAgencyIds = null,
+        $agentId = null, $format = 'Y-m-d') {
+
         $st_dt = Carbon::createFromFormat('Y-m-d', $startDate)->startOfDay();
         $end_dt = Carbon::createFromFormat('Y-m-d', $endDate)->endOfDay();
-        $query = Lead::selectRaw(
-            "SUBSTRING_INDEX(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at)))), '.', 1) AS avg_response")
-            ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
-            ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
-            ->where(function ($query) {
-                $query
-                    ->where('ls.type', "'CONTACTED_SMS'")
-                    ->orWhere('ls.type', "'CONTACTED_CALL'")
-                    ->orWhere('ls.type', "'CONTACTED_EMAIL'");
-            })
-            ->whereBetween('leads.created_at', [
-                "'".$st_dt."'",
-                "'".$end_dt."'"
-                // "'2019-08-07 00:00:00'",
-                // "'2019-08-14 23:59:59'"                
-            ]);
+        
+        /*
+        * doesn't work this.
 
-        if ($companyAgencyIds) {
-            $query->whereIn('leads.agency_company_id', $companyAgencyIds);
-        }
+            $query = Lead::selectRaw("SUBSTRING_INDEX(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at)))), '.', 1) AS avg_response")
+                ->join('lead_notes AS ln', 'ln.lead_id', 'leads.id')
+                ->join('lead_statuses AS ls', 'ls.id', 'ln.lead_status_id')
+                ->where(function ($query) {
+                    $query
+                        ->where('ls.type', "'CONTACTED_SMS'")
+                        ->orWhere('ls.type', "'CONTACTED_CALL'")
+                        ->orWhere('ls.type', "'CONTACTED_EMAIL'");
+                })
+                ->whereBetween('leads.created_at', [
+                    "'" . $st_dt . "'",
+                    "'" . $end_dt . "'",
+                    // "'2019-08-07 00:00:00'",
+                    // "'2019-08-14 23:59:59'"
+                ]);
 
-        $query->where('leads.agent_id', $agentId);
+            if ($companyAgencyIds) {
+                $query->whereIn('leads.agency_company_id', $companyAgencyIds);
+            }
 
-        return $query->first();
+            $query->where('leads.agent_id', $agentId);
+
+            // return $query->first();
+
+        */
+        $sql = 'select
+                    SUBSTRING_INDEX(
+                        SEC_TO_TIME(
+                            AVG(
+                                TIME_TO_SEC(TIMEDIFF(ln.created_at, leads.created_at))
+                            )
+                        ),
+                        " . ",
+                        1
+                    ) AS avg_response
+                from
+                    `leads`
+                    inner join `lead_notes` as `ln` on `ln`.`lead_id` = `leads`.`id`
+                    inner join `lead_statuses` as `ls` on `ls`.`id` = `ln`.`lead_status_id`
+                where
+                (
+                        `ls`.`type` = "CONTACTED_SMS"
+                        or `ls`.`type` = "CONTACTED_CALL"
+                        or `ls`.`type` = "CONTACTED_EMAIL"
+                    )
+                    and `leads`.`created_at` between "' . $st_dt . '" and "' . $end_dt . '"
+                    and `leads`.`agent_id` = ' . $agentId . '
+                    and `leads`.`deleted_at` is null;';
+
+        $result = DB::select($sql);
+        return $result[0];
     }
 
-    static public function mapLeadsToLineGraph($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d')
+    public static function mapLeadsToLineGraph($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d')
     {
         $interval = new \DateInterval('P1D');
         $dateRange = new \DatePeriod(new \DateTime($startDate), $interval, new \DateTime($endDate));
@@ -157,27 +185,25 @@ trait AgentRepository
                 "backgroundColor" => ['rgba(0, 0, 0, 0)'],
                 "borderColor" => ['#db2828'],
                 "borderWidth" => 2,
-            ]
+            ],
         ];
-
 
         $datasets = collect($datasets)->map(function ($dataset) use ($leads, $dateCollection) {
             $fieldName = $dataset['data'];
             $dataset['data'] = collect($dateCollection)->map(function ($date) use ($leads, $fieldName) {
-                return isset($leads->where('creation_date', $date)->first()[$fieldName]) ? (int)$leads->where('creation_date', $date)->first()[$fieldName]: 0;
+                return isset($leads->where('creation_date', $date)->first()[$fieldName]) ? (int) $leads->where('creation_date', $date)->first()[$fieldName] : 0;
             });
             return $dataset;
         });
 
-
         return [
             'avg_response_time' => (isset($averageResponseTime->avg_response) ? $averageResponseTime->avg_response : '00:00:00'),
             'labels' => $dateCollection,
-            'datasets' => $datasets
+            'datasets' => $datasets,
         ];
     }
 
-    static public function mapLeadsToPieGraph($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d')
+    public static function mapLeadsToPieGraph($leads, $averageResponseTime, $startDate, $endDate, $format = 'Y-m-d')
     {
         $interval = new \DateInterval('P1D');
         $dateRange = new \DatePeriod(new \DateTime($startDate), $interval, new \DateTime($endDate));
@@ -197,23 +223,21 @@ trait AgentRepository
                 'up2Hours',
                 'up12Hours',
                 '12plus',
-            ]
+            ],
         ];
-
 
         $datasets['data'] = collect($datasets['data'])->map(function ($fieldName) use ($leads, $dateCollection) {
             return collect($leads)->reduce(function ($acc, $lead) use ($leads, $fieldName) {
-                $temp = isset($lead[$fieldName]) ? (int)$lead[$fieldName]: 0;
+                $temp = isset($lead[$fieldName]) ? (int) $lead[$fieldName] : 0;
                 return $acc + $temp;
             });
         });
-
 
         return [
             'avg_response_time' => ($averageResponseTime->avg_response ? $averageResponseTime->avg_response : '00:00:00'),
             'labels' => $labels,
             'datasets' => [
-                $datasets
+                $datasets,
             ],
         ];
     }
