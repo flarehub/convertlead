@@ -70,8 +70,8 @@ class LeadStats extends Component {
         this.props.getAgentGraphPie(this.Chart, this.agentId, {
             companyIds: [],
             graphType: 'pie',
-            startDate: this.state.dates['this-month'].startDate,
-            endDate: this.state.dates['this-month'].endDate,
+            startDate: this.state.dates['all'].startDate,
+            endDate: this.state.dates['all'].endDate,
         });
 
         this.Chart.data = this.props.pieGraphContactedLeadsAverage.data;
@@ -109,6 +109,7 @@ class LeadStats extends Component {
                                         defaultValue='all'
                                         onChange={this.onChangeDate}
                                         searchInput={{id: 'graph-date'}}
+
                                     />
                                 </Form.Group>
                             </Form>
