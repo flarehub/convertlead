@@ -80,10 +80,14 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $deal, $id)
+      public function destroy(Request $request, $company_id, $deal, $id)
     {
-        $campaign = $request->user()->getDealBy($deal)->getCampaignBy($id);
-        $campaign->delete();
+        $campaign = $request->user()->deals()->findOrFail($deal)->getCampaignBy($id);
+        if($campaign->trashed()) {
+            $campaign->restore();
+        } else {
+            $campaign->delete();
+        }
         return $campaign;
     }
 }

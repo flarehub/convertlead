@@ -151,11 +151,11 @@ class AgentController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $agent = $request->user()->getAgentBy($id);
-        if (!$agent->agent_agency_id) {
-            $agent->delete();
+        $agent = Agent::withTrashed()->findOrFail($id);
+        if($agent->trashed()) {
+            $agent->restore();
         } else {
-            $request->user()->agents()->detach($agent);
+            $agent->delete();
         }
         return $agent;
     }
@@ -168,9 +168,11 @@ class AgentController extends Controller
      */
     public function restore(Request $request, $id)
     {
-        $agent = $request->user()->getAgentBy($id);
-        if (!$agent->agent_agency_id) {
+        $agent = Agent::withTrashed()->findOrFail($id);
+        if($agent->trashed()) {
             $agent->restore();
+        } else {
+            $agent->delete();
         }
 
         return $agent;

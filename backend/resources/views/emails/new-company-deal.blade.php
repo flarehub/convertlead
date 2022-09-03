@@ -17,7 +17,7 @@
 		padding: 55px;
 		margin: 0 auto;
 		border-radius: 6px;
-		color:#354771;
+		color:#3c3a4e;
 	}
 
 	.emailfot {
@@ -54,7 +54,7 @@
 		font-size: 17px;
 		font-family: Arial, sans-serif;
 		font-weight: 600;
-		color:#354771;
+		color:#3c3a4e;
 	}
 
 	.bigcont h2 {
@@ -66,7 +66,7 @@
 	.bigcont a {
 
 		display: block;
-		background:#005ff8;
+		background:#4d77ff;
 		color: #fff;
 		font-size: 16px;
 		font-weight: bold;
@@ -89,7 +89,7 @@
 
 	.bigcont .smallnote a {
 
-		color:#005ff8;
+		color:#4d77ff;
 		text-decoration:none ;
 		background:transparent;
 		font-size:12px;
@@ -100,12 +100,12 @@
 </style>
 
 <div class="emailbody" style="width:100%; height:100%; display:block; margin:0 auto; background:#f1f4f5; padding: 60px 0; ">
-    <div class="toplogocont" style="text-align:center; display:block; width:100%; "><img src="http://convertlead.com/wp-content/bloglogo.png" style="width: 120px; margin: 10px auto !important; text-align: center; padding: 15px; display:block;"></img></div>
-    <div class="bigcont" style="max-width: 320px; background:#fff; border: 1px dashed #b3b3b3; padding: 70px 55px 55px 55px; margin: 0 auto; border-radius: 6px; color:#354771;">
+    <div class="toplogocont" style="text-align:center; display:block; width:100%; "><img src="https://app.convertlead.com/img/logo.png" style="width: 120px; margin: 10px auto !important; text-align: center; padding: 15px; display:block;"></img></div>
+    <div class="bigcont" style="max-width: 320px;background: #fff;border: 1px solid #dfdff0 !important;padding: 70px 55px 55px 55px;margin: 0 auto;border-radius: 10px;color: #354771;box-shadow: 0 1px 1px rgba(225,225,240,.9);">
         <p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Hey, </br></br> A new campaign was just registered for {{$company->name}} : </p>
         <p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">{{$deal->name}}</p>
         <p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; ">Created by {{$agency->name}}</p>
-        <a href="https://app.convertlead.com" style="display: block; background:#005ff8; color: #fff; font-size: 16px; font-weight: bold; font-family: Arial,sans-serif; margin: 30px auto; padding: 12px 30px; border-radius: 3px; text-decoration: none; text-align: center;
+        <a href="https://app.convertlead.com" style="display: block; background:#4d77ff; color: #fff; font-size: 16px; font-weight: bold; font-family: Arial,sans-serif; margin: 30px auto; padding: 12px 30px; border-radius: 3px; text-decoration: none; text-align: center;
 		white-space: nowrap; box-sizing: border-box; ">Login for more info</a>
         <p class="smallnote" style="font-size:12px ; text-align:center ; ">Need help ? <a href="http://support.convertlead.com">Let us know</a></p>
         <p style="font-size: 18px; font-family: Arial, sans-serif; font-weight: 400; line-height: 26px; " > The ConvertLead team.</p>
